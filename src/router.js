@@ -9,6 +9,9 @@ const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/Dash
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
 const Building = () => import(/* webpackChunkName: "building" */ '@/views/Building.vue');
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings.vue');
+const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Drugs.vue');
+const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Weapons.vue');
+const Alcohols = () => import(/* webpackChunkName: "alcohols" */ '@/views/Alcohols.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
@@ -57,6 +60,24 @@ export default new Router({
       name: 'buildings',
       beforeEnter: requireAuth,
       component: Buildings,
+    },
+    {
+      path: '/drugs',
+      name: 'drugs',
+      beforeEnter: requireAuth,
+      component: Drugs,
+    },
+    {
+      path: '/weapons',
+      name: 'weapons',
+      beforeEnter: requireAuth,
+      component: Weapons,
+    },
+    {
+      path: '/alcohols',
+      name: 'alcohols',
+      beforeEnter: requireAuth,
+      component: Alcohols,
     },
     {
       path: '/buildings/:id',

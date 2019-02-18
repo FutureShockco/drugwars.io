@@ -18,7 +18,7 @@ import { pickBy } from 'lodash';
 export default {
   data() {
     return {
-      buildings: pickBy(buildings, (b) => b.type === 'main'),
+      buildings: pickBy(buildings, (b) => b.type === 'drugs'),
     };
   },
 };

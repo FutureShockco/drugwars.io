@@ -13,7 +13,7 @@ const mutations = {
 
 const actions = {
   login: async ({ commit }, accessToken = localStorage.getItem('drugwars_token')) =>
-    new Promise((resolve) => {
+    new Promise(resolve => {
       if (accessToken) {
         sc.setAccessToken(accessToken);
         sc.me((err, result) => {

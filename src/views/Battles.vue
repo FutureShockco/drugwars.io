@@ -4,7 +4,7 @@
     <div class="p-4 after-header">
       <UnitSelect
         v-for="unit in units"
-        :unit="unit"
+        :item="unit"
         :key="unit"
       />
       <button class="btn btn-large btn-primary mb-6">

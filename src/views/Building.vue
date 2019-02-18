@@ -5,7 +5,7 @@
     </div>
     <div class="width-full">
       <router-link :to="'/buildings/' + building.id">
-        <h5 class="item-title">{{ building.name }}</h5>
+        <h5>{{ building.name }}</h5>
       </router-link>
       <div class="item-description">{{ building.desc }}</div>
       <p>{{ building.base_price }}</p>

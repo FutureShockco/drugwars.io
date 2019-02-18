@@ -4,7 +4,7 @@
       <img class="preview rounded-2" :src="`/img/units/${unit.image}.png`"/>
     </div>
     <div class="width-full">
-      <h5 class="item-title">{{ unit.name }}</h5>
+      <h5>{{ unit.name }}</h5>
       <div class="item-description">{{ unit.desc }}</div>
       <div>
         {{ unit.attack }}

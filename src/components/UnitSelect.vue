@@ -1,10 +1,11 @@
 <template>
   <div class="mb-4 border-bottom pb-4">
-    <h4>{{ unit.unit }}</h4>
+    <h5>{{ unit.name }}</h5>
+    <img class="preview rounded-2" :src="`/img/units/${unit.image}.png`"/>
     <div class="v-align-middle mb-6">
       <input
         class="input form-control mr-2"
-        :value="unit.amount"
+        :value="item.amount"
         type="number"
         min="0"
         :max="1"
@@ -17,7 +18,14 @@
 </template>
 
 <script>
+import units from '@/helpers/units.json';
+
 export default {
-  props: ['unit'],
+  props: ['item'],
+  computed: {
+    unit() {
+      return units[this.$props.item.unit];
+    }
+  },
 };
 </script>

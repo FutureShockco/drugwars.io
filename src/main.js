@@ -14,11 +14,6 @@ import store from '@/store';
 import messages from '@/translation.json';
 import numberFormats from '@/number.json';
 
-let ipc = null;
-if (typeof window !== 'undefined' && window.require) {
-  ipc = window.require('electron').ipcRenderer;
-}
-
 const requireComponent = require.context('./components', true, /[\w-]+\.vue$/);
 requireComponent.keys().forEach(fileName => {
   const componentConfig = requireComponent(fileName);

@@ -7,6 +7,6 @@
 
 <script>
 export default {
-  props: ['building']
+  props: ['building'],
 };
 </script>

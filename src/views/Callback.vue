@@ -19,13 +19,16 @@ export default {
   },
   created() {
     this.isLoading = true;
-    this.$store.dispatch('login', this.accessToken).then(() => {
-      this.isLoading = false;
-      this.$router.push('/');
-    }).catch((e) => {
-      this.isLoading = false;
-      this.error = 'Your access token is not valid';
-    });
+    this.$store
+      .dispatch('login', this.accessToken)
+      .then(() => {
+        this.isLoading = false;
+        this.$router.push('/');
+      })
+      .catch(() => {
+        this.isLoading = false;
+        this.error = 'Your access token is not valid';
+      });
   },
 };
 </script>

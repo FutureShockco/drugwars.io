@@ -5,6 +5,7 @@ import { isWeb } from '@/helpers/utils';
 import { hasAccounts } from '@/helpers/keychain';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
+const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
 const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue');
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings.vue');
@@ -38,31 +39,31 @@ export default new Router({
     {
       path: '/missions',
       name: 'missions',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: Missions,
     },
     {
       path: '/buildings',
       name: 'buildings',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: Buildings,
     },
     {
       path: '/units',
       name: 'units',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: Units,
     },
     {
       path: '/battles',
       name: 'battles',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: Battles,
     },
     {
       path: '/leaderboard',
       name: 'leaderboard',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: Leaderboard,
     },
     {
@@ -74,9 +75,20 @@ export default new Router({
       },
     },
     {
+      path: '/callback',
+      name: 'callback',
+      component: Callback,
+      meta: {
+        hideSidebar: true,
+      },
+    },
+    {
       path: '/about',
       name: 'about',
       component: About,
+      meta: {
+        hideSidebar: true,
+      },
     },
     {
       path: '*',

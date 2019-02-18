@@ -1,49 +1,34 @@
 <template>
   <div id="app">
-    <template v-if="loaded">
+    <template v-if="!showLoading">
       <Sidebar v-if="showSidebar"/>
       <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />
     </template>
-    <VueLoadingIndicator v-else-if="showLoading" class="overlay fixed big"/>
+    <VueLoadingIndicator class="overlay fixed big transparent" v-else/>
   </div>
 </template>
 
 <script>
-const LOADING_ICON_TIMEOUT = 300;
-
 export default {
   data() {
     return {
-      initialized: false,
       showLoading: false,
     };
   },
   computed: {
-    loaded() {
-      return !!this.$store.state.settings.properties.head_block_number;
-    },
     showSidebar() {
-      return !this.$route.meta.hideSidebar && this.initialized;
+      return !this.$route.meta.hideSidebar;
     },
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;
     },
   },
   created() {
-    const loadingTimeout = setTimeout(() => {
-      this.showLoading = true;
-    }, LOADING_ICON_TIMEOUT);
+    this.showLoading = true;
 
     this.$store.dispatch('getDynamicGlobalProperties').then(() => {
-      clearTimeout(loadingTimeout);
-
       this.showLoading = false;
     });
-  },
-  beforeUpdate() {
-    if (this.initialized) return;
-
-    this.initialized = true;
   },
 };
 </script>

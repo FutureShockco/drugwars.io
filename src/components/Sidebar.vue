@@ -1,16 +1,8 @@
 <template>
   <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
-    <div class="p-4">
-      <router-link
-        to="/"
-        @click.native="toggleSidebar"
-      >
-        <span class="logo iconfont icon-beaker text-white"/>
-      </router-link>
+    <div class="text-center mt-4">
+      <Avatar :size="100" :username="username"/>
     </div>
-    <h5 class="py-2 px-4 d-block">
-      {{ prizeProps.balance }}
-    </h5>
     <ul>
       <li class="border-bottom">
         <router-link
@@ -85,6 +77,9 @@
         </router-link>
       </li>
     </ul>
+    <h5 class="py-2 px-4 d-block">
+      {{ prizeProps.balance }}
+    </h5>
   </div>
 </template>
 

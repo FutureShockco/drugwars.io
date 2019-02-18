@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       initialized: false,
-    }
+    };
   },
   computed: {
     showSidebar() {
@@ -27,7 +27,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getPrizeProps').then(() => {
+    this.$store.dispatch('init').then(() => {
       this.initialized = true;
     });
   },

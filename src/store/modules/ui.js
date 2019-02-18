@@ -13,7 +13,7 @@ const mutations = {
     Vue.set(_state, 'showLoading', true);
   },
   hideLoading(_state) {
-    Vue.set(_state, 'hideLoading', false);
+    Vue.set(_state, 'showLoading', false);
   },
 };
 

@@ -12,18 +12,22 @@ const mutations = {
 };
 
 const actions = {
-  login: async ({ commit }, accessToken) =>
+  login: async ({ commit }, accessToken = localStorage.getItem('drugwars_token')) =>
     new Promise((resolve, reject) => {
-      sc.setAccessToken(accessToken);
-      sc.me((err, result) => {
-        if (err || !result) {
-          reject();
-        } else {
-          localStorage.setItem('drugwars_access_token', accessToken);
-          commit('saveUsername', result.name);
-          resolve();
-        }
-      });
+      if (accessToken) {
+        sc.setAccessToken(accessToken);
+        sc.me((err, result) => {
+          if (err || !result) {
+            resolve();
+          } else {
+            localStorage.setItem('drugwars_token', accessToken);
+            commit('saveUsername', result.name);
+            resolve();
+          }
+        });
+      } else {
+        resolve();
+      }
     }),
 };
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="nav" :class="{'nav--open': sidebarVisible}">
+  <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
     <div class="p-4">
       <router-link
         to="/"
@@ -8,6 +8,9 @@
         <span class="logo iconfont icon-beaker text-white"/>
       </router-link>
     </div>
+    <h5 class="py-2 px-4 d-block">
+      {{ prizeProps.balance }}
+    </h5>
     <ul>
       <li class="border-bottom">
         <router-link
@@ -95,6 +98,9 @@ export default {
     },
     username() {
       return this.$store.state.auth.username;
+    },
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
     },
   },
   methods: {

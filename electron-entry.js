@@ -41,6 +41,7 @@ function createWindow() {
   const selectionMenu = Menu.buildFromTemplate(SELECTION_MENU);
 
   mainWindow = new BrowserWindow({ width: 360, height: 600 });
+  mainWindow.webContents.openDevTools();
   mainWindow.loadFile('web-dist/index.html');
 
   mainWindow.on('closed', () => {

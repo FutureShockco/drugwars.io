@@ -7,6 +7,7 @@
 
 html {
   height: 100%;
+  background-color: @bg-color;
 }
 
 body {
@@ -302,5 +303,12 @@ a.iconfont:hover {
 
   &:focus {
     border-color: @primary-color;
+  }
+}
+
+.vue-ui-loading-indicator {
+  .animation {
+    border-right-color: @primary-color !important;
+    border-bottom-color: @primary-color !important;
   }
 }

@@ -7,8 +7,8 @@ const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
 const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue');
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
+const Building = () => import(/* webpackChunkName: "building" */ '@/views/Building.vue');
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings.vue');
-const DetailedBuilding = () => import(/* webpackChunkName: "buildings" */ '@/components/DetailedBuilding.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
@@ -62,7 +62,7 @@ export default new Router({
       path: '/buildings/:id',
       name: 'building',
       beforeEnter: requireAuth,
-      component: DetailedBuilding,
+      component: Building,
     },
     {
       path: '/units',

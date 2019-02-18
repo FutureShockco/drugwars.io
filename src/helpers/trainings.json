@@ -1,5 +1,5 @@
-[
-  {
+{
+  "routing": {
     "id": "routing",
     "disabled": false,
     "type": "training",
@@ -14,7 +14,7 @@
     "base_price": 500,
     "coeff": 1
   },
-  {
+  "coordination": {
     "id": "coordination",
     "disabled": false,
     "type": "training",
@@ -29,7 +29,7 @@
     "base_price": 500,
     "coeff": 2
   },
-  {
+  "closecombat": {
     "id": "closecombat",
     "disabled": false,
     "type": "training",
@@ -44,7 +44,7 @@
     "base_price": 500,
     "coeff": 3
   },
-  {
+  "firearms": {
     "id": "firearms",
     "disabled": false,
     "type": "training",
@@ -59,7 +59,7 @@
     "base_price": 500,
     "coeff": 4
   },
-  {
+  "information": {
     "id": "information",
     "disabled": false,
     "type": "training",
@@ -74,7 +74,7 @@
     "base_price": 500,
     "coeff": 5
   },
-  {
+  "sniping": {
     "id": "sniping",
     "disabled": false,
     "type": "training",
@@ -89,7 +89,7 @@
     "base_price": 500,
     "coeff": 6
   },
-  {
+  "bomb": {
     "id": "bomb",
     "disabled": false,
     "type": "training",
@@ -104,7 +104,7 @@
     "base_price": 500,
     "coeff": 7
   },
-  {
+  "psychological": {
     "id": "psychological",
     "disabled": false,
     "type": "training",
@@ -119,7 +119,7 @@
     "base_price": 500,
     "coeff": 8
   },
-  {
+  "chemical": {
     "id": "chemical",
     "disabled": false,
     "type": "training",
@@ -134,4 +134,4 @@
     "base_price": 500,
     "coeff": 10
   }
-]
+}

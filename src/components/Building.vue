@@ -9,6 +9,12 @@
       </router-link>
       <div class="item-description">{{ building.desc }}</div>
       <p>{{ building.base_price }}</p>
+      <div v-if="building.feature">
+        Special:
+        <span class="text-green">
+          {{ building.feature }}
+        </span>
+      </div>
     </div>
     <Checkout/>
   </div>

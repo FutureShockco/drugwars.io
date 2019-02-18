@@ -1,5 +1,5 @@
-[
-  {
+{
+  "bouncer": {
     "id": "bouncer",
     "type": "Melee",
     "disabled": false,
@@ -11,13 +11,13 @@
     "attack": 6,
     "defense": 8,
     "speed": 2000,
-    "drugs_cost":0,
-    "weapons_cost":500,
-    "alcohols_cost":800,
+    "drugs_cost": 0,
+    "weapons_cost": 500,
+    "alcohols_cost": 800,
     "base_price": 250,
     "coeff": 0.5
-},
-{
+  },
+  "knifer": {
     "id": "knifer",
     "type": "Melee",
     "disabled": false,
@@ -28,13 +28,13 @@
     "attack": 10,
     "defense": 4,
     "speed": 2000,
-    "drugs_cost":0,
-    "weapons_cost":1000,
-    "alcohols_cost":200,
+    "drugs_cost": 0,
+    "weapons_cost": 1000,
+    "alcohols_cost": 200,
     "base_price": 250,
     "coeff": 1.5
-},
-{
+  },
+  "gunman": {
     "id": "gunman",
     "type": "Short Range",
     "disabled": false,
@@ -45,13 +45,13 @@
     "attack": 30,
     "defense": 10,
     "speed": 2400,
-    "drugs_cost":0,
-    "weapons_cost":2000,
-    "alcohols_cost":3000,
+    "drugs_cost": 0,
+    "weapons_cost": 2000,
+    "alcohols_cost": 3000,
     "base_price": 250,
     "coeff": 4
-},
-{
+  },
+  "bomber": {
     "id": "bomber",
     "type": "Melee",
     "disabled": true,
@@ -64,8 +64,8 @@
     "speed": 1800,
     "base_price": 400,
     "coeff": 1.2
-},
-{
+  },
+  "sniper": {
     "id": "sniper",
     "type": "Long Range",
     "disabled": true,
@@ -78,8 +78,8 @@
     "speed": 2000,
     "base_price": 700,
     "coeff": 10
-},
-{
+  },
+  "hitman": {
     "id": "hitman",
     "type": "Short Range",
     "disabled": true,
@@ -92,8 +92,8 @@
     "speed": 3000,
     "base_price": 500,
     "coeff": 10
-},
-{
+  },
+  "ninja": {
     "id": "ninja",
     "type": "Melee",
     "disabled": true,
@@ -106,8 +106,8 @@
     "speed": 6500,
     "base_price": 800,
     "coeff": 10
-},
-{
+  },
+  "chemical_troup": {
     "id": "chemical_troup",
     "type": "Melee",
     "disabled": true,
@@ -120,8 +120,8 @@
     "speed": 2500,
     "base_price": 100,
     "coeff": 100
-},
-{
+  },
+  "commander": {
     "id": "commander",
     "type": "Short Range",
     "disabled": true,
@@ -134,8 +134,8 @@
     "speed": 4000,
     "base_price": 150,
     "coeff": 100
-},
-{
+  },
+  "big_mama": {
     "id": "big_mama",
     "type": "Melee",
     "disabled": true,
@@ -148,8 +148,8 @@
     "speed": 1,
     "base_price": 150,
     "coeff": 10
-},
-{
+  },
+  "bazooka": {
     "id": "bazooka",
     "type": "Long Range",
     "disabled": true,
@@ -162,8 +162,8 @@
     "speed": 1,
     "base_price": 500,
     "coeff": 10
-},
-{
+  },
+  "blackwidow": {
     "id": "blackwidow",
     "type": "Short Range",
     "disabled": true,
@@ -176,8 +176,8 @@
     "speed": 1,
     "base_price": 800,
     "coeff": 10
-},
-{
+  },
+  "mercenary": {
     "id": "mercenary",
     "type": "Long Range",
     "disabled": true,
@@ -190,8 +190,8 @@
     "speed": 5000,
     "base_price": 100,
     "coeff": 100
-},
-{
+  },
+  "tactical": {
     "id": "tactical",
     "type": "Support",
     "disabled": true,
@@ -204,5 +204,5 @@
     "speed": 7000,
     "base_price": 300,
     "coeff": 100
+  }
 }
-]

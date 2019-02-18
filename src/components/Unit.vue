@@ -14,7 +14,10 @@
           Point per unit: {{ unit.score }}
         </div>
         <div v-if="unit.feature">
-          Special: {{ unit.feature }}
+          Special:
+          <span class="text-green">
+            {{ unit.feature }}
+          </span>
         </div>
       </div>
     </div>

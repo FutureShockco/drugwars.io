@@ -1,9 +1,9 @@
 <template>
-  <div class="mb-4 d-flex flex-row border-bottom pb-4">
-    <div class="mr-4">
-      <img class="preview rounded-2" :src="`/img/buildings/${building.image}.png`"/>
+  <div class="mb-4 d-flex flex-row border-bottom item rounded-2">
+    <div class="py-3 px-3">
+      <img class="preview" :src="`/img/buildings/${building.image}.png`"/>
     </div>
-    <div class="width-full">
+    <div class="width-full py-3">
       <router-link :to="'/buildings/' + building.id">
         <h5>{{ building.name }}</h5>
       </router-link>

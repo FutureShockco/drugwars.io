@@ -5,7 +5,7 @@
         to="/"
         @click.native="toggleSidebar"
       >
-        <span class="logo iconfont icon-steem text-white"/>
+        <span class="logo iconfont icon-beaker text-white"/>
       </router-link>
     </div>
     <ul>

@@ -78,8 +78,8 @@
     </ul>
     <div class="py-2 px-4">
       <h3>{{ total | amount }}</h3>
-      <div>Daily rewards: {{ totalDaily | amount }}</div>
-      <div>Heist rewards: {{ totalHeist | amount }}</div>
+      <div>Daily: {{ totalDaily | amount }}</div>
+      <div>Heist: {{ totalHeist | amount }}</div>
     </div>
   </div>
 </template>

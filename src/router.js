@@ -76,6 +76,12 @@ export default new Router({
       component: Leaderboard,
     },
     {
+      path: '/about',
+      name: 'about',
+      beforeEnter: requireAuth,
+      component: About,
+    },
+    {
       path: '/login',
       name: 'login',
       component: Home,
@@ -87,14 +93,6 @@ export default new Router({
       path: '/callback',
       name: 'callback',
       component: Callback,
-      meta: {
-        hideSidebar: true,
-      },
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About,
       meta: {
         hideSidebar: true,
       },

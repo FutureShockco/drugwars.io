@@ -6,6 +6,17 @@
     <div class="width-full">
       <h5>{{ unit.name }}</h5>
       {{ unit.desc }}
+      <div>
+        {{ unit.attack }}
+        {{ unit.defense }}
+        {{ unit.speed }}
+        <div>
+          Point per unit: {{ unit.score }}
+        </div>
+        <div v-if="unit.feature">
+          Special: {{ unit.feature }}
+        </div>
+      </div>
     </div>
     <Checkout/>
   </div>

@@ -4,7 +4,7 @@
       <img src="/img/logo.png" class="width-full px-6">
       <img src="/img/hero.png" class="width-full px-2">
       <div class="mt-4 mb-7">
-        <a class="rounded-2 px-3 py-2 bg-primary" :href="loginURL">
+        <a class="btn btn-primary" :href="loginURL">
           Play now
         </a>
       </div>

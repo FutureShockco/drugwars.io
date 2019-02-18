@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
 import { isWeb } from '@/helpers/utils';
-import { hasAccounts } from '@/helpers/keychain';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
@@ -19,9 +18,8 @@ Vue.use(Router);
 
 const requireAuth = (to, from, next) => {
   if (!store.state.auth.username) {
-    const name = hasAccounts() ? 'login' : 'import';
     const redirect = to.fullPath === '/' ? undefined : to.fullPath;
-    next({ name, query: { redirect } });
+    next({ name: 'login', query: { redirect } });
   } else {
     next();
   }

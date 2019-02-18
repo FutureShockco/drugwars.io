@@ -11,7 +11,8 @@ html {
 }
 
 body {
-  background-color: @bg-color;
+  background: url('/img/bg.jpg') fixed @bg-color;
+  background-size: cover;
   min-height: 100%;
   display: flex;
   color: @text-color;
@@ -249,11 +250,11 @@ a.iconfont:hover {
   }
 }
 
-.btn-blue,
-.btn-blue:focus,
-.btn-blue:disabled,
-.btn-blue:hover {
-  color: #ffffff;
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:disabled,
+.btn-primary:hover {
+  color: @bg-color;
   border-color: @primary-color;
   background: @primary-color;
 
@@ -295,6 +296,20 @@ a.iconfont:hover {
   }
 }
 
+.btn-blue,
+.btn-blue:focus,
+.btn-blue:disabled,
+.btn-blue:hover {
+  color: #ffffff;
+  border-color: @blue-color;
+  background: @blue-color;
+
+  &:hover {
+    border-color: darken(@blue-color, 10%);
+    background: darken(@blue-color, 10%);
+  }
+}
+
 .input-lg {
   border-color: @input-border-color;
   padding: 6px 12px;
@@ -311,4 +326,26 @@ a.iconfont:hover {
     border-right-color: @primary-color !important;
     border-bottom-color: @primary-color !important;
   }
+}
+
+.username {
+  transform: skew(-24deg) rotate(-10deg);
+  text-rendering: optimizeLegibility;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: #db2828;
+}
+
+.preview {
+  width: 80px;
+  height: 80px;
+}
+
+.border-top, .border-bottom, .border-left, .border-right {
+  border-color: @border-color !important;
+}
+
+.payment-widget {
+  width: 240px;
 }

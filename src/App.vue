@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <template v-if="!showLoading && initialized">
+    <template v-if="!showLoading">
       <Sidebar v-if="showSidebar"/>
       <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />
     </template>
@@ -10,11 +10,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      initialized: false,
-    };
-  },
   computed: {
     showSidebar() {
       return !this.$route.meta.hideSidebar;
@@ -25,11 +20,6 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
-  },
-  created() {
-    this.$store.dispatch('init').then(() => {
-      this.initialized = true;
-    });
   },
 };
 </script>

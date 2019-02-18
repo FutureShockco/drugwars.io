@@ -8,6 +8,7 @@ import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import urlParse from 'url-parse';
 import moment from 'moment';
+import numeral from 'numeral';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
@@ -23,6 +24,7 @@ requireComponent.keys().forEach(fileName => {
 
 Vue.filter('dateHeader', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
 Vue.filter('parseUrl', value => urlParse(value).host);
+Vue.filter('amount', value => numeral(value).format('0.00a'));
 
 Vue.use(VueUi);
 Vue.use(VueI18n);

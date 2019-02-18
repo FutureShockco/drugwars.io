@@ -20,10 +20,13 @@ const requireAuth = (to, from, next) => {
   if (!store.state.auth.username) {
     store.dispatch('showLoading');
     store.dispatch('login').then(() => {
-      store.dispatch('hideLoading');
       if (store.state.auth.username) {
-        next();
+        store.dispatch('init', store.state.auth.username).then(() => {
+          store.dispatch('hideLoading');
+          next();
+        });
       } else {
+        store.dispatch('hideLoading');
         const redirect = to.fullPath === '/' ? undefined : to.fullPath;
         next({ name: 'login', query: { redirect } });
       }

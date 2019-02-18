@@ -4,14 +4,13 @@
       <Avatar :size="100" :username="username"/>
     </div>
     <ul>
-      <li class="border-bottom">
-        <router-link
-          to="/"
-          class="py-2 px-4 d-block"
+      <li class="border-bottom pb-3 overflow-hidden">
+        <div
+          class="py-2 px-4 d-block text-center username"
           @click.native="toggleSidebar"
         >
           {{ username }}
-        </router-link>
+        </div>
       </li>
       <li>
         <router-link
@@ -70,16 +69,18 @@
       <li>
         <router-link
           to="/about"
-          class="py-2 px-4 d-block"
+          class="py-2 px-4 d-block border-bottom"
           @click.native="toggleSidebar"
         >
           About
         </router-link>
       </li>
     </ul>
-    <h5 class="py-2 px-4 d-block">
-      {{ prizeProps.balance }}
-    </h5>
+    <div class="py-2 px-4">
+      <h3>{{ total | amount }}</h3>
+      <div>Daily rewards: {{ totalDaily | amount }}</div>
+      <div>Heist rewards: {{ totalHeist | amount }}</div>
+    </div>
   </div>
 </template>
 
@@ -96,6 +97,18 @@ export default {
     },
     prizeProps() {
       return this.$store.state.game.prizeProps;
+    },
+    total() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * (prizePops.daily_percent + prizePops.heist_percent);
+    },
+    totalDaily() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * prizePops.daily_percent;
+    },
+    totalHeist() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * prizePops.heist_percent;
     },
   },
   methods: {
@@ -141,16 +154,17 @@ export default {
 
     li {
       clear: both;
-      border-color: #2f3136 !important;
 
       .router-link-exact-active {
         opacity: 1;
+        background-color: @primary-color;
+        color: @bg-color;
       }
 
       a {
         text-decoration: none;
         color: #f6f6f7;
-        opacity: 0.3;
+        opacity: 0.6;
       }
     }
   }

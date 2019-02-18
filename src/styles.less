@@ -1,0 +1,306 @@
+@import './vars';
+@import './fonts';
+
+* {
+  outline: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: @bg-color;
+  min-height: 100%;
+  display: flex;
+  color: @text-color;
+  font-size: 16px;
+}
+
+#app {
+  min-height: 100%;
+  width: 100%;
+  max-width: 990px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  background-color: @sidebar-bg-color;
+}
+
+a {
+  color: @link-color;
+  cursor: pointer;
+}
+
+p {
+  font-size: 18px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: @heading-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+b,
+.btn {
+  font-family: 'Circular-Pro-Bold', Helvetica, Arial, sans-serif;
+}
+
+label {
+  color: @heading-color;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+#app {
+  font-family: 'Circular-Pro-Book', Helvetica, Arial, sans-serif;
+  color: @text-color;
+  text-align: left !important;
+}
+
+@media (max-width: 400px) {
+  & .Box {
+    border-radius: 0;
+    border: none;
+
+    &.operation {
+      margin: -24px;
+
+      & .Box-row {
+        padding: 16px 24px;
+      }
+    }
+  }
+}
+
+.after-header {
+  margin-top: @header-height;
+
+  @media @bp-small {
+    margin-top: 0;
+  }
+}
+
+.table {
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-size: 17px;
+
+  th,
+  td {
+    padding: 12px 24px;
+  }
+
+  th {
+    font-weight: normal;
+  }
+
+  thead {
+    color: @border-color;
+  }
+}
+
+.entry-enter-active {
+  transition: opacity 1s ease;
+}
+
+.entry-enter {
+  opacity: 0;
+}
+
+.entry-leave {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: @border-color;
+  border: 0;
+  background-clip: padding-box;
+  border-radius: 0;
+}
+
+.vue-ui-modal {
+  .backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .shell {
+    transition: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+    max-height: inherit;
+    width: 500px;
+    max-width: 100% !important;
+    border-left: 1px solid @border-color;
+
+    .header {
+      border-bottom: 1px solid @border-color;
+    }
+
+    .body {
+      font-size: 18px;
+    }
+  }
+}
+
+.container-xs {
+  width: 100%;
+  max-width: 380px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-sm {
+  width: 100%;
+  max-width: 544px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.form-select {
+  font-size: 16px;
+}
+
+.error {
+  color: @error-color;
+}
+
+.button-link {
+  line-height: 32px;
+  text-decoration: none;
+
+  &:link,
+  &:visited,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+}
+
+input {
+  background: transparent;
+}
+
+.form-label {
+  min-width: 160px;
+  display: inline-block;
+}
+
+.link-color {
+  color: @link-color;
+}
+
+.bg-primary {
+  background-color: @primary-color;
+}
+
+.header-container {
+  display: flex;
+  flex: 1;
+
+  & > div {
+    flex: 1;
+  }
+
+  & > button {
+    color: @border-color;
+    font-size: 18px;
+    padding: 0 24px;
+    background: none;
+    outline: none;
+    border: none;
+  }
+}
+
+.logo {
+  font-size: 32px;
+  color: @primary-color;
+}
+
+a.iconfont:hover {
+  text-decoration: none;
+}
+
+.no-decoration, .no-decoration:hover {
+  text-decoration: none;
+}
+
+.btn {
+  background: transparent;
+  color: darken(@input-border-color, 10%);
+  border-color: @input-border-color;
+  box-shadow: none !important;
+
+  &:hover {
+    color: @heading-color;
+    background: transparent;
+  }
+}
+
+.btn-blue,
+.btn-blue:focus,
+.btn-blue:disabled,
+.btn-blue:hover {
+  color: #ffffff;
+  border-color: @primary-color;
+  background: @primary-color;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+
+  &:hover {
+    border-color: darken(@primary-color, 10%);
+    background: darken(@primary-color, 10%);
+  }
+}
+
+.btn-danger,
+.btn-danger:focus,
+.btn-danger:disabled,
+.btn-danger:hover {
+  color: #ffffff;
+  border-color: @error-color;
+  background: @error-color;
+
+  &:hover {
+    border-color: darken(@error-color, 10%);
+    background: darken(@error-color, 10%);
+  }
+}
+
+.btn-success,
+.btn-success:focus,
+.btn-success:disabled,
+.btn-success:hover {
+  color: #ffffff;
+  border-color: @success-color;
+  background: @success-color;
+
+  &:hover {
+    border-color: darken(@success-color, 10%);
+    background: darken(@success-color, 10%);
+  }
+}
+
+.input-lg {
+  border-color: @input-border-color;
+  padding: 6px 12px;
+  min-height: 42px;
+  box-shadow: none !important;
+
+  &:focus {
+    border-color: @primary-color;
+  }
+}

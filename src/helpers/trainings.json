@@ -1,0 +1,137 @@
+[
+  {
+    "id": "routing",
+    "disabled": false,
+    "type": "training",
+    "score": 15,
+    "image": "routing",
+    "name": "Routing",
+    "desc": "This increase the speed of your units!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 1
+  },
+  {
+    "id": "coordination",
+    "disabled": false,
+    "type": "training",
+    "score": 46,
+    "image": "coordination",
+    "name": "Coordination",
+    "desc": "By working together your units tend to keep their role as core!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 2
+  },
+  {
+    "id": "closecombat",
+    "disabled": false,
+    "type": "training",
+    "score": 53,
+    "image": "closecombat",
+    "name": "Close Combat",
+    "desc": "Improve the efficience of your Melee units!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 3
+  },
+  {
+    "id": "firearms",
+    "disabled": false,
+    "type": "training",
+    "score": 75,
+    "image": "firearms",
+    "name": "Firearms Training",
+    "desc": "Improve the efficience of your Short Range units!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 4
+  },
+  {
+    "id": "information",
+    "disabled": false,
+    "type": "training",
+    "score": 15,
+    "image": "information",
+    "name": "Information Procurement",
+    "desc": "Improve the efficience of your attacks and give your more options!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 5
+  },
+  {
+    "id": "sniping",
+    "disabled": false,
+    "type": "training",
+    "score": 96,
+    "image": "sniping",
+    "name": "Sniper Trains",
+    "desc": "Improve the efficience of your Long Range units!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 6
+  },
+  {
+    "id": "bomb",
+    "disabled": false,
+    "type": "training",
+    "score": 148,
+    "image": "bomb",
+    "name": "Bomb Construction",
+    "desc": "Improve the attack of your Bombers!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 7
+  },
+  {
+    "id": "psychological",
+    "disabled": false,
+    "type": "training",
+    "score": 196,
+    "image": "psychological",
+    "name": "Psychological Training",
+    "desc": "Improve the defense of all your Mercenaries!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 8
+  },
+  {
+    "id": "chemical",
+    "disabled": false,
+    "type": "training",
+    "score": 263,
+    "image": "chemical",
+    "name": "Chemical Training",
+    "desc": "Improve the efficience of your Chemical Troups!",
+    "requirement": [
+      "Office Lvl. 10",
+      "Search Center Lvl. 5"
+    ],
+    "base_price": 500,
+    "coeff": 10
+  }
+]

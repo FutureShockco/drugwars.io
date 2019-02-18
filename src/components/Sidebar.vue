@@ -100,15 +100,22 @@ export default {
     },
     total() {
       const prizePops = this.$store.state.game.prizeProps;
-      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * (prizePops.daily_percent + prizePops.heist_percent);
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
+        (prizePops.daily_percent + prizePops.heist_percent)
+      );
     },
     totalDaily() {
       const prizePops = this.$store.state.game.prizeProps;
-      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * prizePops.daily_percent;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
+      );
     },
     totalHeist() {
       const prizePops = this.$store.state.game.prizeProps;
-      return parseFloat(prizePops.balance) * prizePops.steemprice / 100 * prizePops.heist_percent;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
+      );
     },
   },
   methods: {

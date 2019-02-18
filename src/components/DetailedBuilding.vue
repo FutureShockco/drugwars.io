@@ -3,10 +3,10 @@
     <div class="mr-4">
       <img class="preview rounded-2" :src="`/img/buildings/${building.image}.png`"/>
     </div>
-    <div class="width-full">
-      <router-link :to="'/buildings/' + building.id">
+    <div class="width-full">  
+        <router-link :to="'/buildings/' + building.id">
         <h5 class="item-title">{{ building.name }}</h5>
-      </router-link>
+        </router-link>
       <div class="item-description">{{ building.desc }}</div>
       <p>{{ building.base_price }}</p>
     </div>
@@ -16,6 +16,6 @@
 
 <script>
 export default {
-  props: ['building'],
+  props: ['detailedbuilding'],
 };
 </script>

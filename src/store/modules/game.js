@@ -36,9 +36,14 @@ const actions = {
         resolve();
       });
     }),
-  upgradeBuilding: ({ commit, rootState }) =>
+  upgradeBuilding: ({ commit, rootState }, { id, level }) =>
     new Promise((resolve, reject) => {
-      sc.customEvent(rootState.auth.username, 'test', 'test', (err, result) => {
+      const payload = {
+        username: rootState.auth.username,
+        building: id,
+        level,
+      };
+      sc.customEvent(rootState.auth.username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });

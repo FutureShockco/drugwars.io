@@ -3,29 +3,29 @@
   <div v-if="this.level">
     <span v-if="this.drugs_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'drugs'"/>
-      {{ this.drugs_cost * (this.level+1*(this.level+1)*(2*(this.level+1)))/5 }}
+      {{ drugs_cost * (level+1*(level+1)*(2*(level+1)))/5 }}
     </span>
-    <span v-if="this.weapons_cost">
+    <span v-if="weapons_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'weapons'"/>
-      {{ this.weapons_cost * (this.level+1*(this.level+1)*(2*(this.level+1)))/5 }}
+      {{ weapons_cost * (level+1*(level+1)*(2*(level+1)))/5 }}
     </span>
-    <span v-if="this.alcohols_cost">
+    <span v-if="alcohols_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'alcohol'"/>
-      {{ this.alcohols_cost * (this.level+1*(this.level+1)*(2*(this.level+1)))/5 }}
+      {{ alcohols_cost * (level+1*(level+1)*(2*(level+1)))/5 }}
     </span>
   </div>
-    <div v-if="this.amount">
-    <span v-if="this.drugs_cost">
+    <div v-if="amount">
+    <span v-if="drugs_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'drugs'"/>
-      {{ this.drugs_cost * this.amount }}
+      {{ drugs_cost * amount }}
     </span>
-    <span v-if="this.weapons_cost">
+    <span v-if="weapons_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'weapons'"/>
-      {{ this.weapons_cost * this.amount }}
+      {{ weapons_cost * amount }}
     </span>
-    <span v-if="this.alcohols_cost">
+    <span v-if="alcohols_cost">
       <Icon :size="18" :color="'#fbbd08'" :icon="'alcohol'"/>
-      {{ this.alcohols_cost * this.amount }}
+      {{ alcohols_cost * amount }}
     </span>
   </div>
    </div>

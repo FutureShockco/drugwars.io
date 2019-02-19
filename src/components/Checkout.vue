@@ -4,7 +4,7 @@
     class="checkout float-right ml-4 mr-3 pt-3"
   >
     <div class="label-yellow mb-2">
-      {{ timeToWait | prettyMs }}
+      {{ timeToWait | ms }}
     </div>
     <button
       :disabled="isLoading"
@@ -45,7 +45,7 @@ export default {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
     handleUpgradeBuilding() {
       this.isLoading = true;
-      this.upgradeBuilding()
+      this.upgradeBuilding({ id: this.id, level: this.level })
         .then(result => {
           console.log('Result', result);
           this.isLoading = false;

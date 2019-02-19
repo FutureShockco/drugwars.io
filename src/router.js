@@ -11,7 +11,7 @@ const Building = () => import(/* webpackChunkName: "building" */ '@/views/Buildi
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Weapons.vue');
-const Alcohols = () => import(/* webpackChunkName: "alcohols" */ '@/views/Alcohols.vue');
+const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Alcohol.vue');
 const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Unit.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
 const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Trainings.vue');
@@ -76,10 +76,10 @@ export default new Router({
       component: Weapons,
     },
     {
-      path: '/alcohols',
-      name: 'alcohols',
+      path: '/alcohol',
+      name: 'alcohol',
       beforeEnter: requireAuth,
-      component: Alcohols,
+      component: Alcohol,
     },
     {
       path: '/buildings/:id',

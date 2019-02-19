@@ -348,12 +348,15 @@ a.iconfont:hover {
 }
 
 .username {
-  transform: skew(-24deg) rotate(-10deg);
-  text-rendering: optimizeLegibility;
-  font-weight: bold;
-  font-size: 20px;
   text-transform: uppercase;
+  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  position: absolute;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
   color: #db2828;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
+  left: 50%;
 }
 
 .preview {

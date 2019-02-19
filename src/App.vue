@@ -2,7 +2,8 @@
   <div id="app">
     <template v-if="!showLoading">
       <Sidebar v-if="showSidebar"/>
-      <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />
+          <Balances/>
+      <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />                    
     </template>
     <VueLoadingIndicator class="overlay fixed big transparent" v-else/>
   </div>

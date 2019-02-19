@@ -14,6 +14,7 @@ const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Weapons.
 const Alcohols = () => import(/* webpackChunkName: "alcohols" */ '@/views/Alcohols.vue');
 const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Unit.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
+const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Trainings.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -91,6 +92,18 @@ export default new Router({
       name: 'units',
       beforeEnter: requireAuth,
       component: Units,
+    },
+    {
+      path: '/camp',
+      name: 'camp',
+      beforeEnter: requireAuth,
+      component: Units,
+    },
+    {
+      path: '/trainings',
+      name: 'trainings',
+      beforeEnter: requireAuth,
+      component: Trainings,
     },
     {
       path: '/units/:id',

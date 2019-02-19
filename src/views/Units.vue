@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Units" />
+    <BootcampTabs/>
     <div class="p-4 after-header">
       <Unit
         v-for="unit in units"

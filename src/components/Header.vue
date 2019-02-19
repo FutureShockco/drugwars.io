@@ -2,7 +2,7 @@
   <div class="header border-bottom">
     <button class="px-4 py-3 border-right" @click="toggleSidebarVisibility">
       <span class="iconfont icon-three-bars"/>
-    </button>
+      </button>
     <slot>
       <h5>{{ title }}</h5>
     </slot>
@@ -26,9 +26,9 @@ export default {
 @import (reference) '../vars';
 
 .header {
-  position: fixed;
+  position: sticky!important;
   z-index: 100;
-  top: 0;
+  top: 98px;
   width: 100%;
   height: @header-height;
   background-color: @header-bg;

@@ -18,7 +18,7 @@ import { pickBy } from 'lodash';
 export default {
   data() {
     return {
-      trainings
+      trainings,
     };
   },
 };

@@ -4,6 +4,7 @@
     <div class="width-full mr-4">
       <router-link :to="'/buildings/' + building.id">
         <h5>{{ building.name }}</h5>
+        <p>Level {{ ownBuilding.lvl }}</p>
       </router-link>
       <div class="item-description pb-2 ml-2">{{ building.desc }}</div>
       <Cost class="ml-2"
@@ -25,5 +26,12 @@
 <script>
 export default {
   props: ['building'],
+  computed: {
+    ownBuilding() {
+      return this.$store.state.game.user.buildings.find(
+        b => b.building === this.$props.building.id,
+      ) || { lvl: 0 };
+    },
+  },
 };
 </script>

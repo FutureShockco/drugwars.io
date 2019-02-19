@@ -25,7 +25,7 @@ export default {
   computed: {
     unit() {
       return units[this.$props.item.unit];
-    }
+    },
   },
 };
 </script>

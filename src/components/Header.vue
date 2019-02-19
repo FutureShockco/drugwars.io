@@ -26,13 +26,13 @@ export default {
 @import (reference) '../vars';
 
 .header {
-  position: sticky!important;
+  position: sticky !important;
   z-index: 100;
   top: 98px;
   width: 100%;
   height: @header-height;
   background-color: #000;
-  background-image: linear-gradient(315deg,#000,#0e0e0e 74%);
+  background-image: linear-gradient(315deg, #000, #0e0e0e 74%);
   display: flex;
   align-items: center;
   transition: width 0.3s;

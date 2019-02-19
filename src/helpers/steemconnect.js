@@ -7,8 +7,7 @@ const client = steemconnect.Initialize({
   callbackURL: process.env.VUE_APP_SC_REDIRECT_URI,
 });
 
-/**
-client.customEvent = (username, type, payload, cb) =>
+client.customEventNext = (username, type, payload, cb) =>
   client.broadcast(
     [
       [
@@ -23,7 +22,6 @@ client.customEvent = (username, type, payload, cb) =>
     ],
     cb,
   );
-*/
 
 client.customEvent = (username, type, payload, cb) =>
   client.broadcast(

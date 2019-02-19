@@ -23,8 +23,9 @@ const mutations = {
 };
 
 const actions = {
-  init: ({ commit }, username) =>
+  init: ({ commit, rootState }) =>
     new Promise((resolve, reject) => {
+      const username = rootState.auth.username;
       Promise.all([
         kbyte.requestAsync('get_props', null),
         kbyte.requestAsync('get_prize_props', null),
@@ -48,9 +49,32 @@ const actions = {
         return resolve(result);
       });
     }),
-  requestPayment: ({ commit, rootState }) => {
+  recruitUnit: ({ commit, rootState }, { unit, amount }) =>
+    new Promise((resolve, reject) => {
+      const payload = {
+        username: rootState.auth.username,
+        unit,
+        unit_amount: amount,
+      };
+      sc.customEvent(rootState.auth.username, 'dw-unit', payload, (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
+      });
+    }),
+  investHeist: ({ commit, rootState }, amount) =>
+    new Promise((resolve, reject) => {
+      const payload = {
+        username: rootState.auth.username,
+        amount,
+      };
+      sc.customEvent(rootState.auth.username, 'dw-heist', payload, (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
+      });
+    }),
+  requestPayment: ({ commit, rootState }, { memo, amount }) => {
     const username = rootState.auth.username;
-    const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=0.001 STEEM`;
+    const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=0.001 STEEM&memo=${memo}`;
     const win = window.open(url, '_blank');
     win.focus();
   },

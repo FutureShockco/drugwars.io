@@ -3,9 +3,9 @@
     <template v-if="!showLoading">
       <Sidebar v-if="showSidebar"/>
           <Balances/>
-      <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />                    
+      <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />
     </template>
-    <VueLoadingIndicator class="overlay fixed big transparent" v-else/>
+    <Loading v-else/>
   </div>
 </template>
 
@@ -21,6 +21,11 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
+  },
+  created() {
+    const stream = setInterval(() => {
+      this.$store.dispatch('init');
+    }, 10000);
   },
 };
 </script>

@@ -28,7 +28,7 @@ const requireAuth = (to, from, next) => {
     store.dispatch('showLoading');
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
-        store.dispatch('init', store.state.auth.username).then(() => {
+        store.dispatch('init').then(() => {
           store.dispatch('hideLoading');
           next();
         });

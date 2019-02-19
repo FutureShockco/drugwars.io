@@ -7,12 +7,13 @@
       {{ timeToWait | ms }}
     </div>
     <button
-      :disabled="isLoading"
+      :disabled="isLoading || inProgress"
       @click="handleUpgradeBuilding()"
       class="btn btn-block btn-green btn-success mb-2"
     >
       Upgrade
     </button>
+    <Loading v-if="isLoading"/>
     <span>Instant Upgrade</span>
     <button
       :disabled="isLoading"
@@ -32,7 +33,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      inProgress: false,
       timeToWait:
         this.id === 'headquarters'
           ? 2500 * ((Math.sqrt(625 + 100 * (this.level * 250)) - 25) / 50) * 1000
@@ -40,6 +40,17 @@ export default {
               this.hqLevel) *
             1000,
     };
+  },
+  computed: {
+    inProgress() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === this.id
+      );
+      if (!building) return;
+      const nextUpdate = new Date(building.next_update).getTime();
+      const now = new Date().getTime();
+      return nextUpdate >= now;
+    },
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
@@ -67,7 +78,7 @@ export default {
   width: 240px;
 
   &.pending {
-    opacity: 0.4;
+    opacity: 0.8;
   }
 
   &.progress {

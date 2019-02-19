@@ -1,11 +1,49 @@
 <template>
-  <div class="payment-widget float-right ml-4 mr-3 pt-3">
+  <div :class="{ pending: isLoading }" class="payment-widget float-right ml-4 mr-3 pt-3">
     <div class="label-yellow mb-2">1h 31mn</div>
-    <button class="btn btn-block btn-green btn-success mb-2">Upgrade</button>
+    <button
+      @click="handleUpgradeBuilding()"
+      class="btn btn-block btn-green btn-success mb-2"
+    >
+      Upgrade
+    </button>
     <span>Instant Upgrade</span>
-    <button class="btn btn-block btn-blue mb-2">Steem</button>
+    <button
+      @click="handleRequestPayment()"
+      class="btn btn-block btn-blue mb-2"
+    >
+      Steem
+    </button>
   </div>
 </template>
+
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  data() {
+    return {
+      isLoading: false,
+    }
+  },
+  methods: {
+    ...mapActions(['upgradeBuilding', 'requestPayment']),
+    handleUpgradeBuilding() {
+      this.isLoading = true;
+      this.upgradeBuilding().then((result) => {
+        console.log('Result', result);
+        this.isLoading = false;
+      }).catch(e => {
+        console.error('Failed', e);
+        this.isLoading = false;
+      });
+    },
+    handleRequestPayment() {
+      this.requestPayment();
+    },
+  },
+};
+</script>
 
 <style scoped lang="less">
 .label-yellow {

@@ -33,35 +33,6 @@
 
 <script>
 export default {
-  props: {
-    type: {
-      type: String,
-      default: 32,
-      required: true,
-    },
-    level: {
-      type: Number,
-      default: 32,
-    },
-    amount: {
-      type: Number,
-      default: 32,
-    },
-    drugs_cost: {
-      type: Number,
-      default: 32,
-      required: true,
-    },
-    weapons_cost: {
-      type: Number,
-      default: 32,
-      required: true,
-    },
-    alcohols_cost: {
-      type: Number,
-      default: 32,
-      required: true,
-    },
-  },
+  props: ['type', 'level', 'amount', 'drugs_cost', 'weapons_cost', 'alcohols_cost'],
 };
 </script>

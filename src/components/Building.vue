@@ -28,9 +28,11 @@ export default {
   props: ['building'],
   computed: {
     ownBuilding() {
-      return this.$store.state.game.user.buildings.find(
-        b => b.building === this.$props.building.id,
-      ) || { lvl: 0 };
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === this.$props.building.id) || {
+          lvl: 0,
+        }
+      );
     },
   },
 };

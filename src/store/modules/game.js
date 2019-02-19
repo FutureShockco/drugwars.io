@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import kbyte from '@/helpers/kbyte';
+import sc from '@/helpers/steemconnect';
+
+const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 
 const state = {
   prizeProps: null,
@@ -33,6 +36,18 @@ const actions = {
         resolve();
       });
     }),
+  upgradeBuilding: ({ commit, rootState }) => new Promise((resolve, reject) => {
+    sc.customEvent(rootState.auth.username, 'test', 'test', (err, result) => {
+      if (err) return reject(err);
+      return resolve(result);
+    });
+  }),
+  requestPayment: ({ commit, rootState }) => {
+    const username = rootState.auth.username;
+    const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=0.001 STEEM`;
+    const win = window.open(url, '_blank');
+    win.focus();
+  },
 };
 
 export default {

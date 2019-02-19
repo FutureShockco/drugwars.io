@@ -8,7 +8,8 @@ const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callba
 const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue');
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
 const Building = () => import(/* webpackChunkName: "building" */ '@/views/Buildings/Building.vue');
-const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Buildings.vue');
+const Buildings = () =>
+  import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Buildings.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');

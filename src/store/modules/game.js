@@ -36,12 +36,13 @@ const actions = {
         resolve();
       });
     }),
-  upgradeBuilding: ({ commit, rootState }) => new Promise((resolve, reject) => {
-    sc.customEvent(rootState.auth.username, 'test', 'test', (err, result) => {
-      if (err) return reject(err);
-      return resolve(result);
-    });
-  }),
+  upgradeBuilding: ({ commit, rootState }) =>
+    new Promise((resolve, reject) => {
+      sc.customEvent(rootState.auth.username, 'test', 'test', (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
+      });
+    }),
   requestPayment: ({ commit, rootState }) => {
     const username = rootState.auth.username;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=0.001 STEEM`;

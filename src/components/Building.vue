@@ -6,7 +6,9 @@
         <h5>{{ building.name }}</h5>
         <p>Level {{ ownBuilding.lvl }}</p>
       </router-link>
-      <div class="item-description pb-2 ml-2">{{ building.desc }}</div>
+      <div class="item-description pb-2 ml-2">
+        {{ building.desc }}
+      </div>
       <Cost class="ml-2"
         :level="1"
         :amount="false"
@@ -19,7 +21,12 @@
         <span class="text-green">{{ building.feature }}</span>
       </div>
     </div>
-    <Checkout/>
+    <Checkout
+      :id="building.id"
+      :level="ownBuilding.lvl + 1"
+      :coeff="building.coeff"
+      :hqLevel="ownHq.lvl"
+    />
   </div>
 </template>
 
@@ -30,6 +37,13 @@ export default {
     ownBuilding() {
       return (
         this.$store.state.game.user.buildings.find(b => b.building === this.$props.building.id) || {
+          lvl: 0,
+        }
+      );
+    },
+    ownHq() {
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || {
           lvl: 0,
         }
       );

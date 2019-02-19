@@ -1,7 +1,13 @@
 <template>
-  <div :class="{ pending: isLoading }" class="payment-widget float-right ml-4 mr-3 pt-3">
-    <div class="label-yellow mb-2">1h 31mn</div>
+  <div
+    :class="{ pending: isLoading, progress: inProgress }"
+    class="checkout float-right ml-4 mr-3 pt-3"
+  >
+    <div class="label-yellow mb-2">
+      {{ timeToWait | prettyMs }}
+    </div>
     <button
+      :disabled="isLoading"
       @click="handleUpgradeBuilding()"
       class="btn btn-block btn-green btn-success mb-2"
     >
@@ -9,6 +15,7 @@
     </button>
     <span>Instant Upgrade</span>
     <button
+      :disabled="isLoading"
       @click="handleRequestPayment()"
       class="btn btn-block btn-blue mb-2"
     >
@@ -21,22 +28,32 @@
 import { mapActions } from 'vuex';
 
 export default {
+  props: ['id', 'level', 'coeff', 'hqLevel'],
   data() {
     return {
       isLoading: false,
-    }
+      inProgress: false,
+      timeToWait:
+        this.id === 'headquarters'
+          ? 2500 * ((Math.sqrt(625 + 100 * (this.level * 250)) - 25) / 50) * 1000
+          : ((this.coeff * 2000 * ((Math.sqrt(625 + 100 * (this.level * 250)) - 25) / 50)) /
+              this.hqLevel) *
+            1000,
+    };
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
     handleUpgradeBuilding() {
       this.isLoading = true;
-      this.upgradeBuilding().then((result) => {
-        console.log('Result', result);
-        this.isLoading = false;
-      }).catch(e => {
-        console.error('Failed', e);
-        this.isLoading = false;
-      });
+      this.upgradeBuilding()
+        .then(result => {
+          console.log('Result', result);
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
+        });
     },
     handleRequestPayment() {
       this.requestPayment();
@@ -46,6 +63,18 @@ export default {
 </script>
 
 <style scoped lang="less">
+.checkout {
+  width: 240px;
+
+  &.pending {
+    opacity: 0.4;
+  }
+
+  &.progress {
+    opacity: 0.4;
+  }
+}
+
 .label-yellow {
   color: black;
   background-color: #fbb034;

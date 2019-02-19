@@ -6,6 +6,7 @@ import VueI18n from 'vue-i18n';
 import VueUi from '@vue/ui';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+import prettyMs from 'pretty-ms';
 import urlParse from 'url-parse';
 import moment from 'moment';
 import numeral from 'numeral';
@@ -22,7 +23,8 @@ requireComponent.keys().forEach(fileName => {
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
 
-Vue.filter('dateHeader', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
+Vue.filter('date', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
+Vue.filter('prettyMs', value => prettyMs(value));
 Vue.filter('parseUrl', value => urlParse(value).host);
 Vue.filter('amount', value => numeral(value).format('0.00a'));
 

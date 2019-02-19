@@ -7,7 +7,9 @@
       <router-link :to="'/buildings/' + building.id">
         <h5>{{ building.name }}</h5>
       </router-link>
-      <div class="item-description">{{ building.desc }}</div>
+      <div class="item-description">
+        {{ building.desc }}
+      </div>
       <p>{{ building.base_price }}</p>
     </div>
     <Checkout/>

@@ -26,6 +26,7 @@
     "moment": "^2.22.2",
     "numeral": "^2.0.6",
     "password-validator": "^4.1.1",
+    "pretty-ms": "^4.0.0",
     "primer": "^10.8.1",
     "query-string": "^6.2.0",
     "serve-static": "^1.13.2",

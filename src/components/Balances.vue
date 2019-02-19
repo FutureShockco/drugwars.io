@@ -1,5 +1,5 @@
 <template>
-  <div class="columns px-2 border-bottom balance-topbar">
+  <div class="columns px-2 border-bottom balance-topbar mr-0">
     <div class="column col-3 p-4">
       <h4 class="mb-0">
         <img width="24" src="/img/icons/drugs.png"/>

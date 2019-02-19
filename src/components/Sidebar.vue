@@ -150,7 +150,7 @@ export default {
 
   &--open {
     left: 0 !important;
-    top:138px;
+    top:114px;
   }
 
   a {

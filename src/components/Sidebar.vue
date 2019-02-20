@@ -76,16 +76,9 @@
         </router-link>
       </li>
     </ul>
-    <div>
-      <Prize
-        :total="total"
-        :totalDaily="totalDaily"
-        :totalHeist="totalHeist"
-      />
-    <Heist/>
-      <!-- <h3>{{ total | amount }}</h3>
-      <div>Daily: {{ totalDaily | amount }}</div>
-      <div>Heist: {{ totalHeist | amount }}</div> -->
+    <div class="mb-4">
+      <Prize/>
+      <Heist/>
     </div>
   </div>
 </template>

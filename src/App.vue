@@ -28,7 +28,7 @@ export default {
     },
   },
   created() {
-    const stream = setInterval(() => {
+    setInterval(() => {
       this.$store.dispatch('init');
     }, 10000);
   },

@@ -35,7 +35,7 @@ export default {
 <style scoped lang="less">
 .width-quarter {
   width: 25%;
-      text-align: center;
+  text-align: center;
 }
 
 .username {

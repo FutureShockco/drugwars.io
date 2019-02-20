@@ -29,17 +29,20 @@ export default {
     return {
       isLoading: false,
       amount: this.$store.state.game.user.user.drugs_balance,
-    }
+    };
   },
   methods: {
     ...mapActions(['investHeist']),
     handleSubmit() {
       this.isLoading = true;
-      this.investHeist(this.amount).then(() => {
-        this.isLoading = false;
-      }).catch(e => {
-        this.isLoading = false;
-      });
+      this.investHeist(this.amount)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed to invest on heist', e);
+          this.isLoading = false;
+        });
     },
   },
 };
@@ -60,7 +63,7 @@ export default {
 
 .btn-green {
   width: calc(100% - 30px);
-  margin-left:30px;
+  margin-left: 30px;
   line-height: 10px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;

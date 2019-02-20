@@ -43,10 +43,8 @@ export default {
   },
   computed: {
     inProgress() {
-      const building = this.$store.state.game.user.buildings.find(
-        b => b.building === this.id
-      );
-      if (!building) return;
+      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
+      if (!building) return false;
       const nextUpdate = new Date(building.next_update).getTime();
       const now = new Date().getTime();
       return nextUpdate >= now;
@@ -69,7 +67,7 @@ export default {
     handleRequestPayment() {
       this.requestPayment({
         memo: `upgrade:${this.id}`,
-        amount: '0.123 STEEM'
+        amount: '0.123 STEEM',
       });
     },
   },
@@ -91,7 +89,6 @@ export default {
     }
   }
 }
-
 
 .btn-blue {
   line-height: 10px;

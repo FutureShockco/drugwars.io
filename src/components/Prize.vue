@@ -82,8 +82,8 @@ export default {
   -webkit-backface-visibility: hidden;
 }
 
-.text{
-     font-size: 0.8em;
+.text {
+  font-size: 0.8em;
 }
 
 .prizes {

@@ -5,5 +5,6 @@
 </template>
 
 <style scoped lang="less">
-.tabs {}
+.tabs {
+}
 </style>

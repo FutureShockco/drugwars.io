@@ -2,31 +2,51 @@
   <div class="heist">
     <img src="/img/lottery/heist.png">
     <div>
-      <input class="heist input" type="number">
+      <input
+        class="heist input"
+        type="number"
+        v-model="amount"
+      />
     </div>
-    <div>
-      <button class="btn btn-block btn-green mt-2">Deposit</button>
-    </div>
+    <form @submit.prevent="handleSubmit">
+      <button
+        :disabled="isLoading"
+        type="submit"
+        class="btn btn-block btn-green mt-2"
+      >
+        Deposit
+      </button>
+      <Loading v-if="isLoading"/>
+    </form>
   </div>
 </template>
 
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  data() {
+    return {
+      isLoading: false,
+      amount: this.$store.state.game.user.user.drugs_balance,
+    }
+  },
+  methods: {
+    ...mapActions(['investHeist']),
+    handleSubmit() {
+      this.isLoading = true;
+      this.investHeist(this.amount).then(() => {
+        this.isLoading = false;
+      }).catch(e => {
+        this.isLoading = false;
+      });
+    },
+  },
+};
+</script>
+
 
 <style scoped lang="less">
-// .checkout {
-//   width: 240px;
-
-//   &.pending {
-//     opacity: 0.8;
-//   }
-
-//   &.progress {
-//     opacity: 0.4;
-//     .btn-green {
-//       background-image: linear-gradient(315deg, #00682b, #052c05 74%);
-//     }
-//   }
-// }
-
 .heist {
   text-align: center;
   padding: 0px 15px;

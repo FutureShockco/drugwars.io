@@ -41,7 +41,7 @@
       </li>
       <li>
         <router-link
-          to="/units"
+          to="/camp"
           class="py-2 px-4 d-block"
           @click.native="toggleSidebar"
         >
@@ -77,10 +77,10 @@
       </li>
     </ul>
     <div>
-          <Prize
-      :total="total"
-      :totalDaily="totalDaily"
-      :totalHeist="totalHeist"
+      <Prize
+        :total="total"
+        :totalDaily="totalDaily"
+        :totalHeist="totalHeist"
       />
     <Heist/>
       <!-- <h3>{{ total | amount }}</h3>
@@ -100,28 +100,6 @@ export default {
     },
     username() {
       return this.$store.state.auth.username;
-    },
-    prizeProps() {
-      return this.$store.state.game.prizeProps;
-    },
-    total() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
-        (prizePops.daily_percent + prizePops.heist_percent)
-      );
-    },
-    totalDaily() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
-      );
-    },
-    totalHeist() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
-      );
     },
   },
   methods: {

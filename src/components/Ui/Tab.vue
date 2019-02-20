@@ -1,5 +1,5 @@
 <template>
-  <li class="tab">
+  <li class="tab border-right">
     <router-link :to="to" active-class="active">
       <slot></slot>
     </router-link>
@@ -19,6 +19,7 @@ export default {
   display: inline-block;
 
   a {
+    color: @heading-color;
     text-decoration: none;
     display: inline-block;
     padding: 0 15px;

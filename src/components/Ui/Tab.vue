@@ -19,11 +19,12 @@ export default {
   display: inline-block;
 
   a {
-    color: @heading-color;
+    color: @primary-color;
     text-decoration: none;
     display: inline-block;
     padding: 0 15px;
     line-height: 56px;
+    letter-spacing: 2px;
 
     &.active {
       background-color: @primary-color;

@@ -64,23 +64,55 @@ export default {
 }
 
 .prize {
+  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
   text-align: center;
   font-weight: 700;
-  font-size: 2.2em;
-  line-height: 32px;
+  font-size: 2.8em;
+  line-height: 38px;
   width: 100%;
   display: block;
+  -webkit-box-shadow: none !important;
   box-shadow: none !important;
   margin: 0 auto;
   text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
-  background: url('/img/animated.png') repeat-y;
   -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: #ffdf02b8;
-  -webkit-animation: aitf 80s linear infinite;
+  background-clip: revert;
+  -webkit-text-fill-color: #fbbd08;
+  -webkit-animation: aitf-data-v-d15d71dc 80s linear infinite;
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
+  background-size: 50px 50px;
+  background-color: #fbbd08;
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+  transparent 75%, transparent);
+  background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+  transparent 75%, transparent);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, .2) 25%, transparent 25%,
+  transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%,
+  transparent 75%, transparent);
+  -webkit-background-clip: text;
+
+  /* Animate Background Image */
+
+  -webkit-text-fill-color: transparent;
+  -webkit-animation: aitf 10s linear infinite;
+
+  /* Activate hardware acceleration for smoother animations */
+
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-backface-visibility: hidden;
 }
+
+/* Animate Background Image */
+
+@-webkit-keyframes aitf {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+::selection{ background-color: black; color:#fff}
 
 .text {
   font-size: 0.8em;
@@ -89,23 +121,5 @@ export default {
 .prizes {
   display: -webkit-box;
   font-size: 0.5em;
-}
-
-@-webkit-keyframes aitf {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes aitf {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 100% 50%;
-  }
 }
 </style>

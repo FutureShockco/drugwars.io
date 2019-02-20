@@ -14,7 +14,7 @@
       Upgrade
     </button>
     <Loading v-if="isLoading"/>
-    <span>Instant Upgrade</span>
+    <span class="ml-3 instant">Instant Upgrade</span>
     <button
       :disabled="isLoading"
       @click="handleRequestPayment()"
@@ -83,18 +83,12 @@ export default {
 
   &.progress {
     opacity: 0.4;
+    .btn-green {
+      background-image: linear-gradient(315deg, #00682b, #052c05 74%);
+    }
   }
 }
 
-.label-yellow {
-  color: black;
-  background-color: #fbb034;
-  background-image: linear-gradient(315deg, #fbb034, #fd0 74%);
-  box-shadow: inset 1px 1px 5px #000;
-  border: 1px #fbc634 solid;
-  font-weight: 700;
-  text-align: center;
-}
 
 .btn-blue {
   line-height: 10px;
@@ -106,6 +100,7 @@ export default {
   border: solid 0px #2ab7ec;
   background-image: linear-gradient(315deg, #04609e, #1c174c 74%);
   box-shadow: inset 0px 0px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
+  border-radius: 0px 5px 5px 0px;
 }
 
 .btn-blue:active {
@@ -114,16 +109,21 @@ export default {
   box-shadow: inset 0px 1px 0px #2a67ec, 0px 2px 0px 0px #154685, 0px 5px 3px rgb(32, 32, 32);
 }
 
+.btn-blue:hover {
+  background-image: linear-gradient(to bottom, #04609e 0%, #1c174c 100%);
+  box-shadow: inset 0px 1px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
+}
+
 .btn-blue::before {
   background: url('/img/icons/steem.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 50%;
-  background-color: #1c174c;
+  background-size: 40%;
+  background-color: #1d1d1d;
   content: '';
   width: 30px;
   line-height: 10px;
-  max-height: 14px;
+  max-height: 12px;
   height: 100%;
   position: absolute;
   display: block;
@@ -134,8 +134,9 @@ export default {
   font-weight: bold;
   color: #8fd1ea;
   text-shadow: 1px 1px 0px #07526e;
-  border-right: solid 1px #07526e;
+  border: solid 1px #2a67ec;
   box-shadow: inset 0px 0px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
+  border-radius: 5px 0px 0px 5px;
 }
 
 .btn-blue:active::before {
@@ -155,6 +156,7 @@ export default {
   border: solid 0px #2aec2a;
   background-image: linear-gradient(315deg, #1e9e04, #1b4c17 74%);
   box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
+  border-radius: 0px 5px 5px 0px;
 }
 
 .btn-green:active {
@@ -163,16 +165,21 @@ export default {
   box-shadow: inset 0px 1px 0px #2aec2a, 0px 2px 0px 0px #228515, 0px 5px 3px rgb(32, 32, 32);
 }
 
+.btn-green:hover {
+  background-image: linear-gradient(to bottom, #1e9e04 0%, #1b4c17 100%);
+  box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
+}
+
 .btn-green::before {
   background: url('/img/icons/resources.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 50%;
-  background-color: #1b4c17;
+  background-size: 40%;
+  background-color: #1d1d1d;
   content: '';
   width: 30px;
   line-height: 10px;
-  max-height: 14px;
+  max-height: 12px;
   height: 100%;
   position: absolute;
   display: block;
@@ -182,9 +189,11 @@ export default {
   font-size: 16px;
   font-weight: bold;
   color: #9eea8f;
+  border: solid 1px #2aec2a;
   text-shadow: 1px 1px 0px #076e15;
   border-right: solid 1px #076e10;
   box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
+  border-radius: 5px 0px 0px 5px;
 }
 
 .btn-green:active::before {
@@ -192,5 +201,55 @@ export default {
   box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 1px 1px 0px 0px #04641c,
     2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
     0px 10px 5px rgb(32, 32, 32);
+}
+
+.label-yellow {
+  color: black !important;
+  pointer-events: none;
+  font-weight: 700;
+  text-align: center;
+  line-height: 22px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  border: solid 0px #fbb034;
+  top: 3px;
+  background-image: linear-gradient(to bottom, #fd0 0%, #fbb034 100%);
+  box-shadow: inset 0px 1px 0px #fbb034, 0px 2px 0px 0px #857e15, 0px 5px 3px rgb(32, 32, 32);
+  border-radius: 0px 5px 5px 0px;
+}
+
+.label-yellow::before {
+  background: url(/img/icons/timer.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40%;
+  background-color: #1d1d1d;
+  content: '';
+  width: 30px;
+  line-height: 10px;
+  max-height: 12px;
+  height: 100%;
+  position: absolute;
+  display: block;
+  padding-top: 8px;
+  top: -3px;
+  left: -30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  text-shadow: 1px 1px 0px #6e6c07;
+  border: solid 1px #fecd1d;
+  -webkit-box-shadow: inset 0px 0px 0px #fbb034, 0px 5px 0px 0px #857e15, 0px 10px 5px #202020;
+  box-shadow: inset 0px 0px 0px #fbb034, 0px 5px 0px 0px #857e15, 0px 10px 5px #202020;
+  border-radius: 5px 0px 0px 5px;
+}
+
+.instant {
+  font-size: 12px;
+  color: #0c4782;
+  font-weight: bold;
 }
 </style>

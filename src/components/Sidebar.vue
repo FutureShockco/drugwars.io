@@ -76,10 +76,16 @@
         </router-link>
       </li>
     </ul>
-    <div class="py-2 px-4">
-      <h3>{{ total | amount }}</h3>
+    <div>
+          <Prize
+      :total="total"
+      :totalDaily="totalDaily"
+      :totalHeist="totalHeist"
+      />
+    <Heist/>
+      <!-- <h3>{{ total | amount }}</h3>
       <div>Daily: {{ totalDaily | amount }}</div>
-      <div>Heist: {{ totalHeist | amount }}</div>
+      <div>Heist: {{ totalHeist | amount }}</div> -->
     </div>
   </div>
 </template>

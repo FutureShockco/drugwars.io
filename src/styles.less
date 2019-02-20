@@ -316,20 +316,6 @@ a.iconfont:hover {
 //   }
 // }
 
-// .btn-green{
-//   background-color: #169e04;
-//   background-image: linear-gradient(315deg,#049e11,#234c17 74%);
-//   box-shadow: 0 0 7px #049e0c!important;
-// }
-
-// .btn-blue{
-//   background-color: #04609e;
-//   background-image: linear-gradient(315deg,#04609e,#1c174c 74%);
-//   box-shadow: 0 0 7px #04609e!important;
-// }
-
-
-
 .input-lg {
   border-color: @input-border-color;
   padding: 6px 12px;
@@ -350,14 +336,17 @@ a.iconfont:hover {
 
 .username {
   text-transform: uppercase;
-  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
-  position: absolute;
+  transform: skew(-24deg) rotate(-10deg);
   text-rendering: optimizeLegibility;
   font-weight: 900;
   color: #db2828;
   text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
   white-space: nowrap;
-  left: 50%;
+}
+
+.mini.preview{
+  height: 30px;
+  width: 30px;
 }
 
 .preview {
@@ -376,6 +365,7 @@ a.iconfont:hover {
   border-color: @border-color !important;
 }
 
+
 .balance-topbar{
   margin-left: 200px;
   @media (max-width: 1011px){ 
@@ -391,20 +381,49 @@ a.iconfont:hover {
 
 .item {
   background-color: #000;
-  background-image: linear-gradient(315deg,#000,#0e0e0e 74%);
+  background-image: linear-gradient(315deg, #000, #0e0e0e 74%);
   border: 1px solid #282828;
-  box-shadow: 0 0 8px #000,0 0 8px #000;
+  -webkit-box-shadow: 0 0 8px #000, 0 0 8px #000;
+  box-shadow: inset 0 0 8px #696969, 0 0 8px #000, 0 0 8px #000;
 }
 
 .item-description {
   font-style: italic;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: 3px;
+  border: 1px solid #252525;
 }
+
+.item-special{
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.item-level{
+  position: absolute;
+  left: 40px;
+  margin-top: 10px;
+  background: #fbbd08;
+  padding: 0px 5px;
+  color: black;
+  font-weight: 700;
+  border-radius: 5px;
+  border: 1px solid black;
+  width: 30px;
+  text-align: center;
+  }
 
 .item h5{
   text-transform: uppercase;
   color:black!important;
   margin:0px;
-  background: #fbbd08;
+  background: linear-gradient(to bottom, #282828, #fbbd08 20%, #fbbd08 90%, #282828);
   width: fit-content;
   padding: 0px 5px;
+}
+
+.right.floated{
+  float: right;
 }

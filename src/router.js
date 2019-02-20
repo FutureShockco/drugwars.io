@@ -13,6 +13,7 @@ const Buildings = () =>
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
+const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Buildings/Defense.vue');
 const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Unit.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
 const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Trainings.vue');
@@ -81,6 +82,12 @@ export default new Router({
       name: 'alcohol',
       beforeEnter: requireAuth,
       component: Alcohol,
+    },
+    {
+      path: '/defense',
+      name: 'defense',
+      beforeEnter: requireAuth,
+      component: Defense,
     },
     {
       path: '/buildings/:id',

@@ -4,7 +4,7 @@
       <span class="iconfont icon-three-bars"/>
       </button>
     <slot>
-      <h5>{{ title }}</h5>
+      <span class="ml-4">{{ title }}</span>
     </slot>
   </div>
 </template>
@@ -26,6 +26,8 @@ export default {
 @import (reference) '../vars';
 
 .header {
+  color: @heading-color;
+  font-size: 18px;
   position: sticky !important;
   z-index: 100;
   top: 98px;
@@ -55,10 +57,6 @@ export default {
       color: @border-color !important;
       font-size: 20px;
     }
-  }
-
-  & > h5 {
-    margin: 0 0 0 16px;
   }
 }
 </style>

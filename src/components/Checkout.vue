@@ -4,7 +4,7 @@
     class="checkout float-right ml-4 mr-3 pt-3"
   >
     <div class="label-yellow mb-2">
-      {{ timeToWait | ms }}
+      {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
     <button
       :disabled="isLoading || inProgress"
@@ -13,7 +13,7 @@
     >
       Upgrade
     </button>
-    <Loading v-if="isLoading"/>
+    <Loading v-if="isLoading || inProgress"/>
     <span class="ml-3 instant">Instant Upgrade</span>
     <button
       :disabled="isLoading"
@@ -27,21 +27,20 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
   props: ['id', 'level', 'coeff', 'hqLevel'],
   data() {
     return {
       isLoading: false,
-      timeToWait:
-        this.id === 'headquarters'
-          ? 2500 * ((Math.sqrt(625 + 100 * (this.level * 250)) - 25) / 50) * 1000
-          : ((this.coeff * 2000 * ((Math.sqrt(625 + 100 * (this.level * 250)) - 25) / 50)) /
-              this.hqLevel) *
-            1000,
+      timeToWait: 0,
     };
   },
   computed: {
+    buildingTime() {
+      return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
+    },
     inProgress() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
       if (!building) return false;
@@ -52,6 +51,15 @@ export default {
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
+    calculateTime() {
+      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
+      if (!building) return false;
+      const nextUpdate = new Date(building.next_update).getTime();
+      const now = new Date().getTime();
+      const self = this;
+      this.timeToWait = nextUpdate - now;
+      setTimeout(self.calculateTime, 1000);
+    },
     handleUpgradeBuilding() {
       this.isLoading = true;
       this.upgradeBuilding({ id: this.id, level: this.level })
@@ -71,6 +79,9 @@ export default {
       });
     },
   },
+  mounted: function() {
+    this.calculateTime();
+  }
 };
 </script>
 
@@ -83,9 +94,9 @@ export default {
   }
 
   &.progress {
-    opacity: 0.4;
+
     .btn-green {
-      background-image: linear-gradient(315deg, #00682b, #052c05 74%);
+      background-image: ;
     }
   }
 }

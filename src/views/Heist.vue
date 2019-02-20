@@ -46,17 +46,21 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     totalVest() {
-      return this.$store.state.game.user.heist[0].drugs;
+      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
     totalRewardSteem() {
-      return parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.heist_percent;
+      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
     },
     totalReward() {
-      return parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.steemprice * this.prizeProps.heist_percent;
+      return (
+        (parseFloat(this.prizeProps.balance) / 100) *
+        this.prizeProps.steemprice *
+        this.prizeProps.heist_percent
+      );
     },
     ownReward() {
-      const percent = 100 / this.prizeProps.heist_pool * this.totalVest;
-      const amount = this.totalReward / 100 * percent;
+      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
+      const amount = (this.totalReward / 100) * percent;
       return {
         amount,
         percent,
@@ -142,7 +146,7 @@ export default {
 .btn-green:active::before {
   top: -3px;
   box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 1px 1px 0px 0px #04641c,
-  2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
-  0px 10px 5px rgb(32, 32, 32);
+    2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
+    0px 10px 5px rgb(32, 32, 32);
 }
 </style>

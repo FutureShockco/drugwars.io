@@ -27,7 +27,7 @@ export default {
           lvl: 0,
         }
       );
-    }
+    },
   },
 };
 </script>

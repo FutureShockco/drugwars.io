@@ -1,10 +1,10 @@
 <template>
-  <Center>
+  <UiCenter>
     <div v-if="!isLoading && error">
       <h1>Oops!</h1>
       <h5>{{ error }}</h5>
     </div>
-  </Center>
+  </UiCenter>
 </template>
 
 <script>

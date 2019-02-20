@@ -15,15 +15,15 @@
        Defense : {{ unit.defense }}
        Speed : {{ unit.speed }}
        Capacity : {{ unit.capacity }}
-        <UnitCost
+        <Cost
           :amount="1"
-          :drugs_cost="unit.drugs_cost"
-          :weapons_cost="unit.weapons_cost"
-          :alcohols_cost="unit.alcohols_cost"
+          :drugsCost="unit.drugs_cost"
+          :weaponsCost="unit.weapons_cost"
+          :alcoholsCost="unit.alcohols_cost"
         />
       </div>
     </div>
-    <Checkout/>
+    <CheckoutUnit/>
   </div>
 </template>
 

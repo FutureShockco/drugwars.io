@@ -1,7 +1,9 @@
 <template>
   <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
     <div class="text-center mt-4">
-      <Avatar :size="100" :username="username"/>
+      <router-link to="/">
+        <Avatar :size="100" :username="username"/>
+      </router-link>
     </div>
     <ul>
       <li class="border-bottom pb-3 overflow-hidden">
@@ -41,7 +43,7 @@
       </li>
       <li>
         <router-link
-          to="/units"
+          to="/camp"
           class="py-2 px-4 d-block"
           @click.native="toggleSidebar"
         >
@@ -68,6 +70,15 @@
       </li>
       <li>
         <router-link
+          to="/heist"
+          class="py-2 px-4 d-block border-bottom"
+          @click.native="toggleSidebar"
+        >
+          Heist
+        </router-link>
+      </li>
+      <li>
+        <router-link
           to="/about"
           class="py-2 px-4 d-block border-bottom"
           @click.native="toggleSidebar"
@@ -76,16 +87,9 @@
         </router-link>
       </li>
     </ul>
-    <div>
-          <Prize
-      :total="total"
-      :totalDaily="totalDaily"
-      :totalHeist="totalHeist"
-      />
-    <Heist/>
-      <!-- <h3>{{ total | amount }}</h3>
-      <div>Daily: {{ totalDaily | amount }}</div>
-      <div>Heist: {{ totalHeist | amount }}</div> -->
+    <Balances/>
+    <div class="mb-4">
+      <Prize/>
     </div>
   </div>
 </template>
@@ -100,28 +104,6 @@ export default {
     },
     username() {
       return this.$store.state.auth.username;
-    },
-    prizeProps() {
-      return this.$store.state.game.prizeProps;
-    },
-    total() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
-        (prizePops.daily_percent + prizePops.heist_percent)
-      );
-    },
-    totalDaily() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
-      );
-    },
-    totalHeist() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
-      );
     },
   },
   methods: {
@@ -155,8 +137,11 @@ export default {
   }
 
   &--open {
-    left: 0 !important;
-    top: 114px;
+    left: 0;
+
+    @media @bp-small {
+      left: auto;
+    }
   }
 
   a {

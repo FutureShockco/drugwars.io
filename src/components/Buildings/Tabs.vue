@@ -1,11 +1,11 @@
 <template>
   <Header>
-    <h5>
-      <router-link to="buildings" class="mr-4">Office</router-link>
-      <router-link to="drugs" class="mr-4">Drugs</router-link>
-      <router-link to="weapons" class="mr-4">Weapons</router-link>
-      <router-link to="alcohol" class="mr-4">Alcohol</router-link>
-      <router-link to="defense" class="mr-4">Defense</router-link>
-    </h5>
+    <UiTabs>
+      <UiTab to="buildings">Office</UiTab>
+      <UiTab to="drugs">Drugs</UiTab>
+      <UiTab to="weapons">Weapons</UiTab>
+      <UiTab to="alcohol">Alcohol</UiTab>
+      <UiTab to="defense">Defense</UiTab>
+    </UiTabs>
   </Header>
 </template>

@@ -4,14 +4,13 @@
     class="checkout float-right ml-4 mr-3 pt-3"
   >
     <div class="label-yellow mb-2">
-      {{ inProgress ? timeToWait : buildingTime | ms }}
+      {{ inProgress ? timeToWait : recruitTime | ms }}
     </div>
     <button
       :disabled="isLoading || inProgress"
-      @click="handleUpgradeBuilding()"
       class="btn btn-block btn-green btn-success mb-2"
     >
-      Upgrade
+      Recruit
     </button>
     <Loading v-if="isLoading || inProgress"/>
     <span class="ml-3 instant">Instant upgrade</span>
@@ -27,61 +26,25 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel'],
+  props: ['id'],
   data() {
     return {
+      amount: 1,
       isLoading: false,
       timeToWait: 0,
+      recruitTime: 100,
     };
   },
-  computed: {
-    buildingTime() {
-      return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
-    },
-    inProgress() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (!building) return false;
-      const nextUpdate = new Date(building.next_update).getTime();
-      const now = new Date().getTime();
-      return nextUpdate >= now;
-    },
-  },
   methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
-    calculateTime() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (building) {
-        const nextUpdate = new Date(building.next_update).getTime();
-        const now = new Date().getTime();
-        const self = this;
-        this.timeToWait = nextUpdate - now;
-        setTimeout(self.calculateTime, 1000);
-      }
-    },
-    handleUpgradeBuilding() {
-      this.isLoading = true;
-      this.upgradeBuilding({ id: this.id, level: this.level })
-        .then(result => {
-          console.log('Result', result);
-          this.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed', e);
-          this.isLoading = false;
-        });
-    },
+    ...mapActions(['requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `upgrade:${this.id}`,
+        memo: `unit:${this.id},amount:${this.amount}`,
         amount: '0.123 STEEM',
       });
     },
-  },
-  mounted() {
-    this.calculateTime();
   },
 };
 </script>

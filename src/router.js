@@ -14,11 +14,12 @@ const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Dr
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
 const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Buildings/Defense.vue');
-const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Unit.vue');
-const Units = () => import(/* webpackChunkName: "units" */ '@/views/Units.vue');
-const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Trainings.vue');
+const Units = () => import(/* webpackChunkName: "units" */ '@/views/Camp/Units.vue');
+const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Camp/Unit.vue');
+const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Camp/Trainings.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
+const Heist = () => import(/* webpackChunkName: "heist" */ '@/views/Heist.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
 
@@ -130,6 +131,12 @@ export default new Router({
       name: 'leaderboard',
       beforeEnter: requireAuth,
       component: Leaderboard,
+    },
+    {
+      path: '/heist',
+      name: 'heist',
+      beforeEnter: requireAuth,
+      component: Heist,
     },
     {
       path: '/about',

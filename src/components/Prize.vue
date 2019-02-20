@@ -1,16 +1,16 @@
 <template>
   <div class="prize">
     <div class="text">Total Prize</div>
-    ${{parseFloat(this.total).toFixed(2)}}
+    ${{ parseFloat(total).toFixed(2) }}
     <div>
       <div class="prizes">
         <div class="width-half">
           <div>Daily</div>
-          ${{parseFloat(this.totalDaily).toFixed(2)}}
+          ${{ parseFloat(totalDaily).toFixed(2) }}
         </div>
         <div class="width-half">
           <div>Heist</div>
-          ${{parseFloat(this.totalHeist).toFixed(2)}}
+          ${{ parseFloat(totalHeist).toFixed(2) }}
         </div>
       </div>
     </div>
@@ -18,17 +18,49 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
-  props: ['total', 'totalDaily', 'totalHeist'],
+  computed: {
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
+    },
+    total() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
+        (prizePops.daily_percent + prizePops.heist_percent)
+      );
+    },
+    totalDaily() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
+      );
+    },
+    totalHeist() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
+      );
+    },
+  },
+  methods: {
+    ...mapActions(['toggleSidebarVisibility']),
+    toggleSidebar() {
+      if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1011px)').matches) {
+        this.toggleSidebarVisibility();
+      }
+    },
+  },
 };
 </script>
-
 
 <style scoped lang="less">
 .width-half {
   width: 50%;
   line-height: 20px;
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 
 .prize {
@@ -50,8 +82,8 @@ export default {
   -webkit-backface-visibility: hidden;
 }
 
-.text{
-     font-size: 0.8em;
+.text {
+  font-size: 0.8em;
 }
 
 .prizes {

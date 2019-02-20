@@ -13,7 +13,6 @@
 
 <script>
 import trainings from '@/helpers/trainings.json';
-import { pickBy } from 'lodash';
 
 export default {
   data() {

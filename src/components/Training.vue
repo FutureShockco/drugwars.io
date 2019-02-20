@@ -28,7 +28,7 @@
 <script>
 export default {
   props: ['training'],
-   computed: {
+  computed: {
     ownTraining() {
       return (
         this.$store.state.game.user.trainings.find(b => b.training === this.$props.training.id) || {

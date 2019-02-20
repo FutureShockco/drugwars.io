@@ -1,11 +1,16 @@
 <template>
   <div id="app">
-    <template v-if="!showLoading">
+    <Loading v-if="showLoading"/>
+    <template v-else>
       <Sidebar v-if="showSidebar"/>
           <Balances/>
-      <router-view :class="{'content': showSidebar, 'content--nav-open': sidebarVisible}" />
+      <router-view
+        :class="{
+          content: showSidebar,
+          'content--nav-open': sidebarVisible,
+        }"
+      />
     </template>
-    <Loading v-else/>
   </div>
 </template>
 
@@ -32,6 +37,18 @@ export default {
 
 <style scoped lang="less">
 @import './vars';
+
+#app {
+  min-height: 100%;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  background-color: @sidebar-bg-color;
+  display: table;
+  color: @text-color;
+  text-align: left !important;
+}
 
 .content {
   position: relative;

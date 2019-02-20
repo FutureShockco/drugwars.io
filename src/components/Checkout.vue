@@ -67,7 +67,10 @@ export default {
         });
     },
     handleRequestPayment() {
-      this.requestPayment();
+      this.requestPayment({
+        memo: `upgrade:${this.id}`,
+        amount: '0.123 STEEM'
+      });
     },
   },
 };

@@ -24,5 +24,6 @@ export default {
   display: inline-flex;
   margin-right: 5px;
   line-height: 17px;
+  width: 140px;
 }
 </style>

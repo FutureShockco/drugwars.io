@@ -27,7 +27,7 @@ export default {
     letter-spacing: 2px;
 
     &.active {
-      background-color: @primary-color;
+      background: linear-gradient(to bottom, #fbbd08, #fbb034 74%) !important;
       color: @bg-color;
     }
   }

@@ -128,7 +128,7 @@ export default {
   left: -@sidebar-width;
   width: @sidebar-width;
   overflow: auto;
-  background-color: @sidebar-bg-color;
+  background-color: rgb(0, 0, 0);
   transition: left 0.3s;
 
   @media @bp-small {
@@ -155,8 +155,13 @@ export default {
 
       .router-link-exact-active {
         opacity: 1;
-        background-color: @primary-color;
-        color: @bg-color;
+        color: black;
+        background: url(/img/icons/tab-brush.svg) black;
+        background-size: 100% 100%;
+        background-position: -20px;
+        text-shadow: 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08,
+          0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08;
+        background-repeat: no-repeat;
       }
 
       a {

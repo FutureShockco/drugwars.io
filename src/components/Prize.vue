@@ -77,21 +77,21 @@ export default {
   text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
   -webkit-background-clip: text;
   background-clip: revert;
-  -webkit-text-fill-color: #fbbd08;
+  -webkit-text-fill-color: #dea500;
   -webkit-animation: aitf-data-v-d15d71dc 80s linear infinite;
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
   background-size: 50px 50px;
-  background-color: #fbbd08;
-  background-image: -webkit-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.2) 25%,
+  background-color: #dea500;
+  background-image: linear-gradient(
+    45deg,
+    rgba(10, 10, 10, 0.2) 25%,
     transparent 25%,
     transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
+    #f0ff0c 50%,
+    rgb(251, 189, 8) 75%,
+    #ffc00024 75%,
+    #eff30085
   );
   background-image: -moz-linear-gradient(
     -45deg,
@@ -118,7 +118,7 @@ export default {
   /* Animate Background Image */
 
   -webkit-text-fill-color: transparent;
-  -webkit-animation: aitf 10s linear infinite;
+  -webkit-animation: aitf 3s linear infinite;
 
   /* Activate hardware acceleration for smoother animations */
 

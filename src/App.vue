@@ -2,6 +2,7 @@
   <div id="app">
     <Loading v-if="showLoading"/>
     <template v-else>
+      <TopNav/>
       <Sidebar v-if="showSidebar"/>
       <router-view
         :class="{
@@ -40,7 +41,7 @@ export default {
 #app {
   min-height: 100%;
   width: 100%;
-  max-width: 1160px;
+  max-width: @main-width;
   margin: 0 auto;
   overflow-x: hidden;
   background-color: @sidebar-bg-color;
@@ -52,6 +53,7 @@ export default {
 .content {
   position: relative;
   left: 0;
+  margin-top: @header-height;
   transition: left 0.3s;
 
   @media @bp-small {

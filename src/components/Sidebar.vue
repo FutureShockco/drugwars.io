@@ -87,7 +87,6 @@
         </router-link>
       </li>
     </ul>
-    <Balances/>
     <div class="mb-4">
       <Prize/>
     </div>
@@ -124,7 +123,7 @@ export default {
   z-index: @sidebar-zindex;
   font-size: 17px;
   position: fixed;
-  top: 0;
+  top: @header-height;
   bottom: 0;
   left: -@sidebar-width;
   width: @sidebar-width;

@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <Checkout/>
+    <CheckoutUnit/>
   </div>
 </template>
 

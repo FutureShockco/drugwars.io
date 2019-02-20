@@ -29,20 +29,9 @@
 </template>
 
 <script>
-import { calculateBuildingCost } from '@/helpers/utils';
-
 export default {
-  props: ['type', 'level', 'amount', 'drugs_cost', 'weapons_cost', 'alcohols_cost'],
+  props: ['type', 'level', 'amount', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
-    drugsCost() {
-      return calculateBuildingCost(this.drugs_cost, this.level);
-    },
-    weaponsCost() {
-      return calculateBuildingCost(this.weapons_cost, this.level);
-    },
-    alcoholsCost() {
-      return calculateBuildingCost(this.alcohols_cost, this.level);
-    },
     drugsBalance() {
       return this.$store.state.game.user.drugs_balance;
     },

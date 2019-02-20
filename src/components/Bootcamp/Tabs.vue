@@ -1,7 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="camp">Camp</UiTab>
+      <UiTab to="camp">Units</UiTab>
       <UiTab to="trainings">Trainings</UiTab>
     </UiTabs>
   </Header>

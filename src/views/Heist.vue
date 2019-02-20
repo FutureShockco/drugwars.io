@@ -1,23 +1,33 @@
 <template>
-  <div class="heist">
-    <img src="/img/lottery/heist.png">
-    <div>
-      <input
-        class="heist input"
-        type="number"
-        v-model="amount"
-      />
+  <div>
+    <Header title="Heist" />
+    <div class="p-4">
+      <div class="heist">
+        <img src="/img/lottery/heist.png">
+        <h1>${{ totalReward | amount }}</h1>
+        <h2>{{ totalRewardSteem | amount }} STEEM</h2>
+        <p>Total: {{ prizeProps.heist_pool | amount }} DRUGS</p>
+        <p>Total vest: {{ totalVest | amount }} DRUGS</p>
+        <p>Reward: {{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</p>
+        <form class="col-5 mx-auto" @submit.prevent="handleSubmit">
+          <input
+            class="input form-control input-block"
+            v-model="amount"
+            type="number"
+            min="0"
+            :max="1"
+          >
+          <button
+            :disabled="isLoading"
+            type="submit"
+            class="btn btn-green mt-2"
+          >
+            Invest DRUGS
+          </button>
+          <Loading v-if="isLoading"/>
+        </form>
+      </div>
     </div>
-    <form @submit.prevent="handleSubmit">
-      <button
-        :disabled="isLoading"
-        type="submit"
-        class="btn btn-block btn-green mt-2"
-      >
-        Deposit
-      </button>
-      <Loading v-if="isLoading"/>
-    </form>
   </div>
 </template>
 
@@ -30,6 +40,28 @@ export default {
       isLoading: false,
       amount: this.$store.state.game.user.user.drugs_balance,
     };
+  },
+  computed: {
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
+    },
+    totalVest() {
+      return this.$store.state.game.user.heist[0].drugs;
+    },
+    totalRewardSteem() {
+      return parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.heist_percent;
+    },
+    totalReward() {
+      return parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.steemprice * this.prizeProps.heist_percent;
+    },
+    ownReward() {
+      const percent = 100 / this.prizeProps.heist_pool * this.totalVest;
+      const amount = this.totalReward / 100 * percent;
+      return {
+        amount,
+        percent,
+      };
+    },
   },
   methods: {
     ...mapActions(['investHeist']),
@@ -53,12 +85,6 @@ export default {
 .heist {
   text-align: center;
   padding: 0px 15px;
-}
-
-.heist.input {
-  text-align: center;
-  color: #fbbd08;
-  width: 100%;
 }
 
 .btn-green {
@@ -116,7 +142,7 @@ export default {
 .btn-green:active::before {
   top: -3px;
   box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 1px 1px 0px 0px #04641c,
-    2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
-    0px 10px 5px rgb(32, 32, 32);
+  2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
+  0px 10px 5px rgb(32, 32, 32);
 }
 </style>

@@ -28,9 +28,9 @@ export default {
 .header {
   color: @heading-color;
   font-size: 18px;
-  position: sticky !important;
+  position: fixed;
   z-index: 100;
-  top: 98px;
+  top: 0;
   width: 100%;
   height: @header-height;
   background-color: #000;

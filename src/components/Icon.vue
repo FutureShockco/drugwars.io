@@ -3,9 +3,9 @@
     class="icon"
     :src="`/img/icons/${icon}.svg`"
     :style="{
-      'width': `${this.size}px`,
-      'height': `${this.size}px`,
-      'background': `${this.color}`,
+      width: `${this.size}px`,
+      height: `${this.size}px`,
+      background: `${this.color}`,
     }"
   />
 </template>

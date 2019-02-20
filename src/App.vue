@@ -3,7 +3,6 @@
     <Loading v-if="showLoading"/>
     <template v-else>
       <Sidebar v-if="showSidebar"/>
-          <Balances/>
       <router-view
         :class="{
           content: showSidebar,

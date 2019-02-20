@@ -11,13 +11,11 @@
         SPECIAL :
         <span class="text-green">{{ building.feature }}</span>
       </div>
-      <BuildingCost
+      <Cost
         class="ml-2"
-        :level="ownBuilding.lvl"
-        :amount="0"
-        :drugs_cost="building.drugs_cost"
-        :weapons_cost="building.weapons_cost"
-        :alcohols_cost="building.alcohols_cost"
+        :drugsCost="drugsCost"
+        :weaponsCost="weaponsCost"
+        :alcoholsCost="alcoholsCost"
       />
       <div v-if="building.production_type" class="ml-2">
         <BuildingProduction
@@ -39,6 +37,8 @@
 </template>
 
 <script>
+import { calculateBuildingCost } from '@/helpers/utils';
+
 export default {
   props: ['building'],
   computed: {
@@ -55,6 +55,15 @@ export default {
           lvl: 0,
         }
       );
+    },
+    drugsCost() {
+      return calculateBuildingCost(this.building.drugs_cost, this.ownBuilding.lvl);
+    },
+    weaponsCost() {
+      return calculateBuildingCost(this.building.weapons_cost, this.ownBuilding.lvl);
+    },
+    alcoholsCost() {
+      return calculateBuildingCost(this.building.alcohols_cost, this.ownBuilding.lvl);
     },
   },
 };

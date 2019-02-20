@@ -1,7 +1,9 @@
 <template>
   <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
     <div class="text-center mt-4">
-      <Avatar :size="100" :username="username"/>
+      <router-link to="/">
+        <Avatar :size="100" :username="username"/>
+      </router-link>
     </div>
     <ul>
       <li class="border-bottom pb-3 overflow-hidden">
@@ -68,6 +70,15 @@
       </li>
       <li>
         <router-link
+          to="/heist"
+          class="py-2 px-4 d-block border-bottom"
+          @click.native="toggleSidebar"
+        >
+          Heist
+        </router-link>
+      </li>
+      <li>
+        <router-link
           to="/about"
           class="py-2 px-4 d-block border-bottom"
           @click.native="toggleSidebar"
@@ -76,9 +87,9 @@
         </router-link>
       </li>
     </ul>
+    <Balances/>
     <div class="mb-4">
       <Prize/>
-      <Heist/>
     </div>
   </div>
 </template>
@@ -126,8 +137,11 @@ export default {
   }
 
   &--open {
-    left: 0 !important;
-    top: 114px;
+    left: 0;
+
+    @media @bp-small {
+      left: auto;
+    }
   }
 
   a {

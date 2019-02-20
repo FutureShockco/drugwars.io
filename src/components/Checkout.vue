@@ -53,12 +53,13 @@ export default {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
     calculateTime() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (!building) return false;
-      const nextUpdate = new Date(building.next_update).getTime();
-      const now = new Date().getTime();
-      const self = this;
-      this.timeToWait = nextUpdate - now;
-      setTimeout(self.calculateTime, 1000);
+      if (building) {
+        const nextUpdate = new Date(building.next_update).getTime();
+        const now = new Date().getTime();
+        const self = this;
+        this.timeToWait = nextUpdate - now;
+        setTimeout(self.calculateTime, 1000);
+      }
     },
     handleUpgradeBuilding() {
       this.isLoading = true;
@@ -79,9 +80,9 @@ export default {
       });
     },
   },
-  mounted: function() {
+  mounted() {
     this.calculateTime();
-  }
+  },
 };
 </script>
 
@@ -93,7 +94,8 @@ export default {
     opacity: 0.8;
   }
 
-  &.progress {}
+  &.progress {
+  }
 }
 
 .btn-blue {

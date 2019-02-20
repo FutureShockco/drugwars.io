@@ -57,7 +57,8 @@ export default {
     opacity: 0.8;
   }
 
-  &.progress {}
+  &.progress {
+  }
 }
 
 .btn-blue {

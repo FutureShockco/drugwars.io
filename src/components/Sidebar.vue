@@ -167,12 +167,18 @@ export default {
       a {
         font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
         text-decoration: none;
-        color: #f6f6f7;
-        opacity: 0.6;
+        color: #fbb034;
+        opacity: 0.8;
         letter-spacing: 2px;
         font-size: 20px;
       }
     }
+  }
+
+  .username {
+    position: absolute;
+    width: 100%;
+    top: 90px;
   }
 }
 </style>

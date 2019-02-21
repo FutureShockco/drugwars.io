@@ -52,10 +52,17 @@ export default {
   font-weight: 600;
   font-size: 15px;
   color: #c7c7c7;
-  line-height: 17px;
-
+  display: inline-flex;
   .not-enought {
     color: @error-color;
   }
+}
+
+.cost span {
+  margin-left: 5px;
+  display: inline-flex;
+}
+.cost span img {
+  margin-right: 5px;
 }
 </style>

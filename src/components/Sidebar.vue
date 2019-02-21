@@ -1,14 +1,17 @@
 <template>
   <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
-    <div class="text-center mt-4">
-      <router-link to="/">
+    <div class="text-center my-4">
+      <router-link
+        to="/"
+        @click.native="toggleSidebar"
+      >
         <Avatar :size="100" :username="username"/>
       </router-link>
     </div>
     <ul>
       <li class="border-bottom pb-3 overflow-hidden">
         <div
-          class="py-2 px-4 d-block text-center username"
+          class="py-1 px-4 d-block text-center username"
           @click.native="toggleSidebar"
         >
           {{ username }}
@@ -17,7 +20,8 @@
       <li>
         <router-link
           to="/"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Overview
         </router-link>
@@ -25,7 +29,8 @@
       <li>
         <router-link
           to="/missions"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Missions
         </router-link>
@@ -33,7 +38,8 @@
       <li>
         <router-link
           to="/buildings"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Buildings
         </router-link>
@@ -41,7 +47,8 @@
       <li>
         <router-link
           to="/camp"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Boot camp
         </router-link>
@@ -49,7 +56,8 @@
       <li>
         <router-link
           to="/battles"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Battles
         </router-link>
@@ -57,7 +65,8 @@
       <li>
         <router-link
           to="/leaderboard"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
+          @click.native="toggleSidebar"
         >
           Leaderboard
         </router-link>
@@ -65,7 +74,8 @@
       <li>
         <router-link
           to="/heist"
-          class="py-2 px-4 d-block border-bottom"
+          class="py-1 px-4 d-block border-bottom"
+          @click.native="toggleSidebar"
         >
           Heist
         </router-link>
@@ -73,7 +83,8 @@
       <li>
         <router-link
           to="/about"
-          class="py-2 px-4 d-block border-bottom"
+          class="py-1 px-4 d-block border-bottom"
+          @click.native="toggleSidebar"
         >
           About
         </router-link>
@@ -113,17 +124,18 @@ export default {
 
 .nav {
   z-index: @sidebar-zindex;
-  font-size: 17px;
   position: fixed;
   top: @header-height;
   bottom: 0;
   left: -@sidebar-width;
   width: @sidebar-width;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background-color: rgb(0, 0, 0);
   transition: left 0.3s;
 
   @media @bp-small {
+    top: @topnav-height;
     left: auto;
   }
 

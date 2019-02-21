@@ -58,6 +58,7 @@ export default {
 
   @media @bp-small {
     margin-left: @sidebar-width !important;
+    margin-top: @topnav-height;
   }
 
   &--nav-open {

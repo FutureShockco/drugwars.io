@@ -15,7 +15,6 @@
             v-model="amount"
             type="number"
             min="0"
-            :max="1"
           >
           <button
             :disabled="isLoading"

@@ -1,14 +1,17 @@
 <template>
   <div class="nav border-right" :class="{'nav--open': sidebarVisible}">
-    <div class="text-center mt-4">
-      <router-link to="/">
+    <div class="text-center my-4">
+      <router-link
+        to="/"
+        @click.native="toggleSidebar"
+      >
         <Avatar :size="100" :username="username"/>
       </router-link>
     </div>
     <ul>
       <li class="border-bottom pb-3 overflow-hidden">
         <div
-          class="py-2 px-4 d-block text-center username"
+          class="py-1 px-4 d-block text-center username"
           @click.native="toggleSidebar"
         >
           {{ username }}
@@ -17,7 +20,7 @@
       <li>
         <router-link
           to="/"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Overview
@@ -26,7 +29,7 @@
       <li>
         <router-link
           to="/missions"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Missions
@@ -35,7 +38,7 @@
       <li>
         <router-link
           to="/buildings"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Buildings
@@ -44,7 +47,7 @@
       <li>
         <router-link
           to="/camp"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Boot camp
@@ -53,7 +56,7 @@
       <li>
         <router-link
           to="/battles"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Battles
@@ -62,7 +65,7 @@
       <li>
         <router-link
           to="/leaderboard"
-          class="py-2 px-4 d-block"
+          class="py-1 px-4 d-block"
           @click.native="toggleSidebar"
         >
           Leaderboard
@@ -71,7 +74,7 @@
       <li>
         <router-link
           to="/heist"
-          class="py-2 px-4 d-block border-bottom"
+          class="py-1 px-4 d-block border-bottom"
           @click.native="toggleSidebar"
         >
           Heist
@@ -80,7 +83,7 @@
       <li>
         <router-link
           to="/about"
-          class="py-2 px-4 d-block border-bottom"
+          class="py-1 px-4 d-block border-bottom"
           @click.native="toggleSidebar"
         >
           About
@@ -121,17 +124,18 @@ export default {
 
 .nav {
   z-index: @sidebar-zindex;
-  font-size: 17px;
   position: fixed;
   top: @header-height;
   bottom: 0;
   left: -@sidebar-width;
   width: @sidebar-width;
-  overflow: auto;
-  background-color: @sidebar-bg-color;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: rgb(0, 0, 0);
   transition: left 0.3s;
 
   @media @bp-small {
+    top: @topnav-height;
     left: auto;
   }
 
@@ -155,16 +159,30 @@ export default {
 
       .router-link-exact-active {
         opacity: 1;
-        background-color: @primary-color;
-        color: @bg-color;
+        color: black;
+        background: url(/img/icons/tab-brush.svg) black;
+        background-size: 100% 100%;
+        background-position: -20px;
+        text-shadow: 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08,
+          0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08;
+        background-repeat: no-repeat;
       }
 
       a {
+        font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
         text-decoration: none;
-        color: #f6f6f7;
-        opacity: 0.6;
+        color: #fbb034;
+        opacity: 0.8;
+        letter-spacing: 2px;
+        font-size: 20px;
       }
     }
+  }
+
+  .username {
+    position: absolute;
+    width: 100%;
+    top: 90px;
   }
 }
 </style>

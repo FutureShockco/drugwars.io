@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="{ pending: isLoading, progress: inProgress }"
-    class="checkout float-right ml-4 mr-3 pt-3"
-  >
+  <div class="checkout float-right ml-4 mr-3 pt-3">
     <div class="label-yellow mb-2">
       {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
@@ -11,7 +8,7 @@
       @click="handleUpgradeBuilding()"
       class="btn btn-block btn-green btn-success mb-2"
     >
-      Upgrade
+      {{ inProgress ? 'Upgrading' : 'Upgrade' }}
     </button>
     <Loading v-if="isLoading || inProgress"/>
     <span class="ml-3 instant">Instant upgrade</span>
@@ -20,7 +17,7 @@
       @click="handleRequestPayment()"
       class="btn btn-block btn-blue mb-2"
     >
-      Steem
+      ${{ price | amount }}, {{ priceInSteem | amount }} STEEM
     </button>
   </div>
 </template>
@@ -30,7 +27,7 @@ import { mapActions } from 'vuex';
 import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel'],
+  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price'],
   data() {
     return {
       isLoading: false,
@@ -41,12 +38,8 @@ export default {
     buildingTime() {
       return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
-    inProgress() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (!building) return false;
-      const nextUpdate = new Date(building.next_update).getTime();
-      const now = new Date().getTime();
-      return nextUpdate >= now;
+    priceInSteem() {
+      return this.price / this.$store.state.game.prizeProps.steemprice;
     },
   },
   methods: {
@@ -92,9 +85,6 @@ export default {
 
   &.pending {
     opacity: 0.8;
-  }
-
-  &.progress {
   }
 }
 

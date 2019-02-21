@@ -5,7 +5,7 @@
     "score": 6,
     "image": "office",
     "name": "Headquarters",
-    "desc": "The headquarters coordinate the development and construction speed of your empire. The higher the level of the office, the quicker the other buildings will develop.",
+    "desc": "The headquarters coordinate the development speed of your empire. The higher the level of the office, the quicker the other buildings will develop.",
     "feature": "REDUCE THE UPGRADE TIME FOR BUILDINGS",
     "drugs_cost": 400,
     "weapons_cost": 800,

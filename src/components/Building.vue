@@ -1,14 +1,17 @@
 <template>
-  <div class="mb-4 d-flex flex-row border-bottom item">
+  <div
+    class="mb-4 d-flex flex-row border-bottom item"
+    :class="{ progress: inProgress }"
+  >
     <img class="preview" :src="`/img/buildings/${building.image}.png`">
     <div class="item-level">{{ ownBuilding.lvl }}</div>
     <div class="width-full mr-4">
-      <h5>{{ building.name }}</h5>
       <div class="item-description my-1">
+        <h5>{{ building.name }}</h5>
         <div class="ml-2" v-html="building.desc"></div>
       </div>
       <div v-if="building.feature" class="ml-2 item-special">
-        SPECIAL :
+        Special:
         <span class="text-green">{{ building.feature }}</span>
       </div>
       <Cost
@@ -32,6 +35,8 @@
       :level="ownBuilding.lvl + 1"
       :coeff="building.coeff"
       :hqLevel="ownHq.lvl"
+      :inProgress="inProgress"
+      :price="drugsCost / 10000"
     />
   </div>
 </template>
@@ -64,6 +69,15 @@ export default {
     },
     alcoholsCost() {
       return calculateBuildingCost(this.building.alcohols_cost, this.ownBuilding.lvl);
+    },
+    inProgress() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === this.building.id,
+      );
+      if (!building) return false;
+      const nextUpdate = new Date(building.next_update).getTime();
+      const now = new Date().getTime();
+      return nextUpdate >= now;
     },
   },
 };

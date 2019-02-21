@@ -39,7 +39,7 @@ export default {
       return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
     priceInSteem() {
-      return this.price / this.$store.state.game.prizeProps.steemprice;
+      return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
   },
   methods: {
@@ -69,7 +69,7 @@ export default {
     handleRequestPayment() {
       this.requestPayment({
         memo: `upgrade:${this.id}`,
-        amount: '0.123 STEEM',
+        amount: `${this.priceInSteem} STEEM`,
       });
     },
   },

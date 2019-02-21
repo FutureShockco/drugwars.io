@@ -74,7 +74,7 @@ const actions = {
     }),
   requestPayment: ({ rootState }, { memo, amount }) => {
     const { username } = rootState.auth;
-    const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount} STEEM&memo=${memo}`;
+    const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
     const win = window.open(url, '_blank');
     win.focus();
   },

@@ -71,7 +71,9 @@ export default {
       return calculateBuildingCost(this.building.alcohols_cost, this.ownBuilding.lvl);
     },
     inProgress() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.building.id);
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === this.building.id,
+      );
       if (!building) return false;
       const nextUpdate = new Date(building.next_update).getTime();
       const now = new Date().getTime();

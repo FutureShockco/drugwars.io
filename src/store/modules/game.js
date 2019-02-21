@@ -8,6 +8,7 @@ const state = {
   prizeProps: null,
   props: null,
   user: null,
+  fights: [],
 };
 
 const mutations = {
@@ -20,6 +21,9 @@ const mutations = {
   saveUser(_state, payload) {
     Vue.set(_state, 'user', payload);
   },
+  saveFights(_state, payload) {
+    Vue.set(_state, 'fights', payload);
+  },
 };
 
 const actions = {
@@ -30,10 +34,12 @@ const actions = {
         kbyte.requestAsync('get_props', null),
         kbyte.requestAsync('get_prize_props', null),
         kbyte.requestAsync('get_user', username),
-      ]).then(([props, prizeProps, user]) => {
+        kbyte.requestAsync('get_fights', username),
+      ]).then(([props, prizeProps, user, fights]) => {
         commit('saveProps', props);
         commit('savePrizeProps', prizeProps);
         commit('saveUser', user);
+        commit('saveFights', fights);
         resolve();
       });
     }),

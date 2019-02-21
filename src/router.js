@@ -18,6 +18,7 @@ const Units = () => import(/* webpackChunkName: "units" */ '@/views/Camp/Units.v
 const Unit = () => import(/* webpackChunkName: "unit" */ '@/views/Camp/Unit.vue');
 const Trainings = () => import(/* webpackChunkName: "trainings" */ '@/views/Camp/Trainings.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.vue');
+const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Heist = () => import(/* webpackChunkName: "heist" */ '@/views/Heist.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -125,6 +126,12 @@ export default new Router({
       name: 'battles',
       beforeEnter: requireAuth,
       component: Battles,
+    },
+    {
+      path: '/fights',
+      name: 'fights',
+      beforeEnter: requireAuth,
+      component: Fights,
     },
     {
       path: '/leaderboard',

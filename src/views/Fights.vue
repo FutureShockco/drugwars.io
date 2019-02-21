@@ -1,12 +1,10 @@
 <template>
   <div>
-    <Header title="Leaderboard" />
+    <FightsTabs/>
     <div class="p-4 after-header">
-      <Player
-        v-for="player in players"
-        :player="player"
-        :key="player.username"
-      />
+      <div v-for="fight in fights">
+        <h5>{{ fight.username }} vs {{ fight.target }} {{ fight.is_done }}</h5>
+      </div>
     </div>
   </div>
 </template>
@@ -17,8 +15,8 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
-    players() {
-      return this.$store.state.game.props.players;
+    fights() {
+      return this.$store.state.game.fights;
     },
   },
 };

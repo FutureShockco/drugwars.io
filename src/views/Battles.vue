@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Battles" />
+    <FightsTabs/>
     <div class="p-4 after-header">
       <UnitSelect
         v-for="ownUnit in ownUnits"

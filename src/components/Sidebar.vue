@@ -18,7 +18,6 @@
         <router-link
           to="/"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Overview
         </router-link>
@@ -27,7 +26,6 @@
         <router-link
           to="/missions"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Missions
         </router-link>
@@ -36,7 +34,6 @@
         <router-link
           to="/buildings"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Buildings
         </router-link>
@@ -45,7 +42,6 @@
         <router-link
           to="/camp"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Boot camp
         </router-link>
@@ -54,7 +50,6 @@
         <router-link
           to="/battles"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Battles
         </router-link>
@@ -63,7 +58,6 @@
         <router-link
           to="/leaderboard"
           class="py-2 px-4 d-block"
-          @click.native="toggleSidebar"
         >
           Leaderboard
         </router-link>
@@ -72,7 +66,6 @@
         <router-link
           to="/heist"
           class="py-2 px-4 d-block border-bottom"
-          @click.native="toggleSidebar"
         >
           Heist
         </router-link>
@@ -81,7 +74,6 @@
         <router-link
           to="/about"
           class="py-2 px-4 d-block border-bottom"
-          @click.native="toggleSidebar"
         >
           About
         </router-link>

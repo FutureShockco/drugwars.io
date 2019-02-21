@@ -72,6 +72,17 @@ const actions = {
         return resolve(result);
       });
     }),
+  startFight: ({ rootState }, { target, units }) =>
+    new Promise((resolve, reject) => {
+      const payload = {
+        target,
+        units,
+      };
+      sc.customEventNext(rootState.auth.username, 'fight', payload, (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
+      });
+    }),
   requestPayment: ({ rootState }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;

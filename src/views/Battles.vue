@@ -3,23 +3,63 @@
     <Header title="Battles" />
     <div class="p-4 after-header">
       <UnitSelect
-        v-for="unit in units"
-        :item="unit"
-        :key="unit"
+        v-for="ownUnit in ownUnits"
+        :item="ownUnit"
+        :key="ownUnit.id"
       />
-      <button class="btn btn-large btn-primary mb-6">
+      <div class="mb-4">
+        <h5>Target</h5>
+        <input
+          class="input form-control"
+          v-model="target"
+        >
+      </div>
+      <button
+        class="btn btn-large btn-primary mb-6"
+        @click="handleSubmit"
+      >
         Fight
       </button>
+      <Loading v-if="isLoading"/>
       <p>Battles are disabled temporarily and will come back with a lot of improvements, thank you for your understanding.</p>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
+  data() {
+    return {
+      isLoading: false,
+      target: null,
+      units: [
+        { key: 'bouncer', amount: 1 },
+        { key: 'knifer', amount: 1 },
+      ],
+    };
+  },
   computed: {
-    units() {
+    ownUnits() {
       return this.$store.state.game.user.units;
+    },
+  },
+  methods: {
+    ...mapActions(['startFight']),
+    handleSubmit() {
+      this.isLoading = true;
+      const payload = {
+        target: this.target.toLowerCase(),
+        units: this.units
+      };
+      this.startFight(payload).then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed to start a fight=', e);
+          this.isLoading = false;
+        });
     },
   },
 };

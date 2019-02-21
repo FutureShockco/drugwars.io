@@ -7,7 +7,7 @@ const client = steemconnect.Initialize({
   callbackURL: process.env.VUE_APP_SC_REDIRECT_URI,
 });
 
-client.customEventNext = (username, type, payload, cb) =>
+client.customEventNext = (author, type, payload, cb) =>
   client.broadcast(
     [
       [
@@ -15,8 +15,8 @@ client.customEventNext = (username, type, payload, cb) =>
         {
           id: customId,
           required_auths: [],
-          required_posting_auths: [username],
-          json: JSON.stringify({ type, payload }),
+          required_posting_auths: [author],
+          json: JSON.stringify({ author, type, payload }),
         },
       ],
     ],

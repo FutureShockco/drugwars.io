@@ -18,7 +18,6 @@ export default {
       return this.$store.state.auth.username;
     },
     players() {
-      console.log(this.$store.state.game.props.players);
       return this.$store.state.game.props.players;
     },
   },

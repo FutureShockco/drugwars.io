@@ -34,10 +34,7 @@ export default {
     return {
       isLoading: false,
       target: null,
-      units: [
-        { key: 'bouncer', amount: 1 },
-        { key: 'knifer', amount: 1 },
-      ],
+      units: [{ key: 'bouncer', amount: 1 }, { key: 'knifer', amount: 1 }],
     };
   },
   computed: {
@@ -51,9 +48,10 @@ export default {
       this.isLoading = true;
       const payload = {
         target: this.target.toLowerCase(),
-        units: this.units
+        units: this.units,
       };
-      this.startFight(payload).then(() => {
+      this.startFight(payload)
+        .then(() => {
           this.isLoading = false;
         })
         .catch(e => {

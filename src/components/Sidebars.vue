@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <div class="sidebars">
-      <div class="sidebar sidebar-left border-right" :class="{ 'sidebar-open': sidebarVisible }">
+      <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="text-center my-4">
           <router-link
             to="/"
@@ -75,17 +75,8 @@
           </li>
           <li>
             <router-link
-              to="/heist"
-              class="py-1 px-4 d-block border-bottom"
-              @click.native="toggleSidebar"
-            >
-              Heist
-            </router-link>
-          </li>
-          <li>
-            <router-link
               to="/about"
-              class="py-1 px-4 d-block border-bottom"
+              class="py-1 px-4 d-block border-bottom border-top"
               @click.native="toggleSidebar"
             >
               About
@@ -93,7 +84,7 @@
           </li>
         </ul>
       </div>
-      <div class="sidebar sidebar-right border-left pt-4">
+      <div class="sidebar sidebar-right border-left border-sm-right pt-4">
         <Prize/>
         <Heist/>
       </div>
@@ -128,6 +119,7 @@ export default {
 @import '../vars';
 
 .sidebar-container {
+  background-color: @sidebar-bg-color;
   position: fixed;
   top: 0;
   bottom: 0;

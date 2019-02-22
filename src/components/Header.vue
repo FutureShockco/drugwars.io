@@ -10,11 +10,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  props: {
-    title: {
-      type: String,
-    },
-  },
+  props: ['title'],
   methods: mapActions(['toggleSidebarVisibility']),
 };
 </script>
@@ -24,6 +20,7 @@ export default {
 
 .header {
   font-family: @heading-font;
+  background-color: @sidebar-bg-color;
   color: @white-darker;
   font-size: 20px;
   letter-spacing: 2px;
@@ -31,6 +28,7 @@ export default {
   top: 0;
   width: 100%;
   height: @header-height;
+  line-height: @header-height;
   display: flex;
   align-items: center;
   transition: width 0.3s;

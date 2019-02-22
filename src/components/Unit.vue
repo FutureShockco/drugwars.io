@@ -22,7 +22,14 @@
         />
       </div>
     </div>
-    <CheckoutUnit/>
+    <Checkout
+      id="headquarter"
+      :level="1"
+      :coeff="1"
+      :hqLevel="1"
+      :inProgress="inProgress"
+      :price="unit.drug_cost / 10000"
+    />
   </div>
 </template>
 

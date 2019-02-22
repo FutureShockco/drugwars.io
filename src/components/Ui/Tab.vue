@@ -30,7 +30,6 @@ export default {
     text-decoration: none;
     display: inline-block;
     padding: 0 15px;
-    line-height: 56px;
     letter-spacing: 2px;
     font-weight: normal;
 

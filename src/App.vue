@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Loading v-if="showLoading"/>
+    <Splash v-if="showLoading"/>
     <template v-else>
       <TopNav/>
       <Sidebar v-if="showSidebar"/>

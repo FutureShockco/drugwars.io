@@ -36,7 +36,7 @@ import { mapActions } from 'vuex';
 
 export default {
   methods: mapActions(['logout']),
-}
+};
 </script>
 
 <style scoped lang="less">

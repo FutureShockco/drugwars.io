@@ -1,5 +1,6 @@
 @import './vars';
 @import './fonts';
+@import './scrollbar';
 @import '//at.alicdn.com/t/font_1054599_bwp2in6k1ho.css';
 
 * {
@@ -8,13 +9,14 @@
 
 html {
   height: 100%;
-  background-color: @bg-color;
+  background: url('/img/bg.jpg') fixed @bg-color;
+  background-size: cover;
 }
 
 body {
   font-family: 'Circular-Pro-Book', Helvetica, Arial, sans-serif;
-  background: url('/img/bg.jpg') fixed @bg-color;
-  background-size: cover;
+  background-color: transparent;
+  height: 100%;
   min-height: 100% !important;
   display: flex;
   color: @text-color;
@@ -114,13 +116,6 @@ label {
 
 .entry-leave {
   display: none;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: @border-color;
-  border: 0;
-  background-clip: padding-box;
-  border-radius: 0;
 }
 
 .vue-ui-modal {

@@ -48,7 +48,6 @@ export default {
   font-family: @heading-font;
   width: 100%;
   line-height: 1.2em;
-  margin-right: @sidebar-width;
 
   img {
     height: 40px;

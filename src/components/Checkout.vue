@@ -13,7 +13,7 @@
         <i class="iconfont icon-tools"/> {{ inProgress ? 'Upgrading' : 'Upgrade' }}
       </template>
       <template v-else>
-        <Loading v-if="isLoading"/>
+        <Loading/>
       </template>
     </button>
     <div class="instant">Instant upgrade</div>

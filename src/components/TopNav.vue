@@ -57,6 +57,11 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
+    padding-right: 0;
+
+    @media @bp-small {
+      padding-right: @sidebar-width;
+    }
   }
 
   button {

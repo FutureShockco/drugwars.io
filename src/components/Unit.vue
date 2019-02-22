@@ -1,40 +1,43 @@
 <template>
-  <div class="mb-4 d-flex flex-row border-bottom item">
-    <img class="preview" :src="`/img/units/${unit.image}.png`">
-    <div class="width-full mr-4">
-      <div class="my-1 ml-2 ">
-        <h5>{{ unit.name }}</h5>
-        <div class="item-description" v-html="unit.desc"></div>
-        <div v-if="unit.feature" class="item-special">
-          Special: <span class="text-green">{{ unit.feature }}</span>
-        </div>
-        <div class="item-special">
-         Attack : {{ unit.attack }}
-         Defense : {{ unit.defense }}
-         Speed : {{ unit.speed }}
-         Capacity : {{ unit.capacity }}
-        </div>
-        <Cost
-          :amount="1"
-          :drugsCost="unit.drugs_cost"
-          :weaponsCost="unit.weapons_cost"
-          :alcoholsCost="unit.alcohols_cost"
-        />
+  <div
+    class="d-flex flex-row border-bottom item mb-4"
+    :class="{ progress: inProgress }"
+  >
+    <div class="mr-3">
+      <img class="preview" :src="`/img/units/${unit.image}.png`">
+    </div>
+    <div class="item-content width-full mr-3 mb-4">
+      <h5>{{ unit.name }}</h5>
+      <Cost
+        :drugsCost="unit.drugs_cost"
+        :weaponsCost="unit.weapons_cost"
+        :alcoholsCost="unit.alcohols_cost"
+      />
+      <div class="mb-2" v-html="unit.desc"></div>
+      <div class="item-special">
+        <i class="iconfont icon-tag"/> {{ unit.attack }}
+        <i class="iconfont icon-shield"/> {{ unit.defense }}
+        <i class="iconfont icon-zap"/> {{ unit.speed }}
+        <i class="iconfont icon-book"/> {{ unit.capacity }}
       </div>
     </div>
-    <Checkout
-      id="headquarter"
-      :level="1"
-      :coeff="1"
-      :hqLevel="1"
-      :inProgress="inProgress"
-      :price="unit.drug_cost / 10000"
-    />
+    <div>
+      <Checkout
+        :id="unit.id"
+        :inProgress="inProgress"
+        :price="unit.drugs_cost / 10000"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: ['unit'],
+  computed: {
+    inProgress() {
+      return false;
+    },
+  },
 };
 </script>

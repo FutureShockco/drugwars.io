@@ -5,7 +5,7 @@
       <UnitSelect
         v-for="ownUnit in ownUnits"
         :item="ownUnit"
-        :key="ownUnit.id"
+        :key="ownUnit.key"
       />
       <div class="mb-4">
         <h5>Target</h5>
@@ -38,7 +38,15 @@ export default {
   },
   computed: {
     ownUnits() {
-      return this.$store.state.game.user.units;
+      const units = [];
+      this.$store.state.game.user.units.forEach(unit => {
+        units.push({
+          key: unit.unit,
+          amount: unit.amount,
+        });
+      });
+      console.log(units);
+      return units;
     },
   },
   methods: {

@@ -24,7 +24,7 @@ export default {
   props: ['item'],
   computed: {
     unit() {
-      return units[this.$props.item.unit];
+      return units[this.$props.item.key];
     },
   },
 };

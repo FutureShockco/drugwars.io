@@ -9,9 +9,13 @@
       @click="handleUpgradeBuilding()"
       class="button btn-block button-upgrade mb-2 meter"
     >
-      <i class="iconfont icon-tools"/> {{ inProgress ? 'Upgrading' : 'Upgrade' }}
+      <template v-if="!isLoading">
+        <i class="iconfont icon-tools"/> {{ inProgress ? 'Upgrading' : 'Upgrade' }}
+      </template>
+      <template v-else>
+        <Loading v-if="isLoading"/>
+      </template>
     </button>
-    <Loading v-if="isLoading"/>
     <div class="instant">Instant upgrade</div>
     <button
       :disabled="isLoading"
@@ -83,6 +87,6 @@ export default {
 <style scoped lang="less">
 .checkout {
   text-align: center;
-  width: 200px;
+  width: 180px;
 }
 </style>

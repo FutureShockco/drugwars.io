@@ -1,3 +1,3 @@
 <template>
-  <VueLoadingBar unknown/>
+  <VueLoadingIndicator unknown/>
 </template>

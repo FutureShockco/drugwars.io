@@ -3,7 +3,7 @@
     <Splash v-if="showLoading"/>
     <template v-else>
       <TopNav/>
-      <Sidebar v-if="showSidebar"/>
+      <Sidebars v-if="showSidebar"/>
       <router-view
         :class="{
           content: showSidebar,
@@ -58,6 +58,7 @@ export default {
 
   @media @bp-small {
     margin-left: @sidebar-width !important;
+    margin-right: @sidebar-width !important;
     margin-top: @topnav-height;
   }
 

@@ -1,26 +1,26 @@
 <template>
   <div
-    class="mb-4 d-flex flex-row border-bottom item"
+    class="d-flex flex-row border-bottom item mb-4"
     :class="{ progress: inProgress }"
   >
-    <img class="preview" :src="`/img/buildings/${building.image}.png`">
+    <div class="m-2">
+      <img class="preview" :src="`/img/buildings/${building.image}.png`">
+    </div>
     <div class="item-level">{{ ownBuilding.lvl }}</div>
-    <div class="width-full mr-4">
-      <div class="item-description my-1">
-        <h5>{{ building.name }}</h5>
-        <div class="ml-2" v-html="building.desc"></div>
-      </div>
-      <div v-if="building.feature" class="ml-2 item-special">
-        Special:
-        <span class="text-green">{{ building.feature }}</span>
-      </div>
+    <div class="item-content m-2 width-full">
+      <h5>{{ building.name }}</h5>
       <Cost
         class="ml-2"
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
       />
-      <div v-if="building.production_type" class="ml-2">
+      <div class="item-description my-1" v-html="building.desc"></div>
+      <div v-if="building.feature" class="ml-2 mb-2 item-special">
+        Special:
+        <span class="text-green">{{ building.feature }}</span>
+      </div>
+      <div v-if="building.production_type" class="ml-2 mb-2">
         <BuildingProduction
           :compactview="0"
           :type="building.production_type"
@@ -30,14 +30,16 @@
         />
       </div>
     </div>
-    <Checkout
-      :id="building.id"
-      :level="ownBuilding.lvl + 1"
-      :coeff="building.coeff"
-      :hqLevel="ownHq.lvl"
-      :inProgress="inProgress"
-      :price="drugsCost / 10000"
-    />
+    <div class="ml-4 mr-3 pt-3 float-right">
+      <Checkout
+        :id="building.id"
+        :level="ownBuilding.lvl + 1"
+        :coeff="building.coeff"
+        :hqLevel="ownHq.lvl"
+        :inProgress="inProgress"
+        :price="drugsCost / 10000"
+      />
+    </div>
   </div>
 </template>
 

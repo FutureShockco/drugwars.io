@@ -9,6 +9,5 @@
 
 .tabs {
   overflow: hidden;
-  height: @header-height;
 }
 </style>

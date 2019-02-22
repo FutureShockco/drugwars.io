@@ -29,6 +29,8 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 
   &.avatar-medium {
     width: 64px;

@@ -14,6 +14,14 @@
   </div>
 </template>
 
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  methods: mapActions(['toggleSidebarVisibility']),
+};
+</script>
+
 <style lang="less" scoped>
 @import '../vars';
 

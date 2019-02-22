@@ -147,12 +147,11 @@ export default {
     }
   }
 
-  a {
-    text-decoration: none;
-  }
-
   ul {
     list-style: none;
+    font-family: @heading-font;
+    letter-spacing: 2px;
+    font-size: 20px;
 
     li {
       clear: both;
@@ -169,12 +168,8 @@ export default {
       }
 
       a {
-        font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
-        text-decoration: none;
-        color: #fbb034;
+        color: @white-darker;
         opacity: 0.8;
-        letter-spacing: 2px;
-        font-size: 20px;
       }
     }
   }

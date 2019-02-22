@@ -57,6 +57,8 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import '../vars';
+
 .width-half {
   width: 50%;
   line-height: 20px;
@@ -64,7 +66,7 @@ export default {
 }
 
 .prize {
-  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+  font-family: @heading-font;
   text-align: center;
   font-weight: 700;
   font-size: 2.8em;

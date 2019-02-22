@@ -23,8 +23,10 @@ export default {
 @import '../vars';
 
 .header {
-  color: @heading-color;
-  font-size: 18px;
+  font-family: @heading-font;
+  color: @white-darker;
+  font-size: 20px;
+  letter-spacing: 2px;
   z-index: 100;
   top: 0;
   width: 100%;

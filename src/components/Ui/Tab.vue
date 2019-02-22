@@ -19,7 +19,6 @@ export default {
   display: inline-block;
   text-transform: uppercase;
   color: black !important;
-  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
   background-color: #000;
   background-image: linear-gradient(to bottom, #000, #1f1f1f 74%) !important;
   box-shadow: 0 0 8px #000, 0 0 8px #000 !important;
@@ -27,7 +26,7 @@ export default {
   border-top: none;
 
   a {
-    color: @primary-color;
+    color: @white-darker;
     text-decoration: none;
     display: inline-block;
     padding: 0 15px;

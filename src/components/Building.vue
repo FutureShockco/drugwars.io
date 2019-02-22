@@ -5,9 +5,9 @@
   >
     <img class="preview" :src="`/img/buildings/${building.image}.png`">
     <div class="item-level">{{ ownBuilding.lvl }}</div>
-    <div class="width-full mr-4">
+    <div class="width-full m-2">
+      <h5>{{ building.name }}</h5>
       <div class="item-description my-1">
-        <h5>{{ building.name }}</h5>
         <div class="ml-2" v-html="building.desc"></div>
       </div>
       <div v-if="building.feature" class="ml-2 item-special">

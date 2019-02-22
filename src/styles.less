@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  font-family: 'Circular-Pro-Book', Helvetica, Arial, sans-serif;
+  font-family: @font;
   background-color: transparent;
   height: 100%;
   min-height: 100% !important;
@@ -26,6 +26,7 @@ body {
 }
 
 a {
+  text-decoration: none !important;
   color: @link-color;
   cursor: pointer;
 }
@@ -40,6 +41,7 @@ h3,
 h4,
 h5 {
   color: @heading-color;
+  font-family: @heading-font;
 }
 
 h5 {
@@ -52,7 +54,7 @@ h3,
 h4,
 b,
 .btn {
-  font-family: 'Circular-Pro-Bold', Helvetica, Arial, sans-serif;
+  font-family: @font;
   line-height: 16px;
 }
 
@@ -317,7 +319,7 @@ a.iconfont:hover {
 }
 
 .username {
-  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+  font-family: @heading-font;
   font-size: 26px;
   text-transform: uppercase;
   transform: skew(-24deg) rotate(-10deg);
@@ -375,7 +377,6 @@ a.iconfont:hover {
   }
 
   .item-description {
-    font-style: italic;
     font-weight: 600;
     font-size: 14px;
     padding: 2px;

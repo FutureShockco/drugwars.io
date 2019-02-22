@@ -3,24 +3,23 @@
     class="d-flex flex-row border-bottom item mb-4"
     :class="{ progress: inProgress }"
   >
-    <div class="m-2">
+    <div class="mr-3">
       <img class="preview" :src="`/img/buildings/${building.image}.png`">
     </div>
     <div class="item-level">{{ ownBuilding.lvl }}</div>
-    <div class="item-content m-2 width-full">
+    <div class="item-content width-full mr-3 mb-4">
       <h5>{{ building.name }}</h5>
       <Cost
-        class="ml-2"
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
       />
-      <div class="item-description my-1" v-html="building.desc"></div>
-      <div v-if="building.feature" class="ml-2 mb-2 item-special">
+      <div class="mb-2" v-html="building.desc"></div>
+      <div v-if="building.feature" class="mb-2">
         Special:
         <span class="text-green">{{ building.feature }}</span>
       </div>
-      <div v-if="building.production_type" class="ml-2 mb-2">
+      <div v-if="building.production_type" class="mb-2">
         <BuildingProduction
           :compactview="0"
           :type="building.production_type"
@@ -30,7 +29,7 @@
         />
       </div>
     </div>
-    <div class="ml-4 mr-3 pt-3 float-right">
+    <div class="float-right">
       <Checkout
         :id="building.id"
         :level="ownBuilding.lvl + 1"

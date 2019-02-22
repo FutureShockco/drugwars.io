@@ -350,11 +350,6 @@ a.iconfont:hover {
 }
 
 .item {
-  background-color: #000;
-  background-image: linear-gradient(315deg, #000, #0e0e0e 74%);
-  border: 1px solid #282828;
-  -webkit-box-shadow: 0 0 8px #000, 0 0 8px #000;
-  box-shadow: inset 0 0 8px #696969, 0 0 8px #000, 0 0 8px #000;
 
   &.progress {
     .preview {
@@ -365,20 +360,13 @@ a.iconfont:hover {
     }
   }
 
-  .item-description {
-    border-radius: 4px;
-    border: 1px solid #252525;
-    padding: 6px 12px 8px;
-  }
-
   .item-special {
-    font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .item-level{
     position: absolute;
-    left: 40px;
+    left: 15px;
     margin-top: 10px;
     background: #fbbd08;
     padding: 0 5px;
@@ -394,10 +382,7 @@ a.iconfont:hover {
     letter-spacing: 1px;
     font-size: 20px;
     text-transform: uppercase;
-    color: #fbbd08!important;
-    margin: 0;
-    width: fit-content;
-    padding: 0 5px;
+    color: @primary-color;
   }
 }
 

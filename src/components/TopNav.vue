@@ -74,21 +74,5 @@ export default {
       font-size: 20px;
     }
   }
-
-  .balances {
-    li {
-      display: inline-block;
-
-      img {
-        width: 24px;
-      }
-    }
-
-    @media @bp-small {
-      img {
-        width: 38px !important;
-      }
-    }
-  }
 }
 </style>

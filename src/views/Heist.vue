@@ -94,7 +94,6 @@ export default {
   width: calc(100% - 30px);
   margin-left: 30px;
   line-height: 10px;
-  font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
   color: #fff;

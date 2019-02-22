@@ -90,7 +90,6 @@ export default {
 
 .btn-blue {
   line-height: 10px;
-  font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
   color: #fff;
@@ -146,7 +145,6 @@ export default {
 
 .btn-green {
   line-height: 10px;
-  font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
   color: #fff;
@@ -207,7 +205,6 @@ export default {
   font-weight: 700;
   text-align: center;
   line-height: 22px;
-  font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
   color: #fff;

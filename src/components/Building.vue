@@ -3,24 +3,25 @@
     class="mb-4 d-flex flex-row border-bottom item"
     :class="{ progress: inProgress }"
   >
+    <div class="p-3">
     <img class="preview" :src="`/img/buildings/${building.image}.png`">
+    </div>
     <div class="item-level">{{ ownBuilding.lvl }}</div>
     <div class="width-full mr-4">
-      <div class="item-description my-1">
+      <div class="item-description mt-2">
         <h5>{{ building.name }}</h5>
-        <div class="ml-2" v-html="building.desc"></div>
-      </div>
-      <div v-if="building.feature" class="ml-2 item-special">
-        Special:
-        <span class="text-green">{{ building.feature }}</span>
+        <div v-html="building.desc"></div>
+        <div v-if="building.feature" class="item-special">
+          Special:
+          <span class="text-green">{{ building.feature }}</span>
+        </div>
       </div>
       <Cost
-        class="ml-2"
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
       />
-      <div v-if="building.production_type" class="ml-2">
+      <div v-if="building.production_type">
         <BuildingProduction
           :compactview="0"
           :type="building.production_type"

@@ -30,6 +30,7 @@ export default {
   width: 100%;
   height: @header-height;
   display: flex;
+  background: #2a2a34;
   align-items: center;
   transition: width 0.3s;
 }

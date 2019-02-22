@@ -31,6 +31,7 @@ export default {
 
 <style scoped lang="less">
 .icon {
+  margin-bottom: -3px;
   border-radius: 50%;
   background-size: cover;
   background-repeat: no-repeat;

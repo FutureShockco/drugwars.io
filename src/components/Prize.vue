@@ -1,5 +1,5 @@
 <template>
-  <div class="prize">
+  <div class="prize pt-2">
     <div class="text">Total Prize</div>
     ${{ parseFloat(total).toFixed(2) }}
     <div>
@@ -59,22 +59,23 @@ export default {
 <style scoped lang="less">
 .width-half {
   width: 50%;
-  line-height: 20px;
+  line-height: 25px;
   margin: 10px 0;
 }
 
 .prize {
-  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+  font-family: 'American Captain', Helvetica, Arial, sans-serif;
   text-align: center;
   font-weight: 700;
-  font-size: 2.8em;
-  line-height: 38px;
+  font-size: 3.3em;
+  line-height: 50px;
   width: 100%;
   display: block;
+  border: 2px #d77300 solid;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   margin: 0 auto;
-  text-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 1px #ffbd008f;
   -webkit-background-clip: text;
   background-clip: revert;
   -webkit-text-fill-color: #dea500;
@@ -105,13 +106,13 @@ export default {
   );
   background-image: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.2) 25%,
+    rgba(255, 255, 255, 0.4) 25%,
     transparent 25%,
     transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
+    #ffe69c 50%,
+    rgb(255, 189, 2) 75%,
+    #ff000000 75%,
+    #ffd400d9
   );
   -webkit-background-clip: text;
 
@@ -143,11 +144,13 @@ export default {
 }
 
 .text {
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
 .prizes {
   display: -webkit-box;
   font-size: 0.5em;
+  border-top: 1px solid #5b5b5b;
+  margin: 5px;
 }
 </style>

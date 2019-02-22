@@ -44,7 +44,7 @@ export default {
   max-width: @main-width;
   margin: 0 auto;
   overflow-x: hidden;
-  background-color: @sidebar-bg-color;
+  //background-color: @sidebar-bg-color;
   display: table;
   color: @text-color;
   text-align: left !important;

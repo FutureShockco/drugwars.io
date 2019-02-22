@@ -89,119 +89,72 @@ export default {
 }
 
 .btn-blue {
+  border: none;
   line-height: 10px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
-  color: #fff;
-  position: relative;
-  border: solid 0px #2ab7ec;
-  background-image: linear-gradient(315deg, #04609e, #1c174c 74%);
-  box-shadow: inset 0px 0px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
-  border-radius: 0px 5px 5px 0px;
-}
-
-.btn-blue:active {
-  top: 3px;
-  background-image: linear-gradient(to bottom, #04609e 0%, #1c174c 100%);
-  box-shadow: inset 0px 1px 0px #2a67ec, 0px 2px 0px 0px #154685, 0px 5px 3px rgb(32, 32, 32);
-}
-
-.btn-blue:hover {
-  background-image: linear-gradient(to bottom, #04609e 0%, #1c174c 100%);
-  box-shadow: inset 0px 1px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
-}
-
-.btn-blue::before {
-  background: url('/img/icons/steem.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40%;
-  background-color: #1d1d1d;
-  content: '';
-  width: 30px;
-  line-height: 10px;
-  max-height: 12px;
-  height: 100%;
-  position: absolute;
-  display: block;
-  padding-top: 8px;
-  top: 0px;
-  left: -30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #8fd1ea;
-  text-shadow: 1px 1px 0px #07526e;
-  border: solid 1px #2a67ec;
-  box-shadow: inset 0px 0px 0px #2a67ec, 0px 5px 0px 0px #154685, 0px 10px 5px rgb(32, 32, 32);
-  border-radius: 5px 0px 0px 5px;
-}
-
-.btn-blue:active::before {
-  top: -3px;
-  box-shadow: inset 0px 0px 0px #2a67ec, 0px 5px 0px 0px #154685, 1px 1px 0px 0px #044a64,
-    2px 2px 0px 0px #044a64, 2px 5px 0px 0px #044a64, 6px 4px 2px #0b698b,
-    0px 10px 5px rgb(32, 32, 32);
+  background-image: -webkit-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #04609e -150%,
+    #04609e 45%,
+    #132fb9 85%
+  );
+  background-image: -o-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #04609e -150%,
+    #04609e 45%,
+    #132fb9 85%
+  );
+  background-image: -moz-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #04609e -150%,
+    #04609e 45%,
+    #132fb9 85%
+  );
+  background-image: radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #04609e -150%,
+    #04609e 45%,
+    #132fb9 85%
+  );
 }
 
 .btn-green {
+  border: none;
   line-height: 10px;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
-  color: #fff;
-  position: relative;
-  border: solid 0px #2aec2a;
-  background-image: linear-gradient(315deg, #1e9e04, #1b4c17 74%);
-  box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
-  border-radius: 0px 5px 5px 0px;
-}
-
-.btn-green:active {
-  top: 3px;
-  background-image: linear-gradient(to bottom, #1e9e04 0%, #1b4c17 100%);
-  box-shadow: inset 0px 1px 0px #2aec2a, 0px 2px 0px 0px #228515, 0px 5px 3px rgb(32, 32, 32);
-}
-
-.btn-green:hover {
-  background-image: linear-gradient(to bottom, #1e9e04 0%, #1b4c17 100%);
-  box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
-}
-
-.btn-green::before {
-  background: url('/img/icons/resources.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40%;
-  background-color: #1d1d1d;
-  content: '';
-  width: 30px;
-  line-height: 10px;
-  max-height: 12px;
-  height: 100%;
-  position: absolute;
-  display: block;
-  padding-top: 8px;
-  top: 0px;
-  left: -30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #9eea8f;
-  border: solid 1px #2aec2a;
-  text-shadow: 1px 1px 0px #076e15;
-  border-right: solid 1px #076e10;
-  box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 0px 10px 5px rgb(32, 32, 32);
-  border-radius: 5px 0px 0px 5px;
-}
-
-.btn-green:active::before {
-  top: -3px;
-  box-shadow: inset 0px 0px 0px #2aec2a, 0px 5px 0px 0px #228515, 1px 1px 0px 0px #04641c,
-    2px 2px 0px 0px #04641c, 2px 5px 0px 0px #04641c, 6px 4px 2px #0b8b20,
-    0px 10px 5px rgb(32, 32, 32);
+  color: white;
+  background-image: -webkit-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #097a14 -150%,
+    #289f31 45%,
+    #25ba2f 85%
+  );
+  background-image: -o-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #097a14 -150%,
+    #289f31 45%,
+    #25ba2f 85%
+  );
+  background-image: -moz-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #097a14 -150%,
+    #289f31 45%,
+    #25ba2f 85%
+  );
+  background-image: radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #097a14 -150%,
+    #289f31 45%,
+    #25ba2f 85%
+  );
 }
 
 .label-yellow {
+  border-radius: 5px;
   color: black !important;
   pointer-events: none;
   font-weight: 700;
@@ -210,39 +163,30 @@ export default {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   text-decoration: none;
-  color: #fff;
-  position: relative;
-  border: solid 0px #fbb034;
-  top: 3px;
-  background-image: linear-gradient(to bottom, #fd0 0%, #fbb034 100%);
-  box-shadow: inset 0px 1px 0px #fbb034, 0px 2px 0px 0px #857e15, 0px 5px 3px rgb(32, 32, 32);
-  border-radius: 0px 5px 5px 0px;
-}
-
-.label-yellow::before {
-  background: url(/img/icons/timer.svg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40%;
-  background-color: #1d1d1d;
-  content: '';
-  width: 30px;
-  line-height: 10px;
-  max-height: 12px;
-  height: 100%;
-  position: absolute;
-  display: block;
-  padding-top: 8px;
-  top: -3px;
-  left: -30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #000000;
-  text-shadow: 1px 1px 0px #6e6c07;
-  border: solid 1px #fecd1d;
-  -webkit-box-shadow: inset 0px 0px 0px #fbb034, 0px 5px 0px 0px #857e15, 0px 10px 5px #202020;
-  box-shadow: inset 0px 0px 0px #fbb034, 0px 5px 0px 0px #857e15, 0px 10px 5px #202020;
-  border-radius: 5px 0px 0px 5px;
+  background-image: -webkit-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #ffc400 -150%,
+    #ffc400 45%,
+    #ff8800 85%
+  );
+  background-image: -o-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #ffc400 -150%,
+    #ffc400 45%,
+    #ff8800 85%
+  );
+  background-image: -moz-radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #ffc400 -150%,
+    #ffc400 45%,
+    #ff8800 85%
+  );
+  background-image: radial-gradient(
+    ellipse farthest-corner at center 0px,
+    #ffc400 -150%,
+    #ffc400 45%,
+    #ff8800 85%
+  );
 }
 
 .instant {

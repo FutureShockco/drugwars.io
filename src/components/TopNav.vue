@@ -38,10 +38,11 @@
 
   .topnav-logo {
     text-align: center;
-    width: @sidebar-width;
+    padding: 0 20px;
+    margin-right: 20px;
 
     img {
-      width: 100%;
+      width: calc(@sidebar-width - 40px);
     }
   }
 

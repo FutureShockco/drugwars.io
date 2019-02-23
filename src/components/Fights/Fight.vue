@@ -22,6 +22,11 @@
           :username="fight.target"
         />
         <div>{{ fight.target }}</div>
+        <div class="mb-4" v-if="jsonEnd">
+          <p v-if="jsonEnd.target_units" v-for="unit in jsonEnd.target_units">
+            <img width="40" :src="`/img/units/${unit.key}.png`"> x {{ unit.amount }}
+          </p>
+        </div>
       </div>
     </div>
     <div>

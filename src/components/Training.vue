@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4 d-flex flex-row border-bottom item">
-      <img class="preview" :src="`/img/trainings/${training.image}.png`"/>
+      <img class="preview" :src="`/img/trainings/${training.id}.png`"/>
     <div class="width-full mr-4">
       <router-link :to="'/trainings/' + training.id">
         <h5>{{ training.name }}</h5>

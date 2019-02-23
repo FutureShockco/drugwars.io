@@ -4,7 +4,7 @@
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">
-      <img class="preview" :src="`/img/buildings/${building.image}.png`">
+      <img class="preview" :src="`/img/buildings/${building.id}.png`">
     </div>
     <div class="item-level">{{ ownItem.lvl }}</div>
     <div class="item-content width-full mr-3 mb-4">

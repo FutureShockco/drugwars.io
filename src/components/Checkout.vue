@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      timeToWait: 0,
     };
   },
   computed: {
@@ -46,19 +45,17 @@ export default {
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
-  },
-  methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
-    calculateTime() {
+    timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
       if (building) {
         const nextUpdate = new Date(building.next_update).getTime();
-        const now = new Date().getTime();
-        const self = this;
-        this.timeToWait = nextUpdate - now;
-        setTimeout(self.calculateTime, 1000);
+        const now = this.$store.state.ui.timestamp;
+        return nextUpdate - now;
       }
     },
+  },
+  methods: {
+    ...mapActions(['upgradeBuilding', 'requestPayment']),
     handleUpgradeBuilding() {
       this.isLoading = true;
       this.upgradeBuilding({ id: this.id, level: this.level })
@@ -77,9 +74,6 @@ export default {
         amount: `${this.priceInSteem} STEEM`,
       });
     },
-  },
-  mounted() {
-    this.calculateTime();
   },
 };
 </script>

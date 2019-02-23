@@ -2,12 +2,12 @@
   <footer class="footer">
     <ul class="columns mx-2 pb-2">
       <li class="column col-4">
-        <a
-          href="#"
+        <router-link
+          to="/about"
           class="d-block text-center"
         >
           <i class="iconfont icon-question"/>
-        </a>
+        </router-link>
       </li>
       <li class="column col-4">
         <a

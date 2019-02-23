@@ -8,17 +8,25 @@
     </div>
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ unit.name }}</h5>
+      <div class="mb-2" v-html="unit.desc"></div>
       <Cost
         :drugsCost="unit.drugs_cost"
         :weaponsCost="unit.weapons_cost"
         :alcoholsCost="unit.alcohols_cost"
       />
-      <div class="mb-2" v-html="unit.desc"></div>
       <div class="item-special">
-        <i class="iconfont icon-tag"/> {{ unit.attack }}
-        <i class="iconfont icon-shield"/> {{ unit.defense }}
-        <i class="iconfont icon-zap"/> {{ unit.speed }}
-        <i class="iconfont icon-book"/> {{ unit.capacity }}
+        <span class="mr-2">
+          <i class="iconfont icon-target text-red"/>
+          {{ unit.attack }}
+        </span>
+        <span class="mr-2">
+          <i class="iconfont icon-shield1 text-blue"/>
+          {{ unit.defense }}
+        </span>
+        <span class="mr-2">
+          <i class="iconfont icon-run text-green"/>
+          {{ unit.speed }}
+        </span>
       </div>
     </div>
     <div>

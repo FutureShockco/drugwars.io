@@ -3,6 +3,7 @@ import Vue from 'vue';
 const state = {
   sidebarVisible: false,
   showLoading: false,
+  timestamp: new Date().getTime(),
 };
 
 const mutations = {
@@ -15,6 +16,9 @@ const mutations = {
   hideLoading(_state) {
     Vue.set(_state, 'showLoading', false);
   },
+  updateTimestamp(_state) {
+    Vue.set(_state, 'timestamp', new Date().getTime());
+  },
 };
 
 const actions = {
@@ -26,6 +30,9 @@ const actions = {
   },
   hideLoading({ commit }) {
     commit('hideLoading');
+  },
+  updateTimestamp({ commit }) {
+    commit('updateTimestamp');
   },
 };
 

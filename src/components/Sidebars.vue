@@ -2,10 +2,7 @@
   <div class="sidebar-container">
     <div class="sidebars">
       <SidebarLeft/>
-      <div class="sidebar sidebar-right border-left border-sm-right pt-4">
-        <Prize/>
-        <Heist/>
-      </div>
+      <SidebarRight/>
     </div>
   </div>
 </template>

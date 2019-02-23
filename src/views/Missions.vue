@@ -2,11 +2,11 @@
   <div>
     <Header title="Missions" />
     <div class="p-4 after-header">
-      <div class="d-flex flex-row">
+      <div class="d-flex flex-row border-bottom mb-6 pb-4">
         <div>
           <img width="100" height="100" class="mr-4" src="/img/me.png"/>
         </div>
-        <p class="mb-8">Hey <b>{{ username }}</b>! You seem to be just arrived in the city. You may try to make some friends but I rather suggest you to start to defend yourself before starting any friendship. Nobody knows how much time you will stand there, but everyone will try to steal what you are producing! You should fulfill theses missions before getting some new ones.</p>
+        <p>Hey <b>{{ username }}</b>! You seem to be just arrived in the city. You may try to make some friends but I rather suggest you to start to defend yourself before starting any friendship. Nobody knows how much time you will stand there, but everyone will try to steal what you are producing! You should fulfill theses missions before getting some new ones.</p>
       </div>
       <ul class="missions">
         <li><i class="iconfont icon-check text-green mr-2"/> Upgrade the headquarters</li>

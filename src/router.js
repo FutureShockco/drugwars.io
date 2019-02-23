@@ -21,9 +21,14 @@ const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Battles.
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
+const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
 
 Vue.use(Router);
+
+setInterval(() => {
+  store.dispatch('updateTimestamp');
+}, 1000);
 
 const requireAuth = (to, from, next) => {
   if (!store.state.auth.username) {
@@ -143,6 +148,12 @@ export default new Router({
       name: 'about',
       beforeEnter: requireAuth,
       component: About,
+    },
+    {
+      path: '/help',
+      name: 'help',
+      beforeEnter: requireAuth,
+      component: Help,
     },
     {
       path: '/login',

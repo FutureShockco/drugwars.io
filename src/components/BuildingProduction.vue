@@ -1,10 +1,12 @@
 <template>
   <div class="production">
-    <div v-if="this.production_rate">
-      Current : {{ parseFloat((this.production_rate * this.level * this.coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
+    <div v-if="production_rate">
+      <b>Current:</b>
+      {{ parseFloat((production_rate * level * coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
     </div>
-    <div v-if="this.level && !this.compactview">
-      Next : {{ parseFloat((this.production_rate * (this.level+1) * this.coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
+    <div v-if="level && !compactview">
+      <b>Next:</b>
+      {{ parseFloat((production_rate * (level+1) * coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
     </div>
   </div>
 </template>

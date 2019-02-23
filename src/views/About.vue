@@ -18,7 +18,7 @@
       </p>
       <h3>Changelog</h3>
       <ul>
-        <li v-for="change in changelog">
+        <li :key="key" v-for="(change, key) in changelog">
           {{ change }}
         </li>
       </ul>

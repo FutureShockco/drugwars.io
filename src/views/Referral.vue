@@ -6,7 +6,7 @@
       <p>Use the link below and obtain 5% Bonus on their STEEM rewards</p>
       <input class="input input-block" :value="uri"/>
       <h2>Your referrals</h2>
-      <div v-for="referral in referrals">
+      <div :key="key" v-for="(referral, key) in referrals">
         {{ referral.username }}
       </div>
     </div>

@@ -32,7 +32,7 @@ const actions = {
         resolve();
       }
     }),
-  logout: ({ commit }) => {
+  logout: () => {
     localStorage.removeItem('drugwars_token');
     window.location = '/';
   },

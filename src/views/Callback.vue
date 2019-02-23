@@ -15,12 +15,13 @@ export default {
   methods: mapActions(['showLoading', 'hideLoading', 'login']),
   created() {
     this.showLoading();
-    this.login(this.accessToken).then(() => {
-      window.location = '/';
-    })
-    .catch((e) => {
-      console.error('Your access token is not valid', e);
-    });
+    this.login(this.accessToken)
+      .then(() => {
+        window.location = '/';
+      })
+      .catch(e => {
+        console.error('Your access token is not valid', e);
+      });
   },
 };
 </script>

@@ -55,6 +55,7 @@ export default {
         const now = this.$store.state.ui.timestamp;
         return nextUpdate - now;
       }
+      return 0;
     },
   },
   methods: {

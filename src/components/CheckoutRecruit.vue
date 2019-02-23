@@ -32,7 +32,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
   props: ['id', 'inProgress', 'price'],
@@ -55,6 +54,7 @@ export default {
         const now = this.$store.state.ui.timestamp;
         return nextUpdate - now;
       }
+      return 0;
     },
   },
   methods: {

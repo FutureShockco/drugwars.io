@@ -1,13 +1,10 @@
 <template>
-  <UiCenter>
-    <div v-if="!isLoading && error">
-      <h1>Oops!</h1>
-      <h5>{{ error }}</h5>
-    </div>
-  </UiCenter>
+  <Splash/>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -15,18 +12,15 @@ export default {
       error: null,
     };
   },
+  methods: mapActions(['showLoading', 'hideLoading', 'login']),
   created() {
-    this.$store.dispatch('showLoading');
-    this.$store
-      .dispatch('login', this.accessToken)
-      .then(() => {
-        this.$store.dispatch('hideLoading');
-        this.$router.push('/');
-      })
-      .catch(() => {
-        this.$store.dispatch('hideLoading');
-        this.error = 'Your access token is not valid';
-      });
+    this.showLoading();
+    this.login(this.accessToken).then(() => {
+      window.location = '/';
+    })
+    .catch((e) => {
+      console.error('Your access token is not valid', e);
+    });
   },
 };
 </script>

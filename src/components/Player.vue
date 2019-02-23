@@ -4,7 +4,7 @@
       {{ rank }}
     </div>
     <div class="column col-2 text-center">
-      <Avatar size="80" :username="player.username"></Avatar>
+      <Avatar :size="80" :username="player.username"></Avatar>
       <div class="username">{{ player.username }}</div>
     </div>
     <div class="column col-3">

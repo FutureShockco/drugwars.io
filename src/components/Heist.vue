@@ -1,7 +1,6 @@
 <template>
   <div class="p-3 text-center">
     <img src="/img/lottery/heist.png" width="80">
-    <h3>${{ totalReward | amount }}</h3>
     <p>{{ totalRewardSteem | amount }} STEEM</p>
     <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
     <div>Total vest: {{ totalVest | amount }} DRUGS</div>

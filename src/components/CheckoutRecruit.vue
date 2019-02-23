@@ -11,8 +11,8 @@
       class="button btn-block button-upgrade mb-2 meter"
     >
       <template v-if="!isLoading">
-        <i class="iconfont icon-tools"/>
-        {{ inProgress ? 'Upgrading' : 'Upgrade' }}
+        <i class="iconfont icon-person"/>
+        {{ inProgress ? 'Recruiting' : 'Recruit' }}
       </template>
       <template v-else>
         <Loading/>
@@ -32,10 +32,9 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price'],
+  props: ['id', 'inProgress', 'price'],
   data() {
     return {
       isLoading: false,
@@ -43,15 +42,15 @@ export default {
   },
   computed: {
     buildingTime() {
-      return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
+      return 12345;
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     timeToWait() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (building) {
-        const nextUpdate = new Date(building.next_update).getTime();
+      const unit = this.$store.state.game.user.units.find(b => b.building === this.id);
+      if (unit) {
+        const nextUpdate = new Date(unit.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         return nextUpdate - now;
       }

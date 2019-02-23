@@ -2,8 +2,8 @@
   <div id="app">
     <Splash v-if="showLoading"/>
     <template v-else>
-      <TopNav/>
-      <Sidebars v-if="showSidebar"/>
+      <TopNav v-if="username"/>
+      <Sidebars v-if="username && showSidebar"/>
       <router-view
         :class="{
           content: showSidebar,
@@ -15,8 +15,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   computed: {
+    username() {
+      return this.$store.state.auth.username;
+    },
     showSidebar() {
       return !this.$route.meta.hideSidebar;
     },
@@ -27,9 +32,10 @@ export default {
       return this.$store.state.ui.showLoading;
     },
   },
+  methods: mapActions(['init']),
   created() {
     setInterval(() => {
-      this.$store.dispatch('init');
+      this.init();
     }, 10000);
   },
 };

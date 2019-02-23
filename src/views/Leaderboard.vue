@@ -1,11 +1,12 @@
 <template>
   <div>
     <Header title="Leaderboard" />
-    <div class="p-4 after-header">
+    <div class="p-4">
       <Player
-        v-for="player in players"
+        v-for="(player, key) in players"
         :player="player"
         :key="player.username"
+        :rank="key + 1"
       />
     </div>
   </div>

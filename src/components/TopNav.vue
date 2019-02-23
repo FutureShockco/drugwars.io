@@ -57,6 +57,11 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
+    padding-right: 0;
+
+    @media @bp-small {
+      padding-right: @sidebar-width;
+    }
   }
 
   button {
@@ -72,22 +77,6 @@ export default {
     .iconfont {
       color: @border-color !important;
       font-size: 20px;
-    }
-  }
-
-  .balances {
-    li {
-      display: inline-block;
-
-      img {
-        width: 24px;
-      }
-    }
-
-    @media @bp-small {
-      img {
-        width: 38px !important;
-      }
     }
   }
 }

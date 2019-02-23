@@ -9,6 +9,9 @@ const mutations = {
   saveUsername(_state, payload) {
     Vue.set(_state, 'username', payload);
   },
+  logout(_state) {
+    Vue.set(_state, 'username', null);
+  },
 };
 
 const actions = {
@@ -29,6 +32,10 @@ const actions = {
         resolve();
       }
     }),
+  logout: () => {
+    localStorage.removeItem('drugwars_token');
+    window.location = '/';
+  },
 };
 
 export default {

@@ -1,10 +1,12 @@
 <template>
   <div class="production">
-    <div v-if="this.production_rate">
-      <span>Current : {{ parseFloat((this.production_rate * this.level * this.coeff) * 60 * 60 * 24).toFixed(2) | amount}}/Day</span>
+    <div v-if="production_rate">
+      <b>Current:</b>
+      {{ parseFloat((production_rate * level * coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
     </div>
-    <div v-if="this.level && !this.compactview">
-      <span>Next : {{ parseFloat((this.production_rate * (this.level+1) * this.coeff) * 60 * 60 * 24).toFixed(2) | amount}}/Day</span>
+    <div v-if="level && !compactview">
+      <b>Next:</b>
+      {{ parseFloat((production_rate * (level+1) * coeff) * 60 * 60 * 24).toFixed(2) | amount}} / day
     </div>
   </div>
 </template>
@@ -14,7 +16,6 @@ export default {
   props: ['level', 'coeff', 'production_rate', 'compactview'],
 };
 </script>
-
 
 <style scoped lang="less">
 .production div span {

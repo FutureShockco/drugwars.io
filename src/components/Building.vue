@@ -9,12 +9,12 @@
     <div class="item-level">{{ ownItem.lvl }}</div>
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ building.name }}</h5>
-      <div class="mb-2" v-html="building.desc"></div>
       <Cost
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
       />
+      <div class="mb-2" v-html="building.desc"></div>
       <div v-if="building.feature" class="mb-2">
         Special:
         <span class="text-green">{{ building.feature }}</span>

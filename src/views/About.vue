@@ -10,17 +10,25 @@
           Report a bug
         </a>
       </p>
+      <h3>Changelog</h3>
+      <ul>
+        <li v-for="change in changelog">
+          {{ change }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 import pkg from '@/../package.json';
+import changelog from '@/../changelog.json';
 
 export default {
   data() {
     return {
       pkg,
+      changelog,
     };
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <ul class="columns mx-2 pb-2">
+    <ul class="columns mx-2 pb-2 list-style-none">
       <li class="column col-4">
         <router-link
           to="/about"

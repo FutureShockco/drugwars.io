@@ -1,11 +1,11 @@
 <template>
   <div>
     <BuildingsTabs/>
-    <div class="p-4 after-header">
+    <div class="p-4">
       <Building
-        v-for="building in buildings"
-        :building="building"
-        :key="building.id"
+        v-for="item in items"
+        :building="item"
+        :key="item.id"
       />
     </div>
   </div>
@@ -18,7 +18,7 @@ import { pickBy } from 'lodash';
 export default {
   data() {
     return {
-      buildings: pickBy(buildings, b => b.type === 'drugs'),
+      items: pickBy(buildings, b => b.type === 'drugs'),
     };
   },
 };

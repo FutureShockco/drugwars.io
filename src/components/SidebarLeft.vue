@@ -47,11 +47,11 @@
         </li>
         <li>
           <router-link
-            to="/camp"
+            to="/units"
             class="py-1 px-4 d-block"
             @click.native="toggleSidebar"
           >
-            Boot camp
+            Bootcamp
           </router-link>
         </li>
         <li>

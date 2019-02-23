@@ -94,12 +94,6 @@ export default new Router({
       component: Units,
     },
     {
-      path: '/camp',
-      name: 'camp',
-      beforeEnter: requireAuth,
-      component: Units,
-    },
-    {
       path: '/trainings',
       name: 'trainings',
       beforeEnter: requireAuth,

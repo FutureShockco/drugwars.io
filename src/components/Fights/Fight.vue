@@ -26,9 +26,18 @@
           <p v-if="jsonEnd.target_units" v-for="unit in jsonEnd.target_units">
             <img width="40" :src="`/img/units/${unit.key}.png`"> x {{ unit.amount }}
           </p>
-          <p v-if="jsonEnd.stolen_resources" v-for="(asset, amount) in jsonEnd.stolen_resources">
-            {{ asset }} {{ amount | amount }}
-          </p>
+          <div v-if="jsonEnd.stolen_resources">
+            <h5>Stolen resources</h5>
+            <p v-if="jsonEnd.stolen_resources.drugs">
+              {{ jsonEnd.stolen_resources.drugs | amount }} DRUGS
+            </p>
+            <p v-if="jsonEnd.stolen_resources.weapons">
+              {{ jsonEnd.stolen_resources.weapons | amount }} WEAPONS
+            </p>
+            <p v-if="jsonEnd.stolen_resources.alcohols">
+              {{ jsonEnd.stolen_resources.alcohols | amount }} ALCOHOLS
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -74,6 +74,15 @@
         </li>
         <li>
           <router-link
+            to="/referral"
+            class="py-1 px-4 d-block"
+            @click.native="toggleSidebar"
+          >
+            Referral
+          </router-link>
+        </li>
+        <li>
+          <router-link
             to="/help"
             class="py-1 px-4 d-block border-bottom"
             @click.native="toggleSidebar"

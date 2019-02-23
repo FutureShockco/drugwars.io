@@ -27,6 +27,18 @@
           <i class="iconfont icon-run text-green"/>
           {{ unit.speed }}
         </span>
+        <span class="mr-2">
+          {{ unit.type }}
+        </span>
+      </div>
+      <div class="mb-2">
+        Point per unit: {{ unit.score }}
+      </div>
+      <div class="mb-2" v-if="unit.feature">
+        Special:
+        <span class="text-green">
+          {{ unit.feature }}
+        </span>
       </div>
     </div>
     <div>

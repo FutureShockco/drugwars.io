@@ -1,7 +1,8 @@
 <template>
   <div class="checkout">
     <div class="mb-2">
-      <i class="iconfont icon-watch"/> {{ inProgress ? timeToWait : buildingTime | ms }}
+      <i class="iconfont icon-watch"/>
+      {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
     <button
       :class="{ progress: inProgress }"
@@ -10,7 +11,8 @@
       class="button btn-block button-upgrade mb-2 meter"
     >
       <template v-if="!isLoading">
-        <i class="iconfont icon-tools"/> {{ inProgress ? 'Upgrading' : 'Upgrade' }}
+        <i class="iconfont icon-tools"/>
+        {{ inProgress ? 'Upgrading' : 'Upgrade' }}
       </template>
       <template v-else>
         <Loading/>
@@ -22,7 +24,8 @@
       @click="handleRequestPayment()"
       class="button btn-block button-instant-upgrade mb-2"
     >
-      <i class="iconfont icon-steem"/> ${{ price | amount }}, {{ priceInSteem | amount }} STEEM
+      <i class="iconfont icon-zap"/>
+      ${{ price | amount }}
     </button>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header title="Leaderboard" />
-    <div class="p-4 after-header">
+    <div class="p-4">
       <Player
         v-for="(player, key) in players"
         :player="player"

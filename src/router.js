@@ -11,13 +11,13 @@ const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buil
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
-const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Buildings/Defense.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Trainings = () =>
   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
 const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Fights/Battles.vue');
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
+const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
@@ -88,12 +88,6 @@ export default new Router({
       component: Alcohol,
     },
     {
-      path: '/defense',
-      name: 'defense',
-      beforeEnter: requireAuth,
-      component: Defense,
-    },
-    {
       path: '/units',
       name: 'units',
       beforeEnter: requireAuth,
@@ -128,6 +122,12 @@ export default new Router({
       name: 'leaderboard',
       beforeEnter: requireAuth,
       component: Leaderboard,
+    },
+    {
+      path: '/referral',
+      name: 'help',
+      beforeEnter: requireAuth,
+      component: Referral,
     },
     {
       path: '/about',

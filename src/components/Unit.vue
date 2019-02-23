@@ -42,10 +42,10 @@
       </div>
     </div>
     <div>
-      <Checkout
+      <CheckoutRecruit
         :id="unit.id"
         :inProgress="inProgress"
-        :price="unit.drugs_cost / 10000"
+        :price="unit.weapons_cost / 10000"
       />
     </div>
   </div>

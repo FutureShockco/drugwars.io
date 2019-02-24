@@ -4,20 +4,22 @@
       <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
+
     <button
       :class="{ progress: inProgress }"
-      :disabled="isLoading || inProgress"
+      :disabled="isLoading || inProgress || notEnough"
       @click="handleUpgradeBuilding()"
       class="button btn-block button-upgrade mb-2"
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-tools"/>
-        {{ inProgress ? 'Upgrading' : 'Upgrade' }}
+        {{ notEnough ? 'Missing resources' : inProgress ? 'Upgrading' : 'Upgrade' }}
       </template>
       <template v-else>
         <Loading/>
       </template>
     </button>
+
     <div class="mb-2">Instant upgrade</div>
     <button
       :disabled="isLoading"
@@ -35,7 +37,7 @@ import { mapActions } from 'vuex';
 import { calculateTimeToBuild } from '@/helpers/utils';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price'],
+  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price', 'notEnough'],
   data() {
     return {
       isLoading: false,

@@ -3,7 +3,7 @@
     Cost:
     <span
       class="mr-2"
-      :class="{ 'not-enought': drugsCost > drugsBalance }"
+      :class="{ 'not-enough': drugsCost > drugsBalance }"
       v-if="drugsCost"
     >
       <Icon :size="18" :color="'#fbbd08'" icon="drugs"/>
@@ -11,7 +11,7 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enought': weaponsCost > weaponsBalance }"
+      :class="{ 'not-enough': weaponsCost > weaponsBalance }"
       v-if="weaponsCost"
     >
       <Icon :size="18" :color="'#fbbd08'" icon="weapons"/>
@@ -19,7 +19,7 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enought': alcoholsCost > alcoholsBalance }"
+      :class="{ 'not-enough': alcoholsCost > alcoholsBalance }"
       v-if="alcoholsCost"
     >
       <Icon :size="18" :color="'#fbbd08'" icon="alcohol"/>
@@ -53,7 +53,8 @@ export default {
   font-size: 15px;
   color: #c7c7c7;
   display: inline-flex;
-  .not-enought {
+
+  .not-enough {
     color: @error-color;
   }
 }

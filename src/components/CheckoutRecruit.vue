@@ -8,7 +8,7 @@
       :class="{ progress: inProgress }"
       :disabled="isLoading || inProgress"
       @click="handleUpgradeBuilding()"
-      class="button btn-block button-upgrade mb-2 meter"
+      class="button btn-block button-upgrade mb-2"
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-person"/>

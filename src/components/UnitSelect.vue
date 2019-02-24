@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4 border-bottom pb-4">
     <h5>{{ unit.name }}</h5>
-    <img class="preview rounded-2" :src="`/img/units/${unit.image}.png`"/>
+    <img class="preview rounded-2" :src="`/img/units/${unit.id}.png`"/>
     <div class="v-align-middle mb-6">
       <input
         class="input form-control mr-2"

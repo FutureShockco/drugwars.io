@@ -3,6 +3,7 @@
     <BuildingsTabs/>
     <div class="p-4">
       <Building
+        v-if="!item.disabled"
         v-for="item in items"
         :building="item"
         :key="item.id"

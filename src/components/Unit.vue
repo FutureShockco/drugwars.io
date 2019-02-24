@@ -4,7 +4,7 @@
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">
-      <img class="preview" :src="`/img/units/${unit.image}.png`">
+      <img class="preview" :src="`/img/units/${unit.id}.png`">
     </div>
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ unit.name }}</h5>

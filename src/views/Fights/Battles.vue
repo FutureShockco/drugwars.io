@@ -45,7 +45,6 @@ export default {
           amount: unit.amount,
         });
       });
-      console.log(units);
       return units;
     },
   },

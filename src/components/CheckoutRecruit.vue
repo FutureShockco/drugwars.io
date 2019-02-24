@@ -1,14 +1,14 @@
 <template>
   <div class="checkout">
     <div class="mb-2">
-      <i class="iconfont icon-watch"/>
+      <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
     <button
       :class="{ progress: inProgress }"
       :disabled="isLoading || inProgress"
       @click="handleUpgradeBuilding()"
-      class="button btn-block button-upgrade mb-2 meter"
+      class="button btn-block button-upgrade mb-2"
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-person"/>

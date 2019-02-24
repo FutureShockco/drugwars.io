@@ -1,10 +1,10 @@
 <template>
   <div
     class="d-flex flex-row border-bottom item mb-4"
-    :class="{ progress: inProgress }"
+    :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
   >
     <div class="mr-3">
-      <img class="preview" :src="`/img/buildings/${building.image}.png`">
+      <img class="preview" :src="`/img/buildings/${building.id}.png`">
     </div>
     <div class="item-level">{{ ownItem.lvl }}</div>
     <div class="item-content width-full mr-3 mb-4">
@@ -37,6 +37,7 @@
         :hqLevel="ownHq.lvl"
         :inProgress="inProgress"
         :price="drugsCost / 10000"
+        :notEnough="hasNotEnough"
       />
     </div>
   </div>
@@ -48,6 +49,22 @@ import { calculateBuildingCost } from '@/helpers/utils';
 export default {
   props: ['building'],
   computed: {
+    drugsBalance() {
+      return this.$store.state.game.user.drugs_balance;
+    },
+    weaponsBalance() {
+      return this.$store.state.game.user.user.weapons_balance;
+    },
+    alcoholsBalance() {
+      return this.$store.state.game.user.user.alcohols_balance;
+    },
+    hasNotEnough() {
+      return (
+        this.drugsCost > this.drugsBalance
+        || this.weaponsCost > this.weaponsBalance
+        || this.alcoholsCost > this.alcoholsBalance
+      );
+    },
     ownItem() {
       return (
         this.$store.state.game.user.buildings.find(b => b.building === this.$props.building.id) || {

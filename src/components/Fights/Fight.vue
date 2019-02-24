@@ -6,7 +6,7 @@
           :size="80"
           :username="fight.username"
         />
-        <div>{{ fight.username }}</div>
+        <div class="username mb-4">{{ fight.username }}</div>
         <div class="mb-4" v-if="jsonStart">
           <p v-if="jsonStart.units" v-for="unit in jsonStart.units">
             <img width="40" :src="`/img/units/${unit.key}.png`"> x {{ unit.amount }}
@@ -21,7 +21,7 @@
           :size="80"
           :username="fight.target"
         />
-        <div>{{ fight.target }}</div>
+        <div class="username mb-4">{{ fight.target }}</div>
         <div class="mb-4" v-if="jsonEnd">
           <p v-if="jsonEnd.target_units" v-for="unit in jsonEnd.target_units">
             <img width="40" :src="`/img/units/${unit.key}.png`"> x {{ unit.amount }}

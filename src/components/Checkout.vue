@@ -1,7 +1,7 @@
 <template>
   <div class="checkout">
     <div class="mb-2">
-      <i class="iconfont icon-watch"/>
+      <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
     <button
@@ -18,7 +18,7 @@
         <Loading/>
       </template>
     </button>
-    <div class="mb-2">Instant recruit</div>
+    <div class="mb-2">Instant upgrade</div>
     <button
       :disabled="isLoading"
       @click="handleRequestPayment()"

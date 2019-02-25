@@ -32,7 +32,7 @@ const requireAuth = (to, from, next) => {
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
-          // store.dispatch('hideLoading');
+          store.dispatch('hideLoading');
           next();
         });
       } else {

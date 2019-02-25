@@ -13,7 +13,7 @@
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-tools"/>
-        {{ notEnough ? 'Miss resources' : inProgress ? 'Upgrading' : 'Upgrade' }}
+        {{ inProgress ? 'Upgrading' : notEnough ? 'Miss resources' : 'Upgrade' }}
       </template>
       <template v-else>
         <Loading/>

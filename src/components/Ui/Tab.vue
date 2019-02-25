@@ -20,8 +20,6 @@ export default {
   text-transform: uppercase;
   color: black !important;
   background-color: #000;
-  background-image: linear-gradient(to bottom, #000, #1f1f1f 74%) !important;
-  box-shadow: 0 0 8px #000, 0 0 8px #000 !important;
   border: 1px solid #282828;
   border-top: none;
 
@@ -34,7 +32,7 @@ export default {
     font-weight: normal;
 
     &.active {
-      background: linear-gradient(to bottom, #fbbd08, #fbb034 74%) !important;
+      background: @primary-color;
       color: @bg-color;
     }
   }

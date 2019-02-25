@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import units from '@/helpers/units.json';
+import units from 'drugwars/units.json';
 
 export default {
   data() {

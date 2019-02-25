@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import buildings from '@/helpers/buildings.json';
+import buildings from 'drugwars/buildings.json';
 import { pickBy } from 'lodash';
 
 export default {

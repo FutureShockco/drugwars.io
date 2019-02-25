@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import trainings from '@/helpers/trainings.json';
+import trainings from 'drugwars/trainings.json';
 
 export default {
   data() {

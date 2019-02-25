@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  export default {
-    props: ['stolenResources'],
-  };
+export default {
+  props: ['stolenResources'],
+};
 </script>

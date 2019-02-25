@@ -12,7 +12,6 @@
         </div>
       </div>
       <div class="column col-2">
-        {{ timeToWait | ms }}
         <div class="mt-4" v-if="result">
           <div class="username bg-green result" v-if="result === 'win'">
             Win
@@ -45,20 +44,20 @@
       <span class="mr-2">{{ fight.is_done ? 'Fight ended' : 'Fight incoming' }}</span>
       <span class="mr-2">{{ fight.is_stable ? 'stable' : 'pending' }}</span>
       <span class="mr-2">#{{ fight.fight_key }}</span>
+      <span class="mr-2" v-if="timeToWait">fight start in {{ timeToWait | ms }}</span>
     </div>
   </div>
 </template>
 
 <script>
 import { jsonParse } from '@/helpers/utils';
-import StolenResources from "./StolenResources";
 
 export default {
-  components: {StolenResources},
   props: ['fight'],
   computed: {
     timeToWait() {
-      return this.fight.timestamp_end - (this.$store.state.ui.timestamp / 1000) / 1000;
+      const timeToWait = this.fight.timestamp_end * 1000 - this.$store.state.ui.timestamp;
+      return timeToWait > 0 ? timeToWait : 0;
     },
     result() {
       let result;

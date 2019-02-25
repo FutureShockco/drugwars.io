@@ -113,9 +113,9 @@ export default {
       return this.$store.state.auth.username;
     },
     activeFightsCount() {
-      const activeFights = this.$store.state.game.fights.filter((fight) => fight.is_done === 0);
+      const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);
       return activeFights.length;
-    }
+    },
   },
   methods: {
     ...mapActions(['toggleSidebarVisibility', 'logout']),

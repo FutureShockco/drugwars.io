@@ -60,9 +60,9 @@ export default {
     },
     hasNotEnough() {
       return (
-        this.drugsCost > this.drugsBalance
-        || this.weaponsCost > this.weaponsBalance
-        || this.alcoholsCost > this.alcoholsBalance
+        this.drugsCost > this.drugsBalance ||
+        this.weaponsCost > this.weaponsBalance ||
+        this.alcoholsCost > this.alcoholsBalance
       );
     },
     ownItem() {

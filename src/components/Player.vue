@@ -1,18 +1,14 @@
 <template>
-  <div class="mb-4 d-flex flex-row border-bottom item columns">
-    <div class="column col-1 text-center">
-      <span class="rank">
-        {{ rank }}
-      </span>
+  <div class="py-3 d-flex flex-row border-bottom item columns">
+    <div class="rank mr-4">
+      {{ rank }}
     </div>
-    <div class="column col-2 text-center">
-      <Avatar
-        :size="60"
-        :username="player.username"
-        :xp="player.xp"
-      />
-      <div class="username">{{ player.username }}</div>
-    </div>
+    <Avatar
+      class="mr-2"
+      :size="40"
+      :username="player.username"
+    />
+    <div class="username">{{ player.username }}</div>
     <div class="column">
       <div>
         <b>Production:</b>
@@ -32,20 +28,24 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import '../vars.less';
+
 .username {
-  margin-top: -10px;
-  font-size: 18px;
+  margin-top: 6px;
+  font-size: 20px;
 }
 
 .rank {
   width: 30px;
   height: 30px;
-  line-height: 30px;
-  font-size: 18px;
+  margin: 5px 0;
+  line-height: 26px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 50%;
-  background-color: white;
-  color: black;
+  background-color: transparent;
+  color: @primary-color;
+  border: 1px solid @primary-color;
   display: block;
   text-align: center;
 }

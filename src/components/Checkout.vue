@@ -45,7 +45,7 @@ export default {
     };
   },
   watch: {
-    inProgress: function (val) {
+    inProgress(val) {
       if (val) {
         this.waitingConfirmation = false;
       }

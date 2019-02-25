@@ -22,7 +22,6 @@
 <script>
 export default {
   props: ['username', 'size', 'xp'],
-
 };
 </script>
 

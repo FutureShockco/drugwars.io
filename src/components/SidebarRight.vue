@@ -1,13 +1,13 @@
 <template>
   <div class="sidebar sidebar-right border-left border-sm-right pt-4 text-center">
-    <h5>{{ timeToWait | ms }}</h5>
-    <div class="mb-4">
-      <h4 class="mb-0">Total prize</h4>
+    <div class="px-5">
+      <p>{{ timeToWait | ms }}</p>
+      <p class="mb-0">Total prize</p>
       <h1 class="m-0">${{ parseInt(total) }}</h1>
-    </div>
-    <div class="mb-4">
-      <p>Daily ${{ parseInt(totalDaily) }}</p>
-      <p>Heist ${{ parseInt(totalHeist) }}</p>
+      <p class="mb-4">
+        Daily: <b>${{ parseInt(totalDaily) }}</b>
+        Heist: <b>${{ parseInt(totalHeist) }}</b>
+      </p>
     </div>
     <Heist/>
   </div>

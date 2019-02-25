@@ -1,96 +1,101 @@
 <template>
   <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center my-4">
+      <div class="text-center border-bottom py-5">
         <router-link
           to="/"
           @click.native="toggleSidebar"
         >
           <Avatar :size="100" :username="username"/>
-        </router-link>
-      </div>
-      <ul class="height-full">
-        <li class="border-bottom pb-3 overflow-hidden">
           <div
             class="py-1 px-4 d-block text-center username"
             @click.native="toggleSidebar"
           >
             {{ username }}
           </div>
-        </li>
-        <li>
-          <router-link
-            to="/"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Overview
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/missions"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Missions
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/buildings"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Buildings
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/units"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Bootcamp
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/battles"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Battles
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/leaderboard"
-            class="py-1 px-4 d-block border-bottom"
-            @click.native="toggleSidebar"
-          >
-            Leaderboard
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/referral"
-            class="py-1 px-4 d-block"
-            @click.native="toggleSidebar"
-          >
-            Referral
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            to="/help"
-            class="py-1 px-4 d-block border-bottom"
-            @click.native="toggleSidebar"
-          >
-            Help
-          </router-link>
-        </li>
-      </ul>
+        </router-link>
+      </div>
+      <div class="height-full">
+        <ul class="pt-1 pb-2 border-bottom">
+          <li>
+            <router-link
+              to="/"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Overview
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/missions"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Missions
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/buildings"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Buildings
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/units"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Bootcamp
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/battles"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Battles
+              <span v-if="activeFightsCount > 0">
+              ({{ activeFightsCount }})
+            </span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/leaderboard"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Leaderboard
+            </router-link>
+          </li>
+        </ul>
+        <ul class="pt-1 pb-2 border-bottom">
+          <li>
+            <router-link
+              to="/referral"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Referral
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/help"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Help
+            </router-link>
+          </li>
+        </ul>
+      </div>
       <Footer/>
     </div>
   </div>
@@ -106,6 +111,10 @@ export default {
     },
     username() {
       return this.$store.state.auth.username;
+    },
+    activeFightsCount() {
+      const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);
+      return activeFights.length;
     },
   },
   methods: {

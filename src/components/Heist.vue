@@ -1,11 +1,7 @@
 <template>
-  <div class="p-3 text-center">
-    <img src="/img/lottery/heist.png" width="80">
-    <p>{{ totalRewardSteem | amount }} STEEM</p>
-    <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
-    <div>Total vest: {{ totalVest | amount }} DRUGS</div>
-    <div>Reward: {{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
-    <form @submit.prevent="handleSubmit">
+  <div>
+    <img src="/img/lottery/heist.png"/>
+    <form @submit.prevent="handleSubmit" class="py-2 px-4">
       <input
         class="input form-control input-block"
         v-model="amount"
@@ -15,12 +11,15 @@
       <button
         :disabled="isLoading"
         type="submit"
-        class="btn btn-green mt-2"
+        class="button button-instant-upgrade btn-block mt-2"
       >
-        Invest DRUGS
+        Invest
       </button>
       <Loading v-if="isLoading"/>
     </form>
+    <div>{{ totalRewardSteem | amount }} STEEM</div>
+    <div>{{ totalVest | amount }} / {{ prizeProps.heist_pool | amount }} DRUGS</div>
+    <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
   </div>
 </template>
 

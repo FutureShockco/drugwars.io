@@ -1,12 +1,14 @@
 <template>
   <div class="cost mb-2">
-    Cost:
+    <span class="mr-2">
+      Cost:
+    </span>
     <span
       class="mr-2"
       :class="{ 'not-enough': drugsCost > drugsBalance }"
       v-if="drugsCost"
     >
-      <Icon :size="18" :color="'#fbbd08'" icon="drugs"/>
+      <Icon :size="18" name="drugs"/>
       {{ drugsCost | amount}}
     </span>
     <span
@@ -14,7 +16,7 @@
       :class="{ 'not-enough': weaponsCost > weaponsBalance }"
       v-if="weaponsCost"
     >
-      <Icon :size="18" :color="'#fbbd08'" icon="weapons"/>
+      <Icon :size="18" name="weapons"/>
       {{ weaponsCost | amount}}
     </span>
     <span
@@ -22,7 +24,7 @@
       :class="{ 'not-enough': alcoholsCost > alcoholsBalance }"
       v-if="alcoholsCost"
     >
-      <Icon :size="18" :color="'#fbbd08'" icon="alcohol"/>
+      <Icon :size="18" name="alcohols"/>
       {{ alcoholsCost | amount}}
     </span>
   </div>
@@ -48,22 +50,20 @@ export default {
 <style scoped lang="less">
 @import '../vars';
 
+
 .cost {
   font-weight: 600;
   font-size: 15px;
   color: #c7c7c7;
   display: inline-flex;
 
+  .iconfont {
+    margin-right: 5px;
+    color: @primary-color;
+  }
+
   .not-enough {
     color: @error-color;
   }
-}
-
-.cost span {
-  margin-left: 5px;
-  display: inline-flex;
-}
-.cost span img {
-  margin-right: 5px;
 }
 </style>

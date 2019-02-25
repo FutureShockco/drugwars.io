@@ -26,7 +26,7 @@ requireComponent.keys().forEach(fileName => {
 Vue.filter('date', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
 Vue.filter('ms', value => prettyMs(value));
 Vue.filter('parseUrl', value => urlParse(value).host);
-Vue.filter('amount', value => numeral(value).format('0.000a'));
+Vue.filter('amount', value => numeral(value).format('0.[000]a'));
 
 Vue.use(VueUi);
 Vue.use(VueI18n);

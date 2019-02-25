@@ -4,27 +4,23 @@
       {{ rank }}
     </div>
     <div class="column col-2 text-center">
-      <Avatar :size="80" :username="player.username"></Avatar>
+      <Avatar :size="60" :username="player.username"></Avatar>
       <div class="username">{{ player.username }}</div>
     </div>
     <div class="column col-3">
-      <div class="label-yellow">Stats</div>
-      <div>Level : {{ parseFloat(((Math.sqrt(625 + 100 * player.xp) - 25) / 50) + 1).toFixed(0) }}</div>
-      <div>Experience : {{ player.xp}}</div>
+      <div>Level: {{ parseFloat(((Math.sqrt(625 + 100 * player.xp) - 25) / 50) + 1).toFixed(0) }}</div>
       <div>Attack : {{ player.weapon_production_rate * 60 * 60 * 24 | amount}}</div>
       <div>Defense : {{ player.weapon_production_rate * 60 * 60 * 24 | amount}}</div>
     </div>
     <div class="column col-3">
-      <div class="label-yellow">Daily Production</div>
-      <div>Drug Production : {{ player.drug_production_rate * 60 * 60 * 24 | amount}}</div>
-      <div>Weapon Production : {{ player.weapon_production_rate * 60 * 60 * 24 | amount}}</div>
-      <div>Alcohol Production : {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}}</div>
+      <div>DRUGS: {{ player.drug_production_rate * 60 * 60 * 24 | amount}}</div>
+      <div>WEAPONS: {{ player.weapon_production_rate * 60 * 60 * 24 | amount}}</div>
+      <div>ALCOHOLS: {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}}</div>
     </div>
     <div class="column col-3">
-      <div class="label-yellow">Fame</div>
-      <div>Wins : {{ player.wins }}</div>
-      <div>Loses : {{ player.loses }}</div>
-      <div>Rewards : {{ player.rewards }}</div>
+      <div>Wins: {{ player.wins }}</div>
+      <div>Loses: {{ player.loses }}</div>
+      <div>Rewards: {{ player.rewards }}</div>
     </div>
   </div>
 </template>
@@ -43,7 +39,7 @@ export default {
 
 .username {
   margin-top: -10px;
-  font-size: 22px;
+  font-size: 18px;
 }
 .label-yellow {
   background: #fbbd08;

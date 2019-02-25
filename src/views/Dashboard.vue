@@ -3,7 +3,7 @@
     <Header title="Overview" />
     <div class="p-4 after-header">
       <div class="mb-2 item p-2">
-        <h5>DRUGS PRODUCTION <Icon class="ml-2" :size="18" :color="'#fbbd08'" icon="drugs"/> </h5>
+        <h5>DRUGS PRODUCTION <Icon name="drugs"/> </h5>
       </div>
       <BuildingProductionCompact
         v-for="building in drug_buildings"
@@ -20,7 +20,7 @@
       </h5>
         </div>
       <div class="mb-2 item p-2">
-        <h5>WEAPONS PRODUCTION <Icon class="ml-2" :size="18" :color="'#fbbd08'" icon="weapons"/> </h5>
+        <h5>WEAPONS PRODUCTION <Icon name="weapons"/> </h5>
       </div>
       <BuildingProductionCompact
         v-for="building in weapon_buildings"
@@ -36,7 +36,7 @@
           <h5 class="text-green">Safe : {{ weaponStorage /10 | amount }}</h5>
       </div>
       <div class="mb-2 item p-2">
-        <h5>ALCOHOL PRODUCTION <Icon class="ml-2" :size="18" :color="'#fbbd08'" icon="alcohol"/> </h5>
+        <h5>ALCOHOL PRODUCTION <Icon name="alcohol"/> </h5>
       </div>
         <BuildingProductionCompact
         v-for="building in alcohol_buildings"

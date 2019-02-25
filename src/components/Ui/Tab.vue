@@ -1,5 +1,5 @@
 <template>
-  <li class="tab">
+  <li class="tab border-right">
     <router-link :to="to" active-class="active">
       <slot></slot>
     </router-link>
@@ -19,9 +19,6 @@ export default {
   display: inline-block;
   text-transform: uppercase;
   color: black !important;
-  background-color: #000;
-  border: 1px solid #282828;
-  border-top: none;
 
   a {
     color: @white-darker;

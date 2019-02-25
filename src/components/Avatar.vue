@@ -2,12 +2,18 @@
   <span
     class="avatar"
     :style="{
-      'background-image': `url(https://steemitimages.com/u/${username}/avatar`,
       'width': `${this.size}px`,
       'height': `${this.size}px`,
     }"
   >
-    <span class="level" v-if="xp">
+    <span class="avatar-img"
+      :style="{
+        'background-image': `url(https://steemitimages.com/u/${username}/avatar`,
+        'width': `${this.size}px`,
+        'height': `${this.size}px`,
+       }"
+    />
+    <span class="level py-1 px-2" v-if="xp">
       {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
   </span>
@@ -21,16 +27,30 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import '../vars.less';
+
 .avatar {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+  overflow: visible;
+
+  .avatar-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
 
   .level {
+    display: inline-block;
+    position: absolute;
     top: 0;
-    left: 0;
+    left: -20px;
   }
 }
 </style>

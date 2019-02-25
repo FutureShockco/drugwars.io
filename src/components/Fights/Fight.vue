@@ -31,12 +31,12 @@
         <div class="username mb-4">{{ fight.target }}</div>
         <div class="mb-4" v-if="json.target">
           <FightsUnits
-            v-if="json.target.target_units"
-            :units="json.target.target_units"
+            v-if="json.target.units"
+            :units="json.target.units"
           />
           <FightsStolenResources
-            v-if="json.target.stolen_resources"
-            :stolenResources="json.target.stolen_resources"
+            v-if="json.target.resources"
+            :stolenResources="json.target.resources"
           />
         </div>
       </div>
@@ -58,7 +58,7 @@ export default {
   props: ['fight'],
   computed: {
     timeToWait() {
-      return (this.$store.state.ui.timestamp/ 1000) - this.fight.timestamp_end;
+      return this.fight.timestamp_end - (this.$store.state.ui.timestamp / 1000) / 1000;
     },
     result() {
       let result;

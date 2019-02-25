@@ -7,22 +7,22 @@
 
     <button
       :class="{ progress: inProgress }"
-      :disabled="isLoading || inProgress || notEnough"
+      :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
       @click="handleUpgradeBuilding()"
       class="button btn-block button-upgrade mb-2"
     >
-      <template v-if="!isLoading">
-        <i class="iconfont icon-tools"/>
-        {{ inProgress ? 'Upgrading' : notEnough ? 'Miss resources' : 'Upgrade' }}
+      <template v-if="isLoading || waitingConfirmation">
+        <Loading/>
       </template>
       <template v-else>
-        <Loading/>
+        <i class="iconfont icon-tools"/>
+        {{ inProgress ? 'Upgrading' : notEnough ? 'Miss resources' : 'Upgrade' }}
       </template>
     </button>
 
     <div class="mb-2">Instant upgrade</div>
     <button
-      :disabled="isLoading"
+      :disabled="isLoading || waitingConfirmation"
       @click="handleRequestPayment()"
       class="button btn-block button-instant-upgrade mb-2"
     >
@@ -41,7 +41,15 @@ export default {
   data() {
     return {
       isLoading: false,
+      waitingConfirmation: false,
     };
+  },
+  watch: {
+    inProgress: function (val) {
+      if (val) {
+        this.waitingConfirmation = false;
+      }
+    },
   },
   computed: {
     buildingTime() {
@@ -65,8 +73,8 @@ export default {
     handleUpgradeBuilding() {
       this.isLoading = true;
       this.upgradeBuilding({ id: this.id, level: this.level })
-        .then(result => {
-          console.log('Result', result);
+        .then(() => {
+          this.waitingConfirmation = true;
           this.isLoading = false;
         })
         .catch(e => {

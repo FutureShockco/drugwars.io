@@ -6,7 +6,11 @@
           to="/"
           @click.native="toggleSidebar"
         >
-          <Avatar :size="100" :username="username"/>
+          <Avatar
+            :size="100"
+            :username="username"
+            :xp="xp"
+          />
           <div
             class="py-1 px-4 d-block text-center username"
             @click.native="toggleSidebar"
@@ -111,6 +115,9 @@ export default {
     },
     username() {
       return this.$store.state.auth.username;
+    },
+    xp() {
+      return this.$store.state.game.user.user.xp;
     },
     activeFightsCount() {
       const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);

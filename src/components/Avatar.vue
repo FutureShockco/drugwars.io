@@ -6,21 +6,17 @@
       'width': `${this.size}px`,
       'height': `${this.size}px`,
     }"
-  />
+  >
+    <span class="level" v-if="xp">
+      {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
+    </span>
+  </span>
 </template>
 
 <script>
 export default {
-  props: {
-    username: {
-      type: String,
-      required: true,
-    },
-    size: {
-      type: Number,
-      default: 32,
-    },
-  },
+  props: ['username', 'size', 'xp'],
+
 };
 </script>
 
@@ -32,10 +28,9 @@ export default {
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.4);
 
-  &.avatar-medium {
-    width: 64px;
-    height: 64px;
-    border-radius: 2px;
+  .level {
+    top: 0;
+    left: 0;
   }
 }
 </style>

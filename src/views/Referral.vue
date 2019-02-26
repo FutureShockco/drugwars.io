@@ -2,16 +2,20 @@
   <div>
     <Header title="Referral" />
     <div class="p-4">
-      <h1>Invite your friends!</h1>
-      <p>Use the link below and obtain 5% Bonus on their STEEM rewards</p>
+      <p>Invite your friends! Use the link below and obtain 5% bonus on their STEEM rewards.</p>
       <div class="link mb-4">
-        {{ url }}/i/{{ username }}
+        <a :href="url" target="_blank">
+          {{ url }}
+        </a>
       </div>
-      <div v-if="referrals.length > 0">
-        <h3>Your referrals</h3>
+      <h3>Your referrals</h3>
+      <div>
         <div :key="key" v-for="(referral, key) in referrals">
           <p>{{ referral.username }}</p>
         </div>
+      </div>
+      <div v-if="!referrals.length">
+        <p>You don't have referred anyone.</p>
       </div>
     </div>
   </div>
@@ -22,7 +26,7 @@ export default {
   data() {
     return {
       username: this.$store.state.auth.username,
-      url: window.location.origin,
+      url: `${window.location.origin}/i/${this.$store.state.auth.username}`,
     };
   },
   computed: {

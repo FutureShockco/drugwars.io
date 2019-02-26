@@ -1,26 +1,31 @@
 <template>
   <div>
     <FightsTabs/>
-    <div class="p-4 after-header">
-      <UnitSelect
-        v-for="ownUnit in ownUnits"
-        :item="ownUnit"
-        :key="ownUnit.key"
-      />
-      <div class="mb-4">
-        <h5>Target</h5>
-        <input
-          class="input form-control"
-          v-model="target"
+    <div class="p-4">
+      <div v-if="ownUnits.length > 0">
+        <UnitSelect
+          v-for="ownUnit in ownUnits"
+          :item="ownUnit"
+          :key="ownUnit.key"
+        />
+        <div class="mb-4">
+          <h5>Target</h5>
+          <input
+            class="input form-control"
+            v-model="target"
+          >
+        </div>
+        <button
+          class="btn btn-large btn-primary mb-6"
+          @click="handleSubmit"
         >
+          Fight
+        </button>
+        <Loading v-if="isLoading"/>
       </div>
-      <button
-        class="btn btn-large btn-primary mb-6"
-        @click="handleSubmit"
-      >
-        Fight
-      </button>
-      <Loading v-if="isLoading"/>
+      <div v-else>
+        <p>You don't have any unit to fight.</p>
+      </div>
     </div>
   </div>
 </template>

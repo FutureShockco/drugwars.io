@@ -12,7 +12,7 @@
     <button
       :class="{ progress: inProgress }"
       :disabled="isLoading || inProgress"
-      @click="handleUpgradeBuilding()"
+      @click="handleRecruitUnit()"
       class="button btn-block button-upgrade mb-2"
     >
       <template v-if="!isLoading">
@@ -30,7 +30,7 @@
       class="button btn-block button-instant-upgrade mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }}
+      ${{ price * quantity | amount }}
     </button>
   </div>
 </template>
@@ -64,10 +64,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
-    handleUpgradeBuilding() {
+    ...mapActions(['recruitUnit', 'requestPayment']),
+    handleRecruitUnit() {
       this.isLoading = true;
-      this.upgradeBuilding({ id: this.id, level: this.level })
+      this.recruitUnit({ unit: this.id, amount: this.quantity })
         .then(result => {
           console.log('Result', result);
           this.isLoading = false;
@@ -79,7 +79,7 @@ export default {
     },
     handleRequestPayment() {
       this.requestPayment({
-        memo: `upgrade:${this.id}`,
+        memo: `unit:${this.id},amount:${this.quantity}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

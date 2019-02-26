@@ -9,11 +9,11 @@
           <img src="/img/logo.png">
         </router-link>
       </div>
-      <div class="ml-4 text-center width-full">
+      <div class="ml-4 text-center width-full d-flex flex-column flex-justify-center">
         <div class="ann">
           Today prize pool: <span class="username">${{ parseInt(total) }}</span>
         </div>
-        <span class="text-gray">
+        <span class="text-gray hide-sm hide-md hide-lg">
           daily: <b>${{ parseInt(totalDaily) }}</b>
           + heist: <b>${{ parseInt(totalHeist) }}</b>,
           payment <b>in {{ timeToWait | ms }}</b>

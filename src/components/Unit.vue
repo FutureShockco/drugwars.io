@@ -25,7 +25,7 @@
         </span>
         <span class="mr-2">
           <i class="iconfont icon-run text-green"/>
-          {{ unit.speed }}
+          {{ unit.speed * 60 * 1000 | ms }}
         </span>
         <span class="mr-2">
           {{ unit.type }}

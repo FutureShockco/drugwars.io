@@ -9,7 +9,7 @@
           <img src="/img/logo.png">
         </router-link>
       </div>
-      <div class="ml-4">
+      <div class="ml-4 text-center width-full">
         <div class="ann">
           Today prize pool: <span class="username">${{ parseInt(total) }}</span>
         </div>

@@ -7,21 +7,21 @@
       <li class="d-flex">
         <Icon name="drugs"/>
         <div>
-          <div>{{ user.drugs_balance | amount }} <span class="hide-sm hide-md"></span></div>
+          <div>{{ balances.drugs | amount }} <span class="hide-sm hide-md"></span></div>
           <div class="text-gray hide-sm hide-md">{{ user.drug_production_rate * 3600 * 24 | amount }} / day</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="weapons"/>
         <div>
-          <div>{{ user.weapons_balance | amount }} <span class="hide-sm hide-md"></span></div>
+          <div>{{ balances.weapons | amount }} <span class="hide-sm hide-md"></span></div>
           <div class="text-gray hide-sm hide-md">{{ user.weapon_production_rate * 3600 * 24 | amount }} / day</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="alcohols"/>
         <div>
-          <div>{{ user.alcohols_balance | amount }} <span class="hide-sm hide-md"></span></div>
+          <div>{{ balances.alcohols | amount }} <span class="hide-sm hide-md"></span></div>
           <div class="text-gray hide-sm hide-md">{{ user.alcohol_production_rate * 3600 * 24 | amount }} / day</div>
         </div>
       </li>
@@ -71,6 +71,14 @@ export default {
     },
     user() {
       return this.$store.state.game.user.user;
+    },
+    balances() {
+      const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
+      return {
+        drugs: this.user.drugs_balance + (time * this.user.drug_production_rate),
+        weapons: this.user.weapons_balance + (time * this.user.weapon_production_rate),
+        alcohols: this.user.alcohols_balance + (time * this.user.alcohol_production_rate),
+      };
     },
   },
 };

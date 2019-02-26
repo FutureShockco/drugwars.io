@@ -9,7 +9,6 @@ const state = {
   prizeProps: null,
   props: null,
   user: null,
-  isRegistred: false,
   fights: [],
 };
 
@@ -26,18 +25,14 @@ const mutations = {
   saveFights(_state, payload) {
     Vue.set(_state, 'fights', payload);
   },
-  setRegistred(_state) {
-    Vue.set(_state, 'isRegistred', true);
-  },
 };
 
 const actions = {
   init: ({ commit, rootState, dispatch }) =>
     new Promise(resolve => {
       const { username } = rootState.auth;
-      kbyte
-        .requestAsync('get_user', username)
-        .then(user => {
+      kbyte.request('get_user', username, (e, user) => {
+        if (user) {
           Promise.all([
             kbyte.requestAsync('get_props', null),
             kbyte.requestAsync('get_prize_props', null),
@@ -49,19 +44,16 @@ const actions = {
             commit('saveFights', fights);
             resolve();
           });
-        })
-        .catch(e => {
-          if (!rootState.game.isRegistred) {
-            dispatch('signup').then(() => {
-              commit('setRegistred');
-              Promise.delay(3000).then(() => dispatch('init'));
+        } else {
+          dispatch('signup').then(() => {
+            Promise.delay(9000).then(() => {
+              window.location = '/';
             });
-          } else {
-            Promise.delay(3000).then(() => dispatch('init'));
-          }
-        });
+          });
+        }
+      });
     }),
-  signup: ({ commit, rootState }) =>
+  signup: ({ rootState }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {

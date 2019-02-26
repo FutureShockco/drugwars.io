@@ -23,7 +23,7 @@ export default {
     return {
       username: this.$store.state.auth.username,
       url: window.location.origin,
-    }
+    };
   },
   computed: {
     referrals() {

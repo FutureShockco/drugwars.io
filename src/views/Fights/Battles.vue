@@ -21,7 +21,6 @@
         Fight
       </button>
       <Loading v-if="isLoading"/>
-      <p>Battles are disabled temporarily and will come back with a lot of improvements, thank you for your understanding.</p>
     </div>
   </div>
 </template>

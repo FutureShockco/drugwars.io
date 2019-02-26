@@ -1,10 +1,10 @@
 <template>
   <div>
     <Header title="Missions" />
-    <div class="p-4 after-header">
-      <div class="d-flex flex-row border-bottom mb-6 pb-4">
-        <div>
-          <img width="100" height="100" class="mr-4" src="/img/me.png"/>
+    <div class="p-4">
+      <div class="d-flex border-bottom mb-4 pb-4">
+        <div class="hide-sm hide-md">
+          <img width="100" height="100" class="mr-4 mb-4" src="/img/me.png"/>
         </div>
         <p>Hey <b>{{ username }}</b>! You seem to be just arrived in the city. You may try to make some friends but I rather suggest you to start to defend yourself before starting any friendship. Nobody knows how much time you will stand there, but everyone will try to steal what you are producing! You should fulfill theses missions before getting some new ones.</p>
       </div>
@@ -94,11 +94,11 @@ export default {
 <style scoped lang="less">
 .missions {
   li {
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 12px;
 
     .iconfont {
-      font-size: 24px;
+      font-size: 18px;
     }
   }
 }

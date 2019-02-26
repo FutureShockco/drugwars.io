@@ -1,5 +1,10 @@
 <template>
   <div class="checkout">
+    <input
+      class="input form-control input-block"
+      type="number"
+      v-model="quantity"
+    >
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
@@ -38,6 +43,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      quantity: 1,
     };
   },
   computed: {

@@ -1,7 +1,10 @@
 <template>
-  <div class="p-3 d-flex flex-row border-bottom">
-    <div class="rank mr-3">
-      {{ rank }}
+  <div class="py-3 px-4 d-flex flex-row border-bottom">
+    <div>
+      <div
+        class="rank mr-3"
+        v-text="rank"
+      />
     </div>
     <Avatar
       class="mr-2"
@@ -9,7 +12,7 @@
       :username="player.username"
     />
     <div class="username">{{ player.username }}</div>
-    <div class="column">
+    <div>
       <div>
         <b>Production:</b>
         <Icon name="drugs"/> {{ player.drug_production_rate * 60 * 60 * 24 | amount}}

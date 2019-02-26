@@ -1,7 +1,7 @@
 <template>
   <div>
-    <img src="/img/lottery/heist.png"/>
-    <form @submit.prevent="handleSubmit" class="py-2 px-4">
+    <div class="mb-2">Invest in the bank heist to convert your DRUGS to STEEM.</div>
+    <form @submit.prevent="handleSubmit" class="mb-2">
       <input
         class="input form-control input-block"
         v-model="amount"
@@ -13,7 +13,7 @@
         type="submit"
         class="button button-instant-upgrade btn-block mt-2"
       >
-        Invest
+        <Icon name="arrow-up"/> Invest
       </button>
       <Loading v-if="isLoading"/>
     </form>

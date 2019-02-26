@@ -16,6 +16,7 @@ const Battles = () => import(/* webpackChunkName: "battles" */ '@/views/Fights/B
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
+const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
@@ -111,9 +112,17 @@ export default new Router({
     },
     {
       path: '/referral',
-      name: 'help',
+      name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
+    },
+    {
+      path: '/i/:username',
+      name: 'invite',
+      component: Invite,
+      meta: {
+        hideSidebar: true,
+      },
     },
     {
       path: '/about',

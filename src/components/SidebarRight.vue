@@ -75,9 +75,9 @@ export default {
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
       return {
-        drugs: this.user.drugs_balance + (time * this.user.drug_production_rate),
-        weapons: this.user.weapons_balance + (time * this.user.weapon_production_rate),
-        alcohols: this.user.alcohols_balance + (time * this.user.alcohol_production_rate),
+        drugs: this.user.drugs_balance + time * this.user.drug_production_rate,
+        weapons: this.user.weapons_balance + time * this.user.weapon_production_rate,
+        alcohols: this.user.alcohols_balance + time * this.user.alcohol_production_rate,
       };
     },
   },

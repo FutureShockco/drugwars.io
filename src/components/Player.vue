@@ -1,6 +1,6 @@
 <template>
-  <div class="py-3 d-flex flex-row border-bottom item columns">
-    <div class="rank mr-4">
+  <div class="p-3 d-flex flex-row border-bottom">
+    <div class="rank mr-3">
       {{ rank }}
     </div>
     <Avatar
@@ -33,6 +33,7 @@ export default {
 .username {
   margin-top: 6px;
   font-size: 20px;
+  width: 150px;
 }
 
 .rank {

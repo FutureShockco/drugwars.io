@@ -1,5 +1,5 @@
 <template> 
-  <i :class="`iconfont icon-${this.name}`"/>
+  <i :class="`iconfont icon-${name}`"/>
 </template>
 
 <script>

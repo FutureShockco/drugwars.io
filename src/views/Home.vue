@@ -1,7 +1,9 @@
 <template>
-  <UiCenter>
-    <img src="/img/logo.png" class="width-full px-6">
-    <img src="/img/hero.png" class="width-full px-2">
+  <UiCenter class="anim-fade-in">
+    <img
+      src="/img/logo.png"
+      class="width-full p-6"
+    />
     <div class="mt-4 mb-7">
       <a class="btn btn-large btn-primary" :href="loginURL">
         Play now

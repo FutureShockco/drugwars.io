@@ -1,14 +1,18 @@
 <template>
   <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center border-bottom py-5">
+      <div class="text-center border-bottom pt-5 pb-6">
         <router-link
           to="/"
           @click.native="toggleSidebar"
         >
-          <Avatar :size="100" :username="username"/>
+          <Avatar
+            :size="100"
+            :username="username"
+            :xp="xp"
+          />
           <div
-            class="py-1 px-4 d-block text-center username"
+            class="username"
             @click.native="toggleSidebar"
           >
             {{ username }}
@@ -112,6 +116,9 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
+    xp() {
+      return this.$store.state.game.user.user.xp;
+    },
     activeFightsCount() {
       const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);
       return activeFights.length;
@@ -154,11 +161,8 @@ export default {
       .router-link-exact-active {
         opacity: 1;
         color: black;
-        background: url(/img/icons/tab-brush.svg) black;
+        background-image: url(/img/brush.svg);
         background-size: 100% 100%;
-        background-position: -20px;
-        text-shadow: 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08,
-          0px 0px 6px #fbbd08, 0px 0px 6px #fbbd08;
         background-repeat: no-repeat;
       }
 
@@ -172,7 +176,8 @@ export default {
   .username {
     position: absolute;
     width: 100%;
-    top: 100px;
+    text-shadow: 2px 2px 0 black;
+    top: 110px;
   }
 }
 </style>

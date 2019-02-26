@@ -50,7 +50,6 @@ export default {
 <style scoped lang="less">
 @import '../vars';
 
-
 .cost {
   font-weight: 600;
   font-size: 15px;
@@ -59,7 +58,6 @@ export default {
 
   .iconfont {
     margin-right: 5px;
-    color: @primary-color;
   }
 
   .not-enough {

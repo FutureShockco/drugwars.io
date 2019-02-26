@@ -9,23 +9,84 @@
         <p>Hey <b>{{ username }}</b>! You seem to be just arrived in the city. You may try to make some friends but I rather suggest you to start to defend yourself before starting any friendship. Nobody knows how much time you will stand there, but everyone will try to steal what you are producing! You should fulfill theses missions before getting some new ones.</p>
       </div>
       <ul class="missions list-style-none">
-        <li><i class="iconfont icon-check text-green mr-2"/> Upgrade the headquarters</li>
-        <li><i class="iconfont icon-check text-green mr-2"/> Increase your DRUGS production</li>
-        <li><i class="iconfont icon-check text-green mr-2"/> Increase your WEAPONS production</li>
-        <li><i class="iconfont icon-check text-green mr-2"/> Increase your ALCOHOL production</li>
-        <li><i class="iconfont icon-check text-green mr-2"/> Build a training facility!</li>
-        <li><i class="iconfont icon-check text-green mr-2"/> Recruit some units</li>
+        <li>
+          <Icon class="mr-2" :name="mission1 ? 'check' : 'chevron-right'"/>
+          Upgrade the headquarters
+        </li>
+        <li>
+          <Icon class="mr-2" :name="mission2 ? 'check' : 'chevron-right'"/>
+          Increase your DRUGS production
+        </li>
+        <li>
+          <Icon class="mr-2" :name="mission3 ? 'check' : 'chevron-right'"/>
+          Increase your WEAPONS production
+        </li>
+        <li>
+          <Icon class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
+          Increase your ALCOHOL production
+        </li>
+        <li>
+          <Icon class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>
+          Build a training facility!
+        </li>
+        <li>
+          <Icon class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
+          Recruit some units
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import buildings from 'drugwars/buildings.json';
+
 export default {
   data() {
     return {
       username: this.$store.state.auth.username,
     };
+  },
+  computed: {
+    mission1() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === 'headquarters',
+      );
+      return !!(building && building.lvl > 0);
+    },
+    mission2() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'drugs' &&
+          buildings[b.building].production_rate > 0,
+      );
+    },
+    mission3() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'weapons' &&
+          buildings[b.building].production_rate > 0,
+      );
+    },
+    mission4() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'alcohol' &&
+          buildings[b.building].production_rate > 0,
+      );
+    },
+    mission5() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === 'training_facility',
+      );
+      return !!(building && building.lvl > 0);
+    },
+    mission6() {
+      return this.$store.state.game.user.units.length > 0;
+    },
   },
 };
 </script>
@@ -36,7 +97,7 @@ export default {
     font-size: 20px;
     margin-bottom: 12px;
 
-    .icon-check {
+    .iconfont {
       font-size: 24px;
     }
   }

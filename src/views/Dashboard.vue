@@ -2,6 +2,16 @@
   <div>
     <Header title="Overview" />
     <div class="p-4 after-header">
+
+      <div class="rounded-2 bg-gray-dark overflow-hidden position-relative" style="height: 20px;">
+        <div class="bg-blue position-absolute" :style="{ width: '50%' }">
+          Balance
+        </div>
+        <div class="bg-green position-absolute" :style="{ width: '20%' }">
+          Safe
+        </div>
+      </div>
+
       <div class="mb-2 item p-2">
         <h5>DRUGS PRODUCTION <Icon name="drugs"/> </h5>
       </div>

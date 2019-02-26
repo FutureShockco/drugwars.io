@@ -32,7 +32,6 @@
     position: absolute;
     overflow-x: hidden;
     overflow-y: auto;
-    background-color: rgb(0, 0, 0);
     transition: left 0.3s;
 
     @media @bp-small {

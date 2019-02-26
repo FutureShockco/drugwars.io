@@ -41,11 +41,10 @@ a.iconfont:hover {
   font-family: @heading-font;
   font-size: 26px;
   text-transform: uppercase;
-  transform: skew(-24deg) rotate(-10deg);
-  text-rendering: optimizeLegibility;
-  font-weight: 900;
+  transform: skew(-20deg);
+  font-weight: bold;
   color: #db2828;
-  white-space: nowrap;
+  letter-spacing: 1px;
 }
 
 .preview {
@@ -103,13 +102,13 @@ a.iconfont:hover {
 }
 
 .level {
-  background: #fbbd08;
+  background: @primary-color;
   padding: 0 5px;
   color: black;
   font-weight: 700;
   border-radius: 5px;
   border: 1px solid black;
-  width: 30px;
+  min-width: 30px;
   text-align: center;
 }
 
@@ -130,3 +129,14 @@ a.iconfont:hover {
   }
 }
 
+.icon-drugs, .icon-weapons, .icon-alcohols {
+  color: @primary-color;
+}
+
+.icon-check {
+  color: @success-color;
+}
+
+.icon-steem {
+  color: blue;
+}

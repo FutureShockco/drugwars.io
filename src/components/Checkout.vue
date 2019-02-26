@@ -93,6 +93,6 @@ export default {
 <style scoped lang="less">
 .checkout {
   text-align: center;
-  width: 180px;
+  width: 165px;
 }
 </style>

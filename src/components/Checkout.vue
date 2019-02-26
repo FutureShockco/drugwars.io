@@ -1,15 +1,14 @@
 <template>
   <div class="checkout">
-    <div class="mb-2">
+    <div class="mb-3 time">
       <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
     </div>
-
     <button
       :class="{ progress: inProgress }"
       :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
       @click="handleUpgradeBuilding()"
-      class="button btn-block button-upgrade mb-2"
+      class="button btn-block button-upgrade mb-3"
     >
       <template v-if="isLoading || waitingConfirmation">
         <Loading/>
@@ -20,14 +19,13 @@
       </template>
     </button>
 
-    <div class="mb-2">Instant upgrade</div>
     <button
       :disabled="isLoading || waitingConfirmation"
       @click="handleRequestPayment()"
-      class="button btn-block button-instant-upgrade mb-2"
+      class="button btn-block button-instant-upgrade mb-1"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }}
+     BUY - ${{ price | amount }}
     </button>
   </div>
 </template>

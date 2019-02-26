@@ -54,6 +54,7 @@ a.iconfont:hover {
   @media @bp-small {
     width: 100px;
     height: 100px;
+
   }
 
   &.mini {
@@ -66,8 +67,19 @@ a.iconfont:hover {
   border-color: @border-color !important;
 }
 
-.item {
 
+@media screen and (min-width: 540px) {
+  .item{
+    display: flex!important;
+  }
+}
+.item {
+  display: inline-block;
+  border-radius: 3px;
+  background: linear-gradient(#0e111477, #0505055b), url(/img/fake-brick.png); 
+  border: 1px solid #fbbd08!important;
+  box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
+  padding: 10px;
   &.not-enough {}
 
   &.progress {
@@ -97,6 +109,7 @@ a.iconfont:hover {
     letter-spacing: 1px;
     font-size: 20px;
     text-transform: uppercase;
+    margin-bottom: 0px;
     color: @primary-color;
   }
 }
@@ -139,4 +152,49 @@ a.iconfont:hover {
 
 .icon-steem {
   color: blue;
+}
+
+.sidebar{
+  background: url(/img/fake-brick.png);
+  background-color: black;
+  box-shadow: 0px 0px 5px #000000, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black;
+  border: 0px!important;
+}
+.description{
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 3px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px black;
+}
+
+.time{
+  margin-top: -8px;
+  background: #fbbd08;
+  margin-right: -8px;
+  /* padding-left: 27px; */
+  color: black;
+  box-shadow: -5px 4px 5px black;
+  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+  letter-spacing: 2px;
+  text-align: center;
+  border-radius: 0px 0px 0px 3px;
+}
+
+.special{
+  color:rgb(132, 0, 255);
+}
+
+.feature{
+  color:orange;
+}
+
+.production{
+  display: inline-flex;
+  color:orange;
+  span{
+    color:white;
+  }
+  div{
+    margin-right: 5px;
+  }
 }

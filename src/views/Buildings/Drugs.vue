@@ -1,7 +1,7 @@
 <template>
   <div>
     <BuildingsTabs/>
-    <div class="p-4">
+    <div class="p-3">
       <Building
         v-if="!item.disabled"
         v-for="item in items"

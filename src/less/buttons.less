@@ -1,17 +1,20 @@
 @import '../vars';
 
 .button {
-  border-radius: 4px;
+  border-radius: 3px;
   border: none;
-  font-size: 14px;
-  line-height: 32px;
-  height: 32px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 1px;
   color: @heading-color;
   padding: 0 8px;
+  padding-top: 2px;
   box-shadow:inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 
   &:disabled {
-    background-color: #9f9f9f !important;
+    background-color: #f01616!important;
+    background-image: radial-gradient(ellipse farthest-corner at center 0, #9e0404 -150%, #a80000 45%, #690000 85%)!important;
+    box-shadow: 0px 0px 3px red!important;
     box-shadow:inset 0 0 0 100px rgba(0, 0, 0, 0.2);
     cursor: default;
   }
@@ -40,7 +43,9 @@
 
   &.button-upgrade {
     background-color: @success-color;
-
+    background-color: #049e25;
+    background-image: radial-gradient(ellipse farthest-corner at center 0, #00b828 -150%, #028500 45%, #1c6900 85%);
+    box-shadow: 0px 0px 3px green;
     &:hover {
       background-color: lighten(@success-color, 5%);
     }
@@ -48,6 +53,10 @@
 
   &.button-instant-upgrade {
     background-color: @blue-color;
+    background-color: #0c72bf;
+    background-image: radial-gradient(ellipse farthest-corner at center 0, #0772bf -150%, #0c8ce7 45%, #1152a1 85%);
+    -webkit-box-shadow: 0px 0px 3px green;
+    box-shadow: 0px 0px 3px #0085ff;
 
     &:hover {
       background-color: lighten(@blue-color, 5%);

@@ -20,49 +20,54 @@
         </router-link>
       </div>
       <div class="height-full">
-        <ul class="pt-1 pb-2 border-bottom">
+        <ul class="border-bottom">
           <li>
             <router-link
               to="/"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+              <img :src="`/img/icons/overview.png`">
               Overview
             </router-link>
           </li>
           <li>
             <router-link
               to="/missions"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+             <img :src="`/img/icons/missions.png`">
               Missions
             </router-link>
           </li>
           <li>
             <router-link
               to="/buildings"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+            <img :src="`/img/icons/buildings.png`">
               Buildings
             </router-link>
           </li>
           <li>
             <router-link
               to="/units"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+            <img :src="`/img/icons/bootcamp.png`">
               Bootcamp
             </router-link>
           </li>
           <li>
             <router-link
               to="/battles"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+            <img :src="`/img/icons/battles.png`">
               Battles
               <span v-if="activeFightsCount > 0">
               ({{ activeFightsCount }})
@@ -72,9 +77,10 @@
           <li>
             <router-link
               to="/leaderboard"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
+            <img :src="`/img/icons/leaderboard.png`">
               Leaderboard
             </router-link>
           </li>
@@ -83,7 +89,7 @@
           <li>
             <router-link
               to="/referral"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
               Referral
@@ -92,7 +98,7 @@
           <li>
             <router-link
               to="/help"
-              class="py-1 px-4 d-block"
+              class="py-2 px-3 d-block"
               @click.native="toggleSidebar"
             >
               Help
@@ -140,7 +146,6 @@ export default {
 
 .sidebar-left {
   left: -@sidebar-width;
-
   @media @bp-small {
     left: 0;
   }
@@ -154,16 +159,31 @@ export default {
     font-family: @heading-font;
     letter-spacing: 2px;
     font-size: 20px;
-
+    margin:0px;
     li {
       clear: both;
+      a{
+        img{
+            width: 24px;
+            border-radius: 5px;
+            border:1px solid #ffc400;
+            margin-bottom: -5px;
+            margin-right: 5px;
+            background: grey;
+        }
+      }
 
       .router-link-exact-active {
         opacity: 1;
         color: black;
-        background-image: url(/img/brush.svg);
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
+        background-image: radial-gradient(ellipse farthest-corner at center 0,#ffc400 -150%,#ffc400 45%,#f80 85%);
+        box-shadow: 0 1px 2px transparent, inset 0 0 1px 1px #f80;
+        text-shadow: 0px 0px 5px black, 0px 0px 5px black, 0px 0px 5px black;
+        color: #fff;
+            img{
+            border:1px solid #000000;
+            background: #2d2d2d;
+        }
       }
 
       a {

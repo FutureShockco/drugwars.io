@@ -1,10 +1,8 @@
 <template>
-  <div class="cost mb-2">
-    <span class="mr-2">
-      Cost:
-    </span>
+  <div class="cost">
+    Cost:
     <span
-      class="mr-2"
+      class="ml-2 mr-2"
       :class="{ 'not-enough': drugsCost > drugsBalance }"
       v-if="drugsCost"
     >
@@ -24,7 +22,7 @@
       :class="{ 'not-enough': alcoholsCost > alcoholsBalance }"
       v-if="alcoholsCost"
     >
-      <Icon :size="18" name="alcohols"/>
+      <Icon :size="18" name="alcohol"/>
       {{ alcoholsCost | amount}}
     </span>
   </div>
@@ -51,17 +49,15 @@ export default {
 @import '../vars';
 
 .cost {
-  font-weight: 600;
   font-size: 15px;
   color: #c7c7c7;
+  width: 100%;
   display: inline-flex;
-
-  .iconfont {
-    margin-right: 5px;
-  }
-
   .not-enough {
     color: @error-color;
+  }
+  span{
+    display: inline-flex;
   }
 }
 </style>

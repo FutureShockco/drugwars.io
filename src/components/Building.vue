@@ -1,25 +1,25 @@
 <template>
   <div
-    class="d-flex flex-row border-bottom item mb-4"
+    class="flex-row border-bottom item mb-3 p-2"
     :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
   >
-    <div class="mr-3">
+    <div class="mr-3 ml-2 mt-1">
       <img class="preview" :src="`/img/buildings/${building.id}.png`">
     </div>
-    <div class="item-level">{{ ownItem.lvl }}</div>
-    <div class="item-content width-full mr-3 mb-4">
-      <h5>{{ building.name }}</h5>
-      <Cost
+    <div class="item-content width-full mr-3">
+      <h5>{{ building.name }} ({{ ownItem.lvl }})</h5>
+      <div class="mb-2 description">
+                                  <Cost
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
       />
-      <div class="mb-2" v-html="building.desc"></div>
-      <div v-if="building.feature" class="mb-2">
-        Special:
-        <span class="text-green">{{ building.feature }}</span>
+        <div v-html="building.desc"></div>
+        <div v-if="building.feature" class="feature">
+        UNIQUE:
+        <span class="special">{{ building.feature }}</span>
       </div>
-      <div v-if="building.production_type" class="mb-2">
+            <div v-if="building.production_type">
         <BuildingProduction
           :compactview="0"
           :type="building.production_type"
@@ -27,6 +27,7 @@
           :coeff="building.coeff"
           :production_rate="building.production_rate"
         />
+      </div>
       </div>
     </div>
     <div>

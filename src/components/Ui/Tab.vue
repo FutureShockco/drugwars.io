@@ -25,7 +25,6 @@ export default {
     text-decoration: none;
     display: inline-block;
     padding: 0 15px;
-    letter-spacing: 2px;
     font-weight: normal;
 
     &.active {

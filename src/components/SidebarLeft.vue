@@ -152,7 +152,6 @@ export default {
   ul {
     list-style: none;
     font-family: @heading-font;
-    letter-spacing: 2px;
     font-size: 20px;
 
     li {

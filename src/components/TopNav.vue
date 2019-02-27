@@ -9,11 +9,11 @@
           <img src="/img/logo.png">
         </router-link>
       </div>
-      <div class="ml-4 text-center width-full d-flex flex-column flex-justify-center">
-        <div class="ann">
-          Today prize pool: <h4 class="d-inline-block mb-0">${{ parseInt(total) }}</h4>
+      <div class="ml-4 width-full d-flex flex-column flex-justify-center">
+        <div class="prize">
+          Today prize pool: ${{ parseInt(total) }}
         </div>
-        <span class="text-gray hide-sm hide-md hide-lg">
+        <span class="text-gray hide-sm hide-md hide-lg mb-1">
           Daily: <b>${{ parseInt(totalDaily) }}</b>
           + Heist: <b>${{ parseInt(totalHeist) }}</b>,
           you will receive: <span class="text-green">+X.XXX STEEM</span> in {{ timeToWait | ms }}
@@ -97,8 +97,9 @@ export default {
     width: 100%;
     padding-right: 0;
 
-    .ann {
-      font-size: 20px;
+    .prize {
+      font-size: 22px;
+      font-family: @heading-font;
     }
 
     .username {

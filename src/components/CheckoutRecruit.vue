@@ -1,5 +1,5 @@
 <template>
-  <div class="checkout">
+  <div class="checkout mb-4">
     <input
       class="input form-control input-block mb-2"
       type="number"

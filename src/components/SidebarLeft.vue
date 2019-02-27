@@ -2,22 +2,17 @@
   <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
       <div class="text-center border-bottom pt-5 pb-6">
-        <router-link
-          to="/"
+        <Avatar
+          :size="100"
+          :username="username"
+          :xp="xp"
+        />
+        <div
+          class="username"
           @click.native="toggleSidebar"
         >
-          <Avatar
-            :size="100"
-            :username="username"
-            :xp="xp"
-          />
-          <div
-            class="username"
-            @click.native="toggleSidebar"
-          >
-            {{ username }}
-          </div>
-        </router-link>
+          {{ username }}
+        </div>
       </div>
       <div class="height-full">
         <ul class="pt-1 pb-2 border-bottom">

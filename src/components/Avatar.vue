@@ -1,5 +1,6 @@
 <template>
-  <span
+  <router-link
+    :to="`/@${username}`"
     class="avatar"
     :style="{
       'width': `${this.size}px`,
@@ -17,7 +18,7 @@
     <span class="level py-1 px-2" v-if="xp">
       {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
-  </span>
+  </router-link>
 </template>
 
 <script>

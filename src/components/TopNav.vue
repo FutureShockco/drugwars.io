@@ -11,12 +11,12 @@
       </div>
       <div class="ml-4 text-center width-full d-flex flex-column flex-justify-center">
         <div class="ann">
-          Today prize pool: <span class="username">${{ parseInt(total) }}</span>
+          Today prize pool: <h4 class="d-inline-block mb-0">${{ parseInt(total) }}</h4>
         </div>
         <span class="text-gray hide-sm hide-md hide-lg">
-          daily: <b>${{ parseInt(totalDaily) }}</b>
-          + heist: <b>${{ parseInt(totalHeist) }}</b>,
-          payment <b>in {{ timeToWait | ms }}</b>
+          Daily: <b>${{ parseInt(totalDaily) }}</b>
+          + Heist: <b>${{ parseInt(totalHeist) }}</b>,
+          you will receive: <span class="text-green">+X.XXX STEEM</span> in {{ timeToWait | ms }}
         </span>
       </div>
     </div>

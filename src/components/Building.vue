@@ -49,20 +49,22 @@ import { calculateBuildingCost } from '@/helpers/utils';
 export default {
   props: ['building'],
   computed: {
-    drugsBalance() {
-      return this.$store.state.game.user.drugs_balance;
+    user() {
+      return this.$store.state.game.user.user;
     },
-    weaponsBalance() {
-      return this.$store.state.game.user.user.weapons_balance;
-    },
-    alcoholsBalance() {
-      return this.$store.state.game.user.user.alcohols_balance;
+    balances() {
+      const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
+      return {
+        drugs: this.user.drugs_balance + time * this.user.drug_production_rate,
+        weapons: this.user.weapons_balance + time * this.user.weapon_production_rate,
+        alcohols: this.user.alcohols_balance + time * this.user.alcohol_production_rate,
+      };
     },
     hasNotEnough() {
       return (
-        this.drugsCost > this.drugsBalance ||
-        this.weaponsCost > this.weaponsBalance ||
-        this.alcoholsCost > this.alcoholsBalance
+        this.drugsCost > this.balances.drugs ||
+        this.weaponsCost > this.balances.weapons ||
+        this.alcoholsCost > this.balances.alcohols
       );
     },
     ownItem() {

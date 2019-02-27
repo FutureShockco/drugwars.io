@@ -58,20 +58,22 @@
 export default {
   props: ['unit'],
   computed: {
-    drugsBalance() {
-      return this.$store.state.game.user.drugs_balance;
+    user() {
+      return this.$store.state.game.user.user;
     },
-    weaponsBalance() {
-      return this.$store.state.game.user.user.weapons_balance;
-    },
-    alcoholsBalance() {
-      return this.$store.state.game.user.user.alcohols_balance;
+    balances() {
+      const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
+      return {
+        drugs: this.user.drugs_balance + time * this.user.drug_production_rate,
+        weapons: this.user.weapons_balance + time * this.user.weapon_production_rate,
+        alcohols: this.user.alcohols_balance + time * this.user.alcohol_production_rate,
+      };
     },
     hasNotEnough() {
       return (
-        this.unit.drugs_cost / 10000 > this.weaponsBalance ||
-        this.unit.weapons_cost / 10000 > this.weaponsBalance ||
-        this.unit.alcohols_cost / 10000 > this.alcoholsBalance
+        this.unit.drugs_cost / 10000 > this.balances.drugs ||
+        this.unit.weapons_cost / 10000 > this.balances.weapons ||
+        this.unit.alcohols_cost / 10000 > this.balances.alcohols
       );
     },
     ownItem() {

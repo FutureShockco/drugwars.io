@@ -1,9 +1,12 @@
 <template> 
-  <i :class="`iconfont icon-${name}`"/>
+  <i
+    :class="`iconfont icon-${name}`"
+    :style="size && { fontSize: `${size}px` }"
+  />
 </template>
 
 <script>
 export default {
-  props: ['name'],
+  props: ['name', 'size'],
 };
 </script>

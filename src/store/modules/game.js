@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Promise from 'bluebird';
 import kbyte from '@/helpers/kbyte';
 import sc from '@/helpers/steemconnect';
 
@@ -27,64 +28,91 @@ const mutations = {
 };
 
 const actions = {
-  init: ({ commit, rootState }) =>
+  init: ({ commit, rootState, dispatch }) =>
     new Promise(resolve => {
       const { username } = rootState.auth;
-      Promise.all([
-        kbyte.requestAsync('get_props', null),
-        kbyte.requestAsync('get_prize_props', null),
-        kbyte.requestAsync('get_user', username),
-        kbyte.requestAsync('get_fights', username),
-      ]).then(([props, prizeProps, user, fights]) => {
-        commit('saveProps', props);
-        commit('savePrizeProps', prizeProps);
-        commit('saveUser', user);
-        commit('saveFights', fights);
-        resolve();
+      kbyte.request('get_user', username, (e, user) => {
+        if (user) {
+          Promise.all([
+            kbyte.requestAsync('get_props', null),
+            kbyte.requestAsync('get_prize_props', null),
+            kbyte.requestAsync('get_fights', username),
+          ]).then(([props, prizeProps, fights]) => {
+            commit('saveProps', props);
+            commit('savePrizeProps', prizeProps);
+            commit('saveUser', user);
+            commit('saveFights', fights);
+            resolve();
+          });
+        } else {
+          dispatch('signup').then(() => {
+            Promise.delay(9000).then(() => {
+              window.location = '/';
+            });
+          });
+        }
+      });
+    }),
+  signup: ({ rootState }) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      const payload = {
+        user_id: '5',
+        username,
+        icon: '5',
+        referrer: localStorage.getItem('drugwars_referrer') || null,
+      };
+      sc.customEvent(username, 'dw-char', payload, (err, result) => {
+        if (err) return reject(err);
+        return resolve(result);
       });
     }),
   upgradeBuilding: ({ rootState }, { id, level }) =>
     new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
       const payload = {
-        username: rootState.auth.username,
+        username,
         building: id,
         level,
       };
-      sc.customEvent(rootState.auth.username, 'dw-upgrade', payload, (err, result) => {
+      sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
     }),
   recruitUnit: ({ rootState }, { unit, amount }) =>
     new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
       const payload = {
-        username: rootState.auth.username,
+        username,
         unit,
         unit_amount: amount,
       };
-      sc.customEvent(rootState.auth.username, 'dw-unit', payload, (err, result) => {
+      sc.customEvent(username, 'dw-unit', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
     }),
   investHeist: ({ rootState }, amount) =>
     new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
       const payload = {
-        username: rootState.auth.username,
+        username,
         amount,
       };
-      sc.customEvent(rootState.auth.username, 'dw-heist', payload, (err, result) => {
+      sc.customEvent(username, 'dw-heist', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });
     }),
   startFight: ({ rootState }, { target, units }) =>
     new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
       const payload = {
         target,
         units,
       };
-      sc.customEventNext(rootState.auth.username, 'fight', payload, (err, result) => {
+      sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });

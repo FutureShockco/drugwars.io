@@ -23,7 +23,6 @@ export default {
   background-color: @sidebar-bg-color;
   color: @white-darker;
   font-size: 20px;
-  letter-spacing: 2px;
   z-index: 100;
   top: 0;
   width: 100%;

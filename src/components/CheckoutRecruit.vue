@@ -1,5 +1,10 @@
 <template>
   <div class="checkout">
+    <input
+      class="input form-control input-block"
+      type="number"
+      v-model="quantity"
+    >
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : buildingTime | ms }}
@@ -7,8 +12,8 @@
     <button
       :class="{ progress: inProgress }"
       :disabled="isLoading || inProgress"
-      @click="handleUpgradeBuilding()"
-      class="button btn-block button-upgrade mb-2"
+      @click="handleRecruitUnit()"
+      class="button btn-block button-green mb-2"
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-person"/>
@@ -22,10 +27,10 @@
     <button
       :disabled="isLoading"
       @click="handleRequestPayment()"
-      class="button btn-block button-instant-upgrade mb-2"
+      class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }}
+      ${{ price * quantity | amount }}
     </button>
   </div>
 </template>
@@ -38,6 +43,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      quantity: 1,
     };
   },
   computed: {
@@ -58,10 +64,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
-    handleUpgradeBuilding() {
+    ...mapActions(['recruitUnit', 'requestPayment']),
+    handleRecruitUnit() {
       this.isLoading = true;
-      this.upgradeBuilding({ id: this.id, level: this.level })
+      this.recruitUnit({ unit: this.id, amount: this.quantity })
         .then(result => {
           console.log('Result', result);
           this.isLoading = false;
@@ -73,7 +79,7 @@ export default {
     },
     handleRequestPayment() {
       this.requestPayment({
-        memo: `upgrade:${this.id}`,
+        memo: `unit:${this.id},amount:${this.quantity}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

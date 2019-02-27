@@ -152,7 +152,6 @@ export default {
   ul {
     list-style: none;
     font-family: @heading-font;
-    letter-spacing: 2px;
     font-size: 20px;
 
     li {
@@ -161,8 +160,9 @@ export default {
       .router-link-exact-active {
         opacity: 1;
         color: black;
-        background-image: url(/img/brush.svg);
-        background-size: 100% 100%;
+        background-image: url('/img/brush-yellow.svg');
+        background-size: 100% 150%;
+        background-position: 0 -10px;
         background-repeat: no-repeat;
       }
 

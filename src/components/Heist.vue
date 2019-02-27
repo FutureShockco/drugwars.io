@@ -11,7 +11,7 @@
       <button
         :disabled="isLoading"
         type="submit"
-        class="button button-instant-upgrade btn-block mt-2"
+        class="button button-blue btn-block mt-2"
       >
         <Icon name="arrow-up"/> Invest
       </button>

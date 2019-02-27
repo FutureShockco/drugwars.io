@@ -13,7 +13,7 @@
       :class="{ progress: inProgress }"
       :disabled="isLoading || inProgress"
       @click="handleRecruitUnit()"
-      class="button btn-block button-upgrade mb-2"
+      class="button btn-block button-green mb-2"
     >
       <template v-if="!isLoading">
         <i class="iconfont icon-person"/>
@@ -27,7 +27,7 @@
     <button
       :disabled="isLoading"
       @click="handleRequestPayment()"
-      class="button btn-block button-instant-upgrade mb-2"
+      class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
       ${{ price * quantity | amount }}

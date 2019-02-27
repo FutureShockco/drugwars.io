@@ -9,7 +9,7 @@
       :class="{ progress: inProgress }"
       :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
       @click="handleUpgradeBuilding()"
-      class="button btn-block button-upgrade mb-2"
+      class="button btn-block button-green mb-2"
     >
       <template v-if="isLoading || waitingConfirmation">
         <Loading/>
@@ -24,7 +24,7 @@
     <button
       :disabled="isLoading || waitingConfirmation"
       @click="handleRequestPayment()"
-      class="button btn-block button-instant-upgrade mb-2"
+      class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
       ${{ price | amount }}

@@ -57,9 +57,9 @@ export default {
     display: inline-block;
     position: absolute;
     top: -8%;
-    left: -4%;
-    bottom: -5%;
-    right: -7%;
+    left: -12%;
+    bottom: -18%;
+    right: -12%;
     background-image: url('/img/avatar-border.svg');
     background-size: contain;
     background-repeat: no-repeat;

@@ -13,6 +13,7 @@
         'height': `${this.size}px`,
        }"
     />
+    <span class="avatar-border"/>
     <span class="level py-1 px-2" v-if="xp">
       {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
@@ -50,6 +51,18 @@ export default {
     position: absolute;
     top: 0;
     left: -20px;
+  }
+
+  .avatar-border {
+    display: inline-block;
+    position: absolute;
+    top: -8%;
+    left: -4%;
+    bottom: -5%;
+    right: -7%;
+    background-image: url('/img/avatar-border.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 </style>

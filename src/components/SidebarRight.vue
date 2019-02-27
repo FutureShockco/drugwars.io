@@ -7,29 +7,29 @@
       <li class="d-flex">
         <Icon name="drugs"/>
         <div>
-          <div>{{ balances.drugs | amount }} <span class="hide-sm hide-md"></span></div>
-          <div class="text-gray hide-sm hide-md">{{ user.drug_production_rate * 3600 * 24 | amount }} / day</div>
+          <div>{{ balances.drugs | amount }}</div>
+          <div class="text-gray">DRUGS</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="weapons"/>
         <div>
-          <div>{{ balances.weapons | amount }} <span class="hide-sm hide-md"></span></div>
-          <div class="text-gray hide-sm hide-md">{{ user.weapon_production_rate * 3600 * 24 | amount }} / day</div>
+          <div>{{ balances.weapons | amount }}</div>
+          <div class="text-gray">WEAPONS</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="alcohols"/>
         <div>
-          <div>{{ balances.alcohols | amount }} <span class="hide-sm hide-md"></span></div>
-          <div class="text-gray hide-sm hide-md">{{ user.alcohol_production_rate * 3600 * 24 | amount }} / day</div>
+          <div>{{ balances.alcohols | amount }}</div>
+          <div class="text-gray">ALCOHOLS</div>
         </div>
       </li>
       <li class="d-flex hide-sm">
         <Icon name="steem"/>
         <div>
-          <div>{{ '1234' | amount }}</div>
-          <div class="text-gray hide-md">{{ '0.123' | amount }} / day</div>
+          <div>{{ '123.456' | amount }}</div>
+          <div class="text-gray">STEEM</div>
         </div>
       </li>
     </ul>

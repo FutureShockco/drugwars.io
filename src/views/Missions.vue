@@ -11,27 +11,27 @@
       <ul class="missions list-style-none">
         <li>
           <Icon class="mr-2" :name="mission1 ? 'check' : 'chevron-right'"/>
-          Upgrade the headquarters
+          <router-link to="/buildings">Upgrade the headquarters</router-link>
         </li>
         <li>
           <Icon class="mr-2" :name="mission2 ? 'check' : 'chevron-right'"/>
-          Increase your DRUGS production
+          <router-link to="/drugs">Increase your DRUGS production</router-link>
         </li>
         <li>
           <Icon class="mr-2" :name="mission3 ? 'check' : 'chevron-right'"/>
-          Increase your WEAPONS production
+          <router-link to="/weapons">Increase your WEAPONS production</router-link>
         </li>
         <li>
           <Icon class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
-          Increase your ALCOHOL production
+          <router-link to="/alcohols">Increase your ALCOHOLS production</router-link>
         </li>
         <li>
           <Icon class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>
-          Build a training facility!
+          <router-link to="/buildings">Build a training facility!</router-link>
         </li>
         <li>
           <Icon class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
-          Recruit some units
+          <router-link to="/units">Recruit some units</router-link>
         </li>
       </ul>
     </div>

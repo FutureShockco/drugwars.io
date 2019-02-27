@@ -28,8 +28,12 @@ export default {
     font-weight: normal;
 
     &.active {
-      border-bottom: 1px solid white;
-      color: @white-darker;
+      background-image: url('/img/brush-yellow.svg');
+      background-size: 100px 100%;
+      background-position: -4px 36px;
+      background-repeat: no-repeat;
+
+      color: @heading-color;
     }
   }
 }

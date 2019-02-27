@@ -32,15 +32,6 @@
           </li>
           <li>
             <router-link
-              to="/missions"
-              class="py-1 px-4 d-block"
-              @click.native="toggleSidebar"
-            >
-              Missions
-            </router-link>
-          </li>
-          <li>
-            <router-link
               to="/buildings"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"

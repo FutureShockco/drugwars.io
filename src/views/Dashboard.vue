@@ -2,6 +2,8 @@
   <div>
     <Header title="Overview" />
     <div class="p-4">
+      <Quickstart/>
+
 
       <h3><Icon name="drugs" size="30" class="mr-2"/> Drugs production</h3>
       {{ user.drugs_balance | amount }} / {{ drugStorage | amount }}

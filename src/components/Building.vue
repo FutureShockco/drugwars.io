@@ -67,7 +67,7 @@ export default {
     },
     ownItem() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === this.$props.building.id) || {
+        this.$store.state.game.user.buildings.find(b => b.building === this.building.id) || {
           lvl: 0,
         }
       );

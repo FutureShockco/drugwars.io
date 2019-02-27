@@ -2,13 +2,13 @@
   <div class="checkout">
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : buildingTime | ms }}
+      {{ inProgress ? timeToWait : updateTime | ms }}
     </div>
 
     <button
       :class="{ progress: inProgress }"
       :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
-      @click="handleUpgradeBuilding()"
+      @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
       <template v-if="isLoading || waitingConfirmation">
@@ -52,7 +52,7 @@ export default {
     },
   },
   computed: {
-    buildingTime() {
+    updateTime() {
       return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
     priceInSteem() {
@@ -63,14 +63,15 @@ export default {
       if (building) {
         const nextUpdate = new Date(building.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
-        return nextUpdate - now;
+        const timeToWait = nextUpdate - now;
+        return timeToWait > 0 ? timeToWait : 0;
       }
       return 0;
     },
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
-    handleUpgradeBuilding() {
+    handleSubmit() {
       this.isLoading = true;
       this.upgradeBuilding({ id: this.id, level: this.level })
         .then(() => {

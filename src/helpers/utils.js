@@ -25,4 +25,15 @@ function calculateTimeToBuild(id, coeff, level, hqLevel) {
     : ((coeff * 2000 * ((Math.sqrt(625 + 100 * (level * 250)) - 25) / 50)) / hqLevel) * 1000;
 }
 
-export { isElectron, isWeb, jsonParse, calculateBuildingCost, calculateTimeToBuild };
+function calculateTimeToRecruit(coeff, level, amount) {
+  return (coeff * 80 - ((level * 10) / 100) * amount) * 1000;
+}
+
+export {
+  isElectron,
+  isWeb,
+  jsonParse,
+  calculateBuildingCost,
+  calculateTimeToBuild,
+  calculateTimeToRecruit,
+};

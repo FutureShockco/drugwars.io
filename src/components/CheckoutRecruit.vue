@@ -1,31 +1,34 @@
 <template>
   <div class="checkout">
     <input
-      class="input form-control input-block"
+      class="input form-control input-block mb-2"
       type="number"
       v-model="quantity"
     >
+
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : buildingTime | ms }}
+      {{ inProgress ? timeToWait : (updateTime * quantity) | ms }}
     </div>
+
     <button
       :class="{ progress: inProgress }"
-      :disabled="isLoading || inProgress"
-      @click="handleRecruitUnit()"
+      :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
+      @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
-      <template v-if="!isLoading">
-        <i class="iconfont icon-person"/>
-        {{ inProgress ? 'Recruiting' : 'Recruit' }}
-      </template>
-      <template v-else>
+      <template v-if="isLoading || waitingConfirmation">
         <Loading/>
       </template>
+      <template v-else>
+        <i class="iconfont icon-person"/>
+        {{ inProgress ? 'Recruiting' : notEnough ? 'Miss resources' : 'Recruit' }}
+      </template>
     </button>
+
     <div class="mb-2">Instant recruit</div>
     <button
-      :disabled="isLoading"
+      :disabled="isLoading || waitingConfirmation"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -37,39 +40,52 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { calculateTimeToRecruit } from '@/helpers/utils';
 
 export default {
-  props: ['id', 'inProgress', 'price'],
+  props: ['id', 'level', 'coeff', 'inProgress', 'price', 'notEnough'],
   data() {
     return {
-      isLoading: false,
       quantity: 1,
+      isLoading: false,
+      waitingConfirmation: false,
     };
   },
+  watch: {
+    inProgress(val) {
+      if (val) {
+        this.waitingConfirmation = false;
+      }
+    },
+  },
   computed: {
-    buildingTime() {
-      return 12345;
+    updateTime() {
+      return calculateTimeToRecruit(this.coeff, this.level, this.quantity);
     },
     priceInSteem() {
-      return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+      return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(
+        3,
+      );
     },
     timeToWait() {
-      const unit = this.$store.state.game.user.units.find(b => b.building === this.id);
+      const unit = this.$store.state.game.user.units.find(b => b.unit === this.id);
       if (unit) {
         const nextUpdate = new Date(unit.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
-        return nextUpdate - now;
+        const timeToWait = nextUpdate - now;
+        return timeToWait > 0 ? timeToWait : 0;
       }
       return 0;
     },
   },
   methods: {
     ...mapActions(['recruitUnit', 'requestPayment']),
-    handleRecruitUnit() {
+    handleSubmit() {
       this.isLoading = true;
       this.recruitUnit({ unit: this.id, amount: this.quantity })
         .then(result => {
           console.log('Result', result);
+          this.waitingConfirmation = true;
           this.isLoading = false;
         })
         .catch(e => {

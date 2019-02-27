@@ -44,8 +44,11 @@
     <div>
       <CheckoutRecruit
         :id="unit.id"
+        :level="1"
+        :coeff="unit.coeff"
         :inProgress="inProgress"
         :price="unit.weapons_cost / 10000"
+        :notEnough="hasNotEnough"
       />
     </div>
   </div>
@@ -55,8 +58,34 @@
 export default {
   props: ['unit'],
   computed: {
+    drugsBalance() {
+      return this.$store.state.game.user.drugs_balance;
+    },
+    weaponsBalance() {
+      return this.$store.state.game.user.user.weapons_balance;
+    },
+    alcoholsBalance() {
+      return this.$store.state.game.user.user.alcohols_balance;
+    },
+    hasNotEnough() {
+      return (
+        this.unit.drugs_cost / 10000 > this.weaponsBalance ||
+        this.unit.weapons_cost / 10000 > this.weaponsBalance ||
+        this.unit.alcohols_cost / 10000 > this.alcoholsBalance
+      );
+    },
+    ownItem() {
+      return (
+        this.$store.state.game.user.units.find(b => b.unit === this.unit.id) || {
+          lvl: 0,
+        }
+      );
+    },
     inProgress() {
-      return false;
+      if (!this.ownItem) return false;
+      const nextUpdate = new Date(this.ownItem.next_update).getTime();
+      const now = new Date().getTime();
+      return nextUpdate >= now;
     },
   },
 };

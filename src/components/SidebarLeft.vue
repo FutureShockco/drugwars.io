@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center border-bottom pt-5 pb-4">
+      <div class="text-center border-bottom pt-5 pb-3">
         <Avatar
           :size="100"
           :username="username"

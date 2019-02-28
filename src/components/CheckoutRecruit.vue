@@ -4,6 +4,7 @@
       class="input form-control input-block mb-2"
       type="number"
       v-model="quantity"
+      min="1"
     >
 
     <div class="mb-2">

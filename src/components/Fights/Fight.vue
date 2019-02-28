@@ -5,9 +5,10 @@
         <Avatar :size="80" :username="fight.username"/>
         <div class="username mb-4">{{ fight.username }}</div>
         <div class="mb-4" v-if="json.attacker">
-          <FightsUnits
+          <Army
             v-if="json.attacker.units"
             :units="json.attacker.units"
+            :withDead="true"
           />
         </div>
       </div>
@@ -29,9 +30,10 @@
         <Avatar :size="80" :username="fight.target"/>
         <div class="username mb-4">{{ fight.target }}</div>
         <div class="mb-4" v-if="json.target">
-          <FightsUnits
+          <Army
             v-if="json.target.units"
             :units="json.target.units"
+            :withDead="true"
           />
           <FightsStolenResources
             v-if="json.target.resources"

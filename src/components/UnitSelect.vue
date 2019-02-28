@@ -1,16 +1,19 @@
 <template>
-  <div class="mb-4 border-bottom pb-4">
-    <h5>{{ unit.name }}</h5>
+  <div>
+    <p>{{ unit.name }}</p>
     <img class="preview rounded-2" :src="`/img/units/${unit.id}.png`"/>
-    <div class="v-align-middle mb-6">
+    <div class="v-align-middle mb-4">
       <input
         class="input form-control mr-2"
-        :value="item.amount"
         type="number"
-        min="0"
-        :max="1"
+        min="1"
+        :max="item.amount"
+        v-model="amount"
       >
-      <button class="button button-blue">
+      <button
+        class="button button-blue"
+        @click="handleClick()"
+      >
         Add
       </button>
     </div>
@@ -22,10 +25,23 @@ import units from 'drugwars/units.json';
 
 export default {
   props: ['item'],
+  data() {
+    return {
+      amount: this.item.amount,
+    };
+  },
   computed: {
     unit() {
-      return units[this.$props.item.key];
+      return units[this.item.key];
     },
   },
+  methods: {
+    handleClick() {
+      this.$emit('click', {
+        key: this.unit.id,
+        amount: this.amount,
+      });
+    }
+  }
 };
 </script>

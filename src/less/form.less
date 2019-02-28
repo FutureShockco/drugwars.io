@@ -1,5 +1,9 @@
 @import '../vars';
 
+.form {
+  max-width: 260px;
+}
+
 .button {
   font-family: @heading-font;
   border: none;
@@ -53,6 +57,15 @@
 
   &.button-blue {
     background-image: url('/img/brush-blue.svg');
+    background-size: cover;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  &.button-red {
+    background-image: url('/img/brush-red.svg');
     background-size: cover;
 
     &:hover {

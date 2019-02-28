@@ -10,7 +10,7 @@
           <Avatar :username="username" size="140"/>
         </div>
         <div class="mb-4">
-          <p v-for="unit in user.units">
+          <p :key="unit.unit" v-for="unit in user.units">
             {{ unit.unit }} x {{ unit.amount }}
           </p>
         </div>
@@ -21,10 +21,8 @@
 
 <script>
 import kbyte from '@/helpers/kbyte';
-import Avatar from "../components/Avatar";
 
 export default {
-  components: {Avatar},
   data() {
     return {
       username: this.$route.params.username,

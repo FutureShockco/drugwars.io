@@ -50,7 +50,8 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
-  .level, .rank {
+  .level,
+  .rank {
     display: inline-block;
     position: absolute;
     top: 0;

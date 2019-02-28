@@ -40,17 +40,6 @@ export default {
 }
 
 .rank {
-  width: 30px;
-  height: 30px;
-  margin: 5px 0;
-  line-height: 26px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 50%;
-  background-color: transparent;
-  color: @primary-color;
-  border: 1px solid @primary-color;
-  display: block;
-  text-align: center;
+  margin: 8px 0;
 }
 </style>

@@ -18,12 +18,15 @@
     <span class="level py-1 px-2" v-if="xp">
       {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
+    <span class="rank py-1 px-2" v-if="rank">
+      {{ rank }}
+    </span>
   </router-link>
 </template>
 
 <script>
 export default {
-  props: ['username', 'size', 'xp'],
+  props: ['username', 'size', 'xp', 'rank'],
 };
 </script>
 
@@ -47,7 +50,7 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
-  .level {
+  .level, .rank {
     display: inline-block;
     position: absolute;
     top: 0;

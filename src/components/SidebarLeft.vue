@@ -5,7 +5,7 @@
         <Avatar
           :size="100"
           :username="username"
-          :xp="xp"
+          :rank="rank"
         />
         <div
           class="username"
@@ -102,8 +102,8 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
-    xp() {
-      return this.$store.state.game.user.user.xp;
+    rank() {
+      return this.$store.state.game.user.rank[0].rank;
     },
     activeFightsCount() {
       const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);

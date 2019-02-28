@@ -10,7 +10,7 @@
         min="0"
         :max="1"
       >
-      <button class="btn btn-blue btn-primary">
+      <button class="button button-blue">
         Add
       </button>
     </div>

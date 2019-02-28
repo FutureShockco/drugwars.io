@@ -57,10 +57,10 @@ export default {
   .avatar-border {
     display: inline-block;
     position: absolute;
-    top: -8%;
+    top: -5%;
     left: -12%;
     bottom: -18%;
-    right: -12%;
+    right: -10%;
     background-image: url('/img/avatar-border.svg');
     background-size: contain;
     background-repeat: no-repeat;

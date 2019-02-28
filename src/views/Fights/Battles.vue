@@ -16,7 +16,7 @@
           >
         </div>
         <button
-          class="btn btn-large btn-primary mb-6"
+          class="button button-green mb-4"
           @click="handleSubmit"
         >
           Fight

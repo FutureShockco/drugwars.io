@@ -147,8 +147,8 @@ export default {
         opacity: 1;
         color: black;
         background-image: url('/img/brush-yellow.svg');
-        background-size: 100% 150%;
-        background-position: 0 -10px;
+        background-size: cover;
+        background-position: -20px;
         background-repeat: no-repeat;
       }
 

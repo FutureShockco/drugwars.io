@@ -28,7 +28,7 @@
       <li class="d-flex hide-sm">
         <Icon name="steem"/>
         <div>
-          <div>{{ '123.456' | amount }}</div>
+          <div>{{ steemBalance | amount }}</div>
           <div class="text-gray">STEEM</div>
         </div>
       </li>
@@ -79,6 +79,9 @@ export default {
         weapons: this.user.weapons_balance + time * this.user.weapon_production_rate,
         alcohols: this.user.alcohols_balance + time * this.user.alcohol_production_rate,
       };
+    },
+    steemBalance() {
+      return parseFloat(this.$store.state.auth.account.balance)
     },
   },
 };

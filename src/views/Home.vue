@@ -1,19 +1,14 @@
 <template>
-  <UiCenter class="anim-fade-in">
-    <img
-      src="/img/logo.png"
-      class="width-full p-6"
-    />
-    <div class="mt-4 mb-7">
-      <a class="btn btn-large btn-primary" :href="loginURL">
-        Play now
-      </a>
-    </div>
-    <div class="mb-4">
+  <UiCenter class="home">
+    <Icon name="logo" class="logo-large"/>
+    <div class="mb-5">
       <p>Build your own empire</p>
       <p>Fight with your opponents</p>
       <p>Get rewarded with cryptocurrency</p>
     </div>
+    <a class="button button-green button-large mb-4" :href="loginURL">
+      Start
+    </a>
     <div class="mb-4">
       New to Steem?
       <a href="https://account.steem.ninja/?ref=drugwars">
@@ -34,3 +29,11 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.home {
+  p {
+    font-size: 24px;
+  }
+}
+</style>

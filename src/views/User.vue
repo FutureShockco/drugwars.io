@@ -42,9 +42,9 @@
           </li>
         </ul>
         <Army class="mb-4" :units="units"/>
-        <div v-if="username !== me" class="mb-4 container-xxs">
+        <div v-if="username !== me" class="mb-4">
           <router-link
-            class="button button-red btn-block"
+            class="button button-red button-large"
             :to="`/fight?target=${username}`"
           >
             Attack {{ username }}

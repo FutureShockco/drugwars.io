@@ -11,13 +11,17 @@
       </div>
       <div class="ml-4 width-full d-flex flex-column flex-justify-center">
         <div class="prize">
-          Today prize pool: ${{ parseInt(total) }}
+          Today prize <span class="hide-sm hide-md hide-lg">pool</span>: ${{ parseInt(total) }}
         </div>
         <span class="text-gray hide-sm hide-md hide-lg mb-1">
           Daily: <b>${{ parseInt(totalDaily) }}</b>
           + Heist: <b>${{ parseInt(totalHeist) }}</b>,
           you will receive: <span class="text-green">+X.XXX STEEM</span> in {{ timeToWait | ms }}
         </span>
+      </div>
+      <div class="shield text-center hide-sm hide-md hide-lg" v-if="shieldEnd">
+        <Icon name="shield1" size="26" class="text-gray"/>
+        <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
   </div>
@@ -57,6 +61,11 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
+    shieldEnd() {
+      const diff =
+        this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+      return diff > 0 ? diff : 0;
+    },
   },
   methods: mapActions(['toggleSidebarVisibility']),
 };
@@ -89,7 +98,7 @@ export default {
 
     .iconfont {
       margin-top: 10px;
-      font-size: 36px;
+      font-size: 38px;
       color: white;
     }
   }
@@ -97,7 +106,6 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
-    padding-right: 0;
 
     .prize {
       font-size: 22px;
@@ -106,10 +114,6 @@ export default {
 
     .username {
       font-size: 22px;
-    }
-
-    @media @bp-small {
-      padding-right: @sidebar-width;
     }
   }
 
@@ -127,6 +131,10 @@ export default {
       color: @border-color !important;
       font-size: 20px;
     }
+  }
+
+  .shield {
+    min-width: @sidebar-width;
   }
 }
 </style>

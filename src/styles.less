@@ -1,7 +1,7 @@
 @import './vars';
 @import './less/base';
 @import './less/form';
-@import '//at.alicdn.com/t/font_1054599_vn4lacvbr8h.css';
+@import '//at.alicdn.com/t/font_1054599_n03t31kb2uq.css';
 
 .error {
   color: @error-color;
@@ -157,4 +157,13 @@ a.iconfont:hover {
 .border .border-top, .border-bottom, .border-left, .border-right {
   border-color: transparent;
   border-image: url('/img/border.svg') 2 round;
+}
+
+.logo-large {
+  color: white;
+  font-size: 76px;
+
+  @media @bp-small {
+    font-size: 150px;
+  }
 }

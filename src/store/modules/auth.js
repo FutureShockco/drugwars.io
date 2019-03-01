@@ -3,11 +3,15 @@ import sc from '@/helpers/steemconnect';
 
 const state = {
   username: null,
+  account: null,
 };
 
 const mutations = {
   saveUsername(_state, payload) {
     Vue.set(_state, 'username', payload);
+  },
+  saveAccount(_state, payload) {
+    Vue.set(_state, 'account', payload);
   },
   logout(_state) {
     Vue.set(_state, 'username', null);
@@ -25,6 +29,7 @@ const actions = {
           } else {
             localStorage.setItem('drugwars_token', accessToken);
             commit('saveUsername', result.name);
+            commit('saveAccount', result.account);
             resolve();
           }
         });

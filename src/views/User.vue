@@ -14,6 +14,7 @@
             <Icon name="drugs"/>
             <div>
               <div>{{ balances.drugs | amount }}</div>
+              <div>{{ user.user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">DRUGS</div>
             </div>
           </li>
@@ -21,6 +22,7 @@
             <Icon name="weapons"/>
             <div>
               <div>{{ balances.weapons | amount }}</div>
+              <div>{{ user.user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">WEAPONS</div>
             </div>
           </li>
@@ -28,6 +30,7 @@
             <Icon name="alcohols"/>
             <div>
               <div>{{ balances.alcohols | amount }}</div>
+              <div>{{ user.user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">ALCOHOLS</div>
             </div>
           </li>
@@ -63,7 +66,6 @@ export default {
   created() {
     this.isLoading = true;
     kbyte.requestAsync('get_user', this.username).then(user => {
-      console.log(user.units);
       this.user = user;
       this.units = user.units.map(unit => ({
         key: unit.unit,

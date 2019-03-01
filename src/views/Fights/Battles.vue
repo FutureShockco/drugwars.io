@@ -30,11 +30,11 @@
           v-model="target"
         >
         <button
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          :disabled="selectedUnits.length === 0 || !target || isLoading || isPending"
           class="button btn-block button-red mb-4"
           @click="handleSubmit"
         >
-          <Loading v-if="isLoading"/>
+          <Loading v-if="isLoading || isPending"/>
           <span v-else>Start a war</span>
         </button>
       </div>
@@ -63,6 +63,15 @@ export default {
         amount: unit.amount,
       }));
     },
+    isPending() {
+      let isPending = false;
+      this.$store.state.game.fights.forEach(fight => {
+        if (fight.is_stable === 0) {
+          isPending = true;
+        }
+      });
+      return isPending;
+    },
   },
   methods: {
     ...mapActions(['startFight']),
@@ -84,13 +93,13 @@ export default {
     addUnit(payload) {
       const units = [];
       let unitExist = false;
-      this.selectedUnits.forEach((unit) => {
+      this.selectedUnits.forEach(unit => {
         if (unit.key === payload.key) {
           unitExist = true;
           units.push({
             key: unit.key,
             amount: parseInt(unit.amount) + parseInt(payload.amount),
-          })
+          });
         } else {
           units.push(unit);
         }

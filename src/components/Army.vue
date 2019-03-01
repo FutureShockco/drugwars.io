@@ -1,6 +1,11 @@
 <template>
   <div v-if="units">
-    <div :key="unit.key" v-for="unit in units" class="d-inline-block mx-1 text-center">
+    <div
+      v-for="unit in units"
+      v-if="unit.amount !== 0"
+      :key="unit.key"
+      class="d-inline-block mx-1 text-center"
+    >
       <img width="50" :src="`/img/units/${unit.key}.png`">
       <div>
         <span v-if="withDead" :class="{ 'text-red' : unit.dead }">

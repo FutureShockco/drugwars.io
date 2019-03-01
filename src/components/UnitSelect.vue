@@ -41,7 +41,7 @@ export default {
         key: this.unit.id,
         amount: this.amount,
       });
-    }
-  }
+    },
+  },
 };
 </script>

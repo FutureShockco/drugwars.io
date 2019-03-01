@@ -88,8 +88,7 @@ export default {
       if (!this.user || !this.user.user) {
         return 0;
       }
-      const diff =
-        this.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+      const diff = this.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
     },
   },

@@ -81,7 +81,7 @@ export default {
       };
     },
     steemBalance() {
-      return parseFloat(this.$store.state.auth.account.balance)
+      return parseFloat(this.$store.state.auth.account.balance);
     },
   },
 };

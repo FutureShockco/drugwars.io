@@ -35,7 +35,7 @@
             :units="json.target.units"
             :withDead="true"
           />
-          <FightLoot
+          <FightsLoot
             v-if="json.target.loot"
             :stolenResources="json.target.loot"
           />

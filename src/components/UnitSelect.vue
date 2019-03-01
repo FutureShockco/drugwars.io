@@ -12,7 +12,7 @@
       >
       <button
         class="button button-blue"
-        @click="handleClick()"
+        @click="handleClick"
       >
         Add
       </button>

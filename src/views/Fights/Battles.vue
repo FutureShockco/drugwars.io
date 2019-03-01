@@ -98,7 +98,7 @@ export default {
       if (!unitExist) {
         units.push({
           key: payload.key,
-          amount: payload.amount,
+          amount: parseInt(payload.amount),
         });
       }
       this.selectedUnits = units;

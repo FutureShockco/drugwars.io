@@ -1,14 +1,20 @@
 <template>
   <div>
-    <Header :title="username" />
+    <div v-if="!isLoading && user.user" class="mb-2 py-6 border-bottom text-center">
+      <Avatar
+        :username="username"
+        size="100"
+        :rank="user.rank[0].rank"
+      />
+      <div class="username">
+        {{ username }}
+      </div>
+    </div>
     <div class="p-4">
       <div v-if="isLoading">
         <Loading/>
       </div>
       <div v-else-if="user.user" class="text-center">
-        <div class="mb-4">
-          <Avatar :username="username" size="140"/>
-        </div>
         <ul class="columns list-style-none user-balances container-xxs mb-4">
           <li class="column col-4">
             <Icon name="drugs"/>
@@ -36,6 +42,14 @@
           </li>
         </ul>
         <Army class="mb-4" :units="units"/>
+        <div v-if="username !== me" class="mb-4 container-xxs">
+          <router-link
+            class="button button-red btn-block"
+            :to="`/fight?target=${username}`"
+          >
+            Attack {{ username }}
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -51,10 +65,14 @@ export default {
       isLoading: false,
       user: null,
       units: [],
+      me: this.$store.state.auth.username,
     };
   },
   computed: {
     balances() {
+      if (!this.user.user) {
+        return {};
+      }
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.user.last_update)) / 1000;
       return {
         drugs: this.user.user.drugs_balance + time * this.user.user.drug_production_rate,
@@ -71,7 +89,6 @@ export default {
         key: unit.unit,
         amount: unit.amount,
       }));
-      console.log(this.units);
       this.isLoading = false;
     });
   },

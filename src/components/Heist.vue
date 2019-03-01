@@ -3,7 +3,7 @@
     <div class="mb-2">Invest in the bank heist to convert your DRUGS to STEEM.</div>
     <form @submit.prevent="handleSubmit" class="mb-2">
       <input
-        class="input form-control input-block"
+        class="input form-control input-block mb-2"
         v-model="amount"
         type="number"
         min="0"
@@ -11,11 +11,12 @@
       <button
         :disabled="isLoading"
         type="submit"
-        class="button button-blue btn-block mt-2"
+        class="button button-blue btn-block"
       >
-        <Icon name="arrow-up"/> Invest
+        <Icon name="arrow-up"/>
+        <span v-if="!isLoading">Invest</span>
+        <Loading v-else/>
       </button>
-      <Loading v-if="isLoading"/>
     </form>
     <div>{{ totalRewardSteem | amount }} STEEM</div>
     <div>{{ totalVest | amount }} / {{ prizeProps.heist_pool | amount }} DRUGS</div>

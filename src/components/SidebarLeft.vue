@@ -45,7 +45,7 @@
           </li>
           <li>
             <router-link
-              to="/battles"
+              to="/fight"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >

@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      target: null,
+      target: this.$route.query.target || null,
       selectedUnits: [],
     };
   },

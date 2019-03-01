@@ -6,7 +6,7 @@
       </button>
       <div class="topnav-logo hide-sm hide-md hide-lg text-center">
         <router-link to="/">
-          <img src="/img/logo.png">
+          <Icon name="logo"/>
         </router-link>
       </div>
       <div class="ml-4 width-full d-flex flex-column flex-justify-center">
@@ -87,8 +87,10 @@ export default {
     width: 100%;
     max-width: 200px;
 
-    img {
-      width: calc(@sidebar-width - 30px);
+    .iconfont {
+      margin-top: 10px;
+      font-size: 36px;
+      color: white;
     }
   }
 

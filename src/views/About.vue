@@ -16,12 +16,14 @@
           Report a bug
         </a>
       </p>
-      <h3>Changelog</h3>
-      <ul>
-        <li :key="key" v-for="(change, key) in changelog">
-          {{ change }}
-        </li>
-      </ul>
+      <div v-if="changelog.length > 0">
+        <h3>Changelog</h3>
+        <ul>
+          <li :key="key" v-for="(change, key) in changelog">
+            {{ change }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

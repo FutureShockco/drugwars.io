@@ -15,6 +15,10 @@
         <Loading/>
       </div>
       <div v-else-if="user.user" class="text-center">
+        <div class="shield mb-4" v-if="shieldEnd">
+          <Icon name="shield1" size="26" class="text-gray"/>
+          <div class="text-gray">{{ shieldEnd | ms }}</div>
+        </div>
         <ul class="columns list-style-none user-balances container-xxs mb-4">
           <li class="column col-4">
             <Icon name="drugs"/>
@@ -70,7 +74,7 @@ export default {
   },
   computed: {
     balances() {
-      if (!this.user.user) {
+      if (!this.user || !this.user.user) {
         return {};
       }
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.user.last_update)) / 1000;
@@ -79,6 +83,14 @@ export default {
         weapons: this.user.user.weapons_balance + time * this.user.user.weapon_production_rate,
         alcohols: this.user.user.alcohols_balance + time * this.user.user.alcohol_production_rate,
       };
+    },
+    shieldEnd() {
+      if (!this.user || !this.user.user) {
+        return 0;
+      }
+      const diff =
+        this.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+      return diff > 0 ? diff : 0;
     },
   },
   created() {

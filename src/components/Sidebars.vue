@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-container">
-    <div class="sidebars">
+    <div class="sidebars brush-black">
       <SidebarLeft/>
       <SidebarRight/>
     </div>
@@ -11,7 +11,6 @@
 @import '../vars';
 
 .sidebar-container {
-  background-color: @sidebar-bg-color;
   position: fixed;
   top: 0;
   bottom: 0;

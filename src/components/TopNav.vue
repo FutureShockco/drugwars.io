@@ -1,5 +1,5 @@
 <template>
-  <div class="topnav border-bottom">
+  <div class="topnav border-bottom brush-black">
     <div class="topnav-content d-flex mx-auto">
       <button class="float-left px-4 py-3 border-right" @click="toggleSidebarVisibility">
         <span class="iconfont icon-three-bars"/>
@@ -83,7 +83,6 @@ export default {
   width: 100%;
   height: @header-height;
   overflow: hidden;
-  background-color: #000;
   display: flex;
   align-items: center;
   transition: width 0.3s;

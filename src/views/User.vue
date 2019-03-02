@@ -46,6 +46,7 @@
           </li>
         </ul>
         <Army class="mb-4" :units="units"/>
+        <Base class="mb-4" :items="user.buildings"/>
         <div v-if="username !== me" class="mb-4">
           <router-link
             class="button button-red button-large"

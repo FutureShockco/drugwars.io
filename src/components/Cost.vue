@@ -5,7 +5,7 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': drugsCost > drugsBalance }"
+      :class="{ 'not-enough': drugsCost > balances.drugs }"
       v-if="drugsCost"
     >
       <Icon :size="18" name="drugs"/>
@@ -13,7 +13,7 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': weaponsCost > weaponsBalance }"
+      :class="{ 'not-enough': weaponsCost > balances.weapons }"
       v-if="weaponsCost"
     >
       <Icon :size="18" name="weapons"/>
@@ -21,7 +21,7 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': alcoholsCost > alcoholsBalance }"
+      :class="{ 'not-enough': alcoholsCost > balances.alcohols }"
       v-if="alcoholsCost"
     >
       <Icon :size="18" name="alcohols"/>
@@ -34,14 +34,14 @@
 export default {
   props: ['type', 'level', 'amount', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
-    drugsBalance() {
-      return this.$store.state.game.user.drugs_balance;
-    },
-    weaponsBalance() {
-      return this.$store.state.game.user.user.weapons_balance;
-    },
-    alcoholsBalance() {
-      return this.$store.state.game.user.user.alcohols_balance;
+    balances() {
+      const user = this.$store.state.game.user.user;
+      const time = (this.$store.state.ui.timestamp - Date.parse(user.last_update)) / 1000;
+      return {
+        drugs: user.drugs_balance + time * user.drug_production_rate,
+        weapons: user.weapons_balance + time * user.weapon_production_rate,
+        alcohols: user.alcohols_balance + time * user.alcohol_production_rate,
+      };
     },
   },
 };

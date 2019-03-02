@@ -16,7 +16,7 @@
         <span class="text-gray hide-sm hide-md hide-lg mb-1">
           Daily: <b>${{ parseInt(totalDaily) }}</b>
           + Heist: <b>${{ parseInt(totalHeist) }}</b>,
-          you will receive: <span class="text-green">+X.XXX STEEM</span> in {{ timeToWait | ms }}
+          you will receive: <span class="text-green">+{{ myRewards }} STEEM</span> in {{ timeToWait | ms }}
         </span>
       </div>
       <div class="shield text-center hide-sm hide-md hide-lg" v-if="shieldEnd">
@@ -40,26 +40,31 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     total() {
-      const prizePops = this.$store.state.game.prizeProps;
+      const prizeProps = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
-        (prizePops.daily_percent + prizePops.heist_percent)
+        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+        (prizeProps.daily_percent + prizeProps.heist_percent)
       );
     },
     totalDaily() {
-      const prizePops = this.$store.state.game.prizeProps;
+      const prizeProps = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
+        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.daily_percent
       );
     },
     totalHeist() {
-      const prizePops = this.$store.state.game.prizeProps;
+      const prizeProps = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
+        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.heist_percent
       );
     },
     user() {
       return this.$store.state.game.user.user;
+    },
+    myRewards() {
+      const totalDailySteem = parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.daily_percent;
+      const myRewards = this.user.drug_production_rate / this.prizeProps.drug_production_rate * totalDailySteem;
+      return myRewards.toFixed(3);
     },
     shieldEnd() {
       const diff =
@@ -97,7 +102,7 @@ export default {
 
     .iconfont {
       margin-top: 10px;
-      font-size: 38px;
+      font-size: 40px;
       color: white;
     }
   }

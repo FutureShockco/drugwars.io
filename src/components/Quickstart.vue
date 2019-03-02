@@ -31,6 +31,10 @@
         <Icon class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
         <router-link to="/units">Recruit some units</router-link>
       </li>
+      <li>
+        <Icon class="mr-2" :name="mission7 ? 'check' : 'chevron-right'"/>
+        <router-link to="/fight">Start a fight</router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -83,6 +87,11 @@ export default {
     },
     mission6() {
       return this.$store.state.game.user.units.length > 0;
+    },
+    mission7() {
+      return !!this.$store.state.game.fights.find(
+        f => f.username === this.username,
+      );
     },
   },
 };

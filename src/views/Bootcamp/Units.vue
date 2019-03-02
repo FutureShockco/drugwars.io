@@ -1,7 +1,7 @@
 <template>
   <div>
     <BootcampTabs/>
-    <div class="p-4 after-header">
+    <div v-if="training_facility.lvl>0" class="p-4 after-header">
       <Unit
         v-if="!unit.disabled"
         v-for="unit in units"
@@ -9,6 +9,9 @@
         :key="unit.id"
       />
     </div>
+    <h5 v-else class="p-2">
+      You must building a training facility first.
+    </h5>
   </div>
 </template>
 
@@ -20,6 +23,15 @@ export default {
     return {
       units,
     };
+  },
+   computed: {
+    training_facility() {
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
+          lvl: 0,
+        }
+      );
+    },
   },
 };
 </script>

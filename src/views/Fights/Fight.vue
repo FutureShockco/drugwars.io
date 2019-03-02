@@ -132,17 +132,19 @@ export default {
         return false;
       }
 
-      this.fights.forEach((fight) => {
+      this.fights.forEach(fight => {
         if (fight.is_stable === 0 && fight.username === this.username) {
           this.errorMessage = 'You have already a fight waiting for confirmation';
-          return false;
         }
 
-        if ((fight.is_done === 0 && fight.username === this.username && fight.target === target)) {
+        if (fight.is_done === 0 && fight.username === this.username && fight.target === target) {
           this.errorMessage = `You have already a fight going on with '${target}'`;
-          return false;
         }
       });
+
+      if (this.errorMessage) {
+        return false;
+      }
 
       try {
         const user = await kbyte.requestAsync('get_user', target);

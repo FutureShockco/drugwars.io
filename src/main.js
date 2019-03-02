@@ -29,7 +29,7 @@ requireComponent.keys().forEach(fileName => {
 });
 
 Vue.filter('date', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
-Vue.filter('ms', value => prettyMs(parseInt((value / 1000)) * 1000));
+Vue.filter('ms', value => prettyMs(parseInt(value / 1000) * 1000));
 Vue.filter('parseUrl', value => urlParse(value).host);
 Vue.filter('amount', value => numeral(value).format('0.[00]a'));
 

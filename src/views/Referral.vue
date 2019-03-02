@@ -44,8 +44,10 @@ export default {
   },
   methods: {
     getReferralRewards(drugProductionRate) {
-      const totalDailySteem = (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
-      const referralRewards = (drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem / 100 * 5;
+      const totalDailySteem =
+        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const referralRewards =
+        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 5;
       return referralRewards.toFixed(3);
     },
   },

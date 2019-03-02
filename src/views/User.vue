@@ -27,6 +27,7 @@
             <div>
               <div>{{ balances.drugs | amount }} / {{ user.drug_storage | amount }}</div>
               <div>{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
+              <div class="text-green">{{ user.drug_storage / 100 * 25 | amount }} safe</div>
               <div class="text-gray">DRUGS</div>
             </div>
           </li>
@@ -35,6 +36,7 @@
             <div>
               <div>{{ balances.weapons | amount }} / {{ user.weapon_storage | amount }}</div>
               <div>{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
+              <div class="text-green">{{ user.weapon_storage / 100 * 25 | amount }} safe</div>
               <div class="text-gray">WEAPONS</div>
             </div>
           </li>
@@ -43,6 +45,7 @@
             <div>
               <div>{{ balances.alcohols | amount }} / {{ user.alcohol_storage | amount }}</div>
               <div>{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
+              <div class="text-green">{{ user.alcohol_storage / 100 * 25 | amount }} safe</div>
               <div class="text-gray">ALCOHOLS</div>
             </div>
           </li>

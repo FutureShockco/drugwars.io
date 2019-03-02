@@ -22,7 +22,7 @@
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Overview
+              Missions
             </router-link>
           </li>
           <li>

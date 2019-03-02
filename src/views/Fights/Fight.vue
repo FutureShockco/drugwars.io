@@ -113,26 +113,25 @@ export default {
         });
     },
     addUnit(payload) {
-      const units = [];
-      let unitExist = false;
-      this.selectedUnits.forEach(unit => {
-        if (unit.key === payload.key) {
-          unitExist = true;
-          units.push({
-            key: unit.key,
-            amount: parseInt(unit.amount) + parseInt(payload.amount),
-          });
-        } else {
-          units.push(unit);
-        }
+      const amount = parseInt(payload.amount);
+      const selectedUnitsObj = {};
+      const ownUnit = this.ownUnits.find((unit) => unit.key === payload.key);
+
+      this.selectedUnits.forEach((unit) => {
+        selectedUnitsObj[unit.key] = unit.amount;
       });
-      if (!unitExist) {
-        units.push({
-          key: payload.key,
-          amount: parseInt(payload.amount),
-        });
+      selectedUnitsObj[payload.key] = (!selectedUnitsObj[payload.key])
+        ? amount
+        : amount + parseInt(selectedUnitsObj[payload.key]);
+      if (selectedUnitsObj[payload.key] > ownUnit.amount) {
+        selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
       }
-      this.selectedUnits = units;
+      if (selectedUnitsObj[payload.key] < 0) {
+        selectedUnitsObj[payload.key] = 0;
+      }
+
+      this.selectedUnits = Object.keys(selectedUnitsObj)
+        .map((key) => ({ key, amount: selectedUnitsObj[key] }));
     },
   },
 };

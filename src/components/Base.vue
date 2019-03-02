@@ -6,7 +6,7 @@
       :key="item.building"
       class="d-inline-block mx-1 my-1 text-center"
     >
-      <img width="50" :src="`/img/buildings/${item.building}.png`">
+      <img width="50" :src="`/img/buildings/${item.building}.jpg`">
       <div>
         {{ item.lvl }}
       </div>

@@ -8,10 +8,12 @@
     >
       <img width="50" :src="`/img/units/${unit.key}.jpg`">
       <div>
-        <span v-if="withDead" :class="{ 'text-red' : unit.dead }">
-          {{ unit.dead || 0 }}
+        <span v-if="withDead && unit.dead">
+          <span :class="{ 'text-red' : unit.dead }">
+            {{ unit.dead || 0 }}
+          </span>
+          /
         </span>
-        <span v-if="withDead">/</span>
         {{ unit.amount }}
       </div>
     </div>

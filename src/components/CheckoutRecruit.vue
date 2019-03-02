@@ -9,7 +9,7 @@
 
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : (updateTime * quantity) | ms }}
+      {{ inProgress ? timeToWait : (updateTime) | ms }}
     </div>
 
     <button

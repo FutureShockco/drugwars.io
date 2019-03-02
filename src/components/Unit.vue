@@ -31,9 +31,9 @@
           {{ unit.type }}
         </span>
       </div>
-      <div class="mb-2">
+      <!-- <div class="mb-2">
         Point per unit: {{ unit.score }}
-      </div>
+      </div> -->
       <div class="mb-2" v-if="unit.feature">
         Special:
         <span class="text-green">
@@ -44,10 +44,10 @@
     <div>
       <CheckoutRecruit
         :id="unit.id"
-        :level="1"
+        :level="training_facility.lvl"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.weapons_cost / 17000 + unit.alcohols_cost / 17000"
+        :price="unit.weapons_cost / 34000 + unit.alcohols_cost / 34000"
         :notEnough="hasNotEnough"
       />
     </div>
@@ -88,6 +88,13 @@ export default {
       const nextUpdate = new Date(this.ownItem.next_update).getTime();
       const now = new Date().getTime();
       return nextUpdate >= now;
+    },
+    training_facility() {
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
+          lvl: 0,
+        }
+      );
     },
   },
 };

@@ -23,7 +23,7 @@
           <li class="column col-4">
             <Icon name="drugs"/>
             <div>
-              <div>{{ balances.drugs | amount }}</div>
+              <div>{{ balances.drugs | amount }} / {{ user.user.drug_storage | amount }}</div>
               <div>{{ user.user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">DRUGS</div>
             </div>
@@ -31,7 +31,7 @@
           <li class="column col-4">
             <Icon name="weapons"/>
             <div>
-              <div>{{ balances.weapons | amount }}</div>
+              <div>{{ balances.weapons | amount }} / {{ user.user.weapon_storage | amount }}</div>
               <div>{{ user.user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">WEAPONS</div>
             </div>
@@ -39,7 +39,7 @@
           <li class="column col-4">
             <Icon name="alcohols"/>
             <div>
-              <div>{{ balances.alcohols | amount }}</div>
+              <div>{{ balances.alcohols | amount }} / {{ user.user.alcohol_storage | amount }}</div>
               <div>{{ user.user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-gray">ALCOHOLS</div>
             </div>
@@ -110,7 +110,7 @@ export default {
 <style scoped lang="less">
 .user-balances {
   li {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .iconfont {

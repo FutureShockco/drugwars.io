@@ -89,9 +89,7 @@ export default {
       return this.$store.state.game.user.units.length > 0;
     },
     mission7() {
-      return !!this.$store.state.game.fights.find(
-        f => f.username === this.username,
-      );
+      return !!this.$store.state.game.fights.find(f => f.username === this.username);
     },
   },
 };

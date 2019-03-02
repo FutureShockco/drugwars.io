@@ -22,20 +22,20 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     total() {
-      const prizeProps = this.$store.state.game.prizeProps;
+      const { prizeProps } = this.$store.state.game;
       return (
         ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
         (prizeProps.daily_percent + prizeProps.heist_percent)
       );
     },
     totalDaily() {
-      const prizeProps = this.$store.state.game.prizeProps;
+      const { prizeProps } = this.$store.state.game;
       return (
         ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.daily_percent
       );
     },
     totalHeist() {
-      const prizeProps = this.$store.state.game.prizeProps;
+      const { prizeProps } = this.$store.state.game;
       return (
         ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.heist_percent
       );
@@ -44,8 +44,10 @@ export default {
       return this.$store.state.game.user.user;
     },
     myRewards() {
-      const totalDailySteem = parseFloat(this.prizeProps.balance) / 100 * this.prizeProps.daily_percent;
-      const myRewards = this.user.drug_production_rate / this.prizeProps.drug_production_rate * totalDailySteem;
+      const totalDailySteem =
+        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const myRewards =
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem;
       return myRewards.toFixed(3);
     },
   },

@@ -116,12 +116,12 @@ export default {
     addUnit(payload) {
       const amount = parseInt(payload.amount);
       const selectedUnitsObj = {};
-      const ownUnit = this.ownUnits.find((unit) => unit.key === payload.key);
+      const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
 
-      this.selectedUnits.forEach((unit) => {
+      this.selectedUnits.forEach(unit => {
         selectedUnitsObj[unit.key] = unit.amount;
       });
-      selectedUnitsObj[payload.key] = (!selectedUnitsObj[payload.key])
+      selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
         ? amount
         : amount + parseInt(selectedUnitsObj[payload.key]);
       if (selectedUnitsObj[payload.key] > ownUnit.amount) {
@@ -131,8 +131,10 @@ export default {
         selectedUnitsObj[payload.key] = 0;
       }
 
-      this.selectedUnits = Object.keys(selectedUnitsObj)
-        .map((key) => ({ key, amount: selectedUnitsObj[key] }));
+      this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
+        key,
+        amount: selectedUnitsObj[key],
+      }));
     },
   },
 };

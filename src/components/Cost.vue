@@ -35,7 +35,7 @@ export default {
   props: ['type', 'level', 'amount', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
     balances() {
-      const user = this.$store.state.game.user.user;
+      const { user } = this.$store.state.game.user;
       const time = (this.$store.state.ui.timestamp - Date.parse(user.last_update)) / 1000;
       return {
         drugs: user.drugs_balance + time * user.drug_production_rate,

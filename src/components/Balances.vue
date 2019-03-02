@@ -88,25 +88,25 @@ export default {
 </script>
 
 <style scoped lang="less">
-  @import '../vars.less';
+@import '../vars.less';
 
-  .balances {
-    color: white;
-    font-size: 18px;
-    line-height: 1.2em;
+.balances {
+  color: white;
+  font-size: 18px;
+  line-height: 1.2em;
 
-    li {
-      margin-bottom: 18px;
+  li {
+    margin-bottom: 18px;
 
-      .text-gray {
-        font-size: 14px;
-      }
-    }
-
-    .iconfont {
-      font-size: 36px;
-      line-height: 36px;
-      margin-right: 10px;
+    .text-gray {
+      font-size: 14px;
     }
   }
+
+  .iconfont {
+    font-size: 36px;
+    line-height: 36px;
+    margin-right: 10px;
+  }
+}
 </style>

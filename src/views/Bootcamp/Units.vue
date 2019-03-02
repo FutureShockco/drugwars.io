@@ -24,7 +24,7 @@ export default {
       units,
     };
   },
-   computed: {
+  computed: {
     training_facility() {
       return (
         this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {

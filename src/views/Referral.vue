@@ -11,7 +11,12 @@
       <h3>Your referrals</h3>
       <div>
         <div :key="key" v-for="(referral, key) in referrals">
-          <p>{{ referral.username }}</p>
+          <p>
+            {{ referral.username }}
+            <span class="text-green" v-if="getReferralRewards(referral.drug_production_rate) > 0">
+              +{{ getReferralRewards(referral.drug_production_rate) }} STEEM
+            </span>
+          </p>
         </div>
       </div>
       <div v-if="!referrals.length">
@@ -32,6 +37,16 @@ export default {
   computed: {
     referrals() {
       return this.$store.state.game.user.referals;
+    },
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
+    },
+  },
+  methods: {
+    getReferralRewards(drugProductionRate) {
+      const totalDailySteem = (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const referralRewards = (drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem / 100 * 5;
+      return referralRewards.toFixed(3);
     },
   },
 };

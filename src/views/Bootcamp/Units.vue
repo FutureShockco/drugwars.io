@@ -29,8 +29,9 @@ export default {
   computed: {
     trainingFacility() {
       return (
-        this.$store.state.game.user.buildings
-          .find(b => b.building === 'training_facility') || { lvl: 0 }
+        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
+          lvl: 0,
+        }
       );
     },
   },

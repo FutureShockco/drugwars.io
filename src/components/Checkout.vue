@@ -77,7 +77,7 @@ export default {
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;
-    }
+    },
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),

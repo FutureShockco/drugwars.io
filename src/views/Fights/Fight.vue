@@ -5,9 +5,13 @@
       <div v-if="ownUnits.length > 0">
         <h3>Select your army composition</h3>
         <div>
-          <div class="d-inline-block m-2" v-for="ownUnit in ownUnits" :key="ownUnit.key">
+          <div
+            class="d-inline-block m-2"
+            v-for="ownUnit in ownUnits"
+            :key="ownUnit.key"
+            v-if="ownUnit.amount > 0"
+          >
             <UnitSelect
-              v-if="ownUnit.amount > 0"
               :item="ownUnit"
               :key="ownUnit.key"
               @click="addUnit"

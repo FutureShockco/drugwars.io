@@ -46,13 +46,12 @@ export default {
     totalReward() {
       return (
         (parseFloat(this.prizeProps.balance) / 100) *
-        this.prizeProps.steemprice *
         this.prizeProps.heist_percent
       );
     },
     ownReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalReward / 100) * percent;
+      const amount = this.totalReward / 100 * percent;
       return {
         amount,
         percent,

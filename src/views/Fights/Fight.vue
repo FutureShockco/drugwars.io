@@ -65,6 +65,7 @@ export default {
       target: this.$route.query.target || null,
       selectedUnits: [],
       message: null,
+      username: this.$store.state.auth.username,
     };
   },
   computed: {
@@ -77,7 +78,7 @@ export default {
     isPending() {
       let isPending = false;
       this.$store.state.game.fights.forEach(fight => {
-        if (fight.is_stable === 0) {
+        if (fight.username === this.username && fight.is_stable === 0) {
           isPending = true;
         }
       });

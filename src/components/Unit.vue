@@ -31,9 +31,9 @@
           {{ unit.type }}
         </span>
       </div>
-      <div class="mb-2">
+      <!-- <div class="mb-2">
         Point per unit: {{ unit.score }}
-      </div>
+      </div> -->
       <div class="mb-2" v-if="unit.feature">
         Special:
         <span class="text-green">
@@ -47,7 +47,7 @@
         :level="1"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.weapons_cost / 17000 + unit.alcohols_cost / 17000"
+        :price="unit.weapons_cost / 34000 + unit.alcohols_cost / 34000"
         :notEnough="hasNotEnough"
       />
     </div>

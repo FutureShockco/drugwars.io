@@ -50,7 +50,7 @@
             <Loading v-if="isLoading"/>
             <span v-else>Attack</span>
           </button>
-          <p class="text-red" v-if="errorMessage">
+          <p class="text-red text-left" v-if="errorMessage">
             {{ errorMessage }}
           </p>
         </div>
@@ -126,6 +126,11 @@ export default {
     async validateForm() {
       this.errorMessage = null;
       const target = this.target.toLowerCase();
+
+      if (target === this.username) {
+        this.errorMessage = 'Attack yourself? Are you serious?';
+        return false;
+      }
 
       this.fights.forEach((fight) => {
         if (fight.is_stable === 0 && fight.username === this.username) {

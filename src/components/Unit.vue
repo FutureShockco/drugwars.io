@@ -71,9 +71,9 @@ export default {
     },
     hasNotEnough() {
       return (
-        this.unit.drugs_cost / 10000 > this.balances.drugs ||
-        this.unit.weapons_cost / 10000 > this.balances.weapons ||
-        this.unit.alcohols_cost / 10000 > this.balances.alcohols
+        this.unit.drugs_cost > this.balances.drugs ||
+        this.unit.weapons_cost > this.balances.weapons ||
+        this.unit.alcohols_cost > this.balances.alcohols
       );
     },
     ownItem() {

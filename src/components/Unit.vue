@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-row border-bottom item mb-4"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item mb-4"
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">
@@ -41,7 +41,7 @@
         </span>
       </div>
     </div>
-    <div>
+    <div class="mx-auto">
       <CheckoutRecruit
         :id="unit.id"
         :level="training_facility.lvl"

@@ -11,6 +11,11 @@
         Early access
       </p>
       <p>Version: {{ pkg.version }}</p>
+      <p>
+        <a href="/img/drugwars.svg" target="_blank">
+          Download DrugWars logo
+        </a>
+      </p>
       <p v-if="pkg.bugs">
         <a :href="pkg.bugs.url" target="_blank">
           Report a bug

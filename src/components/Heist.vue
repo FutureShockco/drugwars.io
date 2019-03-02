@@ -40,9 +40,6 @@ export default {
     totalVest() {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
-    totalRewardSteem() {
-      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
-    },
     totalReward() {
       return (
         (parseFloat(this.prizeProps.balance) / 100) *

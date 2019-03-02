@@ -11,6 +11,7 @@
             :withDead="true"
           />
         </div>
+        <p class="mb-4">{{ fight.message }}</p>
       </div>
       <div class="column col-2">
         <div class="mt-4" v-if="result">
@@ -25,6 +26,9 @@
           </div>
         </div>
         <h1 class="mt-3" v-else>VS</h1>
+        <span class="mt-3" v-if="timeToWait">
+          Start in {{ timeToWait | ms }}
+        </span>
       </div>
       <div class="column col-5">
         <Avatar :size="80" :username="fight.target"/>
@@ -43,10 +47,14 @@
       </div>
     </div>
     <div>
-      <span class="mr-2">{{ fight.is_done ? 'Fight ended' : 'Fight incoming' }}</span>
-      <span class="mr-2">{{ fight.is_stable ? 'stable' : 'pending' }}</span>
-      <span class="mr-2">#{{ fight.fight_key }}</span>
-      <span class="mr-2" v-if="timeToWait">fight start in {{ timeToWait | ms }}</span>
+      <span class="mr-2">
+        Fight
+        #{{ fight.fight_key.slice(0, 10) }}
+        {{ fight.is_done ? 'ended' : 'incoming' }}
+      </span>
+      <span v-if="!fight.is_stable" class="mr-2">
+        (pending confirmation)
+      </span>
     </div>
   </div>
 </template>

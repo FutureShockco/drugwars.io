@@ -105,13 +105,9 @@ const actions = {
         return resolve(result);
       });
     }),
-  startFight: ({ rootState }, { target, units }) =>
+  startFight: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      const payload = {
-        target,
-        units,
-      };
       sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);

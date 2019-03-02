@@ -2,7 +2,7 @@
   <div>
     <FightsTabs/>
     <div class="p-4">
-      <div v-if="ownUnits.length > 0" class="text-center">
+      <div v-if="ownUnits.length > 0">
         <h3>Select your army composition</h3>
         <div>
           <div class="d-inline-block m-2" v-for="ownUnit in ownUnits" :key="ownUnit.key">
@@ -23,12 +23,20 @@
             <p>You need to select at least 1 unit.</p>
           </div>
         </div>
-        <div class="mb-4 text-center form mx-auto">
+        <div class="mb-4 form">
           <h3>Select your target user</h3>
           <input
             class="input form-control btn-block mb-6"
             placeholder="username"
             v-model="target"
+          >
+          <h3>Add a fight message*</h3>
+          <div>* optional</div>
+          <input
+            class="input form-control btn-block mb-6"
+            placeholder="I'm coming for you"
+            v-model="message"
+            maxlength="280"
           >
           <button
             :disabled="selectedUnits.length === 0 || !target || isLoading || isPending"
@@ -56,6 +64,7 @@ export default {
       isLoading: false,
       target: this.$route.query.target || null,
       selectedUnits: [],
+      message: null,
     };
   },
   computed: {
@@ -77,15 +86,26 @@ export default {
   },
   methods: {
     ...mapActions(['startFight']),
+    resetForm() {
+      this.target = null;
+      this.selectedUnits = [];
+      this.message = null;
+    },
     handleSubmit() {
       this.isLoading = true;
       const payload = {
         target: this.target.toLowerCase(),
         units: this.selectedUnits,
       };
+
+      if (this.message) {
+        payload.message = this.message;
+      }
+
       this.startFight(payload)
         .then(() => {
           this.isLoading = false;
+          this.resetForm();
         })
         .catch(e => {
           console.error('Failed to start a fight=', e);

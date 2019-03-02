@@ -7,21 +7,27 @@
       <li class="d-flex">
         <Icon name="drugs"/>
         <div>
-          <div>{{ balances.drugs | amount }}</div>
+          <div :class="{ 'text-red': balances.drugs === user.drug_storage }">
+            {{ balances.drugs | amount }}
+          </div>
           <div class="text-gray">DRUGS</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="weapons"/>
         <div>
-          <div>{{ balances.weapons | amount }}</div>
+          <div :class="{ 'text-red': balances.weapons === user.weapon_storage }">
+            {{ balances.weapons | amount }}
+          </div>
           <div class="text-gray">WEAPONS</div>
         </div>
       </li>
       <li class="d-flex">
         <Icon name="alcohols"/>
         <div>
-          <div>{{ balances.alcohols | amount }}</div>
+          <div :class="{ 'text-red': balances.alcohols === user.alcohol_storage }">
+            {{ balances.alcohols | amount }}
+          </div>
           <div class="text-gray">ALCOHOLS</div>
         </div>
       </li>
@@ -74,10 +80,13 @@ export default {
     },
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
+      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
+      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
+      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
       return {
-        drugs: this.user.drugs_balance + time * this.user.drug_production_rate,
-        weapons: this.user.weapons_balance + time * this.user.weapon_production_rate,
-        alcohols: this.user.alcohols_balance + time * this.user.alcohol_production_rate,
+        drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
+        weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
+        alcohols: alcohols > this.user.alcohols_storage ? this.user.alcohols_storage : alcohols,
       };
     },
     steemBalance() {

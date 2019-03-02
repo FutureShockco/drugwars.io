@@ -65,7 +65,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border.svg');
+    background-image: url('/img/avatar-border.png');
     background-size: contain;
     background-repeat: no-repeat;
   }

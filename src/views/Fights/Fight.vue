@@ -43,13 +43,16 @@
             maxlength="280"
           >
           <button
-            :disabled="selectedUnits.length === 0 || !target || isLoading || isPending"
+            :disabled="selectedUnits.length === 0 || !target || isLoading"
             class="button button-large button-red mb-4"
             @click="handleSubmit"
           >
-            <Loading v-if="isLoading || isPending"/>
+            <Loading v-if="isLoading"/>
             <span v-else>Attack</span>
           </button>
+          <p class="text-red" v-if="errorMessage">
+            {{ errorMessage }}
+          </p>
         </div>
       </div>
       <div v-else>
@@ -61,6 +64,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import kbyte from '@/helpers/kbyte';
 
 export default {
   data() {
@@ -70,23 +74,18 @@ export default {
       selectedUnits: [],
       message: null,
       username: this.$store.state.auth.username,
+      errorMessage: null,
     };
   },
   computed: {
+    fights() {
+      return this.$store.state.game.fights;
+    },
     ownUnits() {
       return this.$store.state.game.user.units.map(unit => ({
         key: unit.unit,
         amount: unit.amount,
       }));
-    },
-    isPending() {
-      let isPending = false;
-      this.$store.state.game.fights.forEach(fight => {
-        if (fight.username === this.username && fight.is_stable === 0) {
-          isPending = true;
-        }
-      });
-      return isPending;
     },
   },
   methods: {
@@ -96,8 +95,9 @@ export default {
       this.selectedUnits = [];
       this.message = null;
     },
-    handleSubmit() {
+    async handleSubmit() {
       this.isLoading = true;
+
       const payload = {
         target: this.target.toLowerCase(),
         units: this.selectedUnits,
@@ -107,15 +107,56 @@ export default {
         payload.message = this.message;
       }
 
-      this.startFight(payload)
-        .then(() => {
-          this.isLoading = false;
-          this.resetForm();
-        })
-        .catch(e => {
-          console.error('Failed to start a fight=', e);
-          this.isLoading = false;
-        });
+      const isValid = await this.validateForm();
+
+      if (isValid) {
+        this.startFight(payload)
+          .then(() => {
+            this.isLoading = false;
+            this.resetForm();
+          })
+          .catch(e => {
+            console.error('Failed to start a fight=', e);
+            this.isLoading = false;
+          });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    async validateForm() {
+      this.errorMessage = null;
+      const target = this.target.toLowerCase();
+
+      this.fights.forEach((fight) => {
+        if (fight.is_stable === 0 && fight.username === this.username) {
+          this.errorMessage = 'You have already a fight waiting for confirmation';
+          return false;
+        }
+
+        if ((fight.is_done === 0 && fight.username === this.username && fight.target === target)) {
+          this.errorMessage = `You have already a fight going on with '${target}'`;
+          return false;
+        }
+      });
+
+      try {
+        const user = await kbyte.requestAsync('get_user', target);
+
+        if (!user || !user.user) {
+          this.errorMessage = `Player '${target}' does not exist`;
+          return false;
+        }
+
+        if (user.user.shield_end >= parseInt(new Date().getTime() / 1000)) {
+          this.errorMessage = `You can't attack player '${target}', he has a shield`;
+          return false;
+        }
+        return true;
+      } catch (e) {
+        this.errorMessage = `Unable to load player '${target}'`;
+        console.error(`Unable to load player '${target}'`, e);
+        return false;
+      }
     },
     addUnit(payload) {
       const amount = parseInt(payload.amount);

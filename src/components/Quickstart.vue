@@ -2,7 +2,7 @@
   <div class="mb-6">
     <div class="d-flex border-bottom mb-4 pb-4">
       <div class="hide-sm hide-md">
-        <img width="100" height="100" class="mr-4 mb-4" src="/img/me.png"/>
+        <img width="100" height="100" class="mr-4 mb-4" src="/img/me.jpg"/>
       </div>
       <p>Hey <b>{{ username }}</b>! You seem to be just arrived in the city. You may try to make some friends but I rather suggest you to start to defend yourself before starting any friendship. Nobody knows how much time you will stand there, but everyone will try to steal what you are producing! You should fulfill theses missions before getting some new ones.</p>
     </div>

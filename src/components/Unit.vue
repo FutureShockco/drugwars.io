@@ -47,7 +47,7 @@
         :level="1"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.weapons_cost / 10000"
+        :price="unit.weapons_cost / 17000 + unit.alcohols_cost / 17000"
         :notEnough="hasNotEnough"
       />
     </div>

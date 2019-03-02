@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="mb-2">Invest in the bank heist to convert your DRUGS to STEEM.</div>
     <form @submit.prevent="handleSubmit" class="mb-2">
       <input
         class="input form-control input-block mb-2"
@@ -18,8 +17,8 @@
         <Loading v-else/>
       </button>
     </form>
-    <div>{{ totalRewardSteem | amount }} STEEM</div>
-    <div>{{ totalVest | amount }} / {{ prizeProps.heist_pool | amount }} DRUGS</div>
+    <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
+    <div>Vest: {{ totalVest | amount }} DRUGS</div>
     <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
   </div>
 </template>

@@ -7,7 +7,7 @@
 
     <button
       :class="{ progress: inProgress }"
-      :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
+      :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate"
       @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
@@ -16,13 +16,13 @@
       </template>
       <template v-else>
         <i class="iconfont icon-tools"/>
-        {{ inProgress ? 'Upgrading' : notEnough ? 'Miss resources' : 'Upgrade' }}
+        {{ upgradeLabel }}
       </template>
     </button>
 
     <div class="mb-2">Instant upgrade</div>
     <button
-      :disabled="isLoading || waitingConfirmation"
+      :disabled="isLoading || waitingConfirmation || requireUpdate"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -68,6 +68,16 @@ export default {
       }
       return 0;
     },
+    requireUpdate() {
+      return this.level >= this.hqLevel && this.id !== 'headquarters';
+    },
+    upgradeLabel() {
+      let label = 'Upgrade';
+      if (this.requireUpdate) label = 'Require HQ upgrade';
+      if (this.notEnough) label = 'Miss resources';
+      if (this.inProgress) label = 'Upgrading';
+      return label;
+    }
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),

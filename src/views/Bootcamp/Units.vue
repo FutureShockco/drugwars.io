@@ -1,17 +1,19 @@
 <template>
   <div>
     <BootcampTabs/>
-    <div v-if="training_facility.lvl>0" class="p-4 after-header">
-      <Unit
-        v-if="!unit.disabled"
-        v-for="unit in units"
-        :unit="unit"
-        :key="unit.id"
-      />
+    <div class="p-4">
+      <div v-if="trainingFacility.lvl > 0">
+        <Unit
+          v-if="!unit.disabled"
+          v-for="unit in units"
+          :unit="unit"
+          :key="unit.id"
+        />
+      </div>
+      <p v-else>
+        You must building a training facility first.
+      </p>
     </div>
-    <h5 v-else class="p-2">
-      You must building a training facility first.
-    </h5>
   </div>
 </template>
 
@@ -25,11 +27,10 @@ export default {
     };
   },
   computed: {
-    training_facility() {
+    trainingFacility() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
-          lvl: 0,
-        }
+        this.$store.state.game.user.buildings
+          .find(b => b.building === 'training_facility') || { lvl: 0 }
       );
     },
   },

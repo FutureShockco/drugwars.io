@@ -14,13 +14,13 @@
       </div>
       <div class="column col-2">
         <div class="mt-4" v-if="result">
-          <div class="username bg-green result" v-if="result === 'win'">
+          <div class="button button-green result" v-if="result === 'win'">
             Win
           </div>
-          <div class="username result" v-if="result === 'draw'">
+          <div class="button result" v-if="result === 'draw'">
             Draw
           </div>
-          <div class="username bg-red result" v-if="result === 'lost'">
+          <div class="button button-red result" v-if="result === 'lost'">
             Lost
           </div>
         </div>
@@ -88,9 +88,8 @@ export default {
 
 .result {
   font-size: 36px;
-  padding: 0;
-  color: black;
-  background-color: #414141;
-  box-shadow: none !important;
+  padding: 10px;
+  height: 50px;
+  background-size: cover !important;
 }
 </style>

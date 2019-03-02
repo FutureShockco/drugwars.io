@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>{{ unit.name }}</p>
-    <img class="preview rounded-2" :src="`/img/units/${unit.id}.png`"/>
+    <img class="preview rounded-2" :src="`/img/units/${unit.id}.jpg`"/>
     <div class="v-align-middle mb-4">
       <input
         class="input form-control mr-2"

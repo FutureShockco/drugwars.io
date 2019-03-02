@@ -1,7 +1,7 @@
 <template>
   <div class="mb-2 d-flex flex-row border-bottom item">
     <div class="level">{{ ownBuilding.lvl }}</div>
-    <img class="mini preview" :src="`/img/buildings/${building.id}.png`">
+    <img class="mini preview" :src="`/img/buildings/${building.id}.jpg`">
     <div class="width-full mr-4">
       <h5>{{ building.name }}</h5>
     </div>

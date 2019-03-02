@@ -6,7 +6,7 @@
       :key="unit.key"
       class="d-inline-block mx-1 my-1 text-center"
     >
-      <img width="50" :src="`/img/units/${unit.key}.png`">
+      <img width="50" :src="`/img/units/${unit.key}.jpg`">
       <div>
         <span v-if="withDead" :class="{ 'text-red' : unit.dead }">
           {{ unit.dead || 0 }}

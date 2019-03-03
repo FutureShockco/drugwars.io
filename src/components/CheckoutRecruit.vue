@@ -34,7 +34,8 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price * quantity | amount }}
+      ${{ price * quantity | amount }} -
+      {{ priceInSteem | amount }} STEEM
     </button>
   </div>
 </template>

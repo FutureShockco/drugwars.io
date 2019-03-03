@@ -6,15 +6,11 @@ const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 
 const state = {
   prizeProps: null,
-  props: null,
   user: null,
   fights: [],
 };
 
 const mutations = {
-  saveProps(_state, payload) {
-    Vue.set(_state, 'props', payload);
-  },
   savePrizeProps(_state, payload) {
     Vue.set(_state, 'prizeProps', payload);
   },
@@ -37,10 +33,9 @@ const actions = {
             Promise.all([
               fetch('https://rest.drugwars.io').then(res => res.json()),
               fetch(`https://rest.drugwars.io/fights/${username}`).then(res => res.json()),
-            ]).then(([props, prizeProps, fights]) => {
-              commit('saveProps', props);
-              commit('savePrizeProps', prizeProps);
+            ]).then(([prizeProps, fights]) => {
               commit('saveUser', user);
+              commit('savePrizeProps', prizeProps);
               commit('saveFights', fights);
               resolve();
             });

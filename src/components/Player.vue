@@ -4,6 +4,7 @@
       <div
         class="rank mr-3"
         v-text="rank"
+        v-if="rank"
       />
     </div>
     <Avatar

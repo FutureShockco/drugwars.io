@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import buildings from 'drugwars/buildings.json';
+import { buildings } from 'drugwars';
 import { pickBy } from 'lodash';
 
 export default {

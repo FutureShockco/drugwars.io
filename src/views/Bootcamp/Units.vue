@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import units from 'drugwars/units.json';
+import { units } from 'drugwars';
 
 export default {
   data() {

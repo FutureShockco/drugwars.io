@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Promise from 'bluebird';
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 import sc from '@/helpers/steemconnect';
 
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -31,12 +31,12 @@ const actions = {
   init: ({ commit, rootState, dispatch }) =>
     new Promise(resolve => {
       const { username } = rootState.auth;
-      kbyte.request('get_user', username, (e, user) => {
+      client.request('get_user', username, (e, user) => {
         if (user) {
           Promise.all([
-            kbyte.requestAsync('get_props', null),
-            kbyte.requestAsync('get_prize_props', null),
-            kbyte.requestAsync('get_fights', username),
+            client.requestAsync('get_props', null),
+            client.requestAsync('get_prize_props', null),
+            client.requestAsync('get_fights', username),
           ]).then(([props, prizeProps, fights]) => {
             commit('saveProps', props);
             commit('savePrizeProps', prizeProps);

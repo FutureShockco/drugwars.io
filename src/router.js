@@ -14,6 +14,7 @@ const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Uni
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
+const Heist = () => import(/* webpackChunkName: "heist" */ '@/views/Heist.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
@@ -104,6 +105,12 @@ export default new Router({
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,
+    },
+    {
+      path: '/heist',
+      name: 'heist',
+      beforeEnter: requireAuth,
+      component: Heist,
     },
     {
       path: '/@:username',

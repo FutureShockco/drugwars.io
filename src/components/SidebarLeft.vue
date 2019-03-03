@@ -64,6 +64,15 @@
               Leaderboard
             </router-link>
           </li>
+          <li>
+            <router-link
+              to="/heist"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Heist
+            </router-link>
+          </li>
         </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>

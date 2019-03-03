@@ -28,6 +28,14 @@
           :production_rate="building.production_rate"
         />
       </div>
+      <div
+        v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)"
+        class="mb-2"
+      >
+        <div><b>Current capacity:</b> {{ ownItem.lvl * 30000 | amount }}</div>
+        <div><b>Next capacity:</b> {{ (ownItem.lvl + 1) * 30000 | amount }}</div>
+        <div><b>Safe:</b> {{ ownItem.lvl * 30000 / 100 * 25 | amount }}</div>
+      </div>
     </div>
     <div class="mx-auto">
       <Checkout

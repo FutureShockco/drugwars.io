@@ -69,7 +69,7 @@ export default {
       return 0;
     },
     requireUpdate() {
-      return this.level >= this.hqLevel && this.id !== 'headquarters';
+      return this.level > this.hqLevel && this.id !== 'headquarters';
     },
     upgradeLabel() {
       let label = 'Upgrade';

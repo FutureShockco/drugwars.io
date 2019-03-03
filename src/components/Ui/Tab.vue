@@ -29,8 +29,8 @@ export default {
 
     &.active {
       background-image: url('/img/brush-yellow.svg');
-      background-size: 100px 100%;
-      background-position: -4px 36px;
+      background-size: cover;
+      background-position: -10px 51px;
       background-repeat: no-repeat;
 
       color: @heading-color;

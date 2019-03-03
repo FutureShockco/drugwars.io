@@ -6,14 +6,17 @@
     </div>
     <div v-if="!isLoading && targets.length > 0">
       <p class="p-4">Here is the players with a similar drug production that you. This is a good place to spot weak targets.</p>
-      <Player v-if="target.username !== username" :player="target" v-for="target in targets"/>
+      <Player
+        v-if="target.username !== username"
+        :player="target"
+        :key="target.username"
+        v-for="target in targets"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
-
 export default {
   data() {
     return {
@@ -26,13 +29,16 @@ export default {
     this.isLoading = true;
     const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
 
-    kbyte.requestAsync('get_users', { maxDrugProductionRate }).then((users) => {
-      this.targets = users;
-      this.isLoading = false;
-    }).catch(e => {
-      console.error('Failed to get users', e);
-      this.isLoading = false;
-    })
+    fetch(`https://api.drugwars.io/users/${maxDrugProductionRate}`)
+      .then(res => res.json())
+      .then(users => {
+        this.targets = users;
+        this.isLoading = false;
+      })
+      .catch(e => {
+        console.error('Failed to get users', e);
+        this.isLoading = false;
+      });
   },
 };
 </script>

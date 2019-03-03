@@ -68,8 +68,6 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
-
 export default {
   data() {
     return {
@@ -107,16 +105,18 @@ export default {
   },
   created() {
     this.isLoading = true;
-    kbyte.requestAsync('get_user', this.username).then(user => {
-      this.user = user.user;
-      this.buildings = user.buildings;
-      this.rank = user.rank[0].rank;
-      this.units = user.units.map(unit => ({
-        key: unit.unit,
-        amount: unit.amount,
-      }));
-      this.isLoading = false;
-    });
+    fetch(`https://api.drugwars.io/user/${this.username}`)
+      .then(res => res.json())
+      .then(user => {
+        this.user = user.user;
+        this.buildings = user.buildings;
+        this.rank = user.rank[0].rank;
+        this.units = user.units.map(unit => ({
+          key: unit.unit,
+          amount: unit.amount,
+        }));
+        this.isLoading = false;
+      });
   },
 };
 </script>

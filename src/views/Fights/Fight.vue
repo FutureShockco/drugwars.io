@@ -64,7 +64,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import kbyte from '@/helpers/kbyte';
 
 export default {
   data() {
@@ -147,7 +146,7 @@ export default {
       }
 
       try {
-        const user = await kbyte.requestAsync('get_user', target);
+        const user = await fetch(`https://api.drugwars.io/user/${target}`).then(res => res.json());
 
         if (!user || !user.user) {
           this.errorMessage = `Player '${target}' does not exist`;

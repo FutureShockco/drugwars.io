@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Promise from 'bluebird';
-import kbyte from '@/helpers/kbyte';
 import sc from '@/helpers/steemconnect';
 
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -31,27 +30,29 @@ const actions = {
   init: ({ commit, rootState, dispatch }) =>
     new Promise(resolve => {
       const { username } = rootState.auth;
-      kbyte.request('get_user', username, (e, user) => {
-        if (user) {
-          Promise.all([
-            kbyte.requestAsync('get_props', null),
-            kbyte.requestAsync('get_prize_props', null),
-            kbyte.requestAsync('get_fights', username),
-          ]).then(([props, prizeProps, fights]) => {
-            commit('saveProps', props);
-            commit('savePrizeProps', prizeProps);
-            commit('saveUser', user);
-            commit('saveFights', fights);
-            resolve();
-          });
-        } else {
-          dispatch('signup').then(() => {
-            Promise.delay(9000).then(() => {
-              window.location = '/';
+      fetch(`https://api.drugwars.io/user/${username}`)
+        .then(res => res.json())
+        .then(user => {
+          if (user) {
+            Promise.all([
+              fetch('https://api.drugwars.io/leaderboard').then(res => res.json()),
+              fetch('https://api.drugwars.io').then(res => res.json()),
+              fetch(`https://api.drugwars.io/fights/${username}`).then(res => res.json()),
+            ]).then(([props, prizeProps, fights]) => {
+              commit('saveProps', props);
+              commit('savePrizeProps', prizeProps);
+              commit('saveUser', user);
+              commit('saveFights', fights);
+              resolve();
             });
-          });
-        }
-      });
+          } else {
+            dispatch('signup').then(() => {
+              Promise.delay(9000).then(() => {
+                window.location = '/';
+              });
+            });
+          }
+        });
     }),
   signup: ({ rootState }) =>
     new Promise((resolve, reject) => {

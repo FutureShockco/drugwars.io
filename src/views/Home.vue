@@ -1,5 +1,5 @@
 <template>
-  <UiCenter class="home">
+  <UiCenter class="vue-ui-modal pt-2 pb-7 home">
     <Icon name="logo" class="logo-large"/>
     <div class="mb-5">
       <p>Build your own empire</p>

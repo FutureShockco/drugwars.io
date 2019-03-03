@@ -35,7 +35,7 @@ const actions = {
       commit('saveProperties', result);
     }),
   getConfig: async ({ commit }) => {
-    const config = await client.database.call('get_config', []);
+    const config = await dsteem.database.call('get_config', []);
     commit('saveConfig', config);
   },
   loadSettings: ({ dispatch, commit }) => {
@@ -47,7 +47,7 @@ const actions = {
 
     try {
       const settings = JSON.parse(settingsContent);
-      client.updateClient(settings.address);
+      dsteem.updateClient(settings.address);
       dispatch('getConfig');
 
       commit('saveSettings', settings);

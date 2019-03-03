@@ -29,7 +29,7 @@ export default {
     this.isLoading = true;
     const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
 
-    fetch(`https://api.drugwars.io/users/${maxDrugProductionRate}`)
+    fetch(`https://rest.drugwars.io/users/${maxDrugProductionRate}`)
       .then(res => res.json())
       .then(users => {
         this.targets = users;

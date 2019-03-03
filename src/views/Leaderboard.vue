@@ -1,11 +1,14 @@
 <template>
   <div>
     <Header title="Leaderboard" />
-    <div class="mb-4">
+    <div v-if="isLoading" class="p-4">
+      <Loading/>
+    </div>
+    <div v-if="!isLoading && users.length > 0" class="mb-4">
       <Player
-        v-for="(player, key) in players"
-        :player="player"
-        :key="player.username"
+        v-for="(user, key) in users"
+        :player="user"
+        :key="user.username"
         :rank="key + 1"
       />
     </div>
@@ -14,13 +17,30 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isLoading: false,
+      users: [],
+    };
+  },
   computed: {
     username() {
       return this.$store.state.auth.username;
     },
-    players() {
-      return this.$store.state.game.props.players;
-    },
+  },
+  mounted() {
+    this.isLoading = true;
+
+    fetch('https://rest.drugwars.io/leaderboard')
+      .then(res => res.json())
+      .then(result => {
+        this.users = result.players;
+        this.isLoading = false;
+      })
+      .catch(e => {
+        console.error('Failed to get users', e);
+        this.isLoading = false;
+      });
   },
 };
 </script>

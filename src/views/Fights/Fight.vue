@@ -146,7 +146,7 @@ export default {
       }
 
       try {
-        const user = await fetch(`https://api.drugwars.io/user/${target}`).then(res => res.json());
+        const user = await fetch(`https://rest.drugwars.io/user/${target}`).then(res => res.json());
 
         if (!user || !user.user) {
           this.errorMessage = `Player '${target}' does not exist`;

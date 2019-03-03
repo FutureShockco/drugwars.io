@@ -30,14 +30,13 @@ const actions = {
   init: ({ commit, rootState, dispatch }) =>
     new Promise(resolve => {
       const { username } = rootState.auth;
-      fetch(`https://api.drugwars.io/user/${username}`)
+      fetch(`https://rest.drugwars.io/user/${username}`)
         .then(res => res.json())
         .then(user => {
           if (user) {
             Promise.all([
-              fetch('https://api.drugwars.io/leaderboard').then(res => res.json()),
-              fetch('https://api.drugwars.io').then(res => res.json()),
-              fetch(`https://api.drugwars.io/fights/${username}`).then(res => res.json()),
+              fetch('https://rest.drugwars.io').then(res => res.json()),
+              fetch(`https://rest.drugwars.io/fights/${username}`).then(res => res.json()),
             ]).then(([props, prizeProps, fights]) => {
               commit('saveProps', props);
               commit('savePrizeProps', prizeProps);

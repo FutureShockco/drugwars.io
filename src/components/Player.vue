@@ -22,7 +22,7 @@
           {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}} / day
         </span>
       </div>
-      <div class="shield mb-4" v-if="shieldEnd">
+      <div class="shield mb-2" v-if="shieldEnd">
         <Icon name="shield1" size="26" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>

@@ -10,6 +10,19 @@
         <li>When players attack or get attacked they have differents options to defend theirself, they can also choose to build more defense and let their defense taking care about the opponents.</li>
         <li>Good luck - all is fair in love and DrugWars!</li>
       </ul>
+      <h3>Community guides</h3>
+      <p>
+        <a
+          href="https://steemit.com/drugwars/@timcliff/drug-wars-on-steem-ultimate-beginners-game-guide"
+          target="_blank"
+        >
+          Drug Wars on Steem - Ultimate Beginners Game Guide
+        </a>
+        by
+        <router-link to="/@timcliff">
+          timcliff
+        </router-link>
+      </p>
     </div>
   </div>
 </template>

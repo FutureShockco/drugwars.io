@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-
 export default {
   computed: {
     username() {
@@ -31,12 +29,6 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
-  },
-  methods: mapActions(['init']),
-  created() {
-    setInterval(() => {
-      this.init();
-    }, 10000);
   },
 };
 </script>

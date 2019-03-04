@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import sc from '@/helpers/steemconnect';
 import client from '@/helpers/client';
 
 const state = {
@@ -22,6 +23,7 @@ const actions = {
   login: async ({ commit }, accessToken = localStorage.getItem('drugwars_token')) =>
     new Promise(resolve => {
       if (accessToken) {
+        sc.setAccessToken(accessToken);
         client.requestAsync('login', accessToken).then(result => {
           localStorage.setItem('drugwars_token', accessToken);
           commit('saveUsername', result.name);

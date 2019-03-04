@@ -6,6 +6,7 @@
     <div class="mr-3">
       <img class="preview" :src="`/img/units/${unit.id}.jpg`">
     </div>
+    <div class="level">{{ ownItem.amount }}</div>
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ unit.name }}</h5>
       <Cost
@@ -79,7 +80,7 @@ export default {
     ownItem() {
       return (
         this.$store.state.game.user.units.find(b => b.unit === this.unit.id) || {
-          lvl: 0,
+          amount: 0,
         }
       );
     },

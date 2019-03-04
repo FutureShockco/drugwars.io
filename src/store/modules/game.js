@@ -67,7 +67,7 @@ const actions = {
         return resolve(result);
       });
     }),
-  upgradeBuilding: ({ rootState }, { id, level }) =>
+  upgradeBuilding: ({ rootState, dispatch }, { id, level }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {
@@ -77,10 +77,13 @@ const actions = {
       };
       sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
         return resolve(result);
       });
     }),
-  recruitUnit: ({ rootState }, { unit, amount }) =>
+  recruitUnit: ({ rootState, dispatch }, { unit, amount }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {
@@ -90,10 +93,13 @@ const actions = {
       };
       sc.customEvent(username, 'dw-unit', payload, (err, result) => {
         if (err) return reject(err);
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
         return resolve(result);
       });
     }),
-  investHeist: ({ rootState }, amount) =>
+  investHeist: ({ rootState, dispatch }, amount) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {
@@ -102,22 +108,31 @@ const actions = {
       };
       sc.customEvent(username, 'dw-heist', payload, (err, result) => {
         if (err) return reject(err);
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
         return resolve(result);
       });
     }),
-  startFight: ({ rootState }, payload) =>
+  startFight: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
         return resolve(result);
       });
     }),
-  requestPayment: ({ rootState }, { memo, amount }) => {
+  requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
     const win = window.open(url, '_blank');
     win.focus();
+    Promise.delay(30000).then(() => {
+      dispatch('init');
+    });
   },
 };
 

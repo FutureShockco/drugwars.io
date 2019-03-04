@@ -34,9 +34,7 @@ export default {
   },
   methods: mapActions(['init']),
   created() {
-    setInterval(() => {
-      this.init();
-    }, 10000);
+    this.init();
   },
 };
 </script>

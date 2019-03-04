@@ -1,14 +1,13 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item mb-4"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item"
     :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
   >
     <div class="mr-3">
       <img class="preview" :src="`/img/buildings/${building.id}.jpg`">
     </div>
-    <div class="level">{{ ownItem.lvl }}</div>
     <div class="item-content width-full mr-3 mb-4">
-      <h5>{{ building.name }}</h5>
+      <h5>{{ building.name }} ({{ ownItem.lvl }})</h5>
       <Cost
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"

@@ -5,6 +5,7 @@
         <Avatar
           :size="100"
           :username="username"
+          :xp="xp"
           :rank="rank"
         />
         <div
@@ -16,6 +17,15 @@
       </div>
       <div class="height-full">
         <ul class="pt-1 pb-2 border-bottom">
+          <li>
+            <router-link
+              to="/overview"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Overview
+            </router-link>
+          </li>
           <li>
             <router-link
               to="/"
@@ -113,6 +123,9 @@ export default {
     },
     rank() {
       return this.$store.state.game.user.rank[0].rank;
+    },
+    xp() {
+      return this.$store.state.game.user.user.xp;
     },
     activeFightsCount() {
       const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);

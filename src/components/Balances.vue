@@ -1,37 +1,44 @@
 <template>
-  <ul class="balances px-4 mb-4 list-style-none">
+  <ul class="balances list-style-none">
     <li class="d-flex">
       <Icon name="drugs"/>
       <div>
         <div :class="{ 'text-red': balances.drugs === user.drug_storage }">
-          {{ balances.drugs | amount }}
+          {{ balances.drugs | amount }} DRUGS
         </div>
-        <div class="text-gray">DRUGS</div>
+        <div class="detail">
+          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="drugBonus">+{{drugBonus | amount}}</span>
+        </div>
       </div>
     </li>
     <li class="d-flex">
       <Icon name="weapons"/>
       <div>
         <div :class="{ 'text-red': balances.weapons === user.weapon_storage }">
-          {{ balances.weapons | amount }}
+          {{ balances.weapons | amount }} WEAPONS
         </div>
-        <div class="text-gray">WEAPONS</div>
+          <div class="detail">
+            +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="weaponBonus">+{{weaponBonus | amount}}</span>
+        </div>
       </div>
     </li>
     <li class="d-flex">
       <Icon name="alcohols"/>
       <div>
         <div :class="{ 'text-red': balances.alcohols === user.alcohol_storage }">
-          {{ balances.alcohols | amount }}
+          {{ balances.alcohols | amount }} ALCOHOL
         </div>
-        <div class="text-gray">ALCOHOLS</div>
+            <div class="detail">
+            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>
+        </div>
       </div>
     </li>
     <li class="d-flex hide-sm">
       <Icon name="steem"/>
       <div>
-        <div>{{ steemBalance | amount }}</div>
-        <div class="text-gray">STEEM</div>
+        <div>{{ steemBalance | amount }} STEEM</div>
+          <div class="detail text-green">
+        +{{ totalRewards}} STEEM</div>
       </div>
     </li>
   </ul>
@@ -80,8 +87,44 @@ export default {
         alcohols: alcohols > this.user.alcohols_storage ? this.user.alcohols_storage : alcohols,
       };
     },
+    totalVest() {
+      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
+    },
+    totalReward() {
+      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
+    },
+    totalRewards() {
+      const totalDailySteem =
+        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const myRewards =
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem;
+      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
+      const amount = (this.totalReward / 100) * percent;
+      return parseFloat(myRewards + amount).toFixed(3);
+    },
     steemBalance() {
       return parseFloat(this.$store.state.auth.account.balance);
+    },
+    drugBonus() {
+      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+        .lvl || {
+        lvl: 0,
+      };
+      return this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005;
+    },
+    weaponBonus() {
+      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+        .lvl || {
+        lvl: 0,
+      };
+      return this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005;
+    },
+    alcoholBonus() {
+      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+        .lvl || {
+        lvl: 0,
+      };
+      return this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005;
     },
   },
 };
@@ -93,19 +136,48 @@ export default {
 .balances {
   color: white;
   font-size: 18px;
-  line-height: 1.2em;
-
+  font-weight: 600;
+  line-height: 1em;
+  display: inline-flex;
   li {
-    margin-bottom: 18px;
-
+    padding: 10px;
+    border-left: 1px rgb(10, 10, 10) solid;
+    border-right: 1px rgb(10, 10, 10) solid;
     .text-gray {
       font-size: 14px;
+    }
+    .detail {
+      font-size: 12px;
     }
   }
 
   .iconfont {
     font-size: 36px;
     line-height: 36px;
+    margin-right: 10px;
+  }
+}
+
+@media screen and (min-width: 200px) and (max-width: 1119px) {
+  .balances {
+    font-size: 10px !important;
+    margin-top: 10px !important;
+    li {
+      padding: 5px;
+      border-left: 1px rgb(10, 10, 10) solid;
+      border-right: 1px rgb(10, 10, 10) solid;
+      .text-gray {
+        font-size: 12px;
+      }
+      .detail {
+        margin-top: 5px;
+        font-size: 9px;
+      }
+    }
+  }
+  .iconfont {
+    font-size: 24px !important;
+    line-height: 24px !important;
     margin-right: 10px;
   }
 }

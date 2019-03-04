@@ -1,7 +1,7 @@
 <template>
   <div>
     <BootcampTabs/>
-    <div class="p-4">
+    <div>
       <div v-if="trainingFacility.lvl > 0">
         <Unit
           v-if="!unit.disabled"

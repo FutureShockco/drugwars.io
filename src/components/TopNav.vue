@@ -9,7 +9,7 @@
           <Icon name="logo"/>
         </router-link>
       </div>
-      <Prize class="ml-4 width-full d-flex flex-column flex-justify-center"/>
+          <Balances class="width-full flex-justify-center"/>
       <div class="shield text-center hide-sm hide-md hide-lg" v-if="shieldEnd">
         <Icon name="shield1" size="26" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>

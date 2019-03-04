@@ -47,10 +47,20 @@ a.iconfont:hover {
   font-family: @heading-font;
   font-size: 26px;
   text-transform: uppercase;
-  transform: skew(-10deg);
-  font-weight: bold;
-  color: @error-color;
-  letter-spacing: 1px;
+  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  top: 0px;
+  width: 200px;
+  left:50%;
+  text-align: center;
+  margin: 0;
+  line-height: 0px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  color: #db2828;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
+  margin-bottom: 20px;
 }
 
 .preview {
@@ -73,7 +83,11 @@ a.iconfont:hover {
 }
 
 .item {
-
+  background: linear-gradient(#0e111477, #0505055b), url(/img/fake-brick.png); 
+  border:1px solid;
+  border-image: url(/img/border.png) 3 round;
+  box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
+  padding: 18px;
   &.not-enough {}
 
   &.progress {
@@ -101,15 +115,15 @@ a.iconfont:hover {
 
 .level {
   font-family: @heading-font;
-  background: @primary-color;
+  background: black;
   padding: 0 5px;
-  color: black;
+  color: white;
   font-size: 14px;
-  font-weight: bold;
   border-radius: 4px;
-  border: 1px solid black;
+  border: 1px solid white;
   min-width: 30px;
   text-align: center;
+  margin-top: 25px;
 }
 
 .rank {
@@ -118,7 +132,6 @@ a.iconfont:hover {
   padding: 0 5px;
   color: white;
   font-size: 14px;
-  font-weight: bold;
   border-radius: 4px;
   border: 1px solid white;
   min-width: 30px;
@@ -182,6 +195,7 @@ a.iconfont:hover {
 
   @media @bp-small {
     font-size: 150px;
+    
   }
 }
 
@@ -190,4 +204,15 @@ a.iconfont:hover {
   background-image: url('/img/brush-black.png') !important;
   background-size: cover;
   background-position: center;
+}
+
+.total{
+  font-size: 26px;
+  font-weight: lighter;
+  color: white;
+  font-family: 'Staatliches', Helvetica, Arial, sans-serif;
+}
+
+.right-floated{
+  float: right;
 }

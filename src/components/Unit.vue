@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item mb-4"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item"
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">

@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <div>
-      <b>Current:</b>
-      {{ current | amount }} / day
+    <div class="production">
+    <div v-if="production_rate">
+      <span v-if="!compactview">Current:</span>
+      {{ current | amount }}
+         <span>/ DAY</span>
     </div>
-    <div v-if="!compactview">
-      <b>Next:</b>
-      {{ next | amount }} / day
+    <div v-if="level && !compactview">
+      <span>Next:</span>
+      {{ next | amount }}
+      <span>/ DAY</span>
     </div>
   </div>
 </template>

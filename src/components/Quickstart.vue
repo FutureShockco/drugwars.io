@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import buildings from 'drugwars/buildings.json';
+import { buildings } from 'drugwars';
 
 export default {
   data() {

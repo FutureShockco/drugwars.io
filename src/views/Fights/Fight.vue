@@ -64,7 +64,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 
 export default {
   data() {
@@ -147,7 +147,7 @@ export default {
       }
 
       try {
-        const user = await kbyte.requestAsync('get_user', target);
+        const user = await client.requestAsync('get_user', target);
 
         if (!user || !user.user) {
           this.errorMessage = `Player '${target}' does not exist`;

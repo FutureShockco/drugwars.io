@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 
 export default {
   data() {
@@ -107,7 +107,7 @@ export default {
   },
   created() {
     this.isLoading = true;
-    kbyte.requestAsync('get_user', this.username).then(user => {
+    client.requestAsync('get_user', this.username).then(user => {
       this.user = user.user;
       this.buildings = user.buildings;
       this.rank = user.rank[0].rank;

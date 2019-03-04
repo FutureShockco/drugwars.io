@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import client from '@/helpers/client';
+import dsteem from '@/helpers/dsteem';
 
 const SETTINGS_KEY = 'settings';
 
@@ -31,11 +31,11 @@ const mutations = {
 
 const actions = {
   getDynamicGlobalProperties: ({ commit }) =>
-    client.database.call('get_dynamic_global_properties', []).then(result => {
+    dsteem.database.call('get_dynamic_global_properties', []).then(result => {
       commit('saveProperties', result);
     }),
   getConfig: async ({ commit }) => {
-    const config = await client.database.call('get_config', []);
+    const config = await dsteem.database.call('get_config', []);
     commit('saveConfig', config);
   },
   loadSettings: ({ dispatch, commit }) => {
@@ -47,7 +47,7 @@ const actions = {
 
     try {
       const settings = JSON.parse(settingsContent);
-      client.updateClient(settings.address);
+      dsteem.updateClient(settings.address);
       dispatch('getConfig');
 
       commit('saveSettings', settings);

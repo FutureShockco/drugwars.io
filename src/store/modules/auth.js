@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import sc from '@/helpers/steemconnect';
+import client from '@/helpers/client';
 
 const state = {
   username: null,
@@ -23,16 +24,17 @@ const actions = {
     new Promise(resolve => {
       if (accessToken) {
         sc.setAccessToken(accessToken);
-        sc.me((err, result) => {
-          if (err || !result) {
-            resolve();
-          } else {
+        client
+          .requestAsync('login', accessToken)
+          .then(result => {
             localStorage.setItem('drugwars_token', accessToken);
             commit('saveUsername', result.name);
             commit('saveAccount', result.account);
             resolve();
-          }
-        });
+          })
+          .catch(() => {
+            resolve();
+          });
       } else {
         resolve();
       }

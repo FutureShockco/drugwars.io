@@ -20,8 +20,8 @@
       <div class="detail">Today prize </div>
        ${{ parseInt(total) }}
        <div class="prizes">
-       <div class="sub">DAILY  ${{totalDaily | amount}} <div>{{totalDailySteem}} STEEM</div></div>
-       <div class="sub">HEIST  ${{totalHeist | amount}} <div>{{totalHeistSteem}} STEEM</div></div>
+       <div class="sub"><div>DAILY</div>  ${{totalDaily | amount}} <div class="subdetail">{{totalDailySteem}} STEEM</div></div>
+       <div class="sub"><div>HEIST</div>  ${{totalHeist | amount}} <div class="subdetail">{{totalHeistSteem}} STEEM</div></div>
        </div>
     </div>
     <!-- <div class="text-gray hide-sm hide-md hide-lg pl-4 pt-1 pb-1">
@@ -101,8 +101,7 @@ export default {
   font-family: @heading-font;
   display: block;
   margin: 0 auto;
-  text-shadow: 0 0 80px hsla(0, 0%, 100%, 0.5);
-  background: url(/img/animated.png) repeat-y;
+  text-shadow: 0 0 80px hsla(34, 100%, 23%, 0.5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: #fbbd08d9;
@@ -120,8 +119,11 @@ export default {
     .sub {
       margin-top: 10px;
       width: 50%;
-      font-size: 16px;
+      font-size: 24px;
       line-height: 24px;
+    }
+    .subdetail {
+      font-size: 14px;
     }
   }
 }

@@ -1,5 +1,5 @@
 	<template>
-  <div class="countdown p-1">
+  <div class="countdown">
       <div  v-show ="statusType !== 'expired'">
         <div class="hour">
           <div class="format">Hours</div>

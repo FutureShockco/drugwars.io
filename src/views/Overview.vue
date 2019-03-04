@@ -10,7 +10,7 @@
           Safe
         </div>
       </div> -->
-      <div class="item  p-2">
+      <div class="item  pl-4">
         <h5>DRUGS PRODUCTION <Icon name="drugs"/> </h5>
       </div>
       <BuildingProductionCompact
@@ -20,14 +20,14 @@
       />
       <div class="item p-2">
         <div class="right-floated">
-          <h3 > Total: {{ user.drug_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+          <h3 class="total"> Total: {{ user.drug_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (drugStorage - user.drugs_balance) / user.drug_production_rate * 1000 | ms}}</h5>
         </div>
       <div class="total">Total capacity : {{ drugStorage | amount }}</div>
         <h5 class="m-0 text-green">Safe : {{ drugStorage /10 | amount }}
       </h5>
         </div>
-      <div class="item p-2">
+      <div class="item  pl-4">
         <h5>WEAPONS PRODUCTION <Icon name="weapons"/> </h5>
       </div>
       <BuildingProductionCompact
@@ -37,7 +37,7 @@
       />
       <div class="item p-2">
         <div class="right-floated">
-        <h3> Total: {{ user.weapon_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+        <h3 class="total"> Total: {{ user.weapon_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (weaponStorage - user.weapons_balance) / user.weapon_production_rate * 1000 | ms }}</h5>
         </div>
         <div class="total">Total capacity : {{ weaponStorage | amount }}</div>
@@ -51,9 +51,9 @@
         :building="building"
         :key="building.id"
       />
-      <div class="item p-2">
+      <div class="item  p-2">
         <div class="right-floated">
-        <h3> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+        <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (alcoholStorage - user.alcohols_balance) / user.alcohol_production_rate * 1000 | ms}}</h5>
         </div>
         <div class="total"> Total capacity : {{ alcoholStorage | amount }}</div>

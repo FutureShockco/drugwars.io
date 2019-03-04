@@ -10,7 +10,8 @@
           Safe
         </div>
       </div> -->
-      <div class="item  pl-4">
+      <div class="item">
+      <div class="itemcompact  pl-2">
         <h5>DRUGS PRODUCTION <Icon name="drugs"/> </h5>
       </div>
       <BuildingProductionCompact
@@ -18,7 +19,7 @@
         :building="building"
         :key="building.id"
       />
-      <div class="item p-2">
+      <div class="itemcompact p-2">
         <div class="right-floated">
           <h3 class="total"> Total: {{ user.drug_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (drugStorage - user.drugs_balance) / user.drug_production_rate * 1000 | ms}}</h5>
@@ -27,7 +28,9 @@
         <h5 class="m-0 text-green">Safe : {{ drugStorage /10 | amount }}
       </h5>
         </div>
-      <div class="item  pl-4">
+        </div>
+              <div class="item">
+                      <div class="itemcompact  pl-2">
         <h5>WEAPONS PRODUCTION <Icon name="weapons"/> </h5>
       </div>
       <BuildingProductionCompact
@@ -35,7 +38,7 @@
         :building="building"
         :key="building.id"
       />
-      <div class="item p-2">
+      <div class="itemcompact p-2">
         <div class="right-floated">
         <h3 class="total"> Total: {{ user.weapon_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (weaponStorage - user.weapons_balance) / user.weapon_production_rate * 1000 | ms }}</h5>
@@ -43,15 +46,17 @@
         <div class="total">Total capacity : {{ weaponStorage | amount }}</div>
           <h5 class="m-0 text-green">Safe : {{ weaponStorage /10 | amount }}</h5>
       </div>
-      <div class="item p-2">
-        <h5>ALCOHOL PRODUCTION <Icon name="alcohol"/> </h5>
+      </div>
+       <div class="item">
+      <div class="itemcompact pl-2">
+        <h5>ALCOHOL PRODUCTION <Icon name="alcohols"/> </h5>
       </div>
         <BuildingProductionCompact
         v-for="building in alcohol_buildings"
         :building="building"
         :key="building.id"
       />
-      <div class="item  p-2">
+      <div class="itemcompact  p-2">
         <div class="right-floated">
         <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (alcoholStorage - user.alcohols_balance) / user.alcohol_production_rate * 1000 | ms}}</h5>
@@ -59,6 +64,7 @@
         <div class="total"> Total capacity : {{ alcoholStorage | amount }}</div>
           <h5 class="m-0 text-green">Safe : {{ alcoholStorage /10 | amount }}</h5>
       </div>
+    </div>
     </div>
   </div>
 </template>

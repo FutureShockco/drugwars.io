@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4>Heist</h4>
-    <img width="150px" :src="`/img/heist.jpg`">
+    <img width="150px" class="pt-4" :src="`/img/heist.jpg`">
     <form @submit.prevent="handleSubmit" class="mb-2">
       <input
         class="input form-control input-block mb-2"

@@ -10,8 +10,4 @@ function jsonParse(input) {
   }
 }
 
-export {
-  isElectron,
-  isWeb,
-  jsonParse,
-};
+export { isElectron, isWeb, jsonParse };

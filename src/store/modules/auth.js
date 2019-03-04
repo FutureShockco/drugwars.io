@@ -24,14 +24,17 @@ const actions = {
     new Promise(resolve => {
       if (accessToken) {
         sc.setAccessToken(accessToken);
-        client.requestAsync('login', accessToken).then(result => {
-          localStorage.setItem('drugwars_token', accessToken);
-          commit('saveUsername', result.name);
-          commit('saveAccount', result.account);
-          resolve();
-        }).catch(e => {
-          resolve();
-        });
+        client
+          .requestAsync('login', accessToken)
+          .then(result => {
+            localStorage.setItem('drugwars_token', accessToken);
+            commit('saveUsername', result.name);
+            commit('saveAccount', result.account);
+            resolve();
+          })
+          .catch(() => {
+            resolve();
+          });
       } else {
         resolve();
       }

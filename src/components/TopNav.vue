@@ -48,7 +48,7 @@ export default {
   display: flex;
   align-items: center;
   transition: width 0.3s;
-  box-shadow: 5px 5px 5px black;
+  box-shadow: -1px 5px 5px black;
   z-index: 1000;
   @media @bp-small {
     height: @topnav-height;

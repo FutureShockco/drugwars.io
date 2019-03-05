@@ -21,6 +21,7 @@ export default {
 .header {
   font-family: @heading-font;
   background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
+  box-shadow: 0px 5px 5px black;
   color: @white-darker;
   font-size: 20px;
   z-index: 100;

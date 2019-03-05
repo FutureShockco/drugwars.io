@@ -3,42 +3,54 @@
     <li class="d-flex">
       <Icon name="drugs"/>
       <div>
-        <div :class="{ 'text-red': balances.drugs === user.drug_storage }">
+        <div :class="{ 'text-red': balances.drugs >= user.drug_storage }">
           {{ balances.drugs | amount }} DRUGS
         </div>
         <div class="detail">
-          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="drugBonus">+{{drugBonus | amount}}</span>
+          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY
+        </div>
+                <div class="detail">
+          <span class="text-green" v-if="drugBonus">+{{drugBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
     <li class="d-flex">
       <Icon name="weapons"/>
       <div>
-        <div :class="{ 'text-red': balances.weapons === user.weapon_storage }">
+        <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
           {{ balances.weapons | amount }} WEAPONS
         </div>
           <div class="detail">
-            +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="weaponBonus">+{{weaponBonus | amount}}</span>
+            +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / DAY 
+                        
+        </div>
+          <div class="detail">
+          <span class="text-green" v-if="weaponBonus">+{{weaponBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
     <li class="d-flex">
       <Icon name="alcohols"/>
       <div>
-        <div :class="{ 'text-red': balances.alcohols === user.alcohol_storage }">
+        <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
           {{ balances.alcohols | amount }} ALCOHOL
         </div>
             <div class="detail">
-            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>
+            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / DAY
+        </div>
+           <div class="detail">
+            <span class="text-green" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
-    <li class="d-flex hide-sm">
+    <li class="d-flex">
       <Icon name="steem"/>
       <div>
         <div>{{ steemBalance | amount }} STEEM</div>
-          <div class="detail text-green">
-        +{{ totalRewards}} STEEM</div>
+         <div class="detail"> DAILY <span class="detail text-green">
+        +{{ totalRewards.myRewards}} STEEM</span></div>
+                 <div class="detail"> HEIST <span class="detail text-green">
+        +{{ totalRewards.amount}} STEEM</span></div>
       </div>
     </li>
   </ul>
@@ -78,13 +90,26 @@ export default {
     },
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
-      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
-      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
+      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+        .lvl || {
+        lvl: 0,
+      };
+      const drugs =
+        this.user.drugs_balance +
+        time * this.user.drug_production_rate +
+        this.user.drug_production_rate * time * oc * 0.005;
+      const weapons =
+        this.user.weapons_balance +
+        time * this.user.weapon_production_rate +
+        this.user.weapon_production_rate * time * oc * 0.005;
+      const alcohols =
+        this.user.alcohols_balance +
+        time * this.user.alcohol_production_rate +
+        this.user.alcohol_production_rate * time * oc * 0.005;
       return {
         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
-        alcohols: alcohols > this.user.alcohols_storage ? this.user.alcohols_storage : alcohols,
+        alcohols: alcohols > this.user.alcohol_storage ? this.user.alcohol_storage : alcohols,
       };
     },
     totalVest() {
@@ -96,11 +121,12 @@ export default {
     totalRewards() {
       const totalDailySteem =
         (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
-      const myRewards =
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem;
+      const myRewards = parseFloat(
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem,
+      ).toFixed(3);
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalReward / 100) * percent;
-      return parseFloat(myRewards + amount).toFixed(3);
+      const amount = parseFloat((this.totalReward / 100) * percent).toFixed(3);
+      return { myRewards, amount };
     },
     steemBalance() {
       return parseFloat(this.$store.state.auth.account.balance);
@@ -177,7 +203,7 @@ export default {
     }
   }
   .iconfont {
-    font-size: 24px !important;
+    font-size: 18px !important;
     line-height: 24px !important;
     margin-right: 10px;
   }

@@ -25,7 +25,7 @@
           <h5 class="m-0"> Full in : {{ (drugStorage - user.drugs_balance) / user.drug_production_rate * 1000 | ms}}</h5>
         </div>
       <div class="total">Total capacity : {{ drugStorage | amount }}</div>
-        <h5 class="m-0 text-green">Safe : {{ drugStorage /10 | amount }}
+        <h5 class="m-0 text-green">Safe : {{ drugStorage /100*25 | amount }}
       </h5>
         </div>
         </div>
@@ -44,7 +44,7 @@
           <h5 class="m-0"> Full in : {{ (weaponStorage - user.weapons_balance) / user.weapon_production_rate * 1000 | ms }}</h5>
         </div>
         <div class="total">Total capacity : {{ weaponStorage | amount }}</div>
-          <h5 class="m-0 text-green">Safe : {{ weaponStorage /10 | amount }}</h5>
+          <h5 class="m-0 text-green">Safe : {{ weaponStorage /100*25 | amount }}</h5>
       </div>
       </div>
        <div class="item">
@@ -62,7 +62,7 @@
           <h5 class="m-0"> Full in : {{ (alcoholStorage - user.alcohols_balance) / user.alcohol_production_rate * 1000 | ms}}</h5>
         </div>
         <div class="total"> Total capacity : {{ alcoholStorage | amount }}</div>
-          <h5 class="m-0 text-green">Safe : {{ alcoholStorage /10 | amount }}</h5>
+          <h5 class="m-0 text-green">Safe : {{ alcoholStorage /100*25 | amount }}</h5>
       </div>
     </div>
     </div>

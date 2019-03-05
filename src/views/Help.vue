@@ -56,9 +56,11 @@ export default {
   },
   computed: {
     faq() {
-      return faq.filter((q) => {
-        return JSON.stringify(q).toLowerCase().includes(this.q.toLowerCase());
-      });
+      return faq.filter(q =>
+        JSON.stringify(q)
+          .toLowerCase()
+          .includes(this.q.toLowerCase()),
+      );
     },
   },
 };

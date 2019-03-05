@@ -9,8 +9,8 @@
         <div class="detail">
           +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY
         </div>
-                <div class="detail">
-          <span class="text-green" v-if="drugBonus">+{{drugBonus | amount}}</span> BONUS
+                <div class="detail" v-if="drugBonus">
+          <span class="text-green">+{{drugBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
@@ -24,8 +24,8 @@
             +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / DAY 
                         
         </div>
-          <div class="detail">
-          <span class="text-green" v-if="weaponBonus">+{{weaponBonus | amount}}</span> BONUS
+          <div class="detail" v-if="weaponBonus">
+          <span class="text-green">+{{weaponBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
@@ -38,8 +38,8 @@
             <div class="detail">
             +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / DAY
         </div>
-           <div class="detail">
-            <span class="text-green" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span> BONUS
+           <div class="detail" v-if="alcoholBonus">
+            <span class="text-green">+{{alcoholBonus | amount}}</span> BONUS
         </div>
       </div>
     </li>
@@ -90,10 +90,9 @@ export default {
     },
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-        .lvl || {
-        lvl: 0,
-      };
+      let oc = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
       const drugs =
         this.user.drugs_balance +
         time * this.user.drug_production_rate +
@@ -132,24 +131,21 @@ export default {
       return parseFloat(this.$store.state.auth.account.balance);
     },
     drugBonus() {
-      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-        .lvl || {
-        lvl: 0,
-      };
+      let oc = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
       return this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005;
     },
     weaponBonus() {
-      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-        .lvl || {
-        lvl: 0,
-      };
+      let oc = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
       return this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005;
     },
     alcoholBonus() {
-      const oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-        .lvl || {
-        lvl: 0,
-      };
+      let oc = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
       return this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005;
     },
   },

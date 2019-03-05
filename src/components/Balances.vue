@@ -83,17 +83,17 @@ export default {
       };
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
       const drugs =
-        this.user.drugs_balance +
-        time * this.user.drug_production_rate +
-        time * oc * 0.005 * this.user.drug_production_rate;
+        (this.user.drugs_balance +
+        time * this.user.drug_production_rate) +
+        (time * oc * 0.005 * this.user.drug_production_rate);
       const weapons =
-        this.user.weapons_balance +
-        time * this.user.weapon_production_rate +
-        time * oc * 0.005 * this.user.weapon_production_rate;
+        (this.user.weapons_balance +
+        time * this.user.weapon_production_rate) +
+        (time * oc * 0.005 * this.user.weapon_production_rate);
       const alcohols =
-        this.user.alcohols_balance +
-        time * this.user.alcohol_production_rate +
-        time * oc * 0.005 * this.user.alcohol_production_rate;
+        (this.user.alcohols_balance +
+        time * this.user.alcohol_production_rate) +
+        (time * oc * 0.005 * this.user.alcohol_production_rate);
       return {
         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,

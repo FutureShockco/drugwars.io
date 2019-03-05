@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Missions" />
+    <MissionsTabs/>
     <div class="p-4">
       <Quickstart/>
     </div>

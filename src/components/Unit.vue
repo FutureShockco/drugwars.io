@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item mb-4"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item"
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">
@@ -27,6 +27,10 @@
         <span class="mr-2">
           <i class="iconfont icon-run text-green"/>
           {{ unit.speed * 60 * 1000 | ms }}
+        </span>
+        <span class="mr-2">
+          <i class="iconfont icon-box text-orange"></i>
+          {{ unit.capacity}}
         </span>
         <span class="mr-2">
           {{ unit.type }}

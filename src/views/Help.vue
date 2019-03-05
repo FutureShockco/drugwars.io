@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Help" />
+    <HelpTabs/>
     <div class="p-4">
       <h3>How to play</h3>
       <ul class="help">

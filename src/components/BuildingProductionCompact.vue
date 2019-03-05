@@ -1,11 +1,10 @@
 <template>
-  <div class="mb-2 d-flex flex-row border-bottom item">
-    <div class="level">{{ ownBuilding.lvl }}</div>
+  <div class="d-flex flex-row border-bottom itemcompact">
     <img class="mini preview" :src="`/img/buildings/${building.id}.jpg`">
     <div class="width-full mr-4">
-      <h5>{{ building.name }}</h5>
+      <h5 class="ml-2">{{ building.name }} ({{ ownBuilding.lvl }})</h5>
     </div>
-     <div v-if="building.production_type" class="right floated">
+     <div v-if="building.production_type" class="right-floated">
         <BuildingProduction
           :compactview="1"
           :type="building.production_type"

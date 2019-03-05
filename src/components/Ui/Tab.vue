@@ -19,6 +19,7 @@ export default {
   display: inline-block;
   text-transform: uppercase;
   color: black !important;
+  background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
 
   a {
     color: @text-color;
@@ -28,12 +29,16 @@ export default {
     font-weight: normal;
 
     &.active {
-      background-image: url('/img/brush-yellow.svg');
+      background-image: linear-gradient(
+        to bottom,
+        #ff8800,
+        #ffc400 30%,
+        #ffc400 70%,
+        #ff8800
+      ) !important;
       background-size: cover;
-      background-position: -10px 51px;
       background-repeat: no-repeat;
-
-      color: @heading-color;
+      color: black !important;
     }
   }
 }

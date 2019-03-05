@@ -1,15 +1,15 @@
 <template>
-  <div class="topnav border-bottom brush-black">
+  <div class="topnav brush-black">
     <div class="topnav-content d-flex mx-auto">
       <button class="float-left px-4 py-3 border-right" @click="toggleSidebarVisibility">
         <span class="iconfont icon-three-bars"/>
       </button>
       <div class="topnav-logo hide-sm hide-md hide-lg text-center">
         <router-link to="/">
-          <Icon name="logo"/>
+          <img src="/img/drugwars.png" class="logo" name="logo"/>
         </router-link>
       </div>
-      <Prize class="ml-4 width-full d-flex flex-column flex-justify-center"/>
+          <Balances class="width-full flex-justify-center"/>
       <div class="shield text-center hide-sm hide-md hide-lg" v-if="shieldEnd">
         <Icon name="shield1" size="26" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>
@@ -48,15 +48,18 @@ export default {
   display: flex;
   align-items: center;
   transition: width 0.3s;
-
+  box-shadow: 5px 5px 5px black;
+  z-index: 1000;
   @media @bp-small {
     height: @topnav-height;
+  }
+  .logo {
+    margin-top: 5px;
   }
 
   .topnav-logo {
     width: 100%;
     max-width: 200px;
-
     .iconfont {
       margin-top: 10px;
       font-size: 40px;

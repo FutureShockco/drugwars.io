@@ -21,7 +21,7 @@
     </form>
     <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
     <div>Vest: {{ totalVest | amount }} DRUGS</div>
-    <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
+    <!-- <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div> -->
   </div>
 </template>
 

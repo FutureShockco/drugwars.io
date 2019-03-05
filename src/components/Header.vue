@@ -1,5 +1,5 @@
 <template>
-  <div class="header border-bottom">
+  <div class="header">
     <slot>
       <span class="ml-4">{{ title }}</span>
     </slot>
@@ -20,7 +20,7 @@ export default {
 
 .header {
   font-family: @heading-font;
-  background-color: @bg-color;
+  background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
   color: @white-darker;
   font-size: 20px;
   z-index: 100;

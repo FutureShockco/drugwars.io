@@ -96,7 +96,6 @@ export default {
   padding-bottom: 10px;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
-  border-image: url(/img/border.png) 1 round;
   font-size: 60px;
   font-family: @heading-font;
   display: block;

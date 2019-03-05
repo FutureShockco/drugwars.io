@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Leaderboard" />
+    <LeaderboardTabs/>
     <div class="mb-4">
       <Player
         v-for="(player, key) in players"

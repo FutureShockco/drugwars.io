@@ -23,6 +23,7 @@
   position: relative;
   display: block;
   height: 100%;
+  background: linear-gradient(#000000a3, #050505d1), url(/img/fake-brick.png);
 
   .sidebar {
     width: @sidebar-width;

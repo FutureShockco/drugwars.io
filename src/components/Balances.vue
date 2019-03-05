@@ -135,7 +135,7 @@ export default {
 
 .balances {
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1em;
   display: inline-flex;
@@ -155,6 +155,7 @@ export default {
     font-size: 36px;
     line-height: 36px;
     margin-right: 10px;
+    font-weight: 100;
   }
 }
 

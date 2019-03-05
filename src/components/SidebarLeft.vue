@@ -1,7 +1,7 @@
 <template>
-  <div class="sidebar sidebar-left border-right border-lg-left" :class="{ 'sidebar-open': sidebarVisible }">
+  <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center border-bottom pt-5 pb-3">
+      <div class="text-center pt-5 pb-3">
         <Avatar
           :size="100"
           :username="username"
@@ -168,9 +168,16 @@ export default {
       .router-link-exact-active {
         opacity: 1;
         color: black;
-        background-image: url('/img/brush-yellow.svg');
+        background-image: radial-gradient(
+          ellipse farthest-corner at center 0px,
+          #ffc400 -150%,
+          #ffc400 45%,
+          #ff8800 85%
+        ) !important;
         background-size: cover;
-        background-position: -20px;
+        background-repeat: no-repeat;
+        color: black !important;
+        background-size: cover;
         background-repeat: no-repeat;
       }
 

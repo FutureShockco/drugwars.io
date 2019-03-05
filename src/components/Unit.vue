@@ -29,6 +29,10 @@
           {{ unit.speed * 60 * 1000 | ms }}
         </span>
         <span class="mr-2">
+          <i class="iconfont icon-box text-orange"></i>
+          {{ unit.capacity}}
+        </span>
+        <span class="mr-2">
           {{ unit.type }}
         </span>
       </div>

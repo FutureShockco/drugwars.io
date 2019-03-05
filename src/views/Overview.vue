@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Overview" />
+    <OverviewTabs/>
     <div>
       <!-- <div class="rounded-2 bg-gray-dark overflow-hidden position-relative" style="height: 20px;">
         <div class="bg-blue position-absolute" :style="{ width: '50%' }">

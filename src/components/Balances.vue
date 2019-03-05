@@ -185,16 +185,42 @@ export default {
   }
 }
 
-@media screen and (min-width: 200px) and (max-width: 1119px) {
+@media screen and (min-width: 200px) and (max-width: 799px) {
   .balances {
-    font-size: 10px !important;
+    font-size: 8px !important;
     margin-top: 10px !important;
     li {
       padding: 5px;
       border-left: 1px rgb(10, 10, 10) solid;
       border-right: 1px rgb(10, 10, 10) solid;
       .text-gray {
-        font-size: 8px;
+        font-size: 6px;
+      }
+      .detail {
+        margin-top: 5px;
+        font-size: 7px;
+      }
+    }
+  }
+  .iconfont {
+    font-size: 12px !important;
+    line-height: 24px !important;
+    font-weight: 100;
+    margin-right: 10px;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 1119px) {
+  .balances {
+    font-size: 14px !important;
+    margin-top: 10px !important;
+    line-height: 8px !important;
+    li {
+      padding: 5px;
+      border-left: 1px rgb(10, 10, 10) solid;
+      border-right: 1px rgb(10, 10, 10) solid;
+      .text-gray {
+        font-size: 9px;
       }
       .detail {
         margin-top: 5px;
@@ -203,8 +229,9 @@ export default {
     }
   }
   .iconfont {
-    font-size: 16px !important;
+    font-size: 24px !important;
     line-height: 24px !important;
+    font-weight: 100;
     margin-right: 10px;
   }
 }

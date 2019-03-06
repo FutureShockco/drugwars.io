@@ -55,7 +55,7 @@ export default {
   font-size: 15px;
   color: #c7c7c7;
   display: inline-flex;
-
+  line-height: 15px;
   .iconfont {
     margin-right: 5px;
   }

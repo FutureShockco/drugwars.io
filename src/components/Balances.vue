@@ -7,10 +7,7 @@
           {{ balances.drugs | amount }} DRUGS
         </div>
         <div class="detail">
-          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY
-        </div>
-                <div class="detail" v-if="drugBonus">
-          <span class="text-green">+{{drugBonus | amount}}</span> BONUS
+          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY <span class="text-green" v-if="drugBonus">+{{drugBonus | amount}}</span>
         </div>
       </div>
     </li>

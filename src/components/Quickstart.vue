@@ -21,7 +21,7 @@
       </li>
       <li>
         <Icon class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
-        <router-link to="/alcohols">Increase your ALCOHOLS production</router-link>
+        <router-link to="/alcohol">Increase your ALCOHOL production</router-link>
       </li>
       <li>
         <Icon class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>

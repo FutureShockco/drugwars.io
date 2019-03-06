@@ -17,7 +17,7 @@
   {
     "cat": "production",
     "q": "What are the resources produced on DrugWars?",
-    "a": "You can produce DRUGS, WEAPONS and ALCOHOLS. These 3 are used for all the building, upgrading, recruiting etc."
+    "a": "You can produce DRUGS, WEAPONS and ALCOHOL. These 3 are used for all the building, upgrading, recruiting etc."
   },
   {
     "cat": "production",
@@ -52,7 +52,7 @@
   {
     "cat": "battles",
     "q": "Why should I battle?",
-    "a": "The battle is a way for you to earn more DRUGS, WEAPONS and ALCOHOLS which are resources used to upgrade, build and recruit but also to invest in the Heist."
+    "a": "The battle is a way for you to earn more DRUGS, WEAPONS and ALCOHOL which are resources used to upgrade, build and recruit but also to invest in the Heist."
   },
   {
     "cat": "battles",
@@ -92,7 +92,7 @@
   {
     "cat": "battles",
     "q": "What can I steal in battles?",
-    "a": "When you attack an enemy, you can steal DRUGS, WEAPONS and ALCOHOLS. Thus if another Drug Lord attacks you, he may steal these specific resources as well."
+    "a": "When you attack an enemy, you can steal DRUGS, WEAPONS and ALCOHOL. Thus if another Drug Lord attacks you, he may steal these specific resources as well."
   },
   {
     "cat": "battles",

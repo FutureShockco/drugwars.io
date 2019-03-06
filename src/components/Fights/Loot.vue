@@ -7,7 +7,7 @@
       -{{ stolenResources.weapons | amount }} WEAPONS
     </div>
     <div v-if="stolenResources.alcohols">
-      -{{ stolenResources.alcohols | amount }} ALCOHOLS
+      -{{ stolenResources.alcohols | amount }} ALCOHOL
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <BuildingsTabs/>
-    <div class="p-4">
+    <div>
       <Building
         v-if="!item.disabled"
         v-for="item in items"
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import buildings from 'drugwars/buildings.json';
+import { buildings } from 'drugwars';
 import { pickBy } from 'lodash';
 
 export default {

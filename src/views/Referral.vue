@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header title="Referral" />
+    <ReferralTabs/>
     <div class="p-4">
       <p>Invite your friends! Use the link below and obtain 5% bonus on their STEEM rewards.</p>
       <div class="link mb-4">

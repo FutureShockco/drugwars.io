@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item mb-4"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left item"
     :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
   >
     <div class="mr-3">
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { calculateBuildingCost } from '@/helpers/utils';
+import { utils } from 'drugwars';
 
 export default {
   props: ['building'],
@@ -90,13 +90,13 @@ export default {
       );
     },
     drugsCost() {
-      return calculateBuildingCost(this.building.drugs_cost, this.ownItem.lvl);
+      return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl);
     },
     weaponsCost() {
-      return calculateBuildingCost(this.building.weapons_cost, this.ownItem.lvl);
+      return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl);
     },
     alcoholsCost() {
-      return calculateBuildingCost(this.building.alcohols_cost, this.ownItem.lvl);
+      return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl);
     },
     inProgress() {
       if (!this.ownItem) return false;

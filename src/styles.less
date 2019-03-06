@@ -47,10 +47,20 @@ a.iconfont:hover {
   font-family: @heading-font;
   font-size: 26px;
   text-transform: uppercase;
-  transform: skew(-10deg);
-  font-weight: bold;
-  color: @error-color;
-  letter-spacing: 1px;
+  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  top: 0px;
+  width: 200px;
+  left:50%;
+  text-align: center;
+  margin: 0;
+  line-height: 0px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  color: #db2828;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
+  margin-bottom: 20px;
 }
 
 .preview {
@@ -72,8 +82,26 @@ a.iconfont:hover {
   border-color: @border-color !important;
 }
 
-.item {
+.itemcompact{
+  color:@primary-color;
+  border:0px solid;
+  padding: 8px;
+  h5{
+    color:@primary-color;
+  }
+  .right-floated{
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    width: 200px;
+    text-align: right;
+  }
+}
 
+.item {
+  background: linear-gradient(#0e111477, #0505055b), url(/img/fake-brick.png); 
+  box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
+  padding: 18px;
   &.not-enough {}
 
   &.progress {
@@ -101,26 +129,25 @@ a.iconfont:hover {
 
 .level {
   font-family: @heading-font;
-  background: @primary-color;
+  background: black;
   padding: 0 5px;
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
+  color: #fbbd08;
+  font-size: 12px;
   border-radius: 4px;
-  border: 1px solid black;
+  border: 1px solid #fbbd08;
   min-width: 30px;
   text-align: center;
+  margin-top: 25px;
 }
 
 .rank {
   font-family: @heading-font;
   background: black;
   padding: 0 5px;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
+  color: #fbbd08;
+  font-size: 13px;
   border-radius: 4px;
-  border: 1px solid white;
+  border: 1px solid #fbbd08;
   min-width: 30px;
   text-align: center;
 }
@@ -157,7 +184,6 @@ a.iconfont:hover {
 .border .border-top, .border-bottom, .border-left, .border-right {
   border-color: transparent;
   border-width: 0;
-  border-image: url('/img/border.png') 1 round;
 }
 
 .border-top {
@@ -182,12 +208,26 @@ a.iconfont:hover {
 
   @media @bp-small {
     font-size: 150px;
+    
   }
 }
 
 .brush-black {
-  background-color: transparent;
-  background-image: url('/img/brush-black.png') !important;
+  
+  background-color: #2d3436;
+  background-image: linear-gradient(0deg, #111111 0%,#000000 20%, #000000 74%);
   background-size: cover;
   background-position: center;
+}
+
+.total{
+  font-size: 20px;
+  font-weight: lighter;
+  color: white;
+  font-family: 'Staatliches', Helvetica, Arial, sans-serif;
+  margin-bottom: 0px;
+}
+
+.right-floated{
+  float: right;
 }

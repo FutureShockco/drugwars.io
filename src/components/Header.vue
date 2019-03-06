@@ -1,5 +1,5 @@
 <template>
-  <div class="header border-bottom">
+  <div class="header">
     <slot>
       <span class="ml-4">{{ title }}</span>
     </slot>
@@ -20,16 +20,24 @@ export default {
 
 .header {
   font-family: @heading-font;
-  background-color: @sidebar-bg-color;
+  background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
+  box-shadow: 0px 5px 5px black;
   color: @white-darker;
   font-size: 20px;
   z-index: 100;
-  top: 0;
+  top: 84px;
   width: 100%;
   height: @header-height;
   line-height: @header-height;
   display: flex;
   align-items: center;
   transition: width 0.3s;
+  position: sticky;
+}
+
+@media screen and (min-width: 200px) and (max-width: 1119px) {
+  .header {
+    top: 56px !important;
+  }
 }
 </style>

@@ -15,11 +15,11 @@
        }"
     />
     <span class="avatar-border"/>
-    <span class="level py-1 px-2" v-if="xp">
-      {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
-    </span>
     <span class="rank py-1 px-2" v-if="rank">
-      {{ rank }}
+      Rank: {{ rank }}
+    </span>
+    <span class="level py-1 px-2" v-if="xp">
+      Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
   </router-link>
 </template>
@@ -50,12 +50,17 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.4);
   }
 
-  .level,
+  .level {
+    display: inline-block;
+    position: absolute;
+    top: 60 !important;
+    left: -40px;
+  }
   .rank {
     display: inline-block;
     position: absolute;
     top: 0;
-    left: -20px;
+    left: -40px;
   }
 
   .avatar-border {

@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { calculateTimeToBuild } from '@/helpers/utils';
+import { utils } from 'drugwars';
 
 export default {
   props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price', 'notEnough'],
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     updateTime() {
-      return calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
+      return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);

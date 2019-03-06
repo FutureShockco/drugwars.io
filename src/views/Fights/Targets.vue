@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import kbyte from '@/helpers/kbyte';
+import client from '@/helpers/client';
 
 export default {
   data() {
@@ -31,7 +31,7 @@ export default {
     this.isLoading = true;
     const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
 
-    kbyte
+    client
       .requestAsync('get_users', { maxDrugProductionRate })
       .then(users => {
         this.targets = users;

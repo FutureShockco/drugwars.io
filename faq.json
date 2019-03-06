@@ -1,0 +1,222 @@
+[
+  {
+    "cat": "basic",
+    "q": "What is DrugWars?",
+    "a": "It’s a simulation and strategy game based on the Steem blockchain with the possibility to earn rewards while having fun."
+  },
+  {
+    "cat": "basic",
+    "q": "What should I do once I’m in the game?",
+    "a": "You should head over to “Missions” located on the left bar menu and start the missions to get a heads up on what is going on in DrugWars."
+  },
+  {
+    "cat": "basic",
+    "q": "Do I have to pay to play?",
+    "a": "DrugWars is a freemium game which means it’s free to play but if you want to level up at a light speed you will need to pay."
+  },
+  {
+    "cat": "production",
+    "q": "What are the resources produced on DrugWars?",
+    "a": "You can produce DRUGS, WEAPONS and ALCOHOLS. These 3 are used for all the building, upgrading, recruiting etc."
+  },
+  {
+    "cat": "production",
+    "q": "How can I upgrade my resources production buildings?",
+    "a": "You can either upgrade the building with the resources needed or you can make an instant upgrade by directly purchasing the building with STEEM."
+  },
+  {
+    "cat": "production",
+    "q": "Why is my resource in red and why can’t I produce more?",
+    "a": "If you see the numbers of resources in red it means that you have reached the maximum storage capacity and you need to upgrade the storing building(s)."
+  },
+  {
+    "cat": "production",
+    "q": "Where can I get my production informations?",
+    "a": "In the “Overview“ page, you will be able to find all the informations related to your productions, such as how much resources is being produced by a specific building on a daily basis, and how long will it take to be completely full."
+  },
+  {
+    "cat": "production",
+    "q": "Why can’t I upgrade my building?",
+    "a": "You should make sure that the headquarters required to upgrade is at the right level and make sure you have enough resources."
+  },
+  {
+    "cat": "production",
+    "q": "What is the “Operation Center“ about?",
+    "a": "The “Operation Center“ is a building that will enable you to increase your production by 0.5% for each buildings you owned and their level but it does not work on the daily prize."
+  },
+  {
+    "cat": "production",
+    "q": "How can I produce more DRUGS?",
+    "a": "The drug production is correlated to the level of your drug production buildings, you need to upgrade these buildings to produce more."
+  },
+  {
+    "cat": "battles",
+    "q": "Why should I battle?",
+    "a": "The battle is a way for you to earn more DRUGS, WEAPONS and ALCOHOLS which are resources used to upgrade, build and recruit but also to invest in the Heist."
+  },
+  {
+    "cat": "battles",
+    "q": "How can I recruit units?",
+    "a": "You need to go to the “Bootcamp“ located on the left bar menu. You will see all the units in there and you can manually add the number of a specific unit you’d like to recruit."
+  },
+  {
+    "cat": "battles",
+    "q": "Why can’t I recruit any units?",
+    "a": "You may look for the “Training Facility” located in the “office” section, once you’ve clicked on “Buildings” on the left bar menu. If you already own the “Training Facility” you should make sure that you have enough resources to recruit the units."
+  },
+  {
+    "cat": "battles",
+    "q": "How long will it take to recruit a unit?",
+    "a": "The time for a recruitment is written above the recruit button. Depending on the number you’d like to recruit, you will get the amount of units right away, but you will need to wait some time before you can make another recruitment session."
+  },
+  {
+    "cat": "battles",
+    "q": "How many units can I have in my empire?",
+    "a": "You can have as many units as you want to protect your empire."
+  },
+  {
+    "cat": "battles",
+    "q": "What are the informations located under the cost of the units?",
+    "a": "The numbers represent the attacking point, the defending point and the speed of the unit. It could take from 5min up to 20min for a unit to reach its target."
+  },
+  {
+    "cat": "battles",
+    "q": "How can I launch a battle?",
+    "a": "You should head to “Battles” located on the left bar menu. Once you are in, you should choose the number of units you’d like to add to go for the Battle. Then you can choose your opponent by directly entering the Username or you can click on the top menu “Find Targets” which will give you a list of opponents with the same production level as you do."
+  },
+  {
+    "cat": "battles",
+    "q": "How many units do I have in my empire?",
+    "a": "All of your Units are located in the “Battles” section located on the left bar menu. You will know exactly which type of Unit you have recruited and how many."
+  },
+  {
+    "cat": "battles",
+    "q": "What can I steal in battles?",
+    "a": "When you attack an enemy, you can steal DRUGS, WEAPONS and ALCOHOLS. Thus if another Drug Lord attacks you, he may steal these specific resources as well."
+  },
+  {
+    "cat": "battles",
+    "q": "What is the Shield?",
+    "a": "The shield is automatically activated once you’ve lost a battle as a defender. It will be activated for 1 hour in which if you decide to attack someone, the Shield will also automatically disappeared."
+  },
+  {
+    "cat": "battles",
+    "q": "Why didn’t I win any resources after winning a battle?",
+    "a": "It is possible that your opponent has used all of his resources while waiting for the battle confirmation. Also note that the attacker can only steal up to 30% of 75% which is not safe. The remaining 25% is safe in the storage."
+  },
+  {
+    "cat": "battles",
+    "q": "How can I reduce the recruitment time?",
+    "a": "You should upgrade the “Training Facility” located in the Office buildings to decreased the recruitment time. Or you can also make an instant recruitment by using your STEEM."
+  },
+  {
+    "cat": "battles",
+    "q": "Where can I see my Shield?",
+    "a": "On the top right corner of the platform you will be able to see if there is any shield at the moment and how long until the shield disappeared."
+  },
+  {
+    "cat": "battles",
+    "q": "Why is my fight is in pending confirmation?",
+    "a": "Your fight takes 1 minute to confirm then the timer starts"
+  },
+  {
+    "cat": "battles",
+    "q": "Why didn’t my battle go through?",
+    "a": "It is possible that multiple attacks have been launched on your opponent, before getting to your attack, your opponent has lost a Battle and the Shield has been activated."
+  },
+  {
+    "cat": "prize",
+    "q": "What are the prizes?",
+    "a": "The prize is divided into the daily prize and the Heist which are a daily rewards to the DrugWars players."
+  },
+  {
+    "cat": "prize",
+    "q": "What is the Daily Prize?",
+    "a": "The daily prize is your reward depending on your daily DRUGS production."
+  },
+  {
+    "cat": "prize",
+    "q": "What is the Heist?",
+    "a": "The Heist is the amount of DRUGS you’ve invested in a day in the Heist which will result in a reward by 12am UTC everyday."
+  },
+  {
+    "cat": "prize",
+    "q": "At what time will the prizes be distributed?",
+    "a": "The prizes are automatically distributed at 12am UTC everyday on your Steem account."
+  },
+  {
+    "cat": "prize",
+    "q": "How does the reward mechanism work?",
+    "a": "The reward mechanism is adjusted to 3% for the daily prize and 3% for the Heist."
+  },
+  {
+    "cat": "prize",
+    "q": "Why didn’t I get a Heist prize?",
+    "a": "Make sure you have invested in the Heist, otherwise no reward related to the Heist will be distributed to you."
+  },
+  {
+    "cat": "prize",
+    "q": "Why is my reward decreasing along the day?",
+    "a": "The prizes can’t be stable as it depends on all the players in the game. Others players may have upgraded their drugs production buildings during the day, some other players have invested Drugs in the Heist as well, it will fluctuate depending on all of the players moves."
+  },
+  {
+    "cat": "prize",
+    "q": "How many times can I invest in the Heist?",
+    "a": "There is no such thing as a time to invest on the Heist. It will depend on the player strategy. You can invest one time a day, many times a day or before the end of the day. Each action will fluctuate the Heist Prize."
+  },
+  {
+    "cat": "prize",
+    "q": "How much resources are protected in the storage?",
+    "a": "Depending on the level of the storage buildings, it can protect 25% of the full capacity, whether it is full or not."
+  },
+  {
+    "cat": "referral",
+    "q": "Where can I see my referee list?",
+    "a": "You will be able to find your referee list in the “Referral” section located on the left bar menu."
+  },
+  {
+    "cat": "referral",
+    "q": "How much will I earn with each referee?",
+    "a": "You will get 5% bonus on your referee daily rewards of STEEM."
+  },
+  {
+    "cat": "referral",
+    "q": "Am I taking 5% from my referee earnings?",
+    "a": "No, it’s a bonus, you are not taking anything from anyone."
+  },
+  {
+    "cat": "misc",
+    "q": "What can I do if I upgraded a Building but it isn’t shown in the game?",
+    "a": "You should make sure that the json has appeared on your profile here: https://steemd.com/@your-username or not. If it appeared then it means the transaction has succeed and you should wait a little bit before it will display in your game. Otherwise you can force a refresh or log out and log in again or clear your cache and cookies. You can try one method after another if it still doesn’t appear. In case of no changes at all, you should contact our customer service here: https://discord.me/drugwars"
+  },
+  {
+    "cat": "misc",
+    "q": "Why can’t I upgrade any of my buildings?",
+    "a": "You should make sure that you have enough in-game resources. Make sure that your headquarters is at the right level for your upgrade. Make sure that you have enough resources credit here: https://steemd.com/@your-username "
+  },
+  {
+    "cat": "misc",
+    "q": "Why do I have to put my key on SteemConnect?",
+    "a": "You are required to use SteemConnect to accept instant transactions."
+  },
+  {
+    "cat": "misc",
+    "q": "Why do I have to allow all the permissions to SteemConnect?",
+    "a": "Steemconnect is a trusted app that is recognized on the Steem blockchain you must accept all permissions to have all the features of the app."
+  },
+  {
+    "cat": "misc",
+    "q": "How can I get any player informations?",
+    "a": "You can directly click on any player profile and you will get an overview of their empire."
+  },
+  {
+    "cat": "misc",
+    "q": "What is the leaderboard based on?",
+    "a": "The leaderboard's TOP 100 is based on the DRUGS production rate"
+  },
+  {
+    "cat": "misc",
+    "q": "A player is threatening me what can I do?",
+    "a": "DrugWars isn’t responsible of the threatening between players, but remember it’s a game, in this case you may want to settle the issues by battling on DrugWars."
+  }
+]

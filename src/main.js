@@ -11,6 +11,7 @@ import urlParse from 'url-parse';
 import moment from 'moment';
 import numeral from 'numeral';
 import VueAnalytics from 'vue-analytics';
+import client from '@/helpers/client';
 import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
@@ -27,6 +28,8 @@ requireComponent.keys().forEach(fileName => {
   const componentName = upperFirst(camelCase(fileName.replace(/^\.\//, '').replace(/\.\w+$/, '')));
   Vue.component(componentName, componentConfig.default || componentConfig);
 });
+
+setInterval(() => client.request('heartbeat', null), 10 * 1000);
 
 Vue.filter('date', value => moment(value, 'YYYY-MM-DD').format('MMM D, YYYY'));
 Vue.filter('ms', value => prettyMs(parseInt(value / 1000) * 1000));

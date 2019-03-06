@@ -1,21 +1,7 @@
-import { Client } from 'dsteem';
+import Promise from 'bluebird';
+import { Client } from 'drugwars';
 
-const CLIENT_OPTIONS = { timeout: 15000 };
-
-let rawClient = new Client('https://api.steemit.com', CLIENT_OPTIONS);
-
-const handler = {
-  get(target, prop) {
-    if (prop === 'updateClient') {
-      return address => {
-        rawClient = new Client(address, CLIENT_OPTIONS);
-      };
-    }
-
-    return rawClient[prop];
-  },
-};
-
-const client = new Proxy({}, handler);
+Promise.promisifyAll(Client.prototype);
+const client = new Client('wss://api.drugwars.io');
 
 export default client;

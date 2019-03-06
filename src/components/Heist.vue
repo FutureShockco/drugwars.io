@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h4>Heist</h4>
+    <img width="150px" class="pt-4" :src="`/img/heist.jpg`">
     <form @submit.prevent="handleSubmit" class="mb-2">
       <input
         class="input form-control input-block mb-2"
@@ -19,7 +21,7 @@
     </form>
     <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
     <div>Vest: {{ totalVest | amount }} DRUGS</div>
-    <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
+    <!-- <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div> -->
   </div>
 </template>
 
@@ -68,3 +70,21 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+h4 {
+  text-transform: uppercase;
+  transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
+  top: 120px;
+  width: fit-content;
+  left: 50%;
+  margin: 0;
+  line-height: 0px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  color: #db2828;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
+}
+</style>

@@ -9,6 +9,5 @@
 
 .tabs {
   overflow: hidden;
-  margin: 0 12px;
 }
 </style>

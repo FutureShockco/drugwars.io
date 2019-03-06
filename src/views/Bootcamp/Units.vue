@@ -1,7 +1,7 @@
 <template>
   <div>
     <BootcampTabs/>
-    <div class="p-4">
+    <div>
       <div v-if="trainingFacility.lvl > 0">
         <Unit
           v-if="!unit.disabled"
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import units from 'drugwars/units.json';
+import { units } from 'drugwars';
 
 export default {
   data() {

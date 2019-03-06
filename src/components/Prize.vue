@@ -100,7 +100,6 @@ export default {
   font-family: @heading-font;
   display: block;
   margin: 0 auto;
-  text-shadow: 0 0 80px hsla(34, 100%, 23%, 0.5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: #fbbd08d9;

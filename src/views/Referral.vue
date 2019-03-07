@@ -20,7 +20,7 @@
         </div>
       </div>
       <div v-if="!referrals.length">
-        <p>You don't have referred anyone.</p>
+        <p>You have not referred anyone yet.</p>
       </div>
     </div>
   </div>

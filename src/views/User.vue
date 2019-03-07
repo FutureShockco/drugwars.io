@@ -46,7 +46,7 @@
               <div>{{ balances.alcohols | amount }} / {{ user.alcohol_storage | amount }}</div>
               <div>{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
               <div class="text-green">{{ user.alcohol_storage / 100 * 25 | amount }} safe</div>
-              <div class="text-gray">ALCOHOLS</div>
+              <div class="text-gray">ALCOHOL</div>
             </div>
           </li>
         </ul>

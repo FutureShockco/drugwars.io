@@ -3,7 +3,6 @@
     <BuildingsTabs/>
     <div>
       <Building
-        v-if="!item.disabled"
         v-for="item in items"
         :building="item"
         :key="item.id"
@@ -14,12 +13,12 @@
 
 <script>
 import { buildings } from 'drugwars';
-import { pickBy } from 'lodash';
+import { filter, pickBy } from 'lodash';
 
 export default {
   data() {
     return {
-      items: pickBy(buildings, b => b.type === 'alcohols'),
+      items: filter(pickBy(buildings, b => b.type === 'alcohols'), item => !item.disabled),
     };
   },
 };

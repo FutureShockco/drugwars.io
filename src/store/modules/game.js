@@ -77,7 +77,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(6000).then(() => {
+        Promise.delay(4000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -93,7 +93,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-unit', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(6000).then(() => {
+        Promise.delay(4000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -108,7 +108,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-heist', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(6000).then(() => {
+        Promise.delay(4000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -119,7 +119,7 @@ const actions = {
       const { username } = rootState.auth;
       sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(6000).then(() => {
+        Promise.delay(4000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -128,7 +128,7 @@ const actions = {
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
-    const win = window.open(url, '_blank');
+    const win = window.open(url.split('+').join('_'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600");
     win.focus();
     Promise.delay(30000).then(() => {
       dispatch('init');

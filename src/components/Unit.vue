@@ -13,6 +13,7 @@
         :drugsCost="unit.drugs_cost"
         :weaponsCost="unit.weapons_cost"
         :alcoholsCost="unit.alcohols_cost"
+        :quantity="quantity"
       />
       <div class="mb-2" v-html="unit.desc"></div>
       <div class="mb-2">
@@ -36,32 +37,51 @@
           {{ unit.type }}
         </span>
       </div>
-      <!-- <div class="mb-2">
-        Point per unit: {{ unit.score }}
-      </div> -->
       <div class="mb-2" v-if="unit.feature">
-        Special:
-        <span class="text-green">
+        UNIQUE:
+        <span class="text-orange">
           {{ unit.feature }}
         </span>
       </div>
     </div>
     <div class="mx-auto">
+          <input
+      class="input form-control input-block mb-2"
+      type="number"
+      v-model="quantity"
+      min="1"
+    >
       <CheckoutRecruit
         :id="unit.id"
         :level="training_facility.lvl"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.weapons_cost / 34000 + unit.alcohols_cost / 34000"
+        :price="unit.weapons_cost / 34000 + unit.alcohols_cost / 34000 "
         :notEnough="hasNotEnough"
+        :quantity="quantity"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: ['unit'],
+  watch: {
+    inProgress(val) {
+      if (val) {
+        this.waitingConfirmation = false;
+      }
+    },
+  },
+  data() {
+    return {
+      quantity: 1,
+      isLoading: false,
+      waitingConfirmation: false,
+    };
+  },
   computed: {
     user() {
       return this.$store.state.game.user.user;

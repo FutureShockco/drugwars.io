@@ -5,34 +5,34 @@
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': drugsCost > balances.drugs }"
+      :class="{ 'not-enough': drugsCost * this.quantity > balances.drugs }"
       v-if="drugsCost"
     >
       <Icon :size="18" name="drug"/>
-      {{ drugsCost | amount}}
+      {{ drugsCost * this.quantity | amount}}
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': weaponsCost > balances.weapons }"
+      :class="{ 'not-enough': weaponsCost * this.quantity > balances.weapons }"
       v-if="weaponsCost"
     >
       <Icon :size="18" name="weapon"/>
-      {{ weaponsCost | amount}}
+      {{ weaponsCost * this.quantity | amount}}
     </span>
     <span
       class="mr-2"
-      :class="{ 'not-enough': alcoholsCost > balances.alcohols }"
+      :class="{ 'not-enough': alcoholsCost * this.quantity > balances.alcohols }"
       v-if="alcoholsCost"
     >
       <Icon :size="18" name="alcohol"/>
-      {{ alcoholsCost | amount}}
+      {{ alcoholsCost * this.quantity | amount}}
     </span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['type', 'level', 'amount', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
+  props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
     balances() {
       const { user } = this.$store.state.game.user;

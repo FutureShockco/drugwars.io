@@ -13,11 +13,12 @@
         :drugsCost="drugsCost"
         :weaponsCost="weaponsCost"
         :alcoholsCost="alcoholsCost"
+        :quantity="1"
       />
       <div class="mb-2" v-html="building.desc"></div>
       <div v-if="building.feature" class="mb-2">
-        Special:
-        <span class="text-green">{{ building.feature }}</span>
+        UNIQUE:
+        <span class="text-orange">{{ building.feature }}</span>
       </div>
       <div v-if="building.production_type" class="mb-2">
         <BuildingProduction

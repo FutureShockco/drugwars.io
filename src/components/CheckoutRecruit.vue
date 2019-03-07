@@ -1,12 +1,5 @@
 <template>
   <div class="checkout mb-4">
-    <input
-      class="input form-control input-block mb-2"
-      type="number"
-      v-model="quantity"
-      min="1"
-    >
-
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
       {{ inProgress ? timeToWait : (updateTime) | ms }}
@@ -45,10 +38,9 @@ import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
 
 export default {
-  props: ['id', 'level', 'coeff', 'inProgress', 'price', 'notEnough'],
+  props: ['id', 'level', 'coeff', 'inProgress', 'price','quantity', 'notEnough'],
   data() {
     return {
-      quantity: 1,
       isLoading: false,
       waitingConfirmation: false,
     };
@@ -86,7 +78,7 @@ export default {
       this.isLoading = true;
       this.recruitUnit({ unit: this.id, amount: this.quantity })
         .then(result => {
-          console.log('Result', result);
+          //console.log('Result', result);
           this.waitingConfirmation = true;
           this.isLoading = false;
         })

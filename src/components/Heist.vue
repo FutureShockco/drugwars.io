@@ -14,7 +14,6 @@
         type="submit"
         class="button button-blue btn-block"
       >
-        <Icon name="arrow-up"/>
         <span v-if="!isLoading">Invest</span>
         <Loading v-else/>
       </button>

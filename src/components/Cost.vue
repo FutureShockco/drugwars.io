@@ -8,7 +8,7 @@
       :class="{ 'not-enough': drugsCost > balances.drugs }"
       v-if="drugsCost"
     >
-      <Icon :size="18" name="drugs"/>
+      <Icon :size="18" name="drug"/>
       {{ drugsCost | amount}}
     </span>
     <span
@@ -16,7 +16,7 @@
       :class="{ 'not-enough': weaponsCost > balances.weapons }"
       v-if="weaponsCost"
     >
-      <Icon :size="18" name="weapons"/>
+      <Icon :size="18" name="weapon"/>
       {{ weaponsCost | amount}}
     </span>
     <span
@@ -24,7 +24,7 @@
       :class="{ 'not-enough': alcoholsCost > balances.alcohols }"
       v-if="alcoholsCost"
     >
-      <Icon :size="18" name="alcohols"/>
+      <Icon :size="18" name="alcohol"/>
       {{ alcoholsCost | amount}}
     </span>
   </div>
@@ -51,12 +51,15 @@ export default {
 @import '../vars';
 
 .cost {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
   color: #c7c7c7;
   display: inline-flex;
-  line-height: 15px;
-  .iconfont {
+  line-height: 20px;
+  span {
+    display: inline-flex;
+  }
+  .icon {
     margin-right: 5px;
   }
 

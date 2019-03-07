@@ -10,20 +10,20 @@
     <div>
       <div class="production mb-2">
         <span class="mr-3">
-          <Icon name="drugs" size="22"/>
+          <Icon name="drug" size="22"/>
           {{ player.drug_production_rate * 60 * 60 * 24 | amount}} / day
         </span>
         <span class="mr-3">
-          <Icon name="weapons" size="22"/>
+          <Icon name="weapon" size="22"/>
           {{ player.weapon_production_rate * 60 * 60 * 24 | amount}} / day
         </span>
         <span class="mr-3">
-          <Icon name="alcohols" size="22"/>
+          <Icon name="alcohol" size="22"/>
           {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}} / day
         </span>
       </div>
       <div class="shield mb-2" v-if="shieldEnd">
-        <Icon name="shield1" size="26" class="text-gray"/>
+        <Icon name="shield" size="36" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
       <router-link

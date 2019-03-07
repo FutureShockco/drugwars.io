@@ -1,7 +1,7 @@
 <template> 
-  <i
-    :class="`iconfont icon-${name}`"
-    :style="size && { fontSize: `${size}px` }"
+  <img 
+    :class="'icon'" :src="`/img/icons/${name}.png`"
+    :width="size" :height="size"
   />
 </template>
 

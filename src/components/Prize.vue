@@ -19,6 +19,9 @@
     <div class="prize">
       <div class="detail">Today prize </div>
        ${{ parseInt(total) }}
+        <div class="sub">
+          {{totalSteem}} STEEM
+        </div>
        <div class="prizes">
        <div class="sub"><div>DAILY</div>  ${{totalDaily | amount}} <div class="subdetail">{{totalDailySteem}} STEEM</div></div>
        <div class="sub"><div>HEIST</div>  ${{totalHeist | amount}} <div class="subdetail">{{totalHeistSteem}} STEEM</div></div>
@@ -49,6 +52,13 @@ export default {
         ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
         (prizeProps.daily_percent + prizeProps.heist_percent)
       );
+    },
+    totalSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        (parseFloat(prizeProps.balance) / 100) *
+          (prizeProps.daily_percent + prizeProps.heist_percent),
+      ).toFixed(3);
     },
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
@@ -92,15 +102,10 @@ export default {
 @import '../vars';
 
 .prize {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
-  font-size: 60px;
-  font-family: @heading-font;
+  font-size: 70px;
+  font-family: @special-font;
   display: block;
   margin: 0 auto;
-  text-shadow: 0 0 80px hsla(34, 100%, 23%, 0.5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: #fbbd08d9;
@@ -108,15 +113,17 @@ export default {
   -webkit-transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   text-align: center;
-  line-height: 40px;
+  line-height: 45px;
   .detail {
-    font-size: 26px;
+    font-size: 28px;
   }
-
+  .sub {
+    font-size: 20px;
+  }
   .prizes {
     display: -webkit-box;
     .sub {
-      margin-top: 10px;
+      margin-top: 0px;
       width: 50%;
       font-size: 24px;
       line-height: 24px;

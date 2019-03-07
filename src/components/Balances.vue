@@ -45,7 +45,7 @@
     <li>
       <Icon name="steem" size="36"/>
         <div class="balance">
-        <div>{{ steemBalance | amount }} <span class="mini"> STEEM</span></div>
+        <div>{{ steemBalance}} <span class="mini"> STEEM</span></div>
          <div class="detail"> DAILY: <span class="detail text-green">
         {{ totalRewards.myRewards}} STEEM</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
@@ -89,21 +89,9 @@ export default {
     },
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      let oc = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
-      const drugs =
-        this.user.drugs_balance +
-        time * this.user.drug_production_rate +
-        this.user.drug_production_rate * time * oc * 0.005;
-      const weapons =
-        this.user.weapons_balance +
-        time * this.user.weapon_production_rate +
-        this.user.weapon_production_rate * time * oc * 0.005;
-      const alcohols =
-        this.user.alcohols_balance +
-        time * this.user.alcohol_production_rate +
-        this.user.alcohol_production_rate * time * oc * 0.005;
+      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
+      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
+      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
       return {
         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
@@ -127,7 +115,7 @@ export default {
       return { myRewards, amount };
     },
     steemBalance() {
-      return parseFloat(this.$store.state.auth.account.balance);
+      return parseFloat(this.$store.state.auth.account.balance).toFixed(3);
     },
     drugBonus() {
       let oc = 0;

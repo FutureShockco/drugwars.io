@@ -14,6 +14,8 @@ const Alcohols = () => import(/* webpackChunkName: "alcohols" */ '@/views/Buildi
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
+const HallOfFame = () =>
+  import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
 const Heist = () => import(/* webpackChunkName: "heist" */ '@/views/Heist.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
@@ -106,6 +108,12 @@ export default new Router({
       name: 'fights',
       beforeEnter: requireAuth,
       component: Fights,
+    },
+    {
+      path: '/hall-of-fame',
+      name: 'hall-of-fame',
+      beforeEnter: requireAuth,
+      component: HallOfFame,
     },
     {
       path: '/targets',

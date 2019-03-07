@@ -6,7 +6,7 @@
       <p>Fight with your opponents</p>
       <p>Get rewarded with cryptocurrency</p>
     </div>
-    <a class="button button-green button-large mb-4" :href="loginURL">
+    <a class="button button-green button-large mb-4" @click="login">
       Start
     </a>
     <div class="mb-4">
@@ -26,6 +26,14 @@ export default {
     return {
       loginURL: sc.getLoginURL(),
     };
+  },
+  methods: {
+    login() {
+      sc.login({}, (err, token) => {
+        localStorage.setItem('drugwars_token', token);
+        window.location = '/';
+      });
+    },
   },
 };
 </script>

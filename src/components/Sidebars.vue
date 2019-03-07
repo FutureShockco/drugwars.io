@@ -23,7 +23,7 @@
   position: relative;
   display: block;
   height: 100%;
-  background: linear-gradient(#000000a3, #050505d1), url(/img/fake-brick.png);
+  background: #000000;
 
   .sidebar {
     width: @sidebar-width;
@@ -33,7 +33,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: left 0.3s;
-
+    background: linear-gradient(#000000a3, #050505d1), url(/img/fake-brick.png);
     @media @bp-small {
       top: @topnav-height;
     }

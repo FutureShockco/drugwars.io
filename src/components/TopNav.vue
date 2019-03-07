@@ -1,7 +1,7 @@
 <template>
   <div class="topnav brush-black">
     <div class="topnav-content d-flex mx-auto">
-      <button class="float-left px-4 py-3 border-right" @click="toggleSidebarVisibility">
+      <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
         <span class="iconfont icon-three-bars"/>
       </button>
       <div class="topnav-logo hide-sm hide-md hide-lg text-center">
@@ -10,8 +10,8 @@
         </router-link>
       </div>
           <Balances class="width-full flex-justify-center"/>
-      <div class="shield text-center hide-sm hide-md hide-lg" v-if="shieldEnd">
-        <Icon name="shield1" size="26" class="text-gray"/>
+      <div class="shield text-center hide-sm hide-md hide-lg pt-2" v-if="shieldEnd">
+        <Icon name="shield" size="36" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
@@ -54,7 +54,7 @@ export default {
     height: @topnav-height;
   }
   .logo {
-    margin-top: 5px;
+    margin-top: 10px;
   }
 
   .topnav-logo {
@@ -70,7 +70,7 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
-
+    height: 84px;
     .prize {
       font-size: 22px;
       font-family: @heading-font;
@@ -99,6 +99,16 @@ export default {
 
   .shield {
     min-width: @sidebar-width;
+  }
+  @media screen and (min-width: 399px) and (max-width: 1119px) {
+    .shield {
+      min-width: 150px;
+      img {
+        width: 24px;
+        height: 24px;
+        margin-top: 10px;
+      }
+    }
   }
 }
 </style>

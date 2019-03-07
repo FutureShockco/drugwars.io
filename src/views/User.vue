@@ -17,13 +17,13 @@
       <div v-else-if="user" class="text-center container-xxs">
         <div class="shield mb-4" v-if="shieldEnd">
           <h5>Shield</h5>
-          <Icon name="shield1" size="26" class="text-gray"/>
+          <Icon name="shield" size="36" class="text-gray"/>
           <div class="text-gray">{{ shieldEnd | ms }}</div>
         </div>
         <h5>Balances</h5>
         <ul class="columns list-style-none user-balances mb-4">
           <li class="column col-4">
-            <Icon name="drugs"/>
+            <Icon name="drug"/>
             <div>
               <div>{{ balances.drugs | amount }} / {{ user.drug_storage | amount }}</div>
               <div>{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
@@ -32,7 +32,7 @@
             </div>
           </li>
           <li class="column col-4">
-            <Icon name="weapons"/>
+            <Icon name="weapon"/>
             <div>
               <div>{{ balances.weapons | amount }} / {{ user.weapon_storage | amount }}</div>
               <div>{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
@@ -41,7 +41,7 @@
             </div>
           </li>
           <li class="column col-4">
-            <Icon name="alcohols"/>
+            <Icon name="alcohol"/>
             <div>
               <div>{{ balances.alcohols | amount }} / {{ user.alcohol_storage | amount }}</div>
               <div>{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>

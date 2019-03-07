@@ -1,57 +1,56 @@
 <template>
   <ul class="balances list-style-none">
-    <li class="d-flex">
-      <Icon name="drugs"/>
-      <div>
+    <li>
+         <Icon name="drug" size="36"/>
+         <div class="balance">
         <div :class="{ 'text-red': balances.drugs >= user.drug_storage }">
-          {{ balances.drugs | amount }} DRUGS
+          {{ balances.drugs | amount }} <span class="mini"> DRUGS</span>
         </div>
         <div class="detail">
-          +{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / DAY
+        +{{ user.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
         </div>
-                <div class="detail" v-if="drugBonus">
-          <span class="text-green">+{{drugBonus | amount}}</span> BONUS
+                <div class="detail">
+         <span class="text-green">{{user.drug_storage/100*25 | amount}}</span> /SAFE
         </div>
-      </div>
+        </div>
     </li>
-    <li class="d-flex">
-      <Icon name="weapons"/>
-      <div>
+    <li>
+      <Icon name="weapon" size="36"/>
+       <div class="balance">
         <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
-          {{ balances.weapons | amount }} WEAPONS
+          {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
           <div class="detail">
-            +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / DAY 
-                        
+           +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
         </div>
-          <div class="detail" v-if="weaponBonus">
-          <span class="text-green">+{{weaponBonus | amount}}</span> BONUS
+                        <div class="detail">
+         <span class="text-green">{{user.weapon_storage/100*25 | amount}}</span> /SAFE
         </div>
-      </div>
+        </div>
     </li>
-    <li class="d-flex">
-      <Icon name="alcohols"/>
-      <div>
+    <li>
+       <Icon name="alcohol" size="36"/>
+        <div class="balance">
         <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
-          {{ balances.alcohols | amount }} ALCOHOL
+          {{ balances.alcohols | amount }}<span class="mini"> ALCOHOL</span>
         </div>
             <div class="detail">
-            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / DAY
+            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
         </div>
-           <div class="detail" v-if="alcoholBonus">
-            <span class="text-green">+{{alcoholBonus | amount}}</span> BONUS
+                                <div class="detail">
+          <span class="text-green">{{user.alcohol_storage/100*25 | amount}}</span> /SAFE
         </div>
-      </div>
+         </div>
     </li>
-    <li class="d-flex">
-      <Icon name="steem"/>
-      <div>
-        <div>{{ steemBalance | amount }} STEEM</div>
-         <div class="detail"> DAILY <span class="detail text-green">
-        +{{ totalRewards.myRewards}} STEEM</span></div>
-                 <div class="detail"> HEIST <span class="detail text-green">
-        +{{ totalRewards.amount}} STEEM</span></div>
-      </div>
+    <li>
+      <Icon name="steem" size="36"/>
+        <div class="balance">
+        <div>{{ steemBalance}} <span class="mini"> STEEM</span></div>
+         <div class="detail"> DAILY: <span class="detail text-green">
+        {{ totalRewards.myRewards}} STEEM</span></div>
+                 <div class="detail"> HEIST: <span class="detail text-green">
+        {{ totalRewards.amount}} STEEM</span></div>
+         </div>
     </li>
   </ul>
 </template>
@@ -90,21 +89,9 @@ export default {
     },
     balances() {
       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      let oc = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
-      const drugs =
-        this.user.drugs_balance +
-        time * this.user.drug_production_rate +
-        this.user.drug_production_rate * time * oc * 0.005;
-      const weapons =
-        this.user.weapons_balance +
-        time * this.user.weapon_production_rate +
-        this.user.weapon_production_rate * time * oc * 0.005;
-      const alcohols =
-        this.user.alcohols_balance +
-        time * this.user.alcohol_production_rate +
-        this.user.alcohol_production_rate * time * oc * 0.005;
+      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
+      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
+      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
       return {
         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
@@ -128,7 +115,7 @@ export default {
       return { myRewards, amount };
     },
     steemBalance() {
-      return parseFloat(this.$store.state.auth.account.balance);
+      return parseFloat(this.$store.state.auth.account.balance).toFixed(3);
     },
     drugBonus() {
       let oc = 0;
@@ -157,78 +144,132 @@ export default {
 
 .balances {
   color: white;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1em;
+  font-size: 28px;
+  font-weight: 500;
   display: inline-flex;
+  line-height: 22px;
   li {
-    padding: 10px;
+    padding: 15px 5px 0px 5px;
     border-left: 1px rgb(10, 10, 10) solid;
     border-right: 1px rgb(10, 10, 10) solid;
+
+    .balance {
+      float: right;
+      text-align: right;
+    }
+
+    span {
+      float: right;
+      line-height: 42px;
+    }
     .text-gray {
-      font-size: 14px;
+      font-size: 16px;
     }
     .detail {
-      font-size: 12px;
+      font-size: 14px;
+      line-height: 14px !important;
+      text-align: left;
+      span {
+        float: none;
+        line-height: 14px !important;
+      }
+    }
+    .icon {
+      font-size: 32px;
+      line-height: 32px;
+      margin-right: 10px;
+      font-weight: 100;
     }
   }
-
-  .iconfont {
-    font-size: 36px;
-    line-height: 36px;
-    margin-right: 10px;
-    font-weight: 100;
+  .mini {
+    font-size: 12px;
+    margin-top: -20px;
+    text-align: left;
   }
 }
 
-@media screen and (min-width: 200px) and (max-width: 799px) {
+@media screen and (min-width: 200px) and (max-width: 669px) {
   .balances {
-    font-size: 8px !important;
-    margin-top: 10px !important;
+    display: flex;
+    font-size: 16px !important;
+    margin-top: 15px !important;
+    line-height: 12px !important;
     li {
       padding: 5px;
       border-left: 1px rgb(10, 10, 10) solid;
       border-right: 1px rgb(10, 10, 10) solid;
+      .balance {
+        float: right;
+        text-align: left;
+      }
+      span {
+        float: right;
+        line-height: 42px;
+      }
+      .text-gray {
+        font-size: 4px;
+      }
+      .detail {
+        margin: 0px;
+        display: -webkit-inline-box;
+        line-height: 4px !important;
+        font-size: 6px;
+      }
+    }
+    .mini {
+      text-align: left;
+      position: absolute;
+      font-size: 6px;
+      margin-top: -18px;
+    }
+    .icon {
+      display: none;
+      float: left;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+@media screen and (min-width: 670px) and (max-width: 1119px) {
+  .balances {
+    display: inline-flex;
+    font-size: 20px !important;
+    margin-top: 10px !important;
+    line-height: 16px !important;
+    li {
+      padding: 15px;
+      border-left: 1px rgb(10, 10, 10) solid;
+      border-right: 1px rgb(10, 10, 10) solid;
+      .balance {
+        float: right;
+        text-align: left;
+      }
+      span {
+        float: right;
+        line-height: 42px;
+        min-width: 50px;
+      }
       .text-gray {
         font-size: 6px;
       }
       .detail {
-        margin-top: 5px;
-        font-size: 7px;
-      }
-    }
-  }
-  .iconfont {
-    font-size: 12px !important;
-    line-height: 24px !important;
-    font-weight: 100;
-    margin-right: 10px;
-  }
-}
-
-@media screen and (min-width: 800px) and (max-width: 1119px) {
-  .balances {
-    font-size: 14px !important;
-    margin-top: 10px !important;
-    line-height: 8px !important;
-    li {
-      padding: 5px;
-      border-left: 1px rgb(10, 10, 10) solid;
-      border-right: 1px rgb(10, 10, 10) solid;
-      .text-gray {
-        font-size: 9px;
-      }
-      .detail {
-        margin-top: 5px;
         font-size: 9px;
       }
     }
-  }
-  .iconfont {
-    font-size: 24px !important;
-    line-height: 24px !important;
-    font-weight: 100;
-    margin-right: 10px;
+    .mini {
+      font-size: 11px;
+      margin-top: -20px;
+      text-align: left;
+      position: absolute;
+    }
+    .icon {
+      float: left;
+      font-weight: 100;
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+    }
   }
 }
 </style>

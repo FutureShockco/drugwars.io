@@ -51,9 +51,8 @@ export default {
   position: relative;
   left: 0;
   margin-top: @header-height;
-  background-color: rgba(0, 0, 0, 0.4);
   transition: left 0.3s;
-
+  background: #000000;
   @media @bp-small {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;

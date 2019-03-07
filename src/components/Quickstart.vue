@@ -8,31 +8,31 @@
     </div>
     <ul class="missions list-style-none">
       <li>
-        <Icon class="mr-2" :name="mission1 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission1 ? 'check' : 'chevron-right'"/>
         <router-link to="/buildings">Upgrade the headquarters</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission2 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission2 ? 'check' : 'chevron-right'"/>
         <router-link to="/drugs">Increase your DRUGS production</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission3 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission3 ? 'check' : 'chevron-right'"/>
         <router-link to="/weapons">Increase your WEAPONS production</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
         <router-link to="/alcohol">Increase your ALCOHOL production</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>
         <router-link to="/buildings">Build a training facility!</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
         <router-link to="/units">Recruit some units</router-link>
       </li>
       <li>
-        <Icon class="mr-2" :name="mission7 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission7 ? 'check' : 'chevron-right'"/>
         <router-link to="/fight">Start a fight</router-link>
       </li>
     </ul>

@@ -20,7 +20,7 @@ export default {
   text-transform: uppercase;
   color: black !important;
   background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
-
+  padding-top: 6px;
   a {
     color: @text-color;
     text-decoration: none;
@@ -31,7 +31,7 @@ export default {
     &.active {
       background-image: linear-gradient(
         to bottom,
-        #ff8800,
+        #fabe00,
         #ffc400 30%,
         #ffc400 70%,
         #ff8800

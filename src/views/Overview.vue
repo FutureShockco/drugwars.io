@@ -12,7 +12,7 @@
       </div> -->
       <div class="item">
       <div class="itemcompact  pl-2">
-        <h5>DRUGS PRODUCTION <Icon name="drugs"/> </h5>
+        <h5><Icon name="drug" size="32"/> DRUGS PRODUCTION  </h5>
       </div>
       <BuildingProductionCompact
         v-for="building in drug_buildings"
@@ -31,7 +31,7 @@
         </div>
               <div class="item">
                       <div class="itemcompact  pl-2">
-        <h5>WEAPONS PRODUCTION <Icon name="weapons"/> </h5>
+        <h5> <Icon name="weapon" size="32"/>WEAPONS PRODUCTION  </h5>
       </div>
       <BuildingProductionCompact
         v-for="building in weapon_buildings"
@@ -49,7 +49,7 @@
       </div>
        <div class="item">
       <div class="itemcompact pl-2">
-        <h5>ALCOHOL PRODUCTION <Icon name="alcohols"/> </h5>
+        <h5><Icon name="alcohol" size="32"/>ALCOHOL PRODUCTION  </h5>
       </div>
         <BuildingProductionCompact
         v-for="building in alcohol_buildings"
@@ -97,3 +97,13 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+h5 {
+  display: inline-flex;
+}
+
+.icon {
+  margin-right: 5px !important;
+}
+</style>

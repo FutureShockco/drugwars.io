@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center text-lg-left border-bottom item"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left item"
     :class="{ progress: inProgress }"
   >
     <div class="mr-3">
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 export default {
   props: ['unit'],
   watch: {

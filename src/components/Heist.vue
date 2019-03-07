@@ -74,9 +74,10 @@ export default {
 h4 {
   text-transform: uppercase;
   transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
-  top: 120px;
+  top: 150px;
   width: fit-content;
   left: 50%;
+  font-size: 26px;
   margin: 0;
   line-height: 0px;
   position: relative;

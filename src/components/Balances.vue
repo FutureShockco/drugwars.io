@@ -148,6 +148,7 @@ export default {
   font-weight: 500;
   display: inline-flex;
   line-height: 22px;
+  font-family: @heading-font;
   li {
     padding: 15px 5px 0px 5px;
     border-left: 1px rgb(10, 10, 10) solid;

@@ -55,6 +55,9 @@
       <span v-if="!fight.is_stable" class="mr-2">
         (pending confirmation)
       </span>
+      <div>
+             Start :  {{start}} - End : {{end}}
+             </div>
     </div>
   </div>
 </template>
@@ -68,6 +71,14 @@ export default {
     timeToWait() {
       const timeToWait = this.fight.timestamp_end * 1000 - this.$store.state.ui.timestamp;
       return timeToWait > 0 ? timeToWait : 0;
+    },
+    start() {
+      const start = new Date(this.fight.timestamp_start * 1000).toLocaleString();
+      return start;
+    },
+    end() {
+      const end = new Date(this.fight.timestamp_end * 1000).toLocaleString();
+      return end;
     },
     result() {
       let result;

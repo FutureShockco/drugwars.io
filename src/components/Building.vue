@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex flex-lg-row flex-column text-center border-bottom text-lg-left item"
+    class="d-flex flex-lg-row flex-column text-center text-lg-left item"
     :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
   >
     <div class="mr-3">

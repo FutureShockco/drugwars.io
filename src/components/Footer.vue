@@ -28,6 +28,7 @@
         </a>
       </li>
     </ul>
+    <div class="company">Made by <a href="https://github.com/FutureShockco" target="_blank"> FutureShock</a> </div>
   </footer>
 </template>
 
@@ -57,6 +58,11 @@ export default {
         opacity: 1;
       }
     }
+  }
+  .company {
+    opacity: 0.5;
+    text-align: center;
+    padding: 15px;
   }
 }
 </style>

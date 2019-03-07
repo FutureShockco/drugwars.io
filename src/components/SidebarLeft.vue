@@ -164,7 +164,7 @@ export default {
 
     li {
       clear: both;
-
+      font-family: @special-font;
       .router-link-exact-active {
         opacity: 1;
         color: black;

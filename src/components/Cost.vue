@@ -52,10 +52,11 @@ export default {
 
 .cost {
   font-weight: 500;
-  font-size: 15px;
+  font-size: 16px;
   color: #c7c7c7;
   display: inline-flex;
   line-height: 20px;
+  font-family: @heading-font;
   span {
     display: inline-flex;
   }

@@ -38,7 +38,7 @@ import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
 
 export default {
-  props: ['id', 'level', 'coeff', 'inProgress', 'price','quantity', 'notEnough'],
+  props: ['id', 'level', 'coeff', 'inProgress', 'price', 'quantity', 'notEnough'],
   data() {
     return {
       isLoading: false,
@@ -78,7 +78,7 @@ export default {
       this.isLoading = true;
       this.recruitUnit({ unit: this.id, amount: this.quantity })
         .then(result => {
-          //console.log('Result', result);
+          console.log('Result', result);
           this.waitingConfirmation = true;
           this.isLoading = false;
         })

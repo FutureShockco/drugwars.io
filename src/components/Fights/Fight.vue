@@ -3,7 +3,7 @@
     <div class="columns text-center">
       <div class="column col-5">
         <Avatar  v-if="!share" :size="80" :username="fight.username"/>
-        <div v-if="share" class="username mt-8 mb-4" >{{ fight.username }}</div>
+        <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
         <div v-else class="username mb-4" >{{ fight.username }}</div>
         <div class="mb-4" v-if="json.attacker">
           <Army
@@ -30,10 +30,12 @@
         <span class="mt-3" v-if="timeToWait">
           Start in {{ timeToWait | ms }}
         </span>
+         <Icon v-if="share" class="logo" name="logo"/>
+         <h4 v-if="share">JOIN US!</h4>
       </div>
       <div class="column col-5">
         <Avatar v-if="!share" :size="80" :username="fight.target"/>
-        <div v-if="share" class="username mt-8 mb-4" >{{ fight.target }}</div>
+        <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
         <div v-else class="username mb-4" >{{ fight.target }}</div>
         <div class="mb-4" v-if="json.target">
           <Army
@@ -49,7 +51,7 @@
       </div>
     </div>
     <div class="text-center">
-      <span class="mr-2">
+      <span v-if="!share" class="mr-2">
         Fight
         #{{ fight.fight_key.slice(0, 10) }}
         {{ fight.is_done ? 'ended' : 'incoming' }}
@@ -114,88 +116,82 @@ export default {
   methods: {
     ...mapActions(['shareFight']),
     handleShareFight() {
-      this.share = true;
+      const self = this;
+      self.share = true;
+      console.log('aaa');
+      const key = self.fight.fight_key;
       const cloudName = 'hightouch';
-      const unsignedUploadPreset = 'pfp4sdfs';
+      const unsignedUploadPreset = 'nrmzes4b';
       const xhr = new XMLHttpRequest();
-      setTimeout(
-        () => {
-          const node = document.getElementById(this.fight.fight_key.slice(0, 10));
-          domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
-            const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
-            const fd = new FormData();
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            fd.append('upload_preset', unsignedUploadPreset);
-            fd.append('tags', 'browser_upload');
-            fd.append('file', dataUrl);
-            xhr.send(fd);
-          });
-          xhr.onreadystatechange = function() {
-            if (xhr.responseText) {
-              const response = JSON.parse(xhr.responseText);
-              const imgurl = response.secure_url;
-              const tokens = imgurl;
-              const img = new Image();
-              img.src = tokens;
-              img.alt = response.public_id;
-
-              const json_metadata = {
-                content: 'fight',
-                tags: 'drugwars',
-                app: 'drugwars',
-              };
-              const percent_steem_dollars = 10000;
-              const post = [
-                [
-                  'comment',
-                  {
-                    parent_author: '',
-                    parent_permlink: 'dwtest',
-                    author: this.$store.state.auth.username,
-                    permlink: this.fight.fight_key,
-                    title: 'test',
-                    body: img.src,
-                    json_metadata: JSON.stringify(json_metadata),
-                  },
-                ],
-                [
-                  'comment_options',
-                  {
-                    author: this.$store.state.auth.username,
-                    permlink: this.fight.fight_key,
-                    max_accepted_payout: '1000000.000 SBD',
-                    percent_steem_dollars:percent_steem_dollars,
-                    allow_votes: true,
-                    allow_curation_rewards: true,
-                    extensions: [
-                      [
-                        0,
-                        {
-                          beneficiaries: [
-                            { account: 'drugwars', weight: 2500 },
-                            { account: 'drugwars-dealer', weight: 2500 },
-                          ],
-                        },
-                      ],
+      setTimeout(() => {
+        const node = document.getElementById(self.fight.fight_key.slice(0, 10));
+        domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
+          const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+          const fd = new FormData();
+          xhr.open('POST', url, true);
+          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          fd.append('upload_preset', unsignedUploadPreset);
+          fd.append('tags', 'browser_upload');
+          fd.append('file', dataUrl);
+          xhr.send(fd);
+        });
+        xhr.onreadystatechange = function x() {
+          if (xhr.responseText) {
+            const response = JSON.parse(xhr.responseText);
+            const imgurl = response.secure_url;
+            const tokens = imgurl;
+            const post = [
+              [
+                'comment',
+                {
+                  parent_author: '',
+                  parent_permlink: 'dwtest',
+                  author: self.username,
+                  permlink: key.slice(0, 10),
+                  title: `${self.fight.username} vs ${self.fight.target}`,
+                  body: tokens.toLowerCase(),
+                  json_metadata: JSON.stringify({
+                    content: 'fight',
+                    tags: ['dw', 'test'],
+                    app: 'drugwars',
+                  }),
+                },
+              ],
+              [
+                'comment_options',
+                {
+                  author: self.username,
+                  permlink: key.slice(0, 10),
+                  max_accepted_payout: '1000000.000 SBD',
+                  percent_steem_dollars: 10000,
+                  allow_votes: true,
+                  allow_curation_rewards: true,
+                  extensions: [
+                    [
+                      0,
+                      {
+                        beneficiaries: [
+                          { account: 'drugwars', weight: 2500 },
+                          { account: 'drugwars-dealer', weight: 2500 },
+                        ],
+                      },
                     ],
-                  },
-                ],
-              ];
-              this.shareFight(post)
-                .then(() => {
-                  this.share = false;
-                })
-                .catch(e => {
-                  console.error('Failed to start a fight=', e);
-                  this.share = true;
-                });
-            }
-          };
-        },
-
-        1000,
-      );
+                  ],
+                },
+              ],
+            ];
+            self
+              .shareFight(post)
+              .then(() => {
+                self.share = false;
+              })
+              .catch(e => {
+                console.error('Failed to share a fight=', e);
+                self.share = false;
+              });
+          }
+        };
+      }, 1000);
     },
   },
 };
@@ -203,6 +199,15 @@ export default {
 
 <style scoped type="less">
 @import '../../vars.less';
+
+p {
+  overflow: hidden;
+}
+
+.logo {
+  margin-top: 10px;
+  width: 100%;
+}
 
 .result {
   font-size: 36px;

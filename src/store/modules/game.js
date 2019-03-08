@@ -77,7 +77,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(4000).then(() => {
+        Promise.delay(5000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -93,7 +93,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-unit', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(4000).then(() => {
+        Promise.delay(5000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -108,7 +108,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-heist', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(4000).then(() => {
+        Promise.delay(5000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -119,19 +119,21 @@ const actions = {
       const { username } = rootState.auth;
       sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(4000).then(() => {
+        Promise.delay(5000).then(() => {
           dispatch('init');
         });
         return resolve(result);
       });
     }),
-  shareFight: ({ rootState, dispatch }, post) =>
+  shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
       console.log('test');
-      sc.send(username, post, (err, result) => {
-        if (err) return reject(err);
-        Promise.delay(4000).then(() => {
+      sc.broadcast(post, (err, result) => {
+        if (err) {
+          console.log(err);
+          return reject(err);
+        }
+        Promise.then(() => {
           dispatch('init');
         });
         return resolve(result);

@@ -125,6 +125,18 @@ const actions = {
         return resolve(result);
       });
     }),
+  shareFight: ({ rootState, dispatch }, post) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      console.log('test');
+      sc.send(username, post, (err, result) => {
+        if (err) return reject(err);
+        Promise.delay(4000).then(() => {
+          dispatch('init');
+        });
+        return resolve(result);
+      });
+    }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;

@@ -2,8 +2,9 @@
   <div class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
     <div class="columns text-center">
       <div class="column col-5">
-        <Avatar :size="80" :username="fight.username"/>
-        <div class="username mb-4">{{ fight.username }}</div>
+        <Avatar  v-if="!share" :size="80" :username="fight.username"/>
+        <div v-if="share" class="username mt-8 mb-4" >{{ fight.username }}</div>
+        <div v-else class="username mb-4" >{{ fight.username }}</div>
         <div class="mb-4" v-if="json.attacker">
           <Army
             v-if="json.attacker.units"
@@ -31,8 +32,9 @@
         </span>
       </div>
       <div class="column col-5">
-        <Avatar :size="80" :username="fight.target"/>
-        <div class="username mb-4">{{ fight.target }}</div>
+        <Avatar v-if="!share" :size="80" :username="fight.target"/>
+        <div v-if="share" class="username mt-8 mb-4" >{{ fight.target }}</div>
+        <div v-else class="username mb-4" >{{ fight.target }}</div>
         <div class="mb-4" v-if="json.target">
           <Army
             v-if="json.target.units"
@@ -65,6 +67,8 @@
 
 <script>
 import { jsonParse } from '@/helpers/utils';
+import { setTimeout } from 'timers';
+import { mapActions } from 'vuex';
 
 const domtoimage = require('dom-to-image');
 
@@ -108,34 +112,90 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['shareFight']),
     handleShareFight() {
       this.share = true;
       const cloudName = 'hightouch';
       const unsignedUploadPreset = 'pfp4sdfs';
-      const node = document.getElementById(this.fight.fight_key.slice(0, 10));
-      domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
-        const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
-        const xhr = new XMLHttpRequest();
-        const fd = new FormData();
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.onreadystatechange = function() {
-          if (xhr.responseText) {
-            const response = JSON.parse(xhr.responseText);
-            const imgurl = response.secure_url;
-            const tokens = imgurl;
-            const img = new Image();
-            img.src = tokens;
-            img.alt = response.public_id;
-            if (img.src) console.log(img.src);
-          }
-        };
-        fd.append('upload_preset', unsignedUploadPreset);
-        fd.append('tags', 'browser_upload');
-        fd.append('file', dataUrl);
-        xhr.send(fd);
-        this.share = false;
-      });
+      const xhr = new XMLHttpRequest();
+      setTimeout(
+        () => {
+          const node = document.getElementById(this.fight.fight_key.slice(0, 10));
+          domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
+            const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+            const fd = new FormData();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            fd.append('upload_preset', unsignedUploadPreset);
+            fd.append('tags', 'browser_upload');
+            fd.append('file', dataUrl);
+            xhr.send(fd);
+          });
+          xhr.onreadystatechange = function() {
+            if (xhr.responseText) {
+              const response = JSON.parse(xhr.responseText);
+              const imgurl = response.secure_url;
+              const tokens = imgurl;
+              const img = new Image();
+              img.src = tokens;
+              img.alt = response.public_id;
+
+              const json_metadata = {
+                content: 'fight',
+                tags: 'drugwars',
+                app: 'drugwars',
+              };
+              const percent_steem_dollars = 10000;
+              const post = [
+                [
+                  'comment',
+                  {
+                    parent_author: '',
+                    parent_permlink: 'dwtest',
+                    author: this.$store.state.auth.username,
+                    permlink: this.fight.fight_key,
+                    title: 'test',
+                    body: img.src,
+                    json_metadata: JSON.stringify(json_metadata),
+                  },
+                ],
+                [
+                  'comment_options',
+                  {
+                    author: this.$store.state.auth.username,
+                    permlink: this.fight.fight_key,
+                    max_accepted_payout: '1000000.000 SBD',
+                    percent_steem_dollars:percent_steem_dollars,
+                    allow_votes: true,
+                    allow_curation_rewards: true,
+                    extensions: [
+                      [
+                        0,
+                        {
+                          beneficiaries: [
+                            { account: 'drugwars', weight: 2500 },
+                            { account: 'drugwars-dealer', weight: 2500 },
+                          ],
+                        },
+                      ],
+                    ],
+                  },
+                ],
+              ];
+              this.shareFight(post)
+                .then(() => {
+                  this.share = false;
+                })
+                .catch(e => {
+                  console.error('Failed to start a fight=', e);
+                  this.share = true;
+                });
+            }
+          };
+        },
+
+        1000,
+      );
     },
   },
 };

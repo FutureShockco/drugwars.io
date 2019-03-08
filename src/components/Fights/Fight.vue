@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom pb-4 mb-4 columns">
+  <div class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
     <div class="columns text-center">
       <div class="column col-5">
         <Avatar :size="80" :username="fight.username"/>
@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="text-center">
       <span class="mr-2">
         Fight
         #{{ fight.fight_key.slice(0, 10) }}
@@ -58,6 +58,7 @@
       <div>
              Start :  {{start}} - End : {{end}}
              </div>
+             <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
     </div>
   </div>
 </template>
@@ -65,8 +66,15 @@
 <script>
 import { jsonParse } from '@/helpers/utils';
 
+const domtoimage = require('dom-to-image');
+
 export default {
   props: ['fight'],
+  data() {
+    return {
+      share: false,
+    };
+  },
   computed: {
     timeToWait() {
       const timeToWait = this.fight.timestamp_end * 1000 - this.$store.state.ui.timestamp;
@@ -97,6 +105,37 @@ export default {
     },
     json() {
       return jsonParse(this.fight.json);
+    },
+  },
+  methods: {
+    handleShareFight() {
+      this.share = true;
+      const cloudName = 'hightouch';
+      const unsignedUploadPreset = 'pfp4sdfs';
+      const node = document.getElementById(this.fight.fight_key.slice(0, 10));
+      domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
+        const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+        const xhr = new XMLHttpRequest();
+        const fd = new FormData();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.onreadystatechange = function() {
+          if (xhr.responseText) {
+            const response = JSON.parse(xhr.responseText);
+            const imgurl = response.secure_url;
+            const tokens = imgurl;
+            const img = new Image();
+            img.src = tokens;
+            img.alt = response.public_id;
+            if (img.src) console.log(img.src);
+          }
+        };
+        fd.append('upload_preset', unsignedUploadPreset);
+        fd.append('tags', 'browser_upload');
+        fd.append('file', dataUrl);
+        xhr.send(fd);
+        this.share = false;
+      });
     },
   },
 };

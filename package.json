@@ -19,6 +19,7 @@
     "axios": "^0.18.0",
     "bluebird": "^3.5.3",
     "bs58": "^4.0.1",
+    "dom-to-image": "^2.6.0",
     "drugwars": "0.0.6",
     "dsteem": "^0.10.1",
     "express": "^4.16.3",

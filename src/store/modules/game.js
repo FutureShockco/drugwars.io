@@ -77,7 +77,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(5000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -93,7 +93,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-unit', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(5000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -108,7 +108,7 @@ const actions = {
       };
       sc.customEvent(username, 'dw-heist', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(5000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -119,7 +119,7 @@ const actions = {
       const { username } = rootState.auth;
       sc.customEventNext(username, 'fight', payload, (err, result) => {
         if (err) return reject(err);
-        Promise.delay(5000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);

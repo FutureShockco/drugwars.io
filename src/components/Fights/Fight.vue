@@ -62,7 +62,7 @@
       <div>
         Start :  {{start}} - End : {{end}}
       </div>
-      <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
+      <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem and get rewarded</button>
     </div>
   </div>
 </template>

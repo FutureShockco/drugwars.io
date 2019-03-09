@@ -12,7 +12,7 @@
             :withDead="true"
           />
         </div>
-        <p class="mb-4">{{ fight.message }}</p>
+        <p class="message mb-4">{{ fight.message }}</p>
       </div>
       <div class="column col-2">
         <div class="mt-4" v-if="result">
@@ -221,5 +221,13 @@ p {
 }
 .sharemessage {
   font-size: 12px;
+}
+
+.message {
+  max-width: 260px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 </style>

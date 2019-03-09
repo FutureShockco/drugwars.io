@@ -60,16 +60,15 @@
         (pending confirmation)
       </span>
       <div>
-             Start :  {{start}} - End : {{end}}
-             </div>
-             <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
+        Start :  {{start}} - End : {{end}}
+      </div>
+      <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
     </div>
   </div>
 </template>
 
 <script>
 import { jsonParse } from '@/helpers/utils';
-import { setTimeout } from 'timers';
 import { mapActions } from 'vuex';
 
 const domtoimage = require('dom-to-image');
@@ -136,59 +135,62 @@ export default {
           xhr.send(fd);
         });
         xhr.onreadystatechange = function x() {
-          if (xhr.responseText) {
-            const response = JSON.parse(xhr.responseText);
-            const imgurl = response.secure_url;
-            const tokens = imgurl;
-            const post = [
-              [
-                'comment',
-                {
-                  parent_author: '',
-                  parent_permlink: 'dwtest',
-                  author: self.username,
-                  permlink: key.slice(0, 10),
-                  title: `${self.fight.username} vs ${self.fight.target}`,
-                  body: tokens.toLowerCase(),
-                  json_metadata: JSON.stringify({
-                    content: 'fight',
-                    tags: ['dw', 'test'],
-                    app: 'drugwars',
-                  }),
-                },
-              ],
-              [
-                'comment_options',
-                {
-                  author: self.username,
-                  permlink: key.slice(0, 10),
-                  max_accepted_payout: '1000000.000 SBD',
-                  percent_steem_dollars: 10000,
-                  allow_votes: true,
-                  allow_curation_rewards: true,
-                  extensions: [
-                    [
-                      0,
-                      {
-                        beneficiaries: [
-                          { account: 'drugwars', weight: 2500 },
-                          { account: 'drugwars-dealer', weight: 2500 },
-                        ],
-                      },
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.responseText) {
+              const response = JSON.parse(xhr.responseText);
+              const imgurl = response.secure_url;
+              const post = [
+                [
+                  'comment',
+                  {
+                    parent_author: '',
+                    parent_permlink: 'drugwars',
+                    author: self.username,
+                    permlink: key.slice(0, 10),
+                    title: `Check my latest fight ! ${self.fight.username} vs ${self.fight.target}`,
+                    body: `<a href="https://drugwars.io/i/${
+                      self.username
+                    }"><img src="${imgurl.toLowerCase()}"></a>`,
+                    json_metadata: JSON.stringify({
+                      content: 'fight',
+                      tags: ['drugwars', 'gaming', 'fight', 'dw'],
+                      app: 'drugwars',
+                    }),
+                  },
+                ],
+                [
+                  'comment_options',
+                  {
+                    author: self.username,
+                    permlink: key.slice(0, 10),
+                    max_accepted_payout: '1000000.000 SBD',
+                    percent_steem_dollars: 10000,
+                    allow_votes: true,
+                    allow_curation_rewards: true,
+                    extensions: [
+                      [
+                        0,
+                        {
+                          beneficiaries: [
+                            { account: 'drugwars', weight: 2000 },
+                            { account: 'drugwars-dealer', weight: 1500 },
+                          ],
+                        },
+                      ],
                     ],
-                  ],
-                },
-              ],
-            ];
-            self
-              .shareFight(post)
-              .then(() => {
-                self.share = false;
-              })
-              .catch(e => {
-                console.error('Failed to share a fight=', e);
-                self.share = false;
-              });
+                  },
+                ],
+              ];
+              self
+                .shareFight(post)
+                .then(() => {
+                  self.share = false;
+                })
+                .catch(e => {
+                  console.error('Failed to share a fight=', e);
+                  self.share = false;
+                });
+            }
           }
         };
       }, 1000);
@@ -202,6 +204,7 @@ export default {
 
 p {
   overflow: hidden;
+  max-width: 50%;
 }
 
 .logo {

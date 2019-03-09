@@ -63,6 +63,7 @@
         Start :  {{start}} - End : {{end}}
       </div>
       <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem and get rewarded</button>
+      <div class="sharemessage" v-if="!share">And obtain a chance to get rewarded (max 3 upvotes per day per person).</div>
     </div>
   </div>
 </template>
@@ -217,5 +218,8 @@ p {
   padding: 10px;
   height: 50px;
   background-size: cover !important;
+}
+.sharemessage {
+  font-size: 12px;
 }
 </style>

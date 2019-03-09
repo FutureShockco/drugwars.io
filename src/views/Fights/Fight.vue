@@ -129,7 +129,6 @@ export default {
 
       if (target === this.username) {
         this.errorMessage = 'Attack yourself? Are you serious?';
-        return false;
       }
 
       this.fights.forEach(fight => {
@@ -151,14 +150,21 @@ export default {
 
         if (!user || !user.user) {
           this.errorMessage = `Player '${target}' does not exist`;
-          return false;
         }
 
         if (user.user.shield_end >= parseInt(new Date().getTime() / 1000)) {
           this.errorMessage = `You can't attack player '${target}', he has a shield`;
-          return false;
         }
-        return true;
+
+        const userFights = await client.requestAsync('get_fights', target);
+        userFights.forEach(fight => {
+          console.log(fight.is_done, fight.target);
+          if (fight.is_done === 0 && fight.target === target) {
+            this.errorMessage = 'Your target is already being attacked by someone else';
+          }
+        });
+
+        return !this.errorMessage;
       } catch (e) {
         this.errorMessage = `Unable to load player '${target}'`;
         console.error(`Unable to load player '${target}'`, e);

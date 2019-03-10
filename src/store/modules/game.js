@@ -29,29 +29,32 @@ const mutations = {
 
 const actions = {
   init: ({ commit, rootState, dispatch }) =>
-    new Promise(resolve => {
+    new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      client.request('get_user', username, (e, user) => {
-        if (user) {
-          Promise.all([
-            client.requestAsync('get_props', null),
-            client.requestAsync('get_prize_props', null),
-            client.requestAsync('get_fights', username),
-          ]).then(([props, prizeProps, fights]) => {
-            commit('saveProps', props);
-            commit('savePrizeProps', prizeProps);
-            commit('saveUser', user);
-            commit('saveFights', fights);
-            resolve();
-          });
-        } else {
-          dispatch('signup').then(() => {
-            Promise.delay(9000).then(() => {
-              window.location = '/';
+      client
+        .requestAsync('get_user', username)
+        .then(user => {
+          if (user && user.user && user.user.username) {
+            Promise.all([
+              client.requestAsync('get_props', null),
+              client.requestAsync('get_prize_props', null),
+              client.requestAsync('get_fights', username),
+            ]).then(([props, prizeProps, fights]) => {
+              commit('saveProps', props);
+              commit('savePrizeProps', prizeProps);
+              commit('saveUser', user);
+              commit('saveFights', fights);
+              resolve();
             });
-          });
-        }
-      });
+          } else {
+            dispatch('signup').then(() => {
+              Promise.delay(9000).then(() => {
+                window.location = '/';
+              });
+            });
+          }
+        })
+        .catch(e => reject(e));
     }),
   signup: ({ rootState }) =>
     new Promise((resolve, reject) => {

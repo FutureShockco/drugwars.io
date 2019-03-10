@@ -148,7 +148,7 @@ export default {
       try {
         const user = await client.requestAsync('get_user', target);
 
-        if (!user || !user.user) {
+        if (!user || !user.user || !user.user.username) {
           this.errorMessage = `Player '${target}' does not exist`;
         }
 

@@ -145,7 +145,7 @@ export default {
                   'comment',
                   {
                     parent_author: '',
-                    parent_permlink: 'drugwars',
+                    parent_permlink: 'drugwars-fight',
                     author: self.username,
                     permlink: key.slice(0, 10),
                     title: `Check my latest fight ! ${self.fight.username} vs ${self.fight.target}`,

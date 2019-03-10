@@ -76,11 +76,11 @@
           </li>
           <li>
             <router-link
-              to="/heist"
+              to="/rewards"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Heist
+              Rewards
             </router-link>
           </li>
         </ul>

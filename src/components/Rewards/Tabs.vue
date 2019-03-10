@@ -1,7 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/heist">Heist</UiTab>
+      <UiTab to="/rewards">Rewards</UiTab>
     </UiTabs>
   </Header>
 </template>

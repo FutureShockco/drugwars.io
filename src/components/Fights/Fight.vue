@@ -63,7 +63,7 @@
         Start :  {{start}} - End : {{end}}
       </div>
       <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
-      <div class="sharemessage" v-if="!share">And obtain a chance to get rewarded (max 3 upvotes per day per person).</div>
+      <div class="sharemessage" v-if="!share">And obtain a chance to get rewarded (max 1 upvote per day per person).</div>
     </div>
   </div>
 </template>
@@ -154,7 +154,7 @@ export default {
                     }"><img src="${imgurl.toLowerCase()}"></a>`,
                     json_metadata: JSON.stringify({
                       content: 'fight',
-                      tags: ['drugwars', 'gaming', 'fight', 'dw'],
+                      tags: ['drugwars-fight', 'gaming', 'fight', 'dw'],
                       app: 'drugwars',
                     }),
                   },

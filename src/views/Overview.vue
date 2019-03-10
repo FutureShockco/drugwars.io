@@ -2,14 +2,6 @@
   <div>
     <OverviewTabs/>
     <div>
-      <!-- <div class="rounded-2 bg-gray-dark overflow-hidden position-relative" style="height: 20px;">
-        <div class="bg-blue position-absolute" :style="{ width: '50%' }">
-          Balance
-        </div>
-        <div class="bg-green position-absolute" :style="{ width: '20%' }">
-          Safe
-        </div>
-      </div> -->
       <div class="item">
       <div class="itemcompact  pl-2">
         <h5><Icon name="drug" size="32"/> DRUGS PRODUCTION  </h5>
@@ -56,21 +48,21 @@
         :building="building"
         :key="building.id"
       />
-      <div class="itemcompact  p-2">
+      <div class="itemcompact p-2">
         <div class="right-floated">
-        <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+          <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
           <h5 class="m-0"> Full in : {{ (alcoholStorage - user.alcohols_balance) / user.alcohol_production_rate * 1000 | ms}}</h5>
         </div>
         <div class="total"> Total capacity : {{ alcoholStorage | amount }}</div>
           <h5 class="m-0 text-green">Safe : {{ alcoholStorage /100*25 | amount }}</h5>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
 
 <script>
-import buildings from 'drugwars/buildings.json';
+import { buildings } from 'drugwars';
 import { pickBy } from 'lodash';
 
 export default {

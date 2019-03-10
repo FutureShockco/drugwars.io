@@ -1,1 +1,5 @@
-[]
+[
+  "Referred user get the double of resources as bonus when they signup",
+  "Added limitation to the API to prevent the use of bots",
+  "You can only get 1 upvote now per day and per person (but they are bigger depending on how much you have spent ingame)"
+]

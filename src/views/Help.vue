@@ -18,10 +18,16 @@
         >
           Drug Wars on Steem - Ultimate Beginners Game Guide
         </a>
-        by
-        <router-link to="/@timcliff">
-          timcliff
-        </router-link>
+        by <router-link to="/@timcliff">timcliff</router-link>
+      </p>
+      <p>
+        <a
+          href="https://steemit.com/drugwars/@timcliff/drug-wars-on-steem-intermediate-game-guide-battles"
+          target="_blank"
+        >
+          Drug Wars on Steem - Intermediate Game Guide: Battles
+        </a>
+        by <router-link to="/@timcliff">timcliff</router-link>
       </p>
       <h3>F.A.Q.</h3>
       <input

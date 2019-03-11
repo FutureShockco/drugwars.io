@@ -19,7 +19,7 @@
         <ul class="pt-1 pb-2 border-bottom">
           <li>
             <router-link
-              to="/overview"
+              to="/"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
@@ -28,7 +28,7 @@
           </li>
           <li>
             <router-link
-              to="/"
+              to="/missions"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >

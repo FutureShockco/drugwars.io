@@ -5,7 +5,7 @@ import { isWeb } from '@/helpers/utils';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
-const Dashboard = () => import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue');
+const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
@@ -57,15 +57,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'dashboard',
-      beforeEnter: requireAuth,
-      component: Dashboard,
-    },
-    {
-      path: '/overview',
       name: 'overview',
       beforeEnter: requireAuth,
       component: Overview,
+    },
+    {
+      path: '/missions',
+      name: 'missions',
+      beforeEnter: requireAuth,
+      component: Missions,
     },
     {
       path: '/buildings',

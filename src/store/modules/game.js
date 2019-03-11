@@ -7,15 +7,11 @@ const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 
 const state = {
   prizeProps: null,
-  props: null,
   user: null,
   fights: [],
 };
 
 const mutations = {
-  saveProps(_state, payload) {
-    Vue.set(_state, 'props', payload);
-  },
   savePrizeProps(_state, payload) {
     Vue.set(_state, 'prizeProps', payload);
   },
@@ -36,11 +32,9 @@ const actions = {
         .then(user => {
           if (user && user.user && user.user.username) {
             Promise.all([
-              client.requestAsync('get_props', null),
               client.requestAsync('get_prize_props', null),
               client.requestAsync('get_fights', username),
-            ]).then(([props, prizeProps, fights]) => {
-              commit('saveProps', props);
+            ]).then(([prizeProps, fights]) => {
               commit('savePrizeProps', prizeProps);
               commit('saveUser', user);
               commit('saveFights', fights);

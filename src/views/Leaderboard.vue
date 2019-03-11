@@ -1,11 +1,14 @@
 <template>
   <div>
     <LeaderboardTabs/>
-    <div class="mb-4">
+    <div class="p-4" v-if="isLoading || users.length === 0">
+      <Loading/>
+    </div>
+    <div class="mb-4" v-else>
       <Player
-        v-for="(player, key) in players"
-        :player="player"
-        :key="player.username"
+        v-for="(user, key) in users"
+        :player="user"
+        :key="user.username"
         :rank="key + 1"
       />
     </div>
@@ -13,14 +16,21 @@
 </template>
 
 <script>
+import client from '@/helpers/client';
+
 export default {
-  computed: {
-    username() {
-      return this.$store.state.auth.username;
-    },
-    players() {
-      return this.$store.state.game.props.players;
-    },
+  data() {
+    return {
+      isLoading: false,
+      users: [],
+    };
+  },
+  created() {
+    this.isLoading = true;
+    client.requestAsync('get_props', null).then(result => {
+      this.users = result.players;
+      this.isLoading = false;
+    });
   },
 };
 </script>

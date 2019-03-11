@@ -1,6 +1,10 @@
 {
   "name": "drugwars.io",
   "version": "0.2.1",
+  "homepage": "https://drugwars.io",
+  "description": "The drugs are virtual, but the money is real",
+  "license": "MIT",
+  "main": "electron-entry.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -73,10 +77,6 @@
       ]
     }
   },
-  "main": "electron-entry.js",
-  "homepage": "https://drugwars.io",
-  "description": "Get paid to rule your world!",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/FutureShockco/drugwars.git"

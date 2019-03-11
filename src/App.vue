@@ -11,6 +11,7 @@
         }"
       />
     </template>
+    <Notifications/>
   </div>
 </template>
 

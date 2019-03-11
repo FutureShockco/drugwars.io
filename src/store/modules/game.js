@@ -4,6 +4,15 @@ import client from '@/helpers/client';
 import sc from '@/helpers/steemconnect';
 
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
+const defaultErrorMessage = 'Oops something went wrong';
+
+const handleError = (dispatch, error, message = defaultErrorMessage) => {
+  dispatch('addNotification', {
+    type: 'error',
+    message: error.error_description || error.error || message,
+  });
+  console.error(error);
+};
 
 const state = {
   prizeProps: null,
@@ -48,9 +57,12 @@ const actions = {
             });
           }
         })
-        .catch(e => reject(e));
+        .catch(err => {
+          handleError(dispatch, err, 'Loading account failed');
+          return reject(err);
+        });
     }),
-  signup: ({ rootState }) =>
+  signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {
@@ -60,7 +72,10 @@ const actions = {
         referrer: localStorage.getItem('drugwars_referrer') || null,
       };
       sc.customEvent(username, 'dw-char', payload, (err, result) => {
-        if (err) return reject(err);
+        if (err) {
+          handleError(dispatch, err, 'Sign up failed');
+          return reject(err);
+        }
         return resolve(result);
       });
     }),
@@ -73,7 +88,10 @@ const actions = {
         level,
       };
       sc.customEvent(username, 'dw-upgrade', payload, (err, result) => {
-        if (err) return reject(err);
+        if (err) {
+          handleError(dispatch, err, 'Upgrade building failed');
+          return reject(err);
+        }
         Promise.delay(6000).then(() => {
           dispatch('init');
         });
@@ -89,7 +107,10 @@ const actions = {
         unit_amount: amount,
       };
       sc.customEvent(username, 'dw-unit', payload, (err, result) => {
-        if (err) return reject(err);
+        if (err) {
+          handleError(dispatch, err, 'Recruit unit failed');
+          return reject(err);
+        }
         Promise.delay(6000).then(() => {
           dispatch('init');
         });
@@ -104,7 +125,10 @@ const actions = {
         amount,
       };
       sc.customEvent(username, 'dw-heist', payload, (err, result) => {
-        if (err) return reject(err);
+        if (err) {
+          handleError(dispatch, err, 'Invest heist failed');
+          return reject(err);
+        }
         Promise.delay(6000).then(() => {
           dispatch('init');
         });
@@ -115,7 +139,10 @@ const actions = {
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       sc.customEventNext(username, 'fight', payload, (err, result) => {
-        if (err) return reject(err);
+        if (err) {
+          handleError(dispatch, err, 'Start fight failed');
+          return reject(err);
+        }
         Promise.delay(6000).then(() => {
           dispatch('init');
         });
@@ -127,7 +154,7 @@ const actions = {
       console.log('test');
       sc.broadcast(post, (err, result) => {
         if (err) {
-          console.log(err);
+          handleError(dispatch, err, 'Share fight failed');
           return reject(err);
         }
         Promise.then(() => {

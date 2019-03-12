@@ -23,7 +23,7 @@
       </p>
       <div v-if="changelog.length > 0">
         <h3>Changelog</h3>
-        <ul>
+        <ul class="changelog">
           <li :key="key" v-for="(change, key) in changelog">
             {{ change }}
           </li>
@@ -46,3 +46,11 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="less">
+.changelog {
+  li {
+    font-size: 16px;
+  }
+}
+</style>

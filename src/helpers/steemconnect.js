@@ -1,8 +1,8 @@
-import steemconnect from 'steemconnect';
+import { Client } from 'steemconnect';
 
 const customId = process.env.VUE_APP_CUSTOM_ID;
 
-const client = steemconnect.Initialize({
+const client = new Client({
   app: process.env.VUE_APP_SC_CLIENT_ID,
   callbackURL: process.env.VUE_APP_SC_REDIRECT_URI,
 });

@@ -1,12 +1,5 @@
 <template>
-  <router-link
-    :to="`/@${username}`"
-    class="avatar"
-    :style="{
-      'width': `${this.size}px`,
-      'height': `${this.size}px`,
-    }"
-  >
+<div>
     <span class="avatar-img"
       :style="{
         'background-image': `url(https://steemitimages.com/u/${username}/avatar`,
@@ -21,7 +14,7 @@
     <span class="level py-1 px-2" v-if="xp">
       Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
-  </router-link>
+    </div>
 </template>
 
 <script>

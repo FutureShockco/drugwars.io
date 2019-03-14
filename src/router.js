@@ -21,7 +21,6 @@ const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
-const User = () => import(/* webpackChunkName: "user" */ '@/views/User.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
@@ -129,12 +128,6 @@ export default new Router({
       name: 'rewards',
       beforeEnter: requireAuth,
       component: Rewards,
-    },
-    {
-      path: '/@:username',
-      name: 'user',
-      beforeEnter: requireAuth,
-      component: User,
     },
     {
       path: '/leaderboard',

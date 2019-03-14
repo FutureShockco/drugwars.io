@@ -68,57 +68,57 @@
 </template>
 
 <script>
-import client from '@/helpers/client';
+// import client from '@/helpers/client';
 
-export default {
-  data() {
-    return {
-      username: this.$route.params.username,
-      isLoading: false,
-      user: null,
-      rank: null,
-      units: [],
-      buildings: [],
-      me: this.$store.state.auth.username,
-    };
-  },
-  computed: {
-    balances() {
-      if (!this.user) {
-        return {};
-      }
-      const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
-      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
-      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
-      return {
-        drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
-        weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
-        alcohols: alcohols > this.user.alcohols_storage ? this.user.alcohols_storage : alcohols,
-      };
-    },
-    shieldEnd() {
-      if (!this.user) {
-        return 0;
-      }
-      const diff = this.user.shield_end * 1000 - this.$store.state.ui.timestamp;
-      return diff > 0 ? diff : 0;
-    },
-  },
-  created() {
-    this.isLoading = true;
-    client.requestAsync('get_user', this.username).then(user => {
-      this.user = user.user;
-      this.buildings = user.buildings;
-      this.rank = user.rank[0].rank;
-      this.units = user.units.map(unit => ({
-        key: unit.unit,
-        amount: unit.amount,
-      }));
-      this.isLoading = false;
-    });
-  },
-};
+// export default {
+//   data() {
+//     return {
+//       username: this.$route.params.username,
+//       isLoading: false,
+//       user: null,
+//       rank: null,
+//       units: [],
+//       buildings: [],
+//       me: this.$store.state.auth.username,
+//     };
+//   },
+//   computed: {
+//     balances() {
+//       if (!this.user) {
+//         return {};
+//       }
+//       const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
+//       const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
+//       const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
+//       const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
+//       return {
+//         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
+//         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
+//         alcohols: alcohols > this.user.alcohols_storage ? this.user.alcohols_storage : alcohols,
+//       };
+//     },
+//     shieldEnd() {
+//       if (!this.user) {
+//         return 0;
+//       }
+//       const diff = this.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+//       return diff > 0 ? diff : 0;
+//     },
+//   },
+// created() {
+//   this.isLoading = true;
+//   client.requestAsync('get_user', this.username).then(user => {
+//     this.user = user.user;
+//     this.buildings = user.buildings;
+//     this.rank = user.rank[0].rank;
+//     this.units = user.units.map(unit => ({
+//       key: unit.unit,
+//       amount: unit.amount,
+//     }));
+//     this.isLoading = false;
+//   });
+// },
+// };
 </script>
 
 <style scoped lang="less">

@@ -9,7 +9,7 @@
       +{{ perhour | amount }}
          / HOUR
     </div>
-    <div v-if="level && !compactview">
+    <div v-if="!compactview">
       <span>Next:</span>
       +{{ next | amount }}
       <span>/ DAY</span>

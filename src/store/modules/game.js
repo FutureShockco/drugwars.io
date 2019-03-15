@@ -163,6 +163,20 @@ const actions = {
         return resolve(result);
       });
     }),
+  gangCreate: ({ rootState, dispatch }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      sc.customEventNext(username, 'gang-create', payload, (err, result) => {
+        if (err) {
+          handleError(dispatch, err, 'Gang create failed');
+          return reject(err);
+        }
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
+        return resolve(result);
+      });
+    }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;

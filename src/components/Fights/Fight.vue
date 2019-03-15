@@ -47,6 +47,10 @@
             v-if="json.target.loot"
             :stolenResources="json.target.loot"
           />
+            <FightsDetail
+            v-if="json.targetDetail"
+            :detail="json.targetDetail"
+          />
         </div>
       </div>
     </div>

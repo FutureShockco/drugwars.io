@@ -1,6 +1,6 @@
 <template>
   <li class="tab">
-    <router-link :to="to" active-class="active">
+    <router-link :to="to" active-class="active" exact>
       <slot></slot>
     </router-link>
   </li>

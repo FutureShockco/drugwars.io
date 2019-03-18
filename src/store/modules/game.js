@@ -7,7 +7,7 @@ const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 const defaultErrorMessage = 'Oops something went wrong';
 
 const handleError = (dispatch, error, message = defaultErrorMessage) => {
-  dispatch('addNotification', {
+  dispatch('notify', {
     type: 'error',
     message: error.error_description || error.error || message,
   });
@@ -169,6 +169,20 @@ const actions = {
       sc.customEventNext(username, 'gang-create', payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Gang create failed');
+          return reject(err);
+        }
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
+        return resolve(result);
+      });
+    }),
+  gangSoldierApply: ({ rootState, dispatch }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      sc.customEventNext(username, 'gang-soldier-apply', payload, (err, result) => {
+        if (err) {
+          handleError(dispatch, err, 'Gang solider apply failed');
           return reject(err);
         }
         Promise.delay(6000).then(() => {

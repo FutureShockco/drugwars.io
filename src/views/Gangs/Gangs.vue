@@ -3,10 +3,14 @@
     <GangsTabs />
     <div class="p-4">
       <Loading v-if="isLoading" />
-      <div :key="item.gang" v-for="item in items" v-else>
-        <h2>{{ item.name || item.gang }}</h2>
-        <p>{{ item.ticker }}</p>
-        <p>Members: {{ item.size | amount }}</p>
+      <div :key="gang.gang" v-for="gang in gangs" v-else>
+        <h2>
+          <router-link :to="`/gang/${gang.gang}`">
+            {{ gang.name || gang.gang }}
+          </router-link>
+        </h2>
+        <p>{{ gang.ticker }}</p>
+        <p>Members: {{ gang.size | amount }}</p>
       </div>
     </div>
   </div>
@@ -19,13 +23,13 @@ export default {
   data() {
     return {
       isLoading: false,
-      items: [],
+      gangs: [],
     };
   },
   created() {
     this.isLoading = true;
     client.requestAsync('get_gangs', null).then(result => {
-      this.items = result;
+      this.gangs = result;
       this.isLoading = false;
     });
   },

@@ -4,7 +4,7 @@
     <div class="p-4">
       <h2 class="text-center">Create your gang</h2>
       <form class="form container-xxs" @submit.prevent="handleSubmit">
-          <p>ID</p>
+          <p>Id</p>
           <input
             class="input input-primary mb-2"
             v-model="gang"
@@ -12,7 +12,7 @@
             placeholder="The id of your gang, example: 'frenchconnection'"
             v-lowercase
           />
-          <p>Ticker</p>
+          <p>Tag</p>
           <input
             class="input input-primary mb-4"
             v-model="ticker"

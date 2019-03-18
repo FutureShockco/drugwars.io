@@ -19,6 +19,7 @@ const HallOfFame = () =>
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
+const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
@@ -130,6 +131,12 @@ export default new Router({
       name: 'gangs',
       beforeEnter: requireAuth,
       component: Gangs,
+    },
+    {
+      path: '/gang/:id',
+      name: 'gang',
+      beforeEnter: requireAuth,
+      component: Gang,
     },
     {
       path: '/gangs/create',

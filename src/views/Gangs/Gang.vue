@@ -6,6 +6,12 @@
       <div v-else>
         <h1>{{ gang.name || gang.gang }}</h1>
         <p>{{ gang.ticker }}</p>
+        <router-link
+          :to="`/gang/${gang.gang}/settings`"
+          class="button button-blue d-inline-block mb-4"
+        >
+          Settings
+        </router-link>
         <div v-if="applies && applies.length > 0">
           <h3>Pending approval</h3>
           <div class="mb-4">
@@ -123,7 +129,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(['gangSoldierApply', 'gangApproveSoldier', 'gangAddCapo', 'notify']),
+    ...mapActions(['send', 'notify']),
     resetForm() {
       this.message = null;
     },
@@ -133,7 +139,7 @@ export default {
       const payload = { gang: this.id };
       if (this.message) payload.message = this.message;
 
-      this.gangSoldierApply(payload)
+      this.send({ type: 'gang-soldier-apply', payload })
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -143,6 +149,7 @@ export default {
           this.resetForm();
         })
         .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to apply as soldier' });
           console.error('Failed to apply as soldier', e);
           this.isLoading = false;
         });
@@ -155,7 +162,7 @@ export default {
         soldier,
       };
 
-      this.gangApproveSoldier(payload)
+      this.send({ type: 'gang-approve-soldier', payload })
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -164,6 +171,7 @@ export default {
           });
         })
         .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to approve soldier' });
           console.error('Failed to approve soldier', e);
           this.isLoading = false;
         });
@@ -176,7 +184,7 @@ export default {
         capo,
       };
 
-      this.gangAddCapo(payload)
+      this.send({ type: 'gang-add-capo', payload })
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -185,6 +193,7 @@ export default {
           });
         })
         .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to add capo' });
           console.error('Failed to add capo', e);
           this.isLoading = false;
         });

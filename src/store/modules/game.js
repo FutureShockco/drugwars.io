@@ -163,50 +163,11 @@ const actions = {
         return resolve(result);
       });
     }),
-  gangCreate: ({ rootState, dispatch }, payload) =>
+  send: ({ rootState }, { type, payload }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      sc.customEventNext(username, 'gang-create', payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Gang create failed');
-          return reject(err);
-        }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
-        return resolve(result);
-      });
-    }),
-  gangSoldierApply: ({ rootState, dispatch }, payload) =>
-    new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
-      sc.customEventNext(username, 'gang-soldier-apply', payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Gang solider apply failed');
-          return reject(err);
-        }
-        return resolve(result);
-      });
-    }),
-  gangApproveSoldier: ({ rootState, dispatch }, payload) =>
-    new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
-      sc.customEventNext(username, 'gang-approve-soldier', payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Gang approve soldier failed');
-          return reject(err);
-        }
-        return resolve(result);
-      });
-    }),
-  gangAddCapo: ({ rootState, dispatch }, payload) =>
-    new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
-      sc.customEventNext(username, 'gang-add-capo', payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Gang add capo failed');
-          return reject(err);
-        }
+      sc.customEventNext(username, type, payload, (err, result) => {
+        if (err) return reject(err);
         return resolve(result);
       });
     }),

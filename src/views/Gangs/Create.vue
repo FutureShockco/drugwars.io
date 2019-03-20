@@ -45,7 +45,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['gangCreate', 'notify']),
+    ...mapActions(['send', 'notify']),
     resetForm() {
       this.gang = null;
       this.ticker = null;
@@ -58,7 +58,7 @@ export default {
         ticker: this.ticker,
       };
 
-      this.gangCreate(payload)
+      this.send({ type: 'gang-create', payload })
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -68,6 +68,7 @@ export default {
           this.resetForm();
         })
         .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to create gang' });
           console.error('Failed to create gang', e);
           this.isLoading = false;
         });

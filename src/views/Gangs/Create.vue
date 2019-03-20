@@ -45,7 +45,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['gangCreate']),
+    ...mapActions(['gangCreate', 'notify']),
     resetForm() {
       this.gang = null;
       this.ticker = null;
@@ -61,6 +61,10 @@ export default {
       this.gangCreate(payload)
         .then(() => {
           this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: 'Your gang is being created',
+          });
           this.resetForm();
         })
         .catch(e => {

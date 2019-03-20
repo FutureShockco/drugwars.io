@@ -6,18 +6,44 @@
       <div v-else>
         <h1>{{ gang.name || gang.gang }}</h1>
         <p>{{ gang.ticker }}</p>
-        <h3>Members</h3>
-        <div class="mb-4">
-          <div
-            :key="member.username"
-            v-for="member in members"
-            class="py-3 border-bottom"
-          >
-            <Avatar :username="member.username" size="40" class="mr-2" />
-            {{ member.username }} {{ member.role }}
+        <div v-if="applies">
+          <h3>Pending approval</h3>
+          <div class="mb-4">
+            <div
+              :key="apply.username"
+              v-for="apply in applies"
+              class="py-3 border-bottom"
+            >
+              <Avatar :username="apply.username" size="40" class="mr-2" />
+              {{ apply.username }} soldier {{ apply.message }}
+              <button
+                @click="handleApprove(apply.username)"
+                class="button button-green float-right"
+                :disabled="isLoading"
+              >
+                <span v-if="!isLoading">
+                  Approve
+                </span>
+                <Loading v-else />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Members</h3>
+          <div class="mb-4">
+            <div
+              :key="member.username"
+              v-for="member in members"
+              class="py-3 border-bottom"
+            >
+              <Avatar :username="member.username" size="40" class="mr-2" />
+              {{ member.username }} {{ member.role }}
+            </div>
           </div>
         </div>
         <form class="form" @submit.prevent="handleSubmit">
+          <h3>Apply as soldier</h3>
           <textarea
             type="text"
             class="input input-block text-left mb-2"
@@ -31,7 +57,7 @@
             :disabled="isLoading"
           >
             <span v-if="!isLoading">
-              Apply as soldier
+              Apply
             </span>
             <Loading v-else />
           </button>
@@ -55,20 +81,26 @@ export default {
       gang: null,
       members: null,
       message: null,
+      user: this.$store.state.game.user.user,
+      applies: null,
     };
   },
   created() {
     this.isInit = true;
-    Promise.all([
+    const promises = [
       client.requestAsync('get_gang', this.id),
       client.requestAsync('get_gang_members', this.id),
-    ]).then(result => {
-      [[this.gang], this.members] = result;
+    ];
+    if (['boss', 'capo'].includes(this.user.role)) {
+      promises.push(client.requestAsync('get_gang_applies', this.id));
+    }
+    Promise.all(promises).then(result => {
+      [[this.gang], this.members, this.applies] = result;
       this.isInit = false;
     });
   },
   methods: {
-    ...mapActions(['gangSoldierApply', 'notify']),
+    ...mapActions(['gangSoldierApply', 'gangApproveSoldier', 'notify']),
     resetForm() {
       this.message = null;
     },
@@ -89,6 +121,27 @@ export default {
         })
         .catch(e => {
           console.error('Failed to apply as soldier', e);
+          this.isLoading = false;
+        });
+    },
+    handleApprove(soldier) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        soldier,
+      };
+
+      this.gangApproveSoldier(payload)
+        .then(() => {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `The soldier ${soldier} joined your gang`,
+          });
+        })
+        .catch(e => {
+          console.error('Failed to approve soldier', e);
           this.isLoading = false;
         });
     },

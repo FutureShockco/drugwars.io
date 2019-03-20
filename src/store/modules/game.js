@@ -185,9 +185,17 @@ const actions = {
           handleError(dispatch, err, 'Gang solider apply failed');
           return reject(err);
         }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
+        return resolve(result);
+      });
+    }),
+  gangApproveSoldier: ({ rootState, dispatch }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      sc.customEventNext(username, 'gang-approve-soldier', payload, (err, result) => {
+        if (err) {
+          handleError(dispatch, err, 'Gang approve soldier failed');
+          return reject(err);
+        }
         return resolve(result);
       });
     }),

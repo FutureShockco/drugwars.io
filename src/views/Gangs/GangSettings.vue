@@ -13,11 +13,13 @@
             class="input input-block text-left mb-2"
             placeholder="Name"
             v-model="name"
+            maxlength="32"
           />
           <input
             class="input input-block text-left mb-2"
             placeholder="Website (optional)"
             v-model="website"
+            type="url"
           />
           <textarea
             type="text"

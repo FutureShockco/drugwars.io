@@ -9,7 +9,7 @@
             {{ gang.name || gang.gang }}
           </router-link>
         </h2>
-        <p>{{ gang.ticker }}</p>
+        <p v-if="gang.about">{{ gang.about }}</p>
         <p>Members: {{ gang.size | amount }}</p>
       </div>
     </div>

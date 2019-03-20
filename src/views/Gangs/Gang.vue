@@ -6,6 +6,14 @@
       <div v-else>
         <h1>{{ gang.name || gang.gang }}</h1>
         <p>{{ gang.ticker }}</p>
+        <p v-if="gang.website" class="mb-2">
+          <a :href="gang.website" target="_blank">
+            {{ gang.website | parseUrl }}
+          </a>
+        </p>
+        <p v-if="gang.about" class="mb-4">
+          {{ gang.about }}
+        </p>
         <router-link
           :to="`/gang/${gang.gang}/settings`"
           class="button button-blue d-inline-block mb-4"

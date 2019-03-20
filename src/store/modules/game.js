@@ -199,6 +199,17 @@ const actions = {
         return resolve(result);
       });
     }),
+  gangAddCapo: ({ rootState, dispatch }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      sc.customEventNext(username, 'gang-add-capo', payload, (err, result) => {
+        if (err) {
+          handleError(dispatch, err, 'Gang add capo failed');
+          return reject(err);
+        }
+        return resolve(result);
+      });
+    }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;

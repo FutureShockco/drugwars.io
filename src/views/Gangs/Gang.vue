@@ -6,7 +6,7 @@
       <div v-else>
         <h1>{{ gang.name || gang.gang }}</h1>
         <p>{{ gang.ticker }}</p>
-        <div v-if="applies">
+        <div v-if="applies && applies.length > 0">
           <h3>Pending approval</h3>
           <div class="mb-4">
             <div
@@ -39,10 +39,28 @@
             >
               <Avatar :username="member.username" size="40" class="mr-2" />
               {{ member.username }} {{ member.role }}
+              <button
+                @click="handleAddCapo(member.username)"
+                class="button button-green float-right"
+                :disabled="isLoading"
+                v-if="
+                  member.role === 'soldier'
+                  && isBoss
+                "
+              >
+                <span v-if="!isLoading">
+                  Promote to capo
+                </span>
+                <Loading v-else />
+              </button>
             </div>
           </div>
         </div>
-        <form class="form" @submit.prevent="handleSubmit">
+        <form
+          class="form"
+          @submit.prevent="handleSubmit"
+          v-if="user.gang !== id"
+        >
           <h3>Apply as soldier</h3>
           <textarea
             type="text"
@@ -85,6 +103,11 @@ export default {
       applies: null,
     };
   },
+  computed: {
+    isBoss() {
+      return this.user.role === 'boss' && this.user.gang === this.id;
+    },
+  },
   created() {
     this.isInit = true;
     const promises = [
@@ -100,7 +123,7 @@ export default {
     });
   },
   methods: {
-    ...mapActions(['gangSoldierApply', 'gangApproveSoldier', 'notify']),
+    ...mapActions(['gangSoldierApply', 'gangApproveSoldier', 'gangAddCapo', 'notify']),
     resetForm() {
       this.message = null;
     },
@@ -142,6 +165,27 @@ export default {
         })
         .catch(e => {
           console.error('Failed to approve soldier', e);
+          this.isLoading = false;
+        });
+    },
+    handleAddCapo(capo) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        capo,
+      };
+
+      this.gangAddCapo(payload)
+        .then(() => {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `The soldier ${capo} has been promoted to capo`,
+          });
+        })
+        .catch(e => {
+          console.error('Failed to add capo', e);
           this.isLoading = false;
         });
     },

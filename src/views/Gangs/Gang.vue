@@ -73,7 +73,7 @@
         <form
           class="form"
           @submit.prevent="handleSubmit"
-          v-if="user.gang !== id"
+          v-if="user.gang !== id && gang.is_stable === 1"
         >
           <h3>Apply as soldier</h3>
           <textarea

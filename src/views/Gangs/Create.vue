@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import Promise from 'bluebird';
 import { mapActions } from 'vuex';
 
 export default {
@@ -46,10 +47,6 @@ export default {
   },
   methods: {
     ...mapActions(['send', 'notify']),
-    resetForm() {
-      this.gang = null;
-      this.ticker = null;
-    },
     handleSubmit() {
       this.isLoading = true;
 
@@ -60,12 +57,13 @@ export default {
 
       this.send({ type: 'gang-create', payload })
         .then(() => {
-          this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: 'Your gang is being created',
+          Promise.delay(6000).then(() => {
+            this.$router.push('/gangs');
+            this.notify({
+              type: 'success',
+              message: 'Your gang is being created',
+            });
           });
-          this.resetForm();
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to create gang' });

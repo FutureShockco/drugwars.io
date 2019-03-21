@@ -88,10 +88,25 @@ export default {
       return this.$store.state.game.user.user;
     },
     balances() {
-      const time = (this.$store.state.ui.timestamp - Date.parse(this.user.last_update)) / 1000;
-      const drugs = this.user.drugs_balance + time * this.user.drug_production_rate;
-      const weapons = this.user.weapons_balance + time * this.user.weapon_production_rate;
-      const alcohols = this.user.alcohols_balance + time * this.user.alcohol_production_rate;
+      const time =
+        (this.$store.state.ui.timestamp - new Date(this.user.last_update).getTime()) / 1000;
+      let drugs =
+        this.user.drugs_balance +
+        Number(parseFloat(time * this.user.drug_production_rate).toFixed(2));
+      let weapons =
+        this.user.weapons_balance +
+        Number(parseFloat(time * this.user.weapon_production_rate).toFixed(2));
+      let alcohols =
+        this.user.alcohols_balance +
+        Number(parseFloat(time * this.user.alcohol_production_rate).toFixed(2));
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')) {
+        const oc = this.$store.state.game.user.buildings.find(
+          b => b.building === 'operation_center',
+        ).lvl;
+        drugs += (oc + time * this.user.drug_production_rate) * 0.005;
+        weapons += (oc + time * this.user.weapon_production_rate) * 0.005;
+        alcohols += (oc + time * this.user.alcohol_production_rate) * 0.005;
+      }
       return {
         drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
         weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,

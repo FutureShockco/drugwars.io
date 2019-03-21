@@ -33,9 +33,11 @@
         v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)"
         class="mb-2"
       >
-        <div><b>Current capacity:</b> {{ ownItem.lvl * 30000 | amount }}</div>
-        <div><b>Next capacity:</b> {{ (ownItem.lvl + 1) * 30000 | amount }}</div>
-        <div><b>Safe:</b> {{ ownItem.lvl * 30000 / 100 * 25 | amount }}</div>
+        <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 10000 + 25000 * ownItem.lvl + (10000 + ((25000 * ownItem.lvl) / 100) * 10) | amount }}</div>
+        <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 10000 + 25000 * (ownItem.lvl+1) + (10000 + ((25000 * (ownItem.lvl+1)) / 100) * 10) | amount }}</div>
+        <div v-else><b>Next capacity:</b> {{ 10000 + 25000 * 1 + (10000 + ((25000 * 1) / 100) * 10) | amount }}</div>
+        <div v-if="ownItem.lvl"><b>Safe:</b> {{ (10000 + 25000 * ownItem.lvl + (10000 + ((25000 * ownItem.lvl) / 100) * 10)) /100*25 | amount }}</div>
+        <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
       </div>
     </div>
     <div class="mx-auto">

@@ -7,11 +7,11 @@
         <h2>
           <GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image" />
           <router-link :to="`/gang/${gang.gang}`">
-            {{ gang.name || gang.gang }}
+            {{ gang.name || gang.gang }} [{{gang.ticker}}]
           </router-link>
         </h2>
         <p v-if="gang.about">{{ gang.about }}</p>
-        <p>Members: {{ gang.size | amount }}</p>
+        <p>Members: {{ gang.size | amount }}/100</p>
       </div>
     </div>
   </div>

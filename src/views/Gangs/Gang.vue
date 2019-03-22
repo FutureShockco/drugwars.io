@@ -8,7 +8,7 @@
           <GangImage class="mr-3" size="60" v-if="gang.image" :image="gang.image" />
           {{ gang.name || gang.gang }}
         </h1>
-        <p>{{ gang.ticker }}</p>
+        <p>[{{ gang.ticker }}]</p>
         <p v-if="gang.website" class="mb-2">
           <a :href="gang.website" target="_blank">
             {{ gang.website | parseUrl }}

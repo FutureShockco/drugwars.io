@@ -9,7 +9,7 @@
     <div class="username">
       {{ player.username }}
       <div class="gang-label" v-if="player.ticker">
-        {{ player.ticker }}
+        [{{ player.ticker }}]
       </div>
     </div>
     <div>

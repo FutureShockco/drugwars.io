@@ -13,7 +13,7 @@
           @click.native="toggleSidebar">
           {{ username }}
           <div class="gang-label" v-if="user.ticker">
-            {{ user.ticker }}
+            [{{ user.ticker }}]
           </div>
         </div>
       </div>

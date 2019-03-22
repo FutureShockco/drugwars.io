@@ -14,7 +14,7 @@
         <p v-if="gang.about" class="mb-4">
           {{ gang.about }}
         </p>
-        <router-link
+        <router-link v-if="isBoss"
           :to="`/gang/${gang.gang}/settings`"
           class="button button-blue d-inline-block mb-4"
         >

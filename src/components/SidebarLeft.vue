@@ -123,6 +123,15 @@
               Forum
             </a>
           </li>
+          <li>
+          <router-link
+              to="/earlyaccess"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Early Access (TOS)
+            </router-link>
+          </li>
         </ul>
       </div>
       <Footer/>

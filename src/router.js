@@ -23,6 +23,7 @@ const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
+const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
@@ -189,6 +190,12 @@ export default new Router({
       name: 'help',
       beforeEnter: requireAuth,
       component: Help,
+    },
+    {
+      path: '/earlyaccess',
+      name: 'earlyaccess',
+      beforeEnter: requireAuth,
+      component: EarlyAccess,
     },
     {
       path: '/login',

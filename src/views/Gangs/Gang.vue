@@ -32,8 +32,7 @@
               class="py-3 border-bottom"
             >
               <Avatar :username="apply.username" size="40" class="mr-2" />
-              {{ apply.username }} soldier {{ apply.message }}
-
+              {{ apply.username }} soldier
               <button
                 @click="handleReject(apply.username)"
                 class="button button-red float-right"
@@ -45,7 +44,6 @@
                 </span>
                 <Loading v-else />
               </button>
-
               <button
                 @click="handleApprove(apply.username)"
                 class="button button-green float-right mr-2"
@@ -56,6 +54,7 @@
                 </span>
                 <Loading v-else />
               </button>
+              <div class="p-2">{{ apply.message }}</div>
             </div>
           </div>
         </div>

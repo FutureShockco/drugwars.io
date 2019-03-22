@@ -38,7 +38,7 @@
                 @click="handleReject(apply.username)"
                 class="button button-red float-right"
                 :disabled="isLoading"
-                v-if="isBoss"
+                v-if="['boss', 'capo'].includes(user.role)"
               >
                 <span v-if="!isLoading">
                   Reject

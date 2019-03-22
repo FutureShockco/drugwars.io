@@ -12,9 +12,9 @@
           class="username"
           @click.native="toggleSidebar">
           {{ username }}
-            <div class="gang" v-if="gang">
-            {{gang}}
-            </div>
+          <div class="gang-label" v-if="user.ticker">
+            {{ user.ticker }}
+          </div>
         </div>
       </div>
       <div class="height-full">
@@ -132,8 +132,8 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
-    gang() {
-      return this.$store.state.game.user.user.gang;
+    user() {
+      return this.$store.state.game.user.user;
     },
     rank() {
       return this.$store.state.game.user.rank[0].rank;
@@ -169,13 +169,6 @@ export default {
 
   &.sidebar-open {
     left: 0;
-  }
-
-  .gang{
-    top: -20px;
-    position: relative;
-    font-size: 15px;
-    text-shadow: 0px 0px 3px black;
   }
 
   ul {

@@ -6,7 +6,12 @@
       :username="player.username"
       :rank="rank"
     />
-    <div class="username">{{ player.username }}</div>
+    <div class="username">
+      {{ player.username }}
+      <div class="gang-label" v-if="player.ticker">
+        {{ player.ticker }}
+      </div>
+    </div>
     <div>
       <div class="production mb-2">
         <span class="mr-3">

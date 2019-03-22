@@ -8,24 +8,18 @@
   >
     <span class="avatar-img"
       :style="{
-        'background-image': `url(https://steemitimages.com/u/${username}/avatar`,
+        'background-image': `url(https://steemitimages.com/${size}x${size}/${image}`,
         'width': `${size}px`,
         'height': `${size}px`,
        }"
     />
     <span class="avatar-border"/>
-    <span class="rank py-1 px-2" v-if="rank">
-      Rank: {{ rank }}
-    </span>
-    <span class="level py-1 px-2" v-if="xp">
-      Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
-    </span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['username', 'size', 'xp', 'rank'],
+  props: ['image', 'size'],
 };
 </script>
 

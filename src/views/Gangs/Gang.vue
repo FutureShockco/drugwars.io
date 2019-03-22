@@ -4,7 +4,10 @@
     <div class="p-4">
       <Loading v-if="isInit" />
       <div v-else>
-        <h1>{{ gang.name || gang.gang }}</h1>
+        <h1 class="mb-4">
+          <GangImage class="mr-3" size="60" v-if="gang.image" :image="gang.image" />
+          {{ gang.name || gang.gang }}
+        </h1>
         <p>{{ gang.ticker }}</p>
         <p v-if="gang.website" class="mb-2">
           <a :href="gang.website" target="_blank">

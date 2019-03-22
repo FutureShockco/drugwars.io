@@ -5,6 +5,7 @@
       <Loading v-if="isLoading" />
       <div :key="gang.gang" v-for="gang in gangs" v-else>
         <h2>
+          <GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image" />
           <router-link :to="`/gang/${gang.gang}`">
             {{ gang.name || gang.gang }}
           </router-link>

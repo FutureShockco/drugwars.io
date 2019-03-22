@@ -20,7 +20,7 @@
         >
           Settings
         </router-link>
-        <div v-if="applies && applies.length > 0">
+        <div v-if="user.gang === id && ['boss', 'capo'].includes(user.role) && applies && applies.length > 0">
           <h3>Pending approval</h3>
           <div class="mb-4">
             <div

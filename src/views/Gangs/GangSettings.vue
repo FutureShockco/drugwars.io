@@ -17,6 +17,12 @@
           />
           <input
             class="input input-block text-left mb-2"
+            placeholder="Image URL (optional)"
+            v-model="image"
+            type="url"
+          />
+          <input
+            class="input input-block text-left mb-2"
             placeholder="Website (optional)"
             v-model="website"
             type="url"
@@ -56,6 +62,7 @@ export default {
       isLoading: false,
       gang: null,
       name: null,
+      image: null,
       website: null,
       about: null,
       user: this.$store.state.game.user.user,
@@ -71,6 +78,7 @@ export default {
     client.requestAsync('get_gang', this.id).then(result => {
       [this.gang] = result;
       this.name = result[0].name;
+      this.image = result[0].image;
       this.website = result[0].website;
       this.about = result[0].about;
       this.isInit = false;
@@ -83,6 +91,7 @@ export default {
 
       const settings = {};
       if (this.name) settings.name = this.name;
+      if (this.image) settings.image = this.image;
       if (this.website) settings.website = this.website;
       if (this.about) settings.about = this.about;
 

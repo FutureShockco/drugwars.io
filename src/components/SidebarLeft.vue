@@ -114,6 +114,15 @@
               Help
             </router-link>
           </li>
+          <li>
+            <a
+              href="https://drugwars.tokenbb.io/"
+              target="_blank"
+              class="py-1 px-4 d-block"
+            >
+              Forum
+            </a>
+          </li>
         </ul>
       </div>
       <Footer/>

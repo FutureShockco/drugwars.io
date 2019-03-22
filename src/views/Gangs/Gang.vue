@@ -33,9 +33,22 @@
             >
               <Avatar :username="apply.username" size="40" class="mr-2" />
               {{ apply.username }} soldier {{ apply.message }}
+
+              <button
+                @click="handleReject(apply.username)"
+                class="button button-red float-right"
+                :disabled="isLoading"
+                v-if="isBoss"
+              >
+                <span v-if="!isLoading">
+                  Reject
+                </span>
+                <Loading v-else />
+              </button>
+
               <button
                 @click="handleApprove(apply.username)"
-                class="button button-green float-right"
+                class="button button-green float-right mr-2"
                 :disabled="isLoading"
               >
                 <span v-if="!isLoading">
@@ -184,6 +197,28 @@ export default {
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to approve soldier' });
           console.error('Failed to approve soldier', e);
+          this.isLoading = false;
+        });
+    },
+    handleReject(soldier) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        soldier,
+      };
+
+      this.send({ type: 'gang-reject-soldier', payload })
+        .then(() => {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `The candidate ${soldier} has been rejected`,
+          });
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to reject candidate' });
+          console.error('Failed to reject candidate', e);
           this.isLoading = false;
         });
     },

@@ -20,7 +20,7 @@ const mutations = {
   updateTimestamp(_state) {
     Vue.set(_state, 'timestamp', new Date().getTime());
   },
-  addNotification(_state, payload) {
+  notify(_state, payload) {
     const timestamp = parseInt(new Date().getTime() / 1000);
     _state.notifications.push({ ...payload, timestamp });
   },
@@ -39,8 +39,8 @@ const actions = {
   updateTimestamp({ commit }) {
     commit('updateTimestamp');
   },
-  addNotification({ commit }, payload) {
-    commit('addNotification', payload);
+  notify({ commit }, payload) {
+    commit('notify', payload);
   },
 };
 

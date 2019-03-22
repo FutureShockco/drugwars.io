@@ -36,6 +36,18 @@ Vue.filter('ms', value => prettyMs(parseInt(value / 1000) * 1000));
 Vue.filter('parseUrl', value => urlParse(value).host);
 Vue.filter('amount', value => numeral(value).format('0.[00]a'));
 
+Vue.directive('lowercase', {
+  update: el => {
+    el.value = el.value.toLowerCase(); // eslint-disable-line no-param-reassign
+  },
+});
+
+Vue.directive('uppercase', {
+  update: el => {
+    el.value = el.value.toUpperCase(); // eslint-disable-line no-param-reassign
+  },
+});
+
 Vue.use(VueUi);
 Vue.use(VueI18n);
 

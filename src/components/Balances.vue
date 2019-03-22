@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { getBalances } from '@/helpers/utils';
+
 export default {
   computed: {
     timeToWait() {
@@ -88,30 +90,11 @@ export default {
       return this.$store.state.game.user.user;
     },
     balances() {
-      const time =
-        (this.$store.state.ui.timestamp - new Date(this.user.last_update).getTime()) / 1000;
-      let drugs =
-        this.user.drugs_balance +
-        Number(parseFloat(time * this.user.drug_production_rate).toFixed(2));
-      let weapons =
-        this.user.weapons_balance +
-        Number(parseFloat(time * this.user.weapon_production_rate).toFixed(2));
-      let alcohols =
-        this.user.alcohols_balance +
-        Number(parseFloat(time * this.user.alcohol_production_rate).toFixed(2));
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')) {
-        const oc = this.$store.state.game.user.buildings.find(
-          b => b.building === 'operation_center',
-        ).lvl;
-        drugs += (oc + time * this.user.drug_production_rate) * 0.005;
-        weapons += (oc + time * this.user.weapon_production_rate) * 0.005;
-        alcohols += (oc + time * this.user.alcohol_production_rate) * 0.005;
-      }
-      return {
-        drugs: drugs > this.user.drug_storage ? this.user.drug_storage : drugs,
-        weapons: weapons > this.user.weapon_storage ? this.user.weapon_storage : weapons,
-        alcohols: alcohols > this.user.alcohol_storage ? this.user.alcohol_storage : alcohols,
-      };
+      let ocLvl = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+          .lvl;
+      return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
     },
     totalVest() {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;

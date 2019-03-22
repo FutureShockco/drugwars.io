@@ -76,6 +76,15 @@
           </li>
           <li>
             <router-link
+              to="/gangs"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Gangs
+            </router-link>
+          </li>
+          <li>
+            <router-link
               to="/rewards"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"

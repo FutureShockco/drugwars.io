@@ -47,9 +47,9 @@ import { mapActions } from 'vuex';
 import { getBalances } from '@/helpers/utils';
 
 const GANG_CREATION_FEE = {
-  drugs: 1000,
-  weapons: 1000,
-  alcohols: 1000,
+  drugs: 250000,
+  weapons: 250000,
+  alcohols: 250000,
 };
 
 export default {

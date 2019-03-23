@@ -1,7 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/">Missions</UiTab>
+      <UiTab to="/missions">Missions</UiTab>
     </UiTabs>
   </Header>
 </template>

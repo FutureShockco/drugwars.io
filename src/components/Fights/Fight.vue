@@ -68,6 +68,7 @@
       </div>
       <button v-if="!share" class="button button-blue" @click="handleShareFight()">Share on Steem</button>
       <div class="sharemessage" v-if="!share">And obtain a chance to get rewarded (max 1 upvote per day per person).</div>
+      <!-- <Share :fight="this.fight" :fight_key="this.fight.fight_key"/> -->
     </div>
   </div>
 </template>
@@ -122,7 +123,6 @@ export default {
     handleShareFight() {
       const self = this;
       self.share = true;
-      console.log('aaa');
       const key = self.fight.fight_key;
       const cloudName = 'hightouch';
       const unsignedUploadPreset = 'nrmzes4b';
@@ -177,8 +177,8 @@ export default {
                         0,
                         {
                           beneficiaries: [
-                            { account: 'drugwars', weight: 2000 },
-                            { account: 'drugwars-dealer', weight: 1500 },
+                            { account: 'drugwars', weight: 600 },
+                            { account: 'drugwars-dealer', weight: 400 },
                           ],
                         },
                       ],

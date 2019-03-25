@@ -83,8 +83,8 @@ export default {
       this.isLoading = true;
 
       const payload = {
-        gang: this.gang,
-        ticker: this.ticker,
+        gang: this.gang.tr(),
+        ticker: this.ticker.toUpperCase(),
       };
 
       this.send({ type: 'gang-create', payload })

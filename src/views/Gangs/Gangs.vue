@@ -11,7 +11,7 @@
           </router-link>
         </h2>
         <p v-if="gang.about">{{ gang.about }}</p>
-        <p>Members: {{ gang.size | amount }}/100</p>
+        <p>Members: {{ gang.size-1 | amount }}/100</p>
       </div>
     </div>
   </div>

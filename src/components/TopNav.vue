@@ -10,10 +10,10 @@
         </router-link>
       </div>
           <Balances class="width-full flex-justify-center"/>
-      <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
+      <!-- <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
         <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

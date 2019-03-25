@@ -212,7 +212,7 @@ const actions = {
         type: 'dw-upgrades',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'dw', payload, (err, result) => {
+      sc.customEvent(username, 'drugwars', payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Upgrade building failed');
           return reject(err);
@@ -233,7 +233,7 @@ const actions = {
         type: 'dw-units',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'dw', payload, (err, result) => {
+      sc.customEvent(username, 'drugwars', payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Recruit unit failed');
           return reject(err);
@@ -253,7 +253,7 @@ const actions = {
         type: 'dw-heists',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'dw', payload, (err, result) => {
+      sc.customEvent(username, 'drugwars', payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Invest heist failed');
           return reject(err);

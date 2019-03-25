@@ -43,9 +43,21 @@
          </div>
     </li>
     <li>
+      <Icon name="future" size="36"/>
+        <div class="balance">
+        <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
+        
+       <h5 class="ml-0 mt-1 mb-6">
+      <router-link to="/claim-token">
+        Claim tokens
+      </router-link>
+    </h5>
+         </div>
+    </li>
+     <li>
       <Icon name="steem" size="36"/>
         <div class="balance">
-        <div>{{ steemBalance}} <span class="mini"> STEEM</span></div>
+        <div>{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
          <div class="detail"> DAILY: <span class="detail text-green">
         {{ totalRewards.myRewards}} STEEM</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
@@ -114,6 +126,9 @@ export default {
     },
     steemBalance() {
       return parseFloat(this.$store.state.auth.account.balance).toFixed(3);
+    },
+    futureBalance() {
+      return parseFloat(this.$store.state.game.user.future).toFixed(3);
     },
     drugBonus() {
       let oc = 0;

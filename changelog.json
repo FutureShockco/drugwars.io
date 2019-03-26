@@ -1,4 +1,8 @@
 [
+  "Refresh your state before the next battle (it should help players to less spam their F5 key)",
+  "You can now click on the profile of any players and target them from everywhere",
+  "New share system (will be improved with time while we start to turn on our SEO)",
+  "Improved error messages",
   "Added notifications on the interface when there is an error message",
   "Referred user get the double of resources as bonus when they signup",
   "Added limitation to the API to prevent the use of bots",

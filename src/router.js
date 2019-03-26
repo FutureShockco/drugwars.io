@@ -157,6 +157,12 @@ export default new Router({
       component: Claim,
     },
     {
+      path: '/future',
+      name: 'future',
+      beforeEnter: requireAuth,
+      component: Claim,
+    },
+    {
       path: '/gangs/create',
       name: 'gang-create',
       beforeEnter: requireAuth,

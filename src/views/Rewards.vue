@@ -9,8 +9,8 @@
       </div>
     </div>
     <h3 class="text-center mb-6">
-      <router-link to="/claim-token">
-        Claim token
+      <router-link to="/future">
+        Future tokens
       </router-link>
     </h3>
   </div>

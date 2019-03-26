@@ -1,10 +1,28 @@
 <template>
   <div>
-    <Header title="Claim token" />
+    <Header title="Future token" />
     <div class="p-4 text-center">
-      <div v-if="user.future > 0">
-        <p class="mb-4">You are eligible to claim <b>{{ user.future }} FUTURE</b> tokens.</p>
-        <form class="form mx-auto" @submit.prevent="handleSubmit">
+      <div>
+        <img src="/img/icons/future.png"/>
+        <h3 class="mb-4">You have <b>{{ user.future }} FUTURE</b> in-game token(s)</h3>
+        <div class="mb-4">
+          <h4>To withdraw FUTURE token on a secured wallet, you need to:</h4>
+          <p>
+            1. Install
+            <a href="https://obyte.org" target="_blank">
+              Obyte wallet
+            </a>
+          </p>
+          <p>2. Attest your Steem account publicly</p>
+          <p>
+            3. Verify that your Steem account is linked to your Obyte wallet address here:
+            <a :href="`https://obyte.io/steem/${user.username}`" target="_blank">
+              https://obyte.io/steem/{{ user.username }}
+            </a>
+          </p>
+          <p>4. Fill the withdraw form below with the amount you would like to receive</p>
+        </div>
+        <form v-if="user.future > 0" class="form mx-auto" @submit.prevent="handleSubmit">
           <input
             class="input input-primary mb-2"
             v-model="amount"
@@ -14,14 +32,14 @@
           />
           <button :disabled="isLoading" type="submit" class="button input-block button-large button-green">
             <span v-if="!isLoading">
-              Claim
+              Withdraw
             </span>
             <Loading v-else />
           </button>
         </form>
-      </div>
-      <div v-else>
-        <p class="mb-4">You don't have any token to claim.</p>
+        <div v-else>
+          <p class="mb-4">You don't have any token to claim.</p>
+        </div>
       </div>
     </div>
   </div>

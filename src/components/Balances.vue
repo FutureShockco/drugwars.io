@@ -47,9 +47,9 @@
         <div class="balance">
         <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
         
-       <h5 class="ml-0 mt-1 mb-6">
-      <router-link to="/claim-token">
-        Claim tokens
+       <h5 class="ml-0 mt-1 mb-6 text-left">
+      <router-link to="/future">
+        Withdraw
       </router-link>
     </h5>
          </div>

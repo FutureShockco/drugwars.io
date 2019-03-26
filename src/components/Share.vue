@@ -1,27 +1,27 @@
 <template>
-  <div class="m-2 columns">
+  <div class="m-2 columns" v-if="!share">
     <span @click="handleShareFight('forum')">
       <Icon :size="32" class="mr-1 icon" name="dw" />
     </span>
     <span @click="handleShareFight('facebook')">
     <Icon :size="32" class="mr-1 icon" name="facebook"/>
     </span>
-    <span @click="handleShareFight('forum')">
+    <span @click="handleShareFight('steemit')">
     <Icon :size="32" class="icon" name="steemit"/>
     </span>
-    <span @click="handleShareFight('forum')">
-    <Icon :size="32" class="mr-1 icon" name="reedit"/>
+    <span @click="handleShareFight('reddit')">
+    <Icon :size="32" class="mr-1 icon" name="reddit"/>
     </span>
-    <span @click="handleShareFight('forum')">
+    <span @click="handleShareFight('twitter')">
     <Icon :size="32" class="mr-1 icon" name="twitter"/>
     </span>
-    <span @click="handleShareFight('forum')">
+    <span @click="handleShareFightFast('wechat')">
     <Icon :size="32" class="icon" name="wechat"/>
     </span>
-    <span @click="handleShareFight('forum')">
+    <span @click="handleShareFightFast('vk')">
     <Icon :size="32" class="mr-1 icon" name="vk"/>
     </span>
-    <span @click="handleShareFight('forum')">
+    <span @click="handleShareFight('telegram')">
     <Icon :size="32" class="icon" name="telegram"/>
     </span>
   </div>
@@ -65,13 +65,15 @@ export default {
             if (xhr.responseText) {
               const response = JSON.parse(xhr.responseText);
               const imgurl = response.secure_url;
-
+              const ref = `https://drugwars.io/i/${self.$store.state.auth.username}`;
+              const pic = `https://cdn.stateofthedapps.com/dapps/drugwars/product_image_drugwars_624db1de4ae771212221afef1e4f60c47d7e7932d3ee7a928683f5a6c10c0c5e_opti.jpg`;
+              const mes = `DrugWars is a free to play massively multiplayer strategy and simulation game based on Steem and Obytes where people can get rewarded with cryptocurrency.`;
               switch (where) {
                 case `facebook`:
                   window.open(
-                    `https://www.facebook.com/sharer/sharer.php?u=Check my latest fight ! ${
+                    `http://www.facebook.com/dialog/feed?app_id=404488530371221&link=${ref}&picture=${pic}&name=DrugWars&description=Dialogs%20provide%20a%20simple,%20consistent%20interface%20for%20applications%20to%20interact%20with%20users&message=Yoyooy!&display=popup&quote=${mes} Check my latest fight ! ${
                       self.fight.username
-                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
+                    } vs ${self.fight.target}, ${imgurl.toLowerCase()}`,
                     'myWindow',
                     'width=800,height=600',
                   );
@@ -79,39 +81,9 @@ export default {
                   break;
                 case `twitter`:
                   window.open(
-                    `https://drugwars.tokenbb.io/new?category=all-fights&title=Check my latest fight ! ${
+                    `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cfuture%2Csteem%2Cobyte&original_referer=${ref}&text=Check my latest fight ! ${
                       self.fight.username
-                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
-                    'myWindow',
-                    'width=800,height=600',
-                  );
-                  self.share = false;
-                  break;
-                case `reedit`:
-                  window.open(
-                    `https://drugwars.tokenbb.io/new?category=all-fights&title=Check my latest fight ! ${
-                      self.fight.username
-                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
-                    'myWindow',
-                    'width=800,height=600',
-                  );
-                  self.share = false;
-                  break;
-                case `vk`:
-                  window.open(
-                    `https://drugwars.tokenbb.io/new?category=all-fights&title=Check my latest fight ! ${
-                      self.fight.username
-                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
-                    'myWindow',
-                    'width=800,height=600',
-                  );
-                  self.share = false;
-                  break;
-                case `wechat`:
-                  window.open(
-                    `https://drugwars.tokenbb.io/new?category=all-fights&title=Check my latest fight ! ${
-                      self.fight.username
-                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
+                    } vs ${self.fight.target}, ${imgurl.toLowerCase()}`,
                     'myWindow',
                     'width=800,height=600',
                   );
@@ -184,6 +156,28 @@ export default {
                   }
 
                   break;
+                case `telegram`:
+                  window.open(
+                    `https://telegram.me/share/url?url=${ref}&text=Check my latest fight ! ${
+                      self.fight.username
+                    } vs ${self.fight.target}&content=![dw](${imgurl.toLowerCase()})`,
+                    'myWindow',
+                    'width=800,height=600',
+                  );
+                  self.share = false;
+                  break;
+                case `reddit`:
+                  window.open(
+                    `https://www.reddit.com/submit?url=${ref}&sr=${
+                      self.fight.fight_key
+                    }&&title=Check my latest fight!&resubmit=true&text=${self.fight.username} vs ${
+                      self.fight.target
+                    } ${mes}`,
+                    'myWindow',
+                    'width=800,height=600',
+                  );
+                  self.share = false;
+                  break;
                 default:
                   break;
               }
@@ -191,6 +185,28 @@ export default {
           }
         };
       }, 1000);
+    },
+    handleShareFightFast(where) {
+      const self = this;
+      self.share = true;
+      const ref = `https://drugwars.io/i/${self.$store.state.auth.username}`;
+      switch (where) {
+        case `vk`:
+          window.open(`https://vk.com/share.php?url=${ref}`, 'myWindow', 'width=800,height=600');
+          self.share = false;
+          break;
+        case `wechat`:
+          window.open(
+            `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ref}`,
+            'myWindow',
+            'width=800,height=600',
+          );
+          self.share = false;
+          break;
+
+        default:
+          break;
+      }
     },
   },
 };

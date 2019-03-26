@@ -89,7 +89,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['startFight']),
+    ...mapActions(['startFight', 'init']),
     resetForm() {
       this.target = null;
       this.selectedUnits = [];
@@ -133,7 +133,9 @@ export default {
 
       this.fights.forEach(fight => {
         if (fight.is_stable === 0 && fight.username === this.username) {
-          this.errorMessage = 'You have already a fight waiting for confirmation';
+          this.errorMessage =
+            'You have already a fight waiting for confirmation, please wait 30 seconds';
+          this.init();
         }
 
         if (fight.is_done === 0 && fight.username === this.username && fight.target === target) {

@@ -94,6 +94,15 @@
               Rewards
             </router-link>
           </li>
+          <!-- <li>
+            <router-link
+              to="/shop"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Shop
+            </router-link>
+          </li> -->
         </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>

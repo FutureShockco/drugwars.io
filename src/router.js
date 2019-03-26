@@ -24,6 +24,7 @@ const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Claim.
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
+const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards.vue');
@@ -166,6 +167,12 @@ export default new Router({
       name: 'rewards',
       beforeEnter: requireAuth,
       component: Rewards,
+    },
+    {
+      path: '/shop',
+      name: 'shop',
+      beforeEnter: requireAuth,
+      component: Shop,
     },
     {
       path: '/leaderboards',

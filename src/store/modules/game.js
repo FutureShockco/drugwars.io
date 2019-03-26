@@ -217,7 +217,7 @@ const actions = {
           handleError(dispatch, err, 'Upgrade building failed');
           return reject(err);
         }
-        Promise.delay(7000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -238,7 +238,7 @@ const actions = {
           handleError(dispatch, err, 'Recruit unit failed');
           return reject(err);
         }
-        Promise.delay(7000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -258,7 +258,7 @@ const actions = {
           handleError(dispatch, err, 'Invest heist failed');
           return reject(err);
         }
-        Promise.delay(7000).then(() => {
+        Promise.delay(6000).then(() => {
           dispatch('init');
         });
         return resolve(result);
@@ -272,7 +272,10 @@ const actions = {
           handleError(dispatch, err, 'Start fight failed');
           return reject(err);
         }
-        Promise.delay(7000).then(() => {
+        Promise.delay(6000).then(() => {
+          dispatch('init');
+        });
+        Promise.delay(65000).then(() => {
           dispatch('init');
         });
         return resolve(result);

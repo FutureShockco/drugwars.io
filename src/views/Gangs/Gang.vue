@@ -91,8 +91,11 @@
               v-for="member in members"
               class="py-3 border-bottom text-left"
             >
-              <Avatar :username="member.username" size="40" class="mr-2" />
-              {{ member.username }} {{ member.role }}
+              <router-link
+                :to="`/fight?target=${member.username}`">
+                  <Avatar :username="member.username" size="40" class="mr-2" />
+                  {{ member.username }} {{ member.role }}
+              </router-link>
               <button
                 @click="handleKick(member.username)"
                 class="button button-red float-right"

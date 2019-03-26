@@ -2,9 +2,17 @@
   <div class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
     <div class="columns text-center">
       <div class="column col-5">
-        <Avatar  v-if="!share" :size="80" :username="fight.username"/>
-        <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
-        <div v-else class="username mb-4" >{{ fight.username }}</div>
+                <router-link v-if="username != fight.username"
+                :to="`/fight?target=${fight.username}`">
+          <Avatar v-if="!share" :size="80" :username="fight.username"/>
+          <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
+          <div v-else class="username mb-4" >{{ fight.username }}</div>
+        </router-link>
+        <div v-else>
+              <Avatar v-if="!share" :size="80" :username="fight.username"/>
+          <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
+          <div v-else class="username mb-4" >{{ fight.username }}</div>
+        </div>
         <div class="mb-4" v-if="json.attacker">
           <Army
             v-if="json.attacker.units"
@@ -34,9 +42,17 @@
          <h4 v-if="share">JOIN US!</h4>
       </div>
       <div class="column col-5">
-        <Avatar v-if="!share" :size="80" :username="fight.target"/>
-        <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
-        <div v-else class="username mb-4" >{{ fight.target }}</div>
+        <router-link v-if="username != fight.target"
+                :to="`/fight?target=${fight.target}`">
+          <Avatar v-if="!share" :size="80" :username="fight.target"/>
+          <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
+          <div v-else class="username mb-4" >{{ fight.target }}</div>
+        </router-link>
+        <div v-else>
+              <Avatar v-if="!share" :size="80" :username="fight.target"/>
+          <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
+          <div v-else class="username mb-4" >{{ fight.target }}</div>
+        </div>
         <div class="mb-4" v-if="json.target">
           <Army
             v-if="json.target.units"

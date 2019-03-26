@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LeaderboardTabs/>
+    <LeaderboardsTabs/>
     <div class="p-4" v-if="isLoading || users.length === 0">
       <Loading/>
     </div>

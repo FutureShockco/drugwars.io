@@ -1,8 +1,8 @@
 <template>
-  <div class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
+  <div class="border-bottom pb-4 mb-4 columns">
     <div class="columns text-center">
-      <div class="column col-5">
-                <router-link v-if="username != fight.username"
+       <div class="column col-4">
+            <router-link v-if="username != fight.username"
                 :to="`/fight?target=${fight.username}`">
           <Avatar v-if="!share" :size="80" :username="fight.username"/>
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
@@ -13,16 +13,8 @@
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
           <div v-else class="username mb-4" >{{ fight.username }}</div>
         </div>
-        <div class="mb-4" v-if="json.attacker">
-          <Army
-            v-if="json.attacker.units"
-            :units="json.attacker.units"
-            :withDead="true"
-          />
-        </div>
-        <p class="message mb-4">{{ fight.message }}</p>
       </div>
-      <div class="column col-2">
+      <div class="column col-4">
         <div class="mt-4" v-if="result">
           <div class="button button-green result" v-if="result === 'win'">
             Win
@@ -33,6 +25,10 @@
           <div class="button button-red result" v-if="result === 'lost'">
             Lost
           </div>
+            <FightsLoot class="mt-2"
+            v-if="json.target.loot"
+            :stolenResources="json.target.loot"
+          />
         </div>
         <h1 class="mt-3" v-else>VS</h1>
         <span class="mt-3" v-if="timeToWait">
@@ -41,7 +37,7 @@
          <Icon v-if="share" class="logo" name="logo"/>
          <h4 v-if="share">JOIN US!</h4>
       </div>
-      <div class="column col-5">
+       <div class="column col-4">
         <router-link v-if="username != fight.target"
                 :to="`/fight?target=${fight.target}`">
           <Avatar v-if="!share" :size="80" :username="fight.target"/>
@@ -53,21 +49,32 @@
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
           <div v-else class="username mb-4" >{{ fight.target }}</div>
         </div>
+      </div>
+    </div>
+    <div  :id="fight.fight_key.slice(0, 10)">
+    <div class="columns text-center">
+      <div class="column col-6">
+        <div class="mb-4" v-if="json.attacker">
+          <Army
+            v-if="json.attacker.units"
+            :units="json.attacker.units"
+            :withDead="true"
+          />
+        </div>
+        <p class="message mb-4">{{ fight.message }}</p>
+      </div>
+      <div class="column col-6">
         <div class="mb-4" v-if="json.target">
           <Army
             v-if="json.target.units"
             :units="json.target.units"
             :withDead="true"
           />
-          <FightsLoot
-            v-if="json.target.loot"
-            :stolenResources="json.target.loot"
-          />
+        </div>
             <FightsDetail
             v-if="json.targetDetail"
             :detail="json.targetDetail"
           />
-        </div>
       </div>
     </div>
     <div class="text-center">
@@ -83,7 +90,8 @@
         Start :  {{start}} - End : {{end}}
       </div>
        <Share :fight="this.fight" :fight_key="this.fight.fight_key"/> 
-       <div class="sharemessage" v-if="!share">Share your fight and obtain a chance to get rewarded.</div>
+       <div class="sharemessage" v-if="!share">Share your fight on our forum and obtain a chance to get rewarded.</div>
+    </div>
     </div>
   </div>
 </template>

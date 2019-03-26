@@ -69,11 +69,11 @@
           </li>
           <li>
             <router-link
-              to="/leaderboard"
+              to="/leaderboards"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Leaderboard
+              Leaderboards
             </router-link>
           </li>
           <li>
@@ -121,6 +121,13 @@
               class="py-1 px-4 d-block"
             >
               Forum
+            </a>
+                        <a
+              href="https://simulator.drugwars.io/"
+              target="_blank"
+              class="py-1 px-4 d-block"
+            >
+              Fight simulator
             </a>
           </li>
           <li>

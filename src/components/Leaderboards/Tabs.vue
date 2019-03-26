@@ -1,7 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/leaderboard">Leaderboard</UiTab>
+      <UiTab to="/leaderboards">Drug Production</UiTab>
     </UiTabs>
   </Header>
 </template>

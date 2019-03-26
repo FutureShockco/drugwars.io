@@ -1,5 +1,5 @@
 <template>
-  <div class="text-red">
+  <div class="text-red mini">
     <div v-if="stolenResources.drugs">
       -{{ stolenResources.drugs | amount }} DRUGS
     </div>

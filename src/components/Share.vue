@@ -145,7 +145,8 @@ export default {
                         },
                       ],
                     ];
-                    self.shareFight(post)
+                    self
+                      .shareFight(post)
                       .then(() => {
                         self.notify({
                           type: 'success',

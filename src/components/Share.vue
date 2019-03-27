@@ -148,10 +148,6 @@ export default {
                     self
                       .shareFight(post)
                       .then(() => {
-                        self.notify({
-                          type: 'success',
-                          message: `You have successfully shared you fight on Steemit`,
-                        });
                         self.share = false;
                       })
                       .catch(e => {

@@ -289,7 +289,10 @@ const actions = {
           return reject(err);
         }
         Promise.then(() => {
-          dispatch('init');
+          dispatch('notify', {
+            type: 'success',
+            message: "You have successfully shared you fight on Steemit"
+          });
         });
         return resolve(result);
       });

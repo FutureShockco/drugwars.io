@@ -6,7 +6,7 @@
         <img src="/img/icons/future.png"/>
         <h3 class="mb-4">You have <b>{{ user.future }} FUTURE</b> in-game token(s)</h3>
         <div class="mb-4 text-left">
-          <h4>To withdraw FUTURE token on a secured wallet, you need to:</h4>
+          <h4>To withdraw FUTURE token on a secured wallet, you need to carefully follow these steps:</h4>
           <p>
             1. Install
             <a href="https://obyte.org" target="_blank">
@@ -21,7 +21,7 @@
             </a> to see which wallet is currently connected to your Steem username
           </p>
           <p>4. Open your Obyte wallet and click the "Receive" button at the bottom.</p>
-          <p>5. Check that those two addresses are the same. If not - DON'T WITHDRAW YOUR TOKENS</p>
+          <p class="text-red">5. Check that those two addresses are the same. If not - DON'T WITHDRAW YOUR TOKENS</p>
           <p>6. Fill the withdraw form below with the amount you would like to receive, try with a small amount first if you aren't sure.</p>
         </div>
         <form v-if="user.future > 0" class="form mx-auto" @submit.prevent="handleSubmit">

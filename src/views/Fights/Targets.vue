@@ -5,7 +5,7 @@
       <Loading/>
     </div>
     <div v-if="!isLoading && targets.length > 0">
-      <p class="p-4">Here is the players with a similar drug production that you. This is a good place to spot weak targets.</p>
+      <p class="p-4">Here is a good place to spot weak targets. Each time you try to find targets new players will appear. </p>
       <Player
         :key="target.username"
         v-if="target.username !== username"

@@ -107,7 +107,7 @@ export default {
                         {
                           parent_author: '',
                           parent_permlink: 'drugwars-fight',
-                          author: self.username,
+                          author: self.$store.state.auth.username,
                           permlink: key.slice(0, 10),
                           title: `Check my latest fight ! ${self.fight.username} vs ${
                             self.fight.target
@@ -125,7 +125,7 @@ export default {
                       [
                         'comment_options',
                         {
-                          author: self.username,
+                          author: self.$store.state.auth.username,
                           permlink: key.slice(0, 10),
                           max_accepted_payout: '1000000.000 SBD',
                           percent_steem_dollars: 10000,

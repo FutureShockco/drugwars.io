@@ -40,7 +40,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['shareFight']),
+    ...mapActions(['shareFight', 'notify']),
     handleShareFight(where) {
       const self = this;
       self.share = true;
@@ -107,13 +107,13 @@ export default {
                         {
                           parent_author: '',
                           parent_permlink: 'drugwars-fight',
-                          author: this.username,
+                          author: self.username,
                           permlink: key.slice(0, 10),
-                          title: `Check my latest fight ! ${this.fight.username} vs ${
-                            this.fight.target
+                          title: `Check my latest fight ! ${self.fight.username} vs ${
+                            self.fight.target
                           }`,
                           body: `<a href="https://drugwars.io/i/${
-                            this.username
+                            self.username
                           }"><img src="${imgurl.toLowerCase()}"></a>`,
                           json_metadata: JSON.stringify({
                             content: 'fight',
@@ -125,7 +125,7 @@ export default {
                       [
                         'comment_options',
                         {
-                          author: this.username,
+                          author: self.username,
                           permlink: key.slice(0, 10),
                           max_accepted_payout: '1000000.000 SBD',
                           percent_steem_dollars: 10000,
@@ -147,6 +147,10 @@ export default {
                     ];
                     this.shareFight(post)
                       .then(() => {
+                        this.notify({
+                        type: 'success',
+                        message: `You have successfully shared you fight on Steemit`,
+                        });
                         self.share = false;
                       })
                       .catch(e => {

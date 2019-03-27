@@ -5,7 +5,7 @@ import sc from '@/helpers/steemconnect';
 import CryptoJS from 'crypto-js';
 // import * as util from 'util';
 // import { inspect } from 'util';
-
+const customId = process.env.VUE_APP_CUSTOM_ID;
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 const defaultErrorMessage = 'Oops something went wrong';
 
@@ -212,7 +212,7 @@ const actions = {
         type: 'dw-upgrades',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'drugwars', payload, (err, result) => {
+      sc.customEvent(username, customId, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Upgrade building failed');
           return reject(err);
@@ -233,7 +233,7 @@ const actions = {
         type: 'dw-units',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'drugwars', payload, (err, result) => {
+      sc.customEvent(username, customId, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Recruit unit failed');
           return reject(err);
@@ -253,7 +253,7 @@ const actions = {
         type: 'dw-heists',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, 'drugwars', payload, (err, result) => {
+      sc.customEvent(username, customId, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Invest heist failed');
           return reject(err);

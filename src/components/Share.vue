@@ -145,11 +145,11 @@ export default {
                         },
                       ],
                     ];
-                    this.shareFight(post)
+                    self.shareFight(post)
                       .then(() => {
-                        this.notify({
-                        type: 'success',
-                        message: `You have successfully shared you fight on Steemit`,
+                        self.notify({
+                          type: 'success',
+                          message: `You have successfully shared you fight on Steemit`,
                         });
                         self.share = false;
                       })

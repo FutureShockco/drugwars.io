@@ -99,7 +99,7 @@ export default {
                   );
                   self.share = false;
                   break;
-                case `steem`:
+                case `steemit`:
                   {
                     const post = [
                       [

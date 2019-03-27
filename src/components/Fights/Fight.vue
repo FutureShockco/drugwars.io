@@ -1,5 +1,5 @@
 <template>
-  <div class="border-bottom pb-4 mb-4 columns">
+  <div class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
     <div class="columns text-center">
        <div class="column col-4">
             <router-link v-if="username != fight.username"
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div  :id="fight.fight_key.slice(0, 10)">
+    <div  >
     <div class="columns text-center">
       <div class="column col-6">
         <div class="mb-4" v-if="json.attacker">

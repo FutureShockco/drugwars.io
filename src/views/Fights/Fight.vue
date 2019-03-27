@@ -1,7 +1,7 @@
 <template>
   <div>
     <FightsTabs/>
-    <div class="p-4">
+    <div class="p-4 text-center">
       <div v-if="ownUnits.length > 0">
         <h3>Select your army composition</h3>
         <div>
@@ -58,6 +58,12 @@
       <div v-else>
         <p>You don't have any unit to fight.</p>
       </div>
+                              <a
+              href="https://simulator.drugwars.io/"
+              target="_blank"
+            >
+              Access to the Fight simulator
+            </a>
     </div>
   </div>
 </template>

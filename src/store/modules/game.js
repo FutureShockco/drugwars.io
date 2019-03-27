@@ -290,7 +290,7 @@ const actions = {
         }
         dispatch('notify', {
           type: 'success',
-          message: 'You have successfully shared you fight on Steemit',
+          message: 'You have successfully shared your fight on Steemit',
         });
         return resolve(result);
       });

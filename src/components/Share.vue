@@ -147,8 +147,8 @@ export default {
                     ];
                     self
                       .shareFight(post)
-                      .then(() => {
-                        self.share = false;
+                      .then(result => {
+                        if (result) self.share = false;
                       })
                       .catch(e => {
                         console.error('Failed to share a fight=', e);

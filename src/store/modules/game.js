@@ -288,11 +288,9 @@ const actions = {
           handleError(dispatch, err, 'Share fight failed');
           return reject(err);
         }
-        Promise.then(() => {
-          dispatch('notify', {
-            type: 'success',
-            message: "You have successfully shared you fight on Steemit"
-          });
+        dispatch('notify', {
+          type: 'success',
+          message: 'You have successfully shared you fight on Steemit',
         });
         return resolve(result);
       });

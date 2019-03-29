@@ -262,11 +262,11 @@ const actions = {
       const { username } = rootState.auth;
       let payload = {
         username,
-        amount,
+        amount:amount,
         type: 'dw-heists',
       };
-      payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, customId, payload, (err, result) => {
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
+      sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Invest heist failed');
           return reject(err);

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
+import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import CryptoJS from 'crypto-js';
 // import * as util from 'util';
@@ -155,6 +156,21 @@ const mutations = {
   },
 };
 
+client.notifications = () => {};
+client.subscribe((data, message) => {
+  if (message[1].body === 'update') store.dispatch('init');
+  if (message[1].body === 'fight') {
+    store.dispatch('init');
+  }
+  if (message[1].body === 'receiveattack') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'error',
+      message: 'You are under attack!',
+    });
+  }
+});
+
 const actions = {
   init: ({ commit, rootState, dispatch }) =>
     new Promise((resolve, reject) => {
@@ -212,14 +228,11 @@ const actions = {
         type: 'dw-upgrades',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, customId, payload, (err, result) => {
+      sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Upgrade building failed');
           return reject(err);
         }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
         return resolve(result);
       });
     }),
@@ -233,7 +246,7 @@ const actions = {
         type: 'dw-units',
       };
       payload = poney(JSON.stringify(payload));
-      sc.customEvent(username, customId, payload, (err, result) => {
+      sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Recruit unit failed');
           return reject(err);
@@ -267,7 +280,8 @@ const actions = {
   startFight: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      sc.customEventNext(username, 'fight', payload, (err, result) => {
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
+      sc.customEventNext(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Start fight failed');
           return reject(err);
@@ -295,10 +309,11 @@ const actions = {
         return resolve(result);
       });
     }),
-  send: ({ rootState }, { type, payload }) =>
+  send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      sc.customEventNext(username, type, payload, (err, result) => {
+      payload = poney(payload); // eslint-disable-line no-param-reassign
+      sc.customEventNext(username, payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);
       });

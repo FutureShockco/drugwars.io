@@ -174,10 +174,10 @@ export default {
     handleSubmit() {
       this.isLoading = true;
 
-      const payload = { gang: this.id };
+      const payload = { gang: this.id, type: 'gang-soldier-apply' };
       if (this.message) payload.message = this.message;
 
-      this.send({ type: 'gang-soldier-apply', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -198,9 +198,10 @@ export default {
       const payload = {
         gang: this.id,
         soldier,
+        type: 'gang-approve-soldier',
       };
 
-      this.send({ type: 'gang-approve-soldier', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -220,9 +221,10 @@ export default {
       const payload = {
         gang: this.id,
         soldier,
+        type: 'gang-reject-soldier',
       };
 
-      this.send({ type: 'gang-reject-soldier', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -242,9 +244,10 @@ export default {
       const payload = {
         gang: this.id,
         soldier,
+        type: 'gang-kick-soldier',
       };
 
-      this.send({ type: 'gang-kick-soldier', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -264,9 +267,10 @@ export default {
       const payload = {
         gang: this.id,
         capo,
+        type: 'gang-add-capo',
       };
 
-      this.send({ type: 'gang-add-capo', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({

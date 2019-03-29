@@ -107,6 +107,7 @@ export default {
       const payload = {
         target: this.target.toLowerCase(),
         units: this.selectedUnits,
+        type: 'fight',
       };
 
       if (this.message) {

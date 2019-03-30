@@ -169,6 +169,13 @@ client.subscribe((data, message) => {
       message: 'You are under attack!',
     });
   }
+  if (message[1].body === 'unit') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Your troop are now available in the bootcamp!',
+    });
+  }
 });
 
 const actions = {

@@ -30,9 +30,10 @@ const getBalances = (user, ocLvl, timestamp) => {
     alcohols += (ocLvl + time * user.alcohol_production_rate) * 0.005;
   }
   return {
-    drugs: drugs > user.drug_storage ? user.drug_storage : drugs,
-    weapons: weapons > user.weapon_storage ? user.weapon_storage : weapons,
-    alcohols: alcohols > user.alcohol_storage ? user.alcohol_storage : alcohols,
+    drugs: drugs > user.drug_storage ? user.drug_storage : parseFloat(drugs).toFixed(0),
+    weapons: weapons > user.weapon_storage ? user.weapon_storage : parseFloat(weapons).toFixed(0),
+    alcohols:
+      alcohols > user.alcohol_storage ? user.alcohol_storage : parseFloat(alcohols).toFixed(0),
   };
 };
 

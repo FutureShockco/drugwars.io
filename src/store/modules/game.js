@@ -6,7 +6,6 @@ import sc from '@/helpers/steemconnect';
 import CryptoJS from 'crypto-js';
 // import * as util from 'util';
 // import { inspect } from 'util';
-const customId = process.env.VUE_APP_CUSTOM_ID;
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
 const defaultErrorMessage = 'Oops something went wrong';
 
@@ -142,6 +141,7 @@ const poney = function(obj) {
     .replace(/\=/g, '\x4d\x6c\x33\x32');
   return tc;
 };
+
 /* eslint-enable */
 
 const mutations = {
@@ -242,7 +242,7 @@ const actions = {
       let payload = {
         username,
         unit,
-        unit_amount: amount,
+        unit_amount: Number(amount),
         type: 'dw-units',
       };
       payload = poney(JSON.stringify(payload));
@@ -262,9 +262,10 @@ const actions = {
       const { username } = rootState.auth;
       let payload = {
         username,
-        amount:amount,
+        amount: Number(amount),
         type: 'dw-heists',
       };
+      console.log(payload);
       payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {

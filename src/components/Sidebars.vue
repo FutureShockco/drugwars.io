@@ -23,7 +23,7 @@
   position: relative;
   display: block;
   height: 100%;
-  background: #000000;
+  background: #000000a3;
   -webkit-box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6,
     inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
   box-shadow: inset 2px 3px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a,
@@ -36,7 +36,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: left 0.3s;
-    background: linear-gradient(#000000a3, #050505d1), url(/img/fake-brick.png);
+    background: linear-gradient(#0000007a, #050505a4), url(/img/fake-brick.png);
     @media @bp-small {
       top: @topnav-height;
     }

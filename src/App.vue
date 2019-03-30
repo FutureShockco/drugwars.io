@@ -69,7 +69,7 @@ export default {
   left: 0;
   margin-top: @header-height;
   transition: left 0.3s;
-  background: #000000;
+  background: #000000b7;
   @media @bp-small {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;

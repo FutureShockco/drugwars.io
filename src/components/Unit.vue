@@ -96,9 +96,9 @@ export default {
     },
     hasNotEnough() {
       return (
-        this.unit.drugs_cost > this.balances.drugs ||
-        this.unit.weapons_cost > this.balances.weapons ||
-        this.unit.alcohols_cost > this.balances.alcohols
+        this.unit.drugs_cost * this.quantity > this.balances.drugs ||
+        this.unit.weapons_cost * this.quantity > this.balances.weapons ||
+        this.unit.alcohols_cost * this.quantity > this.balances.alcohols
       );
     },
     ownItem() {
@@ -116,7 +116,6 @@ export default {
         const now = new Date().getTime();
         return pendingUpdate >= now;
       }
-
       const nextUpdate = new Date(this.ownItem.next_update).getTime();
       const now = new Date().getTime();
       return nextUpdate >= now;

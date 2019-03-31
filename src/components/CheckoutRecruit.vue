@@ -71,7 +71,6 @@ export default {
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;
         }
-
         const nextUpdate = new Date(unit.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;

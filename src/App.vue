@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
+    <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
     <source src="/img/background.mp4" type="video/mp4">
-    </video>
+    </video> -->
     <Splash v-if="showLoading"/>
     <template v-else>
       <TopNav v-if="username"/>

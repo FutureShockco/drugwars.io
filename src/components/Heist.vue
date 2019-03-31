@@ -32,12 +32,6 @@ export default {
     };
   },
   computed: {
-    drugs_balance() {
-      return (
-        this.$store.state.game.user.user.drugs_balance -
-        this.$store.state.game.user.user.drugs_pending
-      );
-    },
     prizeProps() {
       return this.$store.state.game.prizeProps;
     },

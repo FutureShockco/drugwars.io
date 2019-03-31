@@ -169,11 +169,18 @@ client.subscribe((data, message) => {
       message: 'You are under attack!',
     });
   }
+  if (message[1].body === 'startattack') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Your troops are on their way for their destination!',
+    });
+  }
   if (message[1].body === 'unit') {
     store.dispatch('init');
     store.dispatch('notify', {
       type: 'success',
-      message: 'Your troop are now available in the bootcamp!',
+      message: 'Your troops are now available in the bootcamp!',
     });
   }
 });

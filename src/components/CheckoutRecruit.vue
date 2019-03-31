@@ -54,7 +54,8 @@ export default {
   },
   computed: {
     updateTime() {
-      return utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+      return (this.coeff * 160 - (this.level * 25) / 100) * this.quantity * 1000;
+      // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
     },
     priceInSteem() {
       return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(

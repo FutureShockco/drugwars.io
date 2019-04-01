@@ -56,7 +56,14 @@ export default {
     },
     timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (building && building.next_update) {
+      if (building) {
+        if (building.pending_update) {
+          const nextUpdate = new Date(building.pending_update).getTime();
+          const now = this.$store.state.ui.timestamp;
+          const timeToWait = nextUpdate - now;
+          return timeToWait > 0 ? timeToWait : 0;
+        }
+
         const nextUpdate = new Date(building.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;

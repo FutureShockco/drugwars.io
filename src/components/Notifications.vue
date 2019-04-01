@@ -7,7 +7,7 @@
       v-for="(item, key) in items"
       :class="`flash-${item.type}`"
       :key="key"
-      v-if="timestamp < item.timestamp + 5"
+      v-if="timestamp < item.timestamp + 10"
     >
       {{ item.message }}
     </div>

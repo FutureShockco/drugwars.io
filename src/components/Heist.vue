@@ -7,7 +7,7 @@
             v-model="amount" type="number" min="0">
             <button :disabled="isLoading || balances.drugs < amount" 
             type="submit" class="button button-red btn-block">
-            <span v-if="!isLoading">Invest</span>
+            <span v-if="!isLoading">Deposit</span>
             <Loading v-else/>
           </button>
         </form>

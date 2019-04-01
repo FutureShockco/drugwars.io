@@ -13,16 +13,16 @@ function jsonParse(input) {
 const getBalances = (user, ocLvl, timestamp) => {
   const time = (timestamp - new Date(user.last_update).getTime()) / 1000;
   let drugs =
-    user.drugs_balance -
-    user.drugs_pending +
+    (user.drugs_balance -
+    user.drugs_pending) +
     Number(parseFloat(time * user.drug_production_rate).toFixed(2));
   let weapons =
-    user.weapons_balance -
-    user.weapons_pending +
+    (user.weapons_balance -
+    user.weapons_pending) +
     Number(parseFloat(time * user.weapon_production_rate).toFixed(2));
   let alcohols =
-    user.alcohols_balance -
-    user.alcohols_pending +
+    (user.alcohols_balance -
+    user.alcohols_pending) +
     Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
   if (ocLvl > 0) {
     drugs += (ocLvl + time * user.drug_production_rate) * 0.005;

@@ -111,7 +111,6 @@ export default {
     inProgress() {
       if (!this.ownItem) return false;
       if (this.ownItem.pending_update) {
-        console.log(this.ownItem.pending_update);
         const pendingUpdate = new Date(this.ownItem.pending_update).getTime();
         const now = new Date().getTime();
         return pendingUpdate >= now;

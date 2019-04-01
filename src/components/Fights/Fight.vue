@@ -31,9 +31,15 @@
           />
         </div>
         <h1 class="mt-3" v-else>VS</h1>
-        <span class="mt-3" v-if="timeToWait">
+        <span class="mt-3" v-if="timeToWait && fight.is_stable">
           Start in {{ timeToWait | ms }}
         </span>
+         <span class="mt-3" v-else-if="fight.is_stable">
+           Ended
+         </span>
+          <span class="mt-3" v-else>
+           Preparation
+         </span>
          <Icon v-if="share" class="logo" name="logo"/>
          <h4 v-if="share">JOIN US!</h4>
       </div>
@@ -79,14 +85,14 @@
     </div>
     <div class="text-center">
       <span v-if="!share" class="mr-2">
-        Fight
-        #{{ fight.fight_key.slice(0, 10) }}
-        {{ fight.is_done ? 'ended' : 'incoming' }}
+        <!-- Fight
+        #{{ fight.fight_key.slice(0, 10) }} -->
+        <!-- {{ fight.is_done ? 'ended' : 'incoming' }} -->
       </span>
       <span v-if="!fight.is_stable" class="mr-2">
-        (pending confirmation)
+        (Waiting for confirmation)
       </span>
-      <div>
+      <div v-if="fight.is_stable">
         Start :  {{start}} - End : {{end}}
       </div>
        <Share :fight="this.fight" :fight_key="this.fight.fight_key"/> 
@@ -108,7 +114,7 @@ export default {
   },
   computed: {
     timeToWait() {
-      const timeToWait = this.fight.timestamp_end * 1000 - this.$store.state.ui.timestamp;
+      const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
       return timeToWait > 0 ? timeToWait : 0;
     },
     start() {
@@ -116,7 +122,7 @@ export default {
       return start;
     },
     end() {
-      const end = new Date(this.fight.timestamp_end * 1000).toLocaleString();
+      const end = new Date(this.fight.end_date).toLocaleString();
       return end;
     },
     result() {

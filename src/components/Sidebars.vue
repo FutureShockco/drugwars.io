@@ -36,7 +36,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: left 0.3s;
-    background: linear-gradient(#000000a3, #050505d1), url(/img/fake-brick.png);
+    background: linear-gradient(#0000007a, #050505a4), url(/img/fake-brick.png);
     @media @bp-small {
       top: @topnav-height;
     }

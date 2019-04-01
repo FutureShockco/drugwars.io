@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { utils } from 'drugwars';
+// import { utils } from 'drugwars';
 
 export default {
   props: ['id', 'level', 'coeff', 'inProgress', 'price', 'quantity', 'notEnough'],
@@ -54,7 +54,8 @@ export default {
   },
   computed: {
     updateTime() {
-      return utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+      return (this.coeff * 160 - (this.level * 25) / 100) * this.quantity * 1000;
+      // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
     },
     priceInSteem() {
       return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(
@@ -64,6 +65,12 @@ export default {
     timeToWait() {
       const unit = this.$store.state.game.user.units.find(b => b.unit === this.id);
       if (unit) {
+        if (unit.pending_update) {
+          const nextUpdate = new Date(unit.pending_update).getTime();
+          const now = this.$store.state.ui.timestamp;
+          const timeToWait = nextUpdate - now;
+          return timeToWait > 0 ? timeToWait : 0;
+        }
         const nextUpdate = new Date(unit.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;

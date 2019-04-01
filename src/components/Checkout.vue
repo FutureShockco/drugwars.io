@@ -1,23 +1,18 @@
 <template>
-  <div class="checkout mb-4">
-    <div class="mb-2">
-      <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : updateTime | ms }}
-    </div>
+    <div class="checkout mb-4">
+        <div class="mb-2">
+            <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
+        </div>
+    
+        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" @click="handleSubmit()" class="button btn-block button-green mb-2">
+              <template v-if="isLoading || waitingConfirmation">
+                <Loading/>
+</template>
 
-    <button
-      :class="{ progress: inProgress }"
-      :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate"
-      @click="handleSubmit()"
-      class="button btn-block button-green mb-2"
-    >
-      <template v-if="isLoading || waitingConfirmation">
-        <Loading/>
-      </template>
-      <template v-else>
-        <i class="iconfont icon-tools"/>
-        {{ upgradeLabel }}
-      </template>
+<template v-else>
+    <i class="iconfont icon-tools" />
+    {{ upgradeLabel }}
+</template>
     </button>
 
     <div class="mb-2">Instant upgrade</div>
@@ -61,7 +56,7 @@ export default {
     },
     timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (building) {
+      if (building && building.next_update) {
         const nextUpdate = new Date(building.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;

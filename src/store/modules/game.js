@@ -217,7 +217,7 @@ const actions = {
   send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      payload = poney(payload); // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEventNext(username, payload, (err, result) => {
         if (err) return reject(err);
         return resolve(result);

@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { utils } from 'drugwars';
+// import { utils } from 'drugwars';
 
 export default {
   props: ['id', 'level', 'coeff', 'inProgress', 'price', 'quantity', 'notEnough'],

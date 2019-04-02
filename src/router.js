@@ -189,7 +189,7 @@ export default new Router({
       component: Leaderboards,
     },
     {
-      path: '/leaderboards/heistboard',
+      path: '/leaderboards/heist',
       name: 'heistboard',
       beforeEnter: requireAuth,
       component: Heistboard,

@@ -2,7 +2,7 @@
   <Header>
     <UiTabs>
       <UiTab to="/leaderboards">Drug Production</UiTab>
-      <UiTab to="/leaderboards/heistboard">Heist Deposit</UiTab>
+      <UiTab to="/leaderboards/heist">Heist Deposit</UiTab>
     </UiTabs>
   </Header>
 </template>

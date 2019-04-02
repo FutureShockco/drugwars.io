@@ -36,7 +36,7 @@
         <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
-    <div class="column col-4">
+    <div v-if="player.drug_production_rate" class="column col-4">
       <h5 class="production">
         <span class="mr-3">
           <Icon name="drug" size="22"/>
@@ -53,6 +53,15 @@
       </h5>
     </div>
 
+    <div v-else class="column col-4">
+      <h5 class="production">
+        <span class="mr-3">
+          TOTAL DEPOSIT : 
+          <Icon name="drug" size="22"/>
+          {{ player.drugs | amount}}
+        </span>
+      </h5>
+    </div>
   </div>
 </template>
 

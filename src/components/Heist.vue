@@ -5,7 +5,7 @@
         <form @submit.prevent="handleSubmit" class="mb-2">
             <input class="input form-control input-block mb-2" 
             v-model="amount" type="number" min="0">
-            <button :disabled="isLoading || balances.drugs < amount || amount <1" 
+            <button :disabled="isLoading || Number(balances.drugs) < Number(amount)" 
             type="submit" class="button button-red btn-block">
             <span v-if="!isLoading">Deposit</span>
             <Loading v-else/>
@@ -21,12 +21,15 @@
 <script>
 import { mapActions } from 'vuex';
 import { getBalances } from '@/helpers/utils';
+import Promise from 'bluebird';
 
 export default {
   data() {
     return {
       isLoading: false,
-      amount: 0,
+      amount:
+        this.$store.state.game.user.user.drugs_balance -
+        this.$store.state.game.user.user.drugs_pending,
     };
   },
   computed: {
@@ -61,16 +64,20 @@ export default {
   methods: {
     ...mapActions(['investHeist']),
     handleSubmit() {
-      if (this.amount >= 1) {
-        this.isLoading = true;
-        this.investHeist(this.amount)
-          .then(() => {
-            this.isLoading = false;
-          })
-          .catch(e => {
-            console.error('Failed to invest on heist', e);
-            this.isLoading = false;
+      if(Number(this.amount) > 0)
+      {
+      this.isLoading = true;
+      this.investHeist(this.amount)
+        .then(() => {
+          this.isLoading = false;
+          Promise.delay(6000).then(() => {
+            this.amount = this.balances.drugs;
           });
+        })
+        .catch(e => {
+          console.error('Failed to invest on heist', e);
+          this.isLoading = false;
+        });
       }
     },
     handleFullSubmit() {

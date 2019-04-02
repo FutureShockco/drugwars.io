@@ -108,12 +108,12 @@ export default {
                           parent_author: '',
                           parent_permlink: 'drugwars-fight',
                           author: self.$store.state.auth.username,
-                          permlink: key.slice(0, 10),
+                          permlink: self.$store.state.auth.username+key.slice(0, 10),
                           title: `Check my latest fight ! ${self.fight.username} vs ${
                             self.fight.target
                           }`,
                           body: `<a href="https://drugwars.io/i/${
-                            self.username
+                           self.$store.state.auth.username
                           }"><img src="${imgurl.toLowerCase()}"></a>`,
                           json_metadata: JSON.stringify({
                             content: 'fight',

@@ -101,6 +101,7 @@ const actions = {
           }
         })
         .catch(err => {
+          console.log(err)
           handleError(dispatch, err, 'Loading account failed');
           return reject(err);
         });
@@ -114,7 +115,7 @@ const actions = {
         icon: '5',
         referrer: localStorage.getItem('drugwars_referrer') || null,
       };
-      sc.customEvent(username, 'dw-char', payload, (err, result) => {
+      sc.customEventSignup(username, 'dw-char', payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Sign up failed');
           return reject(err);

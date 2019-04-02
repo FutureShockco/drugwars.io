@@ -39,4 +39,20 @@ client.customEvent = (author, payload, cb) =>
     cb,
   );
 
+client.customEventSignup = (username, type, payload, cb) =>
+  client.broadcast(
+    [
+      [
+        'custom_json',
+        {
+          id: type,
+          required_auths: [],
+          required_posting_auths: [username],
+          json: JSON.stringify(payload),
+        },
+      ],
+    ],
+    cb,
+  );
+
 export default client;

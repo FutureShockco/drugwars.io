@@ -101,7 +101,7 @@ const actions = {
           }
         })
         .catch(err => {
-          console.log(err)
+          console.log(err);
           handleError(dispatch, err, 'Loading account failed');
           return reject(err);
         });

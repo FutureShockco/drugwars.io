@@ -48,7 +48,18 @@ const mutations = {
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
-  if (message[1].body === 'update') store.dispatch('init');
+  if (message[1].body === 'update') 
+  {
+    store.dispatch('init');
+  }
+  if (message[1].body === 'complete') 
+  {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Upgrade complete!',
+    });
+  }
   if (message[1].body === 'fight') {
     store.dispatch('init');
   }

@@ -22,7 +22,7 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }} -
+      ${{ price | amount }} =
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
@@ -31,7 +31,7 @@
       class="button btn-block button-yellow mb-2"
     >
     <img class="futureicon" src="/img/icons/future.png"/>
-      ${{ price - price /100*20 | amount }} -
+      ${{ price - price /100*20 | amount }} =
       {{ priceInFuture | amount }} FUTURE
     </button>
   </div>

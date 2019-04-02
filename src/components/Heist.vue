@@ -5,7 +5,7 @@
         <form @submit.prevent="handleSubmit" class="mb-2">
             <input class="input form-control input-block mb-2" 
             v-model="amount" type="number" min="0">
-            <button :disabled="isLoading || balances.drugs < amount" 
+            <button :disabled="isLoading || balances.drugs < amount || amount <1" 
             type="submit" class="button button-red btn-block">
             <span v-if="!isLoading">Deposit</span>
             <Loading v-else/>
@@ -26,9 +26,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      amount:
-        this.$store.state.game.user.user.drugs_balance -
-        this.$store.state.game.user.user.drugs_pending,
+      amount: 0,
     };
   },
   computed: {
@@ -63,15 +61,17 @@ export default {
   methods: {
     ...mapActions(['investHeist']),
     handleSubmit() {
-      this.isLoading = true;
-      this.investHeist(this.amount)
-        .then(() => {
-          this.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed to invest on heist', e);
-          this.isLoading = false;
-        });
+      if (this.amount >= 1) {
+        this.isLoading = true;
+        this.investHeist(this.amount)
+          .then(() => {
+            this.isLoading = false;
+          })
+          .catch(e => {
+            console.error('Failed to invest on heist', e);
+            this.isLoading = false;
+          });
+      }
     },
     handleFullSubmit() {
       this.amount = this.balances.drugs;

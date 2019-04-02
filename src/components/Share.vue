@@ -44,7 +44,6 @@ export default {
     handleShareFight(where) {
       const self = this;
       self.share = true;
-      const key = this.fight_key;
       const cloudName = 'hightouch';
       const unsignedUploadPreset = 'nrmzes4b';
       const xhr = new XMLHttpRequest();
@@ -108,12 +107,13 @@ export default {
                           parent_author: '',
                           parent_permlink: 'drugwars-fight',
                           author: self.$store.state.auth.username,
-                          permlink: self.$store.state.auth.username+key.slice(0, 10),
+                          permlink:
+                            self.$store.state.auth.username + self.fight.fight_key.slice(0, 10),
                           title: `Check my latest fight ! ${self.fight.username} vs ${
                             self.fight.target
                           }`,
                           body: `<a href="https://drugwars.io/i/${
-                           self.$store.state.auth.username
+                            self.$store.state.auth.username
                           }"><img src="${imgurl.toLowerCase()}"></a>`,
                           json_metadata: JSON.stringify({
                             content: 'fight',
@@ -126,7 +126,8 @@ export default {
                         'comment_options',
                         {
                           author: self.$store.state.auth.username,
-                          permlink: key.slice(0, 10),
+                          permlink:
+                            self.$store.state.auth.username + self.fight.fight_key.slice(0, 10),
                           max_accepted_payout: '1000000.000 SBD',
                           percent_steem_dollars: 10000,
                           allow_votes: true,

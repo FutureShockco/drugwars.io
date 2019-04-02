@@ -123,16 +123,12 @@ const actions = {
         return resolve(result);
       });
     }),
-  upgradeBuilding: ({ rootState, dispatch }, { id, level }) =>
+  upgradeBuilding: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      let payload = {
-        username,
-        building: id,
-        level,
-        type: 'dw-upgrades',
-      };
-      payload = poney(JSON.stringify(payload));
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Upgrade building failed');
@@ -141,16 +137,12 @@ const actions = {
         return resolve(result);
       });
     }),
-  recruitUnit: ({ rootState, dispatch }, { unit, amount }) =>
+  recruitUnit: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      let payload = {
-        username,
-        unit,
-        unit_amount: Number(amount),
-        type: 'dw-units',
-      };
-      payload = poney(JSON.stringify(payload));
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Recruit unit failed');

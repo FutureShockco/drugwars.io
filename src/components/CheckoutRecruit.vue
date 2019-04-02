@@ -72,7 +72,7 @@ export default {
       );
     },
     priceInFuture() {
-      return ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3);
+      return ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(0);
     },
     notEnoughFuture() {
       return (
@@ -103,9 +103,10 @@ export default {
       if (this.quantity > 0) {
         this.isLoading = true;
         let payload = {};
-        if (use === 'future') payload = { unit: this.id, amount: this.quantity, use: 'future' };
+        if (use === 'future')
+          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'future' };
         else {
-          payload = { unit: this.id, amount: this.quantity, use: 'resources' };
+          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'resources' };
         }
         this.recruitUnit(payload)
           .then(() => {

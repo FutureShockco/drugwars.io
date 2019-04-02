@@ -45,7 +45,7 @@
     <li>
       <Icon name="future" size="36"/>
         <div class="balance">
-        <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
+        <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
         
        <h5 class="ml-0 mt-1 mb-6 text-left">
       <router-link to="/future">

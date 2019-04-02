@@ -64,7 +64,7 @@ export default {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInFuture() {
-      return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(3);
+      return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
     },
     notEnoughFuture() {
       return (
@@ -105,10 +105,11 @@ export default {
     handleSubmit(use) {
       this.isLoading = true;
       let payload = {};
-      if (use === 'future') payload = { unit: this.id, amount: this.quantity, use: 'future' };
+      if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
       else {
-        payload = { unit: this.id, amount: this.quantity, use: 'resources' };
+        payload = { building: this.id, level: this.level, use: 'resources' };
       }
+      console.log(payload);
       this.upgradeBuilding(payload)
         .then(() => {
           this.waitingConfirmation = true;

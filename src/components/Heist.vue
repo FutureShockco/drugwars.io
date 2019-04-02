@@ -64,20 +64,19 @@ export default {
   methods: {
     ...mapActions(['investHeist']),
     handleSubmit() {
-      if(Number(this.amount) > 0)
-      {
-      this.isLoading = true;
-      this.investHeist(this.amount)
-        .then(() => {
-          this.isLoading = false;
-          Promise.delay(6000).then(() => {
-            this.amount = this.balances.drugs;
+      if (Number(this.amount) > 0) {
+        this.isLoading = true;
+        this.investHeist(this.amount)
+          .then(() => {
+            this.isLoading = false;
+            Promise.delay(6000).then(() => {
+              this.amount = this.balances.drugs;
+            });
+          })
+          .catch(e => {
+            console.error('Failed to invest on heist', e);
+            this.isLoading = false;
           });
-        })
-        .catch(e => {
-          console.error('Failed to invest on heist', e);
-          this.isLoading = false;
-        });
       }
     },
     handleFullSubmit() {

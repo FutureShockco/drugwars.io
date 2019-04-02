@@ -27,7 +27,9 @@ const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Leaderboards = () =>
-  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards.vue');
+  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
+const Heistboard = () =>
+  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Heistboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -185,6 +187,12 @@ export default new Router({
       name: 'leaderboards',
       beforeEnter: requireAuth,
       component: Leaderboards,
+    },
+    {
+      path: '/leaderboards/heist',
+      name: 'heistboard',
+      beforeEnter: requireAuth,
+      component: Heistboard,
     },
     {
       path: '/referral',

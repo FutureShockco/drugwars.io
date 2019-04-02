@@ -20,6 +20,7 @@
                 <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 10000 + 25000 * (ownItem.lvl+1) + (10000 + ((25000 * (ownItem.lvl+1)) / 100) * 10) | amount }}</div>
                 <div v-else><b>Next capacity:</b> {{ 10000 + 25000 * 1 + (10000 + ((25000 * 1) / 100) * 10) | amount }}</div>
                 <div v-if="ownItem.lvl"><b>Safe:</b> {{ (10000 + 25000 * ownItem.lvl + (10000 + ((25000 * ownItem.lvl) / 100) * 10)) /100*25 | amount }}</div>
+                <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ (10000 + 25000 * (ownItem.lvl+1) + (10000 + ((25000 * (ownItem.lvl+1)) / 100) * 10)) /100*25 | amount }}</div>
                 <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
             </div>
         </div>

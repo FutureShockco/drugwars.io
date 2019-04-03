@@ -15,7 +15,7 @@
       class="button btn-block button-blue mb-2 mt-6">
       <i class="iconfont icon-zap"/>
       ${{ item.price | amount }} -
-      {{ priceInSteem/100 | amount }} STEEM
+      {{ priceInSteem | amount }} STEEM
     </button>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
   props: ['item'],
   computed: {
     priceInSteem() {
-      return (this.item.price / this.$store.state.game.prizeProps.steemprice/100).toFixed(3);
+      return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
   },
   methods: {

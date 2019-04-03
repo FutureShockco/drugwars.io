@@ -48,16 +48,21 @@ const mutations = {
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
-  if (message[1].body === 'update') 
-  {
+  if (message[1].body === 'update') {
     store.dispatch('init');
   }
-  if (message[1].body === 'complete') 
-  {
+  if (message[1].body === 'complete') {
     store.dispatch('init');
     store.dispatch('notify', {
       type: 'success',
       message: 'Upgrade complete!',
+    });
+  }
+  if (message[1].body === 'future') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'You received your FUTURE Tokens!',
     });
   }
   if (message[1].body === 'fight') {

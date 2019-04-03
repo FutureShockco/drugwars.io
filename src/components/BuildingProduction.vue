@@ -22,7 +22,9 @@ export default {
   props: ['level', 'coeff', 'production_rate', 'compactview'],
   computed: {
     perhour() {
-      const perhour = Number( parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2));
+      const perhour = Number(
+        parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2),
+      );
       return perhour + (perhour / 100) * this.level;
     },
     current() {

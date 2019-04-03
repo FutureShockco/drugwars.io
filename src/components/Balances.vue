@@ -45,13 +45,13 @@
     <li>
       <Icon name="future" size="36"/>
         <div class="balance">
-        <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
-        
-       <h5 class="ml-0 mt-1 mb-6 text-left">
+        <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
+       <h5 class="ml-0 mt-1 mb-0 text-left">
       <router-link to="/future">
         Withdraw
       </router-link>
     </h5>
+            <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
      <li>
@@ -155,6 +155,11 @@ export default {
 <style scoped lang="less">
 @import '../vars.less';
 
+.sync {
+  margin-top: -8px !important;
+  font-size: 12px;
+}
+
 .balances {
   color: white;
   font-size: 28px;
@@ -162,6 +167,7 @@ export default {
   display: inline-flex;
   line-height: 22px;
   font-family: @heading-font;
+  text-align: left !important;
   li {
     padding: 15px 5px 0px 5px;
     border-left: 1px rgb(10, 10, 10) solid;
@@ -206,7 +212,7 @@ export default {
   .balances {
     display: flex;
     font-size: 16px !important;
-    margin-top: 15px !important;
+    margin-top: 24px !important;
     line-height: 12px !important;
     li {
       padding: 5px;
@@ -249,7 +255,7 @@ export default {
   .balances {
     display: inline-flex;
     font-size: 20px !important;
-    margin-top: 10px !important;
+    margin-top: 14px !important;
     line-height: 16px !important;
     li {
       padding: 15px;

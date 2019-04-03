@@ -48,7 +48,23 @@ const mutations = {
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
-  if (message[1].body === 'update') store.dispatch('init');
+  if (message[1].body === 'update') {
+    store.dispatch('init');
+  }
+  if (message[1].body === 'complete') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Upgrade complete!',
+    });
+  }
+  if (message[1].body === 'future') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'You received your FUTURE Tokens!',
+    });
+  }
   if (message[1].body === 'fight') {
     store.dispatch('init');
   }
@@ -109,13 +125,11 @@ const actions = {
   signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      const payload = {
-        user_id: '5',
-        username,
-        icon: '5',
-        referrer: localStorage.getItem('drugwars_referrer') || null,
-      };
-      sc.customEventSignup(username, 'dw-char', payload, (err, result) => {
+      const payload = {};
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
+      sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Sign up failed');
           return reject(err);
@@ -123,16 +137,12 @@ const actions = {
         return resolve(result);
       });
     }),
-  upgradeBuilding: ({ rootState, dispatch }, { id, level }) =>
+  upgradeBuilding: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      let payload = {
-        username,
-        building: id,
-        level,
-        type: 'dw-upgrades',
-      };
-      payload = poney(JSON.stringify(payload));
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Upgrade building failed');
@@ -141,16 +151,12 @@ const actions = {
         return resolve(result);
       });
     }),
-  recruitUnit: ({ rootState, dispatch }, { unit, amount }) =>
+  recruitUnit: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      let payload = {
-        username,
-        unit,
-        unit_amount: Number(amount),
-        type: 'dw-units',
-      };
-      payload = poney(JSON.stringify(payload));
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Recruit unit failed');
@@ -170,7 +176,6 @@ const actions = {
         amount: Number(amount),
         type: 'dw-heists',
       };
-      console.log(payload);
       payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {

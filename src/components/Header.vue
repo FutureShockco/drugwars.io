@@ -25,7 +25,7 @@ export default {
   color: @white-darker;
   font-size: 20px;
   z-index: 100;
-  top: 84px;
+  top: 94px;
   width: 100%;
   height: @header-height;
   line-height: @header-height;

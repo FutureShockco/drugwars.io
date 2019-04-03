@@ -94,7 +94,7 @@
               Rewards
             </router-link>
           </li>
-          <!-- <li>
+          <li>
             <router-link
               to="/shop"
               class="py-1 px-4 d-block"
@@ -102,7 +102,7 @@
             >
               Shop
             </router-link>
-          </li> -->
+          </li>
         </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>

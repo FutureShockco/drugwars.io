@@ -10,9 +10,9 @@
           :key="unit.id"
         />
       </div>
-      <p v-else>
-        You must building a training facility first.
-      </p>
+         <div  v-else class="p-2 text-center">
+           <h2>  You must build a training facility first.</h2>
+               </div>
     </div>
   </div>
 </template>

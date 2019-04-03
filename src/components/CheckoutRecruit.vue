@@ -27,8 +27,17 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price * quantity | amount }} -
+      ${{ price * quantity | amount }} =
       {{ priceInSteem | amount }} STEEM
+    </button> 
+    <button
+      :disabled="isLoading || waitingConfirmation ||  notEnoughFuture"
+      @click="handleSubmit('future')"
+      class="button btn-block button-yellow mb-2"
+    >
+    <img class="futureicon" src="/img/icons/future.png"/>
+      ${{ ((price - price /100*20) * this.quantity) | amount }} =
+      {{ priceInFuture | amount }} FUTURE
     </button>
   </div>
 </template>
@@ -62,6 +71,15 @@ export default {
         3,
       );
     },
+    priceInFuture() {
+      return ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(0);
+    },
+    notEnoughFuture() {
+      return (
+        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        this.$store.state.game.user.user.future - this.$store.state.game.user.user.future_pending
+      );
+    },
     timeToWait() {
       const unit = this.$store.state.game.user.units.find(b => b.unit === this.id);
       if (unit) {
@@ -81,18 +99,25 @@ export default {
   },
   methods: {
     ...mapActions(['recruitUnit', 'requestPayment']),
-    handleSubmit() {
-      this.isLoading = true;
-      this.recruitUnit({ unit: this.id, amount: this.quantity })
-        .then(result => {
-          console.log('Result', result);
-          this.waitingConfirmation = true;
-          this.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed', e);
-          this.isLoading = false;
-        });
+    handleSubmit(use) {
+      if (this.quantity > 0) {
+        this.isLoading = true;
+        let payload = {};
+        if (use === 'future')
+          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'future' };
+        else {
+          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'resources' };
+        }
+        this.recruitUnit(payload)
+          .then(() => {
+            this.waitingConfirmation = true;
+            this.isLoading = false;
+          })
+          .catch(e => {
+            console.error('Failed', e);
+            this.isLoading = false;
+          });
+      }
     },
     handleRequestPayment() {
       this.requestPayment({
@@ -108,5 +133,13 @@ export default {
 .checkout {
   text-align: center;
   width: 180px;
+}
+
+.futureicon {
+  width: 22px;
+  left: 0px;
+  position: relative;
+  float: left;
+  top: 5px;
 }
 </style>

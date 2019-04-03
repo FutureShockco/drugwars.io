@@ -207,7 +207,7 @@ export default {
   .balances {
     display: flex;
     font-size: 16px !important;
-    margin-top: 15px !important;
+    margin-top: 24px !important;
     line-height: 12px !important;
     li {
       padding: 5px;
@@ -250,7 +250,7 @@ export default {
   .balances {
     display: inline-flex;
     font-size: 20px !important;
-    margin-top: 10px !important;
+    margin-top: 14px !important;
     line-height: 16px !important;
     li {
       padding: 15px;

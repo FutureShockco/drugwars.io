@@ -1,4 +1,5 @@
 <template>
+    <div>
   <div class="topnav brush-black">
     <div class="topnav-content d-flex mx-auto">
       <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
@@ -15,6 +16,12 @@
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div> -->
     </div>
+    </div>
+            <div class="prize mx-auto">
+                {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
+                        id="earnings" style="color:#fbbd08;font-weight: 700;">{{Number(totalRewards.myRewards)}}</span>
+                STEEM based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
+        </div>
   </div>
 </template>
 
@@ -28,6 +35,34 @@ export default {
         this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
     },
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
+    },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    overall() {
+      return parseFloat(
+        (100 * this.$store.state.game.user.user.drug_production_rate) /
+          this.$store.state.game.prizeProps.drug_production_rate,
+      ).toFixed(3);
+    },
+    totalVest() {
+      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
+    },
+    totalReward() {
+      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
+    },
+    totalRewards() {
+      const totalDailySteem =
+        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const myRewards = parseFloat(
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem,
+      ).toFixed(3);
+      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
+      const amount = parseFloat((this.totalReward / 100) * percent).toFixed(3);
+      return { myRewards, amount };
+    },
   },
   methods: mapActions(['toggleSidebarVisibility']),
 };
@@ -35,6 +70,21 @@ export default {
 
 <style lang="less" scoped>
 @import '../vars';
+@media screen and (min-width: 200px) and (max-width: 1119px) {
+  .prize {
+    visibility: hidden;
+  }
+}
+.prize {
+  color: rgb(153, 153, 153);
+  position: fixed;
+  top: 74px;
+  z-index: 1500;
+  text-align: center;
+  font-size: 12px;
+  max-width: 1120px;
+  width: 100%;
+}
 
 .topnav {
   color: @heading-color;
@@ -70,7 +120,7 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
-    height: 84px;
+    height: 94px;
     .prize {
       font-size: 22px;
       font-family: @heading-font;

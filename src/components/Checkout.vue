@@ -26,7 +26,7 @@
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || notEnoughFuture"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >
@@ -94,8 +94,8 @@ export default {
     },
     upgradeLabel() {
       let label = 'Upgrade';
-      if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.notEnough) label = 'Miss resources';
+      if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.inProgress) label = 'Upgrading';
       return label;
     },
@@ -109,7 +109,6 @@ export default {
       else {
         payload = { building: this.id, level: this.level, use: 'resources' };
       }
-      console.log(payload);
       this.upgradeBuilding(payload)
         .then(() => {
           this.waitingConfirmation = true;

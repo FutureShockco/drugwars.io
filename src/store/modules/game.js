@@ -125,13 +125,11 @@ const actions = {
   signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      const payload = {
-        user_id: '5',
-        username,
-        icon: '5',
-        referrer: localStorage.getItem('drugwars_referrer') || null,
-      };
-      sc.customEventSignup(username, 'dw-char', payload, (err, result) => {
+      const payload = {};
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
+      sc.customEvent(username, payload, (err, result) => {
         if (err) {
           handleError(dispatch, err, 'Sign up failed');
           return reject(err);
@@ -178,7 +176,6 @@ const actions = {
         amount: Number(amount),
         type: 'dw-heists',
       };
-      console.log(payload);
       payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
       sc.customEvent(username, payload, (err, result) => {
         if (err) {

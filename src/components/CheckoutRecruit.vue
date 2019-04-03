@@ -31,7 +31,7 @@
       {{ priceInSteem | amount }} STEEM
     </button> 
     <button
-      :disabled="isLoading || waitingConfirmation || notEnoughFuture"
+      :disabled="isLoading || waitingConfirmation ||  notEnoughFuture"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >

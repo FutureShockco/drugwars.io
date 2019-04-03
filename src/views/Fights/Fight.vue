@@ -104,8 +104,8 @@ export default {
       this.selectedUnits = [];
       this.message = null;
     },
-    removeUnits(){
-      this.selectedUnits =[]
+    removeUnits() {
+      this.selectedUnits = [];
     },
     async handleSubmit() {
       this.isLoading = true;

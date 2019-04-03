@@ -155,7 +155,7 @@ export default {
 <style scoped lang="less">
 @import '../vars.less';
 
-.sync{
+.sync {
   margin-top: -8px !important;
   font-size: 12px;
 }

@@ -46,12 +46,12 @@
       <Icon name="future" size="36"/>
         <div class="balance">
         <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
-        
-       <h5 class="ml-0 mt-1 mb-6 text-left">
+       <h5 class="ml-0 mt-1 mb-0 text-left">
       <router-link to="/future">
         Withdraw
       </router-link>
     </h5>
+            <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
      <li>
@@ -154,6 +154,11 @@ export default {
 
 <style scoped lang="less">
 @import '../vars.less';
+
+.sync{
+  margin-top: -8px !important;
+  font-size: 12px;
+}
 
 .balances {
   color: white;

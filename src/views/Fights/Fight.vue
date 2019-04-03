@@ -20,14 +20,17 @@
         </div>
         <div class="mb-4">
           <h5>Your selected army</h5>
-          <Army
+          <ArmyToSend
             :units="selectedUnits"
           />
-          <div v-if="selectedUnits.length === 0">
-            <p>You need to select at least 1 unit.</p>
-          </div>
         </div>
         <div class="mb-4 form">
+                    <div v-if="selectedUnits.length === 0">
+            <p>You need to select at least 1 unit.</p>
+          </div>
+          <div v-else>
+              <button class="button button-blue btn-block" @click="removeUnits()">Remove all</button>
+          </div>
           <h3>Select your target user</h3>
           <input
             class="input form-control btn-block mb-6"
@@ -100,6 +103,9 @@ export default {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
+    },
+    removeUnits(){
+      this.selectedUnits =[]
     },
     async handleSubmit() {
       this.isLoading = true;

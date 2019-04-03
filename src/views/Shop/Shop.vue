@@ -1,7 +1,7 @@
 <template>
   <div>
     <ShopTabs/>
-        <div class="p-4 text-center">
+        <div class="p-2 text-center">
             <h2>DEALER SHOP</h2>
             <div class="columns">
               <Shopcard
@@ -24,48 +24,60 @@ export default {
       futureitems: [
         {
           id: 'drugwars',
-          name: '500 FUTURE PACK',
+          name: '500 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 2.5,
           ref: 'future',
           quantity: 500,
         },
         {
           id: 'drugwars',
-          name: '1000 FUTURE PACK',
+          name: '1000 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 5,
           ref: 'future',
           quantity: 1000,
         },
         {
           id: 'drugwars',
-          name: '2000 FUTURE PACK',
+          name: '2000 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 10,
           ref: 'future',
           quantity: 2000,
         },
         {
           id: 'drugwars',
-          name: '5000 FUTURE PACK',
+          name: '5000 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 25,
           ref: 'future',
           quantity: 5000,
         },
         {
           id: 'drugwars',
-          name: '10000 FUTURE PACK',
+          name: '10000 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 50,
           ref: 'future',
           quantity: 10000,
         },
         {
           id: 'drugwars',
-          name: '50000 FUTURE PACK',
+          name: '50000 TOKENS',
+          type: 'FUTURE',
           img: 'future',
+          detail: 'Buy any upgrades or units for a cheaper price.',
           price: 250,
           ref: 'future',
           quantity: 50000,

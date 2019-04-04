@@ -21,6 +21,7 @@ const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
 const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Claim.vue');
+const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Deposit.vue');
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
@@ -163,6 +164,12 @@ export default new Router({
       name: 'future',
       beforeEnter: requireAuth,
       component: Claim,
+    },
+    {
+      path: '/deposit',
+      name: 'deposit',
+      beforeEnter: requireAuth,
+      component: Deposit,
     },
     {
       path: '/gangs/create',

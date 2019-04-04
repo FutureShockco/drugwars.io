@@ -1,10 +1,10 @@
 <template>
   <div>
-    <ShopTabs/>
-        <div class="p-2 text-center">
-            <h2>DEALER SHOP</h2>
-            <div class="columns">
-              <Shopcard
+    <RewardsTabs/>
+    <div class="p-2 text-center">
+    <h2>DEALER SHOP</h2>
+    <div class="columns">
+      <Shopcard
         v-for="item in futureitems"
         :item="item"
         :key="item.name"

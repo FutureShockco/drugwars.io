@@ -32,7 +32,14 @@
         </p>
         <p>4. Open your Obyte wallet and click the "Receive" button at the bottom.</p>
         <p class="text-red">5. Check that those two addresses are the same. If not - DON'T DEPOSIT YOUR TOKENS</p>
-        <p>6. Send FUTURE token from your Obyte wallet to "@drugwars" (Obyte username).</p>
+        <p>6. Send FUTURE token from your Obyte wallet to
+          <a href="byteball:%40drugwars?asset=NMuNvOJRO2ZY9L17uKtsa7OYkgsV8LfSBIV9BUoVJPQ%3D">
+            "@drugwars"
+          </a> or
+          <a href="byteball:4XTGGA3Q4DFG7J34DFSO3K36KUOED7XY?asset=NMuNvOJRO2ZY9L17uKtsa7OYkgsV8LfSBIV9BUoVJPQ%3D">
+            "4XTGGA3Q4DFG7J34DFSO3K36KUOED7XY"
+          </a> address.
+        </p>
       </div>
     </div>
   </div>

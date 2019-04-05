@@ -62,7 +62,7 @@
         <p>You don't have any unit to fight.</p>
       </div>
                               <a
-              href="https://simulator.drugwars.io/"
+              href="https://simulator.drugwars.io/next"
               target="_blank"
             >
               Access to the Fight simulator

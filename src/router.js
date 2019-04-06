@@ -20,11 +20,17 @@ const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/T
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
 const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
+const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Claim.vue');
+const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Deposit.vue');
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
+const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
-const Leaderboard = () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue');
+const Leaderboards = () =>
+  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
+const Heistboard = () =>
+  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Heistboard.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -148,6 +154,24 @@ export default new Router({
       component: GangSettings,
     },
     {
+      path: '/claim-token',
+      name: 'claim-token',
+      beforeEnter: requireAuth,
+      component: Claim,
+    },
+    {
+      path: '/future',
+      name: 'future',
+      beforeEnter: requireAuth,
+      component: Claim,
+    },
+    {
+      path: '/deposit',
+      name: 'deposit',
+      beforeEnter: requireAuth,
+      component: Deposit,
+    },
+    {
       path: '/gangs/create',
       name: 'gang-create',
       beforeEnter: requireAuth,
@@ -160,10 +184,22 @@ export default new Router({
       component: Rewards,
     },
     {
-      path: '/leaderboard',
-      name: 'leaderboard',
+      path: '/shop',
+      name: 'shop',
       beforeEnter: requireAuth,
-      component: Leaderboard,
+      component: Shop,
+    },
+    {
+      path: '/leaderboards',
+      name: 'leaderboards',
+      beforeEnter: requireAuth,
+      component: Leaderboards,
+    },
+    {
+      path: '/leaderboards/heist',
+      name: 'heistboard',
+      beforeEnter: requireAuth,
+      component: Heistboard,
     },
     {
       path: '/referral',

@@ -10,6 +10,14 @@
         <li>When players attack or get attacked they have differents options to defend theirself, they can also choose to build more defense and let their defense taking care about the opponents.</li>
         <li>Good luck - all is fair in love and DrugWars!</li>
       </ul>
+    
+          <router-link
+              to="/earlyaccess"
+              class="d-block"
+              @click.native="toggleSidebar"
+            ><h3>
+              Early Access (TOS)</h3>
+            </router-link>
       <h3>Community guides</h3>
       <p>
         <a

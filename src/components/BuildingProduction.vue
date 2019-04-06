@@ -1,7 +1,7 @@
 <template>
     <div class="production">
     <div v-if="production_rate">
-      <span v-if="!compactview">Current:</span>
+      <span v-if="!compactview"><b>Current:</b></span>
       +{{ current | amount }}
          <span>/ DAY</span>
     </div>
@@ -10,7 +10,7 @@
          / HOUR
     </div>
     <div v-if="!compactview">
-      <span>Next:</span>
+      <span><b>Next:</b></span>
       +{{ next | amount }}
       <span>/ DAY</span>
     </div>
@@ -22,15 +22,22 @@ export default {
   props: ['level', 'coeff', 'production_rate', 'compactview'],
   computed: {
     perhour() {
-      return parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2);
+      const perhour = Number(
+        parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2),
+      );
+      return perhour + (perhour / 100) * this.level;
     },
     current() {
-      return parseFloat(this.production_rate * this.level * this.coeff * 60 * 60 * 24).toFixed(2);
+      const current = Number(
+        parseFloat(this.production_rate * this.level * this.coeff * 60 * 60 * 24).toFixed(2),
+      );
+      return current + (current / 100) * this.level;
     },
     next() {
-      return parseFloat(
-        this.production_rate * (this.level + 1) * this.coeff * 60 * 60 * 24,
-      ).toFixed(2);
+      const next = Number(
+        parseFloat(this.production_rate * (this.level + 1) * this.coeff * 60 * 60 * 24).toFixed(2),
+      );
+      return next + (next / 100) * (this.level + 1);
     },
   },
 };

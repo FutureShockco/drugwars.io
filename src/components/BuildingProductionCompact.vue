@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-row border-bottom itemcompact">
-    <img class="mini preview" :src="`/img/buildings/${building.id}.jpg`">
-    <div class="width-full mr-4">
+    <img class="mini preview mt-2" :src="`/img/buildings/${building.id}.jpg`">
+    <div class="width-full">
       <h5 class="ml-2">{{ building.name }} ({{ ownBuilding.lvl }})</h5>
     </div>
      <div v-if="building.production_type" class="right-floated">

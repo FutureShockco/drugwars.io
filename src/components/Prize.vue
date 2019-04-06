@@ -17,7 +17,7 @@
            }}'/>
      </div>
     <div class="prize">
-      <div class="detail">Today prize </div>
+      <div class="detail">Today's prize </div>
        ${{ parseInt(total) }}
         <div class="sub">
           {{totalSteem}} STEEM

@@ -1,7 +1,13 @@
 <template>
   <footer class="footer">
     <ul class="columns mx-2 pb-2 list-style-none">
-      <li class="column col-4">
+      <li class="column col-3">
+          <a @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
+             <i v-if="audio.isPlaying" class="iconfont icon-mute"></i>
+             <i v-else class="iconfont icon-unmute"></i>
+          </a>
+      </li>
+      <li class="column col-3">
         <router-link
           to="/about"
           class="d-block text-center"
@@ -9,7 +15,7 @@
           <i class="iconfont icon-question"/>
         </router-link>
       </li>
-      <li class="column col-4">
+      <li class="column col-3">
         <a
           target="_blank"
           href="https://discord.gg/Cs7Xy7G"
@@ -18,7 +24,7 @@
           <i class="iconfont icon-discord"/>
         </a>
       </li>
-      <li class="column col-4">
+      <li class="column col-3">
         <a
           href="#"
           @click.prevent="logout"
@@ -36,7 +42,30 @@
 import { mapActions } from 'vuex';
 
 export default {
-  methods: mapActions(['logout']),
+  data() {
+    return {
+      audios: [
+        {
+          id: 'drugwars',
+          name: 'DrugWars',
+          file: new Audio('./audio/audio.mp3'),
+          isPlaying: false,
+        },
+      ],
+    };
+  },
+  methods: {
+    ...mapActions(['logout']),
+    play(audio) {
+      audio.isPlaying = true; // eslint-disable-line no-param-reassign
+      audio.loop = true; // eslint-disable-line no-param-reassign
+      audio.file.play();
+    },
+    pause(audio) {
+      audio.isPlaying = false; // eslint-disable-line no-param-reassign
+      audio.file.pause();
+    },
+  },
 };
 </script>
 

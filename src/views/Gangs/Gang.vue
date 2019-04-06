@@ -1,14 +1,15 @@
 <template>
   <div>
     <GangsTabs />
-    <div class="p-4">
+    <div class="p-4 text-center">
       <Loading v-if="isInit" />
       <div v-else>
         <h1 class="mb-4">
-          <GangImage class="mr-3" size="60" v-if="gang.image" :image="gang.image" />
+          <GangImage class="mr-3" size="120" v-if="gang.image" :image="gang.image" />
           {{ gang.name || gang.gang }}
+            <span>[{{ gang.ticker }}]</span>
         </h1>
-        <p>[{{ gang.ticker }}]</p>
+      
         <p v-if="gang.website" class="mb-2">
           <a :href="gang.website" target="_blank">
             {{ gang.website | parseUrl }}
@@ -29,7 +30,7 @@
             <div
               :key="apply.username"
               v-for="apply in applies"
-              class="py-3 border-bottom"
+              class="py-3 border-bottom text-left"
             >
               <Avatar :username="apply.username" size="40" class="mr-2" />
               {{ apply.username }} soldier
@@ -59,15 +60,53 @@
           </div>
         </div>
         <div>
+            <form
+          class="form  text-center"
+          @submit.prevent="handleSubmit"
+          v-if="user.gang !== id && gang.is_stable === 1"
+        >
+          <h3>Apply as soldier</h3>
+          <textarea
+            type="text"
+            class="input input-block mb-2"
+            placeholder="Message to the boss and capos (optional)"
+            v-model="message"
+            maxlength="280"
+          ></textarea>
+          <button
+            type="submit"
+            class="button button-green btn-block mb-2"
+            :disabled="isLoading"
+          >
+            <span v-if="!isLoading">
+              Apply
+            </span>
+            <Loading v-else />
+          </button>
+        </form>
           <h3>Members</h3>
           <div class="mb-4">
             <div
               :key="member.username"
               v-for="member in members"
-              class="py-3 border-bottom"
+              class="py-3 border-bottom text-left"
             >
-              <Avatar :username="member.username" size="40" class="mr-2" />
-              {{ member.username }} {{ member.role }}
+              <router-link
+                :to="`/fight?target=${member.username}`">
+                  <Avatar :username="member.username" size="40" class="mr-2" />
+                  {{ member.username }} {{ member.role }}
+              </router-link>
+              <button
+                @click="handleKick(member.username)"
+                class="button button-red float-right"
+                :disabled="isLoading"
+                v-if="isBoss"
+              >
+                <span v-if="!isLoading">
+                  Kick
+                </span>
+                <Loading v-else />
+              </button>
               <button
                 @click="handleAddCapo(member.username)"
                 class="button button-green float-right"
@@ -85,30 +124,6 @@
             </div>
           </div>
         </div>
-        <form
-          class="form"
-          @submit.prevent="handleSubmit"
-          v-if="user.gang !== id && gang.is_stable === 1"
-        >
-          <h3>Apply as soldier</h3>
-          <textarea
-            type="text"
-            class="input input-block text-left mb-2"
-            placeholder="Message to the boss and capos (optional)"
-            v-model="message"
-            maxlength="280"
-          ></textarea>
-          <button
-            type="submit"
-            class="button button-green btn-block mb-2"
-            :disabled="isLoading"
-          >
-            <span v-if="!isLoading">
-              Apply
-            </span>
-            <Loading v-else />
-          </button>
-        </form>
       </div>
     </div>
   </div>
@@ -159,10 +174,10 @@ export default {
     handleSubmit() {
       this.isLoading = true;
 
-      const payload = { gang: this.id };
+      const payload = { gang: this.id, type: 'gang-soldier-apply' };
       if (this.message) payload.message = this.message;
 
-      this.send({ type: 'gang-soldier-apply', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -183,9 +198,10 @@ export default {
       const payload = {
         gang: this.id,
         soldier,
+        type: 'gang-approve-soldier',
       };
 
-      this.send({ type: 'gang-approve-soldier', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -205,9 +221,10 @@ export default {
       const payload = {
         gang: this.id,
         soldier,
+        type: 'gang-reject-soldier',
       };
 
-      this.send({ type: 'gang-reject-soldier', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -221,15 +238,39 @@ export default {
           this.isLoading = false;
         });
     },
+    handleKick(soldier) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        soldier,
+        type: 'gang-kick-soldier',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `The member ${soldier} has been kicked`,
+          });
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to kick member' });
+          console.error('Failed to kick member', e);
+          this.isLoading = false;
+        });
+    },
     handleAddCapo(capo) {
       this.isLoading = true;
 
       const payload = {
         gang: this.id,
         capo,
+        type: 'gang-add-capo',
       };
 
-      this.send({ type: 'gang-add-capo', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({

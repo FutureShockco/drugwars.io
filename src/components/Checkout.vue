@@ -1,23 +1,18 @@
 <template>
-  <div class="checkout mb-4">
-    <div class="mb-2">
-      <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : updateTime | ms }}
-    </div>
+    <div class="checkout mb-4">
+        <div class="mb-2">
+            <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
+        </div>
+    
+        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" @click="handleSubmit()" class="button btn-block button-green mb-2">
+              <template v-if="isLoading || waitingConfirmation">
+                <Loading/>
+</template>
 
-    <button
-      :class="{ progress: inProgress }"
-      :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate"
-      @click="handleSubmit()"
-      class="button btn-block button-green mb-2"
-    >
-      <template v-if="isLoading || waitingConfirmation">
-        <Loading/>
-      </template>
-      <template v-else>
-        <i class="iconfont icon-tools"/>
-        {{ upgradeLabel }}
-      </template>
+<template v-else>
+    <i class="iconfont icon-tools" />
+    {{ upgradeLabel }}
+</template>
     </button>
 
     <div class="mb-2">Instant upgrade</div>
@@ -27,8 +22,17 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }} -
+      ${{ price | amount }} =
       {{ priceInSteem | amount }} STEEM
+    </button>
+    <button
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture"
+      @click="handleSubmit('future')"
+      class="button btn-block button-yellow mb-2"
+    >
+    <img class="futureicon" src="/img/icons/future.png"/>
+      ${{ price - price /100*20 | amount }} =
+      {{ priceInFuture | amount }} FUTURE
     </button>
   </div>
 </template>
@@ -59,9 +63,25 @@ export default {
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
+    priceInFuture() {
+      return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
+    },
+    notEnoughFuture() {
+      return (
+        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        this.$store.state.game.user.user.future - this.$store.state.game.user.user.future_pending
+      );
+    },
     timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
       if (building) {
+        if (building.pending_update) {
+          const nextUpdate = new Date(building.pending_update).getTime();
+          const now = this.$store.state.ui.timestamp;
+          const timeToWait = nextUpdate - now;
+          return timeToWait > 0 ? timeToWait : 0;
+        }
+
         const nextUpdate = new Date(building.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;
@@ -74,17 +94,22 @@ export default {
     },
     upgradeLabel() {
       let label = 'Upgrade';
-      if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.notEnough) label = 'Miss resources';
+      if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.inProgress) label = 'Upgrading';
       return label;
     },
   },
   methods: {
     ...mapActions(['upgradeBuilding', 'requestPayment']),
-    handleSubmit() {
+    handleSubmit(use) {
       this.isLoading = true;
-      this.upgradeBuilding({ id: this.id, level: this.level })
+      let payload = {};
+      if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
+      else {
+        payload = { building: this.id, level: this.level, use: 'resources' };
+      }
+      this.upgradeBuilding(payload)
         .then(() => {
           this.waitingConfirmation = true;
           this.isLoading = false;
@@ -108,5 +133,13 @@ export default {
 .checkout {
   text-align: center;
   width: 180px;
+}
+
+.futureicon {
+  width: 22px;
+  left: 0px;
+  position: relative;
+  float: left;
+  top: 5px;
 }
 </style>

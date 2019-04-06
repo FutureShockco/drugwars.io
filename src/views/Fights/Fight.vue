@@ -1,7 +1,7 @@
 <template>
   <div>
     <FightsTabs/>
-    <div class="p-4">
+    <div class="p-4 text-center">
       <div v-if="ownUnits.length > 0">
         <h3>Select your army composition</h3>
         <div>
@@ -20,14 +20,17 @@
         </div>
         <div class="mb-4">
           <h5>Your selected army</h5>
-          <Army
+          <ArmyToSend
             :units="selectedUnits"
           />
-          <div v-if="selectedUnits.length === 0">
-            <p>You need to select at least 1 unit.</p>
-          </div>
         </div>
         <div class="mb-4 form">
+                    <div v-if="selectedUnits.length === 0">
+            <p>You need to select at least 1 unit.</p>
+          </div>
+          <div v-else>
+              <button class="button button-blue btn-block" @click="removeUnits()">Remove all</button>
+          </div>
           <h3>Select your target user</h3>
           <input
             class="input form-control btn-block mb-6"
@@ -58,6 +61,12 @@
       <div v-else>
         <p>You don't have any unit to fight.</p>
       </div>
+                              <a
+              href="https://simulator.drugwars.io/next"
+              target="_blank"
+            >
+              Access to the Fight simulator
+            </a>
     </div>
   </div>
 </template>
@@ -89,11 +98,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['startFight']),
+    ...mapActions(['startFight', 'init']),
     resetForm() {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
+    },
+    removeUnits() {
+      this.selectedUnits = [];
     },
     async handleSubmit() {
       this.isLoading = true;
@@ -101,6 +113,7 @@ export default {
       const payload = {
         target: this.target.toLowerCase(),
         units: this.selectedUnits,
+        type: 'fight',
       };
 
       if (this.message) {
@@ -133,7 +146,9 @@ export default {
 
       this.fights.forEach(fight => {
         if (fight.is_stable === 0 && fight.username === this.username) {
-          this.errorMessage = 'You have already a fight waiting for confirmation';
+          this.errorMessage =
+            'You have already a fight waiting for confirmation, please wait 30 seconds';
+          this.init();
         }
 
         if (fight.is_done === 0 && fight.username === this.username && fight.target === target) {

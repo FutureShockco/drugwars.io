@@ -1,37 +1,35 @@
 <template>
-  <div>
-    <h4>Heist</h4>
-    <img width="150px" class="pt-4" :src="`/img/heist.jpg`">
-    <form @submit.prevent="handleSubmit" class="mb-2">
-      <input
-        class="input form-control input-block mb-2"
-        v-model="amount"
-        type="number"
-        min="0"
-      >
-      <button
-        :disabled="isLoading"
-        type="submit"
-        class="button button-blue btn-block"
-      >
-        <span v-if="!isLoading">Invest</span>
-        <Loading v-else/>
-      </button>
-    </form>
-    <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
-    <div>Vest: {{ totalVest | amount }} DRUGS</div>
-    <!-- <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div> -->
-  </div>
+    <div>
+        <h4>Heist</h4>
+        <img width="150px" class="pt-4" :src="`/img/heist.jpg`">
+        <form @submit.prevent="handleSubmit" class="mb-2">
+            <input class="input form-control input-block mb-2" 
+            v-model="amount" type="number" min="0">
+            <button :disabled="isLoading || Number(balances.drugs) < Number(amount)" 
+            type="submit" class="button button-red btn-block">
+            <span v-if="!isLoading">Deposit</span>
+            <Loading v-else/>
+          </button>
+        </form>
+        <button :disabled="isLoading" @click="handleFullSubmit()" class="button button-blue btn-block">Deposit all</button>
+        <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
+        <div>Vest: {{ totalVest | amount }} DRUGS</div>
+        <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
+    </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import { getBalances } from '@/helpers/utils';
+import Promise from 'bluebird';
 
 export default {
   data() {
     return {
       isLoading: false,
-      amount: this.$store.state.game.user.user.drugs_balance,
+      amount:
+        this.$store.state.game.user.user.drugs_balance -
+        this.$store.state.game.user.user.drugs_pending,
     };
   },
   computed: {
@@ -43,6 +41,16 @@ export default {
     },
     totalReward() {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
+    },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    balances() {
+      let ocLvl = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+          .lvl;
+      return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
     },
     ownReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
@@ -56,15 +64,23 @@ export default {
   methods: {
     ...mapActions(['investHeist']),
     handleSubmit() {
-      this.isLoading = true;
-      this.investHeist(this.amount)
-        .then(() => {
-          this.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed to invest on heist', e);
-          this.isLoading = false;
-        });
+      if (Number(this.amount) > 0) {
+        this.isLoading = true;
+        this.investHeist(this.amount)
+          .then(() => {
+            this.isLoading = false;
+            Promise.delay(6000).then(() => {
+              this.amount = this.balances.drugs;
+            });
+          })
+          .catch(e => {
+            console.error('Failed to invest on heist', e);
+            this.isLoading = false;
+          });
+      }
+    },
+    handleFullSubmit() {
+      this.amount = this.balances.drugs;
     },
   },
 };

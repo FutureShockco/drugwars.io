@@ -1,5 +1,8 @@
 <template>
-  <div class="py-3 px-4 text-center border-bottom">
+  <div class="py-3 px-4 m-1 columns text-center border-bottom">
+    <div class="column col-4">
+    <router-link
+      :to="`/fight?target=${player.username}`">
     <Avatar
       class="mr-2"
       :size="60"
@@ -12,8 +15,29 @@
         [{{ player.ticker }}]
       </div>
     </div>
-    <div>
-      <div class="production mb-2">
+    </router-link>
+    </div>
+      <div class="column col-4">
+      <h5 class="production">
+        <span v-if="player.xp">
+          Level : 
+          {{ parseFloat(((Math.sqrt(625 + 100 * player.xp) - 25) / 50) + 1).toFixed(0) }}
+        </span>
+                  <router-link v-if="player.gang" :to="`/gang/${player.gang}`">
+              <span>
+          {{player.role}} OF  {{player.gang}}    <div>
+            [{{ player.ticker }}]</div>
+        </span>
+          </router-link>
+     
+      </h5>
+      <div class="shield mb-2" v-if="shieldEnd">
+        <Icon name="shield" size="36" class="text-gray"/>
+        <div class="text-gray">{{ shieldEnd | ms }}</div>
+      </div>
+    </div>
+    <div v-if="player.drug_production_rate" class="column col-4">
+      <h5 class="production">
         <span class="mr-3">
           <Icon name="drug" size="22"/>
           {{ player.drug_production_rate * 60 * 60 * 24 | amount}} / day
@@ -26,18 +50,17 @@
           <Icon name="alcohol" size="22"/>
           {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}} / day
         </span>
-      </div>
-      <div class="shield mb-2" v-if="shieldEnd">
-        <Icon name="shield" size="36" class="text-gray"/>
-        <div class="text-gray">{{ shieldEnd | ms }}</div>
-      </div>
-      <router-link
-        class="button button-red button-primary mb-2"
-        :to="`/fight?target=${player.username}`"
-        v-else
-      >
-        Attack
-      </router-link>
+      </h5>
+    </div>
+
+    <div v-else class="column col-4">
+      <h5 class="production">
+        <span class="mr-3">
+          TOTAL DEPOSIT : 
+          <Icon name="drug" size="22"/>
+          {{ player.drugs | amount}}
+        </span>
+      </h5>
     </div>
   </div>
 </template>
@@ -62,6 +85,7 @@ export default {
 }
 
 .production {
-  font-size: 20px;
+  display: inline-grid;
+  color: #fbbd08;
 }
 </style>

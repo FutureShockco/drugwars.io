@@ -69,11 +69,11 @@
           </li>
           <li>
             <router-link
-              to="/leaderboard"
+              to="/leaderboards"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Leaderboard
+              Leaderboards
             </router-link>
           </li>
           <li>
@@ -92,6 +92,15 @@
               @click.native="toggleSidebar"
             >
               Rewards
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/shop"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Shop
             </router-link>
           </li>
         </ul>
@@ -122,15 +131,6 @@
             >
               Forum
             </a>
-          </li>
-          <li>
-          <router-link
-              to="/earlyaccess"
-              class="py-1 px-4 d-block"
-              @click.native="toggleSidebar"
-            >
-              Early Access (TOS)
-            </router-link>
           </li>
         </ul>
       </div>

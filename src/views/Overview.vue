@@ -3,7 +3,7 @@
     <OverviewTabs/>
     <div>
       <div class="item">
-      <div class="itemcompact  pl-2">
+      <div class="itemcompact">
         <h5><Icon name="drug" size="32"/> DRUGS PRODUCTION  </h5>
       </div>
       <BuildingProductionCompact
@@ -11,18 +11,18 @@
         :building="building"
         :key="building.id"
       />
-      <div class="itemcompact p-2">
+      <div class="p-2">
         <div class="right-floated">
-          <h3 class="total"> Total: {{ user.drug_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+          <h3 class="total"> Total: {{ user.drug_production_rate * 60 * 60 * 24 | amount }}/Day - {{ user.drug_production_rate * 60 * 60 | amount }}/Hour</h3>
           <h5 class="m-0"> Full in : {{ (drugStorage - user.drugs_balance) / user.drug_production_rate * 1000 | ms}}</h5>
         </div>
-      <div class="total">Total capacity : {{ drugStorage | amount }}</div>
+      <h3 class="total">Total capacity : {{ drugStorage | amount }}</h3>
         <h5 class="m-0 text-green">Safe : {{ drugStorage /100*25 | amount }}
       </h5>
         </div>
         </div>
               <div class="item">
-                      <div class="itemcompact  pl-2">
+                      <div class="itemcompact">
         <h5> <Icon name="weapon" size="32"/>WEAPONS PRODUCTION  </h5>
       </div>
       <BuildingProductionCompact
@@ -30,17 +30,17 @@
         :building="building"
         :key="building.id"
       />
-      <div class="itemcompact p-2">
+      <div class="p-2">
         <div class="right-floated">
-        <h3 class="total"> Total: {{ user.weapon_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+        <h3 class="total"> Total: {{ user.weapon_production_rate * 60 * 60 * 24 | amount }}/Day - {{ user.weapon_production_rate * 60 * 60 | amount }}/Hour</h3>
           <h5 class="m-0"> Full in : {{ (weaponStorage - user.weapons_balance) / user.weapon_production_rate * 1000 | ms }}</h5>
         </div>
-        <div class="total">Total capacity : {{ weaponStorage | amount }}</div>
+        <h3 class="total">Total capacity : {{ weaponStorage | amount }}</h3>
           <h5 class="m-0 text-green">Safe : {{ weaponStorage /100*25 | amount }}</h5>
       </div>
       </div>
        <div class="item">
-      <div class="itemcompact pl-2">
+      <div class="itemcompact">
         <h5><Icon name="alcohol" size="32"/>ALCOHOL PRODUCTION  </h5>
       </div>
         <BuildingProductionCompact
@@ -48,12 +48,12 @@
         :building="building"
         :key="building.id"
       />
-      <div class="itemcompact p-2">
+      <div class="p-2">
         <div class="right-floated">
-          <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day</h3>
+          <h3 class="total"> Total: {{ user.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day - {{ user.alcohol_production_rate * 60 * 60 | amount }}/Hour</h3>
           <h5 class="m-0"> Full in : {{ (alcoholStorage - user.alcohols_balance) / user.alcohol_production_rate * 1000 | ms}}</h5>
         </div>
-        <div class="total"> Total capacity : {{ alcoholStorage | amount }}</div>
+        <h3 class="total"> Total capacity : {{ alcoholStorage | amount }}</h3>
           <h5 class="m-0 text-green">Safe : {{ alcoholStorage /100*25 | amount }}</h5>
         </div>
       </div>
@@ -93,6 +93,10 @@ export default {
 <style scoped lang="less">
 h5 {
   display: inline-flex;
+}
+
+h3 {
+  margin: 0px;
 }
 
 .icon {

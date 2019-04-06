@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
+    <source src="/img/background.mp4" type="video/mp4">
+    </video> -->
     <Splash v-if="showLoading"/>
     <template v-else>
       <TopNav v-if="username"/>
@@ -48,12 +51,25 @@ export default {
   text-align: left !important;
 }
 
+.video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background: url(/img/bg.jpg) no-repeat;
+  background-size: cover;
+}
+
 .content {
   position: relative;
   left: 0;
   margin-top: @header-height;
   transition: left 0.3s;
-  background: #000000;
+  background: #000000b7;
   @media @bp-small {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;

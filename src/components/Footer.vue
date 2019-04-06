@@ -3,8 +3,8 @@
     <ul class="columns mx-2 pb-2 list-style-none">
       <li class="column col-3">
           <a @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
-             <i v-if="audio.isPlaying" class="iconfont icon-mute"></i>
-             <i v-else class="iconfont icon-unmute"></i>
+             <i v-if="audio.isPlaying" class="iconfont icon-unmute"></i>
+             <i v-else class="iconfont icon-mute"></i>
           </a>
       </li>
       <li class="column col-3">

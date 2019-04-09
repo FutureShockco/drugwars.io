@@ -5,6 +5,11 @@
     </video> -->
     <Splash v-if="showLoading"/>
     <template v-else>
+        <UiCenter v-if="username && !modalIsOpen" class="vue-ui-modal pt-2 pb-7 youtube">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/RBzQQMykAjs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <a class="button button-blue mr-1" href="https://www.youtube.com/channel/UCkL2TKHfMD1gUd_DTiX6WGA" target="_blank">Follow us on Youtube</a>
+        <button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
+      </UiCenter>
       <TopNav v-if="username"/>
       <Sidebars v-if="username && showSidebar"/>
       <router-view
@@ -20,6 +25,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      modalIsOpen: localStorage.firstime || false,
+    };
+  },
   computed: {
     username() {
       return this.$store.state.auth.username;
@@ -32,6 +42,12 @@ export default {
     },
     showLoading() {
       return this.$store.state.ui.showLoading;
+    },
+  },
+  methods: {
+    closeModal() {
+      localStorage.setItem('firstime', true);
+      this.modalIsOpen = true;
     },
   },
 };
@@ -62,6 +78,15 @@ export default {
   z-index: -100;
   background: url(/img/bg.jpg) no-repeat;
   background-size: cover;
+}
+
+.vue-ui-modal {
+  z-index: 102;
+  background: #000000b5;
+
+  a {
+    padding: 8px;
+  }
 }
 
 .content {

@@ -10,8 +10,9 @@ function jsonParse(input) {
   }
 }
 
-const getBalances = (user, ocLvl, timestamp) => {
-  const time = (timestamp - new Date(user.last_update).getTime()) / 1000;
+const getBalances = (user, ocLvl) => {
+  const now = new Date();
+  const time = (now.getTime() - new Date(user.last_update).getTime()) / 1000;
   let drugs =
     user.drugs_balance -
     user.drugs_pending +
@@ -25,9 +26,15 @@ const getBalances = (user, ocLvl, timestamp) => {
     user.alcohols_pending +
     Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
   if (ocLvl > 0) {
-    drugs += (ocLvl + time * user.drug_production_rate) * 0.005;
-    weapons += (ocLvl + time * user.weapon_production_rate) * 0.005;
-    alcohols += (ocLvl + time * user.alcohol_production_rate) * 0.005;
+    drugs += Number(
+      parseFloat((time / 1000) * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005),
+    );
+    weapons += Number(
+      parseFloat((time / 1000) * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005),
+    );
+    alcohols += Number(
+      parseFloat((time / 1000) * user.alcohol_production_rate).toFixed(2) * (ocLvl * 0.005),
+    );
   }
   return {
     drugs: drugs > user.drug_storage ? user.drug_storage : parseFloat(drugs).toFixed(0),

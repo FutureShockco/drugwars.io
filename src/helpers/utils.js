@@ -27,13 +27,13 @@ const getBalances = (user, ocLvl) => {
     Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
   if (ocLvl > 0) {
     drugs += Number(
-      parseFloat((time / 1000) * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005),
+      parseFloat((time) * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005),
     );
     weapons += Number(
-      parseFloat((time / 1000) * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005),
+      parseFloat((time) * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005),
     );
     alcohols += Number(
-      parseFloat((time / 1000) * user.alcohol_production_rate).toFixed(2) * (ocLvl * 0.005),
+      parseFloat((time) * user.alcohol_production_rate).toFixed(2) * (ocLvl * 0.005),
     );
   }
   return {

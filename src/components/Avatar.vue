@@ -8,7 +8,7 @@
   >
     <span class="avatar-img"
       :style="{
-        'background-image': `url(https://steemitimages.com/u/${username}/avatar`,
+        'background-image': `url(${picture}`,
         'width': `${size}px`,
         'height': `${size}px`,
        }"
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ['username', 'size', 'xp', 'rank'],
+  props: ['username', 'size', 'xp', 'rank', 'picture'],
 };
 </script>
 

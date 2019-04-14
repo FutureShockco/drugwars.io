@@ -4,14 +4,22 @@
        <div class="column col-4">
             <router-link v-if="username != fight.username"
                 :to="`/fight?target=${fight.username}`">
-              <GangImage size="80" :image="fight.user_picture" />
+                      <Avatar 
+          :size="80"
+          :username="fight.username"
+          :picture = "fight.user_picture"
+        />
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
           <div v-else class="username mb-4" >{{ fight.username }}</div>
           <div v-if="fight.user_gang" class="username mt-4" >{{ fight.user_gang }}</div>
         </router-link>
         <div v-else>
-           <GangImage size="80" :image="fight.user_picture" />
-          <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
+                      <Avatar 
+          :size="80"
+          :username="fight.username"
+          :picture = "fight.user_picture"
+        />          
+        <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
           <div v-else class="username mb-4" >{{ fight.username }}</div>
           <div v-if="fight.user_gang" class="username mt-4" >{{ fight.user_gang }}</div>
         </div>
@@ -48,14 +56,20 @@
        <div class="column col-4">
         <router-link v-if="username != fight.target"
                 :to="`/fight?target=${fight.target}`">
-          <GangImage size="80" :image="fight.target_picture" />
-          <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
+                      <Avatar 
+          :size="80"
+          :username="fight.target"
+          :picture = "fight.target_picture"
+        />          <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
           <div v-else class="username mb-4" >{{ fight.target }}</div>
           <div v-if="fight.target_gang" class="username mt-4" >{{ fight.target_gang }}</div>
         </router-link>
         <div v-else>
-              <GangImage size="80" :image="fight.target_picture" />
-          <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
+                      <Avatar 
+          :size="80"
+          :username="fight.target"
+          :picture = "fight.target_picture"
+        />              <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
           <div v-else class="username mb-4" >{{ fight.target }}</div>
           <div v-if="fight.target_gang" class="username mt-4" >{{ fight.target_gang }}</div>
         </div>

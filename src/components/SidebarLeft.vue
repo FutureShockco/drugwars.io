@@ -2,22 +2,14 @@
   <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
       <div class="text-center pt-5 pb-3">
-        <Avatar v-if="!user.nickname"
+        <Avatar
           :size="100"
-          :username="username"
+          :username="user.nickname"
           :xp="xp"
           :rank="rank"
+          :picture = "user.picture"
         />
-        <GangImage class="mr-2" size="100" v-else-if="user.picture" :image="user.picture" />
-        <div v-if="!user.nickname"
-          class="username"
-          @click.native="toggleSidebar">
-          {{ username }}
-          <div class="gang-label" v-if="user.ticker">
-            [{{ user.ticker }}]
-          </div>
-        </div>
-        <div v-else
+        <div
           class="username"
           @click.native="toggleSidebar">
           {{ user.nickname }}

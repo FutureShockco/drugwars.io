@@ -1,12 +1,11 @@
 <template>
   <div>
     <FightsTabs/>
-    <div class="p-4 text-center">
-      <div v-if="ownUnits.length > 0">
+    <div class="p-4 columns">
+      <div v-if="ownUnits.length > 0" class="column col-6">
         <h3>Select your army composition</h3>
         <div>
           <div
-            class="d-inline-block m-2"
             v-for="ownUnit in ownUnits"
             :key="ownUnit.key"
             v-if="ownUnit.amount > 0"
@@ -18,20 +17,27 @@
             />
           </div>
         </div>
+      </div>
+
+            <div v-if="ownUnits.length > 0" class="column col-6 text-center">
+                <div>
         <div class="mb-4">
-          <h5>Your selected army</h5>
+          <h3>Your selected army</h3>
           <ArmyToSend
             :units="selectedUnits"
           />
         </div>
-        <div class="mb-4 form">
+        </div>
+                           <div class="mb-4 form width-full">
                     <div v-if="selectedUnits.length === 0">
             <p>You need to select at least 1 unit.</p>
           </div>
           <div v-else>
-              <button class="button button-blue btn-block" @click="removeUnits()">Remove all</button>
+              <button class="button button-blue" @click="removeUnits()">Remove all</button>
+                      <h3>Offensive Power : {{offensivePower}}%</h3>
           </div>
-          <h3>Select your target user</h3>
+      </div>
+                  <h3>Select your target user</h3>
           <input
             class="input form-control btn-block mb-6"
             placeholder="username"
@@ -56,24 +62,27 @@
           <p class="text-red text-left" v-if="errorMessage">
             {{ errorMessage }}
           </p>
-        </div>
-      </div>
-      <div v-else>
-        <p>You don't have any unit to fight.</p>
-      </div>
+              <h3>Defensive Power : {{defensivePower}}%</h3>
+
                               <a
-              href="https://simulator.drugwars.io/"
+              href="https://simulator.drugwars.io/next"
               target="_blank"
             >
               Access to the Fight simulator
             </a>
+        </div>
+      <div v-else>
+        <p>You don't have any unit to fight.</p>
+      </div>
+          
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import client from '@/helpers/client';
+// import client from '@/helpers/client';
+import { units } from 'drugwars';
 
 export default {
   data() {
@@ -90,11 +99,31 @@ export default {
     fights() {
       return this.$store.state.game.fights;
     },
+    nickname() {
+      return this.$store.state.game.user.user.nickname;
+    },
     ownUnits() {
       return this.$store.state.game.user.units.map(unit => ({
         key: unit.unit,
         amount: unit.amount,
       }));
+    },
+    defensivePower() {
+      let supply = 0;
+      this.$store.state.game.user.units.forEach(unit => {
+        supply += units[unit.unit].supply;
+      });
+      const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      return power;
+    },
+    offensivePower() {
+      let supply = 0;
+      this.selectedUnits.forEach(unit => {
+        supply += units[unit.key].supply * unit.amount;
+        console.log(supply);
+      });
+      const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      return power;
     },
   },
   methods: {
@@ -140,51 +169,22 @@ export default {
       this.errorMessage = null;
       const target = this.target.toLowerCase();
 
-      if (target === this.username) {
+      if (target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
 
       this.fights.forEach(fight => {
-        if (fight.is_stable === 0 && fight.username === this.username) {
+        if (fight.is_stable === 0 && fight.username === this.nickname) {
           this.errorMessage =
-            'You have already a fight waiting for confirmation, please wait 30 seconds';
+            'You have already a fight waiting for confirmation, please wait 45 seconds';
           this.init();
-        }
-
-        if (fight.is_done === 0 && fight.username === this.username && fight.target === target) {
-          this.errorMessage = `You have already a fight going on with '${target}'`;
         }
       });
 
       if (this.errorMessage) {
         return false;
       }
-
-      try {
-        const user = await client.requestAsync('get_user', target);
-
-        if (!user || !user.user || !user.user.username) {
-          this.errorMessage = `Player '${target}' does not exist`;
-        }
-
-        if (user.user.shield_end >= parseInt(new Date().getTime() / 1000)) {
-          this.errorMessage = `You can't attack player '${target}', he has a shield`;
-        }
-
-        const userFights = await client.requestAsync('get_fights', target);
-        userFights.forEach(fight => {
-          console.log(fight.is_done, fight.target);
-          if (fight.is_done === 0 && fight.target === target) {
-            this.errorMessage = 'Your target is already being attacked by someone else';
-          }
-        });
-
-        return !this.errorMessage;
-      } catch (e) {
-        this.errorMessage = `Unable to load player '${target}'`;
-        console.error(`Unable to load player '${target}'`, e);
-        return false;
-      }
+      return !this.errorMessage;
     },
     addUnit(payload) {
       const amount = parseInt(payload.amount);
@@ -212,3 +212,10 @@ export default {
   },
 };
 </script>
+
+
+<style scoped lang="less">
+.width-full {
+  max-width: 100%;
+}
+</style>

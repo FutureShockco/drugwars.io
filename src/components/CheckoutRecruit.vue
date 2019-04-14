@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     updateTime() {
-      return (this.coeff * 160 - (this.level * 25) / 100) * this.quantity * 1000;
+      return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
     },
     priceInSteem() {

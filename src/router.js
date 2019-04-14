@@ -5,13 +5,16 @@ import { isWeb } from '@/helpers/utils';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
-const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions.vue');
+const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
+const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Missions/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
+// const Trainings = () =>
+//   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
 const HallOfFame = () =>
@@ -31,7 +34,8 @@ const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
 const Heistboard = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Heistboard.vue');
-const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
+const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
+const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
@@ -82,6 +86,12 @@ export default new Router({
       component: Missions,
     },
     {
+      path: '/tutorial',
+      name: 'tutorial',
+      beforeEnter: requireAuth,
+      component: Tutorial,
+    },
+    {
       path: '/buildings',
       name: 'buildings',
       beforeEnter: requireAuth,
@@ -111,6 +121,12 @@ export default new Router({
       beforeEnter: requireAuth,
       component: Units,
     },
+    // {
+    //   path: '/trainings',
+    //   name: 'trainings',
+    //   beforeEnter: requireAuth,
+    //   component: Trainings,
+    // },
     {
       path: '/fight',
       name: 'fight',
@@ -206,6 +222,12 @@ export default new Router({
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      beforeEnter: requireAuth,
+      component: Settings,
     },
     {
       path: '/i/:username',

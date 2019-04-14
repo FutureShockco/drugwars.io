@@ -4,14 +4,16 @@
        <div class="column col-4">
             <router-link v-if="username != fight.username"
                 :to="`/fight?target=${fight.username}`">
-          <Avatar v-if="!share" :size="80" :username="fight.username"/>
+              <GangImage size="80" :image="fight.user_picture" />
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
           <div v-else class="username mb-4" >{{ fight.username }}</div>
+          <div v-if="fight.user_gang" class="username mt-4" >{{ fight.user_gang }}</div>
         </router-link>
         <div v-else>
-              <Avatar v-if="!share" :size="80" :username="fight.username"/>
+           <GangImage size="80" :image="fight.user_picture" />
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.username }}</div>
           <div v-else class="username mb-4" >{{ fight.username }}</div>
+          <div v-if="fight.user_gang" class="username mt-4" >{{ fight.user_gang }}</div>
         </div>
       </div>
       <div class="column col-4">
@@ -46,14 +48,16 @@
        <div class="column col-4">
         <router-link v-if="username != fight.target"
                 :to="`/fight?target=${fight.target}`">
-          <Avatar v-if="!share" :size="80" :username="fight.target"/>
+          <GangImage size="80" :image="fight.target_picture" />
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
           <div v-else class="username mb-4" >{{ fight.target }}</div>
+          <div v-if="fight.target_gang" class="username mt-4" >{{ fight.target_gang }}</div>
         </router-link>
         <div v-else>
-              <Avatar v-if="!share" :size="80" :username="fight.target"/>
+              <GangImage size="80" :image="fight.target_picture" />
           <div v-if="share" class="username mt-12 mb-4" >{{ fight.target }}</div>
           <div v-else class="username mb-4" >{{ fight.target }}</div>
+          <div v-if="fight.target_gang" class="username mt-4" >{{ fight.target_gang }}</div>
         </div>
       </div>
     </div>
@@ -67,6 +71,7 @@
             :withDead="true"
           />
         </div>
+        <div v-if="fight.json.amount && username != nickname">{{fight.json.amount}} Unit(s)</div>
         <p class="message mb-4">{{ fight.message }}</p>
       </div>
       <div class="column col-6">
@@ -84,19 +89,14 @@
       </div>
     </div>
     <div class="text-center">
-      <span v-if="!share" class="mr-2">
-        <!-- Fight
-        #{{ fight.fight_key.slice(0, 10) }} -->
-        <!-- {{ fight.is_done ? 'ended' : 'incoming' }} -->
-      </span>
       <span v-if="!fight.is_stable" class="mr-2">
         (Waiting for confirmation)
       </span>
       <div v-if="fight.is_stable">
         Start :  {{start}} - End : {{end}}
       </div>
-       <Share :fight="this.fight" :fight_key="this.fight.fight_key"/> 
-       <div class="sharemessage" v-if="!share">Share your fight on our forum and obtain a chance to get rewarded.</div>
+       <Share v-if="!timeToWait && fight.result === 1" :fight="this.fight" :fight_key="this.fight.fight_key"/> 
+       <div class="sharemessage" v-if="!timeToWait && fight.result === 1">Share your victory on our forum and obtain a chance to get rewarded.</div>
     </div>
     </div>
   </div>
@@ -127,7 +127,7 @@ export default {
     },
     result() {
       let result;
-      const isAuthor = this.fight.username === this.username;
+      const isAuthor = this.fight.username === this.nickname;
       if (this.fight.result === 1) {
         result = isAuthor ? 'win' : 'lost';
       } else if (this.fight.result === 3) {
@@ -136,6 +136,9 @@ export default {
         result = 'draw';
       }
       return result;
+    },
+    nickname() {
+      return this.$store.state.game.user.user.nickname;
     },
     username() {
       return this.$store.state.auth.username;

@@ -1,16 +1,17 @@
 <template>
   <div class="py-3 px-4 m-1 columns text-center border-bottom">
     <div class="column col-4">
-    <router-link
-      :to="`/fight?target=${player.username}`">
-    <Avatar
+        <router-link
+      :to="`/fight?target=${player.nickname}`">
+    <GangImage class="mr-2" size="60" v-if="player.picture" :image="player.picture" />
+     <Avatar v-else
       class="mr-2"
       :size="60"
       :username="player.username"
       :rank="rank"
     />
     <div class="username">
-      {{ player.username }}
+      {{ player.nickname }}
       <div class="gang-label" v-if="player.ticker">
         [{{ player.ticker }}]
       </div>

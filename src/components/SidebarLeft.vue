@@ -2,16 +2,25 @@
   <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
       <div class="text-center pt-5 pb-3">
-        <Avatar
+        <Avatar v-if="!user.nickname"
           :size="100"
           :username="username"
           :xp="xp"
           :rank="rank"
         />
-        <div
+        <GangImage class="mr-2" size="100" v-else-if="user.picture" :image="user.picture" />
+        <div v-if="!user.nickname"
           class="username"
           @click.native="toggleSidebar">
           {{ username }}
+          <div class="gang-label" v-if="user.ticker">
+            [{{ user.ticker }}]
+          </div>
+        </div>
+        <div v-else
+          class="username"
+          @click.native="toggleSidebar">
+          {{ user.nickname }}
           <div class="gang-label" v-if="user.ticker">
             [{{ user.ticker }}]
           </div>
@@ -107,11 +116,11 @@
         <ul class="pt-1 pb-2 border-bottom">
           <li>
             <router-link
-              to="/referral"
+              to="/settings"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Referral
+              Settings
             </router-link>
           </li>
           <li>

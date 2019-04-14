@@ -1,13 +1,13 @@
 <template>
-  <div class="text-red mini">
+  <div class="text-green mini">
     <div v-if="stolenResources.drugs">
-      -{{ stolenResources.drugs | amount }} DRUGS
+      +{{ stolenResources.drugs | amount }} DRUGS
     </div>
     <div v-if="stolenResources.weapons">
-      -{{ stolenResources.weapons | amount }} WEAPONS
+      +{{ stolenResources.weapons | amount }} WEAPONS
     </div>
     <div v-if="stolenResources.alcohols">
-      -{{ stolenResources.alcohols | amount }} ALCOHOL
+      +{{ stolenResources.alcohols | amount }} ALCOHOL
     </div>
   </div>
 </template>

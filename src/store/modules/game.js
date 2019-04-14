@@ -79,7 +79,7 @@ client.subscribe((data, message) => {
     store.dispatch('init');
     store.dispatch('notify', {
       type: 'success',
-      message: 'Your troops are on their way for their destination!',
+      message: 'Your troops are on their way to their destination!',
     });
   }
   if (message[1].body === 'unit') {
@@ -92,35 +92,38 @@ client.subscribe((data, message) => {
 });
 
 const actions = {
-  init: ({ commit, rootState, dispatch }) =>
+  init: ({ commit, rootState, dispatch }, accessToken = localStorage.getItem('drugwars_token')) =>
     new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
-      client
-        .requestAsync('get_user', username)
-        .then(user => {
-          if (user && user.user && user.user.username) {
-            Promise.all([
-              client.requestAsync('get_prize_props', null),
-              client.requestAsync('get_fights', username),
-            ]).then(([prizeProps, fights]) => {
-              commit('savePrizeProps', prizeProps);
-              commit('saveUser', user);
-              commit('saveFights', fights);
-              resolve();
-            });
-          } else {
-            dispatch('signup').then(() => {
-              Promise.delay(9000).then(() => {
-                window.location = '/';
+      if (accessToken) {
+        sc.setAccessToken(accessToken);
+        const { username } = rootState.auth;
+        client
+          .requestAsync('get_user', { username, token: accessToken })
+          .then(user => {
+            if (user && user.user && user.user.username) {
+              Promise.all([
+                client.requestAsync('get_prize_props', null),
+                client.requestAsync('get_fights', { username, token: accessToken }),
+              ]).then(([prizeProps, fights]) => {
+                commit('savePrizeProps', prizeProps);
+                commit('saveUser', user);
+                commit('saveFights', fights);
+                resolve();
               });
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading account failed');
-          return reject(err);
-        });
+            } else {
+              dispatch('signup').then(() => {
+                Promise.delay(9000).then(() => {
+                  window.location = '/';
+                });
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            handleError(dispatch, err, 'Loading account failed');
+            return reject(err);
+          });
+      }
     }),
   signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {

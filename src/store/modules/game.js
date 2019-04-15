@@ -69,7 +69,7 @@ client.subscribe((data, message) => {
     });
   }
   if (message[1].body === 'fight') {
-    store.dispatch('init');
+    store.dispatch('refresh_sent_fights');
   }
   if (message[1].body === 'receiveattack') {
     store.dispatch('refresh_inc_fights');

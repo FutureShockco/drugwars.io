@@ -24,7 +24,7 @@
         </div>
       </li>
     </ul>
-    <Base class="mb-4" :items="detail.buildings"/>
+    <Base class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings"/>
   </div>
 </template>
 

@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <FightsDetail v-if="json.target.detail" :detail="json.target.detail" />
+                <FightsDetail v-if="json && json.target&&  json.target.detail" :detail="json.target.detail" />
                 <span v-if="!fight.is_stable" class="mr-2">
                 (Waiting for confirmation)
               </span>

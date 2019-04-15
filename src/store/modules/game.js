@@ -105,7 +105,7 @@ const actions = {
           .then(user => {
             if (user && user.user && user.user.username) {
               Promise.all([client.requestAsync('get_prize_props', null)]).then(prizeProps => {
-                commit('savePrizeProps', prizeProps);
+                commit('savePrizeProps', prizeProps[0]);
                 commit('saveUser', user);
                 resolve();
               });

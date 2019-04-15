@@ -2,7 +2,7 @@
   <div>
     <FightsTabs/>
     <div class="p-4 columns">
-      <div v-if="ownUnits.length > 0" class="column col-6">
+      <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
         <h3>Select your army composition</h3>
         <div>
           <div
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-            <div v-if="ownUnits.length > 0" class="column col-6 text-center">
+            <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <div>
         <div class="mb-4">
           <h3>Your selected army</h3>
@@ -217,5 +217,11 @@ export default {
 <style scoped lang="less">
 .width-full {
   max-width: 100%;
+}
+
+@media screen and (min-width: 399px) and (max-width: 1119px) {
+  .column.b {
+    width: 100% !important;
+  }
 }
 </style>

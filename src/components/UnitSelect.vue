@@ -1,11 +1,11 @@
 <template>
-  <div class="d-inline-block column col-4 mb-4">
-    <div class="sunit" @click="handleClick">
+  <div class="column col-4 mb-6 sunit">
+    <div class="sunit"  @click="handleClick">
     <img class="mini rounded-2" :src="`/img/units/${unit.id}.jpg`" />
     <i class="iconfont icon-plus"></i>
     </div>
       <input
-        class="input form-control"
+        class="input"
         type="number"
         min="1"
         :max="item.amount"
@@ -48,6 +48,8 @@ export default {
 
 .sunit {
   height: 65px;
+  width: 60px;
+  margin-right: 10px;
 }
 
 input {
@@ -60,6 +62,6 @@ input {
   font-size: 28px;
   top: -56px;
   color: #fbbd07;
-  left: 17px;
+  left: 0px;
 }
 </style>

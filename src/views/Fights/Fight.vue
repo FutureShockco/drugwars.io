@@ -172,14 +172,14 @@ export default {
       if (target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
-      if (this.sent_fights && this.sent_fights.length > 0)
-        this.sent_fights.forEach(fight => {
-          if (fight.is_stable === 0) {
-            this.errorMessage =
-              'You have already a fight waiting for confirmation, please wait 45 seconds';
-            this.init();
-          }
-        });
+      // if (this.sent_fights && this.sent_fights.length > 0)
+      //   this.sent_fights.forEach(fight => {
+      //     if (fight.is_stable === 0) {
+      //       this.errorMessage =
+      //         'You have already a fight waiting for confirmation, please wait 45 seconds';
+      //       this.init();
+      //     }
+      //   });
 
       if (this.errorMessage) {
         return false;

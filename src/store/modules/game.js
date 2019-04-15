@@ -70,9 +70,11 @@ client.subscribe((data, message) => {
   }
   if (message[1].body === 'fight') {
     store.dispatch('refresh_sent_fights');
+    store.dispatch('init');
   }
   if (message[1].body === 'receiveattack') {
     store.dispatch('refresh_inc_fights');
+    store.dispatch('init');
     store.dispatch('notify', {
       type: 'error',
       message: 'You are under attack!',
@@ -80,6 +82,7 @@ client.subscribe((data, message) => {
   }
   if (message[1].body === 'startattack') {
     store.dispatch('refresh_sent_fights');
+    store.dispatch('init');
     store.dispatch('notify', {
       type: 'success',
       message: 'Your troops are on their way to their destination!',

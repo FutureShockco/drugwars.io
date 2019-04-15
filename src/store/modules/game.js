@@ -4,7 +4,6 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import CryptoJS from 'crypto-js';
-
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -23,6 +22,7 @@ const state = {
   user: null,
   fights: [],
 };
+
 /* eslint-disable */
 const poney = function(obj) {
   const encrypted = CryptoJS.AES.encrypt(obj, state.user.key);
@@ -80,6 +80,16 @@ client.subscribe((data, message) => {
       message: 'You are under attack!',
     });
   }
+
+  if (message[1].body === 'endattack') {
+    store.dispatch('refresh_sent_fights');
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Your troops have reached their destination!',
+    });
+  }
+
   if (message[1].body === 'startattack') {
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');

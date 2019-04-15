@@ -63,8 +63,10 @@
               @click.native="toggleSidebar"
             >
               Battles
-              <span v-if="activeFightsCount > 0">
-              ({{ activeFightsCount }})
+              <span class="text-red" v-if="activeIncFightsCount > 0">
+              ( {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
+            </span>              <span class="text-green" v-if="activeFightsCount > 0">
+              ( {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>)
             </span>
             </router-link>
           </li>
@@ -160,13 +162,19 @@ export default {
     xp() {
       return this.$store.state.game.user.user.xp;
     },
-    activeFightsCount() {
-      if (this.$store.state.game.inc_fights && this.$store.state.game.sent_fights) {
+    activeIncFightsCount() {
+      if (this.$store.state.game.inc_fights) {
         const activeFights = this.$store.state.game.inc_fights.filter(fight => fight.is_done === 0);
+        return activeFights.length;
+      }
+      return 0;
+    },
+    activeFightsCount() {
+      if (this.$store.state.game.sent_fights) {
         const activeSentFights = this.$store.state.game.sent_fights.filter(
           fight => fight.is_done === 0,
         );
-        return activeFights.length + activeSentFights.length;
+        return activeSentFights.length;
       }
       return 0;
     },

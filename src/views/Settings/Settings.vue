@@ -45,10 +45,12 @@ export default {
     ...mapActions(['send', 'notify']),
     handleSubmit() {
       this.isLoading = true;
+      let nick = '';
+      if (this.nickname) nick = this.nickname.trim().toLowerCase();
+      else nick = '';
       if (!this.picture) this.picture = this.user.picture;
-      if (!this.nickname) this.nickname = this.user.nickname;
       const payload = {
-        nickname: this.nickname.trim().toLowerCase(),
+        nickname: nick,
         picture: this.picture.trim().toLowerCase(),
       };
       this.send({ type: 'edit-profile', payload })

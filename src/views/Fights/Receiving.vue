@@ -7,7 +7,7 @@
         :key="fight.fight_key"
         :fight="fight"
       />
-      <p v-if="!fights.length">You haven't done any fight.</p>
+      <p v-if="!fights.length">You have not been attacked.</p>
     </div>
   </div>
 </template>

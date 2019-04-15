@@ -1,29 +1,30 @@
 <template>
-  <div class="text-red">
+  <div>
     <h5>Balances</h5>
     <ul class="columns list-style-none user-balances mb-4">
       <li class="column col-4">
         <Icon name="drug"/>
-        <div>
+        <div class="text-red">
           <div>{{ detail.drugs_balance | amount }}</div>
           <div class="text-green">{{ detail.drug_storage / 100 * 25 | amount }} safe</div>
         </div>
       </li>
       <li class="column col-4">
         <Icon name="weapon"/>
-        <div>
+        <div class="text-red">
           <div>{{ detail.weapons_balance | amount }}</div>
           <div class="text-green">{{ detail.weapon_storage / 100 * 25 | amount }} safe</div>
         </div>
       </li>
       <li class="column col-4">
         <Icon name="alcohol"/>
-        <div>
+        <div class="text-red">
           <div>{{ detail.alcohols_balance | amount }} </div>
           <div class="text-green">{{ detail.alcohol_storage / 100 * 25 | amount }} safe</div>
         </div>
       </li>
     </ul>
+    <Base class="mb-4" :items="detail.buildings"/>
   </div>
 </template>
 

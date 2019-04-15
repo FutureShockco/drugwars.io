@@ -17,6 +17,7 @@ const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Uni
 //   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
 const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
+const Receiving = () => import(/* webpackChunkName: "receiving" */ '@/views/Fights/Receiving.vue');
 const HallOfFame = () =>
   import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
@@ -53,6 +54,8 @@ const requireAuth = (to, from, next) => {
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
+          store.dispatch('refresh_inc_fights');
+          store.dispatch('refresh_sent_fights');
           store.dispatch('hideLoading');
           next();
         });
@@ -138,6 +141,12 @@ export default new Router({
       name: 'fights',
       beforeEnter: requireAuth,
       component: Fights,
+    },
+    {
+      path: '/receiving',
+      name: 'receiving',
+      beforeEnter: requireAuth,
+      component: Receiving,
     },
     {
       path: '/hall-of-fame',

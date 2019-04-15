@@ -42,7 +42,10 @@ const mutations = {
     Vue.set(_state, 'user', payload);
   },
   saveFights(_state, payload) {
-    Vue.set(_state, 'fights', payload);
+    Vue.set(_state, 'inc_fights', payload);
+  },
+  saveSentFights(_state, payload) {
+    Vue.set(_state, 'sent_fights', payload);
   },
 };
 
@@ -69,14 +72,14 @@ client.subscribe((data, message) => {
     store.dispatch('init');
   }
   if (message[1].body === 'receiveattack') {
-    store.dispatch('init');
+    store.dispatch('refresh_inc_fights');
     store.dispatch('notify', {
       type: 'error',
       message: 'You are under attack!',
     });
   }
   if (message[1].body === 'startattack') {
-    store.dispatch('init');
+    store.dispatch('refresh_sent_fights');
     store.dispatch('notify', {
       type: 'success',
       message: 'Your troops are on their way to their destination!',
@@ -101,13 +104,9 @@ const actions = {
           .requestAsync('get_user', { username, token: accessToken })
           .then(user => {
             if (user && user.user && user.user.username) {
-              Promise.all([
-                client.requestAsync('get_prize_props', null),
-                client.requestAsync('get_fights', { username, token: accessToken }),
-              ]).then(([prizeProps, fights]) => {
+              Promise.all([client.requestAsync('get_prize_props', null)]).then(prizeProps => {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
-                commit('saveFights', fights);
                 resolve();
               });
             } else {
@@ -121,6 +120,48 @@ const actions = {
           .catch(err => {
             console.log(err);
             handleError(dispatch, err, 'Loading account failed');
+            return reject(err);
+          });
+      }
+    }),
+  refresh_inc_fights: (
+    { commit, rootState, dispatch },
+    accessToken = localStorage.getItem('drugwars_token'),
+  ) =>
+    new Promise((resolve, reject) => {
+      if (accessToken) {
+        sc.setAccessToken(accessToken);
+        const { username } = rootState.auth;
+        client
+          .requestAsync('get_inc_fights', { username, token: accessToken })
+          .then(fights => {
+            commit('saveFights', fights);
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+            handleError(dispatch, err, 'Loading incoming fights failed');
+            return reject(err);
+          });
+      }
+    }),
+  refresh_sent_fights: (
+    { commit, rootState, dispatch },
+    accessToken = localStorage.getItem('drugwars_token'),
+  ) =>
+    new Promise((resolve, reject) => {
+      if (accessToken) {
+        sc.setAccessToken(accessToken);
+        const { username } = rootState.auth;
+        client
+          .requestAsync('get_sent_fights', { username, token: accessToken })
+          .then(fights => {
+            commit('saveSentFights', fights);
+            resolve();
+          })
+          .catch(err => {
+            console.log(err);
+            handleError(dispatch, err, 'Loading sent fights failed');
             return reject(err);
           });
       }

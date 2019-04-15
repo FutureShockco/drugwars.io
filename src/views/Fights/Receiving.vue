@@ -3,7 +3,6 @@
     <FightsTabs/>
     <div class="p-4">
       <FightsFight
-        v-if="fights.length > 0"
         v-for="fight in fights"
         :key="fight.fight_key"
         :fight="fight"
@@ -17,7 +16,7 @@
 export default {
   computed: {
     fights() {
-      return this.$store.state.game.sent_fights || {};
+      return this.$store.state.game.inc_fights || {};
     },
   },
 };

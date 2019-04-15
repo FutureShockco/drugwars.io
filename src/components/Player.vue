@@ -3,12 +3,12 @@
     <div class="column col-4">
         <router-link
       :to="`/fight?target=${player.nickname}`">
-    <GangImage class="mr-2" size="60" v-if="player.picture" :image="player.picture" />
-     <Avatar v-else
+     <Avatar 
       class="mr-2"
       :size="60"
       :username="player.username"
       :rank="rank"
+      :picture="player.picture"
     />
     <div class="username">
       {{ player.nickname }}

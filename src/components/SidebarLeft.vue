@@ -161,8 +161,14 @@ export default {
       return this.$store.state.game.user.user.xp;
     },
     activeFightsCount() {
-      const activeFights = this.$store.state.game.fights.filter(fight => fight.is_done === 0);
-      return activeFights.length;
+      if (this.$store.state.game.inc_fights && this.$store.state.game.sent_fights) {
+        const activeFights = this.$store.state.game.inc_fights.filter(fight => fight.is_done === 0);
+        const activeSentFights = this.$store.state.game.sent_fights.filter(
+          fight => fight.is_done === 0,
+        );
+        return activeFights.length + activeSentFights.length;
+      }
+      return 0;
     },
   },
   methods: {

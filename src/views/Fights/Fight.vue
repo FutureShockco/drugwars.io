@@ -96,8 +96,8 @@ export default {
     };
   },
   computed: {
-    fights() {
-      return this.$store.state.game.fights;
+    sent_fights() {
+      return this.$store.state.game.sent_fights;
     },
     nickname() {
       return this.$store.state.game.user.user.nickname;
@@ -173,8 +173,8 @@ export default {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
 
-      this.fights.forEach(fight => {
-        if (fight.is_stable === 0 && fight.username === this.nickname) {
+      this.sent_fights.forEach(fight => {
+        if (fight.is_stable === 0) {
           this.errorMessage =
             'You have already a fight waiting for confirmation, please wait 45 seconds';
           this.init();

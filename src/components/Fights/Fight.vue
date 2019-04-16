@@ -14,10 +14,10 @@
                     <div v-if="!fight.username" class="username mb-4">{{ user.nickname }}</div>
                     <div v-if="!fight.user_gang" class="username mt-4">{{ user.gang }}</div>
                 </div>
-                <div v-if="json && json.attacker && json.attacker.value" v-html="json.attacker.value"></div>
+                <div v-if="details && json && json.attacker && json.attacker.value" v-html="json.attacker.value"></div>
             </div>
             <div class="column col-4">
-                <div class="mt-4" v-if="result">
+                <div class="mt-2" v-if="result">
                     <div class="button button-green result" v-if="result === 'win'">
                         Win
                     </div>
@@ -27,18 +27,18 @@
                     <div class="button button-red result" v-if="result === 'lost'">
                         Lost
                     </div>
-                    <FightsLoot class="mt-2" v-if="json.target.loot" :stolenResources="json.target.loot" />
+                    <FightsLoot class="mt-2" v-if="json.target.loot" :result="result" :stolenResources="json.target.loot" />
                 </div>
-                <h1 class="mt-3" v-else>VS</h1>
-                <span class="mt-3" v-if="timeToWait && fight.is_stable">
+                <h1 class="mt-0" v-else>VS</h1>
+                <h5 class="mt-0" v-if="timeToWait && fight.is_stable">
                   Start in {{ timeToWait | ms }}
-                </span>
-                <span class="mt-3" v-else-if="fight.is_stable">
+                </h5>
+                <h5 class="mt-0" v-else-if="fight.is_stable">
                    Ended
-                 </span>
-                <span class="mt-3" v-else>
+                 </h5>
+                <h5 class="mt-0" v-else>
                    Preparation
-                 </span>
+                 </h5>
                 <Icon v-if="share" class="logo" name="logo" />
                 <h4 v-if="share">JOIN US!</h4>
             </div>
@@ -54,11 +54,11 @@
                     <div class="username mb-4">{{ user.nickname }}</div>
                     <div class="username mt-4">{{ user.gang }}</div>
                 </div>
-                <div v-if="json && json.target &&json.target.value" v-html="json.target.value"></div>
+                <div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
             </div>
         </div>
         <div>
-            <div class="columns text-center">
+            <div v-if="details" class="columns text-center">
                 <div class="column col-6">
                     <div class="mb-4" v-if="json.attacker">
                         <Army v-if="json.attacker.units" :units="json.attacker.units" :withDead="true" />
@@ -72,8 +72,8 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center">
-                <FightsDetail v-if="json && json.target&&  json.target.detail" :detail="json.target.detail" />
+            <div v-if="details" class="text-center">
+                <FightsDetail v-if="json && json.target && fight.username != user.nickname && json.target.detail" :detail="json.target.detail" />
                 <span v-if="!fight.is_stable" class="mr-2">
                 (Waiting for confirmation)
               </span>
@@ -82,6 +82,12 @@
                 </div>
                 <Share v-if="!timeToWait" :fight="this.fight" :fight_key="this.fight.fight_key" />
                 <div class="sharemessage" v-if="!timeToWait">Share your victory on our forum and obtain a chance to get rewarded.</div>
+            </div>
+            <div v-if="!details" class="text-center">
+            <button class="button button-blue" @click="show_details()"> Show details</button>
+            </div>
+            <div v-else class="text-center">
+            <button class="button button-blue" @click="hide_details()"> Hide details</button>
             </div>
         </div>
     </div>
@@ -95,6 +101,7 @@ export default {
   data() {
     return {
       share: false,
+      details: false,
     };
   },
   computed: {
@@ -112,7 +119,10 @@ export default {
     },
     result() {
       let result;
-      const isAuthor = this.fight.username !== this.user.nickname;
+      let isAuthor;
+      if (this.fight.username !== this.user.nickname && !this.fight.target) {
+        isAuthor = false;
+      } else if (this.fight.target !== this.user.nickname) isAuthor = true;
       if (this.fight.result === 1) {
         result = isAuthor ? 'win' : 'lost';
       } else if (this.fight.result === 3) {
@@ -132,6 +142,14 @@ export default {
       return jsonParse(this.fight.json) || {};
     },
   },
+  methods: {
+    show_details() {
+      this.details = true;
+    },
+    hide_details() {
+      this.details = false;
+    },
+  },
 };
 </script>
 
@@ -148,7 +166,7 @@ p {
 }
 
 .result {
-  font-size: 36px;
+  font-size: 28px;
   padding: 10px;
   height: 50px;
   background-size: cover !important;

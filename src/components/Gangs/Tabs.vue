@@ -5,7 +5,7 @@
       <UiTab v-if="!user.gang" to="/gangs/create">
         Create gang
       </UiTab>
-      <UiTab :to="`/gang/${user.gang}`" v-else>
+      <UiTab :to="`/gangs/gang/${user.gang}`" v-else>
         My gang
       </UiTab>
     </UiTabs>

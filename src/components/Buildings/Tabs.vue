@@ -1,10 +1,10 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="buildings">Office</UiTab>
-      <UiTab to="drugs">Drugs</UiTab>
-      <UiTab to="weapons">Weapons</UiTab>
-      <UiTab to="alcohol">Alcohol</UiTab>
+      <UiTab to="/buildings">Office</UiTab>
+      <UiTab to="/buildings/drugs">Drugs</UiTab>
+      <UiTab to="/buildings/weapons">Weapons</UiTab>
+      <UiTab to="/buildings/alcohol">Alcohol</UiTab>
     </UiTabs>
   </Header>
 </template>

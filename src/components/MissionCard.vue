@@ -1,6 +1,6 @@
 <template>
-    <div class="column col-6 text-center p-2">
-        <div class="columns m-2 shopcard">
+    <div class="column m-0 p-0 col-6 text-center">
+        <div class="columns m-0 shopcard">
             <div class="mr-3 pt-2">
                 <img class="preview" :src="`/img/missions/${item.img}.jpg`">
             </div>
@@ -14,9 +14,9 @@
             <div class="detail">
                 {{item.detail}}
             </div>
-            <div class="columns" v-if="item.units">
+            <div class="columns m-2 p-2" v-if="item.units">
                 <h5>Enemies</h5>
-                <div class="column col-3 text-center" v-for="unit in item.units" :unit="unit" :key="unit.id">
+                <div class="column m-0 p-0 col-3 text-center" v-for="unit in item.units" :unit="unit" :key="unit.id">
                     <div class="unitamount"> {{unit.amount.mini}} - {{unit.amount.max}}</div>
                     <img class="mini" :src="`/img/units/${unit.id}.jpg`">
                     <div class="unitname">{{unit.id}}</div>
@@ -24,24 +24,24 @@
             </div>
             <div v-if="item.rewards">
                 <h5>Rewards (in work)</h5>
-                <div class="columns text-center" v-for="reward in item.rewards" :reward="reward" :key="reward.id">
-                    <div v-if="reward.drugs" class="column col-3 reward">
+                <div class="columns m-2 p-2 text-center" v-for="reward in item.rewards" :reward="reward" :key="reward.id">
+                    <div v-if="reward.drugs" class="column m-0 p-0 col-3 reward">
                         <Icon name="drug" size="32" />
                         <div>Min:{{reward.drugs.min}} Max:{{reward.drugs.max}}</div>
                     </div>
-                    <div v-if="reward.weapons" class="column col-3 reward">
+                    <div v-if="reward.weapons" class="column m-0 p-0 col-3 reward">
                         <Icon name="weapon" size="32" />
                         <div>Min:{{reward.weapons.min}} Max:{{reward.weapons.max}}</div>
                     </div>
-                       <div v-if="reward.alcohol" class="column col-3 reward">
+                       <div v-if="reward.alcohol" class="column m-0 p-0 col-3 reward">
                         <Icon name="alcohol" size="32" />
                         <div>Min:{{reward.alcohol.min}} Max:{{reward.alcohol.max}}</div>
                     </div>
-                     <div v-if="reward.future" class="column col-3 reward">
+                     <div v-if="reward.future" class="column m-0 p-0 col-3 reward">
                         <Icon name="future" size="32" />
                         <div>Min:{{reward.future.min}} Max:{{reward.future.max}}</div>
                     </div>
-                    <div class="column col-3 reward" v-for="unit in reward.units" :unit="unit" :key="unit.id">
+                    <div class="column m-0 p-0 col-3 reward" v-for="unit in reward.units" :unit="unit" :key="unit.id">
                           <div class="unitamount"> {{unit.min}} - {{unit.max}}</div>
                     <img class="mini" :src="`/img/units/${unit.type}.jpg`">
                     <div class="unitname">{{unit.type}}</div>

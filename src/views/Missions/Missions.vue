@@ -4,9 +4,8 @@
     <!-- <div class="p-4">
       <Quickstart/>
     </div> -->
-    <div class="p-2 text-center">
-    <h2>MISSIONS</h2>
-    <div class="columns">
+    <div class="text-center">
+    <div class="columns m-0">
       <MissionCard
         v-for="item in missions"
         :item="item"

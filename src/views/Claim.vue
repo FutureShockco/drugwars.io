@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RewardsTabs/>
+    <ShopTabs/>
     <div class="p-4 text-center">
       <div>
         <img src="/img/icons/future.png"/>

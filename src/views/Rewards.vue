@@ -9,7 +9,7 @@
       </div>
     </div>
     <h3 class="text-center mb-6">
-      <router-link to="/future">
+      <router-link to="/shop/future">
         Future tokens
       </router-link>
     </h3>

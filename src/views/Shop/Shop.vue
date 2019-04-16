@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RewardsTabs/>
+    <ShopTabs/>
     <div class="p-2 text-center">
     <h2>DEALER SHOP</h2>
     <div class="columns">

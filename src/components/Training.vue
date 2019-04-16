@@ -6,12 +6,17 @@
         <!-- <div class="level">{{ ownItem.lvl }}</div> -->
         <div class="item-content width-full mr-3 mb-4">
             <h5>{{ training.name }}</h5>
-            <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
+            <!-- <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" /> -->
             <div class="mb-2" v-html="training.desc"></div>
             <div v-if="training.feature" class="mb-2">
                 UNIQUE:
                 <span class="text-orange">{{ training.feature }}</span>
             </div>
+        </div>
+        <div>
+                  <button class="button btn-block button-blue mb-2 mt-2" disabled>
+              COMING SOON
+            </button >
         </div>
         <!-- <div class="mx-auto">
             <Checkout :id="training.id" :level="ownItem.lvl + 1" :coeff="training.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 10000" :notEnough="hasNotEnough" />

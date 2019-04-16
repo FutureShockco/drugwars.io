@@ -14,7 +14,11 @@
                         <span v-else>Edit</span>   
                       </button>
                 <p>Can't edit nickname before : {{lastUpdate}}</p>    
-            </form>    
+            </form>   
+             <a @click.prevent="alert.isActive ? stop_alerts(alert) : activate_alerts(alert)" v-for="alert in alerts" :key="alert.id">
+             <div v-if="alert.isActive" class="iconfont icon-mute">Stop alerts on incoming Attacks</div>
+             <div v-else class="iconfont icon-unmute">Activate alerts on incoming Attacks</div>
+          </a> 
         </div>   
     </div>
 </template>
@@ -29,6 +33,13 @@ export default {
       isLoading: false,
       nickname: null,
       picture: null,
+      alerts: [
+        {
+          id: 'alert',
+          name: 'Attack',
+          isActive: localStorage.getItem('attack_alert') || false,
+        },
+      ],
     };
   },
   computed: {
@@ -68,6 +79,14 @@ export default {
           console.error('Failed to edit profile', e);
           this.isLoading = false;
         });
+    },
+    activate_alerts(alert) {
+      localStorage.setItem('attack_alert', true);
+      alert.isActive = true; // eslint-disable-line no-param-reassign
+    },
+    stop_alerts(alert) {
+      localStorage.setItem('attack_alert', false);
+      alert.isActive = false; // eslint-disable-line no-param-reassign
     },
   },
 };

@@ -47,7 +47,7 @@
         <div class="balance">
         <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
        <h5 class="ml-0 mt-1 mb-0 text-left">
-      <router-link to="/future">
+      <router-link to="/shop/future">
         Withdraw
       </router-link>
     </h5>

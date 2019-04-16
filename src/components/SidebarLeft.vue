@@ -22,7 +22,7 @@
         <ul class="pt-1 pb-2 border-bottom">
           <li>
             <router-link
-              to="/"
+              to="/overview"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
@@ -58,7 +58,7 @@
           </li>
           <li>
             <router-link
-              to="/fight"
+              to="/fight" 
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
@@ -91,7 +91,7 @@
           <li>
             <router-link
               to="/rewards"
-              class="py-1 px-4 d-block"
+              class="py-1 px-4 d-block sidebar-rewards"
               @click.native="toggleSidebar"
             >
               Rewards
@@ -193,6 +193,12 @@ export default {
 <style scoped lang="less">
 @import '../vars';
 
+@media screen and (min-width: 1119px) {
+  .sidebar-rewards {
+    display: none !important;
+  }
+}
+
 .sidebar-left {
   left: -@sidebar-width;
 
@@ -212,7 +218,7 @@ export default {
     li {
       clear: both;
       font-family: @special-font;
-      .router-link-exact-active {
+      .router-link-active {
         opacity: 1;
         color: black;
         background-image: radial-gradient(

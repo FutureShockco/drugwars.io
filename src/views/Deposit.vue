@@ -1,6 +1,6 @@
 <template>
   <div>
-    <RewardsTabs/>
+    <ShopTabs/>
     <div class="p-4">
       <div class="mb-4">
         <Loading v-if="isLoading" />

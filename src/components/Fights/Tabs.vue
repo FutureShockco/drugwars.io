@@ -2,12 +2,16 @@
   <Header>
     <UiTabs>
       <UiTab to="/fight">Fight</UiTab>
-      <UiTab to="/fights">OnGoing   <span v-if="activeFightsCount > 0">
-              ( {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>)
-            </span></UiTab>
-      <UiTab to="/receiving">Incoming   <span v-if="activeIncFightsCount > 0">
-              ( {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)</span></UiTab>
-      <UiTab to="/targets">Find targets</UiTab>
+      <UiTab to="/fight/ongoing">OnGoing   
+        <span v-if="activeFightsCount > 0">
+          ({{ activeFightsCount }})
+        </span>
+      </UiTab>
+      <UiTab to="/fight/incoming">Incoming   
+        <span v-if="activeIncFightsCount > 0">
+          ({{ activeIncFightsCount }})
+        </span></UiTab>
+      <UiTab to="/fight/targets">Find targets</UiTab>
     </UiTabs>
   </Header>
 </template>

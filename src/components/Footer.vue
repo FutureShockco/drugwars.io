@@ -18,7 +18,7 @@
       <li class="column col-3">
         <a
           target="_blank"
-          href="https://discord.gg/Cs7Xy7G"
+          href="https://discord.me/drugwars"
           class="d-block text-center"
         >
           <i class="iconfont icon-discord"/>

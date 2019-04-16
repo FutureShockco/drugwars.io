@@ -120,7 +120,6 @@ export default {
       let supply = 0;
       this.selectedUnits.forEach(unit => {
         supply += units[unit.key].supply * unit.amount;
-        console.log(supply);
       });
       const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
       return power;

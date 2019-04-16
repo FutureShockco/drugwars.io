@@ -13,11 +13,11 @@ const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Dr
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
-// const Trainings = () =>
-//   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
+const Trainings = () =>
+  import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
-const Fights = () => import(/* webpackChunkName: "fights" */ '@/views/Fights/Fights.vue');
-const Receiving = () => import(/* webpackChunkName: "receiving" */ '@/views/Fights/Receiving.vue');
+const Ongoing = () => import(/* webpackChunkName: "Ongoing" */ '@/views/Fights/Ongoing.vue');
+const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Fights/Incoming.vue');
 const HallOfFame = () =>
   import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
@@ -39,7 +39,9 @@ const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settin
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
-const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help.vue');
+const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help/Help.vue');
+const GetStarted = () => import(/* webpackChunkName: "getstarted" */ '@/views/Help/GetStarted.vue');
+const Guides = () => import(/* webpackChunkName: "guides" */ '@/views/Help/Guides.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
 
 Vue.use(Router);
@@ -83,13 +85,19 @@ export default new Router({
       component: Overview,
     },
     {
+      path: '/overview',
+      name: 'overview',
+      beforeEnter: requireAuth,
+      component: Overview,
+    },
+    {
       path: '/missions',
       name: 'missions',
       beforeEnter: requireAuth,
       component: Missions,
     },
     {
-      path: '/tutorial',
+      path: '/missions/tutorial',
       name: 'tutorial',
       beforeEnter: requireAuth,
       component: Tutorial,
@@ -101,19 +109,19 @@ export default new Router({
       component: Buildings,
     },
     {
-      path: '/drugs',
+      path: '/buildings/drugs',
       name: 'drugs',
       beforeEnter: requireAuth,
       component: Drugs,
     },
     {
-      path: '/weapons',
+      path: '/buildings/weapons',
       name: 'weapons',
       beforeEnter: requireAuth,
       component: Weapons,
     },
     {
-      path: '/alcohol',
+      path: '/buildings/alcohol',
       name: 'alcohol',
       beforeEnter: requireAuth,
       component: Alcohol,
@@ -124,12 +132,12 @@ export default new Router({
       beforeEnter: requireAuth,
       component: Units,
     },
-    // {
-    //   path: '/trainings',
-    //   name: 'trainings',
-    //   beforeEnter: requireAuth,
-    //   component: Trainings,
-    // },
+    {
+      path: '/units/trainings',
+      name: 'trainings',
+      beforeEnter: requireAuth,
+      component: Trainings,
+    },
     {
       path: '/fight',
       name: 'fight',
@@ -137,16 +145,22 @@ export default new Router({
       component: Fight,
     },
     {
-      path: '/fights',
-      name: 'fights',
+      path: '/fight/ongoing',
+      name: 'ongoing',
       beforeEnter: requireAuth,
-      component: Fights,
+      component: Ongoing,
     },
     {
-      path: '/receiving',
-      name: 'receiving',
+      path: '/fight/incoming',
+      name: 'incoming',
       beforeEnter: requireAuth,
-      component: Receiving,
+      component: Incoming,
+    },
+    {
+      path: '/fight/targets',
+      name: 'targets',
+      beforeEnter: requireAuth,
+      component: Targets,
     },
     {
       path: '/hall-of-fame',
@@ -155,19 +169,13 @@ export default new Router({
       component: HallOfFame,
     },
     {
-      path: '/targets',
-      name: 'targets',
-      beforeEnter: requireAuth,
-      component: Targets,
-    },
-    {
       path: '/gangs',
       name: 'gangs',
       beforeEnter: requireAuth,
       component: Gangs,
     },
     {
-      path: '/gang/:id',
+      path: '/gangs/gang/:id',
       name: 'gang',
       beforeEnter: requireAuth,
       component: Gang,
@@ -185,13 +193,13 @@ export default new Router({
       component: Claim,
     },
     {
-      path: '/future',
+      path: '/shop/future',
       name: 'future',
       beforeEnter: requireAuth,
       component: Claim,
     },
     {
-      path: '/deposit',
+      path: '/shop/deposit',
       name: 'deposit',
       beforeEnter: requireAuth,
       component: Deposit,
@@ -227,7 +235,7 @@ export default new Router({
       component: Heistboard,
     },
     {
-      path: '/referral',
+      path: '/settings/referral',
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
@@ -257,6 +265,18 @@ export default new Router({
       name: 'help',
       beforeEnter: requireAuth,
       component: Help,
+    },
+    {
+      path: '/help/getstarted',
+      name: 'getstarted',
+      beforeEnter: requireAuth,
+      component: GetStarted,
+    },
+    {
+      path: '/help/guides',
+      name: 'guides',
+      beforeEnter: requireAuth,
+      component: Guides,
     },
     {
       path: '/earlyaccess',

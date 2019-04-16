@@ -49,6 +49,13 @@ const mutations = {
   },
 };
 
+const soundAlert = {
+  playAttackAlert() {
+    const audio = new Audio(`./audio/attack.mp3`);
+    audio.play();
+  },
+};
+
 client.notifications = () => {};
 client.subscribe((data, message) => {
   if (message[1].body === 'update') {
@@ -79,6 +86,7 @@ client.subscribe((data, message) => {
       type: 'error',
       message: 'You are under attack!',
     });
+    if (localStorage.getItem('attack_alert')) soundAlert.playAttackAlert();
   }
 
   if (message[1].body === 'endattack') {

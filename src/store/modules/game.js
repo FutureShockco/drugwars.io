@@ -58,7 +58,11 @@ const soundAlert = {
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
-  if (message[1].body.type && message[1].body.type === 'start_attack') {
+  if (
+    message[1].body &&
+    message[1].body.type !== undefined &&
+    message[1].body.type === 'start_attack'
+  ) {
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');
     store.dispatch('notify', {

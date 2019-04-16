@@ -57,7 +57,7 @@
                 </div>
                 <div class="column col-6">
                     <div class="mb-4" v-if="json.target">
-                       <Troops v-if="json.target.detail.units" :units="json.target.detail.units" />
+                        <Troops v-if="json.target.detail && json.target.detail.units" :units="json.target.detail.units" />
                         <Army v-else-if="json.target.units" :units="json.target.units" :withDead="true" />
                     </div>
                 </div>

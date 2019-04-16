@@ -58,6 +58,15 @@ const soundAlert = {
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
+  if (message[1].body.type && message[1].body.type === 'start_attack') {
+    store.dispatch('refresh_sent_fights');
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: `Your troops are on their way to attack ${message[1].body.target}!`,
+    });
+  }
+
   if (message[1].body === 'update') {
     store.dispatch('init');
   }
@@ -79,17 +88,20 @@ client.subscribe((data, message) => {
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');
   }
+
   if (message[1].body === 'receiveattack') {
     store.dispatch('refresh_inc_fights');
     store.dispatch('init');
     store.dispatch('notify', {
       type: 'error',
-      message: 'You are under attack!',
+      message: 'Some opponents troops are coming to your base!',
     });
-    if (localStorage.getItem('attack_alert')) soundAlert.playAttackAlert();
+    if (localStorage.getItem('attack_alert')) {
+      soundAlert.playAttackAlert();
+    }
   }
 
-  if (message[1].body === 'endattack') {
+  if (message[1].body === 'end_attack') {
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');
     store.dispatch('notify', {
@@ -98,7 +110,16 @@ client.subscribe((data, message) => {
     });
   }
 
-  if (message[1].body === 'startattack') {
+  if (message[1].body === 'end_inc_attack') {
+    store.dispatch('refresh_inc_fights');
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'error',
+      message: 'You are under attack!',
+    });
+  }
+
+  if (message[1].body === 'start_attack') {
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');
     store.dispatch('notify', {

@@ -181,16 +181,10 @@ export default new Router({
       component: Gang,
     },
     {
-      path: '/gang/:id/settings',
+      path: '/gangs/gang/:id/settings',
       name: 'gang-settings',
       beforeEnter: requireAuth,
       component: GangSettings,
-    },
-    {
-      path: '/claim-token',
-      name: 'claim-token',
-      beforeEnter: requireAuth,
-      component: Claim,
     },
     {
       path: '/shop/future',

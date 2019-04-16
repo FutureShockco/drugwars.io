@@ -19,7 +19,7 @@
           {{ gang.about }}
         </p>
         <router-link v-if="isBoss"
-          :to="`/gang/${gang.gang}/settings`"
+          :to="`/gangs/gang/${gang.gang}/settings`"
           class="button button-blue d-inline-block mb-4"
         >
           Settings
@@ -69,7 +69,7 @@
           <textarea
             type="text"
             class="input input-block mb-2"
-            placeholder="Message to the boss and capos (optional)"
+            placeholder="Message to the boss and capos (optional). They will know your real identity."
             v-model="message"
             maxlength="280"
           ></textarea>
@@ -87,17 +87,17 @@
           <h3>Members</h3>
           <div class="mb-4">
             <div
-              :key="member.username"
+              :key="member.nickname"
               v-for="member in members"
               class="py-3 border-bottom text-left"
             >
               <router-link
-                :to="`/fight?target=${member.username}`">
-                  <Avatar :username="member.username" size="40" class="mr-2" />
-                  {{ member.username }} {{ member.role }}
+                :to="`/fight?target=${member.nickname}`">
+                  <Avatar :nickname="member.nickname" size="40" class="mr-2" />
+                  {{ member.nickname }} {{ member.role }}
               </router-link>
               <button
-                @click="handleKick(member.username)"
+                @click="handleKick(member.nickname)"
                 class="button button-red float-right"
                 :disabled="isLoading"
                 v-if="isBoss"
@@ -108,7 +108,7 @@
                 <Loading v-else />
               </button>
               <button
-                @click="handleAddCapo(member.username)"
+                @click="handleAddCapo(member.nickname)"
                 class="button button-green float-right"
                 :disabled="isLoading"
                 v-if="

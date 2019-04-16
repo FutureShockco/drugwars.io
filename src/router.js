@@ -16,7 +16,7 @@ const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Uni
 const Trainings = () =>
   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
-const Ongoing = () => import(/* webpackChunkName: "Ongoing" */ '@/views/Fights/Ongoing.vue');
+const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Fights/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Fights/Incoming.vue');
 const HallOfFame = () =>
   import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
@@ -145,10 +145,10 @@ export default new Router({
       component: Fight,
     },
     {
-      path: '/fight/ongoing',
-      name: 'ongoing',
+      path: '/fight/outgoing',
+      name: 'outgoing',
       beforeEnter: requireAuth,
-      component: Ongoing,
+      component: Outgoing,
     },
     {
       path: '/fight/incoming',

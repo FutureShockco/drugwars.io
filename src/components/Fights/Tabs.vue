@@ -2,7 +2,7 @@
   <Header>
     <UiTabs>
       <UiTab to="/fight">Fight</UiTab>
-      <UiTab to="/fight/ongoing">OnGoing   
+      <UiTab to="/fight/outgoing">OutGoing   
         <span v-if="activeFightsCount > 0">
           ({{ activeFightsCount }})
         </span>

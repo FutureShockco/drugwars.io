@@ -1,0 +1,21 @@
+<template>
+  <div v-if="units">
+    <div
+      v-for="unit in units"
+      v-if="unit.amount !== 0"
+      :key="unit.unit"
+      class="d-inline-block mx-1 my-1 text-center"
+    >
+      <img width="50" :src="`/img/units/${unit.unit}.jpg`">
+      <div>
+        {{ unit.amount }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['units'],
+};
+</script>

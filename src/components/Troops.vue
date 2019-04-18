@@ -1,5 +1,6 @@
 <template>
   <div v-if="units">
+     <h5>UNITS</h5>
     <div
       v-for="unit in units"
       v-if="unit.amount !== 0"

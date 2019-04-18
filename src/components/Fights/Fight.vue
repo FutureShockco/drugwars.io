@@ -57,8 +57,7 @@
                 </div>
                 <div class="column col-6">
                     <div class="mb-4" v-if="json.target">
-                        <Troops v-if="json.target.detail && json.target.detail.units" :units="json.target.detail.units" />
-                        <Army v-else-if="json.target.units" :units="json.target.units" :withDead="true" />
+                        <Army v-if="json.target.units" :units="json.target.units" :withDead="true" />
                     </div>
                 </div>
             </div>
@@ -69,6 +68,7 @@
                 </div>
             </div>
             <div v-if="details" class="text-center">
+                 <Troops v-if="json.target.detail && json.target.detail.units" :units="json.target.detail.units" />
                 <FightsDetail v-if="json && json.target && fight.target_nickname != user.nickname && json.target.detail" :detail="json.target.detail" />
                 <Share v-if="!timeToWait" :fight="this.fight" :fight_key="this.fight.fight_key" />
                 <div class="sharemessage" v-if="!timeToWait">Share your victory on our forum and obtain a chance to get rewarded.</div>

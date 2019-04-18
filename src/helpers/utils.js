@@ -14,17 +14,17 @@ const getBalances = (user, ocLvl) => {
   const now = new Date();
   const time = (now.getTime() - new Date(user.last_update).getTime()) / 1000;
   let drugs =
-    user.drugs_balance -
-    user.drugs_pending +
-    Number(parseFloat(time * user.drug_production_rate).toFixed(2));
+    user.drugs_balance +
+    Number(parseFloat(time * user.drug_production_rate).toFixed(2)) -
+    user.drugs_pending;
   let weapons =
-    user.weapons_balance -
-    user.weapons_pending +
-    Number(parseFloat(time * user.weapon_production_rate).toFixed(2));
+    user.weapons_balance +
+    Number(parseFloat(time * user.weapon_production_rate).toFixed(2)) -
+    user.weapons_pending;
   let alcohols =
-    user.alcohols_balance -
-    user.alcohols_pending +
-    Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
+    user.alcohols_balance +
+    Number(parseFloat(time * user.alcohol_production_rate).toFixed(2)) -
+    user.alcohols_pending;
   if (ocLvl > 0) {
     drugs += Number(parseFloat(time * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005));
     weapons += Number(parseFloat(time * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005));

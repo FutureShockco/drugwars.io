@@ -70,6 +70,15 @@
             </span>
             </router-link>
           </li>
+          <!-- <li>
+            <router-link
+              to="/worldmap"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Map
+            </router-link>
+          </li> -->
           <li>
             <router-link
               to="/leaderboards"

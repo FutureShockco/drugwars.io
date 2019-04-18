@@ -26,6 +26,7 @@ const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/G
 const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Claim.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Deposit.vue');
+const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
@@ -215,6 +216,12 @@ export default new Router({
       name: 'shop',
       beforeEnter: requireAuth,
       component: Shop,
+    },
+    {
+      path: '/worldmap',
+      name: 'worldmap',
+      beforeEnter: requireAuth,
+      component: Worldmap,
     },
     {
       path: '/leaderboards',

@@ -8,15 +8,18 @@
     </div>
     <div class="level">{{ ownItem.amount }}</div>
     <div class="item-content width-full mr-3 mb-4">
-      <h5>{{ unit.name }}</h5>
+        <h5>{{ unit.name }}</h5>
       <Cost
         :drugsCost="unit.drugs_cost"
         :weaponsCost="unit.weapons_cost"
         :alcoholsCost="unit.alcohols_cost"
         :quantity="quantity"
-      />
+      />Supply : {{unit.supply}}
       <div class="mb-2" v-html="unit.desc"></div>
       <div class="mb-2">
+        <span class="mr-2">
+          {{ unit.type }}
+        </span>
         <span class="mr-2">
           <i class="iconfont icon-target text-red"/>
           {{ unit.attack }}
@@ -32,9 +35,6 @@
         <span class="mr-2">
           <i class="iconfont icon-box text-orange"></i>
           {{ unit.capacity}}
-        </span>
-        <span class="mr-2">
-          {{ unit.type }}
         </span>
       </div>
       <div class="mb-2" v-if="unit.feature">

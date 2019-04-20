@@ -24,7 +24,9 @@
       <div class="sub"><div>DAILY {{prizeProps.daily_percent}}%</div> {{totalDaily | amount}} </div>
       <div class="sub"><div>HEIST {{prizeProps.heist_percent}}%</div> {{totalHeist | amount}} </div>
       </div>
-      <div class="population mb-3 mt-3">POPULATION : {{this.prizeProps.fight_supply}}</div>
+      <div class="population mt-4">REDUCE THE POPULATION AND GET REWARDED</div>
+      <div class="popdetail mb-0 mt-3">POPULATION : {{this.prizeProps.fight_supply | amount}}</div>
+       <div class="popsubdetail mb-3 mt-0">Total units x supply</div>
     </div>
     <!-- <div class="text-gray hide-sm hide-md hide-lg pl-4 pt-1 pb-1">
     Estimated reward: <span class="text-green">+{{ myRewards }} STEEM</span>
@@ -179,6 +181,12 @@ export default {
     margin-top: 5px;
     line-height: 20px;
     margin-bottom: 5px;
+  }
+  .popsubdetail {
+    font-size: 14px;
+    margin-top: 0px;
+    line-height: 20px;
+    margin-bottom: 0px;
   }
   .population {
     font-size: 20px;

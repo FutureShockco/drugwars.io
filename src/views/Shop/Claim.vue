@@ -29,7 +29,7 @@
             class="input input-primary mb-2"
             v-model="amount"
             :disabled="isLoading"
-            maxlength="10"
+            maxlength="10" type="number"
             placeholder="Amount to claim ei. 1000"
           />
           <button :disabled="isLoading" type="submit" class="button input-block button-large button-green">

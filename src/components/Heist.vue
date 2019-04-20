@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="pt-2">
         <h4>Heist</h4>
-        <img width="150px" class="pt-4" :src="`/img/heist.jpg`">
+        <img width="150px" :src="`/img/heist.jpg`">
         <form @submit.prevent="handleSubmit" class="mb-2">
             <input class="input form-control input-block mb-2" 
             v-model="amount" type="number" min="0">
@@ -12,9 +12,9 @@
           </button>
         </form>
         <button :disabled="isLoading" @click="handleFullSubmit()" class="button button-blue btn-block">Deposit all</button>
-        <div>Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
+        <div class="pt-2">Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
         <div>Vest: {{ totalVest | amount }} DRUGS</div>
-        <div class="text-green">+{{ ownReward.amount | amount }} STEEM ({{ ownReward.percent | amount }}%)</div>
+        <div class="text-green">+{{ ownReward.amount | amount }} FUTURE ({{ ownReward.percent | amount }}%)</div>
     </div>
 </template>
 
@@ -45,6 +45,14 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
+    totalFuture() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.heist_percent) /
+        0.005
+      );
+    },
     balances() {
       let ocLvl = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
@@ -54,7 +62,7 @@ export default {
     },
     ownReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalReward / 100) * percent;
+      const amount = (this.totalFuture / 100) * percent;
       return {
         amount,
         percent,
@@ -90,7 +98,7 @@ export default {
 h4 {
   text-transform: uppercase;
   transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
-  top: 150px;
+  top: 120px;
   width: fit-content;
   left: 50%;
   font-size: 26px;

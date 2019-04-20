@@ -15,12 +15,13 @@
         <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div> -->
+
     </div>
     </div>
             <div class="prize mx-auto">
                 {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
                         id="earnings" style="color:#fbbd08;font-weight: 700;">{{Number(totalRewards.myRewards)}}</span>
-                STEEM based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
+                FUTURE based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
         </div>
   </div>
 </template>
@@ -34,6 +35,14 @@ export default {
       const diff =
         this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
+    },
+    totalFuture() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.daily_percent) /
+        0.005
+      );
     },
     prizeProps() {
       return this.$store.state.game.prizeProps;
@@ -54,13 +63,11 @@ export default {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
     },
     totalRewards() {
-      const totalDailySteem =
-        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
       const myRewards = parseFloat(
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem,
-      ).toFixed(3);
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * this.totalFuture,
+      ).toFixed(0);
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = parseFloat((this.totalReward / 100) * percent).toFixed(3);
+      const amount = parseFloat((this.totalReward / 100) * percent).toFixed();
       return { myRewards, amount };
     },
   },

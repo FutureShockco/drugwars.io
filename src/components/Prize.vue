@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="border-bottom">
     <div>
     <Countdown   :starttime="now" 
          :endtime="timeToWait" 
@@ -18,14 +18,13 @@
      </div>
     <div class="prize">
       <div class="detail">Today's prize </div>
-       ${{ parseInt(total) }}
-        <div class="sub">
-          {{totalSteem}} STEEM
-        </div>
-       <div class="prizes">
-       <div class="sub"><div>DAILY</div>  ${{totalDaily | amount}} <div class="subdetail">{{totalDailySteem}} STEEM</div></div>
-       <div class="sub"><div>HEIST</div>  ${{totalHeist | amount}} <div class="subdetail">{{totalHeistSteem}} STEEM</div></div>
-       </div>
+      <div class="mb-4">{{ totalFuture+prizeProps.free_future-prizeProps.daily_rewards | amount }} <img class="future_logo" width="44" src="/img/icons/future.png"></div>
+      <div class="prizes">
+      <div class="sub"><div>BATTLE {{prizeProps.fight_percent}}%</div> {{totalFight+prizeProps.free_future-prizeProps.daily_rewards | amount}} </div>
+      <div class="sub"><div>DAILY {{prizeProps.daily_percent}}%</div> {{totalDaily | amount}} </div>
+      <div class="sub"><div>HEIST {{prizeProps.heist_percent}}%</div> {{totalHeist | amount}} </div>
+      </div>
+      <div class="population mb-3 mt-3">POPULATION : {{this.prizeProps.fight_supply}}</div>
     </div>
     <!-- <div class="text-gray hide-sm hide-md hide-lg pl-4 pt-1 pb-1">
     Estimated reward: <span class="text-green">+{{ myRewards }} STEEM</span>
@@ -35,6 +34,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      population: null,
+    };
+  },
   computed: {
     now() {
       return new Date();
@@ -50,7 +54,23 @@ export default {
       const { prizeProps } = this.$store.state.game;
       return (
         ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-        (prizeProps.daily_percent + prizeProps.heist_percent)
+        (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)
+      );
+    },
+    lastDayFuture() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.daily_purchase);
+    },
+    dailyRewards() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.daily_rewards) || 0;
+    },
+    totalFuture() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)) /
+        0.005
       );
     },
     totalSteem() {
@@ -63,7 +83,17 @@ export default {
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
       return (
-        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.daily_percent
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.daily_percent) /
+        0.005
+      );
+    },
+    totalFight() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.fight_percent) /
+        0.005
       );
     },
     totalDailySteem() {
@@ -75,7 +105,9 @@ export default {
     totalHeist() {
       const { prizeProps } = this.$store.state.game;
       return (
-        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * prizeProps.heist_percent
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.heist_percent) /
+        0.005
       );
     },
     totalHeistSteem() {
@@ -102,31 +134,73 @@ export default {
 @import '../vars';
 
 .prize {
-  font-size: 70px;
+  font-size: 55px;
   font-family: @special-font;
   display: block;
   margin: 0 auto;
+  margin-right: 0px;
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: #fbbd08d9;
+  -webkit-text-fill-color: #ffc508;
   -webkit-animation: aitf 80s linear infinite;
   -webkit-transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   text-align: center;
-  line-height: 45px;
+  line-height: 40px;
+  .future {
+    font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    top: -22px;
+    width: 200px;
+    left: 35%;
+    text-align: center;
+    margin: 0;
+    line-height: 0px;
+    position: relative;
+    text-rendering: optimizeLegibility;
+    font-weight: 900;
+    -webkit-text-fill-color: #ffc508;
+    color: #ffc508 !important;
+    text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+    white-space: nowrap;
+    margin-bottom: 25px;
+  }
+
+  .future_logo {
+    margin-bottom: -3px;
+  }
   .detail {
     font-size: 28px;
+    margin: 0px;
+  }
+  .popdetail {
+    font-size: 20px;
+    margin-top: 5px;
+    line-height: 20px;
+    margin-bottom: 5px;
+  }
+  .population {
+    font-size: 20px;
+    line-height: 18px;
+    -webkit-text-fill-color: #c9c9c9;
+    color: #cfcfcf !important;
   }
   .sub {
-    font-size: 20px;
+    font-size: 18px;
   }
   .prizes {
+    background: #ffc508;
+    -webkit-text-fill-color: #000000;
+    margin-top: 0px;
     display: -webkit-box;
+    padding: 5px;
     .sub {
+      margin-left: 12px;
       margin-top: 0px;
-      width: 50%;
-      font-size: 24px;
-      line-height: 24px;
+      width: 26%;
+      font-size: 18px;
+      line-height: 20px;
     }
     .subdetail {
       font-size: 14px;

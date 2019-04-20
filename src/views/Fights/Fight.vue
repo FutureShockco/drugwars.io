@@ -1,87 +1,61 @@
 <template>
-  <div>
-    <FightsTabs/>
-    <div class="p-4 columns">
-      <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
-        <h3>Select your army composition</h3>
-        <div>
-          <div
-            v-for="ownUnit in ownUnits"
-            :key="ownUnit.key"
-            v-if="ownUnit.amount > 0"
-          >
-            <UnitSelect
-              :item="ownUnit"
-              :key="ownUnit.key"
-              @click="addUnit"
-            />
-          </div>
-        </div>
-      </div>
-
+    <div>
+        <FightsTabs/>
+        <div class="p-4 columns">
+            <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
+                <h3>Select your army composition</h3>
+                <div>
+                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key" v-if="ownUnit.amount > 0">
+                        <UnitSelect :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
+                    </div>
+                </div>
+            </div>
+    
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <div>
-        <div class="mb-4">
-          <h3>Your selected army</h3>
-          <ArmyToSend
-            :units="selectedUnits"
-          />
-        </div>
-        </div>
-                           <div class="mb-4 form width-full">
+                    <div class="mb-4">
+                        <h3>Your selected army</h3>
+                        <ArmyToSend :units="selectedUnits" />
+                    </div>
+                </div>
+                <div class="mb-4 form width-full">
                     <div v-if="selectedUnits.length === 0">
-            <p>You need to select at least 1 unit.</p>
-          </div>
-          <div v-else>
-              <button class="button button-blue" @click="removeUnits()">Remove all</button>
-                      <h3>Offensive Power : {{offensivePower}}%</h3>
-          </div>
-      </div>
-                  <h3>Select your target user</h3>
-          <input
-            class="input form-control btn-block mb-6"
-            placeholder="username"
-            v-model="target"
-          >
-          <h3>Add a fight message*</h3>
-          <div>* optional</div>
-          <input
-            class="input form-control btn-block mb-6"
-            placeholder="I'm coming for you"
-            v-model="message"
-            maxlength="280"
-          >
-          <button
-            :disabled="selectedUnits.length === 0 || !target || isLoading"
-            class="button button-large button-red mb-4"
-            @click="handleSubmit"
-          >
-            <Loading v-if="isLoading"/>
-            <span v-else>Attack</span>
-          </button>
-          <p class="text-red text-left" v-if="errorMessage">
-            {{ errorMessage }}
-          </p>
-              <h3>Defensive Power : {{defensivePower}}%</h3>
-
-                              <a
-              href="https://simulator.drugwars.io/next"
-              target="_blank"
-            >
-              Access to the Fight simulator
-            </a>
+                        <p>You need to select at least 1 unit.</p>
+                    </div>
+                    <div v-else>
+                        <button class="button button-blue" @click="removeUnits()">Remove all</button>
+                        <h3>Offensive Power : {{offensivePower}}%</h3>
+                    </div>
+                </div>
+                <h3>Select your target user</h3>
+                <input class="input form-control btn-block mb-6" placeholder="username" v-model="target">
+                <h3>Add a fight message*</h3>
+                <div>* optional</div>
+                <input class="input form-control btn-block mb-6" placeholder="I'm coming for you" v-model="message" maxlength="280">
+                <button :disabled="selectedUnits.length === 0 || !target || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
+                <Loading v-if="isLoading"/>
+                <span v-else>Attack</span>
+              </button>
+                <p class="text-red text-left" v-if="errorMessage">
+                    {{ errorMessage }}
+                </p>
+                <h3>Defensive Power : {{defensivePower}}%</h3>
+    
+                <a href="https://simulator.drugwars.io/next" target="_blank">
+                  Access to the Fight simulator
+                </a>
+            </div>
+            <div v-else>
+                <p>You don't have any unit to fight.</p>
+            </div>
+    
         </div>
-      <div v-else>
-        <p>You don't have any unit to fight.</p>
-      </div>
-          
     </div>
-  </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-// import client from '@/helpers/client';
+import client from '@/helpers/client';
 import { units } from 'drugwars';
 
 export default {
@@ -171,15 +145,28 @@ export default {
       if (target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
-      // if (this.sent_fights && this.sent_fights.length > 0)
-      //   this.sent_fights.forEach(fight => {
-      //     if (fight.is_stable === 0) {
-      //       this.errorMessage =
-      //         'You have already a fight waiting for confirmation, please wait 45 seconds';
-      //       this.init();
-      //     }
-      //   });
 
+      if (this.sent_fights && this.sent_fights.length > 0)
+        this.sent_fights.forEach(fight => {
+          if (fight.is_stable === 0) {
+            this.errorMessage =
+              'You have already a fight waiting for confirmation, please wait a bit';
+            this.init();
+          }
+        });
+      if (!this.errorMessage)
+        try {
+          const user = await client.requestAsync('check_user', target);
+          console.log(user);
+          if (!user || !user[0].nickname) {
+            this.errorMessage = `Player '${target}' does not exist`;
+          }
+          return !this.errorMessage;
+        } catch (e) {
+          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+          console.error(`Player with nickname '${target}' doesn't exist`, e);
+          return false;
+        }
       if (this.errorMessage) {
         return false;
       }

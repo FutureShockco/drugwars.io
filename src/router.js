@@ -8,29 +8,37 @@ const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callba
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Missions/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
+
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
+
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Trainings = () =>
   import(/* webpackChunkName: "trainings" */ '@/views/Bootcamp/Trainings.vue');
+
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
 const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Fights/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Fights/Incoming.vue');
+const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
 const HallOfFame = () =>
   import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
-const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
+
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
 const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
-const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Claim.vue');
-const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Deposit.vue');
-const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
+
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
+const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Shop/Exchange.vue');
+const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Shop/Claim.vue');
+const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Shop/Deposit.vue');
+
+const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
+
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
@@ -188,6 +196,12 @@ export default new Router({
       component: GangSettings,
     },
     {
+      path: '/shop',
+      name: 'shop',
+      beforeEnter: requireAuth,
+      component: Shop,
+    },
+    {
       path: '/shop/future',
       name: 'future',
       beforeEnter: requireAuth,
@@ -200,6 +214,12 @@ export default new Router({
       component: Deposit,
     },
     {
+      path: '/shop/exchange',
+      name: 'exchange',
+      beforeEnter: requireAuth,
+      component: Exchange,
+    },
+    {
       path: '/gangs/create',
       name: 'gang-create',
       beforeEnter: requireAuth,
@@ -210,12 +230,6 @@ export default new Router({
       name: 'rewards',
       beforeEnter: requireAuth,
       component: Rewards,
-    },
-    {
-      path: '/shop',
-      name: 'shop',
-      beforeEnter: requireAuth,
-      component: Shop,
     },
     {
       path: '/worldmap',
@@ -236,16 +250,16 @@ export default new Router({
       component: Heistboard,
     },
     {
-      path: '/settings/referral',
-      name: 'referral',
-      beforeEnter: requireAuth,
-      component: Referral,
-    },
-    {
       path: '/settings',
       name: 'settings',
       beforeEnter: requireAuth,
       component: Settings,
+    },
+    {
+      path: '/settings/referral',
+      name: 'referral',
+      beforeEnter: requireAuth,
+      component: Referral,
     },
     {
       path: '/i/:username',

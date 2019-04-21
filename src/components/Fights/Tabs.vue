@@ -11,7 +11,7 @@
         <span v-if="activeIncFightsCount > 0">
           ({{ activeIncFightsCount }})
         </span></UiTab>
-      <UiTab to="/fight/targets">Find targets</UiTab>
+      <UiTab to="/fight/targets">Targets</UiTab>
     </UiTabs>
   </Header>
 </template>

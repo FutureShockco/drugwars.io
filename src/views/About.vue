@@ -11,9 +11,10 @@
         Early access
       </p>
       <p>Version: {{ pkg.version }}</p>
+      <img class="egg" src="/img/dwegg.jpg">
       <p>
         <a href="/img/drugwars.svg" target="_blank">
-          Download DrugWars logo
+          Download DrugWars logo 
         </a>
       </p>
       <p v-if="pkg.bugs">
@@ -52,5 +53,8 @@ export default {
   li {
     font-size: 16px;
   }
+}
+.egg {
+  float: right;
 }
 </style>

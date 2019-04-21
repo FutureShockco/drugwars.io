@@ -8,7 +8,7 @@
                 <Avatar v-else :size="80" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
                 <div class="username mb-4">{{ fight.attacker_nickname }}</div>
                 <div v-if="fight.attacker_gang" class="username gang mt-4">{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
-                <div v-if="details && json && json.attacker && json.attacker.end_value" v-html="json.attacker.end_value"></div>
+                <div v-if="details && json && json.attacker && json.attacker.value" v-html="json.attacker.value"></div>
             </div>
             <div class="column col-4">
                 <div class="mt-2" v-if="result">
@@ -43,7 +43,7 @@
                 <Avatar v-else :size="80" :username="user.nickname" :picture="user.picture" />
                 <div class="username mb-4">{{ fight.target_nickname }}</div>
                 <div v-if="fight.target_ticker" class="username gang mt-4">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
-                <div v-if="details && json && json.target &&json.target.end_value" v-html="json.target.end_value"></div>
+                <div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
             </div>
         </div>
         <div>

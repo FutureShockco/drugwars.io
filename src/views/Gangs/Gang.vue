@@ -86,42 +86,12 @@
         </form>
           <h3>Members</h3>
           <div class="mb-4">
-            <div
+            <GangMember
               :key="member.nickname"
               v-for="member in members"
+              :member="member" :id="id"
               class="py-3 border-bottom text-left"
-            >
-              <router-link
-                :to="`/fight?target=${member.nickname}`">
-                  <Avatar :nickname="member.nickname" size="40" class="mr-2" />
-                  {{ member.nickname }} {{ member.role }}
-              </router-link>
-              <button
-                @click="handleKick(member.nickname)"
-                class="button button-red float-right"
-                :disabled="isLoading"
-                v-if="isBoss"
-              >
-                <span v-if="!isLoading">
-                  Kick
-                </span>
-                <Loading v-else />
-              </button>
-              <button
-                @click="handleAddCapo(member.nickname)"
-                class="button button-green float-right"
-                :disabled="isLoading"
-                v-if="
-                  member.role === 'soldier'
-                  && isBoss
-                "
-              >
-                <span v-if="!isLoading">
-                  Promote to capo
-                </span>
-                <Loading v-else />
-              </button>
-            </div>
+            />
           </div>
         </div>
       </div>

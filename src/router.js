@@ -39,11 +39,14 @@ const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Shop/Dep
 
 const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
 
-const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
 const Heistboard = () =>
-  import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Heistboard.vue');
+  import(/* webpackChunkName: "heistboard" */ '@/views/Leaderboards/Heistboard.vue');
+const Fightboard = () =>
+  import(/* webpackChunkName: "fightboard" */ '@/views/Leaderboards/Fightboard.vue');
+
+const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
@@ -248,6 +251,12 @@ export default new Router({
       name: 'heistboard',
       beforeEnter: requireAuth,
       component: Heistboard,
+    },
+    {
+      path: '/leaderboards/fights',
+      name: 'fightboard',
+      beforeEnter: requireAuth,
+      component: Fightboard,
     },
     {
       path: '/settings',

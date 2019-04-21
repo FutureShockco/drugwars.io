@@ -54,12 +54,21 @@
       </h5>
     </div>
 
-    <div v-else class="column col-4">
+    <div v-else-if="player.drugs" class="column col-4">
       <h5 class="production">
         <span class="mr-3">
           TOTAL DEPOSIT : 
           <Icon name="drug" size="22"/>
           {{ player.drugs | amount}}
+        </span>
+      </h5>
+    </div>
+    <div v-else-if="player.amount" class="column col-4">
+      <h5 class="production">
+        <span class="mr-3">
+          TOTAL REWARD : 
+          <Icon name="future" size="22"/>
+          {{ player.amount | amount}}
         </span>
       </h5>
     </div>

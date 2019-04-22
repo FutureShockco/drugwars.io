@@ -9,7 +9,7 @@
                 @click="handleKick(member.nickname)"
                 class="button button-red float-right"
                 :disabled="isLoading "
-                v-if="isBoss && member.role === 'soldier' || member.role === 'capo'"
+                v-if="isBoss"
               >
                 <span v-if="!isLoading">
                   Kick {{member.role}}

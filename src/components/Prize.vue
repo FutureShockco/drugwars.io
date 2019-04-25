@@ -1,8 +1,9 @@
 <template>
-  <div class="border-bottom">
-    <div>
-    <Countdown   :starttime="now" 
-         :endtime="timeToWait" 
+	<div class="border-bottom">
+		<div>
+			<Countdown
+				:starttime="now"
+				:endtime="timeToWait"
          trans='{  
          "day":"Day",
          "hours":"Hours",
@@ -15,23 +16,32 @@
             "running":"Running",
             "upcoming":"Future"
            }}'/>
-     </div>
-    <div class="prize">
-      <div class="detail">Today's prize </div>
-      <div class="mb-4">{{ totalFuture+prizeProps.free_future-prizeProps.daily_rewards | amount }} <img class="future_logo" width="44" src="/img/icons/future.png"></div>
-      <div class="prizes">
-      <div class="sub"><div>BATTLE {{prizeProps.fight_percent}}%</div> {{totalFight+prizeProps.free_future-prizeProps.daily_rewards | amount}} </div>
-      <div class="sub"><div>DAILY {{prizeProps.daily_percent}}%</div> {{totalDaily | amount}} </div>
-      <div class="sub"><div>HEIST {{prizeProps.heist_percent}}%</div> {{totalHeist | amount}} </div>
-      </div>
-      <div class="population mt-4">REDUCE THE POPULATION AND GET REWARDED</div>
-      <div class="popdetail mb-0 mt-3">POPULATION : {{this.prizeProps.fight_supply | amount}}</div>
-       <div class="popsubdetail mb-3 mt-0">Total units x supply</div>
-    </div>
-    <!-- <div class="text-gray hide-sm hide-md hide-lg pl-4 pt-1 pb-1">
-    Estimated reward: <span class="text-green">+{{ myRewards }} STEEM</span>
-  </div> -->
-  </div>
+		</div>
+		<div class="prize">
+			<div class="detail">Today's prize</div>
+			<div class="mb-4">
+				{{ totalFuture | amount }}
+				<img class="future_logo" width="44" src="/img/icons/future.png">
+			</div>
+			<div class="prizes">
+				<div class="sub">
+					<div>BATTLE {{prizeProps.fight_percent}}%</div>
+					{{totalFight+prizeProps.free_future-prizeProps.daily_rewards | amount}}
+				</div>
+				<div class="sub">
+					<div>DAILY {{prizeProps.daily_percent}}%</div>
+					{{totalDaily | amount}}
+				</div>
+				<div class="sub">
+					<div>HEIST {{prizeProps.heist_percent}}%</div>
+					{{totalHeist | amount}}
+				</div>
+			</div>
+			<div class="population mt-4">REDUCE THE POPULATION AND GET REWARDED</div>
+			<div class="popdetail mb-0 mt-3">POPULATION : {{this.prizeProps.fight_supply | amount}}</div>
+			<div class="popsubdetail mb-3 mt-0">Total units x supply</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -39,6 +49,7 @@ export default {
   data() {
     return {
       population: null,
+      future_price: 0.005,
     };
   },
   computed: {
@@ -63,16 +74,14 @@ export default {
       const { prizeProps } = this.$store.state.game;
       return parseFloat(prizeProps.daily_purchase);
     },
-    dailyRewards() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat(prizeProps.daily_rewards) || 0;
-    },
     totalFuture() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)) /
-        0.005
+          this.future_price +
+        prizeProps.free_future -
+        prizeProps.daily_rewards
       );
     },
     totalSteem() {
@@ -87,7 +96,7 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.daily_percent) /
-        0.005
+        this.future_price
       );
     },
     totalFight() {
@@ -95,13 +104,7 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.fight_percent) /
-        0.005
-      );
-    },
-    totalDailySteem() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat((parseFloat(prizeProps.balance) / 100) * prizeProps.daily_percent).toFixed(
-        2,
+        this.future_price
       );
     },
     totalHeist() {
@@ -109,24 +112,11 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.heist_percent) /
-        0.005
-      );
-    },
-    totalHeistSteem() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat((parseFloat(prizeProps.balance) / 100) * prizeProps.heist_percent).toFixed(
-        2,
+        this.future_price
       );
     },
     user() {
       return this.$store.state.game.user.user;
-    },
-    myRewards() {
-      const totalDailySteem =
-        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
-      const myRewards =
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem;
-      return myRewards.toFixed(3);
     },
   },
 };
@@ -149,6 +139,7 @@ export default {
   -webkit-backface-visibility: hidden;
   text-align: center;
   line-height: 40px;
+
   .future {
     font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -176,6 +167,7 @@ export default {
     font-size: 28px;
     margin: 0px;
   }
+
   .popdetail {
     font-size: 20px;
     margin-top: 5px;

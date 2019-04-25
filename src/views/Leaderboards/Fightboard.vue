@@ -28,7 +28,6 @@ export default {
   created() {
     this.isLoading = true;
     client.requestAsync('get_fightboard', null).then(result => {
-      console.log(result);
       this.users = result.players;
       this.isLoading = false;
     });

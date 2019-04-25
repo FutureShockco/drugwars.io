@@ -14,7 +14,7 @@
         <button :disabled="isLoading" @click="handleFullSubmit()" class="button button-blue btn-block">Deposit all</button>
         <div class="pt-2">Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
         <div>Vest: {{ totalVest | amount }} DRUGS</div>
-        <div class="text-green">+{{ ownReward.amount | amount }} FUTURE ({{ ownReward.percent | amount }}%)</div>
+        <div class="text-green">+{{ Math.round(ownHeistReward.amount) | amount }} FUTURE ({{ownHeistReward.percent | amount}}%)</div>
     </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
-    totalFuture() {
+    totalHeistFuture() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
@@ -60,9 +60,9 @@ export default {
           .lvl;
       return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
     },
-    ownReward() {
+    ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalFuture / 100) * percent;
+      const amount = (this.totalHeistFuture / 100) * percent;
       return {
         amount,
         percent,

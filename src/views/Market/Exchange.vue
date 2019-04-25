@@ -6,9 +6,13 @@
             <h5>You can choose here in which cryptocurrencies you want to change your rewards.</h5>
             <div>
                 <input class="mr-2" type="radio" id="two" value="steem" v-model="picked">
-                <label for="two">STEEM (Send automatically to your wallet)</label>
+                <label for="two"><Icon name="steem" size="18" class="icons mr-2"/>STEEM (Send automatically to your wallet)</label>
             </div>
             <br>
+            <div>
+                <input class="mr-2" type="radio" disabled id="four" value="btc" v-model="picked">
+                <label for="four">SBD (disabled)</label>
+            </div>
             <div>
                 <input class="mr-2" type="radio" disabled id="four" value="btc" v-model="picked">
                 <label for="four">BTC (disabled)</label>
@@ -22,14 +26,14 @@
             <form v-if="user.future > 0 && picked" class="form mx-auto" @submit.prevent="handleSubmit">
                 <input class="input input-primary mb-2" type="number" v-model="amount" :disabled="isLoading" maxlength="10" placeholder="Amount to change" />
                 <button :disabled="isLoading || user.future < amount" type="submit" class="button input-block button-large button-green">
-                              <span v-if="!isLoading">
-                                Withdraw
-                              </span>
-                              <Loading v-else />
-                </button>
-            <h3>{{totalFuture}} {{picked}}</h3>
+                                  <span v-if="!isLoading">
+                                    Withdraw
+                                  </span>
+                                  <Loading v-else />
+                    </button>
+                <h3>{{totalFuture}} {{picked}}</h3>
             </form>
-             <div v-if="!picked">
+            <div v-if="!picked">
                 <p class="mb-4">You must choose your currency.</p>
             </div>
             <div v-if="picked && amount < 50">
@@ -39,19 +43,20 @@
                 <p class="mb-4">You don't have any token to claim.</p>
             </div>
             <div>
-              <p class="mb-4">Why the FUTURE price is low in the internal exchange?</p>
-               At this moment the internal exchange is a guarantee for everyone to be able to sell their FUTURE tokens for a minimum value instantly. In contrary to other exchanges it avoid any complexity and waiting time. The price of the future is defined by the following formula - Total Future Owned by players / @drugwars account balance ({{prizeProps.total_future}} / {{parseInt(prizeProps.balance)}} = {{futureToSteem}}) and will change to reflect the market price in less than few weeks.
+                <p class="mb-4">Why the FUTURE price is low in the internal exchange?</p>
+                At this moment the internal exchange is a guarantee for everyone to be able to sell their FUTURE tokens for a minimum value instantly. In contrary to other exchanges it avoid any complexity and waiting time. The price of the future is defined by the following
+                formula - Total Future Owned by players / @drugwars account balance ({{prizeProps.total_future}} / {{parseInt(prizeProps.balance)}} = {{futureToSteem}}) and will change to reflect the market price in less than few weeks.
             </div>
-              <div>
-              <p class="mb-4 mt-4">Where else can I sell my FUTURE?</p>
-            			<!-- <div>
-				Buy with BTC by using
-				<a href="https://cryptox.pl/">Cryptox.pl</a>.
-			</div> -->
-			<div>
-				Sell for GBYTE by using the official
-				<a href="https://obyte.org/">Obyte Wallet</a>.
-			</div>
+            <div>
+                <p class="mb-4 mt-4">Where else can I sell my FUTURE?</p>
+                <!-- <div>
+    				Buy with BTC by using
+    				<a href="https://cryptox.pl/">Cryptox.pl</a>.
+    			</div> -->
+                <div>
+                    Sell for GBYTE by using the official
+                    <a href="https://obyte.org/">Obyte Wallet</a>.
+                </div>
             </div>
         </div>
     </div>
@@ -101,7 +106,6 @@ export default {
         currency: this.picked,
         amount: parseInt(this.amount),
       };
-      console.log(payload);
       this.isLoading = true;
       this.send({ type: 'widthraw', payload })
         .then(() => {
@@ -124,4 +128,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+.icons {
+  margin-bottom: -3px;
+}
 </style>

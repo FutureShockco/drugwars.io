@@ -15,12 +15,11 @@
         <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div> -->
-
     </div>
     </div>
             <div class="prize mx-auto">
                 {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
-                        id="earnings" style="color:#fbbd08;font-weight: 700;">{{Number(totalRewards.myRewards)}}</span>
+                        id="earnings" style="color:#fbbd08;font-weight: 700;">{{Math.round(totalRewards.daily)}}</span>
                 FUTURE based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
         </div>
   </div>
@@ -36,7 +35,7 @@ export default {
         this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
     },
-    totalFuture() {
+    totalDaily() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
@@ -56,19 +55,11 @@ export default {
           this.$store.state.game.prizeProps.drug_production_rate,
       ).toFixed(3);
     },
-    totalVest() {
-      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
-    },
-    totalReward() {
-      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
-    },
     totalRewards() {
-      const myRewards = parseFloat(
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * this.totalFuture,
-      ).toFixed(0);
-      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = parseFloat((this.totalReward / 100) * percent).toFixed();
-      return { myRewards, amount };
+      const daily = parseFloat(
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * this.totalDaily,
+      ).toFixed(3);
+      return { daily };
     },
   },
   methods: mapActions(['toggleSidebarVisibility']),

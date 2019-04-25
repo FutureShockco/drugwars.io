@@ -46,11 +46,12 @@
       <Icon name="future" size="36"/>
         <div class="balance">
         <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
-       <h5 class="ml-0 mt-1 mb-0 text-left">
-      <router-link to="/shop/future">
-        Withdraw
-      </router-link>
-    </h5>
+          <div class="balance">
+         <div class="detail"> DAILY: <span class="detail text-green">
+        +{{ Math.round(totalRewards.daily)}} FUTURE</span></div>
+                 <div class="detail"> HEIST: <span class="detail text-green">
+        +{{ Math.round(ownHeistReward.amount)}} FUTURE</span></div>
+         </div>
             <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
@@ -59,9 +60,9 @@
         <div class="balance">
         <div>{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
          <div class="detail"> DAILY: <span class="detail text-green">
-        {{ totalRewards.myRewards}} STEEM</span></div>
+        {{ parseFloat(totalRewards.daily / futureToSteem).toFixed(3)}} STEEM</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
-        {{ totalRewards.amount}} STEEM</span></div>
+        {{ parseFloat(ownHeistReward.amount/ futureToSteem).toFixed(3)}} STEEM</span></div>
          </div>
     </li>
   </ul>
@@ -86,17 +87,16 @@ export default {
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
-    totalDaily() {
+    totalDailyFuture() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent
+        (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
+        0.005
       );
     },
-    totalHeist() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.heist_percent
-      );
+    futureToSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.total_future / parseFloat(prizeProps.balance)).toFixed(0);
     },
     user() {
       return this.$store.state.game.user.user;
@@ -108,6 +108,10 @@ export default {
           .lvl;
       return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
     },
+    dailyRewards() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.daily_rewards) || 0;
+    },
     totalVest() {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
@@ -115,17 +119,33 @@ export default {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
     },
     totalRewards() {
-      const totalDailySteem =
-        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
-      const myRewards = parseFloat(
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) * totalDailySteem,
+      const daily = parseFloat(
+        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) *
+          this.totalDailyFuture,
       ).toFixed(3);
+      return { daily };
+    },
+    totalHeistFuture() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.heist_percent) /
+        0.005
+      );
+    },
+    ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = parseFloat((this.totalReward / 100) * percent).toFixed(3);
-      return { myRewards, amount };
+      const amount = (this.totalHeistFuture / 100) * percent;
+      return {
+        amount,
+        percent,
+      };
     },
     steemBalance() {
       return parseFloat(this.$store.state.auth.account.balance).toFixed(3);
+    },
+    sbdBalance() {
+      return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3);
     },
     futureBalance() {
       return parseFloat(this.$store.state.game.user.future).toFixed(3);

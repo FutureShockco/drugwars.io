@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ShopTabs/>
+        <MarketTabs/>
         <div class="p-4 text-center">
             <h2>Change your FUTURE for other cryptocurrencies</h2>
             <h5>You can choose here in which cryptocurrencies you want to change your rewards.</h5>
@@ -38,6 +38,21 @@
             <div v-else-if="picked && user.future === 0">
                 <p class="mb-4">You don't have any token to claim.</p>
             </div>
+            <div>
+              <p class="mb-4">Why the FUTURE price is low in the internal exchange?</p>
+               At this moment the internal exchange is a guarantee for everyone to be able to sell their FUTURE tokens for a minimum value instantly. In contrary to other exchanges it avoid any complexity and waiting time. The price of the future is defined by the following formula - Total Future Owned by players / @drugwars account balance ({{prizeProps.total_future}} / {{parseInt(prizeProps.balance)}} = {{futureToSteem}}) and will change to reflect the market price in less than few weeks.
+            </div>
+              <div>
+              <p class="mb-4 mt-4">Where else can I sell my FUTURE?</p>
+            			<!-- <div>
+				Buy with BTC by using
+				<a href="https://cryptox.pl/">Cryptox.pl</a>.
+			</div> -->
+			<div>
+				Sell for GBYTE by using the official
+				<a href="https://obyte.org/">Obyte Wallet</a>.
+			</div>
+            </div>
         </div>
     </div>
 </template>
@@ -58,6 +73,10 @@ export default {
   computed: {
     user() {
       return this.$store.state.game.user.user;
+    },
+    prizeProps() {
+      const { prizeProps } = this.$store.state.game;
+      return prizeProps;
     },
     lastUpdate() {
       return new Date(

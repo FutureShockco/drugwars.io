@@ -31,10 +31,10 @@ const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
-const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
-const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Shop/Exchange.vue');
-const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Shop/Claim.vue');
-const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Shop/Deposit.vue');
+const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
+const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Market/Exchange.vue');
+const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
+const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
 const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
 
@@ -198,25 +198,25 @@ export default new Router({
       component: GangSettings,
     },
     {
-      path: '/shop',
+      path: '/market/shop',
       name: 'shop',
       beforeEnter: requireAuth,
       component: Shop,
     },
     {
-      path: '/shop/future',
+      path: '/market/future',
       name: 'future',
       beforeEnter: requireAuth,
       component: Claim,
     },
     {
-      path: '/shop/deposit',
+      path: '/market/deposit',
       name: 'deposit',
       beforeEnter: requireAuth,
       component: Deposit,
     },
     {
-      path: '/shop/exchange',
+      path: '/market/exchange',
       name: 'exchange',
       beforeEnter: requireAuth,
       component: Exchange,

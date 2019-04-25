@@ -1,9 +1,9 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/leaderboards">Drug Production</UiTab>
-      <UiTab to="/leaderboards/fights">Fights</UiTab>
-      <UiTab to="/leaderboards/heist">Heist Deposit</UiTab>
+      <UiTab to="/leaderboards/fights">Hall of fame</UiTab>
+      <UiTab to="/leaderboards">Production</UiTab>
+      <UiTab to="/leaderboards/heist">Heist</UiTab>
     </UiTabs>
   </Header>
 </template>

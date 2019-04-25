@@ -82,7 +82,7 @@
           </li> -->
           <li>
             <router-link
-              to="/leaderboards"
+              to="/leaderboards/fights"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
@@ -109,11 +109,11 @@
           </li>
           <li>
             <router-link
-              to="/shop"
+              to="/market/shop"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Shop
+              Market
             </router-link>
           </li>
         </ul>

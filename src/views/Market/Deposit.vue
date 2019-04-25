@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ShopTabs/>
+    <MarketTabs/>
     <div class="p-4">
       <div class="mb-4">
         <Loading v-if="isLoading" />

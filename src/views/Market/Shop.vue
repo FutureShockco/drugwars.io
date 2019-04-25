@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <ShopTabs/>
-    <div class="p-2 text-center">
-    <h2>DEALER SHOP</h2>
-    <div class="columns">
-      <Shopcard
-        v-for="item in shop"
-        :item="item"
-        :key="item.name"
-      />
-      </div>
-    </div>
-  </div>
+	<div>
+		<MarketTabs/>
+		<div class="p-2 text-center">
+			<h2>DEALER SHOP</h2>
+			<div class="columns">
+				<Shopcard v-for="item in shop" :item="item" :key="item.name"/>
+			</div>
+		</div>
+		<div class="text-center">
+			<p class="mb-4">Where can I buy FUTURE tokens outside of the shop?</p>
+			<!-- <div>
+				Buy with BTC by using
+				<a href="https://cryptox.pl/">Cryptox.pl</a>.
+			</div> -->
+			<div>
+				Buy with GBYTE by using the official
+				<a href="https://obyte.org/">Obyte Wallet</a>.
+			</div>
+		</div>
+	</div>
 </template>
 
 

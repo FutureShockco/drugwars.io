@@ -3,20 +3,28 @@
     <MarketTabs/>
     <div class="p-4">
       <div class="mb-4">
-        <Loading v-if="isLoading" />
-        <div class="mb-2 border-bottom py-3" :key="item.tx_id" v-for="item in items" v-else>
-          {{ item.amount }} FUTURE
-          <a target="_blank" :href="`https://explorer.obyte.org/#${item.tx_id}`">
-            {{ item.tx_id }}
-          </a>
-          {{ item.is_stable ? 'confirmed' : 'pending' }}
-        </div>
+        <h4>Deposit to your dedicated address</h4>
+        <template v-if="!isLoading">
+          <div v-if="depositAddresses && depositAddresses.length > 0">
+            <p>Here is your dedicated deposit Obyte address:</p>
+            <a :href="`byteball:${depositAddresses[0].address}?asset=NMuNvOJRO2ZY9L17uKtsa7OYkgsV8LfSBIV9BUoVJPQ%3D`">
+              <p><b>{{ depositAddresses[0].address }}</b></p>
+            </a>
+          </div>
+          <div v-else>
+            <button
+              class="button button-blue mb-2 mt-2"
+              @click="issueDepositAddress()"
+              :disabled="isLoading"
+            >
+              Generate deposit address
+            </button>
+          </div>
+        </template>
       </div>
-      <p v-if="!isLoading && !items.length">
-        You haven't done any deposits.
-      </p>
       <div class="mb-4">
-        <h4>To deposit FUTURE token in game, you need to carefully follow these steps:</h4>
+        <h4>Deposit from a Steem attested Obyte wallet</h4>
+        <p><b>You need to carefully follow these steps:</b></p>
         <p>
           1. Install
           <a href="https://obyte.org" target="_blank">
@@ -41,17 +49,35 @@
           </a> address.
         </p>
       </div>
+      <div class="mb-4">
+        <Loading v-if="isLoading" />
+        <div v-else>
+          <h4>Deposits history</h4>
+          <div class="mb-2 border-bottom py-3" :key="item.tx_id" v-for="item in items">
+            {{ item.amount }} FUTURE
+            <a target="_blank" :href="`https://explorer.obyte.org/#${item.tx_id}`">
+              {{ item.tx_id }}
+            </a>
+            {{ item.is_stable ? 'confirmed' : 'pending' }}
+          </div>
+          <p v-if="!isLoading && !items.length">
+            You haven't done any deposits.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Promise from 'bluebird';
 import client from '@/helpers/client';
 
 export default {
   data() {
     return {
       isLoading: false,
+      depositAddresses: [],
       items: [],
     };
   },
@@ -61,11 +87,25 @@ export default {
     },
   },
   created() {
-    this.isLoading = true;
-    client.requestAsync('get_deposits', null).then(result => {
-      this.items = result;
-      this.isLoading = false;
-    });
+    this.loadDepositsAndAddresses();
+  },
+  methods: {
+    loadDepositsAndAddresses() {
+      this.isLoading = true;
+      Promise.all([
+        client.requestAsync('get_deposits', null),
+        client.requestAsync('get_deposit_addresses', null),
+      ]).then(result => {
+        [this.items, this.depositAddresses] = result;
+        this.isLoading = false;
+      });
+    },
+    issueDepositAddress() {
+      this.isLoading = true;
+      client.requestAsync('issue_deposit_address', null).then(() => {
+        this.loadDepositsAndAddresses();
+      });
+    },
   },
 };
 </script>

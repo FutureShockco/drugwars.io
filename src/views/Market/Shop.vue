@@ -9,10 +9,10 @@
 		</div>
 		<div class="text-center">
 			<p class="mb-4">Where can I buy FUTURE tokens outside of the shop?</p>
-			<!-- <div>
+			<div>
 				Buy with BTC by using
 				<a href="https://cryptox.pl/">Cryptox.pl</a>.
-			</div> -->
+			</div>
 			<div>
 				Buy with GBYTE by using the official
 				<a href="https://obyte.org/">Obyte Wallet</a>.

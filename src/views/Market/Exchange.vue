@@ -49,10 +49,10 @@
             </div>
             <div>
                 <p class="mb-4 mt-4">Where else can I sell my FUTURE?</p>
-                <!-- <div>
+                <div>
     				Buy with BTC by using
     				<a href="https://cryptox.pl/">Cryptox.pl</a>.
-    			</div> -->
+    			</div>
                 <div>
                     Sell for GBYTE by using the official
                     <a href="https://obyte.org/">Obyte Wallet</a>.

@@ -52,8 +52,7 @@
 				</router-link>
 				<Avatar v-else :size="80" :username="user.nickname" :picture="user.picture"/>
 				<div class="username mb-4">{{ fight.target_nickname }}</div>
-				<div
-					v-if="fight.target_ticker"
+				<div v-if="fight.target_ticker"
 					class="username gang mt-4"
 				>{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
 				<div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
@@ -72,7 +71,7 @@
 					<div v-if="details && json && json.target && json.target.start_value">
 						<FightsValue :result="json.attacker.start_value" :lose="json.attacker.end_value"/>
 					</div>
-					<div v-if="fight.json.amount && username != user.nickname">{{fight.json.amount}} Unit(s)</div>
+					<div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
 					<p class="message mb-4">{{ fight.message }}</p>
 				</div>
 				<div class="column col-6">

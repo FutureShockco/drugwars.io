@@ -13,6 +13,7 @@
         v-for="target in targets"
       />
     </div>
+    {{ownUnits}}
   </div>
 </template>
 

@@ -41,7 +41,7 @@
                 </p>
                 <h3>Defensive Power : {{defensivePower}}%</h3>
     
-                <a href="https://simulator.drugwars.io" target="_blank">
+                <a href="https://simulator.drugwars.io/next" target="_blank">
                   Access to the Fight simulator
                 </a>
             </div>
@@ -88,7 +88,8 @@ export default {
         supply += units[unit.unit].supply;
       });
       const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
-      return power;
+      if (power >= 60) return power;
+      return 60;
     },
     offensivePower() {
       let supply = 0;
@@ -96,7 +97,8 @@ export default {
         supply += units[unit.key].supply * unit.amount;
       });
       const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
-      return power;
+      if (power >= 60) return power;
+      return 60;
     },
   },
   methods: {
@@ -146,14 +148,14 @@ export default {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
 
-      if (this.sent_fights && this.sent_fights.length > 0)
-        this.sent_fights.forEach(fight => {
-          if (fight.is_stable === 0) {
-            this.errorMessage =
-              'You have already a fight waiting for confirmation, please wait a bit';
-            this.init();
-          }
-        });
+      // if (this.sent_fights && this.sent_fights.length > 0)
+      //   this.sent_fights.forEach(fight => {
+      //     if (fight.is_stable === 0) {
+      //       this.errorMessage =
+      //         'You have already a fight waiting for confirmation, please wait a bit';
+      //       this.init();
+      //     }
+      //   });
       if (!this.errorMessage)
         try {
           const user = await client.requestAsync('check_user', target);

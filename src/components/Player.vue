@@ -24,7 +24,7 @@
           Level : 
           {{ parseFloat(((Math.sqrt(625 + 100 * player.xp) - 25) / 50) + 1).toFixed(0) }}
         </span>
-                  <router-link v-if="player.gang" :to="`/gang/${player.gang}`">
+                  <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
               <span>
           {{player.role}} OF  {{player.gang}}    <div>
             [{{ player.ticker }}]</div>

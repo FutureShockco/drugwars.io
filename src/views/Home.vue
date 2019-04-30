@@ -10,10 +10,13 @@
       Start
     </a>
     <div class="mb-4">
-      New to Steem?
-      <a href="https://account.steem.ninja/?ref=drugwars">
-        Sign up now
-      </a>
+         <router-link
+              to="/signup"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+            No Account? Sign up now!
+            </router-link>
     </div>
   </UiCenter>
 </template>

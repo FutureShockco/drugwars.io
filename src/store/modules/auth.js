@@ -35,7 +35,23 @@ const actions = {
           .catch(() => {
             resolve();
           });
-      } else {
+      }
+      console.log(this.$auth.getIdToken())
+
+      if (this.$auth.isAuthenticated() && this.$auth.isIdTokenValid()) {
+          client
+            .requestAsync('login', accessToken)
+            .then(result => {
+              localStorage.setItem('drugwars_token', accessToken);
+              commit('saveUsername', result.name);
+              commit('saveAccount', result.account);
+              resolve();
+            })
+            .catch(() => {
+              resolve();
+      });
+      }
+      else {
         resolve();
       }
     }),

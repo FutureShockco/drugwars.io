@@ -5,6 +5,8 @@ import { isWeb } from '@/helpers/utils';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
+const AuthCallback = () =>
+  import(/* webpackChunkName: "authcallback" */ '@/views/AuthCallback.vue');
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Missions/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
@@ -54,6 +56,7 @@ const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help/Help.vue'
 const GetStarted = () => import(/* webpackChunkName: "getstarted" */ '@/views/Help/GetStarted.vue');
 const Guides = () => import(/* webpackChunkName: "guides" */ '@/views/Help/Guides.vue');
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
+const Signup = () => import(/* webpachChunkName: "signup" */ '@/views/Signup.vue');
 
 Vue.use(Router);
 
@@ -316,9 +319,22 @@ export default new Router({
       },
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: Signup,
+    },
+    {
       path: '/callback',
       name: 'callback',
       component: Callback,
+      meta: {
+        hideSidebar: true,
+      },
+    },
+    {
+      path: '/authcallback',
+      name: 'authcallback',
+      component: AuthCallback,
       meta: {
         hideSidebar: true,
       },

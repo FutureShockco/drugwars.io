@@ -17,6 +17,7 @@ import router from '@/router';
 import store from '@/store';
 import messages from '@/translation.json';
 import numberFormats from '@/number.json';
+import AuthPlugin from './plugins/auth';
 
 Vue.use(VueAnalytics, {
   id: 'UA-135445665-1',
@@ -50,7 +51,7 @@ Vue.directive('uppercase', {
 
 Vue.use(VueUi);
 Vue.use(VueI18n);
-
+Vue.use(AuthPlugin);
 store.dispatch('loadSettings');
 
 const i18n = new VueI18n({

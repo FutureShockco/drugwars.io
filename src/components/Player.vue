@@ -73,7 +73,7 @@
       </h5>
     </div>
     <div class="column col-2">
-        <button
+        <button v-if="ownSpy"
       :disabled="isLoading || waitingConfirmation || !ownSpy"
       @click="handleSubmit()"
       class="button btn-block button-red mb-2"
@@ -100,11 +100,13 @@ export default {
       return diff > 0 ? diff : 0;
     },
     ownSpy() {
+      if(this.$store.state.game.user.units)
       return (
         this.$store.state.game.user.units.find(u => u.unit === 'spy').amount || {
           amount: 0,
         }
       );
+      else return 0
     },
   },
   methods: {

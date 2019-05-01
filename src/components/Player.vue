@@ -63,7 +63,7 @@
         </span>
       </h5>
     </div>
-    <div v-else-if="player.amount" class="column col-4">
+    <div v-else-if="player && player.amount" class="column col-4">
       <h5 class="production">
         <span class="mr-3">
           TOTAL REWARD : 
@@ -100,13 +100,13 @@ export default {
       return diff > 0 ? diff : 0;
     },
     ownSpy() {
-      if(this.$store.state.game.user.units)
-      return (
-        this.$store.state.game.user.units.find(u => u.unit === 'spy').amount || {
-          amount: 0,
-        }
-      );
-      else return 0
+      if (this.$store.state.game.user.units.find(u => u.unit === 'spy'))
+        return (
+          this.$store.state.game.user.units.find(u => u.unit === 'spy').amount || {
+            amount: 0,
+          }
+        );
+      return 0;
     },
   },
   methods: {

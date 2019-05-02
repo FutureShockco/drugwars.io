@@ -57,18 +57,8 @@ export default {
       const oceanMaterial = [];
       let seenTiles = {};
       let currentTiles = [];
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0001, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0002, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0003, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0004, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0005, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0006, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0007, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0008, transparent: true }));
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0009, transparent: true }));
-
-      oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x0f2342, transparent: true }));
-      oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x0f1e38, transparent: true }));
+      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true }));
+      oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
 
       const createScene = function(radius, divisions, tileSize) {
         while (scene.children.length > 0) {
@@ -87,6 +77,7 @@ export default {
           geometry.faces.push(new THREE.Face3(0, 1, 2));
           geometry.faces.push(new THREE.Face3(0, 2, 3));
           geometry.faces.push(new THREE.Face3(0, 3, 4));
+
           if (geometry.vertices.length > 5) {
             geometry.faces.push(new THREE.Face3(0, 4, 5));
           }
@@ -121,7 +112,7 @@ export default {
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
 
-      createScene(45, 25, 0.9);
+      createScene(35, 30, 0.9);
 
       let lastTime = Date.now();
       let cameraAngle = -Math.PI / 1.5;
@@ -137,7 +128,7 @@ export default {
         camera.position.x = cameraDistance * Math.cos(cameraAngle);
         camera.position.y = Math.sin(cameraAngle) * 10;
         camera.position.z = cameraDistance * Math.sin(cameraAngle);
-        camera.lookAt(0, 35, 0);
+        camera.lookAt(0, 0, 0);
 
         renderer.render(scene, camera);
 
@@ -168,7 +159,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.init();
-    }, 100);
+    }, 500);
   },
 };
 </script>

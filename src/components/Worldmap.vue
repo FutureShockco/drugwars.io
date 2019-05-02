@@ -9,6 +9,8 @@
 <script>
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
+import OrbitControls from 'three-orbitcontrols';
+import { setTimeout } from 'timers';
 
 export default {
   data() {
@@ -21,46 +23,315 @@ export default {
   },
   methods: {
     init() {
-      const width = window.innerWidth;
-      const height = window.innerHeight - 10;
-      const renderer = new THREE.WebGLRenderer({ antialias: true }); // to activate later
-      const cameraDistance = 65;
-      const camera = new THREE.PerspectiveCamera(cameraDistance, width / height, 1, 200);
+      const width = document.getElementById('app').offsetWidth - 400;
+      const height = document.getElementById('app').offsetHeight - 100;
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
       const scene = new THREE.Scene();
-      const img = document.getElementById('projection');
-      const projectionCanvas = document.createElement('canvas');
-      const projectionContext = projectionCanvas.getContext('2d');
-
-      camera.position.z = -cameraDistance;
-      scene.fog = new THREE.Fog(0x000000, cameraDistance * 0.4, cameraDistance * 1.2);
-      img.width = window.innerWidth;
-      img.height = window.innerHeight;
-      projectionCanvas.width = img.width;
-      projectionCanvas.height = img.height;
-      projectionContext.drawImage(img, 0, 0, img.width, img.height);
-
-      renderer.setSize(window.innerWidth, window.innerHeight);
-
-      let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-
-      const isLand = function(lat, lon) {
-        const x = parseInt((img.width * (lon + 180)) / 360);
-        const y = parseInt((img.height * (lat + 90)) / 180);
-
-        if (pixelData == null) {
-          pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-        }
-        return pixelData.data[(y * pixelData.width + x) * 4] === 0;
+      const aspect = width / height;
+      const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 300);
+      let cameraRotation = 0;
+      const cameraDistance = 20;
+      const cameraRotationSpeed = 0.001;
+      const cameraAutoRotation = false;
+      const orbitControls = new THREE.OrbitControls(camera);
+      orbitControls.keys = {
+        LEFT: null, // left arrow
+        UP: null, // up arrow
+        RIGHT: null, // right arrow
+        BOTTOM: null, // down arrow
       };
 
-      const meshMaterials = [];
-      const oceanMaterial = [];
-      let seenTiles = {};
-      let currentTiles = [];
-      meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true }));
-      oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
+      // Lights
+      const spotLight = new THREE.AmbientLight(0xffffff);
 
-      const createScene = function(radius, divisions, tileSize) {
+      // Texture Loader
+      const textureLoader = new THREE.TextureLoader();
+
+      // Planet Proto
+      const planetProto = {
+        sphere(size) {
+          const sphere = new THREE.SphereGeometry(size, 32, 32);
+
+          return sphere;
+        },
+        material(options) {
+          const material = new THREE.MeshPhongMaterial();
+          if (options) {
+            for (const property in options) {
+              material[property] = options[property];
+            }
+          }
+
+          return material;
+        },
+        glowMaterial(intensity, fade, color) {
+          const glowMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              c: {
+                type: 'f',
+                value: intensity,
+              },
+              p: {
+                type: 'f',
+                value: fade,
+              },
+              glowColor: {
+                type: 'c',
+                value: new THREE.Color(color),
+              },
+              viewVector: {
+                type: 'v3',
+                value: camera.position,
+              },
+            },
+            vertexShader: `
+        uniform vec3 viewVector;
+        uniform float c;
+        uniform float p;
+        varying float intensity;
+        void main() {
+          vec3 vNormal = normalize( normalMatrix * normal );
+          vec3 vNormel = normalize( normalMatrix * viewVector );
+          intensity = pow( c - dot(vNormal, vNormel), p );
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }`,
+            fragmentShader: `
+        uniform vec3 glowColor;
+        varying float intensity;
+        void main() 
+        {
+          vec3 glow = glowColor * intensity;
+          gl_FragColor = vec4( glow, 1.0 );
+        }`,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+          });
+
+          return glowMaterial;
+        },
+        texture(material, property, uri) {
+          const textureLoader = new THREE.TextureLoader();
+          textureLoader.crossOrigin = true;
+          textureLoader.load(uri, texture => {
+            material[property] = texture;
+            material.needsUpdate = true;
+          });
+        },
+      };
+
+      const createPlanet = function(options) {
+        // Create the planet's Surface
+        const surfaceGeometry = planetProto.sphere(options.surface.size);
+        const surfaceMaterial = planetProto.material(options.surface.material);
+        const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+
+        // Create the planet's Atmosphere
+        const atmosphereGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size,
+        );
+        const atmosphereMaterialDefaults = {
+          side: THREE.DoubleSide,
+          transparent: true,
+        };
+        const atmosphereMaterialOptions = Object.assign(
+          atmosphereMaterialDefaults,
+          options.atmosphere.material,
+        );
+        const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+
+        // Create the planet's Atmospheric glow
+        const atmosphericGlowGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
+        );
+        const atmosphericGlowMaterial = planetProto.glowMaterial(
+          options.atmosphere.glow.intensity,
+          options.atmosphere.glow.fade,
+          options.atmosphere.glow.color,
+        );
+        const atmosphericGlow = new THREE.Mesh(atmosphericGlowGeometry, atmosphericGlowMaterial);
+
+        // Nest the planet's Surface and Atmosphere into a planet object
+        const planet = new THREE.Object3D();
+        surface.name = 'surface';
+        atmosphere.name = 'atmosphere';
+        atmosphericGlow.name = 'atmosphericGlow';
+        planet.add(surface);
+        planet.add(atmosphere);
+        planet.add(atmosphericGlow);
+
+        // Load the Surface's textures
+        for (const textureProperty in options.surface.textures) {
+          planetProto.texture(
+            surfaceMaterial,
+            textureProperty,
+            options.surface.textures[textureProperty],
+          );
+        }
+
+        // Load the Atmosphere's texture
+        for (const textureProperty in options.atmosphere.textures) {
+          planetProto.texture(
+            atmosphereMaterial,
+            textureProperty,
+            options.atmosphere.textures[textureProperty],
+          );
+        }
+
+        return planet;
+      };
+
+      const earth = createPlanet({
+        surface: {
+          size: 0.5,
+          material: {
+            bumpScale: 0.05,
+            specular: new THREE.Color('grey'),
+            shininess: 10,
+          },
+          textures: {
+            map: 'img/map/8081_earthmap2k.jpg',
+            bumpMap: 'img/map/8081_earthbump2k.jpg',
+            specularMap: 'img/map/8081_earthspec2k.jpg',
+          },
+        },
+        atmosphere: {
+          size: 0.05,
+          material: {
+            opacity: 0.8,
+          },
+          textures: {
+            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
+          },
+          glow: {
+            size: 0.02,
+            intensity: 0.7,
+            fade: 7,
+            color: 0x93cfef,
+          },
+        },
+      });
+
+      // Marker Proto
+      const markerProto = {
+        latLongToVector3: function latLongToVector3(latitude, longitude, radius, height) {
+          const phi = (latitude * Math.PI) / 180;
+          const theta = ((longitude - 180) * Math.PI) / 180;
+
+          const x = -(radius + height) * Math.cos(phi) * Math.cos(theta);
+          const y = (radius + height) * Math.sin(phi);
+          const z = (radius + height) * Math.cos(phi) * Math.sin(theta);
+
+          return new THREE.Vector3(x, y, z);
+        },
+        marker: function marker(size, color, vector3Position) {
+          const markerGeometry = new THREE.SphereGeometry(size);
+          const markerMaterial = new THREE.MeshLambertMaterial({
+            color,
+          });
+          const markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
+          markerMesh.position.copy(vector3Position);
+
+          return markerMesh;
+        },
+      };
+
+      // Place Marker
+      const placeMarker = function(object, options) {
+        const position = markerProto.latLongToVector3(
+          options.latitude,
+          options.longitude,
+          options.radius,
+          options.height,
+        );
+        const marker = markerProto.marker(options.size, options.color, position);
+        object.add(marker);
+      };
+
+      // Place Marker At Address
+      const placeMarkerAtAddress = function(address, color) {
+        const encodedLocation = address.replace(/\s/g, '+');
+        const httpRequest = new XMLHttpRequest();
+
+        httpRequest.open(
+          'GET',
+          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedLocation}`,
+        );
+        httpRequest.send(null);
+        httpRequest.onreadystatechange = function() {
+          if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+            const result = JSON.parse(httpRequest.responseText);
+
+            if (result.results.length > 0) {
+              const latitude = result.results[0].geometry.location.lat;
+              const longitude = result.results[0].geometry.location.lng;
+
+              placeMarker(earth.getObjectByName('surface'), {
+                latitude,
+                longitude,
+                radius: 0.5,
+                height: 0,
+                size: 0.01,
+                color,
+              });
+            }
+          }
+        };
+      };
+
+      // Galaxy
+      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+      const galaxyMaterial = new THREE.MeshBasicMaterial({
+        side: THREE.BackSide,
+      });
+      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
+
+      // Load Galaxy Textures
+      textureLoader.crossOrigin = true;
+      textureLoader.load(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+        texture => {
+          galaxyMaterial.map = texture;
+          scene.add(galaxy);
+        },
+      );
+
+      const createScene = function() {
+        const img = document.getElementById('projection');
+        const projectionCanvas = document.createElement('canvas');
+        const projectionContext = projectionCanvas.getContext('2d');
+        img.width = document.getElementById('app').offsetWidth - 400;
+        img.height = document.getElementById('app').offsetHeight - 100;
+
+        projectionCanvas.width = img.width;
+        projectionCanvas.height = img.height;
+        projectionContext.drawImage(img, 0, 0, img.width, img.height);
+
+        let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
+
+        const isLand = function(lat, lon) {
+          const x = parseInt((img.width * (lon + 180)) / 360);
+          const y = parseInt((img.height * (lat + 90)) / 180);
+
+          if (pixelData == null) {
+            pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
+          }
+          return pixelData.data[(y * pixelData.width + x) * 4] === 0;
+        };
+
+        const meshMaterials = [];
+        const oceanMaterial = [];
+        let seenTiles = {};
+        let currentTiles = [];
+        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: false }));
+        oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
+
+        // let radius = 0.519;
+        const radius = 0.619;
+        const divisions = 20;
+        const tileSize = 0.85;
         while (scene.children.length > 0) {
           scene.remove(scene.children[0]);
         }
@@ -84,12 +355,19 @@ export default {
           let material;
           if (isLand(latLon.lat, latLon.lon)) {
             material = meshMaterials[Math.floor(Math.random() * meshMaterials.length)];
+
+            material.opacity = 0.5;
           } else {
             material = oceanMaterial[Math.floor(Math.random() * oceanMaterial.length)];
+
+            material.opacity = 0;
           }
 
-          material.opacity = 0.3;
           const mesh = new THREE.Mesh(geometry, material.clone());
+          mesh.callback = function() {
+            console.log(this.name);
+          };
+
           scene.add(mesh);
           hexasphere.tiles[i].mesh = mesh;
           i += 1;
@@ -102,58 +380,73 @@ export default {
           seenTiles[item.toString()] = 1;
           item.mesh.material.opacity = 1; // eslint-disable-line no-param-reassign
         });
-
-        window.hexasphere = hexasphere;
       };
+      createScene();
 
-      function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+      // Scene, Camera, Renderer Configuration
+      renderer.setSize(width, height);
+      const mapbg = document.getElementById('mapbg');
+      mapbg.appendChild(renderer.domElement);
+
+      camera.position.set(1, 1, 1);
+      orbitControls.enabled = !cameraAutoRotation;
+      scene.add(camera);
+      scene.add(spotLight);
+      scene.add(earth);
+
+      document.addEventListener('mousemove', onMouseMove, false);
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+
+      function onMouseMove(event) {
+        // calculate mouse position in normalized device coordinates
+        // (-1 to +1) for both components
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
       }
 
-      createScene(35, 30, 0.9);
+      // Light Configurations
+      spotLight.position.set(1, 1, 1);
 
-      let lastTime = Date.now();
-      let cameraAngle = -Math.PI / 1.5;
+      // Mesh Configurations
+      earth.receiveShadow = false;
+      earth.castShadow = false;
+      earth.rotateY(179.05);
+      earth.rotateX(0);
+      earth.rotateZ(0);
+      // On window resize, adjust camera aspect ratio and renderer size
+      window.addEventListener('resize', () => {
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      });
 
-      const tick = function() {
-        const dt = Date.now() - lastTime;
+      // Main render function
+      const render = function() {
+        raycaster.setFromCamera(mouse, camera);
 
-        const rotateCameraBy = (2 * Math.PI) / (200000 / dt);
-        cameraAngle += rotateCameraBy;
+        // calculate objects intersecting the picking ray
+        const intersects = raycaster.intersectObjects(scene.children);
 
-        lastTime = Date.now();
+        for (let i = 0; i < intersects.length; i++) {
+          intersects[i].object.material.color.set(0xff0000);
+        }
 
-        camera.position.x = cameraDistance * Math.cos(cameraAngle);
-        camera.position.y = Math.sin(cameraAngle) * 10;
-        camera.position.z = cameraDistance * Math.sin(cameraAngle);
-        camera.lookAt(0, 0, 0);
-
+        earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.01;
+        if (cameraAutoRotation) {
+          cameraRotation += cameraRotationSpeed;
+          camera.position.y = 0;
+          camera.position.x = 2 * Math.sin(cameraRotation);
+          camera.position.z = 2 * Math.cos(cameraRotation);
+          camera.lookAt(earth.position);
+        }
+        requestAnimationFrame(render);
         renderer.render(scene, camera);
-
-        const nextTiles = [];
-
-        currentTiles.forEach(item => {
-          item.neighbors.forEach(neighbor => {
-            if (!seenTiles[neighbor.toString()]) {
-              neighbor.mesh.material.opacity = 1; // eslint-disable-line no-param-reassign
-              nextTiles.push(neighbor);
-              seenTiles[neighbor] = 1;
-            }
-          });
-        });
-
-        currentTiles = nextTiles;
-
-        requestAnimationFrame(tick);
       };
-      window.addEventListener('resize', onWindowResize, false);
-      const mapbg = document.getElementById('mapbg');
-      mapbg.append(renderer.domElement);
-      requestAnimationFrame(tick);
-      //   window.scene = scene;
-      //   window.createScene = createScene;
+
+      render();
+      orbitControls.update();
     },
   },
   mounted() {
@@ -166,15 +459,11 @@ export default {
 
 <style scoped lang="less">
 .mapbg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+  position: relative;
+}
+
+#map {
+  height: 100ù;
 }
 
 img {

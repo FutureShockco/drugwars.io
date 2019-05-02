@@ -23,7 +23,7 @@
   position: relative;
   display: block;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.89);
   -webkit-box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6,
     inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
   box-shadow: inset 2px 3px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a,

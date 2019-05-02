@@ -37,6 +37,7 @@
     "serve-static": "^1.13.2",
     "steemconnect": "^3.0.0-beta.1",
     "three": "^0.104.0",
+    "three-orbitcontrols": "^2.102.1",
     "triplesec": "^3.0.26",
     "url-parse": "^1.4.3",
     "vue": "^2.5.17",

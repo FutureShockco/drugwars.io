@@ -1,14 +1,15 @@
 <template>
-  <div class="py-3 px-4 m-1 columns text-center border-bottom">
-    <div class="column col-3">
+  <div class="py-3 px-3 m-1 columns text-center border-bottom">
+    <div class="column col-3 px-0">
         <router-link
       :to="`/fight?target=${player.nickname}`">
      <Avatar 
-      class="mr-2"
+      class="mx-2"
       :size="60"
       :username="player.username"
       :rank="rank"
       :picture="player.picture"
+      :xp="player.xp"
     />
     <div class="username">
       {{ player.nickname }}
@@ -18,26 +19,21 @@
     </div>
     </router-link>
     </div>
-      <div class="column col-3">
-      <h5 class="production">
-        <span v-if="player.xp">
-          Level : 
-          {{ parseFloat(((Math.sqrt(625 + 100 * player.xp) - 25) / 50) + 1).toFixed(0) }}
+      <div class="column px-0 col-2">
+      <h5 class="production mt-0">
+        <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
+          <span>
+          {{player.role}} OF {{player.gang}}    
+          <div>[{{ player.ticker }}]</div>
         </span>
-                  <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
-              <span>
-          {{player.role}} OF  {{player.gang}}    <div>
-            [{{ player.ticker }}]</div>
-        </span>
-          </router-link>
-     
+        </router-link>
       </h5>
       <div class="shield mb-2" v-if="shieldEnd">
         <Icon name="shield" size="36" class="text-gray"/>
         <div class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
-    <div v-if="player.drug_production_rate" class="column col-4">
+    <div v-if="player.drug_production_rate" class="column col-3">
       <h5 class="production">
         <span class="mr-3">
           <Icon name="drug" size="22"/>
@@ -53,26 +49,40 @@
         </span>
       </h5>
     </div>
-
-    <div v-else-if="player.drugs" class="column col-4">
+    <div v-else-if="player.drugs" class="column px-0  col-3">
       <h5 class="production">
         <span class="mr-3">
-          TOTAL DEPOSIT : 
+          DEPOSIT : 
+           <div>
           <Icon name="drug" size="22"/>
           {{ player.drugs | amount}}
+          </div>
         </span>
       </h5>
     </div>
-    <div v-else-if="player && player.amount" class="column col-4">
+    <div v-else-if="player && player.amount" class="column px-0  col-3">
       <h5 class="production">
         <span class="mr-3">
-          TOTAL REWARD : 
-          <Icon name="future" size="22"/>
+          REWARDS : 
+          <div>
           {{ player.amount | amount}}
+          <Icon name="future" size="22"/>
+          </div>
         </span>
       </h5>
     </div>
-    <div class="column col-2">
+    <div class="column px-0  col-2">
+      <h5 class="production">
+        <span class="mr-3" v-if="player && rank && !player.amount" >
+           BONUS :
+          <div>
+          {{ Math.round(100/rank) | amount}}
+          <Icon name="future" size="22"/>
+          </div>
+        </span>
+      </h5>
+    </div>
+    <div class="column  col-2">
         <button v-if="ownSpy"
       :disabled="isLoading || waitingConfirmation || !ownSpy"
       @click="handleSubmit()"
@@ -138,7 +148,6 @@ export default {
     async validateForm() {
       this.errorMessage = null;
       const target = this.player.nickname.toLowerCase();
-
       if (!this.errorMessage)
         try {
           const user = await client.requestAsync('check_user', target);
@@ -166,6 +175,10 @@ export default {
 
 .rank {
   margin: 8px 0;
+}
+
+.icon {
+  margin-bottom: -5px;
 }
 
 .production {

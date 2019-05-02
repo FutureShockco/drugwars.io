@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+   <div id="app">
+    <Worldmap/>
     <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
     <source src="/img/background.mp4" type="video/mp4">
     </video> -->

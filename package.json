@@ -24,7 +24,7 @@
     "bs58": "^4.0.1",
     "crypto-js": "^3.1.9-1",
     "dom-to-image": "^2.6.0",
-    "drugwars": "0.0.38",
+    "drugwars": "0.0.42",
     "dsteem": "^0.10.1",
     "encom-globe": "^0.5.4",
     "express": "^4.16.3",

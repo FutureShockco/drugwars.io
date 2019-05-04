@@ -261,7 +261,7 @@ const actions = {
         }
         return resolve(result);
       });
-    }),  
+    }),
   recruitUnit: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;

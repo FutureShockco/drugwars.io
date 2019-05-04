@@ -46,11 +46,11 @@ export default {
       );
     },
     ownItem() {
-        return (
-          this.$store.state.game.user.trainings.find(b => b.training === this.training.id) || {
-            lvl: 0,
-          }
-        );
+      return (
+        this.$store.state.game.user.trainings.find(b => b.training === this.training.id) || {
+          lvl: 0,
+        }
+      );
     },
     ownResearchCenter() {
       return (

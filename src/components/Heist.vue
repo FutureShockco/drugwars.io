@@ -77,7 +77,7 @@ export default {
         this.investHeist(this.amount)
           .then(() => {
             this.isLoading = false;
-            Promise.delay(6000).then(() => {
+            Promise.delay(3000).then(() => {
               this.amount = this.balances.drugs;
             });
           })

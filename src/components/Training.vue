@@ -3,28 +3,25 @@
         <div class="mr-3">
             <img class="preview" :src="`/img/trainings/${training.id}.jpg`">
         </div>
-        <!-- <div class="level">{{ ownItem.lvl }}</div> -->
+        <div class="level">{{ ownItem.lvl }}</div>
         <div class="item-content width-full mr-3 mb-4">
             <h5>{{ training.name }}</h5>
-            <!-- <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" /> -->
+            <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="training.desc"></div>
             <div v-if="training.feature" class="mb-2">
-                UNIQUE:
                 <span class="text-orange">{{ training.feature }}</span>
             </div>
         </div>
         <div>
-                  <button class="button btn-block button-blue mb-2 mt-2" disabled>
-              COMING SOON
-            </button >
         </div>
-        <!-- <div class="mx-auto">
-            <Checkout :id="training.id" :level="ownItem.lvl + 1" :coeff="training.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 10000" :notEnough="hasNotEnough" />
-        </div> -->
+        <div class="mx-auto">
+            <CheckoutTraining :id="training.id" :level="ownItem.lvl + 1" :coeff="training.coeff" :researchCenterLvl="ownResearchCenter.lvl" :inProgress="inProgress" :price="drugsCost / 10000" :notEnough="hasNotEnough" />
+        </div>
     </div>
 </template>
 
 <script>
+import { utils } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
 
 export default {
@@ -47,29 +44,28 @@ export default {
         this.alcoholsCost > this.balances.alcohols
       );
     },
-    // ownItem() {
-    //   if(this.$store.state.game.user.trainings)
-    //   return (
-    //     this.$store.state.game.user.trainings.find(b => b.training === this.training.id) || {
-    //       lvl: 0,
-    //     }
-    //   );
-    // },
-    // ownHq() {
-    //   return (
-    //     this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || {
-    //       lvl: 0,
-    //     }
-    //   );
-    // },
+    ownItem() {
+      return (
+        this.$store.state.game.user.trainings.find(b => b.training === this.training.id) || {
+          lvl: 0,
+        }
+      );
+    },
+    ownResearchCenter() {
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === 'research_center') || {
+          lvl: 0,
+        }
+      );
+    },
     drugsCost() {
-      return this.training.drugs_cost;
+      return utils.calculateCostToUpgrade(this.training.drugs_cost, this.ownItem.lvl);
     },
     weaponsCost() {
-      return this.training.weapons_cost;
+      return utils.calculateCostToUpgrade(this.training.weapons_cost, this.ownItem.lvl);
     },
     alcoholsCost() {
-      return this.training.alcohols_cost;
+      return utils.calculateCostToUpgrade(this.training.alcohols_cost, this.ownItem.lvl);
     },
     inProgress() {
       if (!this.ownItem) return false;

@@ -9,7 +9,6 @@
             <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="training.desc"></div>
             <div v-if="training.feature" class="mb-2">
-                UNIQUE:
                 <span class="text-orange">{{ training.feature }}</span>
             </div>
         </div>

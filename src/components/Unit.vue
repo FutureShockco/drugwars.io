@@ -25,22 +25,25 @@
           {{ unit.attack }}
         </span>
         <span class="mr-2">
-          <i class="iconfont icon-shield1 text-blue"/>
-          {{ unit.defense }}
+          <i class="iconfont icon-plus text-green"/>
+          {{ unit.health }}
         </span>
         <span class="mr-2">
-          <i class="iconfont icon-run text-green"/>
-          {{ unit.speed * 60 * 1000 | ms }}
+          <i class="iconfont icon-shield1 text-blue"/>
+          {{ unit.defense }}
         </span>
         <span class="mr-2">
           <i class="iconfont icon-box text-orange"></i>
           {{ unit.capacity}}
         </span>
+        <span class="mr-2">
+          <i class="iconfont icon-run text-yellow"/>
+          {{ unit.speed * 60 * 1000 | ms }}
+        </span>
       </div>
       <div class="mb-2" v-if="unit.feature">
-        UNIQUE:
         <span class="text-orange">
-          {{ unit.feature }}
+                 UNIQUE {{ unit.feature }}
         </span>
       </div>
     </div>

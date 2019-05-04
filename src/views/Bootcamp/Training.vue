@@ -10,7 +10,7 @@
         />
       </div>
          <div  v-else class="p-2 text-center">
-           <h2>  You must build a training facility first.</h2>
+           <h2>  You must build a research center first.</h2>
                </div>
     </div>
   </div>

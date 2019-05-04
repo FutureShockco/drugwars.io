@@ -62,4 +62,4 @@ const TextureAnimator = function(
   };
 };
 
-module.exports = TextureAnimator;
+export {TextureAnimator} 

@@ -30,7 +30,7 @@ const actions = {
             localStorage.setItem('drugwars_token', accessToken);
             commit('saveUsername', result.name);
             commit('saveAccount', result.account);
-            resolve();
+            resolve(result);
           })
           .catch(() => {
             resolve();

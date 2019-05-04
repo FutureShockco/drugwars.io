@@ -8,7 +8,7 @@ let TWEEN = require('tween.js'),
   Satellite = require('./Satellite'),
   SmokeProvider = require('./SmokeProvider'),
   pusherColor = require('pusher.color'),
-  utils = require('./utils');
+  {mapPoint} = require('./utils');
 
 const latLonToXYZ = function(width, height, lat, lon) {
   const x = Math.floor(width / 2.0 + (width / 360.0) * lon);
@@ -26,6 +26,7 @@ const addInitialData = function() {
   if (this.data.length == 0) {
     return;
   }
+  let next ;
   while (this.data.length > 0 && this.firstRunTime + (next = this.data.pop()).when < Date.now()) {
     this.addPin(next.lat, next.lng, next.label);
   }
@@ -93,7 +94,6 @@ const createParticles = function() {
 
   const pointMaterial = new THREE.ShaderMaterial({
     uniforms: this.pointUniforms,
-    attributes: pointAttributes,
     vertexShader: pointVertexShader,
     fragmentShader: pointFragmentShader,
     transparent: true,
@@ -293,7 +293,7 @@ const createIntroLines = function() {
     }
 
     for (let j = 0; j < lenBase; j++) {
-      const thisPoint = utils.mapPoint(lat, lon - j * 5);
+      const thisPoint = mapPoint(lat, lon - j * 5);
       sPoint = new THREE.Vector3(
         thisPoint.x * this.introLinesAltitude,
         thisPoint.y * this.introLinesAltitude,
@@ -331,14 +331,13 @@ function Globe(width, height, opts) {
   this.active = true;
 
   const defaults = {
-    font: 'Inconsolata',
     baseColor: '#ffcc00',
     markerColor: '#ffcc00',
     pinColor: '#00eeee',
     satelliteColor: '#ff0000',
     blankPercentage: 0,
     thinAntarctica: 0.01, // only show 1% of antartica... you can't really see it on the map anyhow
-    mapUrl: 'resources/equirectangle_projection.png',
+    mapUrl: '/img/map/equirectangle_projection.png',
     introLinesAltitude: 1.1,
     introLinesDuration: 2000,
     introLinesColor: '#8FD8D8',
@@ -404,9 +403,9 @@ Globe.prototype.init = function(cb) {
 
   // create the smoke particles
 
-  this.smokeProvider = new SmokeProvider(this.scene);
+  // this.smokeProvider = new SmokeProvider(this.scene);
 
-  createParticles.call(this);
+  // createParticles.call(this);
   setTimeout(cb, 500);
 };
 
@@ -698,13 +697,13 @@ Globe.prototype.tick = function() {
   }
 
   // do the shaders
+  // console.log(this.pointUniforms)
+  // this.pointUniforms.currentTime.value = this.totalRunTime;
 
-  this.pointUniforms.currentTime.value = this.totalRunTime;
-
-  this.smokeProvider.tick(this.totalRunTime);
-
+  // this.smokeProvider.tick(this.totalRunTime);
+  console.log(this.scene)
   this.camera.lookAt(this.scene.position);
   this.renderer.render(this.scene, this.camera);
 };
 
-module.exports = Globe;
+export {Globe} ;

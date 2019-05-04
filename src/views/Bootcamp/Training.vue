@@ -2,7 +2,7 @@
   <div>
     <BootcampTabs/>
     <div>
-      <div v-if="trainingFacility.lvl > 0">
+      <div v-if="researchCenter.lvl > 0">
         <Training
           v-for="training in trainings"
           :training="training"
@@ -26,9 +26,9 @@ export default {
     };
   },
   computed: {
-    trainingFacility() {
+    researchCenter() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
+        this.$store.state.game.user.buildings.find(b => b.building === 'research_center') || {
           lvl: 0,
         }
       );

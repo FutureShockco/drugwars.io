@@ -81,6 +81,13 @@ client.subscribe((data, message) => {
       message: 'Upgrade complete!',
     });
   }
+  if (message[1].body === 'training_complete') {
+    store.dispatch('init');
+    store.dispatch('notify', {
+      type: 'success',
+      message: 'Training complete!',
+    });
+  }
   if (message[1].body === 'future') {
     store.dispatch('init');
     store.dispatch('notify', {
@@ -241,6 +248,20 @@ const actions = {
         return resolve(result);
       });
     }),
+  upgradeTraining: ({ rootState, dispatch }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
+      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
+      sc.customEvent(username, payload, (err, result) => {
+        if (err) {
+          handleError(dispatch, err, 'Training building failed');
+          return reject(err);
+        }
+        return resolve(result);
+      });
+    }),  
   recruitUnit: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;

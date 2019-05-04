@@ -1,6 +1,6 @@
 let THREE = require('three'),
   TWEEN = require('tween.js'),
-  utils = require('./utils');
+  {mapPoint,renderToCanvas,createLabel} = require('./utils');
 
 const createMarkerTexture = function(markerColor) {
   let markerWidth = 30,
@@ -8,7 +8,7 @@ const createMarkerTexture = function(markerColor) {
     canvas,
     texture;
 
-  canvas = utils.renderToCanvas(markerWidth, markerHeight, ctx => {
+  canvas = renderToCanvas(markerWidth, markerHeight, ctx => {
     ctx.fillStyle = markerColor;
     ctx.strokeStyle = markerColor;
     ctx.lineWidth = 3;
@@ -34,7 +34,6 @@ const Marker = function(lat, lon, text, altitude, previous, scene, _opts) {
     lineWidth: 1,
     markerColor: '#FFCC00',
     labelColor: '#FFF',
-    font: 'Inconsolata',
     fontSize: 20,
     drawTime: 2000,
     lineSegments: 150,
@@ -64,10 +63,10 @@ const Marker = function(lat, lon, text, altitude, previous, scene, _opts) {
 
   this.opts = opts;
 
-  point = utils.mapPoint(lat, lon);
+  point = mapPoint(lat, lon);
 
   if (previous) {
-    previousPoint = utils.mapPoint(previous.lat, previous.lon);
+    previousPoint = mapPoint(previous.lat, previous.lon);
   }
 
   if (!scene._encom_markerTexture) {
@@ -85,7 +84,7 @@ const Marker = function(lat, lon, text, altitude, previous, scene, _opts) {
   this.marker.scale.set(0, 0);
   this.marker.position.set(point.x * altitude, point.y * altitude, point.z * altitude);
 
-  labelCanvas = utils.createLabel(
+  labelCanvas = createLabel(
     text.toUpperCase(),
     this.opts.fontSize,
     this.opts.labelColor,
@@ -163,7 +162,7 @@ const Marker = function(lat, lon, text, altitude, previous, scene, _opts) {
 
     latdist = (lat - previous.lat) / _this.opts.lineSegments;
     londist = (lon - previous.lon) / _this.opts.lineSegments;
-    startPoint = utils.mapPoint(previous.lat, previous.lon);
+    startPoint = mapPoint(previous.lat, previous.lon);
     pointList = [];
     pointList2 = [];
 
@@ -205,10 +204,10 @@ const Marker = function(lat, lon, text, altitude, previous, scene, _opts) {
 
       for (let x = 0; x < _this.geometrySpline.vertices.length; x++) {
         currentVert = _this.geometrySpline.vertices[x];
-        currentPoint = utils.mapPoint(nextSpot.lat, nextSpot.lon);
+        currentPoint = mapPoint(nextSpot.lat, nextSpot.lon);
 
         currentVert2 = _this.geometrySplineDotted.vertices[x];
-        currentPoint2 = utils.mapPoint(nextSpot2.lat, nextSpot2.lon);
+        currentPoint2 = mapPoint(nextSpot2.lat, nextSpot2.lon);
 
         if (x >= nextSpot.index) {
           currentVert.set(currentPoint.x * 1.2, currentPoint.y * 1.2, currentPoint.z * 1.2);
@@ -267,4 +266,4 @@ Marker.prototype.remove = function() {
   _this.scene.remove(_this.labelSprite);
 };
 
-module.exports = Marker;
+export {Marker};

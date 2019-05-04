@@ -2,451 +2,318 @@
     <div id="mapbg" class="mapbg">
         <div id="map">
         </div>
-        <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
 </template>
 
 <script>
-import * as THREE from 'three';
-import Hexasphere from 'hexasphere.js';
-import OrbitControls from 'three-orbitcontrols';
-import { setTimeout } from 'timers';
+import {Globe} from '@/helpers/map/Globe.js';
 
 export default {
-  data() {
-    return {
-      camera: null,
-      scene: null,
-      renderer: null,
-      mesh: null,
-    };
-  },
   methods: {
     init() {
-      const width = document.getElementById('app').offsetWidth - 400;
-      const height = document.getElementById('app').offsetHeight - 100;
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      const scene = new THREE.Scene();
-      const aspect = width / height;
-      const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 300);
-      let cameraRotation = 0;
-      const cameraDistance = 20;
-      const cameraRotationSpeed = 0.001;
-      const cameraAutoRotation = false;
-      const orbitControls = new THREE.OrbitControls(camera);
-      orbitControls.keys = {
-        LEFT: null, // left arrow
-        UP: null, // up arrow
-        RIGHT: null, // right arrow
-        BOTTOM: null, // down arrow
+      const newData = [
+        { lat: 69.59999999999997, lng: 136.20000000000027, label: 'test' },
+        { lat: 64.49999999999996, lng: -125.59999999999991, label: '' },
+        { lat: 64.49999999999996, lng: 95.4000000000002, label: '' },
+        { lat: 62.799999999999955, lng: -47.399999999999814, label: '' },
+        { lat: 61.09999999999995, lng: 139.60000000000028, label: '' },
+        { lat: 40.69999999999992, lng: 119.20000000000024, label: '' },
+        { lat: 32.1999999999999, lng: 13.800000000000175, label: '' },
+        { lat: 32.1999999999999, lng: 88.6000000000002, label: '' },
+        { lat: 25.399999999999906, lng: 7.000000000000174, label: '' },
+        { lat: 10.099999999999913, lng: 10.400000000000174, label: '' },
+        { lat: 8.399999999999913, lng: -3.1999999999998257, label: '' },
+        { lat: 8.399999999999913, lng: 3.600000000000174, label: '' },
+        { lat: -0.10000000000008713, lng: 102.20000000000022, label: '' },
+        { lat: -6.900000000000087, lng: 37.600000000000165, label: '' },
+        { lat: -12.000000000000085, lng: 20.600000000000172, label: '' },
+        { lat: -27.30000000000008, lng: 20.600000000000172, label: '' },
+        { lat: -27.30000000000008, lng: 30.800000000000168, label: '' },
+        { lat: 60.24999999999996, lng: 15.500000000000158, label: '' },
+        { lat: 58.549999999999955, lng: -127.29999999999993, label: '' },
+        { lat: 58.549999999999955, lng: 93.70000000000019, label: '' },
+        { lat: 56.84999999999995, lng: 90.30000000000018, label: '' },
+        { lat: 50.04999999999994, lng: -106.89999999999989, label: '' },
+        { lat: 48.34999999999994, lng: -66.09999999999982, label: '' },
+        { lat: 46.649999999999935, lng: 90.30000000000018, label: '' },
+        { lat: 44.94999999999993, lng: -79.69999999999985, label: '' },
+        { lat: 39.84999999999992, lng: 117.50000000000023, label: '' },
+        { lat: 34.749999999999915, lng: -120.49999999999991, label: '' },
+        { lat: 34.749999999999915, lng: -1.4999999999998423, label: '' },
+        { lat: 16.04999999999992, lng: 80.10000000000016, label: '' },
+        { lat: -6.050000000000079, lng: -62.699999999999825, label: '' },
+        { lat: -26.450000000000074, lng: 124.30000000000024, label: '' },
+        { lat: -26.450000000000074, lng: 151.50000000000028, label: '' },
+        { lat: -33.25000000000007, lng: -69.49999999999983, label: '' },
+        { lat: -45.15000000000009, lng: 168.5000000000003, label: '' },
+        { lat: 79.79999999999998, lng: -26.999999999999822, label: '' },
+        { lat: 74.69999999999997, lng: 98.80000000000021, label: '' },
+        { lat: 72.99999999999997, lng: -122.1999999999999, label: '' },
+        { lat: 64.49999999999996, lng: -122.1999999999999, label: '' },
+        { lat: 50.899999999999935, lng: -98.39999999999986, label: '' },
+        { lat: 49.19999999999993, lng: 119.20000000000024, label: '' },
+        { lat: 47.49999999999993, lng: 27.40000000000017, label: '' },
+        { lat: 44.09999999999992, lng: -115.39999999999989, label: '' },
+        { lat: 32.1999999999999, lng: 54.60000000000016, label: '' },
+        { lat: 30.499999999999904, lng: -94.99999999999986, label: '' },
+        { lat: 28.799999999999905, lng: 119.20000000000024, label: '' },
+        { lat: 21.999999999999908, lng: 10.400000000000174, label: '' },
+        { lat: 18.59999999999991, lng: -71.19999999999982, label: '' },
+        { lat: 15.19999999999991, lng: -3.1999999999998257, label: '' },
+        { lat: 13.499999999999911, lng: 105.60000000000022, label: '' },
+        { lat: 8.399999999999913, lng: -71.19999999999982, label: '' },
+        { lat: -0.10000000000008713, lng: -54.19999999999981, label: '' },
+        { lat: -13.700000000000085, lng: -64.3999999999998, label: '' },
+        { lat: -13.700000000000085, lng: 30.800000000000168, label: '' },
+        { lat: -18.800000000000082, lng: 47.80000000000016, label: '' },
+        { lat: -22.20000000000008, lng: 27.40000000000017, label: '' },
+        { lat: 72.14999999999998, lng: 52.90000000000015, label: '' },
+        { lat: 68.74999999999997, lng: -103.49999999999989, label: '' },
+        { lat: 58.549999999999955, lng: 52.90000000000015, label: '' },
+        { lat: 56.84999999999995, lng: -62.699999999999825, label: '' },
+        { lat: 50.04999999999994, lng: 25.700000000000156, label: '' },
+        { lat: 46.649999999999935, lng: 22.300000000000157, label: '' },
+        { lat: 46.649999999999935, lng: 83.50000000000017, label: '' },
+        { lat: 36.44999999999992, lng: -96.69999999999987, label: '' },
+        { lat: 33.04999999999991, lng: 117.50000000000023, label: '' },
+        { lat: 27.949999999999914, lng: 103.9000000000002, label: '' },
+        { lat: 19.449999999999918, lng: -89.89999999999986, label: '' },
+        { lat: 19.449999999999918, lng: 42.70000000000015, label: '' },
+        { lat: 5.8499999999999215, lng: -69.49999999999983, label: '' },
+        { lat: -14.550000000000077, lng: -59.29999999999983, label: '' },
+        { lat: -19.650000000000077, lng: 124.30000000000024, label: '' },
+        { lat: -89.35000000000016, lng: -35.49999999999984, label: '' },
+
+        { lat: 42.35843, lng: -71.05977, label: 'Boston' },
+        { lat: 25.77427, lng: -80.19366, label: 'Miami' },
+        { lat: 37.77493, lng: -122.41942, label: 'San Francisco' },
+        { lat: -23.5475, lng: -46.63611, label: 'Sao Paulo' },
+        { lat: -12.04318, lng: -77.02824, label: 'Lima' },
+        { lat: 21.30694, lng: -157.85833, label: 'Honolulu' },
+        { lat: -31.95224, lng: 115.8614, label: 'Perth' },
+        { lat: -33.86785, lng: 151.20732, label: 'Sydney' },
+        { lat: -42, lng: 174, label: 'New Zealand' },
+        { lat: 22.28552, lng: 114.15769, label: 'Hong Kong' },
+        { lat: 19.07283, lng: 72.88261, label: 'Mumbai' },
+        { lat: 30.06263, lng: 31.24967, label: 'Cairo' },
+        { lat: -33.92584, lng: 18.42322, label: 'Cape Town' },
+        { lat: 52.52437, lng: 13.41053, label: 'Berlin' },
+        { lat: 55.95206, lng: -3.19648, label: 'Edinburgh' },
+        { lat: 55.75222, lng: 37.61556, label: 'Moscow' },
+      ];
+
+      const grid = {
+        tiles: [
+          {
+            lat: -31.72,
+            lon: 90,
+            b: [
+              { x: 0, y: 265.52, z: 423.63 },
+              { x: -3, y: 263.67, z: 424.77 },
+              { x: -1.85, y: 260.67, z: 426.62 },
+              { x: 1.85, y: 260.67, z: 426.62 },
+              { x: 3, y: 263.67, z: 424.77 },
+            ],
+          },
+          {
+            lat: -31.72,
+            lon: -90,
+            b: [
+              { x: 0, y: 265.52, z: -423.63 },
+              { x: -3, y: 263.67, z: -424.77 },
+              { x: -1.85, y: 260.67, z: -426.62 },
+              { x: 1.85, y: 260.67, z: -426.62 },
+              { x: 3, y: 263.67, z: -424.77 },
+            ],
+          },
+          {
+            lat: 0,
+            lon: 31.72,
+            b: [
+              { x: -424.77, y: 3, z: 263.67 },
+              { x: -423.63, y: 0, z: 265.52 },
+              { x: -424.77, y: -3, z: 263.67 },
+              { x: -426.62, y: -1.85, z: 260.67 },
+              { x: -426.62, y: 1.85, z: 260.67 },
+            ],
+          },
+          {
+            lat: -62.88,
+            lon: -180,
+            b: [
+              { x: 228.77, y: 444.58, z: 0.55 },
+              { x: 228.06, y: 444.94, z: 1.1 },
+              { x: 227.17, y: 445.4, z: 0.55 },
+              { x: 227.17, y: 445.4, z: -0.55 },
+              { x: 228.06, y: 444.94, z: -1.1 },
+              { x: 228.77, y: 444.58, z: -0.55 },
+            ],
+          },
+          {
+            lat: -64.51,
+            lon: -180,
+            b: [
+              { x: 215.77, y: 451.03, z: 0.36 },
+              { x: 215.28, y: 451.27, z: 0.73 },
+              { x: 214.67, y: 451.56, z: 0.37 },
+              { x: 214.67, y: 451.56, z: -0.37 },
+              { x: 215.28, y: 451.27, z: -0.73 },
+              { x: 215.77, y: 451.03, z: -0.36 },
+            ],
+          },
+          {
+            lat: -66.18,
+            lon: -180,
+            b: [
+              { x: 204.78, y: 456.08, z: 1.72 },
+              { x: 202.38, y: 457.15, z: 3.46 },
+              { x: 199.45, y: 458.44, z: 1.74 },
+              { x: 199.45, y: 458.44, z: -1.74 },
+              { x: 202.38, y: 457.15, z: -3.46 },
+              { x: 204.78, y: 456.08, z: -1.72 },
+            ],
+          },
+          {
+            lat: -67.9,
+            lon: -180,
+            b: [
+              { x: 191.52, y: 461.8, z: 1.99 },
+              { x: 188.64, y: 462.97, z: 4.01 },
+              { x: 185.19, y: 464.38, z: 2.02 },
+              { x: 185.19, y: 464.38, z: -2.02 },
+              { x: 188.64, y: 462.97, z: -4.01 },
+              { x: 191.52, y: 461.8, z: -1.99 },
+            ],
+          },
+          {
+            lat: -71.45,
+            lon: -180,
+            b: [
+              { x: 159.87, y: 473.73, z: 0.47 },
+              { x: 159.14, y: 473.98, z: 0.95 },
+              { x: 158.29, y: 474.26, z: 0.48 },
+              { x: 158.29, y: 474.26, z: -0.48 },
+              { x: 159.14, y: 473.98, z: -0.95 },
+              { x: 159.87, y: 473.73, z: -0.47 },
+            ],
+          },
+          {
+            lat: -59.87,
+            lon: 164.91,
+            b: [
+              { x: 242.04, y: 432.94, z: 62.76 },
+              { x: 240.36, y: 433.67, z: 64.19 },
+              { x: 240.6, y: 433.14, z: 66.8 },
+              { x: 242.67, y: 431.86, z: 67.59 },
+              { x: 244.48, y: 431.12, z: 65.76 },
+              { x: 244.08, y: 431.68, z: 63.55 },
+            ],
+          },
+          {
+            lat: -59.98,
+            lon: 161.49,
+            b: [
+              { x: 237.12, y: 433.16, z: 78.29 },
+              { x: 236.37, y: 433.45, z: 78.92 },
+              { x: 236.46, y: 433.2, z: 80.06 },
+              { x: 237.36, y: 432.64, z: 80.41 },
+              { x: 238.17, y: 432.34, z: 79.61 },
+              { x: 238.01, y: 432.61, z: 78.63 },
+            ],
+          },
+          {
+            lat: -59.92,
+            lon: 154.39,
+            b: [
+              { x: 225.82, y: 433.42, z: 105.37 },
+              { x: 223.74, y: 434.08, z: 107.11 },
+              { x: 223.88, y: 433.25, z: 110.11 },
+              { x: 226.27, y: 431.78, z: 111.02 },
+              { x: 228.48, y: 431.15, z: 108.92 },
+              { x: 228.18, y: 431.97, z: 106.27 },
+            ],
+          },
+          {
+            lat: -59.74,
+            lon: 150.75,
+            b: [
+              { x: 219.67, y: 432.98, z: 119.21 },
+              { x: 216.85, y: 433.76, z: 121.54 },
+              { x: 216.99, y: 432.56, z: 125.5 },
+              { x: 220.15, y: 430.61, z: 126.71 },
+              { x: 223.14, y: 429.87, z: 123.94 },
+              { x: 222.8, y: 431.05, z: 120.4 },
+            ],
+          },
+          {
+            lat: -59.45,
+            lon: 147.09,
+            b: [
+              { x: 213.24, y: 431.78, z: 134.29 },
+              { x: 210.43, y: 432.44, z: 136.58 },
+              { x: 210.51, y: 431.18, z: 140.4 },
+              { x: 213.58, y: 429.28, z: 141.57 },
+              { x: 216.54, y: 428.67, z: 138.92 },
+              { x: 216.28, y: 429.9, z: 135.45 },
+            ],
+          },
+          {
+            lat: -59.05,
+            lon: 143.44,
+            b: [
+              { x: 206.48, y: 429.63, z: 150.82 },
+              { x: 204.7, y: 429.98, z: 152.25 },
+              { x: 204.72, y: 429.13, z: 154.59 },
+              { x: 206.62, y: 427.96, z: 155.32 },
+              { x: 208.48, y: 427.64, z: 153.69 },
+              { x: 208.36, y: 428.46, z: 151.54 },
+            ],
+          },
+          { lat: -58.55, lon: 139.83 },
+        ],
       };
 
-      // Lights
-      const spotLight = new THREE.AmbientLight(0xffffff);
-
-      // Texture Loader
-      const textureLoader = new THREE.TextureLoader();
-
-      // Planet Proto
-      const planetProto = {
-        sphere(size) {
-          const sphere = new THREE.SphereGeometry(size, 32, 32);
-
-          return sphere;
-        },
-        material(options) {
-          const material = new THREE.MeshPhongMaterial();
-          if (options) {
-            for (const property in options) {
-              material[property] = options[property];
-            }
-          }
-
-          return material;
-        },
-        glowMaterial(intensity, fade, color) {
-          const glowMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-              c: {
-                type: 'f',
-                value: intensity,
-              },
-              p: {
-                type: 'f',
-                value: fade,
-              },
-              glowColor: {
-                type: 'c',
-                value: new THREE.Color(color),
-              },
-              viewVector: {
-                type: 'v3',
-                value: camera.position,
-              },
-            },
-            vertexShader: `
-        uniform vec3 viewVector;
-        uniform float c;
-        uniform float p;
-        varying float intensity;
-        void main() {
-          vec3 vNormal = normalize( normalMatrix * normal );
-          vec3 vNormel = normalize( normalMatrix * viewVector );
-          intensity = pow( c - dot(vNormal, vNormel), p );
-          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }`,
-            fragmentShader: `
-        uniform vec3 glowColor;
-        varying float intensity;
-        void main() 
-        {
-          vec3 glow = glowColor * intensity;
-          gl_FragColor = vec4( glow, 1.0 );
-        }`,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            transparent: true,
-          });
-
-          return glowMaterial;
-        },
-        texture(material, property, uri) {
-          const textureLoader = new THREE.TextureLoader();
-          textureLoader.crossOrigin = true;
-          textureLoader.load(uri, texture => {
-            material[property] = texture;
-            material.needsUpdate = true;
-          });
-        },
-      };
-
-      const createPlanet = function(options) {
-        // Create the planet's Surface
-        const surfaceGeometry = planetProto.sphere(options.surface.size);
-        const surfaceMaterial = planetProto.material(options.surface.material);
-        const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
-
-        // Create the planet's Atmosphere
-        const atmosphereGeometry = planetProto.sphere(
-          options.surface.size + options.atmosphere.size,
-        );
-        const atmosphereMaterialDefaults = {
-          side: THREE.DoubleSide,
-          transparent: true,
-        };
-        const atmosphereMaterialOptions = Object.assign(
-          atmosphereMaterialDefaults,
-          options.atmosphere.material,
-        );
-        const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
-        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-
-        // Create the planet's Atmospheric glow
-        const atmosphericGlowGeometry = planetProto.sphere(
-          options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
-        );
-        const atmosphericGlowMaterial = planetProto.glowMaterial(
-          options.atmosphere.glow.intensity,
-          options.atmosphere.glow.fade,
-          options.atmosphere.glow.color,
-        );
-        const atmosphericGlow = new THREE.Mesh(atmosphericGlowGeometry, atmosphericGlowMaterial);
-
-        // Nest the planet's Surface and Atmosphere into a planet object
-        const planet = new THREE.Object3D();
-        surface.name = 'surface';
-        atmosphere.name = 'atmosphere';
-        atmosphericGlow.name = 'atmosphericGlow';
-        planet.add(surface);
-        planet.add(atmosphere);
-        planet.add(atmosphericGlow);
-
-        // Load the Surface's textures
-        for (const textureProperty in options.surface.textures) {
-          planetProto.texture(
-            surfaceMaterial,
-            textureProperty,
-            options.surface.textures[textureProperty],
-          );
-        }
-
-        // Load the Atmosphere's texture
-        for (const textureProperty in options.atmosphere.textures) {
-          planetProto.texture(
-            atmosphereMaterial,
-            textureProperty,
-            options.atmosphere.textures[textureProperty],
-          );
-        }
-
-        return planet;
-      };
-
-      const earth = createPlanet({
-        surface: {
-          size: 0.5,
-          material: {
-            bumpScale: 0.05,
-            specular: new THREE.Color('grey'),
-            shininess: 10,
-          },
-          textures: {
-            map: 'img/map/8081_earthmap2k.jpg',
-            bumpMap: 'img/map/8081_earthbump2k.jpg',
-            specularMap: 'img/map/8081_earthspec2k.jpg',
-          },
-        },
-        atmosphere: {
-          size: 0.05,
-          material: {
-            opacity: 0.8,
-          },
-          textures: {
-            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
-            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
-          },
-          glow: {
-            size: 0.02,
-            intensity: 0.7,
-            fade: 7,
-            color: 0x93cfef,
-          },
-        },
+      const globe = new Globe(1920, 1080, {
+        data: newData, // copy the data array
+        tiles: grid.tiles,
+        baseColor: '#cd5c5c',
+        markerColor: '#cd5c5c',
+        pinColor: '#cd5c5c',
+        satelliteColor: '#cd5c5c',
+        scale: 1,
+        dayLength: 1000+500,
+        introLinesDuration: 2000,
+        maxPins: 100,
+        maxMarkers: 100,
+        viewAngle: 1,
       });
+      console.log(globe);
+      // globe = new ENCOM.Globe(window.innerWidth, window.innerHeight, {
+      //     font: "Inconsolata",
+      //     data: newData, // copy the data array
+      //     tiles: grid.tiles,
+      //     baseColor: $("#globe-color").val(),
+      //     markerColor: $("#marker-color").val(),
+      //     pinColor: $("#pin-color").val(),
+      //     satelliteColor: $("#satellite-color").val(),
+      //     scale: parseFloat($("#globe-scale").val()),
+      //     dayLength: 1000 * parseFloat($("#globe-spr").val()),
+      //     introLinesDuration: parseFloat($("#globe-id").val()),
+      //     maxPins: parseFloat($("#globe-mp").val()),
+      //     maxMarkers: parseFloat($("#globe-mm").val()),
+      //     viewAngle: parseFloat($("#globe-va").val())
+      // });
 
-      // Marker Proto
-      const markerProto = {
-        latLongToVector3: function latLongToVector3(latitude, longitude, radius, height) {
-          const phi = (latitude * Math.PI) / 180;
-          const theta = ((longitude - 180) * Math.PI) / 180;
+      // $("#globe").append(globe.domElement);
 
-          const x = -(radius + height) * Math.cos(phi) * Math.cos(theta);
-          const y = (radius + height) * Math.sin(phi);
-          const z = (radius + height) * Math.cos(phi) * Math.sin(theta);
-
-          return new THREE.Vector3(x, y, z);
-        },
-        marker: function marker(size, color, vector3Position) {
-          const markerGeometry = new THREE.SphereGeometry(size);
-          const markerMaterial = new THREE.MeshLambertMaterial({
-            color,
-          });
-          const markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
-          markerMesh.position.copy(vector3Position);
-
-          return markerMesh;
-        },
-      };
-
-      // Place Marker
-      const placeMarker = function(object, options) {
-        const position = markerProto.latLongToVector3(
-          options.latitude,
-          options.longitude,
-          options.radius,
-          options.height,
-        );
-        const marker = markerProto.marker(options.size, options.color, position);
-        object.add(marker);
-      };
-
-      // Place Marker At Address
-      const placeMarkerAtAddress = function(address, color) {
-        const encodedLocation = address.replace(/\s/g, '+');
-        const httpRequest = new XMLHttpRequest();
-
-        httpRequest.open(
-          'GET',
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedLocation}`,
-        );
-        httpRequest.send(null);
-        httpRequest.onreadystatechange = function() {
-          if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-            const result = JSON.parse(httpRequest.responseText);
-
-            if (result.results.length > 0) {
-              const latitude = result.results[0].geometry.location.lat;
-              const longitude = result.results[0].geometry.location.lng;
-
-              placeMarker(earth.getObjectByName('surface'), {
-                latitude,
-                longitude,
-                radius: 0.5,
-                height: 0,
-                size: 0.01,
-                color,
-              });
-            }
-          }
-        };
-      };
-
-      // Galaxy
-      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
-      const galaxyMaterial = new THREE.MeshBasicMaterial({
-        side: THREE.BackSide,
-      });
-      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
-
-      // Load Galaxy Textures
-      textureLoader.crossOrigin = true;
-      textureLoader.load(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
-        texture => {
-          galaxyMaterial.map = texture;
-          scene.add(galaxy);
-        },
-      );
-
-      const createScene = function() {
-        const img = document.getElementById('projection');
-        const projectionCanvas = document.createElement('canvas');
-        const projectionContext = projectionCanvas.getContext('2d');
-        img.width = document.getElementById('app').offsetWidth - 400;
-        img.height = document.getElementById('app').offsetHeight - 100;
-
-        projectionCanvas.width = img.width;
-        projectionCanvas.height = img.height;
-        projectionContext.drawImage(img, 0, 0, img.width, img.height);
-
-        let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-
-        const isLand = function(lat, lon) {
-          const x = parseInt((img.width * (lon + 180)) / 360);
-          const y = parseInt((img.height * (lat + 90)) / 180);
-
-          if (pixelData == null) {
-            pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-          }
-          return pixelData.data[(y * pixelData.width + x) * 4] === 0;
-        };
-
-        const meshMaterials = [];
-        const oceanMaterial = [];
-        let seenTiles = {};
-        let currentTiles = [];
-        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: false }));
-        oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
-
-        // let radius = 0.519;
-        const radius = 0.619;
-        const divisions = 20;
-        const tileSize = 0.85;
-        while (scene.children.length > 0) {
-          scene.remove(scene.children[0]);
-        }
-        const hexasphere = new Hexasphere(radius, divisions, tileSize);
-        for (let i = 0; i < hexasphere.tiles.length; ) {
-          const t = hexasphere.tiles[i];
-          const latLon = t.getLatLon(hexasphere.radius);
-          const geometry = new THREE.Geometry();
-          for (let j = 0; j < t.boundary.length; ) {
-            const bp = t.boundary[j];
-            geometry.vertices.push(new THREE.Vector3(bp.x, bp.y, bp.z));
-            j += 1;
-          }
-          geometry.faces.push(new THREE.Face3(0, 1, 2));
-          geometry.faces.push(new THREE.Face3(0, 2, 3));
-          geometry.faces.push(new THREE.Face3(0, 3, 4));
-
-          if (geometry.vertices.length > 5) {
-            geometry.faces.push(new THREE.Face3(0, 4, 5));
-          }
-          let material;
-          if (isLand(latLon.lat, latLon.lon)) {
-            material = meshMaterials[Math.floor(Math.random() * meshMaterials.length)];
-
-            material.opacity = 0.5;
-          } else {
-            material = oceanMaterial[Math.floor(Math.random() * oceanMaterial.length)];
-
-            material.opacity = 0;
-          }
-
-          const mesh = new THREE.Mesh(geometry, material.clone());
-          mesh.callback = function() {
-            console.log(this.name);
-          };
-
-          scene.add(mesh);
-          hexasphere.tiles[i].mesh = mesh;
-          i += 1;
-        }
-
-        seenTiles = {};
-
-        currentTiles = hexasphere.tiles.slice().splice(0, 12);
-        currentTiles.forEach(item => {
-          seenTiles[item.toString()] = 1;
-          item.mesh.material.opacity = 1; // eslint-disable-line no-param-reassign
-        });
-      };
-      createScene();
-
-      // Scene, Camera, Renderer Configuration
-      renderer.setSize(width, height);
       const mapbg = document.getElementById('mapbg');
-      mapbg.appendChild(renderer.domElement);
-
-      camera.position.set(1, 1, 1);
-      orbitControls.enabled = !cameraAutoRotation;
-      scene.add(camera);
-      scene.add(spotLight);
-      scene.add(earth);
-
-      document.addEventListener('mousemove', onMouseMove, false);
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-
-      function onMouseMove(event) {
-        // calculate mouse position in normalized device coordinates
-        // (-1 to +1) for both components
-
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      }
-
-      // Light Configurations
-      spotLight.position.set(1, 1, 1);
-
-      // Mesh Configurations
-      earth.receiveShadow = false;
-      earth.castShadow = false;
-      earth.rotateY(179.05);
-      earth.rotateX(0);
-      earth.rotateZ(0);
-      // On window resize, adjust camera aspect ratio and renderer size
-      window.addEventListener('resize', () => {
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-      });
-
-      // Main render function
-      const render = function() {
-        raycaster.setFromCamera(mouse, camera);
-
-        // calculate objects intersecting the picking ray
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        for (let i = 0; i < intersects.length; i++) {
-          intersects[i].object.material.color.set(0xff0000);
-        }
-
-        earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.01;
-        if (cameraAutoRotation) {
-          cameraRotation += cameraRotationSpeed;
-          camera.position.y = 0;
-          camera.position.x = 2 * Math.sin(cameraRotation);
-          camera.position.z = 2 * Math.cos(cameraRotation);
-          camera.lookAt(earth.position);
-        }
-        requestAnimationFrame(render);
-        renderer.render(scene, camera);
-      };
-
-      render();
-      orbitControls.update();
+      mapbg.append(globe.domElement);
+      // globe.init();
+      
+      setTimeout(() => {
+        globe.init();
+              globe.tick()
+      }, 500);
     },
   },
   mounted() {
@@ -463,7 +330,7 @@ export default {
 }
 
 #map {
-  height: 100ù;
+  height: 100%;
 }
 
 img {

@@ -1,5 +1,5 @@
 let THREE = require('three'),
-  utils = require('./utils');
+  {mapPoint} = require('./utils');
 
 const vertexShader = [
   '#define PI 3.141592653589793238462643',
@@ -93,7 +93,7 @@ const SmokeProvider = function(scene, _opts) {
 
   const material = new THREE.ShaderMaterial({
     uniforms: this.uniforms,
-    attributes: this.attributes,
+    // attributes: this.attributes,
     vertexShader,
     fragmentShader,
     transparent: true,
@@ -119,11 +119,11 @@ const SmokeProvider = function(scene, _opts) {
   this.smokeIndex = 0;
   this.totalRunTime = 0;
 
-  scene.add(new THREE.ParticleSystem(this.geometry, material));
+  scene.add(new THREE.Points(this.geometry, material));
 };
 
 SmokeProvider.prototype.setFire = function(lat, lon, altitude) {
-  const point = utils.mapPoint(lat, lon);
+  const point = mapPoint(lat, lon);
 
   /* add the smoke */
   const startSmokeIndex = this.smokeIndex;

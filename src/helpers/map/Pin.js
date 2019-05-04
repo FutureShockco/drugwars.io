@@ -1,12 +1,12 @@
 let THREE = require('three'),
   TWEEN = require('tween.js'),
-  utils = require('./utils');
+  {renderToCanvas,mapPoint,createLabel} = require('./utils');
 
 const createTopCanvas = function(color) {
   let markerWidth = 20,
     markerHeight = 20;
 
-  return utils.renderToCanvas(markerWidth, markerHeight, ctx => {
+  return renderToCanvas(markerWidth, markerHeight, ctx => {
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.arc(markerWidth / 2, markerHeight / 2, markerWidth / 4, 0, 2 * Math.PI);
@@ -60,7 +60,7 @@ const Pin = function(lat, lon, text, altitude, scene, smokeProvider, _opts) {
     linewidth: opts.lineWidth,
   });
 
-  point = utils.mapPoint(lat, lon);
+  point = mapPoint(lat, lon);
 
   this.lineGeometry.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
   this.lineGeometry.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
@@ -68,7 +68,7 @@ const Pin = function(lat, lon, text, altitude, scene, smokeProvider, _opts) {
 
   /* the label */
 
-  labelCanvas = utils.createLabel(text, 18, opts.labelColor, opts.font);
+  labelCanvas = createLabel(text, 18, opts.labelColor, opts.font);
   labelTexture = new THREE.Texture(labelCanvas);
   labelTexture.needsUpdate = true;
 
@@ -153,7 +153,7 @@ Pin.prototype.toString = function() {
 };
 
 Pin.prototype.changeAltitude = function(altitude) {
-  const point = utils.mapPoint(this.lat, this.lon);
+  const point = mapPoint(this.lat, this.lon);
   const _this = this; // arghhhh
 
   new TWEEN.Tween({ altitude: this.altitude })
@@ -244,4 +244,4 @@ Pin.prototype.remove = function() {
   }
 };
 
-module.exports = Pin;
+export {Pin} ;

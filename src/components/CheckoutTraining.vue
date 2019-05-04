@@ -42,7 +42,7 @@ import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price', 'notEnough'],
+  props: ['id', 'level', 'coeff', 'researchCenterLvl', 'inProgress', 'price', 'notEnough'],
   data() {
     return {
       isLoading: false,
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     updateTime() {
-      return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
+      return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.researchCenterLvl);
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -73,16 +73,16 @@ export default {
       );
     },
     timeToWait() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
-      if (building) {
-        if (building.pending_update) {
-          const nextUpdate = new Date(building.pending_update).getTime();
+      const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
+      if (training) {
+        if (training.pending_update) {
+          const nextUpdate = new Date(training.pending_update).getTime();
           const now = this.$store.state.ui.timestamp;
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;
         }
 
-        const nextUpdate = new Date(building.next_update).getTime();
+        const nextUpdate = new Date(training.next_update).getTime();
         const now = this.$store.state.ui.timestamp;
         const timeToWait = nextUpdate - now;
         return timeToWait > 0 ? timeToWait : 0;
@@ -90,26 +90,26 @@ export default {
       return 0;
     },
     requireUpdate() {
-      return this.level > this.hqLevel && this.id !== 'headquarters';
+      return this.level > this.researchCenterLvl && this.id !== 'research_center';
     },
     upgradeLabel() {
       let label = 'Upgrade';
       if (this.notEnough) label = 'Miss resources';
-      if (this.requireUpdate) label = 'Require HQ upgrade';
+      if (this.requireUpdate) label = 'Require RS upgrade';
       if (this.inProgress) label = 'Upgrading';
       return label;
     },
   },
   methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
+    ...mapActions(['upgradeTraining', 'requestPayment']),
     handleSubmit(use) {
       this.isLoading = true;
       let payload = {};
-      if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
+      if (use === 'future') payload = { training: this.id, level: this.level, use: 'future' };
       else {
-        payload = { building: this.id, level: this.level, use: 'resources' };
+        payload = { training: this.id, level: this.level, use: 'resources' };
       }
-      this.upgradeBuilding(payload)
+      this.upgradeTraining(payload)
         .then(() => {
           this.waitingConfirmation = true;
           this.isLoading = false;

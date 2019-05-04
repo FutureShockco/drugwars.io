@@ -1,6 +1,6 @@
 let TextureAnimator = require('./TextureAnimator'),
   THREE = require('three'),
-  utils = require('./utils');
+  {hexToRgb,renderToCanvas,createLabel,mapPoint} = require('./utils');
 
 const createCanvas = function(
   numFrames,
@@ -20,9 +20,9 @@ const createCanvas = function(
   let offsety = 0;
   let curRow = 0;
 
-  const waveColorRGB = utils.hexToRgb(waveColor);
+  const waveColorRGB = hexToRgb(waveColor);
 
-  return utils.renderToCanvas((numFrames * pixels) / rows, pixels * rows, ctx => {
+  return renderToCanvas((numFrames * pixels) / rows, pixels * rows, ctx => {
     for (let i = 0; i < numFrames; i++) {
       if (i - curRow * cols >= cols) {
         offsetx = 0;
@@ -151,7 +151,7 @@ const createCanvas = function(
 
 const Satellite = function(lat, lon, altitude, scene, _opts, canvas, texture) {
   var geometry,
-    point = utils.mapPoint(lat, lon),
+    point = mapPoint(lat, lon),
     opts,
     numFrames,
     pixels,
@@ -258,7 +258,7 @@ const Satellite = function(lat, lon, altitude, scene, _opts, canvas, texture) {
 };
 
 Satellite.prototype.changeAltitude = function(_altitude) {
-  const newPoint = utils.mapPoint(this.lat, this.lon);
+  const newPoint = mapPoint(this.lat, this.lon);
   newPoint.x *= _altitude;
   newPoint.y *= _altitude;
   newPoint.z *= _altitude;
@@ -354,4 +354,4 @@ Satellite.prototype.toString = function() {
   return `${this.lat}_${this.lon}_${this.altitude}`;
 };
 
-module.exports = Satellite;
+export {Satellite};

@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center pt-5 pb-3">
-        <!-- <h5 class="text-center text-red">LIVE MAINTENANCE, YOU MAY HAVE SOME ISSUE WHILE PLAYING. END TIME : 4PM UTC</h5> -->
+      <div class="text-center pt-2 pb-3">
+        <h5 class="text-center text-red">LIVE MAINTENANCE, YOU MAY HAVE SOME ISSUE WHILE PLAYING. END TIME : 7PM UTC</h5>
         <Avatar
           :size="100"
           :username="user.nickname"

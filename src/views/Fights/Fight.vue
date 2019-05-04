@@ -41,7 +41,7 @@
                 </p>
                 <h3>Defensive Power : {{defensivePower}}%</h3>
     
-                <a href="https://simulator.drugwars.io/next" target="_blank">
+                <a href="https://simulator.drugwars.io" target="_blank">
                   Access to the Fight simulator
                 </a>
             </div>

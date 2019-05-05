@@ -41,7 +41,7 @@
                 </p>
                 <h3>Defensive Power : {{defensivePower}}%</h3>
     
-                <a href="https://simulator.drugwars.io/next" target="_blank">
+                <a @click="openInNewTab()" target="_blank">
                   Access to the Fight simulator
                 </a>
             </div>
@@ -196,6 +196,35 @@ export default {
         key,
         amount: selectedUnitsObj[key],
       }));
+    },
+    openInNewTab() {
+      const url = 'https://simulator.drugwars.io/';
+      const myarmy = this.$store.state.game.user.units.map(unit =>
+        this.serialize({
+          p: 1,
+          key: unit.unit,
+          n: unit.amount,
+        }),
+      );
+      const mytraining = this.$store.state.game.user.trainings.map(training =>
+        this.serialize({
+          p: 1,
+          key: training.training,
+          lvl: training.lvl,
+        }),
+      );
+
+      const toOpen = `${myarmy},${mytraining}`;
+      const win = window.open(`${url}?${toOpen}`, '_blank');
+      win.focus();
+    },
+    serialize(obj) {
+      const str = [];
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+        }
+      return str.join('&');
     },
   },
 };

@@ -53,7 +53,6 @@
         <h5>Army</h5>
         <Army class="mb-4" :units="units"/>
         <h5>Base</h5>
-        <Base class="mb-4" :items="buildings"/>
         <div v-if="username !== me" class="mb-4">
           <router-link
             class="button button-red button-large"

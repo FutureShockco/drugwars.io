@@ -24,7 +24,13 @@
         </div>
       </li>
     </ul>
-    <Base class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings"/>
+    				<h5 v-if="detail && detail.buildings">BUILDINGS :</h5>
+    <FightsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings"/>
+    				<h5 v-if="detail && detail.trainings">TRAINING :</h5>
+    <FightsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings"/>
+    <div v-if="detail">
+      <a @click="openInNewTab()">Open in the simulator</a>
+    </div>
   </div>
 </template>
 
@@ -45,6 +51,51 @@ export default {
         weapons: weapons > this.detail.weapon_storage ? this.detail.weapon_storage : weapons,
         alcohols: alcohols > this.detail.alcohols_storage ? this.detail.alcohols_storage : alcohols,
       };
+    },
+  },
+  methods: {
+    openInNewTab() {
+      const url = 'https://simulator.drugwars.io/';
+      const myarmy = this.$store.state.game.user.units.map(unit =>
+        this.serialize({
+          p: 1,
+          key: unit.unit,
+          n: unit.amount,
+        }),
+      );
+      const mytraining = this.$store.state.game.user.trainings.map(training =>
+        this.serialize({
+          p: 1,
+          key: training.training,
+          lvl: training.lvl,
+        }),
+      );
+
+      const enemyarmy = this.detail.units.map(unit =>
+        this.serialize({
+          p: 2,
+          key: unit.unit,
+          n: unit.amount,
+        }),
+      );
+      const enemytraining = this.detail.trainings.map(training =>
+        this.serialize({
+          p: 2,
+          key: training.training,
+          lvl: training.lvl,
+        }),
+      );
+      const toOpen = `${myarmy},${mytraining},${enemyarmy},${enemytraining}`;
+      const win = window.open(`${url}?${toOpen}`, '_blank');
+      win.focus();
+    },
+    serialize(obj) {
+      const str = [];
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+        }
+      return str.join('&');
     },
   },
 };

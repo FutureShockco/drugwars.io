@@ -110,10 +110,10 @@
 			</div>
 			<div v-if="fight.is_done!=0">
 				<div v-if="!details" class="text-center">
-					<button class="button button-blue" @click="show_details()">Show details</button>
+					<button class="button button-blue" @click="showDetails()">Show details</button>
 				</div>
 				<div v-else class="text-center">
-					<button class="button button-blue" @click="hide_details()">Hide details</button>
+					<button class="button button-blue" @click="hideDetails()">Hide details</button>
 				</div>
 			</div>
 		</div>
@@ -170,10 +170,10 @@ export default {
     },
   },
   methods: {
-    show_details() {
+    showDetails() {
       this.details = true;
     },
-    hide_details() {
+    hideDetails() {
       this.details = false;
     },
   },

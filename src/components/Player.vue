@@ -1,9 +1,5 @@
 <template>
-<<<<<<< HEAD
   <div class="py-3  px-0 m-1 columns text-center border-bottom">
-=======
-  <div class="py-3 px-3 m-1 columns text-center border-bottom">
->>>>>>> e9ba132c0bad77778f136ef96323444d5b84f91f
     <div class="column col-3 px-0">
         <router-link
       :to="`/fight?target=${player.nickname}`">

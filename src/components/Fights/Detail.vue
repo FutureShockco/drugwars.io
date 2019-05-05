@@ -56,6 +56,7 @@ export default {
   methods: {
     openInNewTab() {
       const url = 'https://simulator.drugwars.io/';
+      let toOpen = ''
       const myarmy = this.$store.state.game.user.units.map(unit =>
         this.serialize({
           p: 1,
@@ -63,6 +64,7 @@ export default {
           n: unit.amount,
         }),
       );
+      toOpen += myarmy
       const mytraining = this.$store.state.game.user.trainings.map(training =>
         this.serialize({
           p: 1,
@@ -70,7 +72,9 @@ export default {
           lvl: training.lvl,
         }),
       );
-
+      toOpen += ',' + mytraining
+      if(this.detail.units)
+      {
       const enemyarmy = this.detail.units.map(unit =>
         this.serialize({
           p: 2,
@@ -78,6 +82,11 @@ export default {
           n: unit.amount,
         }),
       );
+      toOpen += ',' + mytraining
+      }
+
+      if(this.detail.trainings)
+      {
       const enemytraining = this.detail.trainings.map(training =>
         this.serialize({
           p: 2,
@@ -85,7 +94,8 @@ export default {
           lvl: training.lvl,
         }),
       );
-      const toOpen = `${myarmy},${mytraining},${enemyarmy},${enemytraining}`;
+      toOpen += ',' + mytraining
+      }
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();
     },

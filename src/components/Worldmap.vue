@@ -2,6 +2,7 @@
     <div id="mapbg" class="mapbg">
         <div id="map">
         </div>
+            <Splash v-if="showLoading"/>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
 </template>
@@ -18,21 +19,25 @@ export default {
       scene: null,
       renderer: null,
       mesh: null,
+      showLoading: true,
     };
   },
   methods: {
     init() {
+      const self = this;
+      this.showLoading = true;
       const width = document.getElementById('app').offsetWidth - 400;
       const height = document.getElementById('app').offsetHeight - 100;
       const renderer = new THREE.WebGLRenderer({ antialias: true });
+      const mapbg = document.getElementById('mapbg');
       const scene = new THREE.Scene();
       const aspect = width / height;
       const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 300);
       let cameraRotation = 0;
-      const cameraDistance = 20;
+      const cameraDistance = 0;
       const cameraRotationSpeed = 0.001;
       const cameraAutoRotation = false;
-      const orbitControls = new THREE.OrbitControls(camera);
+      const orbitControls = new THREE.OrbitControls(camera, mapbg);
       orbitControls.keys = {
         LEFT: null, // left arrow
         UP: null, // up arrow
@@ -118,6 +123,7 @@ export default {
           });
         },
       };
+      const territories = new THREE.Object3D();
 
       const createPlanet = function(options) {
         // Create the planet's Surface
@@ -140,6 +146,8 @@ export default {
         const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
         const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
 
+        const cloud = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+
         // Create the planet's Atmospheric glow
         const atmosphericGlowGeometry = planetProto.sphere(
           options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
@@ -155,9 +163,11 @@ export default {
         const planet = new THREE.Object3D();
         surface.name = 'surface';
         atmosphere.name = 'atmosphere';
+        cloud.name = 'clouds';
         atmosphericGlow.name = 'atmosphericGlow';
         planet.add(surface);
         planet.add(atmosphere);
+        planet.add(cloud);
         planet.add(atmosphericGlow);
 
         // Load the Surface's textures
@@ -181,123 +191,7 @@ export default {
         return planet;
       };
 
-      const earth = createPlanet({
-        surface: {
-          size: 0.5,
-          material: {
-            bumpScale: 0.05,
-            specular: new THREE.Color('grey'),
-            shininess: 10,
-          },
-          textures: {
-            map: 'img/map/8081_earthmap2k.jpg',
-            bumpMap: 'img/map/8081_earthbump2k.jpg',
-            specularMap: 'img/map/8081_earthspec2k.jpg',
-          },
-        },
-        atmosphere: {
-          size: 0.1,
-          material: {
-            opacity: 0.8,
-          },
-          textures: {
-            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
-            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
-          },
-          glow: {
-            size: 0.02,
-            intensity: 0.7,
-            fade: 7,
-            color: 0x93cfef,
-          },
-        },
-      });
-
-      // Marker Proto
-      const markerProto = {
-        latLongToVector3: function latLongToVector3(latitude, longitude, radius, height) {
-          const phi = (latitude * Math.PI) / 180;
-          const theta = ((longitude - 180) * Math.PI) / 180;
-
-          const x = -(radius + height) * Math.cos(phi) * Math.cos(theta);
-          const y = (radius + height) * Math.sin(phi);
-          const z = (radius + height) * Math.cos(phi) * Math.sin(theta);
-
-          return new THREE.Vector3(x, y, z);
-        },
-        marker: function marker(size, color, vector3Position) {
-          const markerGeometry = new THREE.SphereGeometry(size);
-          const markerMaterial = new THREE.MeshLambertMaterial({
-            color,
-          });
-          const markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
-          markerMesh.position.copy(vector3Position);
-
-          return markerMesh;
-        },
-      };
-
-      // Place Marker
-      const placeMarker = function(object, options) {
-        const position = markerProto.latLongToVector3(
-          options.latitude,
-          options.longitude,
-          options.radius,
-          options.height,
-        );
-        const marker = markerProto.marker(options.size, options.color, position);
-        object.add(marker);
-      };
-
-      // Place Marker At Address
-      const placeMarkerAtAddress = function(address, color) {
-        const encodedLocation = address.replace(/\s/g, '+');
-        const httpRequest = new XMLHttpRequest();
-
-        httpRequest.open(
-          'GET',
-          `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedLocation}`,
-        );
-        httpRequest.send(null);
-        httpRequest.onreadystatechange = function() {
-          if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-            const result = JSON.parse(httpRequest.responseText);
-
-            if (result.results.length > 0) {
-              const latitude = result.results[0].geometry.location.lat;
-              const longitude = result.results[0].geometry.location.lng;
-
-              placeMarker(earth.getObjectByName('surface'), {
-                latitude,
-                longitude,
-                radius: 0.5,
-                height: 0,
-                size: 0.01,
-                color,
-              });
-            }
-          }
-        };
-      };
-
-      // Galaxy
-      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
-      const galaxyMaterial = new THREE.MeshBasicMaterial({
-        side: THREE.BackSide,
-      });
-      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
-
-      // Load Galaxy Textures
-      textureLoader.crossOrigin = true;
-      textureLoader.load(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
-        texture => {
-          galaxyMaterial.map = texture;
-          scene.add(galaxy);
-        },
-      );
-
-      const createScene = function() {
+      const createTerritories = function() {
         const img = document.getElementById('projection');
         const projectionCanvas = document.createElement('canvas');
         const projectionContext = projectionCanvas.getContext('2d');
@@ -328,12 +222,10 @@ export default {
         oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
 
         // let radius = 0.519;
-        const radius = 0.619;
-        const divisions = 20;
+        const radius = 0.61;
+        const divisions = 28;
         const tileSize = 0.85;
-        while (scene.children.length > 0) {
-          scene.remove(scene.children[0]);
-        }
+
         const hexasphere = new Hexasphere(radius, divisions, tileSize);
         for (let i = 0; i < hexasphere.tiles.length; ) {
           const t = hexasphere.tiles[i];
@@ -353,21 +245,21 @@ export default {
           }
           let material;
           if (isLand(latLon.lat, latLon.lon)) {
-            material = meshMaterials[Math.floor(Math.random() * meshMaterials.length)];
-
+            material = meshMaterials[0];
+            material.name = 'land';
             material.opacity = 0.5;
           } else {
-            material = oceanMaterial[Math.floor(Math.random() * oceanMaterial.length)];
-
+            material = oceanMaterial[0];
+            material.name = 'void';
             material.opacity = 0;
           }
 
           const mesh = new THREE.Mesh(geometry, material.clone());
+          mesh.name = 'land';
           mesh.callback = function() {
             console.log(this.name);
           };
-
-          scene.add(mesh);
+          territories.add(mesh);
           hexasphere.tiles[i].mesh = mesh;
           i += 1;
         }
@@ -377,32 +269,118 @@ export default {
         currentTiles = hexasphere.tiles.slice().splice(0, 12);
         currentTiles.forEach(item => {
           seenTiles[item.toString()] = 1;
-          item.mesh.material.opacity = 1; // eslint-disable-line no-param-reassign
         });
+        scene.add(territories);
       };
-      createScene();
+      createTerritories();
+      const earth = createPlanet({
+        surface: {
+          size: 0.5,
+          material: {
+            bumpScale: 0.05,
+            specular: new THREE.Color('grey'),
+            shininess: 10,
+          },
+          textures: {
+            map: 'img/map/8081_earthmap2k.jpg',
+            bumpMap: 'img/map/8081_earthbump2k.jpg',
+            specularMap: 'img/map/8081_earthspec2k.jpg',
+          },
+        },
+        territories: {
+          size: 0.4,
+          material: {
+            transparent: true,
+          },
+          textures: {
+            map: '',
+            alphaMap: '',
+          },
+        },
+        atmosphere: {
+          size: 0.1,
+          material: {
+            opacity: 0.8,
+          },
+          textures: {
+            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
+          },
+          glow: {
+            size: 0.02,
+            intensity: 0.7,
+            fade: 7,
+            color: 0x93cfef,
+          },
+        },
+        clouds: {
+          size: 1,
+          material: {
+            opacity: 0.8,
+          },
+          textures: {
+            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
+          },
+          glow: {
+            size: 1,
+            intensity: 0.7,
+            fade: 7,
+            color: 0x93cfef,
+          },
+        },
+      });
+
+      // Galaxy
+      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+      const galaxyMaterial = new THREE.MeshBasicMaterial({
+        side: THREE.DoubleSide,
+      });
+      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
+
+      // Load Galaxy Textures
+      textureLoader.crossOrigin = true;
+      textureLoader.load(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+        texture => {
+          galaxyMaterial.map = texture;
+          scene.add(galaxy);
+        },
+      );
 
       // Scene, Camera, Renderer Configuration
       renderer.setSize(width, height);
-      const mapbg = document.getElementById('mapbg');
       mapbg.appendChild(renderer.domElement);
 
       camera.position.set(1, 1, 1);
       orbitControls.enabled = !cameraAutoRotation;
+      orbitControls.minZoom = 20;
+      orbitControls.maxZoom = 15;
+      orbitControls.minDistance = 1;
+      orbitControls.maxDistance = 3;
       scene.add(camera);
       scene.add(spotLight);
       scene.add(earth);
 
-      document.addEventListener('mousemove', onMouseMove, false);
-      const raycaster = new THREE.Raycaster();
+      let raycaster = new THREE.Raycaster(),
+        INTERSECTED;
       const mouse = new THREE.Vector2();
 
-      function onMouseMove(event) {
-        // calculate mouse position in normalized device coordinates
-        // (-1 to +1) for both components
+      renderer.domElement.addEventListener('click', onclick, true);
 
+      let selectedObject;
+      function onclick(event) {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+
+        const intersects = raycaster.intersectObjects(territories.children); // array
+        console.log(intersects);
+        if (intersects.length > 0) {
+          selectedObject = intersects[0];
+          console.log(selectedObject.object.material.name);
+          selectedObject.object.material.color.set(0xffffff);
+        }
       }
 
       // Light Configurations
@@ -415,7 +393,7 @@ export default {
       earth.rotateX(0);
       earth.rotateZ(0);
       // On window resize, adjust camera aspect ratio and renderer size
-      window.addEventListener('resize', () => {
+      mapbg.addEventListener('resize', () => {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
@@ -424,15 +402,21 @@ export default {
       // Main render function
       const render = function() {
         raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(territories.children);
+        if (intersects.length > 0) {
+          if (INTERSECTED != intersects[0].object) {
+            console.log(intersects[0].object.material.name);
+            // if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+            INTERSECTED = intersects[0].object;
+            // INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            // if (textureOn == 1) {
 
-        // calculate objects intersecting the picking ray
-        const intersects = raycaster.intersectObjects(scene.children);
+            //     INTERSECTED.material.emissive.setHex(couleur);
 
-        for (let i = 0; i < intersects.length; i++) {
-          intersects[i].object.material.color.set(0xff0000);
+            // }
+          }
         }
-
-        earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.01;
+        earth.getObjectByName('clouds').rotation.y += (1 / 16) * 0.01;
         if (cameraAutoRotation) {
           cameraRotation += cameraRotationSpeed;
           camera.position.y = 0;
@@ -441,17 +425,18 @@ export default {
           camera.lookAt(earth.position);
         }
         requestAnimationFrame(render);
+        renderer.setClearColor(0x140b33, 1);
         renderer.render(scene, camera);
       };
-
       render();
+      this.showLoading = false;
       orbitControls.update();
     },
   },
   mounted() {
     setTimeout(() => {
       this.init();
-    }, 500);
+    }, 700);
   },
 };
 </script>

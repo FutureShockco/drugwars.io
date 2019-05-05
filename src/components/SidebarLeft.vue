@@ -73,7 +73,7 @@
           </li>
           <!-- <li>
             <router-link
-              to="/worldmap"
+              to="/map"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >

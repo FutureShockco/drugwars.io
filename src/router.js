@@ -36,7 +36,7 @@ const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Market
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
-const Worldmap = () => import(/* webpackChunkName: "worldmap" */ '@/views/Map/Worldmap.vue');
+const WMap = () => import(/* webpackChunkName: "map" */ '@/views/Map/Map.vue');
 
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
@@ -234,12 +234,6 @@ export default new Router({
       component: Rewards,
     },
     {
-      path: '/worldmap',
-      name: 'worldmap',
-      beforeEnter: requireAuth,
-      component: Worldmap,
-    },
-    {
       path: '/leaderboards',
       name: 'leaderboards',
       beforeEnter: requireAuth,
@@ -256,6 +250,12 @@ export default new Router({
       name: 'fightboard',
       beforeEnter: requireAuth,
       component: Fightboard,
+    },
+    {
+      path: '/map',
+      name: 'map',
+      beforeEnter: requireAuth,
+      component: WMap,
     },
     {
       path: '/settings',

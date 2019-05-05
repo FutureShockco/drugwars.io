@@ -54,6 +54,7 @@ export default {
     position: absolute;
     top: 60 !important;
     left: -40px;
+    font-size: 10px;
   }
   .rank {
     display: inline-block;

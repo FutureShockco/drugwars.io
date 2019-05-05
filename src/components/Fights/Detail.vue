@@ -82,7 +82,7 @@ export default {
           n: unit.amount,
         }),
       );
-      toOpen += ',' + mytraining
+      toOpen += ',' + enemyarmy
       }
 
       if(this.detail.trainings)
@@ -94,7 +94,7 @@ export default {
           lvl: training.lvl,
         }),
       );
-      toOpen += ',' + mytraining
+      toOpen += ',' + enemytraining
       }
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();

@@ -1,5 +1,6 @@
 <template>
    <div id="app">
+     <Worldmap/>
     <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
     <source src="/img/background.mp4" type="video/mp4">
     </video> -->
@@ -59,7 +60,6 @@ export default {
 #app {
   min-height: 100%;
   width: 100%;
-  max-width: @main-width;
   margin: 0 auto;
   overflow-x: hidden;
   display: table;
@@ -92,6 +92,7 @@ export default {
 .content {
   position: relative;
   left: 0;
+  max-width: 600px;
   margin-top: @header-height;
   transition: left 0.3s;
   background: #000000b7;

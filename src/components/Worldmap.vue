@@ -1,12 +1,12 @@
 <template>
     <div id="mapbg" class="mapbg">
         <h3 v-if="selected" class="title">
-          <div>{{selected}}</div>
-          <button class="button button-blue">visit (coming soon)</button>
+          <div>{{selected.name}} {{selected.count}}</div>
           <div>INFORMATIONS</div>
           <h5 class="mt-0">TOTAL SCORE : 0</h5>
           <h5 class="mt-0">UNDER THE CONTROL OF THE GOVERNMENT</h5>
         </h3>
+        <button class="button button-blue map-title" :disabled="!selected" id="visit">VISIT (COMINGSOON)</button>
         <div class="first-line"></div>
         <div id="map">
         </div>
@@ -48,6 +48,7 @@ export default {
       const cameraRotationSpeed = 0.001;
       const cameraAutoRotation = false;
       const orbitControls = new THREE.OrbitControls(camera, mapbg);
+
       orbitControls.keys = {
         LEFT: null, // left arrow
         UP: null, // up arrow
@@ -59,6 +60,7 @@ export default {
       orbitControls.maxZoom = 1;
       orbitControls.minDistance = 1;
       orbitControls.maxDistance = 2.8;
+      orbitControls.screenSpacePanning = false;
       orbitControls.mouseButtons = {
 	    LEFT: THREE.MOUSE.LEFT,
 	    MIDDLE: THREE.MOUSE.MIDDLE,
@@ -68,7 +70,6 @@ export default {
       mapbg.appendChild(renderer.domElement);
       // Lights
       const spotLight = new THREE.AmbientLight(0xffffff);
-
       // Texture Loader
       const textureLoader = new THREE.TextureLoader();
 
@@ -145,7 +146,101 @@ export default {
         },
       };
       const territories = new THREE.Object3D();
+      const createTerritories = function() {
+        const img = document.getElementById('projection');
+        var loaderImg = new Image();
+        loaderImg.src = img.src;
+        loaderImg.onload = function()
+        {
+        const projectionCanvas = document.createElement('canvas');
+        const projectionContext = projectionCanvas.getContext('2d');
+    
+        projectionCanvas.width = img.width;
+        projectionCanvas.height = img.height;
+        projectionContext.drawImage(img, 0, 0, img.width, img.height);
 
+        let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
+
+        const isLand = function(lat, lon) {
+          const x = parseInt((img.width * (lon + 180)) / 360);
+          const y = parseInt((img.height * (lat + 90)) / 180);
+
+          if (pixelData == null) {
+            pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
+          }
+          return pixelData.data[(y * pixelData.width + x) * 4] === 0;
+        };
+
+        const meshMaterials = [];
+        const oceanMaterial = [];
+        let seenTiles = {};
+        let currentTiles = [];
+        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: false }));
+        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: false }));
+        oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
+
+        // let radius = 0.519;
+        const radius = 0.61;
+        const divisions = 28;
+        const tileSize = 0.85;
+        let count =1;
+        const hexasphere = new Hexasphere(radius, divisions, tileSize);
+        for (let i = 0; i < hexasphere.tiles.length;i++ ) {
+          const t = hexasphere.tiles[i];
+          const latLon = t.getLatLon(hexasphere.radius);
+          const geometry = new THREE.Geometry();
+          for (let j = 0; j < t.boundary.length; j++) {
+            const bp = t.boundary[j];
+            geometry.vertices.push(new THREE.Vector3(bp.x, bp.y, bp.z));
+          }
+          geometry.faces.push(new THREE.Face3(0, 1, 2));
+          geometry.faces.push(new THREE.Face3(0, 2, 3));
+          geometry.faces.push(new THREE.Face3(0, 3, 4));
+
+          if (geometry.vertices.length > 5) {
+            geometry.faces.push(new THREE.Face3(0, 4, 5));
+          }
+          let material;
+          if (isLand(latLon.lat, latLon.lon)) {
+            if(count<6)
+            {
+            material = meshMaterials[1];
+            material.name = 'Special ' + count;
+            }
+            else
+            {
+            material = meshMaterials[0];
+            material.name = 'territory ' + count;
+            material.opacity = 0.5;
+            }
+            material.count = count;
+            count++;
+          } else {
+            material = oceanMaterial[0];
+            material.name = 'void';
+            material.opacity = 0;
+          }
+          const mesh = new THREE.Mesh(geometry, material.clone());
+          mesh.name = 'grid ' ;
+          mesh.callback = function() {
+            console.log(this.name);
+          };
+          territories.add(mesh);
+          hexasphere.tiles[i].mesh = mesh;
+        }
+
+        seenTiles = {};
+
+        currentTiles = hexasphere.tiles.slice().splice(0, 12);
+        currentTiles.forEach(item => {
+          seenTiles[item.toString()] = 1;
+        });
+        territories.name = "territories";
+        scene.add(territories);
+        }
+      
+      };
+      createTerritories();
       const locations = new THREE.Object3D();
       const createPlanet = function(options) {
         // Create the planet's Surface
@@ -212,99 +307,6 @@ export default {
         return planet;
       };
 
-      const createTerritories = function() {
-        const img = document.getElementById('projection');
-        const projectionCanvas = document.createElement('canvas');
-        const projectionContext = projectionCanvas.getContext('2d');
-        img.width = document.getElementById('app').offsetWidth - 400;
-        img.height = document.getElementById('app').offsetHeight - 100;
-
-        projectionCanvas.width = img.width;
-        projectionCanvas.height = img.height;
-        projectionContext.drawImage(img, 0, 0, img.width, img.height);
-
-        let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-
-        const isLand = function(lat, lon) {
-          const x = parseInt((img.width * (lon + 180)) / 360);
-          const y = parseInt((img.height * (lat + 90)) / 180);
-
-          if (pixelData == null) {
-            pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-          }
-          return pixelData.data[(y * pixelData.width + x) * 4] === 0;
-        };
-
-        const meshMaterials = [];
-        const oceanMaterial = [];
-        let seenTiles = {};
-        let currentTiles = [];
-        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: false }));
-        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: false }));
-        oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
-
-        // let radius = 0.519;
-        const radius = 0.61;
-        const divisions = 28;
-        const tileSize = 0.85;
-        let count =1;
-        const hexasphere = new Hexasphere(radius, divisions, tileSize);
-        for (let i = 0; i < hexasphere.tiles.length; ) {
-          const t = hexasphere.tiles[i];
-          const latLon = t.getLatLon(hexasphere.radius);
-          const geometry = new THREE.Geometry();
-          for (let j = 0; j < t.boundary.length; ) {
-            const bp = t.boundary[j];
-            geometry.vertices.push(new THREE.Vector3(bp.x, bp.y, bp.z));
-            j += 1;
-          }
-          geometry.faces.push(new THREE.Face3(0, 1, 2));
-          geometry.faces.push(new THREE.Face3(0, 2, 3));
-          geometry.faces.push(new THREE.Face3(0, 3, 4));
-
-          if (geometry.vertices.length > 5) {
-            geometry.faces.push(new THREE.Face3(0, 4, 5));
-          }
-          let material;
-          if (isLand(latLon.lat, latLon.lon)) {
-            if(count<6)
-            {
-            material = meshMaterials[1];
-            material.name = 'Special ' + count;
-            }
-            else
-            {
-            material = meshMaterials[0];
-            material.name = 'territory ' + count;
-            material.opacity = 0.5;
-            }
-            count++;
-          } else {
-            material = oceanMaterial[0];
-            material.name = 'void';
-            material.opacity = 0;
-          }
-          const mesh = new THREE.Mesh(geometry, material.clone());
-          mesh.name = 'grid ' ;
-          mesh.callback = function() {
-            console.log(this.name);
-          };
-          territories.add(mesh);
-          hexasphere.tiles[i].mesh = mesh;
-          i += 1;
-        }
-
-        seenTiles = {};
-
-        currentTiles = hexasphere.tiles.slice().splice(0, 12);
-        currentTiles.forEach(item => {
-          seenTiles[item.toString()] = 1;
-        });
-        territories.name = "territories";
-        scene.add(territories);
-      };
-            createTerritories();
-
       const earth = createPlanet({
         surface: {
           size: 0.5,
@@ -330,9 +332,9 @@ export default {
           },
         },
         atmosphere: {
-          size: 0.09,
+          size: 0.1,
           material: {
-            opacity: 0.2,
+            opacity: 0.8,
           },
           textures: {
             map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
@@ -346,7 +348,7 @@ export default {
           },
         },
         clouds: {
-          size: 0.6,
+          size: 1,
           material: {
             opacity: 0.8,
           },
@@ -379,24 +381,18 @@ export default {
           scene.add(galaxy);
         },
       );
-
+      camera.position.set(1, 1, 1);
       // Scene, Camera, Renderer Configuration
       scene.add(camera);
       scene.add(spotLight);
       scene.add(earth);
-
-
       let raycaster = new THREE.Raycaster(),
         INTERSECTED;
       const mouse = new THREE.Vector2();
-
       renderer.domElement.addEventListener('click', onclick, true);
 
-          camera.position.set(1,
-1,
-1)
-      camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
-      camera.lookAt(earth.position)
+      // camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
+      // camera.lookAt(earth.position)
       let selectedTerritory;
       function onclick(event) {
         if(selectedTerritory)
@@ -409,20 +405,25 @@ export default {
           selectedTerritory = intersects[0];
           self.oldcolor = selectedTerritory.object.material.color.getHex();
           selectedTerritory.object.material.color.set(0xffffff);
-          self.selected = selectedTerritory.object.material.name
-          console.log(selectedTerritory)
-//           earth.position.set(0.5,
-// 0.1890929793640145,
-// -0.2150007289136958)
-//           territories.position.set(0.5,
-// 0.1890929793640145,
-// -0.2150007289136958)
-          OrbitControls.update()
-         
+          self.selected = {}
+          self.selected.name = selectedTerritory.object.material.name
+          self.selected.count = selectedTerritory.object.material.count
+          const visitButton = document.getElementById("visit");  
+
+          visitButton.addEventListener('click', moveToLocations, true);
         }
         else(self.selected=null)
       }
 
+            function moveToLocations(event) {
+              // camera.position.set(1,3.2,1)
+              window.camera.rotation.set(-1,0.2,0.7);
+
+              orbitControls.update();
+      }
+
+      window.scene = scene;
+window.camera = camera;
       // Light Configurations
       spotLight.position.set(1, 1, 1);
 
@@ -435,7 +436,7 @@ export default {
       // On window resize, adjust camera aspect ratio and renderer size
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
-        //camera.updateProjectionMatrix();
+        camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth,  window.innerHeight);
       });
       
@@ -449,6 +450,7 @@ export default {
           }
         }
       }
+
       // Main render function
       const render = function() {
         //raycaster.setFromCamera(mouse, camera);
@@ -461,25 +463,28 @@ export default {
         //     INTERSECTED.object.material.color.set(0xffFFFF);
         //     }
         //   }
-        // }
-        scene.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
-        scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+        // }    
+
+
+        if(scene.getObjectByName('territories'))
+        {
+                  scene.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
+                  scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+        }
         //earth.getObjectByName('clouds').rotation.y += (1 / 16) * 0.01;
         requestAnimationFrame(render);
         renderer.render(scene, camera);
       };
 
       render();
+
       this.showLoading = false;
       // camera.lookAt(20,30,40);
       orbitControls.update();
     },
   },
   mounted() {
-    setTimeout(() => {
-
       this.init();
-    }, 700);
   },
 };
 </script>
@@ -491,7 +496,7 @@ export default {
 }
 
 #map {
-  height: 100ù;
+  height: 100%;
 }
 
 img {

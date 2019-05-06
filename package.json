@@ -28,6 +28,7 @@
     "dsteem": "^0.10.1",
     "encom-globe": "^0.5.4",
     "express": "^4.16.3",
+    "gsap": "^2.1.2",
     "hexasphere.js": "^0.2.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",

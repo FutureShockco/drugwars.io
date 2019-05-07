@@ -10,7 +10,6 @@
         <div class="first-line"></div>
         <div id="map">
         </div>
-            <Splash v-if="showLoading"/>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
 </template>

@@ -576,6 +576,7 @@ img {
   left: 50%;
   top:20%;
   text-shadow: 5px 5px 5px black;
+  pointer-events: none;
 }
 
 .first-line{

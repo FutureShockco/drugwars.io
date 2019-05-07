@@ -147,6 +147,11 @@ export default {
       if (target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
+      const now = new Date();
+      const is_punished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+      if (is_punished > now) {
+        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${is_punished.toLocaleString()}`;
+      }
 
       // if (this.sent_fights && this.sent_fights.length > 0)
       //   this.sent_fights.forEach(fight => {

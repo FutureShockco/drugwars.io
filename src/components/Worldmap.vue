@@ -1,12 +1,13 @@
 <template>
     <div id="mapbg" class="mapbg">
-        <h3 v-if="selected" class="title">
-          <div>{{selected.name}} {{selected.count}}</div>
+        <h3 class="title" id="title" style="opacity:0;">
+          <div v-if="selected">{{selected.name}} {{selected.count}}</div>
           <div>INFORMATIONS</div>
           <h5 class="mt-0">TOTAL SCORE : 0</h5>
+          <h5 class="mt-0">DANGEROSITY : 0</h5>
           <h5 class="mt-0">UNDER THE CONTROL OF THE GOVERNMENT</h5>
         </h3>
-        <button class="button button-blue map-title" :disabled="!selected" id="visit">VISIT (COMINGSOON)</button>
+        <button class="button button-blue map-title" style="opacity:0;" :disabled="!selected" id="visit">VISIT (COMINGSOON)</button>
         <div class="first-line"></div>
         <div id="map">
         </div>
@@ -174,14 +175,14 @@ export default {
         const oceanMaterial = [];
         let seenTiles = {};
         let currentTiles = [];
-        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: false }));
-        meshMaterials.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: false }));
+        meshMaterials.push(new THREE.MeshBasicMaterial({ color:"rgb(2, 2, 2)", transparent: true }));
+        meshMaterials.push(new THREE.MeshBasicMaterial({ color: "yellow", transparent: false }));
         oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
 
         // let radius = 0.519;
         const radius = 0.61;
         const divisions = 28;
-        const tileSize = 0.85;
+        const tileSize = 0.90;
         let count =1;
         const hexasphere = new Hexasphere(radius, divisions, tileSize);
         for (let i = 0; i < hexasphere.tiles.length;i++ ) {
@@ -210,22 +211,31 @@ export default {
             {
             material = meshMaterials[0];
             material.name = 'territory ' + count;
-            material.opacity = 0.5;
+            material.opacity = 0.8;
             }
             material.count = count;
+            const mesh = new THREE.Mesh(geometry, material.clone());
+                      mesh.name = 'grid ' ;
+              mesh.callback = function() {
+                console.log(this.name);
+              };
+              territories.add(mesh);
+                        hexasphere.tiles[i].mesh = mesh;
+
             count++;
           } else {
             material = oceanMaterial[0];
             material.name = 'void';
             material.opacity = 0;
-          }
-          const mesh = new THREE.Mesh(geometry, material.clone());
-          mesh.name = 'grid ' ;
-          mesh.callback = function() {
+            const mesh = new THREE.Mesh(geometry, material.clone());
+             mesh.name = 'void ' ;
+            mesh.callback = function() {
             console.log(this.name);
           };
           territories.add(mesh);
-          hexasphere.tiles[i].mesh = mesh;
+                    hexasphere.tiles[i].mesh = mesh;
+
+          }
         }
 
         seenTiles = {};
@@ -389,6 +399,7 @@ export default {
         INTERSECTED;
       const mouse = new THREE.Vector2();
       renderer.domElement.addEventListener('click', onclick, true);
+	    //renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
       // camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
       // camera.lookAt(earth.position)
@@ -400,18 +411,65 @@ export default {
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(territories.children); // array
-        if (intersects.length > 0 && intersects[0].object.material.name!='void') {
+        if (intersects.length > 0 && intersects[0].object.name !="void" && intersects[0].object.material.name!='void') {
           selectedTerritory = intersects[0];
           self.oldcolor = selectedTerritory.object.material.color.getHex();
-          selectedTerritory.object.material.color.set(0xffffff);
+          selectedTerritory.object.material.color.set(0xff0000);
           self.selected = {}
           self.selected.name = selectedTerritory.object.material.name
           self.selected.count = selectedTerritory.object.material.count
-          const visitButton = document.getElementById("visit");  
 
+          visitButton.style.top = event.clientY + 'px'  ;
+          visitButton.style.left = event.clientX+20 + 'px'  ;
+          visitButton.style.opacity = 1 ;
+          visitTitle.style.top = event.clientY +40 + 'px'  ;
+          visitTitle.style.left = event.clientX+20 + 'px'  ;
+          visitTitle.style.opacity = 1 ;
           visitButton.addEventListener('click', moveToLocations, true);
+          
         }
-        else(self.selected=null)
+        else{
+          self.selected=null;
+                    visitButton.style.opacity = 0 ;
+
+                    visitTitle.style.opacity = 0 ;
+        }
+      }
+
+                const visitButton = document.getElementById("visit");  
+          const visitTitle = document.getElementById("title");  
+            function onMouseMove(event) {
+        if(selectedTerritory)
+        selectedTerritory.object.material.color.set(self.oldcolor);
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(territories.children); // array
+        if (intersects.length > 0 && intersects[0].object.name !="void" && intersects[0].object.material.name!='void') {
+          selectedTerritory = intersects[0];
+          self.oldcolor = selectedTerritory.object.material.color.getHex();
+          selectedTerritory.object.material.color.set(0xff0000);
+          self.selected = {}
+          self.selected.name = selectedTerritory.object.material.name
+          self.selected.count = selectedTerritory.object.material.count
+
+          visitButton.style.top = event.clientY + 'px'  ;
+          visitButton.style.left = event.clientX+20 + 'px'  ;
+          visitButton.style.opacity = 1 ;
+          visitTitle.style.top = event.clientY +40 + 'px'  ;
+          visitTitle.style.left = event.clientX+20 + 'px'  ;
+          visitTitle.style.opacity = 1 ;
+          visitButton.addEventListener('click', moveToLocations, true);
+          
+        }
+        else{
+          self.selected=null;
+                    visitButton.style.opacity = 0 ;
+
+                    visitTitle.style.opacity = 0 ;
+        }
+
+          
       }
 
             function moveToLocations(event) {
@@ -463,6 +521,16 @@ window.camera = camera;
         //     }
         //   }
         // }    
+        // if(selectedTerritory && visitButton)
+        // {
+        //   console.log(selectedTerritory)
+        //   //visitButton.style.top = selectedTerritory.point.y + 'px'  ;
+        //   // visitButton.style.left = event.clientX+20 + 'px'  ;
+        //   // visitButton.style.opacity = 1 ;
+        //   // visitTitle.style.top = event.clientY +40 + 'px'  ;
+        //   // visitTitle.style.left = event.clientX+20 + 'px'  ;
+        //   // visitTitle.style.opacity = 1 ;
+        // }
 
 
         if(scene.getObjectByName('territories'))
@@ -470,7 +538,7 @@ window.camera = camera;
                   scene.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
                   scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
         }
-        //earth.getObjectByName('clouds').rotation.y += (1 / 16) * 0.01;
+        earth.getObjectByName('clouds').rotation.y += (1 / 16) * 0.01;
         requestAnimationFrame(render);
         renderer.render(scene, camera);
       };

@@ -3,23 +3,23 @@
     <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
     <source src="/img/background.mp4" type="video/mp4">
     </video> -->
-    <Splash v-if="showLoading"/>
-    <template v-else>
+    <Worldmap/>
+    <!-- <Splash v-if="showLoading"/> -->
+    <template>
         <UiCenter v-if="username && !modalIsOpen" class="vue-ui-modal pt-2 pb-7 youtube">
         <iframe width="100%" height="315" src="https://www.youtube.com/embed/RBzQQMykAjs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <a class="button button-blue mr-1" href="https://www.youtube.com/channel/UCkL2TKHfMD1gUd_DTiX6WGA" target="_blank">Follow us on Youtube</a>
         <button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
       </UiCenter>
-      <TopNav v-if="username"/>
-      <Sidebars v-if="username && showSidebar"/>
-      <router-view
+      <!-- <TopNav v-if="username"/> -->
+      <!-- <Sidebars v-if="username && showSidebar"/> -->
+      <!-- <router-view
         :class="{
           content: showSidebar,
           'content--nav-open': sidebarVisible,
         }"
-      />
+      /> -->
     </template>
-    <Worldmap/>
     <Notifications/>
   </div>
 </template>

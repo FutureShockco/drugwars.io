@@ -236,7 +236,6 @@ export default {
             territories.add(mesh);
             hexasphere.tiles[i].mesh = mesh;
             count++;
-            console.log(count)
           } else {
             material = oceanMaterial[0];
             material.name = 'void';

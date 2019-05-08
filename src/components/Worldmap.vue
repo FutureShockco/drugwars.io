@@ -219,19 +219,19 @@ export default {
             const mesh = new THREE.Mesh(geometry, material.clone());
             mesh.name = 'grid ' ;
             mesh.geometry.computeBoundingBox();
-              territories.add(mesh);
+            territories.add(mesh);
             hexasphere.tiles[i].mesh = mesh;
-
             count++;
           } else {
             material = oceanMaterial[0];
             material.name = 'void';
             material.opacity = 0;
-            const mesh = new THREE.Mesh(geometry, material.clone());
-             mesh.name = 'void ' ;
-          territories.add(mesh);
-                    hexasphere.tiles[i].mesh = mesh;
 
+
+            const mesh = new THREE.Mesh(geometry, material.clone());
+            mesh.name = 'void ' ;
+            territories.add(mesh);
+            hexasphere.tiles[i].mesh = mesh;
           }
         }
 
@@ -411,9 +411,10 @@ export default {
           visitButton.style.opacity = 1 ;
           visitTitle.style.top = event.clientY +40 + 'px'  ;
           visitTitle.style.left = event.clientX+20 + 'px'  ;
+
           visitTitle.style.opacity = 1 ;
           visitButton.addEventListener('click', moveToLocations, true);
-     
+
   
         }
         else{
@@ -519,12 +520,19 @@ window.camera = camera;
           position.add( boundingBox.min );
 
           position.applyMatrix4( selectedTerritory.object.matrixWorld );
-          visitButton.style.top = (createVector(position,camera).y +20) +'px'  ;
-          visitButton.style.left = (createVector(position,camera).x +20)+ 'px'  ;
+          let to = createVector(position,camera)
+          visitButton.style.top = (to.y +20) +'px'  ;
+          visitButton.style.left = (to.x +20)+ 'px'  ;
           visitButton.style.opacity = 1 ;
-          visitTitle.style.top = (createVector(position,camera).y +60) + 'px'  ;
-          visitTitle.style.left = (createVector(position,camera).x+20) + 'px'  ;
+          visitTitle.style.top = (to.y +60) + 'px'  ;
+          visitTitle.style.left = (to.x+20) + 'px'  ;
           visitTitle.style.opacity = 1 ;
+
+          visitTitle.style.webkitTransform = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
+          visitTitle.style.mozTransform    = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
+          visitTitle.style.msTransform     = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
+          visitTitle.style.oTransform      = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
+          visitTitle.style.transform       = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
          }
         // const intersects = raycaster.intersectObjects(territories.children);
         // if (intersects.length > 0 && selectedTerritory)

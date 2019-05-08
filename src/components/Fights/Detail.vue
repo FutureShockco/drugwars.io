@@ -73,7 +73,7 @@ export default {
         }),
       );
       toOpen += `,${mytraining}`;
-      if (this.detail.units) {
+      if (this.detail.units.length>0) {
         const enemyarmy = this.detail.units.map(unit =>
           this.serialize({
             p: 2,
@@ -84,7 +84,7 @@ export default {
         toOpen += `,${enemyarmy}`;
       }
 
-      if (this.detail.trainings) {
+      if (this.detail.trainings.length>0) {
         const enemytraining = this.detail.trainings.map(training =>
           this.serialize({
             p: 2,

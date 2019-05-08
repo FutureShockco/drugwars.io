@@ -1,4 +1,6 @@
 <template>
+<div>
+  <div class="grid" id="grid"></div>
     <div id="mapbg" class="mapbg">
         <h3 class="title" id="title" style="opacity:0;">
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
@@ -15,6 +17,7 @@
         </div>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
+    </div>
 </template>
 
 <script>
@@ -22,7 +25,8 @@ import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
 import TWEEN from 'tween.js';
-
+import * as Honeycomb from 'honeycomb-grid'
+import * as SVG from 'svg.js'
 export default {
   data() {
     return {
@@ -32,6 +36,7 @@ export default {
       mesh: null,
       showLoading: true,
       selected:null,
+      currentTerritory:null,
       oldcolor:null,
     };
   },
@@ -46,20 +51,21 @@ export default {
       const scene = new THREE.Scene();
       const aspect = window.innerWidth / window.innerHeight;
       scene.updateMatrixWorld(true);
-      const camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 300);
-      let cameraRotation = 0;
-      const cameraDistance = 20;
-      const cameraRotationSpeed = 0.001;
-      const cameraAutoRotation = false;
+      const camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
       const orbitControls = new THREE.OrbitControls(camera, mapbg);
-
+      let rotating = true;
+              // Helpers
+      // const  axes = new THREE.AxesHelper(50);
+      // const  helper = new THREE.GridHelper(1000, 10,0x0000ff, 0x808080);
+      //   scene.add(axes);
+      //   scene.add(helper);
       orbitControls.keys = {
         LEFT: null, // left arrow
         UP: null, // up arrow
         RIGHT: null, // right arrow
         BOTTOM: null, // down arrow
       };
-      orbitControls.enabled = !cameraAutoRotation;
+      orbitControls.enabled = false;
       orbitControls.minZoom = 1;
       orbitControls.maxZoom = 1;
       orbitControls.minDistance = 1;
@@ -70,6 +76,8 @@ export default {
 	    MIDDLE: THREE.MOUSE.MIDDLE,
 	    RIGHT: null
       }
+            camera.rotation.x = -0.86;
+      camera.rotation.y = 0.75;
       renderer.setSize(window.innerWidth, window.innerHeight);
       mapbg.appendChild(renderer.domElement);
       // Lights
@@ -373,8 +381,9 @@ export default {
           scene.add(galaxy);
         },
       );
-      camera.position.set(1, 1, 1);
       // Scene, Camera, Renderer Configuration
+            camera.rotation.x = -0.86;
+      camera.rotation.y = 0.75;
       scene.add(camera);
       scene.add(spotLight);
       scene.add(earth);
@@ -433,26 +442,119 @@ export default {
           crosshairy.style.opacity = 0 ;
           //camera.position.set(1,1,1)
           // camera.lookAt(earth.position)
+          rotating = true;
+          resetPosition()
         }
       }
+      
+      window.camera = camera
+      camera.position.set(1, 1, 1);
+        
+      camera.rotation.x = -0.86;
+      camera.rotation.y = 0.75;
+      camera.updateProjectionMatrix();
 
+    var posX = camera.position.x +1;
+    var posY = camera.position.y - 2;
+    var posZ = camera.position.z +1;
 
-            function moveToLocations() {
-                        var boundingBox = selectedTerritory.object.geometry.boundingBox;
+      function moveToLocations() {
+             var from = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        };
 
+        var to = {
+            x: posX,
+            y: posY,
+            z: posZ
+        };
+        var tween = new TWEEN.Tween(from)
+            .to(to, 1000)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+            camera.position.set(this.x, 1, 1);
+               camera.lookAt(selectedTerritory.object.position);
+                     camera.updateProjectionMatrix();
+
+        })
+            .onComplete(function () {
+                camera.rotation.x = -0.86;
+              camera.rotation.y = 0.75;
+               camera.lookAt(selectedTerritory.object.position);
+        })
+            .start();
+
+          var boundingBox = selectedTerritory.object.geometry.boundingBox;
           var position = new THREE.Vector3();
           position.subVectors( boundingBox.max, boundingBox.min );
           position.multiplyScalar( 0.5 );
           position.add( boundingBox.min );
-
+          self.selected=null;
+          visitButton.style.opacity = 0 ;
+          visitTitle.style.opacity = 0 ;
+                    crosshairx.style.opacity = 0 ;
+          crosshairy.style.opacity = 0 ;
           position.applyMatrix4( selectedTerritory.object.matrixWorld );
+          rotating = false;
+          camera.rotation.x = -0.55;
+          camera.rotation.y = 0.4;
+               camera.rotation.z = 0.5;
+          camera.updateProjectionMatrix(); 
+          //  camera.position.set(position.x,position.y,1.5)
+          // camera.lookAt(position.x+1,position.y,position.z)
+          const g = document.getElementById('grid')
+         while (g.firstChild) {
+    g.removeChild(g.firstChild);
+}
+          const draw = SVG(g)
+const Hex = Honeycomb.extendHex({
+  size: 40,
+	render(draw) {
+    const { x, y } = this.toPoint()
+    const corners = this.corners()
 
-           camera.position.set(1,1,1)
-           camera.lookAt(earth.position)
-              orbitControls.update();
+    this.draw = draw
+    	.polygon(corners.map(({ x, y }) => `${x},${y}`))
+      .fill({ opacity: 1, color: 'yellow' })
+      .stroke({ width: 1, color: 'red' })
+      .translate(x, y)
+  },
+
+  highlight() {
+    this.draw
+    	// stop running animation
+      .stop(true, true)
+      .fill({ opacity: 1, color: 'aquamarine' })
+      .animate(1000)
+      .fill({ opacity: 0, color: 'none' })
+  }
+})
+
+const Grid = Honeycomb.defineGrid(Hex)
+const grid = Grid.hexagon({
+  radius: 5,					// value:		number (excluding center hex)
+  center: [5, 5],			// value: 	any point
+  // render each hex, passing the draw instance
+  onCreate(hex) {
+    hex.render(draw)
+  }
+})
+g.style.pointerEvents = "visible";
+
+document.addEventListener('click', ({ offsetX, offsetY }) => {
+  const hexCoordinates = Grid.pointToHex([offsetX, offsetY])
+  const hex = grid.get(hexCoordinates)
+
+  if (hex) {
+    hex.highlight()
+  }
+})
       }
       // Light Configurations
       spotLight.position.set(1, 1, 1);
+
 
       // Mesh Configurations
       earth.receiveShadow = false;
@@ -463,6 +565,10 @@ export default {
       // On window resize, adjust camera aspect ratio and renderer size
       window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
+        
+      camera.rotation.x = -0.86;
+      camera.rotation.y = 0.75;
+
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth,  window.innerHeight);
       });
@@ -476,6 +582,41 @@ export default {
             scene.remove(object);
           }
         }
+      }
+
+    //   	window.addEventListener('mousemove', function(evt){
+  
+		// 	let movementX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || 0;
+		// 	let movementY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || 0;
+      
+		// 	camera.rotation.x -= movementY / 5000;
+		// 	camera.rotation.y -= movementX / 20000;
+		// }, false);
+      const resetPosition = function(){
+        var from = {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
+        };
+
+        var to = {
+            x: posX,
+            y: posY,
+            z: posZ
+        };
+        var tween = new TWEEN.Tween(from)
+            .to(to, 2000)
+            .easing(TWEEN.Easing.Linear.None)
+            .onUpdate(function () {
+          camera.position.set(1, 1, 1);
+          camera.rotation.x = -0.86;
+          camera.rotation.y = 0.75;
+        })
+            .onComplete(function () {
+          camera.rotation.x = -0.86;
+          camera.rotation.y = 0.75;
+        })
+            .start();
       }
       // Main render function
       const render = function() {
@@ -505,6 +646,12 @@ export default {
           visitTitle.style.oTransform      = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
           visitTitle.style.transform       = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
          }
+          if(rotating)
+          {
+                camera.rotation.x = -0.86;
+              camera.rotation.y = 0.75;
+
+          }
 
         if(scene.getObjectByName('territories'))
         {
@@ -513,15 +660,18 @@ export default {
                   earth.getObjectByName('atmosphere').rotation.y -= (1 / 8) * 0.01;
 
         }
+        TWEEN.update();
+
+        // camera.lookAt(earth.position)
         requestAnimationFrame(render);
         renderer.render(scene, camera);
+              orbitControls.update();
+
       };
 
       render();
-
       this.showLoading = false;
       // camera.lookAt(20,30,40);
-      orbitControls.update();
     },
   },
   mounted() {
@@ -584,4 +734,16 @@ img {
 
 }
 
+
+.grid{
+  position: absolute;
+  z-index: 250;
+  left: 0%;
+  top:0%;
+  pointer-events: none;
+     padding-left: 28%;
+    padding-top: 7%;
+    width: 100%;
+    height: 99%;
+}
 </style>

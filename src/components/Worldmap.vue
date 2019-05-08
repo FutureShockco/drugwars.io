@@ -1,5 +1,4 @@
 <template>
-<div>
     <div id="mapbg" class="mapbg">
         <h3 class="title" id="title" style="opacity:0;">
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
@@ -18,10 +17,7 @@
         </div>
 
         <div class="first-line"></div>
-        <div id="map">
-        </div>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
-    </div>
     </div>
 </template>
 
@@ -51,8 +47,10 @@ export default {
       this.showLoading = true;
       const renderer = new THREE.WebGLRenderer({ antialias: true });
       const mapbg = document.getElementById('mapbg');
+      mapbg.width = mapbg.offsetWidth;
+      mapbg.height = mapbg.offsetHeight;
       const scene = new THREE.Scene();
-      const aspect = window.innerWidth / window.innerHeight;
+      const aspect = mapbg.width / mapbg.height;
       scene.updateMatrixWorld(true);
       const camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
       const orbitControls = new THREE.OrbitControls(camera, mapbg);
@@ -68,7 +66,7 @@ export default {
         RIGHT: null, // right arrow
         BOTTOM: null, // down arrow
       };
-      orbitControls.enabled = false;
+      orbitControls.enabled = true;
       orbitControls.minZoom = 1;
       orbitControls.maxZoom = 1;
       orbitControls.minDistance = 1;
@@ -81,7 +79,7 @@ export default {
       }
             camera.rotation.x = -0.86;
       camera.rotation.y = 0.75;
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(mapbg.width, mapbg.height);
       mapbg.appendChild(renderer.domElement);
       // Lights
       const spotLight = new THREE.AmbientLight(0xffffff);
@@ -400,8 +398,8 @@ export default {
         var p = new THREE.Vector3(obj.x, obj.y,obj.z);
         var vector = p.project(camera);
 
-        vector.x = (vector.x + 1) / 2 * window.innerWidth;
-        vector.y = -(vector.y - 1) / 2 * window.innerHeight;
+        vector.x = (vector.x + 1) / 2 * mapbg.width;
+        vector.y = -(vector.y - 1) / 2 * mapbg.height;
 
         return vector;
     }
@@ -415,8 +413,8 @@ export default {
       function onclick(event) {
         if(selectedTerritory)
         selectedTerritory.object.material.color.set(self.oldcolor);
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        mouse.x = (event.clientX / mapbg.width) * 2 - 1;
+        mouse.y = -(event.clientY / mapbg.height) * 2 + 1;
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(territories.children); // array
         if (intersects.length > 0 && intersects[0].object.name !="void" && intersects[0].object.material.name!='void') {
@@ -446,11 +444,11 @@ export default {
           //camera.position.set(1,1,1)
           // camera.lookAt(earth.position)
           rotating = true;
-          resetPosition()
+          //resetPosition()
         }
       }
       
-      window.camera = camera
+      mapbg.camera = camera
       camera.position.set(1, 1, 1);
         
       camera.rotation.x = -0.86;
@@ -519,15 +517,15 @@ export default {
       earth.rotateY(179.05);
       earth.rotateX(0);
       earth.rotateZ(0);
-      // On window resize, adjust camera aspect ratio and renderer size
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+      // On mapbg resize, adjust camera aspect ratio and renderer size
+      mapbg.addEventListener('resize', () => {
+        camera.aspect = mapbg.width / mapbg.height;
         
       camera.rotation.x = -0.86;
       camera.rotation.y = 0.75;
 
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth,  window.innerHeight);
+        renderer.setSize(mapbg.width,  mapbg.height);
       });
       
       const  clearScene = function(scene) {
@@ -541,7 +539,7 @@ export default {
         }
       }
 
-    //   	window.addEventListener('mousemove', function(evt){
+    //   	mapbg.addEventListener('mousemove', function(evt){
   
 		// 	let movementX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || 0;
 		// 	let movementY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || 0;
@@ -603,12 +601,12 @@ export default {
           visitTitle.style.oTransform      = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
           visitTitle.style.transform       = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
          }
-          if(rotating)
-          {
-                camera.rotation.x = -0.86;
-              camera.rotation.y = 0.75;
+          // if(rotating)
+          // {
+          //       camera.rotation.x = -0.86;
+          //     camera.rotation.y = 0.75;
 
-          }
+          // }
 
         if(scene.getObjectByName('territories'))
         {
@@ -617,7 +615,7 @@ export default {
                   earth.getObjectByName('atmosphere').rotation.y -= (1 / 8) * 0.01;
 
         }
-        TWEEN.update();
+        // TWEEN.update();
 
         // camera.lookAt(earth.position)
         requestAnimationFrame(render);
@@ -639,8 +637,8 @@ export default {
 
 <style scoped lang="less">
 .mapbg {
-  position: fixed;
-  left: 0px;
+
+  height: 100vh;
 }
 
 #map {

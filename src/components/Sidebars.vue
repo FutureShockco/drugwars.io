@@ -12,20 +12,21 @@
 
 .sidebar-container {
   position: fixed;
-  width: 100%;
+  width: @main-width;
   top: 0;
   bottom: 0;
   pointer-events: none;
 }
 
 .sidebars {
-  pointer-events: none;
+    pointer-events: none;
+
   z-index: 9;
   left: 0;
   position: relative;
   display: block;
   height: 100%;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.89);
   -webkit-box-shadow: inset 2px 0px 6px #0a0a0a, inset 3px 3px 7px #000000d6,
     inset 3px 3px 8px #0a0a0a, 0 0 8px #000, 0 0 8px #000;
   box-shadow: inset 2px 3px 6px #0a0a0a, inset 3px 3px 7px #000000d6, inset 3px 3px 8px #0a0a0a,
@@ -39,7 +40,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     transition: left 0.3s;
-    background: linear-gradient(#000000ee, #050505fb), url(/img/fake-brick.png);
+    background: linear-gradient(#0000007a, #050505a4), url(/img/fake-brick.png);
     @media @bp-small {
       top: @topnav-height;
     }

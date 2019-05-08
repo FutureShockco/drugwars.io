@@ -7,6 +7,8 @@
           <h5 class="mt-0">DANGEROSITY : 0</h5>
           <h5 class="mt-0">UNDER THE CONTROL OF THE GOVERNMENT</h5>
         </h3>
+        <div class="crosshair" id="crosshairx"></div>
+        <div class="crosshairy" id="crosshairy"></div>
         <button class="button button-blue map-title" style="opacity:0;" :disabled="!selected" id="visit">VISIT (COMINGSOON)</button>
         <div class="first-line"></div>
         <div id="map">
@@ -147,8 +149,9 @@ export default {
           });
         },
       };
+
       const territories = new THREE.Object3D();
-      const createTerritories = function() {
+      const createTerritories = function(cb) {
         const img = document.getElementById('projection');
         var loaderImg = new Image();
         loaderImg.src = img.src;
@@ -242,11 +245,14 @@ export default {
           seenTiles[item.toString()] = 1;
         });
         territories.name = "territories";
-        scene.add(territories);
-
+        cb(territories);
         }
       };
-      createTerritories();
+      createTerritories(
+        function(result){
+      scene.add(result);
+        }
+      );
       const locations = new THREE.Object3D();
       const createPlanet = function(options) {
         // Create the planet's Surface
@@ -387,7 +393,10 @@ export default {
 
         return vector;
     }
-
+          const visitTitle = document.getElementById("title");  
+          const visitButton = document.getElementById("visit");  
+     const crosshairx = document.getElementById("crosshairx");  
+     const crosshairy = document.getElementById("crosshairy");  
       // camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
       // camera.lookAt(earth.position)
       let selectedTerritory;
@@ -414,62 +423,31 @@ export default {
 
           visitTitle.style.opacity = 1 ;
           visitButton.addEventListener('click', moveToLocations, true);
-
-  
         }
         else{
           self.selected=null;
-                    visitButton.style.opacity = 0 ;
-
-                    visitTitle.style.opacity = 0 ;
+          visitButton.style.opacity = 0 ;
+          visitTitle.style.opacity = 0 ;
+          camera.position.set(1,1,1)
+          camera.lookAt(earth.position)
         }
       }
 
-                const visitButton = document.getElementById("visit");  
-          const visitTitle = document.getElementById("title");  
-            function onMouseMove(event) {
-        if(selectedTerritory)
-        selectedTerritory.object.material.color.set(self.oldcolor);
-        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(territories.children); // array
-        if (intersects.length > 0 && intersects[0].object.name !="void" && intersects[0].object.material.name!='void') {
-          selectedTerritory = intersects[0];
-          self.oldcolor = selectedTerritory.object.material.color.getHex();
-          selectedTerritory.object.material.color.set(0xff0000);
-          self.selected = {}
-          self.selected.name = selectedTerritory.object.material.name
-          self.selected.count = selectedTerritory.object.material.count
 
-          visitButton.style.top = event.clientY + 'px'  ;
-          visitButton.style.left = event.clientX+20 + 'px'  ;
-          visitButton.style.opacity = 1 ;
-          visitTitle.style.top = event.clientY +40 + 'px'  ;
-          visitTitle.style.left = event.clientX+20 + 'px'  ;
-          visitTitle.style.opacity = 1 ;
-          visitButton.addEventListener('click', moveToLocations, true);
-          
-        }
-        else{
-          self.selected=null;
-                    visitButton.style.opacity = 0 ;
+            function moveToLocations() {
+                        var boundingBox = selectedTerritory.object.geometry.boundingBox;
 
-                    visitTitle.style.opacity = 0 ;
-        }
+          var position = new THREE.Vector3();
+          position.subVectors( boundingBox.max, boundingBox.min );
+          position.multiplyScalar( 0.5 );
+          position.add( boundingBox.min );
 
-          
-      }
+          position.applyMatrix4( selectedTerritory.object.matrixWorld );
 
-            function moveToLocations(event) {
-              // camera.position.set(1,3.2,1)
-              window.camera.rotation.set(-1,0.2,0.7);
-
+           camera.position.set(1,1,1)
+           camera.lookAt(earth.position)
               orbitControls.update();
       }
-
-      window.scene = scene;
-window.camera = camera;
       // Light Configurations
       spotLight.position.set(1, 1, 1);
 
@@ -496,20 +474,9 @@ window.camera = camera;
           }
         }
       }
-
       // Main render function
       const render = function() {
-        //raycaster.setFromCamera(mouse, camera);
-        //const intersects = raycaster.intersectObjects(territories.children);
-        // if (intersects.length > 0) {
-        //   if (intersects[0] && intersects[0].object && selectedTerritory != intersects[0].object) {
-        //     selectedTerritory.object.material.color.set(0xff0000);
-        //     if (intersects[0]) 
-        //     {
-        //     INTERSECTED.object.material.color.set(0xffFFFF);
-        //     }
-        //   }
-        // }    
+  
         if(selectedTerritory && visitButton)
         {
           var boundingBox = selectedTerritory.object.geometry.boundingBox;
@@ -523,10 +490,11 @@ window.camera = camera;
           let to = createVector(position,camera)
           visitButton.style.top = (to.y +20) +'px'  ;
           visitButton.style.left = (to.x +20)+ 'px'  ;
-          visitButton.style.opacity = 1 ;
           visitTitle.style.top = (to.y +60) + 'px'  ;
           visitTitle.style.left = (to.x+20) + 'px'  ;
-          visitTitle.style.opacity = 1 ;
+
+          crosshairx.style.left = (to.x) + 'px'  ;
+          crosshairy.style.top = (to.y) + 'px'  ;
 
           visitTitle.style.webkitTransform = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
           visitTitle.style.mozTransform    = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
@@ -534,19 +502,6 @@ window.camera = camera;
           visitTitle.style.oTransform      = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
           visitTitle.style.transform       = `translate3d('${(to.x)}px,${(to.y)}px,${(to.z*60)}px)`; 
          }
-        // const intersects = raycaster.intersectObjects(territories.children);
-        // if (intersects.length > 0 && selectedTerritory)
-        // {
-        //   console.log(selectedTerritory.object.getWorldPosition())
-        //   // console.log(createVector(selectedTerritory,camera))
-        //   // const position = createVector(selectedTerritory,camera);
-        //   // visitButton.style.top = position.y + 'px'  ;
-        //   // visitButton.style.left =position.x + 'px'  ;
-        //   // visitButton.style.opacity = 1 ;
-        //         orbitControls.update();
-
-        // }
-
 
         if(scene.getObjectByName('territories'))
         {
@@ -604,4 +559,26 @@ img {
   top:20%;
   z-index: 20;
 }
+
+.crosshair{
+    position: absolute;
+      z-index: 10;
+        left: 50%;
+  border:1px solid red;
+  width: 2px;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.crosshairy{
+    position: absolute;
+      z-index: 10;
+        left: 0px;
+  border:1px solid red;
+  width: 100%;
+  height: 2px;
+    pointer-events: none;
+
+}
+
 </style>

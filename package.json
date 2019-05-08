@@ -40,6 +40,7 @@
     "steemconnect": "^3.0.0-beta.1",
     "three": "^0.104.0",
     "three-orbitcontrols": "^2.102.1",
+    "threejs-hex-map": "^0.3.1",
     "triplesec": "^3.0.26",
     "tweenjs": "^1.0.2",
     "url-parse": "^1.4.3",

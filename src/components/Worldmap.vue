@@ -19,6 +19,7 @@
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
+import TWEEN from 'tween.js';
 
 export default {
   data() {
@@ -42,6 +43,7 @@ export default {
       const mapbg = document.getElementById('mapbg');
       const scene = new THREE.Scene();
       const aspect = window.innerWidth / window.innerHeight;
+      scene.updateMatrixWorld(true);
       const camera = new THREE.PerspectiveCamera(30, aspect, 0.1, 300);
       let cameraRotation = 0;
       const cameraDistance = 20;
@@ -181,7 +183,7 @@ export default {
 
         // let radius = 0.519;
         const radius = 0.61;
-        const divisions = 28;
+        const divisions = 22;
         const tileSize = 0.90;
         let count =1;
         const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -205,7 +207,7 @@ export default {
             if(count<6)
             {
             material = meshMaterials[1];
-            material.name = 'Special ' + count;
+            material.name = 'special ' + count;
             }
             else
             {
@@ -215,12 +217,10 @@ export default {
             }
             material.count = count;
             const mesh = new THREE.Mesh(geometry, material.clone());
-                      mesh.name = 'grid ' ;
-              mesh.callback = function() {
-                console.log(this.name);
-              };
+            mesh.name = 'grid ' ;
+            mesh.geometry.computeBoundingBox();
               territories.add(mesh);
-                        hexasphere.tiles[i].mesh = mesh;
+            hexasphere.tiles[i].mesh = mesh;
 
             count++;
           } else {
@@ -229,9 +229,6 @@ export default {
             material.opacity = 0;
             const mesh = new THREE.Mesh(geometry, material.clone());
              mesh.name = 'void ' ;
-            mesh.callback = function() {
-            console.log(this.name);
-          };
           territories.add(mesh);
                     hexasphere.tiles[i].mesh = mesh;
 
@@ -246,8 +243,8 @@ export default {
         });
         territories.name = "territories";
         scene.add(territories);
+
         }
-      
       };
       createTerritories();
       const locations = new THREE.Object3D();
@@ -272,8 +269,6 @@ export default {
         const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
         const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
 
-        const cloud = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-
         // Create the planet's Atmospheric glow
         const atmosphericGlowGeometry = planetProto.sphere(
           options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
@@ -289,11 +284,9 @@ export default {
         const planet = new THREE.Object3D();
         surface.name = 'surface';
         atmosphere.name = 'atmosphere';
-        cloud.name = 'clouds';
         atmosphericGlow.name = 'atmosphericGlow';
         planet.add(surface);
         planet.add(atmosphere);
-        planet.add(cloud);
         planet.add(atmosphericGlow);
         // Load the Surface's textures
         for (const textureProperty in options.surface.textures) {
@@ -341,7 +334,7 @@ export default {
           },
         },
         atmosphere: {
-          size: 0.1,
+          size: 0.06,
           material: {
             opacity: 0.8,
           },
@@ -351,23 +344,7 @@ export default {
           },
           glow: {
             size: 0.02,
-            intensity: 0.7,
-            fade: 7,
-            color: 0x93cfef,
-          },
-        },
-        clouds: {
-          size: 1,
-          material: {
-            opacity: 0.8,
-          },
-          textures: {
-            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
-            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
-          },
-          glow: {
-            size: 1,
-            intensity: 0.7,
+            intensity: 0.2,
             fade: 7,
             color: 0x93cfef,
           },
@@ -401,6 +378,16 @@ export default {
       renderer.domElement.addEventListener('click', onclick, true);
 	    //renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
+    function createVector(obj, camera) {
+        var p = new THREE.Vector3(obj.x, obj.y,obj.z);
+        var vector = p.project(camera);
+
+        vector.x = (vector.x + 1) / 2 * window.innerWidth;
+        vector.y = -(vector.y - 1) / 2 * window.innerHeight;
+
+        return vector;
+    }
+
       // camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
       // camera.lookAt(earth.position)
       let selectedTerritory;
@@ -426,7 +413,8 @@ export default {
           visitTitle.style.left = event.clientX+20 + 'px'  ;
           visitTitle.style.opacity = 1 ;
           visitButton.addEventListener('click', moveToLocations, true);
-          
+     
+  
         }
         else{
           self.selected=null;
@@ -521,15 +509,34 @@ window.camera = camera;
         //     }
         //   }
         // }    
-        // if(selectedTerritory && visitButton)
+        if(selectedTerritory && visitButton)
+        {
+          var boundingBox = selectedTerritory.object.geometry.boundingBox;
+
+          var position = new THREE.Vector3();
+          position.subVectors( boundingBox.max, boundingBox.min );
+          position.multiplyScalar( 0.5 );
+          position.add( boundingBox.min );
+
+          position.applyMatrix4( selectedTerritory.object.matrixWorld );
+          visitButton.style.top = (createVector(position,camera).y +20) +'px'  ;
+          visitButton.style.left = (createVector(position,camera).x +20)+ 'px'  ;
+          visitButton.style.opacity = 1 ;
+          visitTitle.style.top = (createVector(position,camera).y +60) + 'px'  ;
+          visitTitle.style.left = (createVector(position,camera).x+20) + 'px'  ;
+          visitTitle.style.opacity = 1 ;
+         }
+        // const intersects = raycaster.intersectObjects(territories.children);
+        // if (intersects.length > 0 && selectedTerritory)
         // {
-        //   console.log(selectedTerritory)
-        //   //visitButton.style.top = selectedTerritory.point.y + 'px'  ;
-        //   // visitButton.style.left = event.clientX+20 + 'px'  ;
+        //   console.log(selectedTerritory.object.getWorldPosition())
+        //   // console.log(createVector(selectedTerritory,camera))
+        //   // const position = createVector(selectedTerritory,camera);
+        //   // visitButton.style.top = position.y + 'px'  ;
+        //   // visitButton.style.left =position.x + 'px'  ;
         //   // visitButton.style.opacity = 1 ;
-        //   // visitTitle.style.top = event.clientY +40 + 'px'  ;
-        //   // visitTitle.style.left = event.clientX+20 + 'px'  ;
-        //   // visitTitle.style.opacity = 1 ;
+        //         orbitControls.update();
+
         // }
 
 
@@ -537,8 +544,9 @@ window.camera = camera;
         {
                   scene.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
                   scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+                  earth.getObjectByName('atmosphere').rotation.y -= (1 / 8) * 0.01;
+
         }
-        earth.getObjectByName('clouds').rotation.y += (1 / 16) * 0.01;
         requestAnimationFrame(render);
         renderer.render(scene, camera);
       };
@@ -577,6 +585,9 @@ img {
   top:20%;
   text-shadow: 5px 5px 5px black;
   pointer-events: none;
+  background: rgba(0, 0, 0, 0.60);
+  padding:20px;
+  border-radius: 5px;
 }
 
 .first-line{

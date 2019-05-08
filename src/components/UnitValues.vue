@@ -33,25 +33,25 @@
 		<div class="column  item-skill text-center">
 			<Icon name="skills/physical" size="32"/>
 			<h5>PHYSICAL  </h5>
- 			<span class="skill-detail">{{modifiedValues.defense}}</span>
+ 			<h5 class="skill-detail">{{modifiedValues.defense}}</h5>
 		</div>
 
 		<div class="column  item-skill text-center">
 			<Icon name="skills/weapon" size="32"/>
 			<h5>BULLET  			</h5>
-			<span class="skill-detail">{{unit.weapon_defense}}</span>
+			<h5 class="skill-detail">{{unit.weapon_defense}}</h5>
 		</div>
 
 		<div class="column  item-skill text-center">
 			<Icon name="skills/fire" size="32"/>
 			<h5>FIRE  				</h5>
-			<span class="skill-detail">{{unit.fire_defense}}</span>
+			<h5 class="skill-detail">{{unit.fire_defense}}</h5>
 		</div>
 
 		<div class="column  item-skill text-center">
 			<Icon name="skills/chemical" size="32"/>
 			<h5>CHEMICAL  				</h5>
-			<span class="skill-detail">{{unit.chemical_defense}}</span>
+			<h5 class="skill-detail">{{unit.chemical_defense}}</h5>
 		</div>
 
 				</div>

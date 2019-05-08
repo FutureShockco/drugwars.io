@@ -16,7 +16,7 @@
       </template>
       <template v-else>
         <i class="iconfont icon-person"/>
-        {{ inProgress ? 'Recruiting' : notEnough ? 'Miss resources' : 'Recruit' }}
+        {{ inProgress ? 'Recruiting' : notEnough ? 'Miss resources' : 'Recruit' }} <span v-if="pendingAmount">{{pendingAmount}}</span>
       </template>
     </button>
 
@@ -63,8 +63,14 @@ export default {
   },
   computed: {
     updateTime() {
-      return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
+      // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
+      return (this.coeff * 200 - (this.coeff * 240 * this.level) / 100) * (this.quantity * 1000);
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+    },
+    pendingAmount() {
+      if (this.$store.state.game.user.units.find(b => b.unit === this.id))
+        return this.$store.state.game.user.units.find(b => b.unit === this.id).pending_amount || 0;
+      return 0;
     },
     priceInSteem() {
       return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(

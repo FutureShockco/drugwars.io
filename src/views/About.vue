@@ -11,7 +11,6 @@
         Early access
       </p>
       <p>Version: {{ pkg.version }}</p>
-      <img class="egg" src="/img/dwegg.jpg">
       <p>
         <a href="/img/drugwars.svg" target="_blank">
           Download DrugWars logo 

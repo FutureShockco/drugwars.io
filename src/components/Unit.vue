@@ -3,49 +3,28 @@
     class="d-flex flex-lg-row flex-column text-center text-lg-left item"
     :class="{ progress: inProgress }"
   >
-    <div class="mr-3">
+    <div class="item-content width-full mr-3 mb-4">
+          <div class="mr-2 left-floated">
       <img class="preview" :src="`/img/units/${unit.id}.jpg`">
+      <div  class="skill-icons text-center" >
+      </div>
     </div>
     <div class="level">{{ ownItem.amount }}</div>
-    <div class="item-content width-full mr-3 mb-4">
-        <h5>{{ unit.name }}</h5>
+        <h5 class="mt-0 mb-0">{{ unit.name }}     <span class="unit-type">{{ unit.type }}</span></h5>      
       <Cost
         :drugsCost="unit.drugs_cost"
         :weaponsCost="unit.weapons_cost"
         :alcoholsCost="unit.alcohols_cost"
         :quantity="quantity"
       />Supply : {{unit.supply}}
-      <div class="mb-2" v-html="unit.desc"></div>
-      <div class="mb-2">
-        <span class="mr-2">
-          {{ unit.type }}
-        </span>
-        <span class="mr-2">
-          <i class="iconfont icon-target text-red"/>
-          {{ unit.attack }}
-        </span>
-        <span class="mr-2">
-          <i class="iconfont icon-plus text-green"/>
-          {{ unit.health }}
-        </span>
-        <span class="mr-2">
-          <i class="iconfont icon-shield1 text-blue"/>
-          {{ unit.defense }}
-        </span>
-        <span class="mr-2">
-          <i class="iconfont icon-box text-orange"></i>
-          {{ unit.capacity}}
-        </span>
-        <span class="mr-2">
-          <i class="iconfont icon-run text-yellow"/>
-          {{ unit.speed * 60 * 1000 | ms }}
-        </span>
-      </div>
-      <div class="mb-2" v-if="unit.feature">
+      <div class="mb-1 mt-1" v-html="unit.desc"></div>
+  <div class="mb-1 item-skill" v-if="unit.feature">
         <span class="text-orange">
-                 UNIQUE {{ unit.feature }}
+                 {{ unit.feature }}
         </span>
       </div>
+              <UnitValues :unit="unit" :modifiedValues="modifiedValues" :speed="speed"/>
+
     </div>
     <div class="mx-auto">
           <input
@@ -68,7 +47,7 @@
 </template>
 
 <script>
-import { getBalances } from '@/helpers/utils';
+import { getBalances, unitValues } from '@/helpers/utils';
 
 export default {
   props: ['unit'],
@@ -89,6 +68,20 @@ export default {
   computed: {
     user() {
       return this.$store.state.game.user.user;
+    },
+    modifiedValues() {
+      const trainings = this.$store.state.game.user.trainings || [];
+      if (trainings.length > 0) {
+        return unitValues(this.unit, trainings);
+      }
+      return this.unit;
+    },
+    speed() {
+      let routing = 0;
+      if (this.$store.state.game.user.trainings.find(b => b.training === 'routing'))
+        routing = this.$store.state.game.user.trainings.find(b => b.training === 'routing').lvl;
+      const speed = this.unit.speed * 60 * 1000;
+      return speed - (speed / 200) * routing;
     },
     balances() {
       let ocLvl = 0;
@@ -132,3 +125,23 @@ export default {
   },
 };
 </script>
+
+
+    <style scoped lang="less">
+.skill-icons {
+  position: relative;
+  top: -25px;
+  left: 0px;
+
+  max-width: 100px;
+}
+
+.skill-defense {
+  font-size: 12px;
+}
+
+.unit-type {
+  font-size: 12px;
+  color: gray;
+}
+</style>

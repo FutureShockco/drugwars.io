@@ -1,5 +1,5 @@
 <template>
-  <div class="cost mb-2">
+  <div class="cost">
     <span class="mr-2">
       Cost:
     </span>

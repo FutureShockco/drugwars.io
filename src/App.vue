@@ -3,6 +3,7 @@
     <!-- <video class="video" autoplay loop poster="/img/bg.jpg" id="bgvid">
     <source src="/img/background.mp4" type="video/mp4">
     </video> -->
+    <Worldmap v-if="!showLoading"/>
     <Splash v-if="showLoading"/>
     <template v-else>
         <UiCenter v-if="username && !modalIsOpen" class="vue-ui-modal pt-2 pb-7 youtube">
@@ -59,7 +60,6 @@ export default {
 #app {
   min-height: 100%;
   width: 100%;
-  max-width: @main-width;
   margin: 0 auto;
   overflow-x: hidden;
   display: table;
@@ -92,6 +92,8 @@ export default {
 .content {
   position: relative;
   left: 0;
+  min-height: 99vh;
+  max-width: 1119px;
   margin-top: @header-height;
   transition: left 0.3s;
   background: #000000b7;
@@ -99,6 +101,7 @@ export default {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;
     margin-top: @topnav-height;
+    max-width: 819px;
   }
 
   &--nav-open {

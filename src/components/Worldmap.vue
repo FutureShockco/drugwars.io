@@ -7,8 +7,8 @@
           <h5 class="mt-0">DANGEROSITY : 0</h5>
           <h5 class="mt-0">UNDER THE CONTROL OF THE GOVERNMENT</h5>
         </h3>
-        <div class="crosshair" id="crosshairx"></div>
-        <div class="crosshairy" id="crosshairy"></div>
+        <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
+        <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <button class="button button-blue map-title" style="opacity:0;" :disabled="!selected" id="visit">VISIT (COMINGSOON)</button>
         <div class="first-line"></div>
         <div id="map">
@@ -420,7 +420,8 @@ export default {
           visitButton.style.opacity = 1 ;
           visitTitle.style.top = event.clientY +40 + 'px'  ;
           visitTitle.style.left = event.clientX+20 + 'px'  ;
-
+                    crosshairx.style.opacity = 1 ;
+          crosshairy.style.opacity = 1 ;
           visitTitle.style.opacity = 1 ;
           visitButton.addEventListener('click', moveToLocations, true);
         }
@@ -428,8 +429,10 @@ export default {
           self.selected=null;
           visitButton.style.opacity = 0 ;
           visitTitle.style.opacity = 0 ;
-          camera.position.set(1,1,1)
-          camera.lookAt(earth.position)
+                    crosshairx.style.opacity = 0 ;
+          crosshairy.style.opacity = 0 ;
+          //camera.position.set(1,1,1)
+          // camera.lookAt(earth.position)
         }
       }
 

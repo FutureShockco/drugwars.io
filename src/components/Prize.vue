@@ -126,7 +126,7 @@ export default {
 @import '../vars';
 
 .prize {
-  font-size: 55px;
+  font-size: 52px;
   font-family: @special-font;
   display: block;
   margin: 0 auto;

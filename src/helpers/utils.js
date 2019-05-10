@@ -47,7 +47,7 @@ const unitValues = (unit, trainings) => {
 
   const protection = trainings.find(b => b.training === 'protection');
   const giant = trainings.find(b => b.training === 'giant');
-  if (protection) unit.defense = defense + (unit.defense / 100) * protection.lvl;
+  if (protection) unit.defense = defense + (unit.defense / 200) * protection.lvl;
   if (giant) unit.health = health + (unit.health / 100) * giant.lvl;
   if (unit.type === 'Melee') {
     const closecombat = trainings.find(b => b.training === 'closecombat');
@@ -107,7 +107,7 @@ const unitValues = (unit, trainings) => {
     const psychological = trainings.find(b => b.training === 'psychological');
     if (psychological) {
       attack += (unit.attack / 100) * psychological.lvl;
-      defense += (unit.attack / 100) * psychological.lvl;
+      defense += (unit.defense / 200) * psychological.lvl;
     }
   }
   const values = {

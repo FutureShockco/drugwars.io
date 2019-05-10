@@ -195,7 +195,7 @@ export default {
 
         // let radius = 0.519;
         const radius = 0.61;
-        const divisions = 22;
+        const divisions = 15;
         const tileSize = 0.90;
         let count =1;
         const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -391,7 +391,7 @@ export default {
       let raycaster = new THREE.Raycaster(),
         INTERSECTED;
       const mouse = new THREE.Vector2();
-      renderer.domElement.addEventListener('click', onclick, true);
+      mapbg.addEventListener('click', onclick, false);
 	    //renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
     function createVector(obj, camera) {
@@ -411,11 +411,15 @@ export default {
       // camera.lookAt(earth.position)
       let selectedTerritory;
       function onclick(event) {
+
+        console.log(mouse.x,mouse.y)
         if(selectedTerritory)
         selectedTerritory.object.material.color.set(self.oldcolor);
-        mouse.x = (event.clientX / mapbg.width) * 2 - 1;
-        mouse.y = -(event.clientY / mapbg.height) * 2 + 1;
+        var rect = event.target.getBoundingClientRect();
+        mouse.x = event.clientX - rect.left; //x position within the element.
+        mouse.y = event.clientY - rect.top;  //y position within the elem
         raycaster.setFromCamera(mouse, camera);
+                camera.updateProjectionMatrix();
         const intersects = raycaster.intersectObjects(territories.children); // array
         if (intersects.length > 0 && intersects[0].object.name !="void" && intersects[0].object.material.name!='void') {
           selectedTerritory = intersects[0];

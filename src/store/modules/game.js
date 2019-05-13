@@ -234,9 +234,18 @@ const actions = {
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
       payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
-      sendOp(username,payload).then(result => {
-        return resolve(result)
-      }).catch(e =>{reject(e)})
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
+        }
+        return resolve();
+      });
     }),
   upgradeBuilding: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {

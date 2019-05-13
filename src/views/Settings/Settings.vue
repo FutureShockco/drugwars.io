@@ -63,8 +63,9 @@ export default {
       const payload = {
         nickname: nick,
         picture: this.picture.trim().toLowerCase(),
+        type: 'edit-profile',
       };
-      this.send({ type: 'edit-profile', payload })
+      this.send(payload)
         .then(() => {
           Promise.delay(6000).then(() => {
             this.notify({

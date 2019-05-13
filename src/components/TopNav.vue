@@ -10,7 +10,7 @@
           <img src="/img/drugwars.png" class="logo" name="logo"/>
         </router-link>
       </div>
-          <Balances class="width-full"/>
+          <Balances class="width-full text-center"/>
       <!-- <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
         <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>

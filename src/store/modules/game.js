@@ -3,7 +3,9 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
+import dwsocial from '@/helpers/dwsocial';
 import CryptoJS from 'crypto-js';
+import auth from '@/helpers/authservice'
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -55,6 +57,23 @@ const soundAlert = {
     audio.play();
   },
 };
+
+const authType = function (){
+  let auth_type = "";
+  let accessToken = "";
+  if(localStorage.getItem('drugwars_token'))
+  {
+    accessToken = localStorage.getItem('drugwars_token');
+    sc.setAccessToken(accessToken);
+    auth_type = "sc";
+  }
+  else if(localStorage.getItem('social_access_token'))
+  {
+    accessToken = localStorage.getItem('social_access_token')
+    auth_type = "social"
+  }
+  return [accessToken,auth_type]
+}
 
 client.notifications = () => {};
 client.subscribe((data, message) => {
@@ -131,8 +150,8 @@ client.subscribe((data, message) => {
   }
 
   if (message[1].body === 'start_attack') {
-    store.dispatch('refresh_sent_fights');
     store.dispatch('init');
+    store.dispatch('refresh_sent_fights');
     store.dispatch('notify', {
       type: 'success',
       message: 'Your troops are on their way to their destination!',
@@ -148,23 +167,23 @@ client.subscribe((data, message) => {
 });
 
 const actions = {
-  init: ({ commit, rootState, dispatch }, accessToken = localStorage.getItem('drugwars_token')) =>
+  init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
-      if (accessToken) {
-        sc.setAccessToken(accessToken);
-        const { username } = rootState.auth;
-        client
-          .requestAsync('get_user', { username, token: accessToken })
-          .then(user => {
-            if (user && user.user && user.user.username) {
-              Promise.all([client.requestAsync('get_prize_props', null)]).then(prizeProps => {
-                commit('savePrizeProps', prizeProps[0]);
+        const [token,auth] = authType();
+        client.requestAsync('get_user', { token,auth })
+        .then(user => {
+            if (user && user.user && user.user.username ) {
+               Promise.all([client.requestAsync('get_prize_props', null)])
+               .then(([prizeProps]) => {
+                commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 resolve();
               });
-            } else {
+            } 
+            else
+            {
               dispatch('signup').then(() => {
-                Promise.delay(9000).then(() => {
+                Promise.delay(2000).then(() => {
                   window.location = '/';
                 });
               });
@@ -173,51 +192,40 @@ const actions = {
           .catch(err => {
             console.log(err);
             handleError(dispatch, err, 'Loading account failed');
-            return reject(err);
+            return  reject(err);
           });
-      }
     }),
   refresh_inc_fights: (
-    { commit, rootState, dispatch },
-    accessToken = localStorage.getItem('drugwars_token'),
-  ) =>
+    { commit, dispatch }) =>
     new Promise((resolve, reject) => {
-      if (accessToken) {
-        sc.setAccessToken(accessToken);
-        const { username } = rootState.auth;
+        const [token,auth] = authType()
         client
-          .requestAsync('get_inc_fights', { username, token: accessToken })
+          .requestAsync('get_inc_fights', { token,auth})
           .then(fights => {
             commit('saveFights', fights);
-            resolve();
+           return resolve(fights);
           })
           .catch(err => {
             console.log(err);
-            handleError(dispatch, err, 'Loading incoming fights failed');
+            handleError(dispatch, err, 'Loading account failed');
             return reject(err);
           });
-      }
     }),
   refresh_sent_fights: (
-    { commit, rootState, dispatch },
-    accessToken = localStorage.getItem('drugwars_token'),
-  ) =>
+    { commit, dispatch }) =>
     new Promise((resolve, reject) => {
-      if (accessToken) {
-        sc.setAccessToken(accessToken);
-        const { username } = rootState.auth;
+        const [token,auth] = authType()
         client
-          .requestAsync('get_sent_fights', { username, token: accessToken })
+          .requestAsync('get_sent_fights', { token , auth})
           .then(fights => {
             commit('saveSentFights', fights);
-            resolve();
+            return resolve();
           })
           .catch(err => {
             console.log(err);
             handleError(dispatch, err, 'Loading sent fights failed');
             return reject(err);
           });
-      }
     }),
   signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {
@@ -226,26 +234,26 @@ const actions = {
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
       payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
-      sc.customEvent(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Sign up failed');
-          return reject(err);
-        }
-        return resolve(result);
-      });
+      sendOp(username,payload).then(result => {
+        return resolve(result)
+      }).catch(e =>{reject(e)})
     }),
   upgradeBuilding: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEvent(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Upgrade building failed');
-          return reject(err);
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
         }
-        return resolve(result);
+        return resolve();
       });
     }),
   upgradeTraining: ({ rootState, dispatch }, payload) =>
@@ -253,13 +261,17 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEvent(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Training building failed');
-          return reject(err);
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
         }
-        return resolve(result);
+        return resolve();
       });
     }),
   recruitUnit: ({ rootState, dispatch }, payload) =>
@@ -267,54 +279,55 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEvent(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Recruit unit failed');
-          return reject(err);
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
         }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
-        return resolve(result);
+        return resolve();
       });
     }),
   investHeist: ({ rootState, dispatch }, amount) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       let payload = {
-        username,
         amount: Number(amount),
         type: 'dw-heists',
       };
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEvent(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Invest heist failed');
-          return reject(err);
+      payload.username = username; // eslint-disable-line no-param-reassign
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
         }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
-        return resolve(result);
+        return resolve();
       });
     }),
   startFight: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEventNext(username, payload, (err, result) => {
-        if (err) {
-          handleError(dispatch, err, 'Start fight failed');
-          return reject(err);
+      payload.username = username; // eslint-disable-line no-param-reassign
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          console.log(result)
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          store.dispatch('refresh_sent_fights');
+          return resolve(result);
         }
-        Promise.delay(6000).then(() => {
-          dispatch('init');
-        });
-        Promise.delay(65000).then(() => {
-          dispatch('init');
-        });
-        return resolve(result);
+        return resolve();
       });
     }),
   shareFight: ({ dispatch }, post) =>
@@ -334,10 +347,16 @@ const actions = {
   send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      payload = poney(JSON.stringify(payload)); // eslint-disable-line no-param-reassign
-      sc.customEventNext(username, payload, (err, result) => {
-        if (err) return reject(err);
-        return resolve(result);
+      dwsocial(username, payload, (result) => {
+        if (result) {
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
+        }
+        return resolve();
       });
     }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {

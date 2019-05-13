@@ -17,6 +17,8 @@ export default {
     this.showLoading();
     this.login(this.accessToken)
       .then(() => {
+        localStorage.setItem('drugwars_token', this.accessToken);
+        localStorage.setItem('auth', 'sc');
         window.location = '/';
       })
       .catch(e => {

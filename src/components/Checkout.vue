@@ -68,9 +68,7 @@ export default {
     },
     notEnoughFuture() {
       return (
-        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future - this.$store.state.game.user.user.future_pending
-      );
+        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) > this.$store.state.game.user.user.future);
     },
     timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
@@ -111,7 +109,6 @@ export default {
       }
       this.upgradeBuilding(payload)
         .then(() => {
-          this.waitingConfirmation = true;
           this.isLoading = false;
         })
         .catch(e => {

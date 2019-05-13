@@ -17,6 +17,7 @@ import router from '@/router';
 import store from '@/store';
 import messages from '@/translation.json';
 import numberFormats from '@/number.json';
+import AuthPlugin from './helpers/auth_plugin';
 
 Vue.use(VueAnalytics, {
   id: 'UA-135445665-1',
@@ -47,7 +48,7 @@ Vue.directive('uppercase', {
     el.value = el.value.toUpperCase(); // eslint-disable-line no-param-reassign
   },
 });
-
+Vue.use(AuthPlugin);
 Vue.use(VueUi);
 Vue.use(VueI18n);
 

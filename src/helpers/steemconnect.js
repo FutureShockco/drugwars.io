@@ -7,22 +7,6 @@ const client = new Client({
   callbackURL: process.env.VUE_APP_SC_REDIRECT_URI,
 });
 
-client.customEventNext = (author, payload, cb) =>
-  client.broadcast(
-    [
-      [
-        'custom_json',
-        {
-          id: customId,
-          required_auths: [],
-          required_posting_auths: [author],
-          json: JSON.stringify(payload),
-        },
-      ],
-    ],
-    cb,
-  );
-
 client.customEvent = (author, payload, cb) =>
   client.broadcast(
     [
@@ -32,22 +16,6 @@ client.customEvent = (author, payload, cb) =>
           id: customId,
           required_auths: [],
           required_posting_auths: [author],
-          json: JSON.stringify(payload),
-        },
-      ],
-    ],
-    cb,
-  );
-
-client.customEventSignup = (username, type, payload, cb) =>
-  client.broadcast(
-    [
-      [
-        'custom_json',
-        {
-          id: type,
-          required_auths: [],
-          required_posting_auths: [username],
           json: JSON.stringify(payload),
         },
       ],

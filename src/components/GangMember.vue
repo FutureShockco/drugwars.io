@@ -26,6 +26,16 @@
                 </span>
                 <Loading v-else />
               </button>
+                <button
+                @click="handleLeave()"
+                class="button button-red float-right"
+                :disabled="isLoading"
+                v-if="member.nickname === user.nickname">
+                <span v-if="!isLoading">
+                  Leave gang
+                </span>
+                <Loading v-else />
+              </button>
               </div>
 </template>
 
@@ -95,6 +105,23 @@ export default {
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to add capo' });
           console.error('Failed to add capo', e);
+          this.isLoading = false;
+        });
+    },
+    handleLeave() {
+      this.isLoading = true;
+      const payload = {
+        gang: this.id,
+        username:this.user.username,
+        type: 'gang-leave',
+      };
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to leave gang' });
+          console.error('Failed to leave gang', e);
           this.isLoading = false;
         });
     },

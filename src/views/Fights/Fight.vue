@@ -129,6 +129,7 @@ export default {
       if (isValid) {
         this.startFight(payload)
           .then(() => {
+            console.log('braa')
             this.isLoading = false;
             this.resetForm();
           })
@@ -164,7 +165,6 @@ export default {
       if (!this.errorMessage)
         try {
           const user = await client.requestAsync('check_user', target);
-          console.log(user);
           if (!user || !user[0].nickname) {
             this.errorMessage = `Player '${target}' does not exist`;
           }

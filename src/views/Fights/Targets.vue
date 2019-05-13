@@ -13,7 +13,6 @@
         v-for="target in targets"
       />
     </div>
-    {{ownUnits}}
   </div>
 </template>
 
@@ -31,9 +30,21 @@ export default {
   mounted() {
     this.isLoading = true;
     const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
-
+    let auth_type = "";
+    let accessToken = "";
+    if(localStorage.getItem('drugwars_token'))
+    {
+      accessToken = localStorage.getItem('drugwars_token');
+      sc.setAccessToken(accessToken);
+      auth_type = "sc";
+    }
+    else if(localStorage.getItem('social_access_token'))
+    {
+      accessToken = localStorage.getItem('social_access_token')
+      auth_type = "social"
+    }
     client
-      .requestAsync('get_users', { maxDrugProductionRate })
+      .requestAsync('get_users', { auth:auth_type, token: accessToken, maxDrugProductionRate })
       .then(users => {
         this.targets = users;
         this.isLoading = false;

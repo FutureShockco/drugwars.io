@@ -4,12 +4,7 @@ const Promise = require('bluebird');
 const dwsocial = function (username, payload , cb) {
   let auth_type = "";
   let accessToken = "";
-  if(localStorage.getItem('drugwars_token'))
-  {
-    accessToken = localStorage.getItem('drugwars_token');
-    auth_type = "sc";
-  }
-  else if(localStorage.getItem('social_access_token'))
+  if(localStorage.getItem('social_access_token'))
   {
     accessToken = localStorage.getItem('social_access_token')
     auth_type = "social"

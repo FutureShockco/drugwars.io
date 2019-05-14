@@ -26,10 +26,7 @@
              <div class="ui blue header big">Join the early access now for Free. </div>
 
     <div class="button button-green button-large mb-4" @click="socialLogin">
-      Social Login
-    </div>
-    <div class="button button-green button-large mb-4" @click="login">
-      Steem Login
+      Login
     </div>
 
     </div>
@@ -62,12 +59,6 @@ export default {
     localStorage.removeItem('loggedIn');
   },
   methods: {
-    login() {
-      sc.login({}, (err, token) => {
-        localStorage.setItem('drugwars_token', token);
-        window.location = '/';
-      });
-    },
     socialLogin() {
       this.$auth.login();
     },

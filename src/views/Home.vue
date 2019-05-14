@@ -54,10 +54,13 @@ export default {
       profile: {},
     };
   },
-  // created(){
-  //   if(!this.$auth.isAuthenticated() && this.$auth.idToken)
-  //   this.$auth.handleAuthentication();
-  // },
+  created(){
+    localStorage.removeItem('social_access_token');
+    localStorage.removeItem('drugwars_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('auth');
+    localStorage.removeItem('loggedIn');
+  },
   methods: {
     login() {
       sc.login({}, (err, token) => {

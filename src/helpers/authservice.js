@@ -10,7 +10,7 @@ const webAuth = new auth0.WebAuth({
   clientID: authConfig.clientId,
   responseType: 'id_token',
   scope: 'openid profile email',
-  audience: 'https://drugwars-api-straging.herokuapp.com',
+  audience: 'https://api.drugwars.io',
 });
 
 function getParameterByName(name) {
@@ -28,7 +28,7 @@ class AuthService extends EventEmitter {
     webAuth.authorize({
       responseType: 'token id_token',
       redirectUri: `${window.location.origin}/callback`,
-      audience: 'https://drugwars-api-straging.herokuapp.com',
+      audience: 'https://api.drugwars.io',
       scope: 'openid profile email',
     });
   }

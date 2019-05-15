@@ -188,6 +188,7 @@ const actions = {
         });
       }
     }),
+    
   refresh_inc_fights: (
     { commit, dispatch }) =>
     new Promise((resolve, reject) => {

@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import sc from '@/helpers/steemconnect';
 import client from '@/helpers/client';
+import authService from "@/helpers/authservice";
+import settings from './settings';
+import dsteem from '@/helpers/dsteem';
 
 const state = {
   username: null,
@@ -12,13 +15,17 @@ const mutations = {
   saveUsername(_state, payload) {
     Vue.set(_state, 'username', payload);
   },
-  // saveAccount(_state, payload) {
-  //   Vue.set(_state, 'account', payload);
-  // },
+  saveAccount(_state, payload) {
+    Vue.set(_state, 'account', payload);
+  },
   logout(_state) {
     Vue.set(_state, 'username', null);
   },
 };
+ async function loadaccount (commit,username){
+  const account = await dsteem.database.getAccounts([username]);
+  commit('saveAccount', account[0]);
+}
 
 const actions = {
   login: async ({ commit } ) =>
@@ -29,10 +36,16 @@ const actions = {
         client
           .requestAsync('login', {token})
           .then(result => {
-            commit('saveUsername', result);
-            resolve(result);
+            commit('saveUsername', result.name);
+            loadaccount(commit,result.name)
+            resolve();
           })
           .catch((e) => {
+            console.log(e)
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('id_token');
+            localStorage.removeItem('loggedIn');
+            window.location = '/';
             resolve(e);
           });
       }
@@ -40,10 +53,10 @@ const actions = {
         resolve();
       }
     }),
+
   logout: () => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
-    localStorage.removeItem('auth');
     localStorage.removeItem('loggedIn');
     window.location = '/';
   },

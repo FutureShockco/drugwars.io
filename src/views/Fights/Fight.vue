@@ -9,6 +9,15 @@
                         <UnitSelect :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
                     </div>
                 </div>
+                 <div class="mt-6 text-left align-left">
+                         <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
+                          <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
+                         <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
+                  <button class="button button-blue" @click="loadCombination(combination.set)">load {{combination.name}}</button>
+                  <button class="button button-red" @click="deleteCombination(combination.name)">delete squad</button>
+                </div>
+                        </div>
+               
             </div>
     
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
@@ -17,6 +26,7 @@
                         <h3>Your selected army</h3>
                         <ArmyToSend :units="selectedUnits" />
                     </div>
+
                 </div>
                 <div class="mb-4 form width-full">
                     <div v-if="selectedUnits.length === 0">
@@ -67,6 +77,8 @@ export default {
       message: null,
       username: this.$store.state.auth.username,
       errorMessage: null,
+      favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
+      combination_name: null
     };
   },
   computed: {
@@ -107,6 +119,7 @@ export default {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
+      this.combination_name = null;
     },
     removeUnits() {
       this.selectedUnits = [];
@@ -131,7 +144,7 @@ export default {
           .then(() => {
             console.log('braa')
             this.isLoading = false;
-            this.resetForm();
+            this.$router.push({ path: '/fight/outgoing' });
           })
           .catch(e => {
             console.error('Failed to start a fight=', e);
@@ -230,6 +243,49 @@ export default {
           str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
         }
       return str.join('&');
+    },
+    saveCombination() {
+      let favs = [];
+      if(localStorage.getItem('fav_combi'))
+      {
+      favs = JSON.parse(localStorage.getItem('fav_combi'))
+      }
+      const myarmy = this.selectedUnits.map(unit =>
+        ({
+          key: unit.key,
+          amount: unit.amount,
+        }),
+      );
+
+      let combi = {};
+      combi.name = this.combination_name;
+      combi.set = myarmy;
+      favs.push(combi);
+      this.favoriteCombinations = favs
+      this.combination_name = null;
+      localStorage.setItem('fav_combi',JSON.stringify(favs));
+    },
+    loadCombination(combination) {
+      const combinationtoload = []
+      combination.forEach(unit => {
+        combinationtoload.push(unit);
+      });
+      this.selectedUnits = combinationtoload
+    },
+    deleteCombination(combination) {
+      let favs = [];
+      if(localStorage.getItem('fav_combi'))
+      {
+      favs = JSON.parse(localStorage.getItem('fav_combi'))
+      }
+      for( var i = 0; i < favs.length; i++){ 
+        if ( favs[i].name === combination) {
+          favs.splice(i, 1); 
+          i--;
+        }
+      }
+      localStorage.setItem('fav_combi',JSON.stringify(favs));
+      this.favoriteCombinations = favs
     },
   },
 };

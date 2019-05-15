@@ -146,11 +146,11 @@ export default {
   }
 
   .shield {
-    min-width: @sidebar-width;
+    min-width: 130px;
   }
   @media screen and (min-width: 399px) and (max-width: 1119px) {
     .shield {
-      min-width: 150px;
+      min-width: 100px;
       img {
         width: 24px;
         height: 24px;

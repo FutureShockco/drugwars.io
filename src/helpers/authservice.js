@@ -38,9 +38,7 @@ class AuthService extends EventEmitter {
 
   setAccessToken() {
     let accessToken = getParameterByName('access_token');
-    let authType = 'social';
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-    localStorage.setItem('auth', authType);
   }
 
   setIdToken() {

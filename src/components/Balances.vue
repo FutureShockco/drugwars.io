@@ -181,7 +181,7 @@ export default {
 
 .balances {
   color: white;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
   display: inline-flex;
   line-height: 22px;
@@ -207,12 +207,12 @@ export default {
       font-size: 16px;
     }
     .detail {
-      font-size: 14px;
-      line-height: 14px !important;
+      font-size: 13px;
+      line-height: 13px !important;
       text-align: left;
       span {
         float: none;
-        line-height: 14px !important;
+        line-height: 13px !important;
       }
     }
     .icon {

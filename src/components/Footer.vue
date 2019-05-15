@@ -58,7 +58,7 @@ export default {
     };
   },
   methods: {
-    logout(){
+    logout() {
       this.$auth.logOut();
       this.$router.push({ path: '/' });
     },

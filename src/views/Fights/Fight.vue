@@ -142,7 +142,6 @@ export default {
       if (isValid) {
         this.startFight(payload)
           .then(() => {
-            console.log('braa');
             this.isLoading = false;
             this.$router.push({ path: '/fight/outgoing' });
           })

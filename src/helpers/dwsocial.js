@@ -1,7 +1,5 @@
 import client from '@/helpers/client';
 
-const Promise = require('bluebird');
-
 const dwsocial = function(username, payload, cb) {
   const accessToken = localStorage.getItem('access_token');
   client

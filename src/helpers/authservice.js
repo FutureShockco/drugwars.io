@@ -49,12 +49,15 @@ class AuthService extends EventEmitter {
 
   logOut() {
     localStorage.removeItem(localStorageKey);
-
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('loggedIn');
     this.idToken = null;
     this.tokenExpiry = null;
     this.profile = null;
 
     webAuth.logout({
+      client_id: 'VpyiQI4aCQYuDwqB2VE9IJ3CxFgY5caO',
       returnTo: `${window.location.origin}`,
     });
 

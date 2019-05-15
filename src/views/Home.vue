@@ -53,7 +53,6 @@ export default {
   },
   created(){
     localStorage.removeItem('access_token');
-    localStorage.removeItem('drugwars_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('auth');
     localStorage.removeItem('loggedIn');

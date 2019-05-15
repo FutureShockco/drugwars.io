@@ -374,7 +374,16 @@ const actions = {
               dispatch('init');
             });
           } else {
-            console.log('failed');
+            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
+            const win = window.open(
+              url.split('+').join('_'),
+              '_blank',
+              'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+            );
+            win.focus();
+            Promise.delay(15000).then(() => {
+              dispatch('init');
+            });
           }
         },
       );

@@ -47,8 +47,7 @@ export default {
     return {
       credentials: {
         sandbox: 'AXUvDP_wEMVrtader-5IcAqlYIMJO4b2ivulbLCLCUfJp7pPFBnfgx_SgY2yrhmQRmzlkNMxxa99XVYJ',
-        production:
-          'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
+        production:'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
       },
       experienceOptions: {
         input_fields: {

@@ -161,7 +161,9 @@ const actions = {
   init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      client.requestAsync('get_user', { token })
+      if(token)
+      {
+        client.requestAsync('get_user', { token })
         .then(user => {
           if (user && user.user && user.user.username) {
             Promise.all([client.requestAsync('get_prize_props', null)])
@@ -184,6 +186,7 @@ const actions = {
           handleError(dispatch, err, 'Loading account failed');
           return reject(err);
         });
+      }
     }),
   refresh_inc_fights: (
     { commit, dispatch }) =>

@@ -26,9 +26,8 @@ const actions = {
       if(localStorage.getItem('social_access_token'))
       {
         const token = localStorage.getItem('social_access_token')
-        const params = {token}
         client
-          .requestAsync('login', params)
+          .requestAsync('login', {token})
           .then(result => {
             commit('saveUsername', result);
             resolve(result);

@@ -39,6 +39,7 @@
 <script>
 import { mapActions } from 'vuex';
 import PayPal from 'vue-paypal-checkout';
+import { fail } from 'assert';
 
 export default {
   props: ['item'],
@@ -62,6 +63,7 @@ export default {
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      else return false;
     },
   },
   components: {

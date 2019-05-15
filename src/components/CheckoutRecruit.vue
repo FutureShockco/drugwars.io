@@ -21,7 +21,7 @@
 
     <div class="mb-2">Instant recruit</div>
     <button
-      :disabled="isLoading"
+      :disabled="isLoading" v-if="steemAccount"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -57,6 +57,10 @@ export default {
       // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
       return (this.coeff * 200 - (this.coeff * 240 * this.level) / 100) * (this.quantity * 1000);
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      else return false;
     },
     pendingAmount() {
       if (this.$store.state.game.user.units.find(b => b.unit === this.id))

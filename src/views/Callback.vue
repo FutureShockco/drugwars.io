@@ -7,7 +7,7 @@ import { mapActions } from 'vuex';
 
 export default {
   data() {
-  return {
+    return {
       accessToken: this.$route.query.access_token,
       error: null,
     };
@@ -15,7 +15,7 @@ export default {
   methods: {
     handleLoginEvent(data) {
       if (!data.error) {
-        this.$router.push(data.state.target || "/");
+        this.$router.push(data.state.target || '/');
       }
     },
   },
@@ -27,8 +27,7 @@ export default {
     });
   },
   created() {
-    if(!this.$auth.isAuthenticated())
-    this.$auth.handleAuthentication();
+    if (!this.$auth.isAuthenticated()) this.$auth.handleAuthentication();
   },
 };
 </script>

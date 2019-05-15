@@ -49,7 +49,8 @@ export default {
   props: ['id', 'level', 'coeff', 'inProgress', 'price', 'quantity', 'notEnough'],
   data() {
     return {
-      isLoading: false    };
+      isLoading: false,
+    };
   },
   computed: {
     updateTime() {
@@ -72,7 +73,9 @@ export default {
     },
     notEnoughFuture() {
       return (
-        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) > this.$store.state.game.user.user.future);
+        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        this.$store.state.game.user.user.future
+      );
     },
     timeToWait() {
       const unit = this.$store.state.game.user.units.find(b => b.unit === this.id);

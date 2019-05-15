@@ -3,10 +3,13 @@
         <MarketTabs/>
         <div class="p-4 text-center">
             <h2>Change your FUTURE for other cryptocurrencies</h2>
-            <h5>You can choose here in which cryptocurrencies you want to change your rewards.</h5>
-            <div>
+            <div v-if="steemAccount">
+              <h5>You can choose here in which cryptocurrencies you want to change your rewards.</h5>
                 <input class="mr-2" type="radio" id="two" value="steem" v-model="picked">
                 <label for="two"><Icon name="steem" size="18" class="icons mr-2"/>STEEM (Send automatically to your wallet)</label>
+            </div>
+            <div v-else>
+                <h5>At this moment the internal market is only available for Steem users. Please use the widthraw page to trade your FUTURE on Obyte or Cryptox.pl</h5>
             </div>
             <br>
             <div>
@@ -43,9 +46,8 @@
                 <p class="mb-4">You don't have any token to claim.</p>
             </div>
             <div>
-                <p class="mb-4">Why the FUTURE price is low in the internal exchange?</p>
-                At this moment the internal exchange is a guarantee for everyone to be able to sell their FUTURE tokens for a minimum value instantly. In contrary to other exchanges it avoid any complexity and waiting time. The price of the future is defined by the following
-                formula - Total Future Owned by players / @drugwars account balance ({{prizeProps.total_future}} / {{parseInt(prizeProps.balance)}} = {{futureToSteem}}) and will change to reflect the market price in less than few weeks.
+                <p class="mb-4">How the FUTURE price is calculated in the internal exchange?</p>
+                Total Future Owned by players / @drugwars account balance ({{prizeProps.total_future}} / {{parseInt(prizeProps.balance)}} = {{futureToSteem}}).
             </div>
             <div>
                 <p class="mb-4 mt-4">Where else can I sell my FUTURE?</p>
@@ -63,7 +65,6 @@
 </template>
 
 <script>
-import Promise from 'bluebird';
 import { mapActions } from 'vuex';
 
 export default {
@@ -88,6 +89,10 @@ export default {
         Date.parse(this.$store.state.game.user.user.last_profile_update),
       ).toLocaleString();
     },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
     futureToSteem() {
       const { prizeProps } = this.$store.state.game;
       return parseFloat(prizeProps.total_future / parseFloat(prizeProps.balance)).toFixed(0);
@@ -105,17 +110,18 @@ export default {
       const payload = {
         currency: this.picked,
         amount: parseInt(this.amount),
+        type: 'widthraw',
       };
       this.isLoading = true;
-      this.send({ type: 'widthraw', payload })
-        .then(() => {
-          Promise.delay(6000).then(() => {
+      this.send(payload)
+        .then(result => {
+          if (result) {
             this.notify({
               type: 'success',
-              message: `You have widthrawn ${payload.amount} FUTURE`,
+              message: result,
             });
             this.isLoading = false;
-          });
+          }
         })
         .catch(e => {
           this.notify({ type: 'error', message: `Failed to widthraw ${payload.amount} FUTURE` });

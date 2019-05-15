@@ -1,23 +1,24 @@
-import auth0 from "auth0-js";
-import { EventEmitter } from "events";
-import authConfig from "../../auth_config.json";
+import auth0 from 'auth0-js';
+import { EventEmitter } from 'events';
+import authConfig from '../../auth_config.json';
+
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 const webAuth = new auth0.WebAuth({
   domain: authConfig.domain,
   redirectUri: `${window.location.origin}/callback`,
   clientID: authConfig.clientId,
-  responseType: "id_token",
-  scope: "openid profile email",
-  audience:"https://drugwars-api-straging.herokuapp.com"
+  responseType: 'id_token',
+  scope: 'openid profile email',
+  audience: 'https://drugwars-api-straging.herokuapp.com',
 });
 
-function getParameterByName (name) {
-  let match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.hash);
+function getParameterByName(name) {
+  const match = RegExp(`[#&]${name}=([^&]*)`).exec(window.location.hash);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
-const localStorageKey = "loggedIn";
-const loginEvent = "loginEvent";
+const localStorageKey = 'loggedIn';
+const loginEvent = 'loginEvent';
 class AuthService extends EventEmitter {
   idToken = null;
   profile = null;
@@ -27,8 +28,8 @@ class AuthService extends EventEmitter {
     webAuth.authorize({
       responseType: 'token id_token',
       redirectUri: `${window.location.origin}/callback`,
-      audience: "https://drugwars-api-straging.herokuapp.com",
-      scope: "openid profile email",
+      audience: 'https://drugwars-api-straging.herokuapp.com',
+      scope: 'openid profile email',
     });
   }
 
@@ -37,12 +38,12 @@ class AuthService extends EventEmitter {
   }
 
   setAccessToken() {
-    let accessToken = getParameterByName('access_token');
+    const accessToken = getParameterByName('access_token');
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   }
 
   setIdToken() {
-    let idToken = getParameterByName('id_token');
+    const idToken = getParameterByName('id_token');
     localStorage.setItem(ID_TOKEN_KEY, idToken);
   }
 
@@ -54,7 +55,7 @@ class AuthService extends EventEmitter {
     this.profile = null;
 
     webAuth.logout({
-      returnTo: `${window.location.origin}`
+      returnTo: `${window.location.origin}`,
     });
 
     this.emit(loginEvent, { loggedIn: false });
@@ -67,7 +68,7 @@ class AuthService extends EventEmitter {
           this.emit(loginEvent, {
             loggedIn: false,
             error: err,
-            errorMsg: err.statusText
+            errorMsg: err.statusText,
           });
           reject(err);
         } else {
@@ -79,10 +80,7 @@ class AuthService extends EventEmitter {
   }
 
   isAuthenticated() {
-    return (
-      Date.now() < this.tokenExpiry &&
-      localStorage.getItem(localStorageKey) === "true"
-    );
+    return Date.now() < this.tokenExpiry && localStorage.getItem(localStorageKey) === 'true';
   }
 
   isIdTokenValid() {
@@ -107,18 +105,18 @@ class AuthService extends EventEmitter {
     this.idToken = authResult.idToken;
     this.profile = authResult.idTokenPayload;
     this.tokenExpiry = new Date(this.profile.exp * 1000);
-    localStorage.setItem(localStorageKey, "true");
+    localStorage.setItem(localStorageKey, 'true');
     this.emit(loginEvent, {
       loggedIn: true,
       profile: authResult.idTokenPayload,
-      state: authResult.appState || {}
+      state: authResult.appState || {},
     });
   }
 
   renewTokens() {
     return new Promise((resolve, reject) => {
-      if (localStorage.getItem(localStorageKey) !== "true") {
-        return reject("Not logged in");
+      if (localStorage.getItem(localStorageKey) !== 'true') {
+        return reject('Not logged in');
       }
 
       webAuth.checkSession({}, (err, authResult) => {

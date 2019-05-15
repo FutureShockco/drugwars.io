@@ -112,7 +112,7 @@ export default {
       this.isLoading = true;
       const payload = {
         gang: this.id,
-        username:this.user.username,
+        username: this.user.username,
         type: 'gang-leave',
       };
       this.send(payload)

@@ -55,9 +55,9 @@
             <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
-     <li>
-      <Icon v-if="this.$store.state.auth.account" name="steem" size="36"/>
-        <div v-if="this.$store.state.auth.account" class="balance">
+     <li v-if="this.$store.state.auth.account">
+      <Icon  name="steem" size="36"/>
+        <div class="balance">
         <div >{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
           <div >{{ sbdBalance | amount}} <span class="mini"> SBD</span></div>
          </div>
@@ -139,12 +139,12 @@ export default {
       };
     },
     steemBalance() {
-      if(this.$store.state.auth.account)
-      return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
     },
     sbdBalance() {
-      if(this.$store.state.auth.account)
-      return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
     },
     futureBalance() {
       return parseFloat(this.$store.state.game.user.future).toFixed(3);

@@ -5,7 +5,7 @@ import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
 import CryptoJS from 'crypto-js';
-import auth from '@/helpers/authservice'
+import auth from '@/helpers/authservice';
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -58,15 +58,15 @@ const soundAlert = {
   },
 };
 
-const authToken = function () {
+const authToken = function() {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('access_token');
   }
-  return accessToken
-}
+  return accessToken;
+};
 
-client.notifications = () => { };
+client.notifications = () => {};
 client.subscribe((data, message) => {
   if (
     message[1].body &&
@@ -161,38 +161,35 @@ const actions = {
   init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      if(token)
-      {
-        client.requestAsync('get_user', { token })
-        .then(user => {
-          if (user && user.user && user.user.username) {
-            Promise.all([client.requestAsync('get_prize_props', null)])
-              .then(([prizeProps]) => {
+      if (token) {
+        client
+          .requestAsync('get_user', { token })
+          .then(user => {
+            if (user && user.user && user.user.username) {
+              Promise.all([client.requestAsync('get_prize_props', null)]).then(([prizeProps]) => {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 resolve();
               });
-          }
-          else {
-            dispatch('signup').then(() => {
-              Promise.delay(2000).then(() => {
-                window.location = '/';
+            } else {
+              dispatch('signup').then(() => {
+                Promise.delay(2000).then(() => {
+                  window.location = '/';
+                });
               });
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading account failed');
-          return reject(err);
-        });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            handleError(dispatch, err, 'Loading account failed');
+            return reject(err);
+          });
       }
     }),
-    
-  refresh_inc_fights: (
-    { commit, dispatch }) =>
+
+  refresh_inc_fights: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
-      const token = authToken()
+      const token = authToken();
       client
         .requestAsync('get_inc_fights', { token })
         .then(fights => {
@@ -205,10 +202,9 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_fights: (
-    { commit, dispatch }) =>
+  refresh_sent_fights: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
-      const token = authToken()
+      const token = authToken();
       client
         .requestAsync('get_sent_fights', { token, auth })
         .then(fights => {
@@ -228,9 +224,9 @@ const actions = {
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
       payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -239,16 +235,16 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   upgradeBuilding: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -257,16 +253,16 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   upgradeTraining: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -275,16 +271,16 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   recruitUnit: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -293,19 +289,19 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   investHeist: ({ rootState, dispatch }, amount) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      let payload = {
+      const payload = {
         amount: Number(amount),
         type: 'dw-heists',
       };
       payload.username = username; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -314,15 +310,15 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   startFight: ({ rootState, dispatch }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
-          console.log(result)
+          console.log(result);
           store.dispatch('notify', {
             type: 'success',
             message: result,
@@ -331,7 +327,7 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
@@ -345,12 +341,12 @@ const actions = {
           message: 'You have successfully shared your fight on Steemit',
         });
         return resolve(result);
-      });
+      }).catch(e => reject(e));
     }),
   send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      dwsocial(username, payload, (result) => {
+      dwsocial(username, payload, result => {
         if (result) {
           store.dispatch('init');
           store.dispatch('notify', {
@@ -360,24 +356,29 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      });
+      }).catch(e => reject(e));
     }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
     if (window.steem_keychain != null) {
-      steem_keychain.requestTransfer(username, dealerSteemUsername, amount, memo, 'STEEM', function (response) {
-        if (response.success) {
-          console.log('success')
-          Promise.delay(1000).then(() => {
-            dispatch('init');
-          });
-        }
-        else {
-          console.log('failed')
-        }
-      })
-    }
-    else {
+      window.steem_keychain.requestTransfer(
+        username,
+        dealerSteemUsername,
+        amount,
+        memo,
+        'STEEM',
+        response => {
+          if (response.success) {
+            console.log('success');
+            Promise.delay(1000).then(() => {
+              dispatch('init');
+            });
+          } else {
+            console.log('failed');
+          }
+        },
+      );
+    } else {
       const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
       const win = window.open(
         url.split('+').join('_'),

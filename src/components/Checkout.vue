@@ -68,7 +68,9 @@ export default {
     },
     notEnoughFuture() {
       return (
-        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) > this.$store.state.game.user.user.future);
+        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        this.$store.state.game.user.user.future
+      );
     },
     timeToWait() {
       const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);

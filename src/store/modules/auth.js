@@ -1,8 +1,5 @@
 import Vue from 'vue';
-import sc from '@/helpers/steemconnect';
 import client from '@/helpers/client';
-import authService from "@/helpers/authservice";
-import settings from './settings';
 import dsteem from '@/helpers/dsteem';
 
 const state = {
@@ -22,34 +19,32 @@ const mutations = {
     Vue.set(_state, 'username', null);
   },
 };
- async function loadaccount (commit,username){
+async function loadaccount(commit, username) {
   const account = await dsteem.database.getAccounts([username]);
   commit('saveAccount', account[0]);
 }
 
 const actions = {
-  login: async ({ commit } ) =>
+  login: async ({ commit }) =>
     new Promise(resolve => {
-      if(localStorage.getItem('access_token'))
-      {
-        const token = localStorage.getItem('access_token')
+      if (localStorage.getItem('access_token')) {
+        const token = localStorage.getItem('access_token');
         client
-          .requestAsync('login', {token})
+          .requestAsync('login', { token })
           .then(result => {
             commit('saveUsername', result.name);
-            loadaccount(commit,result.name)
+            loadaccount(commit, result.name);
             resolve();
           })
-          .catch((e) => {
-            console.log(e)
+          .catch(e => {
+            console.log(e);
             localStorage.removeItem('access_token');
             localStorage.removeItem('id_token');
             localStorage.removeItem('loggedIn');
             window.location = '/';
             resolve(e);
           });
-      }
-      else {
+      } else {
         resolve();
       }
     }),

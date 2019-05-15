@@ -78,7 +78,7 @@ export default {
       username: this.$store.state.auth.username,
       errorMessage: null,
       favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
-      combination_name: null
+      combination_name: null,
     };
   },
   computed: {
@@ -142,7 +142,7 @@ export default {
       if (isValid) {
         this.startFight(payload)
           .then(() => {
-            console.log('braa')
+            console.log('braa');
             this.isLoading = false;
             this.$router.push({ path: '/fight/outgoing' });
           })
@@ -246,46 +246,42 @@ export default {
     },
     saveCombination() {
       let favs = [];
-      if(localStorage.getItem('fav_combi'))
-      {
-      favs = JSON.parse(localStorage.getItem('fav_combi'))
+      if (localStorage.getItem('fav_combi')) {
+        favs = JSON.parse(localStorage.getItem('fav_combi'));
       }
-      const myarmy = this.selectedUnits.map(unit =>
-        ({
-          key: unit.key,
-          amount: unit.amount,
-        }),
-      );
+      const myarmy = this.selectedUnits.map(unit => ({
+        key: unit.key,
+        amount: unit.amount,
+      }));
 
-      let combi = {};
+      const combi = {};
       combi.name = this.combination_name;
       combi.set = myarmy;
       favs.push(combi);
-      this.favoriteCombinations = favs
+      this.favoriteCombinations = favs;
       this.combination_name = null;
-      localStorage.setItem('fav_combi',JSON.stringify(favs));
+      localStorage.setItem('fav_combi', JSON.stringify(favs));
     },
     loadCombination(combination) {
-      const combinationtoload = []
+      const combinationtoload = [];
       combination.forEach(unit => {
         combinationtoload.push(unit);
       });
-      this.selectedUnits = combinationtoload
+      this.selectedUnits = combinationtoload;
     },
     deleteCombination(combination) {
       let favs = [];
-      if(localStorage.getItem('fav_combi'))
-      {
-      favs = JSON.parse(localStorage.getItem('fav_combi'))
+      if (localStorage.getItem('fav_combi')) {
+        favs = JSON.parse(localStorage.getItem('fav_combi'));
       }
-      for( var i = 0; i < favs.length; i++){ 
-        if ( favs[i].name === combination) {
-          favs.splice(i, 1); 
-          i--;
+      for (let i = 0; i < favs.length; i += 1) {
+        if (favs[i].name === combination) {
+          favs.splice(i, 1);
+          i -= 1;
         }
       }
-      localStorage.setItem('fav_combi',JSON.stringify(favs));
-      this.favoriteCombinations = favs
+      localStorage.setItem('fav_combi', JSON.stringify(favs));
+      this.favoriteCombinations = favs;
     },
   },
 };

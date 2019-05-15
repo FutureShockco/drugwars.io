@@ -6,9 +6,6 @@
     <span @click="handleShareFight('facebook')">
     <Icon :size="32" class="mr-1 icon" name="facebook"/>
     </span>
-    <span @click="handleShareFight('steemit')">
-    <Icon :size="32" class="icon" name="steemit"/>
-    </span>
     <span @click="handleShareFight('reddit')">
     <Icon :size="32" class="mr-1 icon" name="reddit"/>
     </span>

@@ -58,7 +58,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['logout']),
+    logout(){
+      this.$auth.logOut();
+      this.$router.push({ path: '/' });
+    },
     play(audio) {
       audio.isPlaying = true; // eslint-disable-line no-param-reassign
       audio.loop = true; // eslint-disable-line no-param-reassign

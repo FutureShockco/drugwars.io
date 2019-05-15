@@ -26,7 +26,7 @@ const state = {
 };
 
 /* eslint-disable */
-const poney = function(obj) {
+const poney = function (obj) {
   const encrypted = CryptoJS.AES.encrypt(obj, state.user.key);
   return encrypted
     .toString()
@@ -58,24 +58,15 @@ const soundAlert = {
   },
 };
 
-const authType = function (){
-  let auth_type = "";
-  let accessToken = "";
-  if(localStorage.getItem('drugwars_token'))
-  {
+const authToken = function () {
+  let accessToken = null;
+  if (localStorage.getItem('social_access_token')) {
     accessToken = localStorage.getItem('drugwars_token');
-    sc.setAccessToken(accessToken);
-    auth_type = "sc";
   }
-  else if(localStorage.getItem('social_access_token'))
-  {
-    accessToken = localStorage.getItem('social_access_token')
-    auth_type = "social"
-  }
-  return [accessToken,auth_type]
+  return accessToken
 }
 
-client.notifications = () => {};
+client.notifications = () => { };
 client.subscribe((data, message) => {
   if (
     message[1].body &&
@@ -169,63 +160,62 @@ client.subscribe((data, message) => {
 const actions = {
   init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
-        const [token,auth] = authType();
-        client.requestAsync('get_user', { token,auth })
+      const token = authToken();
+      client.requestAsync('get_user', { token })
         .then(user => {
-            if (user && user.user && user.user.username ) {
-               Promise.all([client.requestAsync('get_prize_props', null)])
-               .then(([prizeProps]) => {
+          if (user && user.user && user.user.username) {
+            Promise.all([client.requestAsync('get_prize_props', null)])
+              .then(([prizeProps]) => {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 resolve();
               });
-            } 
-            else
-            {
-              dispatch('signup').then(() => {
-                Promise.delay(2000).then(() => {
-                  window.location = '/';
-                });
+          }
+          else {
+            dispatch('signup').then(() => {
+              Promise.delay(2000).then(() => {
+                window.location = '/';
               });
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            handleError(dispatch, err, 'Loading account failed');
-            return  reject(err);
-          });
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading account failed');
+          return reject(err);
+        });
     }),
   refresh_inc_fights: (
     { commit, dispatch }) =>
     new Promise((resolve, reject) => {
-        const [token,auth] = authType()
-        client
-          .requestAsync('get_inc_fights', { token,auth})
-          .then(fights => {
-            commit('saveFights', fights);
-           return resolve(fights);
-          })
-          .catch(err => {
-            console.log(err);
-            handleError(dispatch, err, 'Loading account failed');
-            return reject(err);
-          });
+      const token = authToken()
+      client
+        .requestAsync('get_inc_fights', { token })
+        .then(fights => {
+          commit('saveFights', fights);
+          return resolve(fights);
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading account failed');
+          return reject(err);
+        });
     }),
   refresh_sent_fights: (
     { commit, dispatch }) =>
     new Promise((resolve, reject) => {
-        const [token,auth] = authType()
-        client
-          .requestAsync('get_sent_fights', { token , auth})
-          .then(fights => {
-            commit('saveSentFights', fights);
-            return resolve();
-          })
-          .catch(err => {
-            console.log(err);
-            handleError(dispatch, err, 'Loading sent fights failed');
-            return reject(err);
-          });
+      const token = authToken()
+      client
+        .requestAsync('get_sent_fights', { token, auth })
+        .then(fights => {
+          commit('saveSentFights', fights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent fights failed');
+          return reject(err);
+        });
     }),
   signup: ({ rootState, dispatch }) =>
     new Promise((resolve, reject) => {
@@ -372,29 +362,29 @@ const actions = {
     const { username } = rootState.auth;
     if (window.steem_keychain != null) {
       steem_keychain.requestTransfer(username, dealerSteemUsername, amount, memo, 'STEEM', function (response) {
-          if (response.success) {
-              console.log('success')
-              Promise.delay(1000).then(() => {
-                dispatch('init');
-              });
-          }
-          else{
-            console.log('failed')
-          }
-        })
-      }
-      else{
-        const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
-        const win = window.open(
-          url.split('+').join('_'),
-          '_blank',
-          'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
-        );
-        win.focus();
-        Promise.delay(15000).then(() => {
-          dispatch('init');
-        });
-      }
+        if (response.success) {
+          console.log('success')
+          Promise.delay(1000).then(() => {
+            dispatch('init');
+          });
+        }
+        else {
+          console.log('failed')
+        }
+      })
+    }
+    else {
+      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
+      const win = window.open(
+        url.split('+').join('_'),
+        '_blank',
+        'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+      );
+      win.focus();
+      Promise.delay(15000).then(() => {
+        dispatch('init');
+      });
+    }
   },
 };
 

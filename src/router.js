@@ -5,8 +5,6 @@ import { isWeb } from '@/helpers/utils';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
-const AuthCallback = () =>
-  import(/* webpackChunkName: "authcallback" */ '@/views/AuthCallback.vue');
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Missions/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
@@ -321,14 +319,6 @@ export default new Router({
       path: '/callback',
       name: 'callback',
       component: Callback,
-      meta: {
-        hideSidebar: true,
-      },
-    },
-    {
-      path: '/authcallback',
-      name: 'authcallback',
-      component: AuthCallback,
       meta: {
         hideSidebar: true,
       },

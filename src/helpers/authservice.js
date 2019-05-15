@@ -2,7 +2,7 @@ import auth0 from "auth0-js";
 import { EventEmitter } from "events";
 import authConfig from "../../auth_config.json";
 const ID_TOKEN_KEY = 'id_token';
-const ACCESS_TOKEN_KEY = 'social_access_token';
+const ACCESS_TOKEN_KEY = 'access_token';
 const webAuth = new auth0.WebAuth({
   domain: authConfig.domain,
   redirectUri: `${window.location.origin}/authcallback`,

@@ -7,23 +7,28 @@ import { mapActions } from 'vuex';
 
 export default {
   data() {
-    return {
+  return {
       accessToken: this.$route.query.access_token,
       error: null,
     };
   },
-  methods: mapActions(['showLoading', 'hideLoading', 'login']),
+  methods: {
+    handleLoginEvent(data) {
+      if (!data.error) {
+        this.$router.push(data.state.target || "/");
+      }
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$auth.setAccessToken();
+      this.$auth.setIdToken();
+      window.location.href = '/';
+    });
+  },
   created() {
-    this.showLoading();
-    this.login(this.accessToken)
-      .then(() => {
-        localStorage.setItem('drugwars_token', this.accessToken);
-        localStorage.setItem('auth', 'sc');
-        window.location = '/';
-      })
-      .catch(e => {
-        console.error('Your access token is not valid', e);
-      });
+    if(!this.$auth.isAuthenticated())
+    this.$auth.handleAuthentication();
   },
 };
 </script>

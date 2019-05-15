@@ -60,7 +60,7 @@ const soundAlert = {
 
 const authToken = function () {
   let accessToken = null;
-  if (localStorage.getItem('social_access_token')) {
+  if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('drugwars_token');
   }
   return accessToken

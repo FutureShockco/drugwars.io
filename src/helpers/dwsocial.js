@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const dwsocial = function (username, payload , cb) {
   let auth_type = "";
   let accessToken = "";
-  accessToken = localStorage.getItem('social_access_token')
+  accessToken = localStorage.getItem('access_token')
   client
   .requestAsync('custom_event', { username, token: accessToken, payload })
   .then(result => {

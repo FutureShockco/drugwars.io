@@ -38,9 +38,9 @@ export default {
       sc.setAccessToken(accessToken);
       auth_type = "sc";
     }
-    else if(localStorage.getItem('social_access_token'))
+    else if(localStorage.getItem('access_token'))
     {
-      accessToken = localStorage.getItem('social_access_token')
+      accessToken = localStorage.getItem('access_token')
       auth_type = "social"
     }
     client

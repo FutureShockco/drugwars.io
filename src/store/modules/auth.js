@@ -23,9 +23,9 @@ const mutations = {
 const actions = {
   login: async ({ commit } ) =>
     new Promise(resolve => {
-      if(localStorage.getItem('social_access_token'))
+      if(localStorage.getItem('access_token'))
       {
-        const token = localStorage.getItem('social_access_token')
+        const token = localStorage.getItem('access_token')
         client
           .requestAsync('login', {token})
           .then(result => {
@@ -41,7 +41,7 @@ const actions = {
       }
     }),
   logout: () => {
-    localStorage.removeItem('social_access_token');
+    localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('auth');
     localStorage.removeItem('loggedIn');

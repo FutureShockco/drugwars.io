@@ -4,7 +4,7 @@
     <div class="p-4 text-center">
       <div>
         <img src="/img/icons/future.png"/>
-        <h3 class="mb-4">You have <b>{{ user.future }} FUTURE</b> in-game token(s)</h3>
+        <h3 class="mb-4">You have <b>{{ user.future }} FUTURE</b> token(s) in-game </h3>
         <div class="mb-4 text-left">
           <h4>To withdraw FUTURE token on a secured wallet, you need to carefully follow these steps:</h4>
           <p>

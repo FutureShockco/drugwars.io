@@ -1,10 +1,11 @@
 import Vue from 'vue';
-import sc from '@/helpers/steemconnect';
 import client from '@/helpers/client';
+import dsteem from '@/helpers/dsteem';
 
 const state = {
   username: null,
   account: null,
+  auth_type: null,
 };
 
 const mutations = {
@@ -18,29 +19,40 @@ const mutations = {
     Vue.set(_state, 'username', null);
   },
 };
+async function loadaccount(commit, username) {
+  const account = await dsteem.database.getAccounts([username]);
+  commit('saveAccount', account[0]);
+}
 
 const actions = {
-  login: async ({ commit }, accessToken = localStorage.getItem('drugwars_token')) =>
+  login: async ({ commit }) =>
     new Promise(resolve => {
-      if (accessToken) {
-        sc.setAccessToken(accessToken);
+      if (localStorage.getItem('access_token')) {
+        const token = localStorage.getItem('access_token');
         client
-          .requestAsync('login', accessToken)
+          .requestAsync('login', { token })
           .then(result => {
-            localStorage.setItem('drugwars_token', accessToken);
             commit('saveUsername', result.name);
-            commit('saveAccount', result.account);
-            resolve(result);
-          })
-          .catch(() => {
+            loadaccount(commit, result.name);
             resolve();
+          })
+          .catch(e => {
+            console.log(e);
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('id_token');
+            localStorage.removeItem('loggedIn');
+            window.location = '/';
+            resolve(e);
           });
       } else {
         resolve();
       }
     }),
+
   logout: () => {
-    localStorage.removeItem('drugwars_token');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('loggedIn');
     window.location = '/';
   },
 };

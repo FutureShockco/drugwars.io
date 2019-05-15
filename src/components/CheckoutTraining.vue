@@ -16,7 +16,7 @@
     </button>
 
     <div class="mb-2">Instant upgrade</div>
-    <button
+    <button v-if="steemAccount"
       :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
@@ -63,13 +63,17 @@ export default {
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      else return false;
+    },
     priceInFuture() {
       return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
     },
     notEnoughFuture() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future - this.$store.state.game.user.user.future_pending
+        this.$store.state.game.user.user.future
       );
     },
     timeToWait() {

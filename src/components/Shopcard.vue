@@ -14,34 +14,100 @@
       {{ item.type }}
     </div>
         {{item.detail}}
-        <button
+        <button v-if="steemAccount"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2 mt-2">
       <i class="iconfont icon-zap"/>
       ${{ item.price | amount }} -
       {{ priceInSteem | amount }} STEEM
     </button>
+    <h3 class="mt-0 mb-0" v-else> ${{ item.price | amount }}</h3>
+         <PayPal
+          :amount="item.price"
+          currency="USD"
+          :client="credentials"
+          env="production"
+          v-on:payment-authorized="paymentAuthorized"
+          v-on:payment-completed="paymentCompleted"
+          v-on:payment-cancelled="paymentCancelled"
+   >
+</PayPal>
         </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import PayPal from 'vue-paypal-checkout';
+import { fail } from 'assert';
 
 export default {
   props: ['item'],
+  data() {
+    return {
+      credentials: {
+        sandbox: 'AXUvDP_wEMVrtader-5IcAqlYIMJO4b2ivulbLCLCUfJp7pPFBnfgx_SgY2yrhmQRmzlkNMxxa99XVYJ',
+        production:
+          'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
+      },
+      experienceOptions: {
+        input_fields: {
+          no_shipping: 1,
+        },
+      },
+    };
+  },
   computed: {
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      else return false;
+    },
+  },
+  components: {
+    PayPal,
   },
   methods: {
-    ...mapActions(['requestPayment']),
+    ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
         memo: `shop:${this.item.ref},amount:${this.item.quantity}`,
         amount: `${this.priceInSteem} STEEM`,
       });
+    },
+    paymentAuthorized(data) {
+      console.log(data.orderID);
+      this.handleSubmit(data.orderID);
+    },
+    paymentCompleted(data) {
+      console.log(data);
+    },
+    paymentCancelled(data) {
+      console.log(data);
+    },
+    handleSubmit(orderID) {
+      const payload = {
+        id: orderID,
+        type: 'paypal-shop',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.notify({
+              type: 'success',
+              message: result,
+            });
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: `Failed to widthraw ${payload.amount} FUTURE` });
+          console.error(`Failed to widthraw ${payload.amount} FUTURE`, e);
+          this.isLoading = false;
+        });
     },
   },
 };

@@ -19,7 +19,7 @@
 }
 
 .sidebars {
-    pointer-events: none;
+  pointer-events: none;
 
   z-index: 9;
   left: 0;

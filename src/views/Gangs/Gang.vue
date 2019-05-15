@@ -150,10 +150,7 @@ export default {
       this.send(payload)
         .then(() => {
           this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: 'Your candidature has been successfully sent',
-          });
+
           this.resetForm();
         })
         .catch(e => {
@@ -174,10 +171,6 @@ export default {
       this.send(payload)
         .then(() => {
           this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: `The soldier ${soldier} joined your gang`,
-          });
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to approve soldier' });
@@ -197,10 +190,6 @@ export default {
       this.send(payload)
         .then(() => {
           this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: `The candidate ${soldier} has been rejected`,
-          });
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to reject candidate' });
@@ -220,10 +209,6 @@ export default {
       this.send(payload)
         .then(() => {
           this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: `The member ${soldier} has been kicked`,
-          });
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to kick member' });
@@ -243,10 +228,6 @@ export default {
       this.send(payload)
         .then(() => {
           this.isLoading = false;
-          this.notify({
-            type: 'success',
-            message: `The soldier ${capo} has been promoted to capo`,
-          });
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to add capo' });

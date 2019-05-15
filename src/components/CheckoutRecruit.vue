@@ -2,27 +2,26 @@
   <div class="checkout mb-4">
     <div class="mb-2">
       <i class="iconfont icon-clock mr-2"/>
-      {{ inProgress ? timeToWait : (updateTime) | ms }}
+      {{ pendingAmount ? timeToWait : (updateTime) | ms }}
     </div>
 
     <button
-      :class="{ progress: inProgress }"
-      :disabled="isLoading || waitingConfirmation || inProgress || notEnough"
+      :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough"
       @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
-      <template v-if="isLoading || waitingConfirmation">
-        <Loading/>
-      </template>
-      <template v-else>
+
+      <template>
         <i class="iconfont icon-person"/>
-        {{ inProgress ? 'Recruiting' : notEnough ? 'Miss resources' : 'Recruit' }} <span v-if="pendingAmount">{{pendingAmount}}</span>
+        <span v-if="!isLoading && pendingAmount === 0">
+                {{ notEnough ? 'Miss resources' : 'Recruit' }}  </span>
+     <span v-if="pendingAmount >0">Recruiting {{pendingAmount}}</span> <div v-else-if="isLoading"><div class="pt-2"><Loading/></div></div>
       </template>
     </button>
 
     <div class="mb-2">Instant recruit</div>
     <button
-      :disabled="isLoading || waitingConfirmation"
+      :disabled="isLoading" v-if="steemAccount"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -31,7 +30,7 @@
       {{ priceInSteem | amount }} STEEM
     </button> 
     <button
-      :disabled="isLoading || waitingConfirmation ||  notEnoughFuture"
+      :disabled="isLoading || notEnoughFuture ||pendingAmount >0"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >
@@ -51,21 +50,17 @@ export default {
   data() {
     return {
       isLoading: false,
-      waitingConfirmation: false,
     };
-  },
-  watch: {
-    inProgress(val) {
-      if (val) {
-        this.waitingConfirmation = false;
-      }
-    },
   },
   computed: {
     updateTime() {
       // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
       return (this.coeff * 200 - (this.coeff * 240 * this.level) / 100) * (this.quantity * 1000);
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      else return false;
     },
     pendingAmount() {
       if (this.$store.state.game.user.units.find(b => b.unit === this.id))
@@ -83,7 +78,7 @@ export default {
     notEnoughFuture() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future - this.$store.state.game.user.user.future_pending
+        this.$store.state.game.user.user.future
       );
     },
     timeToWait() {
@@ -116,7 +111,6 @@ export default {
         }
         this.recruitUnit(payload)
           .then(() => {
-            this.waitingConfirmation = true;
             this.isLoading = false;
           })
           .catch(e => {

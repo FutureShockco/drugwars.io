@@ -13,18 +13,11 @@ function jsonParse(input) {
 const getBalances = (user, ocLvl) => {
   const now = new Date();
   const time = (now.getTime() - new Date(user.last_update).getTime()) / 1000;
-  let drugs =
-    user.drugs_balance +
-    Number(parseFloat(time * user.drug_production_rate).toFixed(2)) -
-    user.drugs_pending;
+  let drugs = user.drugs_balance + Number(parseFloat(time * user.drug_production_rate).toFixed(2));
   let weapons =
-    user.weapons_balance +
-    Number(parseFloat(time * user.weapon_production_rate).toFixed(2)) -
-    user.weapons_pending;
+    user.weapons_balance + Number(parseFloat(time * user.weapon_production_rate).toFixed(2));
   let alcohols =
-    user.alcohols_balance +
-    Number(parseFloat(time * user.alcohol_production_rate).toFixed(2)) -
-    user.alcohols_pending;
+    user.alcohols_balance + Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
   if (ocLvl > 0) {
     drugs += Number(parseFloat(time * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005));
     weapons += Number(parseFloat(time * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005));
@@ -48,53 +41,53 @@ const unitValues = (unit, trainings) => {
   const protection = trainings.find(b => b.training === 'protection');
   const giant = trainings.find(b => b.training === 'giant');
   if (protection) unit.defense = defense + (unit.defense / 200) * protection.lvl;
-  if (giant) unit.health = health + (unit.health / 200) * giant.lvl;
+  if (giant) unit.health = health + (unit.health / 200) * giant.lvl; // eslint-disable-line no-param-reassign
   if (unit.type === 'Melee') {
     const closecombat = trainings.find(b => b.training === 'closecombat');
-    if (closecombat) attack += (unit.attack / 100) * closecombat.lvl;
+    if (closecombat) attack += (unit.attack / 100) * closecombat.lvl; // eslint-disable-line no-param-reassign
   } else {
     const firearms = trainings.find(b => b.training === 'firearms');
     if (firearms) {
-      attack += (unit.attack / 100) * firearms.lvl;
+      attack += (unit.attack / 100) * firearms.lvl; // eslint-disable-line no-param-reassign
     }
   }
 
   // HOBO
   if (unit.id === 'hobo') {
     const kamikaze = trainings.find(b => b.training === 'spiritwine');
-    if (kamikaze) attack += (unit.attack / 100) * kamikaze.lvl;
+    if (kamikaze) attack += (unit.attack / 100) * kamikaze.lvl; // eslint-disable-line no-param-reassign
   }
 
   // SNIPER
   if (unit.id === 'sniper') {
     const sniping = trainings.find(b => b.training === 'sniping');
-    if (sniping) attack += (unit.attack / 100) * sniping.lvl;
+    if (sniping) attack += (unit.attack / 100) * sniping.lvl; // eslint-disable-line no-param-reassign
   }
 
   // BAZOOKA
   if (unit.id === 'bazooka') {
     const bomb = trainings.find(b => b.training === 'bomb');
-    if (bomb) attack += (unit.attack / 100) * bomb.lvl;
+    if (bomb) attack += (unit.attack / 100) * bomb.lvl; // eslint-disable-line no-param-reassign
   }
 
   // WEAPON
   if (unit.id === 'rowdy' || unit.id === 'sniper' || unit.id === 'hitman') {
     const firearms = trainings.find(b => b.training === 'weapon');
     if (firearms) {
-      attack += (unit.attack / 100) * firearms.lvl;
+      attack += (unit.attack / 100) * firearms.lvl; // eslint-disable-line no-param-reassign
     }
   }
 
   // FIRE
   if (unit.id === 'bazooka' || unit.id === 'gunman') {
     const fire = trainings.find(b => b.training === 'fire');
-    if (fire) attack += (unit.attack / 100) * fire.lvl;
+    if (fire) attack += (unit.attack / 100) * fire.lvl; // eslint-disable-line no-param-reassign
   }
 
   // CHEMICAL
   if (unit.id === 'mercenary' || unit.id === 'knifer') {
     const chemical = trainings.find(b => b.training === 'chemical');
-    if (chemical) attack += (unit.attack / 100) * chemical.lvl;
+    if (chemical) attack += (unit.attack / 100) * chemical.lvl; // eslint-disable-line no-param-reassign
   }
 
   // ELITE
@@ -106,8 +99,8 @@ const unitValues = (unit, trainings) => {
   ) {
     const psychological = trainings.find(b => b.training === 'psychological');
     if (psychological) {
-      attack += (unit.attack / 200) * psychological.lvl;
-      defense += (unit.defense / 200) * psychological.lvl;
+      attack += (unit.attack / 200) * psychological.lvl; // eslint-disable-line no-param-reassign
+      defense += (unit.defense / 200) * psychological.lvl; // eslint-disable-line no-param-reassign
     }
   }
   const values = {

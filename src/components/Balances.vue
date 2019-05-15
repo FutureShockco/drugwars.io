@@ -55,14 +55,11 @@
             <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
-     <li>
-      <Icon name="steem" size="36"/>
+     <li v-if="this.$store.state.auth.account">
+      <Icon  name="steem" size="36"/>
         <div class="balance">
-        <div>{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
-         <div class="detail"> DAILY: <span class="detail text-green">
-        {{ parseFloat(totalRewards.daily / futureToSteem).toFixed(3)}} STEEM</span></div>
-                 <div class="detail"> HEIST: <span class="detail text-green">
-        {{ parseFloat(ownHeistReward.amount/ futureToSteem).toFixed(3)}} STEEM</span></div>
+        <div >{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
+          <div >{{ sbdBalance | amount}} <span class="mini"> SBD</span></div>
          </div>
     </li>
   </ul>
@@ -142,10 +139,12 @@ export default {
       };
     },
     steemBalance() {
-      return parseFloat(this.$store.state.auth.account.balance).toFixed(3);
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
     },
     sbdBalance() {
-      return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3);
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
     },
     futureBalance() {
       return parseFloat(this.$store.state.game.user.future).toFixed(3);

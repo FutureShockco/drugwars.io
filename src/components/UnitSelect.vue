@@ -1,5 +1,5 @@
 <template>
-  <div class="column col-4 mb-6 sunit">
+  <div class="column px-0 col-4 mb-6 sunit">
     <div class="sunit"  @click="handleClick">
     <img class="mini rounded-2" :src="`/img/units/${unit.id}.jpg`" />
     <i class="iconfont icon-plus"></i>

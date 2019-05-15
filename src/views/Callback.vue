@@ -12,16 +12,22 @@ export default {
       error: null,
     };
   },
-  methods: mapActions(['showLoading', 'hideLoading', 'login']),
+  methods: {
+    handleLoginEvent(data) {
+      if (!data.error) {
+        this.$router.push(data.state.target || '/');
+      }
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$auth.setAccessToken();
+      this.$auth.setIdToken();
+      window.location.href = '/';
+    });
+  },
   created() {
-    this.showLoading();
-    this.login(this.accessToken)
-      .then(() => {
-        window.location = '/';
-      })
-      .catch(e => {
-        console.error('Your access token is not valid', e);
-      });
+    if (!this.$auth.isAuthenticated()) this.$auth.handleAuthentication();
   },
 };
 </script>

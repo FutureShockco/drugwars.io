@@ -13,7 +13,6 @@
         v-for="target in targets"
       />
     </div>
-    {{ownUnits}}
   </div>
 </template>
 
@@ -31,9 +30,9 @@ export default {
   mounted() {
     this.isLoading = true;
     const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
-
+    const accessToken = localStorage.getItem('access_token');
     client
-      .requestAsync('get_users', { maxDrugProductionRate })
+      .requestAsync('get_users', { token: accessToken, maxDrugProductionRate })
       .then(users => {
         this.targets = users;
         this.isLoading = false;

@@ -188,7 +188,9 @@ export default {
   font-family: @heading-font;
   text-align: left !important;
   li {
-    padding: 15px 5px 0px 5px;
+    padding: 0px;
+    margin-top: 10px;
+    margin-left: 5px;
     border-left: 1px rgb(10, 10, 10) solid;
     border-right: 1px rgb(10, 10, 10) solid;
 
@@ -235,6 +237,7 @@ export default {
     line-height: 12px !important;
     li {
       padding: 5px;
+      padding-top: 0px;
       border-left: 1px rgb(10, 10, 10) solid;
       border-right: 1px rgb(10, 10, 10) solid;
       .balance {
@@ -277,7 +280,9 @@ export default {
     margin-top: 14px !important;
     line-height: 16px !important;
     li {
-      padding: 15px;
+      padding: 0px;
+      margin-top: 15px;
+      margin-left: 5px;
       border-left: 1px rgb(10, 10, 10) solid;
       border-right: 1px rgb(10, 10, 10) solid;
       .balance {

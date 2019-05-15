@@ -60,7 +60,7 @@ export default {
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
-      else return false;
+      return false;
     },
     pendingAmount() {
       if (this.$store.state.game.user.units.find(b => b.unit === this.id))

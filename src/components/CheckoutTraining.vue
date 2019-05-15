@@ -65,7 +65,7 @@ export default {
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
-      else return false;
+      return false;
     },
     priceInFuture() {
       return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);

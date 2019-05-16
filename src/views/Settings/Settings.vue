@@ -62,7 +62,7 @@ export default {
       if (!this.picture) this.picture = this.user.picture;
       const payload = {
         nickname: nick,
-        picture: this.picture.trim().toLowerCase(),
+        picture: this.picture.trim(),
         type: 'edit-profile',
       };
       this.send(payload)

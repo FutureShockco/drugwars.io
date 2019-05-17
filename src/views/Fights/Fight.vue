@@ -9,39 +9,38 @@
                         <UnitSelect :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
                     </div>
                 </div>
-                 <div class="mt-6 text-left align-left">
-                         <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
+                <div class="column pl-0 mt-6 col-6 text-left width-full">
+                  <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
                           <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
                          <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
-                  <button class="button button-blue" @click="loadCombination(combination.set)">load {{combination.name}}</button>
                   <button class="button button-red" @click="deleteCombination(combination.name)">delete squad</button>
+                  <button class="button button-blue ml-2" @click="loadCombination(combination.set)">load {{combination.name}}</button>
                 </div>
-                        </div>
-               
+                </div>
             </div>
     
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <div>
                     <div class="mb-4">
-                        <h3>Your selected army</h3>
+                        <h3 class="mb-2">Your selected army</h3>
                         <ArmyToSend :units="selectedUnits" />
                     </div>
 
                 </div>
-                <div class="mb-4 form width-full">
+                <div class="mb-0 form width-full">
                     <div v-if="selectedUnits.length === 0">
                         <p>You need to select at least 1 unit.</p>
                     </div>
                     <div v-else>
-                        <button class="button button-blue" @click="removeUnits()">Remove all</button>
                         <h3>Offensive Power : {{offensivePower}}%</h3>
+                        <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                     </div>
                 </div>
-                <h3>Select your target user</h3>
-                <input class="input form-control btn-block mb-6" placeholder="username" v-model="target">
+                <h3 >Select your target user</h3>
+                <input class="input form-control btn-block mb-4" placeholder="username" v-model="target">
                 <h3>Add a fight message*</h3>
                 <div>* optional</div>
-                <input class="input form-control btn-block mb-6" placeholder="I'm coming for you" v-model="message" maxlength="280">
+                <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
                 <button :disabled="selectedUnits.length === 0 || !target || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
                 <Loading v-if="isLoading"/>
                 <span v-else>Attack</span>
@@ -58,7 +57,7 @@
             <div v-else>
                 <p>You don't have any unit to fight.</p>
             </div>
-    
+
         </div>
     </div>
 </template>
@@ -264,7 +263,15 @@ export default {
     loadCombination(combination) {
       const combinationtoload = [];
       combination.forEach(unit => {
-        combinationtoload.push(unit);
+        if(this.ownUnits.find(lunit => lunit.key === unit.key) && unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount )
+        {
+          combinationtoload.push(unit);
+        }
+        else{
+          if(this.ownUnits.find(lunit => lunit.key === unit.key))
+          unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount
+          combinationtoload.push(unit);
+        }
       });
       this.selectedUnits = combinationtoload;
     },

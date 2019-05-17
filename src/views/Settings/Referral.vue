@@ -16,6 +16,9 @@
             <span class="text-green" v-if="getReferralRewardsFuture(referral.drug_production_rate) > 0">
               +{{ getReferralRewardsFuture(referral.drug_production_rate) }} FUTURE
             </span>
+            <span class="text-red" v-else>
+              Not enough drug production
+            </span>
           </p>
         </div>
       </div>
@@ -47,14 +50,14 @@ export default {
       const totalDailySteem =
         (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
       const referralRewards =
-        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 5;
+        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 15;
       return referralRewards.toFixed(3);
     },
     getReferralRewardsFuture(drugProductionRate) {
       const totalDailySteem =
         (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
       const referralRewards =
-        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 5;
+        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 15;
       return Math.round(referralRewards/0.005);
     },
   },

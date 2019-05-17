@@ -138,7 +138,7 @@ export default {
       const isValid = await this.validateForm();
 
       if (isValid) {
-                    this.resetForm();
+        this.resetForm();
         this.startFight(payload)
           .then(() => {
             this.isLoading = false;

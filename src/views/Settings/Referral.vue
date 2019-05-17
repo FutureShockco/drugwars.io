@@ -2,7 +2,7 @@
   <div>
     <SettingsTabs/>
     <div class="p-4">
-      <p>Invite your friends! Use the link below and obtain 5% bonus on their STEEM rewards.</p>
+      <p>Invite your friends! Use the link below and obtain 15% bonus on their FUTURE rewards.</p>
       <div class="link mb-4">
         <a :href="url" target="_blank">
           {{ url }}
@@ -13,8 +13,8 @@
         <div :key="key" v-for="(referral, key) in referrals">
           <p>
             {{ referral.username }}
-            <span class="text-green" v-if="getReferralRewards(referral.drug_production_rate) > 0">
-              +{{ getReferralRewards(referral.drug_production_rate) }} STEEM
+            <span class="text-green" v-if="getReferralRewardsFuture(referral.drug_production_rate) > 0">
+              +{{ getReferralRewardsFuture(referral.drug_production_rate) }} FUTURE
             </span>
           </p>
         </div>
@@ -49,6 +49,13 @@ export default {
       const referralRewards =
         (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 5;
       return referralRewards.toFixed(3);
+    },
+    getReferralRewardsFuture(drugProductionRate) {
+      const totalDailySteem =
+        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+      const referralRewards =
+        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) * 5;
+      return Math.round(referralRewards/0.005);
     },
   },
 };

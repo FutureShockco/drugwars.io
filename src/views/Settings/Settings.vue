@@ -8,7 +8,7 @@
                 <p>Nickname</p>
                 <input class="input input-primary mb-2" v-model="nickname" maxlength="32" :placeholder="user.nickname" v-lowercase />
                 <p>Profile picture</p>
-                <input class="input input-primary mb-4" v-model="picture" type="url" :placeholder="user.picture" v-lowercase />
+                <input class="input input-primary mb-4" v-model="picture" type="url" :placeholder="user.picture" />
                 <button class="button input-block button-large button-green mb-2" type="submit" :disabled="isLoading">   
                         <Loading v-if="isLoading"/>    
                         <span v-else>Edit</span>   

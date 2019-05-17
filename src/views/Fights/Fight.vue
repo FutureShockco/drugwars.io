@@ -118,7 +118,6 @@ export default {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
-      this.combination_name = null;
     },
     removeUnits() {
       this.selectedUnits = [];
@@ -139,10 +138,11 @@ export default {
       const isValid = await this.validateForm();
 
       if (isValid) {
+                    this.resetForm();
         this.startFight(payload)
           .then(() => {
             this.isLoading = false;
-            this.$router.push({ path: '/fight/outgoing' });
+
           })
           .catch(e => {
             console.error('Failed to start a fight=', e);

@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-			fights: this.$store.state.game.sent_fights,
+			fights: this.$store.state.game.inc_fights,
       self: null,
       inc: this.$store.state.game.user.total_received[0].total_received || 0,
     };

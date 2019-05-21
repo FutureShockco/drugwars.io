@@ -185,11 +185,14 @@ const actions = {
           });
       }
     }),
-  refresh_inc_fights: ({ commit, dispatch }) =>
+  refresh_inc_fights: ({ commit, dispatch },start,end) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      const start = 0;
-      const end = 50;
+      if(!start||!end)
+      {
+        start=0
+        end = 50
+      }
       client
         .requestAsync('get_inc_fights', { token, start, end })
         .then(fights => {
@@ -202,11 +205,14 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_fights: ({ commit, dispatch }) =>
+  refresh_sent_fights: ({ commit, dispatch },start,end) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      const start = 0;
-      const end = 50;
+      if(!start||!end)
+      {
+        start=0
+        end = 50
+      }
       client
         .requestAsync('get_sent_fights', { token, start, end })
         .then(fights => {

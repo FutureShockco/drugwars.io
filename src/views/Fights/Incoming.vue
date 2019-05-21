@@ -33,6 +33,7 @@
 <script>
 import { mapActions } from 'vuex';
 import Paginate from 'vuejs-paginate';
+import client from '@/helpers/client';
 import store from '@/store';
 
 export default {
@@ -44,17 +45,13 @@ export default {
   },
   data() {
     return {
+			fights: this.$store.state.game.sent_fights,
       self: null,
       inc: this.$store.state.game.user.total_received[0].total_received || 0,
     };
   },
-  computed: {
-    fights() {
-      return this.$store.state.game.inc_fights;
-    },
-  },
   methods: {
-    ...mapActions(['init', 'notify']),
+    ...mapActions(['init', 'notify','refresh_inc_fights']),
     load_fights(start) {
       const token = localStorage.getItem('access_token');
       let end = 50;
@@ -65,7 +62,15 @@ export default {
         .requestAsync('get_inc_fights', { token, start, end })
         .then(result => {
           self.fights = [];
-          self.fights = result;
+					self.fights = result;
+					this.refresh_inc_fights(start,end)
+          .then(() => {
+            this.isLoading = false;
+          })
+          .catch(e => {
+            console.error('Failed', e);
+            this.isLoading = false;
+          });
         })
         .catch(err => {
           console.log(err);

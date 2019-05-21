@@ -193,9 +193,9 @@ p {
 }
 
 .result {
-  font-size: 28px;
-  padding: 10px;
-  height: 50px;
+  font-size: 24px;
+  padding: 5px;
+  height: 40px;
   background-size: cover !important;
 }
 

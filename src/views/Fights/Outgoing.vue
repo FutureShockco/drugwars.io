@@ -14,7 +14,7 @@
 		></Paginate>
 		<div class="p-4">
 			<FightsFight class="fight" v-for="fight in fights" :key="fight.fight_key" :fight="fight"/>
-			<p v-if="!fights.length"><Loading/></p>
+			<p v-if="!fights || !fights.length"><Loading/></p>
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
@@ -40,41 +40,31 @@ export default {
   components: {
     Paginate,
   },
-  created() {
-    store.dispatch('refresh_sent_fights');
-  },
+  created() {},
   data() {
     return {
-			fights: this.$store.state.game.sent_fights,
-      self: null,
       sent: this.$store.state.game.user.total_sent[0].total_sent || 0,
     };
   },
+  computed: {
+    fights() {
+      return this.$store.state.game.sent_fights;
+    },
+  },
   methods: {
-    ...mapActions(['init', 'notify','refresh_sent_fights']),
+    ...mapActions(['init', 'notify', 'refresh_sent_fights']),
     load_fights(start) {
       const token = localStorage.getItem('access_token');
       let end = 50;
-      const self = this;
       end = start * 50;
       start = end - 50; // eslint-disable-line no-param-reassign
-      client
-        .requestAsync('get_sent_fights', { token, start, end })
-        .then(result => {
-          self.fights = [];
-					self.fights = result;
-					this.refresh_sent_fights(start,end)
-          .then(() => {
-            this.isLoading = false;
-          })
-          .catch(e => {
-            console.error('Failed', e);
-            this.isLoading = false;
-          });
+      this.refresh_sent_fights({ start, end })
+        .then(() => {
+          this.isLoading = false;
         })
-        .catch(err => {
-          console.log(err);
-          console.error('Failed to get fights', err);
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
         });
     },
   },

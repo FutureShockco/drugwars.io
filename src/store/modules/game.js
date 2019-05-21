@@ -185,13 +185,15 @@ const actions = {
           });
       }
     }),
-  refresh_inc_fights: ({ commit, dispatch },start,end) =>
+  refresh_inc_fights: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      if(!start||!end)
-      {
-        start=0
-        end = 50
+      commit('saveFights', []);
+      let start = 0;
+      let end = 50;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
       }
       client
         .requestAsync('get_inc_fights', { token, start, end })
@@ -205,13 +207,15 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_fights: ({ commit, dispatch },start,end) =>
+  refresh_sent_fights: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      if(!start||!end)
-      {
-        start=0
-        end = 50
+      commit('saveSentFights', []);
+      let start = 0;
+      let end = 50;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
       }
       client
         .requestAsync('get_sent_fights', { token, start, end })
@@ -335,8 +339,8 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
-    }),
+      });
+    }).catch(e => reject(e)),
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
       sc.broadcast(post, (err, result) => {

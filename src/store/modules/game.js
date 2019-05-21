@@ -5,7 +5,6 @@ import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
 import CryptoJS from 'crypto-js';
-import auth from '@/helpers/authservice';
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -186,12 +185,13 @@ const actions = {
           });
       }
     }),
-
   refresh_inc_fights: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
+      const start = 0;
+      const end = 50;
       client
-        .requestAsync('get_inc_fights', { token })
+        .requestAsync('get_inc_fights', { token, start, end })
         .then(fights => {
           commit('saveFights', fights);
           return resolve(fights);
@@ -205,8 +205,10 @@ const actions = {
   refresh_sent_fights: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
+      const start = 0;
+      const end = 50;
       client
-        .requestAsync('get_sent_fights', { token, auth })
+        .requestAsync('get_sent_fights', { token, start, end })
         .then(fights => {
           commit('saveSentFights', fights);
           return resolve();
@@ -217,7 +219,7 @@ const actions = {
           return reject(err);
         });
     }),
-  signup: ({ rootState, dispatch }) =>
+  signup: ({ rootState }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {};
@@ -237,7 +239,7 @@ const actions = {
         return resolve();
       }).catch(e => reject(e));
     }),
-  upgradeBuilding: ({ rootState, dispatch }, payload) =>
+  upgradeBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
@@ -255,7 +257,7 @@ const actions = {
         return resolve();
       }).catch(e => reject(e));
     }),
-  upgradeTraining: ({ rootState, dispatch }, payload) =>
+  upgradeTraining: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
@@ -273,7 +275,7 @@ const actions = {
         return resolve();
       }).catch(e => reject(e));
     }),
-  recruitUnit: ({ rootState, dispatch }, payload) =>
+  recruitUnit: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
@@ -291,7 +293,7 @@ const actions = {
         return resolve();
       }).catch(e => reject(e));
     }),
-  investHeist: ({ rootState, dispatch }, amount) =>
+  investHeist: ({ rootState }, amount) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       const payload = {
@@ -312,7 +314,7 @@ const actions = {
         return resolve();
       }).catch(e => reject(e));
     }),
-  startFight: ({ rootState, dispatch }, payload) =>
+  startFight: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign

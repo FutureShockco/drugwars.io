@@ -3,7 +3,7 @@
         <SettingsTabs/>
         <div class="p-4 text-center">
             <h2>Change your settings</h2>
-            <h5>Be carefull, you can not change your nickname more than one time per month</h5>
+            <h5>Be carefull, you can not change your nickname more than one time per month and/or 7 days after iniating one fight</h5>
             <form class="form container-xxs" @submit.prevent="handleSubmit">
                 <p>Nickname</p>
                 <input class="input input-primary mb-2" v-model="nickname" maxlength="32" :placeholder="user.nickname" v-lowercase />

@@ -95,7 +95,7 @@ export default {
   min-height: 99vh;
   margin-top: @header-height;
   transition: left 0.3s;
-  background: #000000b7;
+  background: #000000;
   @media @bp-small {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;

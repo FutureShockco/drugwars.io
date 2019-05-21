@@ -230,7 +230,6 @@ export default {
           this.isLoading = false;
         })
         .catch(e => {
-          this.notify({ type: 'error', message: 'Failed to add capo' });
           console.error('Failed to add capo', e);
           this.isLoading = false;
         });

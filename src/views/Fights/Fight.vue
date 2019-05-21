@@ -42,7 +42,7 @@
                 <div>* optional</div>
                 <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
                 <button :disabled="selectedUnits.length === 0 || !target || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
-                <Loading v-if="isLoading"/>
+                <div v-if="isLoading"></div>
                 <span v-else>Attack</span>
               </button>
                 <p class="text-red text-left" v-if="errorMessage">
@@ -142,7 +142,6 @@ export default {
         this.startFight(payload)
           .then(() => {
             this.isLoading = false;
-
           })
           .catch(e => {
             console.error('Failed to start a fight=', e);
@@ -235,6 +234,7 @@ export default {
       win.focus();
     },
     serialize(obj) {
+      /* eslint-disable */
       const str = [];
       for (const p in obj)
         if (obj.hasOwnProperty(p)) {
@@ -263,13 +263,14 @@ export default {
     loadCombination(combination) {
       const combinationtoload = [];
       combination.forEach(unit => {
-        if(this.ownUnits.find(lunit => lunit.key === unit.key) && unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount )
-        {
+        if (
+          this.ownUnits.find(lunit => lunit.key === unit.key) &&
+          unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
+        ) {
           combinationtoload.push(unit);
-        }
-        else{
-          if(this.ownUnits.find(lunit => lunit.key === unit.key))
-          unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount
+        } else {
+          if (this.ownUnits.find(lunit => lunit.key === unit.key))
+            unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
           combinationtoload.push(unit);
         }
       });
@@ -288,6 +289,7 @@ export default {
       }
       localStorage.setItem('fav_combi', JSON.stringify(favs));
       this.favoriteCombinations = favs;
+            /* eslint-enable */
     },
   },
 };

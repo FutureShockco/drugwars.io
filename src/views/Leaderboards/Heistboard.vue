@@ -1,7 +1,7 @@
 <template>
   <div>
     <LeaderboardsTabs/>
-    <div class="p-4" v-if="isLoading || users.length === 0">
+    <div class="p-4 text-center mt-6" v-if="isLoading || users.length === 0">
       <Loading/>
     </div>
     <div class="mb-4" v-else>

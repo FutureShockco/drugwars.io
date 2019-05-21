@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     init() {
+      /* eslint-disable */
       if (scene) clearScene();
       const self = this;
       this.showLoading = true;
@@ -619,6 +620,7 @@ export default {
       render();
       this.showLoading = false;
       // camera.lookAt(20,30,40);
+      /* eslint-enable */
     },
   },
   mounted() {

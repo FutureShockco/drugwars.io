@@ -141,10 +141,12 @@ export default {
     steemBalance() {
       if (this.$store.state.auth.account)
         return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
+      return 0;
     },
     sbdBalance() {
       if (this.$store.state.auth.account)
         return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
+      return 0;
     },
     futureBalance() {
       return parseFloat(this.$store.state.game.user.future).toFixed(3);

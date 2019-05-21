@@ -12,7 +12,7 @@ const webAuth = new auth0.WebAuth({
   scope: 'openid profile email',
   audience: 'https://api.drugwars.io',
 });
-
+/* eslint-disable */
 function getParameterByName(name) {
   const match = RegExp(`[#&]${name}=([^&]*)`).exec(window.location.hash);
   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -133,6 +133,7 @@ class AuthService extends EventEmitter {
     });
   }
 }
+/* eslint-enable */
 
 const service = new AuthService();
 

@@ -95,9 +95,9 @@ export default {
       if (this.website) settings.website = this.website;
       if (this.about) settings.about = this.about;
 
-      const payload = { gang: this.id, settings };
+      const payload = { gang: this.id, settings, type: 'gang-update' };
 
-      this.send({ type: 'gang-update', payload })
+      this.send(payload)
         .then(() => {
           this.isLoading = false;
           this.notify({
@@ -106,7 +106,6 @@ export default {
           });
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to update settings` });
           console.error('Failed to update settings', e);
           this.isLoading = false;
         });

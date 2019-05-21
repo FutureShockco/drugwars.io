@@ -48,22 +48,23 @@ export default {
     return {
       credentials: {
         sandbox: 'AXUvDP_wEMVrtader-5IcAqlYIMJO4b2ivulbLCLCUfJp7pPFBnfgx_SgY2yrhmQRmzlkNMxxa99XVYJ',
-        production:'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
+        production:
+          'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
       },
       experienceOptions: {
         input_fields: {
           no_shipping: 1,
         },
       },
-       myItems: [
+      myItems: [
         {
-          "name": "DW Shop",
-          "description": "FutureTokens.",
-          "quantity": 1,
-          "price": this.item.price,
-          "currency": "USD"
-          },
-      ]
+          name: 'DW Shop',
+          description: 'FutureTokens.',
+          quantity: 1,
+          price: this.item.price,
+          currency: 'USD',
+        },
+      ],
     };
   },
   computed: {
@@ -77,12 +78,15 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
-    uniqueId(){
-        return 'xxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    uniqueId() {
+      /* eslint-disable */
+      return 'xxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
       });
-    }
+       /* eslint-enable */
+    },
   },
   components: {
     PayPal,

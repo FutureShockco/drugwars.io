@@ -10,7 +10,7 @@
         {{ username }}
       </div>
     </div>
-    <div class="p-4">
+    <div class="p-4 text-center mt-6">
       <div v-if="isLoading">
         <Loading/>
       </div>

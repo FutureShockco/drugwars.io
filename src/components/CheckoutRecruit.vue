@@ -4,18 +4,19 @@
       <i class="iconfont icon-clock mr-2"/>
       {{ pendingAmount ? timeToWait : (updateTime) | ms }}
     </div>
-
     <button
-      :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough"
+      :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough || inProgress"
       @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
-
-      <template>
+        <template v-if="isLoading || waitingConfirmation">
+      <SmallLoading/>
+    </template>
+      <template v-else>
         <i class="iconfont icon-person"/>
         <span v-if="!isLoading && pendingAmount === 0">
                 {{ notEnough ? 'Miss resources' : 'Recruit' }}  </span>
-     <span v-if="pendingAmount >0">Recruiting {{pendingAmount}}</span> <div v-else-if="isLoading"><div class="pt-2"><Loading/></div></div>
+     <span v-if="pendingAmount >0">Recruiting {{pendingAmount}}</span> <div v-else-if="isLoading"><div class="pt-2">    <SmallLoading/></div></div>
       </template>
     </button>
 
@@ -50,7 +51,15 @@ export default {
   data() {
     return {
       isLoading: false,
+      waitingConfirmation: false,
     };
+  },
+  watch: {
+    inProgress(val) {
+      if (val) {
+        this.waitingConfirmation = false;
+      }
+    },
   },
   computed: {
     updateTime() {
@@ -101,8 +110,8 @@ export default {
   methods: {
     ...mapActions(['recruitUnit', 'requestPayment']),
     handleSubmit(use) {
+      this.isLoading = true;
       if (this.quantity > 0) {
-        this.isLoading = true;
         let payload = {};
         if (use === 'future')
           payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'future' };

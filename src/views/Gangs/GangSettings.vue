@@ -42,7 +42,7 @@
             <span v-if="!isLoading">
               Update
             </span>
-            <Loading v-else />
+            <SmallLoading v-else />
           </button>
         </form>
       </div>

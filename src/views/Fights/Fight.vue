@@ -42,7 +42,7 @@
                 <div>* optional</div>
                 <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
                 <button :disabled="selectedUnits.length === 0 || !target || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
-                <div v-if="isLoading"></div>
+                  <SmallLoading v-if="isLoading"/>
                 <span v-else>Attack</span>
               </button>
                 <p class="text-red text-left" v-if="errorMessage">
@@ -107,7 +107,7 @@ export default {
       this.selectedUnits.forEach(unit => {
         supply += units[unit.key].supply * unit.amount;
       });
-      const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      const power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
       if (power >= 60) return power;
       return 60;
     },

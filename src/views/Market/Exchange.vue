@@ -9,7 +9,7 @@
                 <label for="two"><Icon name="steem" size="18" class="icons mr-2"/>STEEM (Send automatically to your wallet)</label>
             </div>
             <div v-else>
-                <h5>At this moment the internal market is only available for Steem users. Please use the widthraw page to trade your FUTURE on Obyte or Cryptox.pl</h5>
+                <h5>At this moment the internal market is only available for Steem users. Please use the withdraw page to trade your FUTURE on Obyte or Cryptox.pl</h5>
             </div>
             <br>
             <div>
@@ -32,7 +32,7 @@
                                   <span v-if="!isLoading">
                                     Withdraw
                                   </span>
-                                  <Loading v-else />
+                                  <SmallLoading v-else />
                     </button>
                 <h3>{{totalFuture}} {{picked}}</h3>
             </form>
@@ -40,7 +40,7 @@
                 <p class="mb-4">You must choose your currency.</p>
             </div>
             <div v-if="picked && amount < 50">
-                <p class="mb-4 text-red">The minimum widthraw is 50 Future.</p>
+                <p class="mb-4 text-red">The minimum withdraw is 50 Future.</p>
             </div>
             <div v-else-if="picked && user.future === 0">
                 <p class="mb-4">You don't have any token to claim.</p>
@@ -124,8 +124,8 @@ export default {
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to widthraw ${payload.amount} FUTURE` });
-          console.error(`Failed to widthraw ${payload.amount} FUTURE`, e);
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} FUTURE` });
+          console.error(`Failed to withdraw ${payload.amount} FUTURE`, e);
           this.isLoading = false;
         });
     },

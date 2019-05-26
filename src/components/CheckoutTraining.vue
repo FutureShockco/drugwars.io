@@ -6,7 +6,7 @@
     
         <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" @click="handleSubmit()" class="button btn-block button-green mb-2">
               <template v-if="isLoading || waitingConfirmation">
-                <Loading/>
+                    <SmallLoading/>
 </template>
 
 <template v-else>

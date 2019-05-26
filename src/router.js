@@ -29,6 +29,10 @@ const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/G
 const Gang = () => import(/* webpackChunkName: "gang" */ '@/views/Gangs/Gang.vue');
 const GangSettings = () =>
   import(/* webpackChunkName: "gang-settings" */ '@/views/Gangs/GangSettings.vue');
+const GangBuildings = () =>
+  import(/* webpackChunkName: "gang-buildings" */ '@/views/Gangs/Buildings.vue');
+const Diplomacy = () =>
+  import(/* webpackChunkName: "gang-diplomacy" */ '@/views/Gangs/Diplomacy.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
@@ -67,8 +71,11 @@ const requireAuth = (to, from, next) => {
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
+          store.dispatch('refresh_inc_fights_count');
+          store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_gang_buildings');
           store.dispatch('hideLoading');
           next();
         });
@@ -196,6 +203,18 @@ export default new Router({
       name: 'gang-settings',
       beforeEnter: requireAuth,
       component: GangSettings,
+    },
+    {
+      path: '/gangs/gang/:id/buildings',
+      name: 'gang-buildings',
+      beforeEnter: requireAuth,
+      component: GangBuildings,
+    },
+    {
+      path: '/gangs/gang/:id/diplomacy',
+      name: 'gang-diplomacy',
+      beforeEnter: requireAuth,
+      component: Diplomacy,
     },
     {
       path: '/market/shop',

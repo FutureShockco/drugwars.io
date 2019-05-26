@@ -1,21 +1,29 @@
 <template>
-    <div class="pt-2">
-        <h4>Heist</h4>
-        <img width="150px" :src="`/img/heist.jpg`">
-        <form @submit.prevent="handleSubmit" class="mb-2">
-            <input class="input form-control input-block mb-2" 
-            v-model="amount" type="number" min="0">
-            <button :disabled="isLoading || Number(balances.drugs) < Number(amount)" 
-            type="submit" class="button button-red btn-block">
-            <span v-if="!isLoading">Deposit</span>
-            <Loading v-else/>
-          </button>
-        </form>
-        <button :disabled="isLoading" @click="handleFullSubmit()" class="button button-blue btn-block">Deposit all</button>
-        <div class="pt-2">Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
-        <div>Vest: {{ totalVest | amount }} DRUGS</div>
-        <div class="text-green">+{{ Math.round(ownHeistReward.amount) | amount }} FUTURE ({{ownHeistReward.percent | amount}}%)</div>
-    </div>
+	<div class="pt-2">
+		<h4>Heist</h4>
+		<img width="150px" :src="`/img/heist.jpg`">
+		<form @submit.prevent="handleSubmit" class="mb-2">
+			<input class="input form-control input-block mb-2" v-model="amount" type="number" min="0">
+			<button
+				:disabled="isLoading || Number(balances.drugs) < Number(amount)"
+				type="submit"
+				class="button button-red btn-block"
+			>
+				<span v-if="!isLoading">Deposit</span>
+				<SmallLoading v-else/>
+			</button>
+		</form>
+		<button
+			:disabled="isLoading"
+			@click="handleFullSubmit()"
+			class="button button-blue btn-block"
+		>Deposit all</button>
+		<div class="pt-2">Total: {{ prizeProps.heist_pool | amount }} DRUGS</div>
+		<div>Vest: {{ totalVest | amount }} DRUGS</div>
+		<div
+			class="text-green"
+		>+{{ Math.round(ownHeistReward.amount) | amount }} FUTURE ({{ownHeistReward.percent | amount}}%)</div>
+	</div>
 </template>
 
 <script>
@@ -27,9 +35,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      amount:
-        this.$store.state.game.user.user.drugs_balance -
-        this.$store.state.game.user.user.drugs_pending,
+      amount: this.$store.state.game.user.user.drugs_balance,
     };
   },
   computed: {
@@ -76,8 +82,8 @@ export default {
         this.isLoading = true;
         this.investHeist(this.amount)
           .then(() => {
-            this.isLoading = false;
             Promise.delay(3000).then(() => {
+              this.isLoading = false;
               this.amount = this.balances.drugs;
             });
           })

@@ -8,12 +8,12 @@
       <UiTab :to="`/gangs/gang/${user.gang}`" v-if="user.gang">
         My gang
       </UiTab>
-     <!-- <UiTab :to="`/gangs/gang/${user.gang}/buildings`" v-if="user.gang">
+     <UiTab :to="`/gangs/gang/${user.gang}/buildings`" v-if="user.gang">
         Buildings
       </UiTab>
      <UiTab :to="`/gangs/gang/${user.gang}/diplomacy`" v-if="user.gang">
         Diplomacy
-      </UiTab> -->
+      </UiTab>
     </UiTabs>
   </Header>
 </template>

@@ -1,9 +1,9 @@
 <template>
-  <div class="header">
-    <slot>
-      <span class="ml-4">{{ title }}</span>
-    </slot>
-  </div>
+	<div class="header">
+		<slot>
+			<span class="ml-4">{{ title }}</span>
+		</slot>
+	</div>
 </template>
 
 <script>
@@ -17,7 +17,6 @@ export default {
 
 <style lang="less" scoped>
 @import '../vars';
-
 .header {
   font-family: @heading-font;
   background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;

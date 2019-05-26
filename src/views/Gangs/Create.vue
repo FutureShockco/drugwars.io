@@ -10,7 +10,7 @@
                 <p>Tag</p>
                 <input class="input input-primary mb-4" v-model="ticker" maxlength="6" placeholder="The ticker of you gang, example: 'FRCON'" v-uppercase />
                 <button class="button input-block button-large button-green mb-2" type="submit" :disabled="isLoading">
-                    <Loading v-if="isLoading"/>
+                    <SmallLoading v-if="isLoading"/>
                     <span v-else>Create</span>
                   </button>
             </form>
@@ -48,6 +48,13 @@ export default {
       return getBalances(this.$store.state.game.user.user, ocLvl, this.$store.state.ui.timestamp);
     },
     hasEnough() {
+      console.log(
+        this.balances.drugs,
+        this.balances.weapons,
+        this.balances.alcohols,
+        this.gangCreationFee.drugs,
+      );
+
       return (
         this.balances.drugs > this.gangCreationFee.drugs &&
         this.balances.weapons > this.gangCreationFee.weapons &&
@@ -63,17 +70,12 @@ export default {
       const payload = {
         gang: this.gang.trim().toLowerCase(),
         ticker: this.ticker.toUpperCase(),
+        type: 'gang-create',
       };
 
-      this.send({ type: 'gang-create', payload })
+      this.send(payload)
         .then(() => {
-          Promise.delay(6000).then(() => {
-            this.$router.push('/gangs');
-            this.notify({
-              type: 'success',
-              message: 'Your gang is being created',
-            });
-          });
+          this.$router.push('/gangs');
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to create gang' });

@@ -22,19 +22,9 @@ const state = {
   prizeProps: null,
   user: null,
   fights: [],
+  gang_buildings: [],
 };
 
-/* eslint-disable */
-const poney = function (obj) {
-  const encrypted = CryptoJS.AES.encrypt(obj, state.user.key);
-  return encrypted
-    .toString()
-    .replace(/\+/g, 'xMl3Jk')
-    .replace(/\//g, 'Por21Ld')
-    .replace(/\=/g, 'Ml32')
-    .replace(/"/g, '');
-};
-/* eslint-enable */
 const mutations = {
   savePrizeProps(_state, payload) {
     Vue.set(_state, 'prizeProps', payload);
@@ -47,6 +37,18 @@ const mutations = {
   },
   saveSentFights(_state, payload) {
     Vue.set(_state, 'sent_fights', payload);
+  },
+  saveFightsCount(_state, payload) {
+    Vue.set(_state, 'inc_fights_count', payload);
+  },
+  saveSentFightsCount(_state, payload) {
+    Vue.set(_state, 'sent_fights_count', payload);
+  },
+  saveGangBuildings(_state, payload) {
+    Vue.set(_state, 'gang_buildings', payload);
+  },
+  saveGangEvents(_state, payload) {
+    Vue.set(_state, 'gang_events', payload);
   },
 };
 
@@ -105,12 +107,12 @@ client.subscribe((data, message) => {
     });
   }
   if (message[1].body === 'fight') {
-    store.dispatch('refresh_sent_fights');
+    store.dispatch('refresh_sent_fights_count');
     store.dispatch('init');
   }
 
   if (message[1].body === 'receiveattack') {
-    store.dispatch('refresh_inc_fights');
+    store.dispatch('refresh_inc_fights_count');
     store.dispatch('init');
     store.dispatch('notify', {
       type: 'error',
@@ -122,6 +124,7 @@ client.subscribe((data, message) => {
   }
 
   if (message[1].body === 'end_attack') {
+    store.dispatch('refresh_sent_fights_count');
     store.dispatch('refresh_sent_fights');
     store.dispatch('init');
     store.dispatch('notify', {
@@ -131,6 +134,7 @@ client.subscribe((data, message) => {
   }
 
   if (message[1].body === 'end_inc_attack') {
+    store.dispatch('refresh_inc_fights_count');
     store.dispatch('refresh_inc_fights');
     store.dispatch('init');
     store.dispatch('notify', {
@@ -141,7 +145,7 @@ client.subscribe((data, message) => {
 
   if (message[1].body === 'start_attack') {
     store.dispatch('init');
-    store.dispatch('refresh_sent_fights');
+    store.dispatch('refresh_sent_fights_count');
     store.dispatch('notify', {
       type: 'success',
       message: 'Your troops are on their way to their destination!',
@@ -188,7 +192,6 @@ const actions = {
   refresh_inc_fights: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      commit('saveFights', []);
       let start = 0;
       let end = 50;
       if (limit) {
@@ -207,10 +210,24 @@ const actions = {
           return reject(err);
         });
     }),
+  refresh_inc_fights_count: ({ commit, dispatch }, limit) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_inc_fights_count', { token })
+        .then(fights => {
+          commit('saveFightsCount', fights[0].count);
+          return resolve(fights);
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading account failed');
+          return reject(err);
+        });
+    }),
   refresh_sent_fights: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
-      commit('saveSentFights', []);
       let start = 0;
       let end = 50;
       if (limit) {
@@ -221,6 +238,21 @@ const actions = {
         .requestAsync('get_sent_fights', { token, start, end })
         .then(fights => {
           commit('saveSentFights', fights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent fights failed');
+          return reject(err);
+        });
+    }),
+  refresh_sent_fights_count: ({ commit, dispatch }, limit) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_sent_fights_count', { token })
+        .then(fights => {
+          commit('saveSentFightsCount', fights[0].count);
           return resolve();
         })
         .catch(err => {
@@ -247,7 +279,7 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
+      });
     }),
   upgradeBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
@@ -258,6 +290,44 @@ const actions = {
         if (result) {
           console.log(result);
           store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
+        }
+        return resolve();
+      });
+    }),
+  upgradeGangBuilding: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-gang-upgrades'; // eslint-disable-line no-param-reassign
+      dwsocial(username, payload, result => {
+        if (result) {
+          console.log(result);
+          store.dispatch('init');
+          store.dispatch('refresh_gang_buildings');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          return resolve(result);
+        }
+        return resolve();
+      }).catch(e => reject(e));
+    }),
+  depositGangBuilding: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-gang-deposit'; // eslint-disable-line no-param-reassign
+      dwsocial(username, payload, result => {
+        if (result) {
+          console.log(result);
+          store.dispatch('init');
+          store.dispatch('refresh_gang_buildings');
           store.dispatch('notify', {
             type: 'success',
             message: result,
@@ -283,7 +353,7 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
+      });
     }),
   recruitUnit: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
@@ -301,7 +371,7 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
+      });
     }),
   investHeist: ({ rootState }, amount) =>
     new Promise((resolve, reject) => {
@@ -322,7 +392,7 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
+      });
     }),
   startFight: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
@@ -340,7 +410,7 @@ const actions = {
         }
         return resolve();
       });
-    }).catch(e => reject(e)),
+    }),
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
       sc.broadcast(post, (err, result) => {
@@ -368,7 +438,22 @@ const actions = {
           return resolve(result);
         }
         return resolve();
-      }).catch(e => reject(e));
+      });
+    }),
+  refresh_gang_buildings: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_gang_private', { token })
+        .then(result => {
+          commit('saveGangBuildings', result);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading gang buildings failed');
+          return reject(err);
+        });
     }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;

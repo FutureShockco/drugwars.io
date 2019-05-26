@@ -173,18 +173,14 @@ export default {
       return this.$store.state.game.user.user.xp;
     },
     activeIncFightsCount() {
-      if (this.$store.state.game.inc_fights) {
-        const activeFights = this.$store.state.game.inc_fights.filter(fight => fight.is_done === 0);
-        return activeFights.length;
+      if (this.$store.state.game.inc_fights_count) {
+        return this.$store.state.game.inc_fights_count;
       }
       return 0;
     },
     activeFightsCount() {
-      if (this.$store.state.game.sent_fights) {
-        const activeSentFights = this.$store.state.game.sent_fights.filter(
-          fight => fight.is_done === 0,
-        );
-        return activeSentFights.length;
+      if (this.$store.state.game.sent_fights_count) {
+        return this.$store.state.game.sent_fights_count;
       }
       return 0;
     },

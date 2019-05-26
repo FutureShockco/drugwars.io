@@ -3,7 +3,7 @@
     <GangsTabs />
     <div class="p-4">
       <Loading v-if="isLoading" />
-      <div :key="gang.gang" v-for="gang in gangs" v-else>
+      <div :key="gang.gang" v-for="gang in gangs"  v-else>
         <h2>
           <GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image" />
           <router-link :to="`/gangs/gang/${gang.gang}`">

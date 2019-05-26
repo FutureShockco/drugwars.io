@@ -1,17 +1,18 @@
 <template>
     <div class="checkout mb-4">
-        <div class="mb-2">
-            <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
-        </div>
-        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" 
-        @click="handleSubmit()" class="button btn-block button-green mb-2">
-      <template v-if="isLoading || waitingConfirmation">
-          <Loading/>
-      </template>
-    <template v-else>
-        <i class="iconfont icon-tools" />
-        {{ upgradeLabel }}
-    </template>
+    <div class="mb-2">
+    <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
+    </div>
+    <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" 
+            @click="handleSubmit()" class="button btn-block button-green mb-2">
+    <template v-if="isLoading || waitingConfirmation">
+    <SmallLoading/>
+</template>
+
+<template v-else>
+    <i class="iconfont icon-tools" />
+    {{ upgradeLabel }}
+</template>
     </button>
     <div class="mb-2">Instant upgrade</div>
     <button

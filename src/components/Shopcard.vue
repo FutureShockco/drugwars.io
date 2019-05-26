@@ -126,8 +126,8 @@ export default {
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to widthraw ${payload.amount} FUTURE` });
-          console.error(`Failed to widthraw ${payload.amount} FUTURE`, e);
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} FUTURE` });
+          console.error(`Failed to withdraw ${payload.amount} FUTURE`, e);
           this.isLoading = false;
         });
     },

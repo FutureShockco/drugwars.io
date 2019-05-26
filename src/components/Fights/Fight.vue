@@ -4,8 +4,7 @@
 			<div class="column col-5">
 				<router-link
 					v-if="fight.attacker_nickname != user.nickname"
-					:to="`/fight?target=${fight.attacker_nickname}`"
-				>
+					:to="`/fight?target=${fight.attacker_nickname}`">
 					<Avatar :size="80" :username="fight.attacker_nickname" :picture="fight.attacker_picture"/>
 				</router-link>
 				<Avatar

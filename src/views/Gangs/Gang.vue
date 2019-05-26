@@ -43,7 +43,7 @@
                 <span v-if="!isLoading">
                   Reject
                 </span>
-                <Loading v-else />
+                <SmallLoading v-else />
               </button>
               <button
                 @click="handleApprove(apply.username)"
@@ -53,7 +53,7 @@
                 <span v-if="!isLoading">
                   Approve
                 </span>
-                <Loading v-else />
+                <SmallLoading v-else />
               </button>
               <div class="p-2">{{ apply.message }}</div>
             </div>
@@ -81,7 +81,7 @@
             <span v-if="!isLoading">
               Apply
             </span>
-            <Loading v-else />
+            <SmallLoading v-else />
           </button>
         </form>
           <h3>Members</h3>

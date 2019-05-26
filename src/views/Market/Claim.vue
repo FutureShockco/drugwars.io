@@ -36,7 +36,7 @@
             <span v-if="!isLoading">
               Withdraw
             </span>
-            <Loading v-else />
+            <SmallLoading v-else />
           </button>
         </form>
         <div v-else>

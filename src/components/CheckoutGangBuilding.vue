@@ -1,19 +1,27 @@
 <template>
-    <div class="checkout mb-4">
-        <button :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || notEnough" @click="handleSubmit()" class="button btn-block button-green mb-2">
-    			<i class="iconfont icon-zap"/>
-    			SEND RESOURCES
-    		</button>
-        <div class="mb-2">Upgrade (Boss or Capo)</div>
-        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate ||!isBoss" @click="handleUpgrade()" class="button btn-block button-green mb-2">
-    			<template v-if="isLoading || waitingConfirmation">
-    				<SmallLoading/>
-</template>
-
-<template v-else>
-    <i class="iconfont icon-tools" />
-    {{ upgradeLabel }}
-</template>
+	<div class="checkout mb-4">
+		<button
+			:disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || notEnough"
+			@click="handleSubmit()"
+			class="button btn-block button-green mb-2"
+		>
+			<i class="iconfont icon-zap"/>
+			SEND RESOURCES
+		</button>
+		<div class="mb-2">Upgrade (Only the Boss)</div>
+		<button
+			:class="{ progress: inProgress }"
+			:disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate || !isBoss"
+			@click="handleUpgrade()"
+			class="button btn-block button-green mb-2"
+		>
+			<template v-if="isLoading || waitingConfirmation">
+				<SmallLoading/>
+			</template>
+			<template v-else>
+				<i class="iconfont icon-tools"/>
+				{{ upgradeLabel }}
+			</template>
 		</button>
 		<button
 			v-if="isTheExchange"
@@ -62,6 +70,9 @@ export default {
     },
   },
   computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
@@ -94,7 +105,7 @@ export default {
       return 0;
     },
     isBoss() {
-      return this.role === 'boss' && this.gang === this.id;
+      return this.user.role === 'boss' || this.user.role === 'capo' ;
     },
     requireUpdate() {
       return this.level > this.hqLevel && this.id !== 'gang_hq';
@@ -115,22 +126,19 @@ export default {
   },
   methods: {
     ...mapActions(['upgradeGangBuilding', 'depositGangBuilding', 'requestPayment']),
-    handleSubmit() {
+    handleSubmit(use) {
       this.isLoading = true;
-      const self = this;
       let payload = {};
-      const resources = {
-        drugs: this.drugs || 0,
-        weapons: this.weapons || 0,
-        alcohol: this.alcohol || 0,
-        future: this.future || 0,
-      };
-      if (this.drugs > 0 || this.weapons > 0 || this.alcohol > 0 || this.future > 0) {
+      const drugs = this.drugs || 0;
+      const weapons = this.weapons || 0;
+      const alcohol = this.alcohol || 0;
+      const future = this.future || 0;
+      if (drugs > 0 || weapons > 0 || alcohol > 0 || future > 0) {
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources,
+          resources: { drugs, weapons, alcohol, future },
         };
         this.depositGangBuilding(payload)
           .then(() => {
@@ -148,22 +156,20 @@ export default {
         this.isLoading = false;
       }
     },
-    handleUpgrade() {
+    handleUpgrade(use) {
       this.isLoading = true;
       let payload = {};
       if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
       else {
-        const resources = {
-          drugs: this.drugs || 0,
-          weapons: this.weapons || 0,
-          alcohol: this.alcohol || 0,
-          future: this.future || 0,
-        };
+        const drugs = this.drugs;
+        const weapons = this.weapons;
+        const alcohol = this.alcohol;
+        console.log(drugs, weapons, alcohol);
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources,
+          resources: { drugs, weapons, alcohol },
         };
       }
       this.upgradeGangBuilding(payload)

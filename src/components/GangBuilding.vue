@@ -120,132 +120,128 @@
 </template>
 
 <script>
-import { utils } from 'drugwars';
-import { getBalances } from '@/helpers/utils';
+	import { utils } from 'drugwars';
+	import { getBalances } from '@/helpers/utils';
 
-export default {
-  props: ['building'],
-  data() {
-    return {
-      id: this.$route.params.id,
-      isInit: false,
-      isLoading: false,
-      gang: null,
-      members: null,
-      message: null,
-      applies: null,
-      drugs_amount: 0,
-      weapons_amount: 0,
-      alcohol_amount: 0,
-      future_amount: 0,
-    };
-  },
-  computed: {
-    user() {
-      return this.$store.state.game.user.user;
-    },
-    isBoss() {
-      return (
-        (this.user.role === 'boss' && this.user.gang === this.id) ||
-        (this.user.role === 'capo' && this.user.gang === this.id)
-      );
-    },
-    balances() {
-      let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-          .lvl;
-      return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
-    },
-    hasNotEnough() {
-      return (
-        parseInt(this.drugs_amount) > this.balances.drugs ||
-        parseInt(this.weapons_amount) > this.balances.weapons ||
-        parseInt(this.alcohol_amount) > this.balances.alcohols ||
-        parseInt(this.future_amount) > this.balances.future
-      );
-    },
-    hasNotEnoughForUpgrade() {
-      if (!this.ownItem.drugs) return true;
-      return (
-        this.drugsCost > this.ownItem.drugs ||
-        this.weaponsCost > this.ownItem.weapons ||
-        this.alcoholsCost > this.ownItem.alcohol ||
-        this.futureCost > this.ownItem.future
-      );
-    },
-    ownItem() {
-      return (
-        this.$store.state.game.gang_buildings.find(b => b.building === this.building.id) || {
-          lvl: 0,
-        }
-      );
-    },
-    ownHq() {
-      return (
-        this.$store.state.game.gang_buildings.find(b => b.building === 'gang_hq') || {
-          lvl: 0,
-        }
-      );
-    },
-    drugsCost() {
-      return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl) || 0;
-    },
-    weaponsCost() {
-      return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl) || 0;
-    },
-    alcoholsCost() {
-      return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl) || 0;
-    },
-    futureCost() {
-      return utils.calculateCostToUpgrade(this.building.future_cost, this.ownItem.lvl) || 0;
-    },
-    inProgress() {
-      if (!this.ownItem) return false;
-      const pendingUpdate = new Date(this.ownItem.last_update).getTime();
-      const now = new Date().getTime();
-      return pendingUpdate >= now;
-    },
-  },
-  methods: {
-    progressPercent(total, cost, amount) {
-      let progress;
-      if (total && cost && amount) {
-        this.up = true;
-        progress = parseFloat(((total + parseInt(amount)) * 100) / cost).toFixed(2);
-        return progress < 100 ? progress : 100;
-      }
-      if (total && cost) {
-        this.up = false;
-        progress = parseFloat((total * 100) / cost).toFixed(2);
-        return progress < 100 ? progress : 100;
-      }
-      if (amount) {
-        this.up = false;
-        progress = parseFloat((parseInt(amount) * 100) / cost).toFixed(2);
-        return progress < 100 ? progress : 100;
-      }
-      this.up = false;
-      return 0;
-    },
-  },
-};
+	export default {
+		props: ['building'],
+		data() {
+			return {
+				id: this.$route.params.id,
+				isInit: false,
+				isLoading: false,
+				gang: null,
+				members: null,
+				message: null,
+				applies: null,
+				drugs_amount: 0,
+				weapons_amount: 0,
+				alcohol_amount: 0,
+				future_amount: 0,
+			};
+		},
+		computed: {
+			user() {
+				return this.$store.state.game.user.user;
+			},
+			isBoss() {
+				return this.user.role === 'boss' && this.user.gang === this.id;
+			},
+			balances() {
+				let ocLvl = 0;
+				if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+					ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
+				return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
+			},
+			hasNotEnough() {
+				return (
+					parseInt(this.drugs_amount) > this.balances.drugs ||
+					parseInt(this.weapons_amount) > this.balances.weapons ||
+					parseInt(this.alcohol_amount) > this.balances.alcohols ||
+					parseInt(this.future_amount) > this.balances.future
+				);
+			},
+			hasNotEnoughForUpgrade() {
+				if (!this.ownItem.drugs) return true;
+				return (
+					this.drugsCost > this.ownItem.drugs ||
+					this.weaponsCost > this.ownItem.weapons ||
+					this.alcoholsCost > this.ownItem.alcohol ||
+					this.futureCost > this.ownItem.future
+				);
+			},
+			ownItem() {
+				return (
+					this.$store.state.game.gang_buildings.find(b => b.building === this.building.id) || {
+						lvl: 0,
+					}
+				);
+			},
+			ownHq() {
+				return (
+					this.$store.state.game.gang_buildings.find(b => b.building === 'gang_hq') || {
+						lvl: 0,
+					}
+				);
+			},
+			drugsCost() {
+				return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl) || 0;
+			},
+			weaponsCost() {
+				return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl) || 0;
+			},
+			alcoholsCost() {
+				return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl) || 0;
+			},
+			futureCost() {
+				return utils.calculateCostToUpgrade(this.building.future_cost, this.ownItem.lvl) || 0;
+			},
+			inProgress() {
+				if (!this.ownItem) return false;
+				const pendingUpdate = new Date(this.ownItem.last_update).getTime();
+				const now = new Date().getTime();
+				return pendingUpdate >= now;
+			},
+		},
+		methods: {
+			progressPercent(total, cost, amount) {
+				let progress;
+				if (total && cost && amount) {
+					this.up = true;
+					progress = parseFloat(((total + parseInt(amount)) * 100) / cost).toFixed(2);
+					return progress < 100 ? progress : 100;
+				}
+				if (total && cost) {
+					this.up = false;
+					progress = parseFloat((total * 100) / cost).toFixed(2);
+					return progress < 100 ? progress : 100;
+				}
+				if (amount) {
+					this.up = false;
+					progress = parseFloat((parseInt(amount) * 100) / cost).toFixed(2);
+					return progress < 100 ? progress : 100;
+				}
+				this.up = false;
+				return 0;
+			},
+		},
+	};
 </script>
 
 <style scoped lang="less">
-@import '../vars.less';
+	@import '../vars.less';
 
-.input {
-  width: 70px;
-  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  letter-spacing: 1px;
-  border-radius: 3px;
-  border: none;
-  font-size: 15px;
-  line-height: 34px;
-  height: 34px;
-  padding: 0 8px;
-  text-align: center;
-}
+	.input {
+		width: 70px;
+		font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
+		font-weight: 500;
+		letter-spacing: 1px;
+		border-radius: 3px;
+		border: none;
+		font-size: 15px;
+		line-height: 34px;
+		height: 34px;
+		padding: 0 8px;
+		text-align: center;
+	}
 </style>

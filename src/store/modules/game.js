@@ -278,7 +278,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   upgradeBuilding: ({ rootState }, payload) =>
@@ -296,7 +297,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   upgradeGangBuilding: ({ rootState }, payload) =>
@@ -315,8 +317,9 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
-      }).catch(e => reject(e));
+
+        reject();
+      });
     }),
   depositGangBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
@@ -334,8 +337,9 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
-      }).catch(e => reject(e));
+
+        reject();
+      });
     }),
   upgradeTraining: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
@@ -352,7 +356,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   recruitUnit: ({ rootState }, payload) =>

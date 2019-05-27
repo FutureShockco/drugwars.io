@@ -1,27 +1,19 @@
 <template>
-	<div class="checkout mb-4">
-		<button
-			:disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || notEnough"
-			@click="handleSubmit()"
-			class="button btn-block button-green mb-2"
-		>
-			<i class="iconfont icon-zap"/>
-			SEND RESOURCES
-		</button>
-		<div class="mb-2">Upgrade (Only the Boss)</div>
-		<button
-			:class="{ progress: inProgress }"
-			:disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate"
-			@click="handleUpgrade()"
-			class="button btn-block button-green mb-2"
-		>
-			<template v-if="isLoading || waitingConfirmation">
-				<SmallLoading/>
-			</template>
-			<template v-else>
-				<i class="iconfont icon-tools"/>
-				{{ upgradeLabel }}
-			</template>
+    <div class="checkout mb-4">
+        <button :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || notEnough" @click="handleSubmit()" class="button btn-block button-green mb-2">
+    			<i class="iconfont icon-zap"/>
+    			SEND RESOURCES
+    		</button>
+        <div class="mb-2">Upgrade (Only the Boss)</div>
+        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate ||!isBoss" @click="handleUpgrade()" class="button btn-block button-green mb-2">
+    			<template v-if="isLoading || waitingConfirmation">
+    				<SmallLoading/>
+</template>
+
+<template v-else>
+    <i class="iconfont icon-tools" />
+    {{ upgradeLabel }}
+</template>
 		</button>
 		<button
 			v-if="isTheExchange"
@@ -125,6 +117,7 @@ export default {
     ...mapActions(['upgradeGangBuilding', 'depositGangBuilding', 'requestPayment']),
     handleSubmit(use) {
       this.isLoading = true;
+      const self = this;
       let payload = {};
       const drugs = this.drugs || 0;
       const weapons = this.weapons || 0;
@@ -140,6 +133,10 @@ export default {
         this.depositGangBuilding(payload)
           .then(() => {
             this.isLoading = false;
+            self.drugs = 0;
+            self.weapons = 0;
+            self.alcohol = 0;
+            self.future = 0;
           })
           .catch(e => {
             console.error('Failed', e);

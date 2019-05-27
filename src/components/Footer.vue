@@ -4,13 +4,13 @@
     <a target="_blank" href="https://app.steemconnect.com/sign/account-witness-vote?witness=future.witness&approve=1">Vote for @future.witness and support DrugWars.</a>
     </div>
     <ul class="columns mx-2 pb-2 list-style-none">
-      <li class="column col-3">
+      <li class="column col-4">
           <a @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
              <i v-if="audio.isPlaying" class="iconfont icon-unmute"></i>
              <i v-else class="iconfont icon-mute"></i>
           </a>
       </li>
-      <li class="column col-3">
+      <li class="column col-4">
         <router-link
           to="/about"
           class="d-block text-center"
@@ -18,7 +18,7 @@
           <i class="iconfont icon-question"/>
         </router-link>
       </li>
-      <li class="column col-3">
+      <li class="column col-4">
         <a
           target="_blank"
           href="https://discord.me/drugwars"
@@ -27,7 +27,7 @@
           <i class="iconfont icon-discord"/>
         </a>
       </li>
-      <li class="column col-3">
+      <!-- <li class="column col-3">
         <a
           href="#"
           @click.prevent="logout"
@@ -35,7 +35,7 @@
         >
           <i class="iconfont icon-sign-out"/>
         </a>
-      </li>
+      </li> -->
     </ul>
     <div class="company">Made by <a href="https://github.com/FutureShockco" target="_blank"> FutureShock</a> </div>
   </footer>

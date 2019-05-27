@@ -20,9 +20,7 @@
 			</UiCenter>
 			<TopNav v-if="username"/>
 			<Sidebars v-if="username && showSidebar"/>
-			<balloon title="DrugWars LiveChat" position="bottom-right" :zooming="true">
-				<template slot="header">Custom Header</template>
-				<Chat/>
+			<balloon v-if="username" title="DrugWars LiveChat" position="bottom-right" :zooming="false">
 			</balloon>
 			<router-view
 				:class="{
@@ -42,6 +40,7 @@ export default {
       modalIsOpen: localStorage.firstime || false,
     };
   },
+
   computed: {
     username() {
       return this.$store.state.auth.username;

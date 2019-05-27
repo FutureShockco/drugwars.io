@@ -9,31 +9,25 @@
 							class="iconfont icon-arrow-up"
 							aria-hidden="true"
 							v-if="concise && !maximized && !hideConciseButton"
-							@click="concise = false"
+							@click="changeState(false)"
 						></i>
 						<i
 							class="iconfont icon-arrow-down"
 							aria-hidden="true"
 							v-if="!concise && !maximized && !hideConciseButton"
-							@click="concise = true"
+							@click="changeState(true)"
 						></i>
+                        <i
+              class = 'iconfont icon-x'
+              aria-hidden = 'true'
+              v-if="(showCloseWhenMaximized || !maximized) && !hideCloseButton"
+              @click = 'close'
+            ></i>
 					</div>
 				</div>
-				<div class="black p-1">
-					<button class="button button-black">Main</button>
-					<button class="button button-black">
-						Gang
-						<span class="text-red">0</span>
-					</button>
-					<button class="button button-black">
-						Private
-						<span class="text-red">0</span>
-					</button>
-					<button class="button button-black">Users</button>
-				</div>
 				<div class="vb-content">
-					<div class="vb-content-slot">
-						<slot></slot>
+					<div  class="vb-content-slot">            
+            <Chat v-if="showChat"/>
 					</div>
 				</div>
 			</div>
@@ -44,51 +38,39 @@
 <script>
 export default {
   props: {
-    // balloon title
     title: {
       default: '',
       type: String,
     },
 
-    // position: bottom-right, bottom-left, top-right, or top-left
     position: {
       default: 'bottom-right',
       type: String,
     },
 
-    // enable the css transform: scale() effect
     zooming: {
       default: false,
       type: Boolean,
     },
 
-    // hide the close (x) icon on the balloon
     hideCloseButton: {
       default: false,
       type: Boolean,
     },
 
-    // hide the concise (chevron) icons on the balloon
     hideConciseButton: {
       default: false,
       type: Boolean,
     },
-
-    // when balloon is created it will have this initial 'concise' state
     initiallyConcise: {
-      default: false,
+      default: true,
       type: Boolean,
     },
-
-    // when balloon is maximized, it will still have the close button
     showCloseWhenMaximized: {
-      default: false,
+      default: true,
       type: Boolean,
     },
 
-    //* vb internal props *//
-
-    // keep track of state with multiple balloons
     balloonState: {
       default() {
         return {
@@ -98,7 +80,6 @@ export default {
       type: Object,
     },
 
-    // remember the original balloon object to store in the balloon state
     balloon: {
       default() {
         return {};
@@ -117,6 +98,7 @@ export default {
     return {
       concise: this.initiallyConcise,
       closed: false,
+      showChat: false,
     };
   },
 
@@ -144,6 +126,7 @@ export default {
     },
 
     maximized() {
+      localStorage.setItem('chatIsOpen', !localStorage.getItem('chatIsOpen'));
       return this.balloonState.maximized === this.balloon && !this.forceMinimized;
     },
   },
@@ -152,19 +135,27 @@ export default {
     close() {
       this.closed = true;
       this.$emit('close', this);
+      localStorage.setItem('chatIsOpen', false);
+      sessionStorage.setItem('chatIsOpen', false);
     },
-
+    changeState(val) {
+      this.concise = val;
+      this.showChat = !val;
+    },
     open() {
       this.closed = false;
       this.$emit('open', this);
+      localStorage.setItem('chatIsOpen', true);
     },
 
     maximize() {
       this.balloonState.maximized = this.balloon;
+      localStorage.setItem('chatIsOpen', this.concise);
     },
 
     minimize() {
       this.balloonState.maximized = null;
+      localStorage.setItem('chatIsOpen', this.concise);
     },
   },
 };
@@ -463,14 +454,5 @@ $small-screen-height: 450px;
 
 .vb-front {
   z-index: 10004;
-}
-
-.black {
-  background: black;
-  color: gray !important;
-}
-.black button {
-  background: black;
-  color: rgb(51, 51, 51) !important;
 }
 </style>

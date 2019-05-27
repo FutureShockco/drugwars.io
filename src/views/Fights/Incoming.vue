@@ -33,8 +33,6 @@
 <script>
 import { mapActions } from 'vuex';
 import Paginate from 'vuejs-paginate';
-import client from '@/helpers/client';
-import store from '@/store';
 
 export default {
   components: {
@@ -53,7 +51,6 @@ export default {
   methods: {
     ...mapActions(['init', 'notify', 'refresh_inc_fights']),
     load_fights(start) {
-      const token = localStorage.getItem('access_token');
       let end = 50;
       end = start * 50;
       start = end - 50; // eslint-disable-line no-param-reassign

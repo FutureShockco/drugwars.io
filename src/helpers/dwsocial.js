@@ -1,6 +1,6 @@
 import client from '@/helpers/client';
 
-const dwsocial = function(username, payload, cb) {
+function dwsocial(username, payload, cb) {
   const accessToken = localStorage.getItem('access_token');
   client
     .requestAsync('custom_event', { username, token: accessToken, payload })
@@ -11,6 +11,6 @@ const dwsocial = function(username, payload, cb) {
     .catch(err => {
       cb(err);
     });
-};
+}
 
 export default dwsocial;

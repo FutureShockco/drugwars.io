@@ -1,5 +1,17 @@
 <template>
 	<div>
+				<div class="black p-0">
+					<button class="button button-black">Main</button>
+					<button class="button button-black">
+						Gang
+						<span class="text-red">0</span>
+					</button>
+					<button class="button button-black">
+						Private
+						<span class="text-red">0</span>
+					</button>
+					<button class="button button-black">Users 		<span class="text-red">{{members.length}}</span></button>
+				</div>
 		<div class="chat">
 			<div :key="response.id" v-for="response in responses" class="border-bottom">
 				<div class="text-left item width-full">
@@ -13,8 +25,8 @@
 											<Avatar v-else :size="40" :username="response.sender" :picture="response.picture"/>
 						<h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
 					</div>
-						<div class="column col-7 message text-left" v-html="response.text"></div>
-											<div class="column pr-0 col-1">{{response.date}}</div>
+						<div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
+											<div class="column date pr-0 col-1">{{response.date}}</div>
 					</div>
 				</div>
 			</div>
@@ -22,20 +34,24 @@
 		<div class="p-4 reply text-center">
 			<Loading v-if="isLoading"/>
 			<div v-else>
-				<div>
+				<div class="columns">
 					<h5>your message</h5>
+										<div class="column pl-0 col-10">
 					<textarea
 						type="text"
 						class="input input-block mb-2"
 						placeholder="Write here."
-						v-model="message"
+						v-model="message" v-on:keyup.13="handleSubmit"
 						maxlength="280"
 					></textarea>
+					</div>
+					<div class="column pr-0 col-2">
 					<button
 						@click="handleSubmit()"
 						class="button button-green btn-block mb-2"
 						:disabled="isLoading"
 					>Send</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,9 +63,9 @@ import { mapActions } from 'vuex';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
 import io from 'socket.io-client';
-import axios from 'axios';
 
-const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+// const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+const socket = new io.connect('http://localhost:8082');
 
 export default {
   data() {
@@ -89,7 +105,6 @@ export default {
     });
 
     socket.on('update-chat', messages => {
-      console.log(messages);
       self.responses = messages;
     });
 
@@ -131,6 +146,13 @@ export default {
       const container = this.$el.querySelector('.chat');
       container.scrollTop = container.scrollHeight;
     },
+    checkUrl(url) {
+      url = url.replace(
+        /(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/gi,
+        "<br><img width='100%' src='$1'>",
+      );
+      return url;
+    },
   },
 };
 </script>
@@ -140,12 +162,16 @@ export default {
 
 .message {
   color: whitesmoke;
+  overflow-wrap: break-word;
 }
 
+img {
+  max-width: 100% !important;
+}
 .chat {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: calc(100vh - 380px);
+  height: calc(100vh - 360px);
   width: 100%;
 }
 
@@ -158,5 +184,14 @@ export default {
 
 .reply {
   bottom: 0px;
+}
+
+.black {
+  background: black;
+  color: gray !important;
+}
+.black button {
+  background: black;
+  color: rgb(51, 51, 51) !important;
 }
 </style>

@@ -145,7 +145,10 @@ export default {
       return this.$store.state.game.user.user;
     },
     isBoss() {
-      return this.user.role === 'boss' && this.user.gang === this.id;
+      return (
+        (this.user.role === 'boss' && this.user.gang === this.id) ||
+        (this.user.role === 'capo' && this.user.gang === this.id)
+      );
     },
     balances() {
       let ocLvl = 0;

@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import Promise from 'bluebird';
 import { mapActions } from 'vuex';
 
 export default {
@@ -66,7 +65,7 @@ export default {
         type: 'edit-profile',
       };
       this.send(payload)
-        .then(result => {
+        .then(() => {
           this.isLoading = false;
         })
         .catch(e => {

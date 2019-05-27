@@ -4,7 +4,6 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
-import CryptoJS from 'crypto-js';
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -23,6 +22,7 @@ const state = {
   user: null,
   fights: [],
   gang_buildings: [],
+  chat: false,
 };
 
 const mutations = {
@@ -370,7 +370,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   investHeist: ({ rootState }, amount) =>
@@ -391,7 +392,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   startFight: ({ rootState }, payload) =>
@@ -408,7 +410,8 @@ const actions = {
           store.dispatch('refresh_sent_fights');
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   shareFight: ({ dispatch }, post) =>
@@ -437,7 +440,8 @@ const actions = {
           });
           return resolve(result);
         }
-        return resolve();
+
+        reject();
       });
     }),
   refresh_gang_buildings: ({ commit, dispatch }) =>

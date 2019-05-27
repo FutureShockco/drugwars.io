@@ -145,6 +145,15 @@
               Forum
             </a>
           </li>
+          </ul>
+            <ul class="pt-1 pb-2 border-bottom">
+          <li>
+            <a  @click.prevent="logout"
+              class="py-1 px-4 text-gray d-block"
+            >
+              LOGOUT
+            </a>
+          </li>
         </ul>
       </div>
       <Footer/>
@@ -186,11 +195,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['toggleSidebarVisibility', 'logout']),
+    ...mapActions(['toggleSidebarVisibility']),
     toggleSidebar() {
       if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1011px)').matches) {
         this.toggleSidebarVisibility();
       }
+    },
+    logout() {
+      this.$auth.logOut();
+      this.$router.push({ path: '/' });
     },
   },
 };

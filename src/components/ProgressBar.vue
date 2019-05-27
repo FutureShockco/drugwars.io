@@ -24,8 +24,7 @@ const DEFAULT_WIDTH = 150,
   DEFAULT_BORDER_COLOR = '#bdc3c7',
   DEFAULT_TEXT_COLOR = '#bdc3c7',
   DEFAULT_FILL_COLOR = '#2ecc71',
-  DEFAUTL_BG_COLOR = '#f9f9f9',
-  DEFAUTL_TEXT_BG_COLOR = '#333333';
+  DEFAUTL_BG_COLOR = '#f9f9f9';
 export default {
   methods: {
     setClip(t, r, b, l) {

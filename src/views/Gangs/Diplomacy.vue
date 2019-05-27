@@ -76,14 +76,12 @@
 import { mapActions } from 'vuex';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
-import { filter, pickBy } from 'lodash';
 
 export default {
   data() {
     return {
       id: this.$route.params.id,
       isInit: false,
-      isLoading: false,
       mygang: null,
       gangs: null,
       members: null,

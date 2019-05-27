@@ -5,11 +5,11 @@
 				<router-link
 					v-if="fight.attacker_nickname != user.nickname"
 					:to="`/fight?target=${fight.attacker_nickname}`">
-					<Avatar :size="80" :username="fight.attacker_nickname" :picture="fight.attacker_picture"/>
+					<Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture"/>
 				</router-link>
 				<Avatar
 					v-else
-					:size="80"
+					:size="60"
 					:username="fight.attacker_nickname"
 					:picture="fight.attacker_picture"
 				/>
@@ -47,9 +47,9 @@
 					v-if="fight.target_nickname != user.nickname"
 					:to="`/fight?target=${fight.target_nickname}`"
 				>
-					<Avatar :size="80" :username="fight.target_nickname" :picture="fight.target_picture"/>
+					<Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture"/>
 				</router-link>
-				<Avatar v-else :size="80" :username="user.nickname" :picture="user.picture"/>
+				<Avatar v-else :size="60" :username="user.nickname" :picture="user.picture"/>
 				<div class="username mb-4">{{ fight.target_nickname }}</div>
 				<div v-if="fight.target_ticker"
 					class="username gang mt-4"
@@ -105,8 +105,8 @@
 			</div>
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
-				<div v-if="fight.is_stable">Start : {{start}} - End : {{end}}</div>
 			</div>
+			<div class="text-center mb-3" v-if="fight.is_stable">Start : {{start}} - End : {{end}}</div>
 			<div v-if="fight.is_done!=0">
 				<div v-if="!details" class="text-center">
 					<button class="button button-blue" @click="showDetails()">Show details</button>

@@ -14,7 +14,6 @@
 <script>
 import { buildings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
-import client from '@/helpers/client';
 import { mapActions } from 'vuex';
 
 export default {

@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import Promise from 'bluebird';
 import { mapActions } from 'vuex';
 import { getBalances } from '@/helpers/utils';
 

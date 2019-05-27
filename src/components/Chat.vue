@@ -64,6 +64,7 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 import io from 'socket.io-client';
 
+if (socket) socket.disconnect();
 const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 // const socket = new io.connect('http://localhost:8082');
 
@@ -74,7 +75,7 @@ export default {
       isInit: false,
       isLoading: false,
       gang: null,
-      members: null,
+      members: [],
       message: null,
       user: this.$store.state.game.user.user,
       applies: null,
@@ -147,11 +148,15 @@ export default {
       container.scrollTop = container.scrollHeight;
     },
     checkUrl(url) {
-      url = url.replace(
-        /(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/gi,
-        "<br><img width='100%' src='$1'>",
-      );
-      return url;
+      try {
+        url = url.replace(
+          /(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/gi,
+          "<br><img width='100%' src='$1'>",
+        );
+        return url;
+      } catch (e) {
+        return url;
+      }
     },
   },
 };

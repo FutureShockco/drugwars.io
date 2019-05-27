@@ -4,7 +4,7 @@
     			<i class="iconfont icon-zap"/>
     			SEND RESOURCES
     		</button>
-        <div class="mb-2">Upgrade (Only the Boss)</div>
+        <div class="mb-2">Upgrade (Boss or Capo)</div>
         <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate ||!isBoss" @click="handleUpgrade()" class="button btn-block button-green mb-2">
     			<template v-if="isLoading || waitingConfirmation">
     				<SmallLoading/>
@@ -115,20 +115,22 @@ export default {
   },
   methods: {
     ...mapActions(['upgradeGangBuilding', 'depositGangBuilding', 'requestPayment']),
-    handleSubmit(use) {
+    handleSubmit() {
       this.isLoading = true;
       const self = this;
       let payload = {};
-      const drugs = this.drugs || 0;
-      const weapons = this.weapons || 0;
-      const alcohol = this.alcohol || 0;
-      const future = this.future || 0;
-      if (drugs > 0 || weapons > 0 || alcohol > 0 || future > 0) {
+      const resources = {
+        drugs: this.drugs || 0,
+        weapons: this.weapons || 0,
+        alcohol: this.alcohol || 0,
+        future: this.future || 0,
+      };
+      if (this.drugs > 0 || this.weapons > 0 || this.alcohol > 0 || this.future > 0) {
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources: { drugs, weapons, alcohol, future },
+          resources,
         };
         this.depositGangBuilding(payload)
           .then(() => {
@@ -146,20 +148,22 @@ export default {
         this.isLoading = false;
       }
     },
-    handleUpgrade(use) {
+    handleUpgrade() {
       this.isLoading = true;
       let payload = {};
       if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
       else {
-        const drugs = this.drugs;
-        const weapons = this.weapons;
-        const alcohol = this.alcohol;
-        console.log(drugs, weapons, alcohol);
+        const resources = {
+          drugs: this.drugs || 0,
+          weapons: this.weapons || 0,
+          alcohol: this.alcohol || 0,
+          future: this.future || 0,
+        };
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources: { drugs, weapons, alcohol },
+          resources,
         };
       }
       this.upgradeGangBuilding(payload)

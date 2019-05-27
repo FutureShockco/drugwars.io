@@ -64,8 +64,8 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 import io from 'socket.io-client';
 
-// const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
-const socket = new io.connect('http://localhost:8082');
+const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+// const socket = new io.connect('http://localhost:8082');
 
 export default {
   data() {

@@ -32,7 +32,6 @@
                   
 								</h2>
                 <div class="column col-6 text-right" >
-                    {{lastUpdate(myEvents(gang.gang))}}
 									<button v-if="otherEvents(gang.gang).event_type ==='war' || myEvents(gang.gang).event_type ==='war'" @click="handleStop('war',gang.gang)" class="button button-blue mb-2" :disabled="isLoading || otherEvents(gang.gang).event_type ==='war' ||  lastUpdate(myEvents(gang.gang)) && myEvents(gang.gang).event_type ==='war'  || myEvents(gang.gang).event_type !=='war'">
 										<span v-if="!isLoading">stop war</span>
 										<SmallLoading v-else/>

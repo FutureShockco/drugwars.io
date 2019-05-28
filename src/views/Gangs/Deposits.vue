@@ -5,7 +5,7 @@
       <div
         v-for="item in items"
         :key="item.id">
-        <div class="d-flex flex-lg-row flex-column text-center text-lg-left item columns">
+        <div class="d-flex flex-lg-row flex-column text-center text-lg-left item columns m-0">
 
         <div class="item-content width-full mr-3 mb-4">
             <h5>{{ item.name }}</h5>

@@ -436,6 +436,7 @@ const actions = {
   send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
+      console.log(payload);
       dwsocial(username, payload, result => {
         if (result) {
           store.dispatch('init');
@@ -445,7 +446,7 @@ const actions = {
           });
           return resolve(result);
         }
-
+        console.log(result);
         reject();
       });
     }),

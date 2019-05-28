@@ -8,7 +8,7 @@
 					<div v-else>
 						<h1 class="mb-4">
 							<GangImage class="mr-3" size="120" v-if="mygang && mygang.image" :image="mygang.image"/>
-							{{ mygang.name || mygang.gang }}
+							<div v-if="mygang">{{ mygang.name || mygang.gang }}</div>
 							<span>[{{ mygang.ticker }}]</span>
 						</h1>
 						<div>
@@ -21,7 +21,7 @@
 							>
 								<h2 class="mt-0 column col-6">
 									<GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image"/>
-									<router-link
+									<router-link v-if="gang"
 										:to="`/gangs/gang/${gang.gang}`"
 									>{{ gang.name || gang.gang }} [{{gang.ticker}}]
                      <button  v-if="otherEvents(gang.gang).event_type ==='alliance' && myEvents(gang.gang).event_type ==='alliance'" class="button ml-2 allies button-green ">
@@ -32,6 +32,7 @@
                   
 								</h2>
                 <div class="column col-6 text-right" >
+                    {{lastUpdate(myEvents(gang.gang))}}
 									<button v-if="otherEvents(gang.gang).event_type ==='war' || myEvents(gang.gang).event_type ==='war'" @click="handleStop('war',gang.gang)" class="button button-blue mb-2" :disabled="isLoading || otherEvents(gang.gang).event_type ==='war' ||  lastUpdate(myEvents(gang.gang)) && myEvents(gang.gang).event_type ==='war'  || myEvents(gang.gang).event_type !=='war'">
 										<span v-if="!isLoading">stop war</span>
 										<SmallLoading v-else/>
@@ -76,12 +77,14 @@
 import { mapActions } from 'vuex';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
+import { filter, pickBy } from 'lodash';
 
 export default {
   data() {
     return {
       id: this.$route.params.id,
       isInit: false,
+      isLoading: false,
       mygang: null,
       gangs: null,
       members: null,
@@ -122,14 +125,14 @@ export default {
     ...mapActions(['init', 'send', 'notify', 'refresh_gang_buildings']),
     handleSubmit(type, gang) {
       this.isLoading = true;
-
       const payload = {
         event: type,
         gang,
         type: 'dw-gang-event',
       };
       this.send(payload)
-        .then(() => {
+        .then(result => {
+          console.log(result);
           this.load_events();
           this.isLoading = false;
         })

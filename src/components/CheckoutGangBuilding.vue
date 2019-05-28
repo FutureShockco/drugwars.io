@@ -105,7 +105,7 @@ export default {
       return 0;
     },
     isBoss() {
-      return this.user.role === 'boss' || this.user.role === 'capo' ;
+      return this.user.role === 'boss' || this.user.role === 'capo';
     },
     requireUpdate() {
       return this.level > this.hqLevel && this.id !== 'gang_hq';

@@ -14,6 +14,9 @@
      <UiTab :to="`/gangs/gang/${user.gang}/diplomacy`" v-if="user.gang">
         Diplomacy
       </UiTab>
+           <UiTab :to="`/gangs/gang/${user.gang}/deposit`" v-if="user.gang">
+        Deposit
+      </UiTab>
     </UiTabs>
   </Header>
 </template>

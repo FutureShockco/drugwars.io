@@ -33,6 +33,8 @@ const GangBuildings = () =>
   import(/* webpackChunkName: "gang-buildings" */ '@/views/Gangs/Buildings.vue');
 const Diplomacy = () =>
   import(/* webpackChunkName: "gang-diplomacy" */ '@/views/Gangs/Diplomacy.vue');
+const GangDeposits = () =>
+  import(/* webpackChunkName: "gang-deposits" */ '@/views/Gangs/Deposits.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
@@ -216,6 +218,13 @@ export default new Router({
       beforeEnter: requireAuth,
       component: Diplomacy,
     },
+    {
+      path: '/gangs/gang/:id/deposit',
+      name: 'gang-deposit',
+      beforeEnter: requireAuth,
+      component: GangDeposits,
+    },
+
     {
       path: '/market/shop',
       name: 'shop',

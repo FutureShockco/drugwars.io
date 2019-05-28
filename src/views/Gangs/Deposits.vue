@@ -5,12 +5,12 @@
       <div
         v-for="item in items"
         :key="item.id">
-        <div class="d-flex flex-lg-row flex-column text-center text-lg-left item">
+        <div class="d-flex flex-lg-row flex-column text-center text-lg-left item columns">
 
         <div class="item-content width-full mr-3 mb-4">
             <h5>{{ item.name }}</h5>
-          <div v-for="deposit in deposits" :key="deposit.username" class="columns">
-              <div class="column col-4" v-if="deposit.building === item.id">
+          <div v-for="deposit in deposits" :key="deposit.username" class="column col-2">
+              <div v-if="deposit.building === item.id">
                 <Avatar 
                   class="mx-2"
                   :size="40"

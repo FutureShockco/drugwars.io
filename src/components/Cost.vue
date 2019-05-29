@@ -36,6 +36,9 @@ import { getBalances } from '@/helpers/utils';
 export default {
   props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
     balances() {
       let ocLvl = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))

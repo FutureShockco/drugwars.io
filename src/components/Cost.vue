@@ -35,13 +35,31 @@ export default {
   props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
     balances() {
-      const { user } = this.$store.state.game.user;
-      const time = (this.$store.state.ui.timestamp - Date.parse(user.last_update)) / 1000;
-      return {
-        drugs: user.drugs_balance + time * user.drug_production_rate,
-        weapons: user.weapons_balance + time * user.weapon_production_rate,
-        alcohols: user.alcohols_balance + time * user.alcohol_production_rate,
-      };
+      let ocLvl = 0;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+          .lvl;
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
+      return getBalances(
+        this.user,
+        ocLvl,
+        labLvl,
+        weaponLvl,
+        distilleryLvl,
+        this.$store.state.ui.timestamp,
+      );
     },
   },
 };

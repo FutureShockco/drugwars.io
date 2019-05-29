@@ -103,7 +103,27 @@ export default {
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
         ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
           .lvl;
-      return getBalances(this.user, ocLvl, this.$store.state.ui.timestamp);
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
+      return getBalances(
+        this.user,
+        ocLvl,
+        labLvl,
+        weaponLvl,
+        distilleryLvl,
+        this.$store.state.ui.timestamp,
+      );
     },
     dailyRewards() {
       const { prizeProps } = this.$store.state.game;
@@ -155,19 +175,41 @@ export default {
       let oc = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
         oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
-      return this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005;
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
+      return (
+        this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025
+      );
     },
     weaponBonus() {
       let oc = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
         oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
-      return this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
+      return (
+        this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005
+      );
     },
     alcoholBonus() {
       let oc = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
         oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
-      return this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
+      return (
+        this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005
+      );
     },
   },
 };

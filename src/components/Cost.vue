@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { getBalances } from '@/helpers/utils';
+
 export default {
   props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {

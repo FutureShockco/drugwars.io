@@ -39,6 +39,9 @@ export default {
     };
   },
   computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
     balances() {
       let ocLvl = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))

@@ -28,7 +28,6 @@ const actions = {
   login: async ({ commit }) =>
     new Promise(resolve => {
       if (localStorage.getItem('access_token')) {
-        client.restart();
         const token = localStorage.getItem('access_token');
         client
           .requestAsync('login', { token })

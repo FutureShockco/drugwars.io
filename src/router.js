@@ -70,6 +70,7 @@ setInterval(() => {
 
 const requireAuth = (to, from, next) => {
   if (client.ws.readyState === 3) {
+    client.restart();
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
@@ -87,8 +88,7 @@ const requireAuth = (to, from, next) => {
         next({ name: 'login', query: { redirect } });
       }
     });
-  }
-  if (!store.state.auth.username) {
+  } else if (!store.state.auth.username) {
     store.dispatch('showLoading');
 
     store.dispatch('login').then(() => {

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
 import { isWeb } from '@/helpers/utils';
+import client from '@/helpers/client';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
@@ -68,8 +69,28 @@ setInterval(() => {
 }, 1000);
 
 const requireAuth = (to, from, next) => {
+  if (client.ws.readyState === 3) {
+    store.dispatch('login').then(() => {
+      if (store.state.auth.username) {
+        store.dispatch('init').then(() => {
+          store.dispatch('refresh_inc_fights_count');
+          store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_inc_fights');
+          store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_gang_buildings');
+          store.dispatch('hideLoading');
+          next();
+        });
+      } else {
+        store.dispatch('hideLoading');
+        const redirect = to.fullPath === '/' ? undefined : to.fullPath;
+        next({ name: 'login', query: { redirect } });
+      }
+    });
+  }
   if (!store.state.auth.username) {
     store.dispatch('showLoading');
+
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {

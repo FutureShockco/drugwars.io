@@ -89,7 +89,6 @@ export default {
       members: null,
       message: null,
       user: this.$store.state.game.user.user,
-      isLoading: false,
       events: null,
     };
   },

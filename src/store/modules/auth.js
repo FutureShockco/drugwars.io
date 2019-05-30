@@ -28,6 +28,7 @@ const actions = {
   login: async ({ commit }) =>
     new Promise(resolve => {
       if (localStorage.getItem('access_token')) {
+        client.restart();
         const token = localStorage.getItem('access_token');
         client
           .requestAsync('login', { token })
@@ -45,6 +46,7 @@ const actions = {
             resolve(e);
           });
       } else {
+        console.log('no access token');
         resolve();
       }
     }),

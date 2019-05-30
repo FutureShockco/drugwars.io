@@ -4,6 +4,7 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
+
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -23,6 +24,7 @@ const state = {
   fights: [],
   gang_buildings: [],
   chat: false,
+  isconnected: null,
 };
 
 const mutations = {
@@ -50,6 +52,9 @@ const mutations = {
   saveGangEvents(_state, payload) {
     Vue.set(_state, 'gang_events', payload);
   },
+  saveConnected(_state, payload) {
+    Vue.set(_state, 'isconnected', payload);
+  },
 };
 
 const soundAlert = {
@@ -67,98 +72,103 @@ const authToken = function() {
   return accessToken;
 };
 
-client.notifications = () => {};
-client.subscribe((data, message) => {
-  if (
-    message[1].body &&
-    message[1].body.type !== undefined &&
-    message[1].body.type === 'start_attack'
-  ) {
-    store.dispatch('refresh_sent_fights');
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: `Your troops are on their way to attack ${message[1].body.target}!`,
-    });
-  }
-
-  if (message[1].body === 'update') {
-    store.dispatch('init');
-  }
-  if (message[1].body === 'complete') {
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'Upgrade complete!',
-    });
-  }
-  if (message[1].body === 'training_complete') {
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'Training complete!',
-    });
-  }
-  if (message[1].body === 'future') {
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'You received your FUTURE Tokens!',
-    });
-  }
-  if (message[1].body === 'fight') {
-    store.dispatch('refresh_sent_fights_count');
-    store.dispatch('init');
-  }
-
-  if (message[1].body === 'receiveattack') {
-    store.dispatch('refresh_inc_fights_count');
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'error',
-      message: 'Some opponents troops are coming to your base!',
-    });
-    if (localStorage.getItem('attack_alert')) {
-      soundAlert.playAttackAlert();
+const clientSub = function() {
+  client.ws.onerror = function(event) {
+    console.error('WebSocket error observed:', event);
+  };
+  client.notifications = () => {};
+  client.subscribe((data, message) => {
+    if (
+      message[1].body &&
+      message[1].body.type !== undefined &&
+      message[1].body.type === 'start_attack'
+    ) {
+      store.dispatch('refresh_sent_fights');
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: `Your troops are on their way to attack ${message[1].body.target}!`,
+      });
     }
-  }
 
-  if (message[1].body === 'end_attack') {
-    store.dispatch('refresh_sent_fights_count');
-    store.dispatch('refresh_sent_fights');
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'Your troops have reached their destination!',
-    });
-  }
+    if (message[1].body === 'update') {
+      store.dispatch('init');
+    }
+    if (message[1].body === 'complete') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Upgrade complete!',
+      });
+    }
+    if (message[1].body === 'training_complete') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Training complete!',
+      });
+    }
+    if (message[1].body === 'future') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'You received your FUTURE Tokens!',
+      });
+    }
+    if (message[1].body === 'fight') {
+      store.dispatch('refresh_sent_fights_count');
+      store.dispatch('init');
+    }
 
-  if (message[1].body === 'end_inc_attack') {
-    store.dispatch('refresh_inc_fights_count');
-    store.dispatch('refresh_inc_fights');
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'error',
-      message: 'You are under attack!',
-    });
-  }
+    if (message[1].body === 'receiveattack') {
+      store.dispatch('refresh_inc_fights_count');
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'error',
+        message: 'Some opponents troops are coming to your base!',
+      });
+      if (localStorage.getItem('attack_alert')) {
+        soundAlert.playAttackAlert();
+      }
+    }
 
-  if (message[1].body === 'start_attack') {
-    store.dispatch('init');
-    store.dispatch('refresh_sent_fights_count');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'Your troops are on their way to their destination!',
-    });
-  }
-  if (message[1].body === 'unit') {
-    store.dispatch('init');
-    store.dispatch('notify', {
-      type: 'success',
-      message: 'Your troops are now available in the bootcamp!',
-    });
-  }
-});
+    if (message[1].body === 'end_attack') {
+      store.dispatch('refresh_sent_fights_count');
+      store.dispatch('refresh_sent_fights');
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Your troops have reached their destination!',
+      });
+    }
+
+    if (message[1].body === 'end_inc_attack') {
+      store.dispatch('refresh_inc_fights_count');
+      store.dispatch('refresh_inc_fights');
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'error',
+        message: 'You are under attack!',
+      });
+    }
+
+    if (message[1].body === 'start_attack') {
+      store.dispatch('init');
+      store.dispatch('refresh_sent_fights_count');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Your troops are on their way to their destination!',
+      });
+    }
+    if (message[1].body === 'unit') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Your troops are now available in the bootcamp!',
+      });
+    }
+  });
+};
 
 const actions = {
   init: ({ commit, dispatch }) =>
@@ -172,6 +182,8 @@ const actions = {
               Promise.all([client.requestAsync('get_prize_props', null)]).then(([prizeProps]) => {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
+                clientSub();
+                commit('saveConnected', true);
                 resolve();
               });
             } else {
@@ -506,6 +518,9 @@ const actions = {
         dispatch('init');
       });
     }
+  },
+  disconnect: ({ commit }) => {
+    commit('saveConnected', false);
   },
 };
 

@@ -3,6 +3,8 @@
     <div class="d-flex flex-column height-full">
       <div class="text-center pt-2 pb-3">
         <!-- <h5 class="text-center text-red">LIVE MAINTENANCE, YOU MAY HAVE SOME ISSUE WHILE PLAYING. END TIME : 7PM UTC</h5> -->
+        <div class="text-green mb-2" v-if="isConnected">Connected</div>
+        <div class="text-red mb-2"  v-else>Disconnected</div>
         <Avatar
           :size="100"
           :username="user.nickname"
@@ -163,6 +165,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import client from '@/helpers/client';
 
 export default {
   computed: {
@@ -192,6 +195,9 @@ export default {
         return this.$store.state.game.sent_fights_count;
       }
       return 0;
+    },
+    isConnected() {
+      return this.$store.state.game.isconnected;
     },
   },
   methods: {

@@ -23,7 +23,7 @@
     </button>
     <h3 class="mt-0 mb-0" v-else> ${{ item.price | amount }}</h3>
          <PayPal
-          :amount="item.price"
+          :amount="item.price.toString()"
           currency="USD"
           :client="credentials"
           :items="myItems"
@@ -47,9 +47,8 @@ export default {
   data() {
     return {
       credentials: {
-        sandbox: 'AXUvDP_wEMVrtader-5IcAqlYIMJO4b2ivulbLCLCUfJp7pPFBnfgx_SgY2yrhmQRmzlkNMxxa99XVYJ',
-        production:
-          'AX1SwcnKodlU3KBupeYfzptXa4_Nm09AiWjbAzau8r_Vi_awPrlEFzcYKtYOpTGImg8-_pqc9FoCMQoh',
+        sandbox: process.env.VUE_APP_PAYPAL_SANDBOX,
+        production: process.env.VUE_APP_PAYPAL_PROD,
       },
       experienceOptions: {
         input_fields: {

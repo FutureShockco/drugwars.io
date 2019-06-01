@@ -19,8 +19,6 @@ export default {
   display: inline-block;
   text-transform: uppercase;
   color: black !important;
-  background-image: linear-gradient(to bottom, #1f1f1f, #000000 74%) !important;
-  padding-top: 6px;
   font-family: @special-font;
   a {
     color: @text-color;

@@ -8,9 +8,13 @@
             <span v-if="result ==='lost'">-</span>
             <span v-else>+</span> {{ stolenResources.weapons | amount }} WEAPONS
         </div>
-        <div v-if="stolenResources.alcohols">
+        <div v-if="stolenResources.alcohols || stolenResources.alcohol">
             <span v-if="result ==='lost'">-</span>
-            <span v-else>+</span> {{ stolenResources.alcohols | amount }} ALCOHOL
+            <span v-else>+</span> {{ stolenResources.alcohols || stolenResources.alcohol | amount }} ALCOHOL
+        </div>
+        <div v-if="stolenResources.future">
+            <span v-if="result ==='lost'">-</span>
+            <span v-else>+</span> {{ stolenResources.future | amount }} FUTURE
         </div>
     </div>
 </template>

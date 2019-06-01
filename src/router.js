@@ -18,12 +18,14 @@ const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Building
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
-const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Fights/Fight.vue');
-const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Fights/Outgoing.vue');
-const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Fights/Incoming.vue');
-const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Fights/Targets.vue');
+const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Actions/Fight.vue');
+const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
+
+const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
+const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
+const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
 const HallOfFame = () =>
-  import(/* webpackChunkName: "hall-of-fame" */ '@/views/Fights/HallOfFame.vue');
+  import(/* webpackChunkName: "hall-of-fame" */ '@/views/Actions/HallOfFame.vue');
 
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
@@ -180,25 +182,37 @@ export default new Router({
       component: Training,
     },
     {
-      path: '/fight',
+      path: '/actions',
+      name: 'actions',
+      beforeEnter: requireAuth,
+      component: Fight,
+    },
+    {
+      path: '/actions/fight',
       name: 'fight',
       beforeEnter: requireAuth,
       component: Fight,
     },
     {
-      path: '/fight/outgoing',
+      path: '/actions/transport',
+      name: 'transport',
+      beforeEnter: requireAuth,
+      component: Transport,
+    },
+    {
+      path: '/actions/outgoing',
       name: 'outgoing',
       beforeEnter: requireAuth,
       component: Outgoing,
     },
     {
-      path: '/fight/incoming',
+      path: '/actions/incoming',
       name: 'incoming',
       beforeEnter: requireAuth,
       component: Incoming,
     },
     {
-      path: '/fight/targets',
+      path: '/actions/targets',
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <FightsTabs/>
-        <div class="p-4 columns">
+        <ActionsTabs/>
+        <div class="p-4 mt-2 columns">
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <h3>Select your army composition</h3>
                 <div>
@@ -11,8 +11,8 @@
                 </div>
                 <div class="column pl-0 mt-6 col-6 text-left width-full">
                   <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
-                          <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
-                         <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
+                  <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
+                  <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
                   <button class="button button-red" @click="deleteCombination(combination.name)">delete squad</button>
                   <button class="button button-blue ml-2" @click="loadCombination(combination.set)">load {{combination.name}}</button>
                 </div>
@@ -21,7 +21,7 @@
     
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <div>
-                    <div class="mb-4">
+                    <div class="mb-2">
                         <h3 class="mb-2">Your selected army</h3>
                         <ArmyToSend :units="selectedUnits" />
                     </div>

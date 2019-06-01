@@ -18,6 +18,10 @@
 				>Follow us on Youtube</a>
 				<button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
 			</UiCenter>
+      	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
+          <h5>You have lost the connection to the game!</h5>
+				<button class="button button-green" id="show-modal" @click="reconnect()">Reconnect</button>
+			</UiCenter>
 			<TopNav v-if="username"/>
 			<Sidebars v-if="username && showSidebar"/>
 			<balloon v-if="username" title="DrugWars LiveChat" position="bottom-right" :zooming="false">
@@ -34,6 +38,9 @@
 </template>
 
 <script>
+import store from '@/store';
+import client from '@/helpers/client';
+
 export default {
   data() {
     return {
@@ -54,11 +61,30 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
+    isConnected() {
+      if (store.state.auth.username) return this.$store.state.game.isconnected;
+      return true;
+    },
   },
   methods: {
     closeModal() {
       localStorage.setItem('firstime', true);
       this.modalIsOpen = true;
+    },
+    reconnect() {
+      client.restart();
+      store.dispatch('login').then(() => {
+        if (store.state.auth.username) {
+          store.dispatch('init').then(() => {
+            store.dispatch('refresh_inc_fights_count');
+            store.dispatch('refresh_sent_fights_count');
+            store.dispatch('refresh_inc_fights');
+            store.dispatch('refresh_sent_fights');
+          });
+        } else {
+          this.$router.push({ path: '/login' });
+        }
+      });
     },
   },
 };

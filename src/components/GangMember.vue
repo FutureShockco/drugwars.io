@@ -1,6 +1,6 @@
    <template>
 	<div>
-		<router-link :to="`/fight?target=${member.nickname}`">
+		<router-link :to="`/actions/fight?target=${member.nickname}`">
 			<GangImage :image="member.picture" size="40" class="mr-2"/>
 			{{ member.nickname }} {{ member.role }}
 		</router-link>
@@ -31,6 +31,16 @@
 			<span v-if="!isLoading">Leave gang</span>
 			<SmallLoading v-else/>
 		</button>
+        <router-link
+      :to="`/actions/transport?target=${member.nickname}`">
+    <button
+			class="button button-blue float-right mr-2"
+			:disabled="isLoading"
+			v-if="member.nickname !== user.nickname">
+			<span v-if="!isLoading">Transport</span>
+			<SmallLoading v-else/>
+		</button>
+        </router-link>
 	</div>
 </template>
 

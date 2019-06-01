@@ -1,8 +1,8 @@
 <template>
   <div>
-    <FightsTabs/>
+    <ActionsTabs/>
     <div class="p-4">
-      <FightsFight
+      <ActionsFight
         v-if="fights.length > 0"
         v-for="fight in fights"
         :key="fight.fight_key"

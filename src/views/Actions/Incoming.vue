@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<FightsTabs/>
+		<ActionsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
 			:page-count="Math.ceil(inc/50)"
@@ -13,7 +13,10 @@
 			:page-class="'fight'"
 		></Paginate>
 		<div class="p-4">
-			<FightsFight class="fight" v-for="fight in fights" :key="fight.fight_key" :fight="fight"/>
+      <div class="fight"  v-for="fight in fights" :key="fight.fight_key || fight.transport_key" >
+        	<ActionsFight v-if="fight.type === 'fight'" :fight="fight"/>
+           <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
+      </div>
 			<p v-if="!fights || !fights.length"><Loading/></p>
 		</div>
 		<Paginate
@@ -33,6 +36,7 @@
 <script>
 import { mapActions } from 'vuex';
 import Paginate from 'vuejs-paginate';
+import { orderBy } from 'lodash';
 
 export default {
   components: {
@@ -45,7 +49,7 @@ export default {
   },
   computed: {
     fights() {
-      return this.$store.state.game.inc_fights;
+      return orderBy(this.$store.state.game.inc_fights, 'end_date', 'desc');
     },
   },
   methods: {

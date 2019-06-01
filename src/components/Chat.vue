@@ -17,11 +17,11 @@
 				<div class="text-left item width-full">
 					<div class="columns">
 					<div class="column pl-1 col-3">
-										<router-link
+										<div
 					v-if="response.sender != user.nickname"
-					:to="`/fight?target=${response.sender}`">
+					:to="`/actions/fight?target=${response.sender}`">
 					<Avatar :size="40" :username="response.sender" :picture="response.picture"/>
-						</router-link>
+						</div>
 											<Avatar v-else :size="40" :username="response.sender" :picture="response.picture"/>
 						<h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
 					</div>

@@ -1,12 +1,10 @@
 <template>
   <div class="py-3  px-0 m-1 columns text-center border-bottom">
     <div class="column col-3 px-0">
-        <router-link
-      :to="`/fight?target=${player.nickname}`">
-     <Avatar 
+    <Avatar 
       class="mx-2"
       :size="60"
-      :username="player.username"
+      :username="player.nickname"
       :rank="rank"
       :picture="player.picture"
       :xp="player.xp"
@@ -17,7 +15,6 @@
         [{{ player.ticker }}]
       </div>
     </div>
-    </router-link>
     </div>
       <div class="column px-0 col-2">
       <h5 class="production mt-0">

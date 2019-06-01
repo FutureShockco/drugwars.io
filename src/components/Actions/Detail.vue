@@ -25,9 +25,9 @@
       </li>
     </ul>
     				<h5 v-if="detail && detail.buildings">BUILDINGS :</h5>
-    <FightsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings"/>
+    <ActionsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings"/>
     				<h5 v-if="detail && detail.trainings">TRAINING :</h5>
-    <FightsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings"/>
+    <ActionsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings"/>
     <div v-if="detail">
       <a @click="openInNewTab()">Open in the simulator</a>
     </div>

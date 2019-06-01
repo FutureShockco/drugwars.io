@@ -119,7 +119,7 @@ const actions = {
         })
         .catch(err => {
           console.log(err);
-          handleError(dispatch, err, 'Loading account failed');
+          handleError(dispatch, err, 'Loading incoming fights failed');
           return reject(err);
         });
     }),
@@ -129,12 +129,12 @@ const actions = {
       client
         .requestAsync('get_inc_fights_count', { token })
         .then(fights => {
-          commit('saveFightsCount', fights[0].count);
+          commit('saveFightsCount', fights);
           return resolve(fights);
         })
         .catch(err => {
           console.log(err);
-          handleError(dispatch, err, 'Loading account failed');
+          handleError(dispatch, err, 'Loading incoming fights count failed');
           return reject(err);
         });
     }),
@@ -159,18 +159,39 @@ const actions = {
           return reject(err);
         });
     }),
+  refresh_sent_transports: ({ commit, dispatch }, limit) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      let start = 0;
+      let end = 50;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
+      }
+      client
+        .requestAsync('get_sent_transports', { token, start, end })
+        .then(transports => {
+          commit('saveSentTransports', transports);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent transports failed');
+          return reject(err);
+        });
+    }),
   refresh_sent_fights_count: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
         .requestAsync('get_sent_fights_count', { token })
         .then(fights => {
-          commit('saveSentFightsCount', fights[0].count);
+          commit('saveSentFightsCount', fights);
           return resolve();
         })
         .catch(err => {
           console.log(err);
-          handleError(dispatch, err, 'Loading sent fights failed');
+          handleError(dispatch, err, 'Loading sent fights count failed');
           return reject(err);
         });
     }),
@@ -325,7 +346,29 @@ const actions = {
             type: 'success',
             message: result,
           });
+          store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_sent_fights');
+          return resolve(result);
+        }
+
+        reject();
+      });
+    }),
+  transport: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'transport'; // eslint-disable-line no-param-reassign
+      dwsocial(username, payload, result => {
+        if (result) {
+          console.log(result);
+          store.dispatch('init');
+          store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_sent_fights_count');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
           return resolve(result);
         }
 

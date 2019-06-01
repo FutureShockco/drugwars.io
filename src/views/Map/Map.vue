@@ -3,6 +3,3 @@
         <Worldmap />
   </div>
 </template>
-
-<script>
-</script>

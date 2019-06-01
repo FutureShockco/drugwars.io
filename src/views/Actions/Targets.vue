@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FightsTabs/>
+    <ActionsTabs/>
     <div v-if="isLoading" class="p-4 text-center mt-6">
       <Loading/>
     </div>

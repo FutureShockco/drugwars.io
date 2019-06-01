@@ -56,7 +56,7 @@
         <div v-if="username !== me" class="mb-4">
           <router-link
             class="button button-red button-large"
-            :to="`/fight?target=${username}`"
+            :to="`/actions/fight?target=${username}`"
           >
             Attack {{ username }}
           </router-link>

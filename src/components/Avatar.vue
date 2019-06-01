@@ -1,4 +1,6 @@
 <template>
+<div>
+  <Dropdown v-if="username != user.nickname" :config="config" :prefix="username">
   <div
     class="avatar"
     :style="{
@@ -21,11 +23,58 @@
       Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
   </div>
+</Dropdown>
+<div v-else
+    class="avatar"
+    :style="{
+      'width': `${size}px`,
+      'height': `${size}px`,
+    }"
+  >
+    <span class="avatar-img"
+      :style="{
+        'background-image': `url(${picture}`,
+        'width': `${size}px`,
+        'height': `${size}px`,
+       }"
+    />
+    <span class="avatar-border"/>
+    <span class="rank py-1 px-2" v-if="rank">
+      Rank: {{ rank }}
+    </span>
+    <span class="level py-1 px-2" v-if="xp">
+      Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
+    </span>
+  </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: ['username', 'size', 'xp', 'rank', 'picture'],
+  data() {
+    return {
+      config: {
+        options: [
+          // {
+          //     value: "Message"
+          // },
+          {
+            value: 'Attack',
+          },
+          {
+            value: 'Transport',
+          },
+        ],
+        backgroundColor: 'green',
+      },
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+  },
 };
 </script>
 

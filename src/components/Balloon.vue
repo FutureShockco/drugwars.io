@@ -3,7 +3,9 @@
 		<div class="vb-wrapper" v-if="!closed">
 			<div :class="classes">
 				<div class="vb-header">
-					<div class="vb-title">{{ title }}</div>
+					<div class="vb-title" v-if="concise && !maximized && !hideConciseButton" 			@click="changeState(false)">{{ title }}</div>
+          <div class="vb-title"	v-else	@click="changeState(true)">{{ title }}</div>
+
 					<div class="vb-buttons">
 						<i
 							class="iconfont icon-arrow-up"
@@ -166,8 +168,8 @@ $transition-length: 0.25s;
 $transition-length-long: $transition-length * 2;
 $balloon-base-width: 360px;
 $content-ratio: 32/16;
-$minimized-padding: 15px;
-$maximized-padding: 20px;
+$minimized-padding: 0px;
+$maximized-padding: 0px;
 $small-screen-width: 360px;
 $small-screen-height: 450px;
 

@@ -1,32 +1,40 @@
 <template>
 	<div>
-				<div class="black p-0">
-					<button class="button button-black">Main</button>
-					<button class="button button-black">
-						Gang
-						<span class="text-red">0</span>
-					</button>
-					<button class="button button-black">
-						Private
-						<span class="text-red">0</span>
-					</button>
-					<button class="button button-black">Users 		<span class="text-red">{{members.length}}</span></button>
-				</div>
+		<div class="black p-0">
+			<button class="button button-black">Main</button>
+			<button class="button button-black">
+				Gang
+				<span class="text-red">0</span>
+			</button>
+			<button class="button button-black">
+				Private
+				<span class="text-red">0</span>
+			</button>
+			<button class="button button-black">
+				Users
+				<span class="text-red">{{members.length}}</span>
+			</button>
+		</div>
 		<div class="chat">
 			<div :key="response.id" v-for="response in responses" class="border-bottom">
 				<div class="text-left item width-full">
 					<div class="columns">
-					<div class="column pl-1 col-3">
-										<div
-					v-if="response.sender != user.nickname"
-					:to="`/actions/fight?target=${response.sender}`">
-					<Avatar :size="40" :username="response.sender" :picture="response.picture"/>
+						<div class="column pl-1 col-3">
+							<div
+								v-if="response.sender != user.nickname"
+								:to="`/actions/fight?target=${response.sender}`"
+							>
+								<Avatar :size="40" :username="response.sender" :picture="response.picture"/>
+							</div>
+							<Avatar v-else :size="40" :username="response.sender" :picture="response.picture"/>
+							<h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
 						</div>
-											<Avatar v-else :size="40" :username="response.sender" :picture="response.picture"/>
-						<h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
-					</div>
-						<div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
-											<div class="column date pr-0 col-1">{{response.date}}</div>
+						<div
+							class="column col-7 message text-left"
+							v-if="response.text"
+							v-html="checkUrl(response.text)"
+						></div>
+						<div class="column date pr-0 col-1">{{response.date}}</div>
 					</div>
 				</div>
 			</div>
@@ -36,21 +44,22 @@
 			<div v-else>
 				<div class="columns">
 					<h5>your message</h5>
-										<div class="column pl-0 col-10">
-					<textarea
-						type="text"
-						class="input input-block mb-2"
-						placeholder="Write here."
-						v-model="message" v-on:keyup.13="handleSubmit"
-						maxlength="280"
-					></textarea>
+					<div class="column pl-0 col-10">
+						<textarea
+							type="text"
+							class="input input-block mb-2"
+							placeholder="Write here."
+							v-model="message"
+							v-on:keyup.13="handleSubmit"
+							maxlength="280"
+						></textarea>
 					</div>
 					<div class="column pr-0 col-2">
-					<button
-						@click="handleSubmit()"
-						class="button button-green btn-block mb-2"
-						:disabled="isLoading"
-					>Send</button>
+						<button
+							@click="handleSubmit()"
+							class="button button-green btn-block mb-2"
+							:disabled="isLoading"
+						>Send</button>
 					</div>
 				</div>
 			</div>
@@ -66,7 +75,6 @@ import io from 'socket.io-client';
 
 if (socket) socket.disconnect();
 const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
-// const socket = new io.connect('http://localhost:8082');
 
 export default {
   data() {
@@ -80,6 +88,7 @@ export default {
       user: this.$store.state.game.user.user,
       applies: null,
       info: null,
+      autoscroll: false,
       responses: [],
     };
   },
@@ -96,19 +105,16 @@ export default {
         date: message.date,
       });
     });
-
     socket.on('user-connected', userId => {
       self.members.push(userId);
     });
-
     socket.on('init-chat', messages => {
       self.responses = messages;
     });
-
     socket.on('update-chat', messages => {
       self.responses = messages;
+      self.scrollToEnd();
     });
-
     socket.on('blocked', messages => {
       self.responses = messages;
       self.responses.push({
@@ -119,13 +125,12 @@ export default {
         date: new Date().toString(),
       });
     });
-
     socket.on('update-users', users => {
       self.members = users;
     });
   },
   updated() {
-    this.scrollToEnd();
+    if (this.autoscroll) this.scrollToEnd();
   },
   methods: {
     ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
@@ -140,6 +145,7 @@ export default {
           message,
         });
         this.message = null;
+        this.scrollToEnd();
         this.isLoading = false;
       }
     },

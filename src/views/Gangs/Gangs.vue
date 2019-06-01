@@ -7,7 +7,7 @@
         <h2>
           <GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image" />
           <router-link :to="`/gangs/gang/${gang.gang}`">
-            {{ gang.name || gang.gang }} [{{gang.ticker}}]
+            {{ gang.name || gang.gang }} [{{gang.ticker}}] {{gang.lvl}}
           </router-link>
         </h2>
         <p v-if="gang.about">{{ gang.about }}</p>
@@ -19,6 +19,7 @@
 
 <script>
 import client from '@/helpers/client';
+import { orderBy } from 'lodash';
 
 export default {
   data() {
@@ -30,7 +31,14 @@ export default {
   created() {
     this.isLoading = true;
     client.requestAsync('get_gangs', null).then(result => {
-      this.gangs = result;
+      const gangs = result;
+      this.gangs = orderBy(gangs, [( data ) => {
+    if ( data.lvl === null ) {
+        data.lvl= 0;
+    }
+    return data.lvl;
+    }
+ ], ['desc'])
       this.isLoading = false;
     });
   },

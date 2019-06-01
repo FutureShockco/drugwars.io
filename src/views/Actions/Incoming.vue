@@ -15,7 +15,7 @@
 		<div class="p-4">
       <div class="fight"  v-for="fight in fights" :key="fight.fight_key || fight.transport_key" >
         	<ActionsFight v-if="fight.type === 'fight'" :fight="fight"/>
-           <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
+          <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
       </div>
 			<p v-if="!fights || !fights.length"><Loading/></p>
 		</div>
@@ -41,6 +41,9 @@ import { orderBy } from 'lodash';
 export default {
   components: {
     Paginate,
+  },
+  created() {
+    this.load_fights(1);
   },
   data() {
     return {

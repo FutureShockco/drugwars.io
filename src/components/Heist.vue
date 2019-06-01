@@ -114,7 +114,7 @@ export default {
       }
     },
     handleFullSubmit() {
-      this.amount = this.balances.drugs;
+      this.amount = this.balances.drugs - parseInt((this.balances.drugs / 100) * 1);
     },
   },
 };

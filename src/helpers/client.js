@@ -27,6 +27,11 @@ client.requestAsync = (name, params) =>
     });
   });
 
+function playAttackAlert() {
+  const audio = new Audio(`../../public/audio/attack.mp3`);
+  audio.play();
+}
+
 function Sub(rawClient) {
   rawClient.ws.onclose = function(event) {
     store.dispatch('disconnect');
@@ -83,7 +88,7 @@ function Sub(rawClient) {
         message: 'Some opponents troops are coming to your base!',
       });
       if (localStorage.getItem('attack_alert')) {
-        soundAlert.playAttackAlert();
+        playAttackAlert();
       }
     }
 

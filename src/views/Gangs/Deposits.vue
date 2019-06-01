@@ -6,23 +6,24 @@
         v-for="item in items"
         :key="item.id">
         <div class="d-flex flex-lg-row flex-column text-center text-lg-left item columns m-0">
-
-        <div class="item-content width-full mr-3 mb-4">
-            <h5>{{ item.name }}</h5>
-          <div v-for="deposit in deposits" :key="deposit.username" class="column col-2">
-              <div v-if="deposit.building === item.id">
+        <div class="item-content width-full mb-4">
+          <h5 class="mt-0 pt-0">{{ item.name }}</h5>
+          <div v-for="(deposit, index) in deposits(item.id)" :key="deposit.username" class="column col-2  text-center">
+              <div v-if="deposit.building === item.id" class="deposit">
+                {{index+1}}
                 <Avatar 
                   class="mx-2"
                   :size="40"
                   :username="deposit.nickname"
                   :picture="deposit.picture"
                 />
-                <h5 class="text-left">
+                <h5 class="text-center name mt-1 pt-1 ">
                   {{deposit.nickname}}
                 </h5>
+                   <div class="special"><Icon :size="18" name="dw"/> {{deposit.total | amount}} </div>
                    <div><Icon :size="18" name="drug"/> {{deposit.drugs | amount}} </div>
                    <div><Icon :size="18" name="weapon"/> {{deposit.weapons | amount}} </div>
-                   <div> <Icon :size="18" name="alcohol"/> {{deposit.alcohol | amount}}</div>
+                   <div class="mb-3"> <Icon :size="18" name="alcohol"/> {{deposit.alcohol | amount}}</div>
               </div>
           </div>
         </div>
@@ -37,7 +38,7 @@
 import { buildings } from 'drugwars';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
-import { filter, pickBy } from 'lodash';
+import { filter, pickBy, orderBy } from 'lodash';
 import { mapActions } from 'vuex';
 
 export default {
@@ -46,7 +47,7 @@ export default {
       items: filter(pickBy(buildings, b => b.type === 'gang'), item => item.id !== 'exchange'),
       isLoading: false,
       buildings: [],
-      deposits: [],
+      alldeposits: [],
       id: this.$route.params.id,
     };
   },
@@ -54,7 +55,12 @@ export default {
     this.load_buildings();
     const promises = [client.requestAsync('get_gang_deposits', this.id)];
     Promise.all(promises).then(result => {
-      this.deposits = result[0];
+      let depositers = [];
+      [depositers] = result;
+      depositers.forEach(user => {
+        user.total = user.drugs + user.weapons + user.alcohol + user.future;
+        this.alldeposits.push(user);
+      });
       this.isInit = false;
       this.isLoading = false;
     });
@@ -73,6 +79,25 @@ export default {
         });
     },
     depositPerBuilding() {},
+    deposits(id) {
+      return filter(orderBy(this.alldeposits, 'total', 'desc'), item => item.building === id);
+    },
   },
+  computed: {},
 };
 </script>
+
+<style lang="less" scoped>
+.name {
+  font-size: 14px !important;
+}
+.special {
+  color: rgb(0, 173, 0);
+  font-weight: 700;
+}
+
+.deposit {
+  background: rgba(0, 0, 0, 0.699);
+  border-radius: 5px;
+}
+</style>

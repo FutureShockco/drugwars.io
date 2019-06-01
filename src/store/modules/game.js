@@ -57,13 +57,6 @@ const mutations = {
   },
 };
 
-const soundAlert = {
-  playAttackAlert() {
-    const audio = new Audio(`./audio/attack.mp3`);
-    audio.play();
-  },
-};
-
 const authToken = function() {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
@@ -180,7 +173,7 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_fights_count: ({ commit, dispatch }, limit) =>
+  refresh_sent_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -202,7 +195,7 @@ const actions = {
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.referrer = localStorage.getItem('drugwars_referrer') || null; // eslint-disable-line no-param-reassign
       payload.type = 'dw-chars'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -213,7 +206,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   upgradeBuilding: ({ rootState }, payload) =>
@@ -221,7 +214,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -232,7 +225,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   upgradeGangBuilding: ({ rootState }, payload) =>
@@ -240,7 +233,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-gang-upgrades'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -252,7 +245,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   depositGangBuilding: ({ rootState }, payload) =>
@@ -260,7 +253,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-gang-deposit'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -272,7 +265,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   upgradeTraining: ({ rootState }, payload) =>
@@ -280,7 +273,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -291,7 +284,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   recruitUnit: ({ rootState }, payload) =>
@@ -299,7 +292,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -310,7 +303,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   investHeist: ({ rootState }, amount) =>
@@ -321,7 +314,7 @@ const actions = {
         type: 'dw-heists',
       };
       payload.username = username; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -332,14 +325,14 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   startFight: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('notify', {
@@ -351,7 +344,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   transport: ({ rootState }, payload) =>
@@ -359,7 +352,7 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'transport'; // eslint-disable-line no-param-reassign
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
           store.dispatch('init');
@@ -372,7 +365,7 @@ const actions = {
           return resolve(result);
         }
 
-        reject();
+        return reject();
       });
     }),
   shareFight: ({ dispatch }, post) =>
@@ -393,7 +386,7 @@ const actions = {
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       console.log(payload);
-      dwsocial(username, payload, result => {
+      return dwsocial(username, payload, result => {
         if (result) {
           store.dispatch('init');
           store.dispatch('notify', {
@@ -403,7 +396,7 @@ const actions = {
           return resolve(result);
         }
         console.log(result);
-        reject();
+        return reject();
       });
     }),
   refresh_gang_buildings: ({ commit, dispatch }) =>

@@ -151,7 +151,7 @@ export default {
   z-index: 45;
   font-size: 16px;
   text-align: center;
-  margin-left: calc(50% - 40px);
+  margin-left: calc(50% - 35px);
   width: 70px;
   height: 20px;
   top: -25px;
@@ -169,6 +169,8 @@ export default {
   margin-top: 15px;
   box-shadow: 0px 0px 7px #919191;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
   .mask,
   .fill {
     position: absolute;

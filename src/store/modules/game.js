@@ -46,6 +46,12 @@ const mutations = {
   saveSentFightsCount(_state, payload) {
     Vue.set(_state, 'sent_fights_count', payload);
   },
+  saveIncTransportsCount(_state, payload) {
+    Vue.set(_state, 'inc_transports_count', payload);
+  },
+  saveSentTransportsCount(_state, payload) {
+    Vue.set(_state, 'sent_transports_count', payload);
+  },
   saveGangBuildings(_state, payload) {
     Vue.set(_state, 'gang_buildings', payload);
   },
@@ -152,27 +158,6 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_transports: ({ commit, dispatch }, limit) =>
-    new Promise((resolve, reject) => {
-      const token = authToken();
-      let start = 0;
-      let end = 50;
-      if (limit) {
-        start = limit.start;
-        end = limit.end;
-      }
-      client
-        .requestAsync('get_sent_transports', { token, start, end })
-        .then(transports => {
-          commit('saveSentTransports', transports);
-          return resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading sent transports failed');
-          return reject(err);
-        });
-    }),
   refresh_sent_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
@@ -185,6 +170,36 @@ const actions = {
         .catch(err => {
           console.log(err);
           handleError(dispatch, err, 'Loading sent fights count failed');
+          return reject(err);
+        });
+    }),
+  refresh_inc_transport_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_inc_transport_count', { token })
+        .then(transports => {
+          commit('saveIncTransportsCount', transports);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading inc transports count failed');
+          return reject(err);
+        });
+    }),
+  refresh_sent_transport_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_sent_transport_count', { token })
+        .then(transports => {
+          commit('saveSentTransportsCount', transports);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent transports count failed');
           return reject(err);
         });
     }),

@@ -63,7 +63,7 @@ export default {
             value: 'Attack',
           },
           {
-            value: 'Transport',
+            value: 'Carry',
           },
         ],
         backgroundColor: 'green',

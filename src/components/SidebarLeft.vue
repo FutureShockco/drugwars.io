@@ -67,9 +67,15 @@
             >
               Battles
               <span class="text-red" v-if="activeIncFightsCount > 0">
-              ( {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
+              ({{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
             </span>              <span class="text-green" v-if="activeFightsCount > 0">
-              ( {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>)
+              ({{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>)
+            </span>
+            <span class="text-blue" v-if="activeIncTransportsCount > 0">
+              ({{ activeIncTransportsCount }}<i class="iconfont icon-arrow-down"></i>)
+            </span>
+            <span class="text-purple" v-if="activeTransportsCount > 0">
+              ({{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>)
             </span>
             </router-link>
           </li>
@@ -100,6 +106,15 @@
               Gangs
             </router-link>
           </li>
+                    <!-- <li>
+            <router-link
+              to="/contracts"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Contracts
+            </router-link>
+          </li> -->
           <li>
             <router-link
               to="/rewards"
@@ -193,6 +208,18 @@ export default {
     activeFightsCount() {
       if (this.$store.state.game.sent_fights_count) {
         return this.$store.state.game.sent_fights_count;
+      }
+      return 0;
+    },
+    activeIncTransportsCount() {
+      if (this.$store.state.game.inc_transports_count) {
+        return this.$store.state.game.inc_transports_count;
+      }
+      return 0;
+    },
+    activeTransportsCount() {
+      if (this.$store.state.game.sent_transports_count) {
+        return this.$store.state.game.sent_transports_count;
       }
       return 0;
     },

@@ -6,14 +6,14 @@
 		:style="computedStyles"
 	>
 		<div v-expand="isExpanded" class="options expand" :class="{ toggled: isExpanded }">
-			<div 	v-for="option in configOptions"
+			<div class="d-inline-flex" 	v-for="option in configOptions"
 				:key="option.key"
 				:class="option">
       <router-link v-if="option.value ==='Attack'"
-      :to="`/actions/fight?target=${prefix}`">{{ option.value }}
+      :to="`/actions/fight?target=${prefix}`"><span class="button button-red">{{ option.value }}</span>
       </router-link>
-      <router-link v-if="option.value ==='Transport'"
-      :to="`/actions/transport?target=${prefix}`">{{ option.value }}
+      <router-link v-if="option.value ==='Carry'"
+      :to="`/actions/transport?target=${prefix}`"><span class="button button-blue">{{ option.value }}</span>
       </router-link>
       </div>
 		</div>
@@ -163,7 +163,7 @@ export default {
     }
   }
   .toggled {
-    margin-bottom: 10px !important;
+    margin-bottom: 0px !important;
   }
   .options {
     width: 100%;

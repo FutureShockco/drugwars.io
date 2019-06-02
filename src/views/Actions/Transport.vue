@@ -39,7 +39,7 @@
                                     :text-bg-color="'#1f1f1f'"
                                     :during="3"
                                     :border-color="'#ffc508'"
-                                    :bg-color="'##fbb034'"
+                                    :bg-color="'#fbb034'"
                                     :text-color="'#ffffff'"
                                   />
                                   <input type="number" v-model="drugs_amount" placeholder="amount" class="mt-5 input width-full">
@@ -57,7 +57,7 @@
                                     :text-bg-color="'#1f1f1f'"
                                     :during="3"
                                     :border-color="'#ffc508'"
-                                    :bg-color="'##fbb034'"
+                                    :bg-color="'#fbb034'"
                                     :text-color="'#ffffff'"
                                   />
                                   <input type="number" v-model="weapons_amount" placeholder="amount" class="mt-5 input width-full">
@@ -75,7 +75,7 @@
                                     :text-bg-color="'#1f1f1f'"
                                     :during="3"
                                     :border-color="'#ffc508'"
-                                    :bg-color="'##fbb034'"
+                                    :bg-color="'#fbb034'"
                                     :text-color="'#ffffff'"
                                   />
                                   <input type="number" v-model="alcohol_amount" placeholder="amount" class="mt-5 input width-full">
@@ -93,7 +93,7 @@
                                     :text-bg-color="'#1f1f1f'"
                                     :during="3"
                                     :border-color="'#ffc508'"
-                                    :bg-color="'##fbb034'"
+                                    :bg-color="'#fbb034'"
                                     :text-color="'#ffffff'"
                                   />
                                   <input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input width-full">
@@ -102,7 +102,8 @@
                                <h5>Total {{progressPercent(selectedTotal,carry)}}%</h5>
                     </div>
                 </div>
-                <h3 >Select your target user (only smaller production)</h3>
+                <h3 >Select your target user</h3>
+                <h5 class="mt-0">(you can send resources to player with at least one smaller type of production)</h5>
                 <input class="input form-control btn-block mb-4" placeholder="username" v-model="target">
                 <h3>Add a message*</h3>
                 <div>* optional</div>

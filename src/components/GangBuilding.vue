@@ -25,13 +25,13 @@
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
 						:border-color="'#ffc508'"
-						:bg-color="'##fbb034'"
+						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
 					<input type="number" v-model="drugs_amount" placeholder="amount" class="mt-5 input">
 				</div>
 				<div
-					class="ml-3"
+					class="ml-5"
 					v-if="weaponsCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
@@ -46,13 +46,13 @@
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
 						:border-color="'#ffc508'"
-						:bg-color="'##fbb034'"
+						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
 					<input type="number" v-model="weapons_amount" placeholder="amount" class="mt-5 input">
 				</div>
 				<div
-					class="ml-3"
+					class="ml-5"
 					v-if="alcoholsCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
@@ -67,13 +67,13 @@
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
 						:border-color="'#ffc508'"
-						:bg-color="'##fbb034'"
+						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
 					<input type="number" v-model="alcohol_amount" placeholder="amount" class="mt-5 input">
 				</div>
 				<div
-					class="ml-3"
+					class="ml-5"
 					v-if="futureCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
@@ -88,7 +88,7 @@
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
 						:border-color="'#ffc508'"
-						:bg-color="'##fbb034'"
+						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
 					<input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input">

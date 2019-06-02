@@ -32,16 +32,15 @@ export default {
     this.isLoading = true;
     client.requestAsync('get_gangs', null).then(result => {
       const gangs = result;
-      const all = []
+      const all = [];
       gangs.forEach(element => {
-        if(element.lvl != null)
-        {}
-        else{
-          element.lvl = 0
-        }  
-        all.push(element)
+        if (element.lvl != null) {
+        } else {
+          element.lvl = 0;
+        }
+        all.push(element);
       });
-      this.gangs = orderBy(all, 'lvl', 'desc')
+      this.gangs = orderBy(all, 'lvl', 'desc');
       this.isLoading = false;
     });
   },

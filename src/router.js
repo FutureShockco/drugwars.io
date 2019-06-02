@@ -40,6 +40,11 @@ const GangDeposits = () =>
   import(/* webpackChunkName: "gang-deposits" */ '@/views/Gangs/Deposits.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
+const NewContract = () =>
+  import(/* webpackChunkName: "newcontract" */ '@/views/Contracts/Create.vue');
+const Contracts = () =>
+  import(/* webpackChunkName: "contracts" */ '@/views/Contracts/Contracts.vue');
+
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
 const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Market/Exchange.vue');
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
@@ -78,6 +83,8 @@ const requireAuth = (to, from, next) => {
         store.dispatch('init').then(() => {
           store.dispatch('refresh_inc_fights_count');
           store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_inc_transport_count');
+          store.dispatch('refresh_sent_transport_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -98,6 +105,8 @@ const requireAuth = (to, from, next) => {
         store.dispatch('init').then(() => {
           store.dispatch('refresh_inc_fights_count');
           store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_inc_transport_count');
+          store.dispatch('refresh_sent_transport_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -222,6 +231,18 @@ export default new Router({
       name: 'hall-of-fame',
       beforeEnter: requireAuth,
       component: HallOfFame,
+    },
+    {
+      path: '/contracts',
+      name: 'contracts',
+      beforeEnter: requireAuth,
+      component: Contracts,
+    },
+    {
+      path: '/contracts/create',
+      name: 'newcontract',
+      beforeEnter: requireAuth,
+      component: NewContract,
     },
     {
       path: '/gangs',

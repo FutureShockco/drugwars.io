@@ -7,7 +7,7 @@
         <h2>
           <GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image" />
           <router-link :to="`/gangs/gang/${gang.gang}`">
-            {{ gang.name || gang.gang }} [{{gang.ticker}}] {{gang.lvl}}
+            {{ gang.name || gang.gang }} [{{gang.ticker}}] <span v-if="gang.lvl">{{gang.lvl}}</span>
           </router-link>
         </h2>
         <p v-if="gang.about">{{ gang.about }}</p>
@@ -32,13 +32,16 @@ export default {
     this.isLoading = true;
     client.requestAsync('get_gangs', null).then(result => {
       const gangs = result;
-      this.gangs = orderBy(gangs, [( data ) => {
-    if ( data.lvl === null ) {
-        data.lvl= 0;
-    }
-    return data.lvl;
-    }
- ], ['desc'])
+      const all = []
+      gangs.forEach(element => {
+        if(element.lvl != null)
+        {}
+        else{
+          element.lvl = 0
+        }  
+        all.push(element)
+      });
+      this.gangs = orderBy(all, 'lvl', 'desc')
       this.isLoading = false;
     });
   },

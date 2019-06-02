@@ -213,7 +213,7 @@ export default {
         const weapons = parseInt(this.weapons_amount) || 0;
         const alcohol = parseInt(this.alcohol_amount) || 0;
         const future = parseInt(this.future_amount) || 0;
-        if (drugs >= 0 || weapons >= 0 || alcohol >= 0 || future >= 0) {
+        if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && future >= 0) {
           const payload = {
             target: this.target.toLowerCase(),
             units: this.selectedUnits,

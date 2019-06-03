@@ -99,7 +99,7 @@
                                   <input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input width-full">
                                 </div>
                               </div>
-                               <h5>Total {{progressPercent(selectedTotal,carry)}}%</h5>
+                               <h5 :class="{'text-red': progressPercent(selectedTotal,carry)>100}">Total {{progressPercent(selectedTotal,carry)}}%</h5>
                     </div>
                 </div>
                 <h3 >Select your target user</h3>
@@ -162,11 +162,11 @@ export default {
     },
     selectedTotal() {
       let selected = 0;
-      selected =
-        parseInt(this.drugs_amount) +
-        parseInt(this.weapons_amount) +
-        parseInt(this.alcohol_amount) +
-        parseInt(this.future_amount);
+      let drugs= parseInt(this.drugs_amount) || 0
+      let weapons=  parseInt(this.weapons_amount) || 0
+      let alcohol= parseInt(this.alcohol_amount) || 0
+      let future= parseInt(this.future_amount) || 0
+      selected=drugs+weapons+alcohol+future;
       return selected;
     },
     carry() {
@@ -191,6 +191,10 @@ export default {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
+      this.drugs_amount = 0;
+      this.weapons_amount = 0;
+      this.alcohol_amount = 0;
+      this.future_amount = 0;
     },
     progressPercent(total, cost) {
       let progress;

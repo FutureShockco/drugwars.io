@@ -372,7 +372,7 @@ const actions = {
           console.log(result);
           store.dispatch('init');
           store.dispatch('refresh_sent_fights');
-          store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_sent_transport_count');
           store.dispatch('notify', {
             type: 'success',
             message: result,

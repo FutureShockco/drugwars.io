@@ -74,7 +74,7 @@
             <span class="text-blue" v-if="activeIncTransportsCount > 0">
               ({{ activeIncTransportsCount }}<i class="iconfont icon-arrow-down"></i>)
             </span>
-            <span class="text-purple" v-if="activeTransportsCount > 0">
+            <span class="text-blue" v-if="activeTransportsCount > 0">
               ({{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>)
             </span>
             </router-link>

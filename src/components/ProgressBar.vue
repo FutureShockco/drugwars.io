@@ -78,10 +78,10 @@ export default {
     },
   },
   data() {
-    let transformStyleValue = this.setTransformStyle(this.pv),
-      innerCircleWidth = `${(this.width || DEFAULT_WIDTH) - 2 * (this.bold || DEFAULT_BOLD)}px`,
-      fixTransformStyleValue = this.setTransformStyle(this.pv, 'fix'),
-      transitionStyleValue = this.setTransitionStyle(this.during || 0.8);
+    const transformStyleValue = this.setTransformStyle(this.pv);
+    const innerCircleWidth = `${(this.width || DEFAULT_WIDTH) - 2 * (this.bold || DEFAULT_BOLD)}px`;
+    const fixTransformStyleValue = this.setTransformStyle(this.pv, 'fix');
+    const transitionStyleValue = this.setTransitionStyle(this.during || 0.8);
     return {
       circleStyle: {
         borderColor: this.borderColor || DEFAULT_BORDER_COLOR,

@@ -164,7 +164,6 @@ export default {
         const drugs = this.drugs;
         const weapons = this.weapons;
         const alcohol = this.alcohol;
-        console.log(drugs, weapons, alcohol);
         payload = {
           building: this.id,
           level: this.level,

@@ -34,9 +34,8 @@ export default {
       const gangs = result;
       const all = [];
       gangs.forEach(element => {
-        if (element.lvl != null) {
-        } else {
-          element.lvl = 0;
+        if (element.lvl === null) {
+          element.lvl = 0; // eslint-disable-line no-param-reassign
         }
         all.push(element);
       });

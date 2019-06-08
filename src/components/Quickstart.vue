@@ -8,31 +8,31 @@
     </div>
     <ul class="missions list-style-none">
       <li>
-        <Icon size="18" class="mr-2" :name="mission1 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission1 ? 'check' : 'future'"/>
         <router-link to="/buildings">Upgrade the headquarters</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission2 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission2 ? 'check' : 'future'"/>
         <router-link to="/drugs">Increase your DRUGS production</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission3 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission3 ? 'check' : 'future'"/>
         <router-link to="/weapons">Increase your WEAPONS production</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission4 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission4 ? 'check' : 'future'"/>
         <router-link to="/alcohol">Increase your ALCOHOL production</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission5 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission5 ? 'check' : 'future'"/>
         <router-link to="/buildings">Build a training facility!</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission6 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission6 ? 'check' : 'future'"/>
         <router-link to="/units">Recruit some units</router-link>
       </li>
       <li>
-        <Icon size="18" class="mr-2" :name="mission7 ? 'check' : 'chevron-right'"/>
+        <Icon size="18" class="mr-2" :name="mission7 ? 'check' : 'future'"/>
         <router-link to="/fight">Start a fight</router-link>
       </li>
     </ul>
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       username: this.$store.state.auth.username,
+      nickname: this.$store.state.game.user.user.nickname,
     };
   },
   computed: {
@@ -89,7 +90,7 @@ export default {
       return this.$store.state.game.user.units.length > 0;
     },
     mission7() {
-      return !!this.$store.state.game.fights.find(f => f.username === this.username);
+      return !!this.$store.state.game.sent_fights.find(f => f.attacker_nickname === this.nickname);
     },
   },
 };

@@ -5,13 +5,13 @@
       <UiTab to="/actions/transport">Transport   
       </UiTab>
       <UiTab to="/actions/outgoing">Out   
-        <span v-if="activeFightsCount > 0 || activeTransportsCount>0">
-          ({{ activeFightsCount || 0 + activeTransportsCount || 0}})
+        <span>
+          ({{ activeFightsCount + activeTransportsCount }})
         </span>
       </UiTab>
       <UiTab to="/actions/incoming">In   
-        <span v-if="activeIncFightsCount > 0 || activeIncTransportsCount>0">
-          ({{ activeIncFightsCount || 0 +  activeIncTransportsCount || 0}})
+        <span>
+          ({{ activeIncFightsCount +  activeIncTransportsCount }})
         </span></UiTab>
       <UiTab to="/actions/targets">Targets</UiTab>
     </UiTabs>
@@ -23,7 +23,7 @@
 export default {
   computed: {
     activeIncFightsCount() {
-      if (this.$store.state.game.inc_fights) {
+      if (this.$store.state.game.inc_fights_count) {
         return this.$store.state.game.inc_fights_count;
       }
       return 0;

@@ -33,16 +33,21 @@ export default {
     balances() {
       let ocLvl = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+          .lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab').lvl;
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
       let weaponLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center').lvl;
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
       let distilleryLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
-        distilleryLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school',).lvl;
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
       return getBalances(
         this.user,
         ocLvl,

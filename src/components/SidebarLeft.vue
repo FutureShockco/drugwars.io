@@ -1,10 +1,8 @@
 <template>
   <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
     <div class="d-flex flex-column height-full">
-      <div class="text-center pt-2 pb-3">
+      <div class="text-center pt-3 pb-3">
         <!-- <h5 class="text-center text-red">LIVE MAINTENANCE, YOU MAY HAVE SOME ISSUE WHILE PLAYING. END TIME : 7PM UTC</h5> -->
-        <div class="text-green mb-2" v-if="isConnected">Connected</div>
-        <div class="text-red mb-2"  v-else>Disconnected</div>
         <Avatar
           :size="100"
           :username="user.nickname"
@@ -34,15 +32,6 @@
           </li>
           <li>
             <router-link
-              to="/missions"
-              class="py-1 px-4 d-block"
-              @click.native="toggleSidebar"
-            >
-              Missions
-            </router-link>
-          </li>
-          <li>
-            <router-link
               to="/buildings"
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
@@ -65,7 +54,7 @@
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Battles
+              Missions
               <span class="text-red" v-if="activeIncFightsCount > 0">
               ({{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
             </span>              <span class="text-green" v-if="activeFightsCount > 0">
@@ -115,6 +104,15 @@
               Contracts
             </router-link>
           </li> -->
+          <li>
+            <router-link
+              to="/jobs"
+              class="py-1 px-4 d-block"
+              @click.native="toggleSidebar"
+            >
+              Jobs
+            </router-link>
+          </li>
           <li>
             <router-link
               to="/rewards"
@@ -222,9 +220,6 @@ export default {
         return this.$store.state.game.sent_transports_count;
       }
       return 0;
-    },
-    isConnected() {
-      return this.$store.state.game.isconnected;
     },
   },
   methods: {

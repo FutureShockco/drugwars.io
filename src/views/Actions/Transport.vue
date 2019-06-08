@@ -144,6 +144,9 @@ export default {
       future_amount: 0,
     };
   },
+  created() {
+    this.load_buildings();
+  },
   computed: {
     user() {
       return this.$store.state.game.user.user;
@@ -162,11 +165,11 @@ export default {
     },
     selectedTotal() {
       let selected = 0;
-      let drugs= parseInt(this.drugs_amount) || 0
-      let weapons=  parseInt(this.weapons_amount) || 0
-      let alcohol= parseInt(this.alcohol_amount) || 0
-      let future= parseInt(this.future_amount) || 0
-      selected=drugs+weapons+alcohol+future;
+      const drugs = parseInt(this.drugs_amount) || 0;
+      const weapons = parseInt(this.weapons_amount) || 0;
+      const alcohol = parseInt(this.alcohol_amount) || 0;
+      const future = parseInt(this.future_amount) || 0;
+      selected = drugs + weapons + alcohol + future;
       return selected;
     },
     carry() {
@@ -186,7 +189,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['transport', 'init']),
+    ...mapActions(['transport', 'init', 'refresh_gang_buildings']),
     resetForm() {
       this.target = null;
       this.selectedUnits = [];
@@ -205,6 +208,17 @@ export default {
       }
       this.up = false;
       return 0;
+    },
+    load_buildings() {
+      this.isLoading = true;
+      this.refresh_gang_buildings()
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
+        });
     },
     removeUnits() {
       this.selectedUnits = [];

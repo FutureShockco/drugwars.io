@@ -12,8 +12,8 @@
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <div class="map-title" id="visit" style="opacity:0;" >
-              <button class="button button-blue"  :disabled="!selected">VISIT (COMINGSOON)</button>
-              <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button>
+        <button class="button button-blue"  :disabled="!selected">VISIT (COMINGSOON)</button>
+        <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button>
         </div>
 
         <div class="first-line"></div>
@@ -25,7 +25,6 @@
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
-import TWEEN from 'tween.js';
 
 export default {
   data() {
@@ -38,128 +37,52 @@ export default {
       selected: null,
       currentTerritory: null,
       oldcolor: null,
+      animation: null,
+      territories: null,
+      controls: null,
     };
+  },
+  beforeDestroy() {
+    this.clearScene(this.scene);
   },
   methods: {
     init() {
       /* eslint-disable */
-      if (scene) clearScene();
       const self = this;
       this.showLoading = true;
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      this.renderer = new THREE.WebGLRenderer({ antialias: true });
       const mapbg = document.getElementById('mapbg');
       mapbg.width = mapbg.offsetWidth;
       mapbg.height = mapbg.offsetHeight;
-      const scene = new THREE.Scene();
+      this.scene = new THREE.Scene();
       const aspect = mapbg.width / mapbg.height;
-      scene.updateMatrixWorld(true);
-      const camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
-      const orbitControls = new THREE.OrbitControls(camera, mapbg);
+      this.scene.updateMatrixWorld(true);
+      this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
+      self.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+       var onClickPosition = new THREE.Vector2();
       let rotating = true;
-      // Helpers
-      // const  axes = new THREE.AxesHelper(50);
-      // const  helper = new THREE.GridHelper(1000, 10,0x0000ff, 0x808080);
-      //   scene.add(axes);
-      //   scene.add(helper);
-      orbitControls.keys = {
+      self.controls.keys = {
         LEFT: null, // left arrow
         UP: null, // up arrow
         RIGHT: null, // right arrow
         BOTTOM: null, // down arrow
       };
-      orbitControls.enabled = true;
-      orbitControls.minZoom = 1;
-      orbitControls.maxZoom = 1;
-      orbitControls.minDistance = 1;
-      orbitControls.maxDistance = 2.8;
-      orbitControls.screenSpacePanning = false;
-      orbitControls.mouseButtons = {
+      self.controls.enabled = true;
+      self.controls.minZoom = 1;
+      self.controls.maxZoom = 1;
+      self.controls.minDistance = 1.5;
+      self.controls.maxDistance = 2.5;
+      self.controls.screenSpacePanning = false;
+      self.controls.mouseButtons = {
         LEFT: THREE.MOUSE.LEFT,
-        MIDDLE: THREE.MOUSE.MIDDLE,
+        MIDDLE: null,
         RIGHT: null,
       };
-      camera.rotation.x = -0.86;
-      camera.rotation.y = 0.75;
-      renderer.setSize(mapbg.width, mapbg.height);
-      mapbg.appendChild(renderer.domElement);
-      // Lights
-      const spotLight = new THREE.AmbientLight(0xffffff);
-      // Texture Loader
-      const textureLoader = new THREE.TextureLoader();
-
-      // Planet Proto
-      const planetProto = {
-        sphere(size) {
-          const sphere = new THREE.SphereGeometry(size, 32, 32);
-
-          return sphere;
-        },
-        material(options) {
-          const material = new THREE.MeshPhongMaterial();
-          if (options) {
-            for (const property in options) {
-              material[property] = options[property];
-            }
-          }
-
-          return material;
-        },
-        glowMaterial(intensity, fade, color) {
-          const glowMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-              c: {
-                type: 'f',
-                value: intensity,
-              },
-              p: {
-                type: 'f',
-                value: fade,
-              },
-              glowColor: {
-                type: 'c',
-                value: new THREE.Color(color),
-              },
-              viewVector: {
-                type: 'v3',
-                value: camera.position,
-              },
-            },
-            vertexShader: `
-        uniform vec3 viewVector;
-        uniform float c;
-        uniform float p;
-        varying float intensity;
-        void main() {
-          vec3 vNormal = normalize( normalMatrix * normal );
-          vec3 vNormel = normalize( normalMatrix * viewVector );
-          intensity = pow( c - dot(vNormal, vNormel), p );
-          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }`,
-            fragmentShader: `
-        uniform vec3 glowColor;
-        varying float intensity;
-        void main() 
-        {
-          vec3 glow = glowColor * intensity;
-          gl_FragColor = vec4( glow, 1.0 );
-        }`,
-            side: THREE.BackSide,
-            blending: THREE.AdditiveBlending,
-            transparent: true,
-          });
-
-          return glowMaterial;
-        },
-        texture(material, property, uri) {
-          const textureLoader = new THREE.TextureLoader();
-          textureLoader.crossOrigin = true;
-          textureLoader.load(uri, texture => {
-            material[property] = texture;
-            material.needsUpdate = true;
-          });
-        },
-      };
-
+      this.camera.rotation.x = -0.86;
+      this.camera.rotation.y = 0.75;
+      self.renderer.setSize(mapbg.width, mapbg.height);
+      mapbg.appendChild(self.renderer.domElement);
+     
       const territories = new THREE.Object3D();
       const createTerritories = function(cb) {
         const img = document.getElementById('projection');
@@ -190,14 +113,14 @@ export default {
           let seenTiles = {};
           let currentTiles = [];
           meshMaterials.push(
-            new THREE.MeshBasicMaterial({ color: 'rgb(12, 12, 12)', transparent: false }),
+            new THREE.MeshBasicMaterial({ color: 'rgb(12, 12, 12)' }),
           );
-          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#ffc508', transparent: true }));
-          oceanMaterial.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
+          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#ffc508' }));
+          oceanMaterial.push(new THREE.MeshBasicMaterial({ color: '#000' }));
 
           // let radius = 0.519;
           const radius = 0.61;
-          const divisions = 15;
+          const divisions = 12;
           const tileSize = 0.9;
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -237,8 +160,9 @@ export default {
               material = oceanMaterial[0];
               material.name = 'void';
               material.opacity = 0;
+              var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
 
-              const mesh = new THREE.Mesh(geometry, material.clone());
+              const mesh = new THREE.Mesh(bufferGeometry, material.clone());
               mesh.name = 'void ';
               territories.add(mesh);
               hexasphere.tiles[i].mesh = mesh;
@@ -256,139 +180,16 @@ export default {
         };
       };
       createTerritories(result => {
-        scene.add(result);
+        self.scene.add(result);
       });
-      const locations = new THREE.Object3D();
-      const createPlanet = function(options) {
-        // Create the planet's Surface
-        const surfaceGeometry = planetProto.sphere(options.surface.size);
-        const surfaceMaterial = planetProto.material(options.surface.material);
-        const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
-
-        // Create the planet's Atmosphere
-        const atmosphereGeometry = planetProto.sphere(
-          options.surface.size + options.atmosphere.size,
-        );
-        const atmosphereMaterialDefaults = {
-          side: THREE.DoubleSide,
-          transparent: true,
-        };
-        const atmosphereMaterialOptions = Object.assign(
-          atmosphereMaterialDefaults,
-          options.atmosphere.material,
-        );
-        const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
-        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-
-        // Create the planet's Atmospheric glow
-        const atmosphericGlowGeometry = planetProto.sphere(
-          options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
-        );
-        const atmosphericGlowMaterial = planetProto.glowMaterial(
-          options.atmosphere.glow.intensity,
-          options.atmosphere.glow.fade,
-          options.atmosphere.glow.color,
-        );
-        const atmosphericGlow = new THREE.Mesh(atmosphericGlowGeometry, atmosphericGlowMaterial);
-
-        // Nest the planet's Surface and Atmosphere into a planet object
-        const planet = new THREE.Object3D();
-        surface.name = 'surface';
-        atmosphere.name = 'atmosphere';
-        atmosphericGlow.name = 'atmosphericGlow';
-        planet.add(surface);
-        planet.add(atmosphere);
-        planet.add(atmosphericGlow);
-        // Load the Surface's textures
-        for (const textureProperty in options.surface.textures) {
-          planetProto.texture(
-            surfaceMaterial,
-            textureProperty,
-            options.surface.textures[textureProperty],
-          );
-        }
-
-        // Load the Atmosphere's texture
-        for (const textureProperty in options.atmosphere.textures) {
-          planetProto.texture(
-            atmosphereMaterial,
-            textureProperty,
-            options.atmosphere.textures[textureProperty],
-          );
-        }
-
-        return planet;
-      };
-
-      const earth = createPlanet({
-        surface: {
-          size: 0.5,
-          material: {
-            bumpScale: 0.05,
-            specular: new THREE.Color('grey'),
-            shininess: 10,
-          },
-          textures: {
-            map: 'img/map/8081_earthmap2k.jpg',
-            bumpMap: 'img/map/8081_earthbump2k.jpg',
-            specularMap: 'img/map/8081_earthspec2k.jpg',
-          },
-        },
-        territories: {
-          size: 0.4,
-          material: {
-            transparent: true,
-          },
-          textures: {
-            map: '',
-            alphaMap: '',
-          },
-        },
-        atmosphere: {
-          size: 0.06,
-          material: {
-            opacity: 0.8,
-          },
-          textures: {
-            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
-            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
-          },
-          glow: {
-            size: 0.02,
-            intensity: 0.2,
-            fade: 7,
-            color: 0x93cfef,
-          },
-        },
-      });
-
-      // Galaxy
-      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
-      const galaxyMaterial = new THREE.MeshBasicMaterial({
-        side: THREE.DoubleSide,
-      });
-      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
-
-      // Load Galaxy Textures
-      textureLoader.crossOrigin = true;
-      textureLoader.load(
-        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
-        texture => {
-          galaxyMaterial.map = texture;
-          scene.add(galaxy);
-        },
-      );
-      // Scene, Camera, Renderer Configuration
-      camera.rotation.x = -0.86;
-      camera.rotation.y = 0.75;
-      scene.add(camera);
-      scene.add(spotLight);
-      scene.add(earth);
+     
+      this.camera.rotation.x = -0.86;
+      this.camera.rotation.y = 0.75;
+      self.scene.add(this.camera);
       let raycaster = new THREE.Raycaster(),
         INTERSECTED;
       const mouse = new THREE.Vector2();
       mapbg.addEventListener('click', onclick, false);
-      // renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
       function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
@@ -403,18 +204,26 @@ export default {
       const visitButton = document.getElementById('visit');
       const crosshairx = document.getElementById('crosshairx');
       const crosshairy = document.getElementById('crosshairy');
-      // camera.position.set(earth.position.x+0.8,earth.position.y+0.5,1)
-      // camera.lookAt(earth.position)
+      
+			function getMousePosition( dom, x, y ) {
+				var rect = dom.getBoundingClientRect();
+				return [ ( x - rect.left ) / rect.width, ( y - rect.top ) / rect.height ];
+      }
+      
+      var getIntersects = function ( point, objects ) {
+				raycaster = new THREE.Raycaster();
+				mouse.set( ( point.x * 2 ) - 1, - ( point.y * 2 ) + 1 );
+				raycaster.setFromCamera( mouse, self.camera );
+				return raycaster.intersectObjects( objects );
+			};
+
       let selectedTerritory;
       function onclick(event) {
-        console.log(mouse.x, mouse.y);
-        if (selectedTerritory) selectedTerritory.object.material.color.set(self.oldcolor);
-        const rect = event.target.getBoundingClientRect();
-        mouse.x = event.clientX - rect.left; // x position within the element.
-        mouse.y = event.clientY - rect.top; // y position within the elem
-        raycaster.setFromCamera(mouse, camera);
-        camera.updateProjectionMatrix();
-        const intersects = raycaster.intersectObjects(territories.children); // array
+        if (selectedTerritory) 
+        selectedTerritory.object.material.color.set(self.oldcolor);
+        const array = getMousePosition( mapbg, event.clientX, event.clientY );
+				onClickPosition.fromArray( array );
+				var intersects = getIntersects( onClickPosition, territories.children );
         if (
           intersects.length > 0 &&
           intersects[0].object.name != 'void' &&
@@ -435,154 +244,50 @@ export default {
           crosshairx.style.opacity = 1;
           crosshairy.style.opacity = 1;
           visitTitle.style.opacity = 1;
-          visitButton.addEventListener('click', moveToLocations, true);
         } else {
           self.selected = null;
           visitButton.style.opacity = 0;
           visitTitle.style.opacity = 0;
           crosshairx.style.opacity = 0;
           crosshairy.style.opacity = 0;
-          // camera.position.set(1,1,1)
-          // camera.lookAt(earth.position)
           rotating = true;
-          // resetPosition()
         }
       }
 
-      mapbg.camera = camera;
-      camera.position.set(1, 1, 1);
+      mapbg.camera = this.camera;
+      this.camera.position.set(1, 1, 1);
 
-      camera.rotation.x = -0.86;
-      camera.rotation.y = 0.75;
-      camera.updateProjectionMatrix();
+      this.camera.rotation.x = -0.86;
+      this.camera.rotation.y = 0.75;
+      this.camera.updateProjectionMatrix();
 
-      const posX = camera.position.x + 1;
-      const posY = camera.position.y - 2;
-      const posZ = camera.position.z + 1;
+      const posX = this.camera.position.x + 1;
+      const posY = this.camera.position.y - 2;
+      const posZ = this.camera.position.z + 1;
 
-      function moveToLocations() {
-        const from = {
-          x: camera.position.x,
-          y: camera.position.y,
-          z: camera.position.z,
-        };
-
-        const to = {
-          x: posX,
-          y: posY,
-          z: posZ,
-        };
-        const tween = new TWEEN.Tween(from)
-          .to(to, 1000)
-          .easing(TWEEN.Easing.Linear.None)
-          .onUpdate(function() {
-            camera.position.set(this.x, 1, 1);
-            camera.lookAt(selectedTerritory.object.position);
-            camera.updateProjectionMatrix();
-          })
-          .onComplete(() => {
-            camera.rotation.x = -0.86;
-            camera.rotation.y = 0.75;
-            camera.lookAt(selectedTerritory.object.position);
-          })
-          .start();
-
-        const boundingBox = selectedTerritory.object.geometry.boundingBox;
-        const position = new THREE.Vector3();
-        position.subVectors(boundingBox.max, boundingBox.min);
-        position.multiplyScalar(0.5);
-        position.add(boundingBox.min);
-        self.selected = null;
-        visitButton.style.opacity = 0;
-        visitTitle.style.opacity = 0;
-        crosshairx.style.opacity = 0;
-        crosshairy.style.opacity = 0;
-        position.applyMatrix4(selectedTerritory.object.matrixWorld);
-        rotating = false;
-        camera.rotation.x = -0.55;
-        camera.rotation.y = 0.4;
-        camera.rotation.z = 0.5;
-        camera.updateProjectionMatrix();
-        //  camera.position.set(position.x,position.y,1.5)
-        // camera.lookAt(position.x+1,position.y,position.z)
-      }
-      // Light Configurations
-      spotLight.position.set(1, 1, 1);
-
-      // Mesh Configurations
-      earth.receiveShadow = false;
-      earth.castShadow = false;
-      earth.rotateY(179.05);
-      earth.rotateX(0);
-      earth.rotateZ(0);
-      // On mapbg resize, adjust camera aspect ratio and renderer size
       mapbg.addEventListener('resize', () => {
-        camera.aspect = mapbg.width / mapbg.height;
+        this.camera.aspect = mapbg.width / mapbg.height;
 
-        camera.rotation.x = -0.86;
-        camera.rotation.y = 0.75;
+        this.camera.rotation.x = -0.86;
+        this.camera.rotation.y = 0.75;
 
-        camera.updateProjectionMatrix();
-        renderer.setSize(mapbg.width, mapbg.height);
+        this.camera.updateProjectionMatrix();
+        self.renderer.setSize(mapbg.width, mapbg.height);
       });
-
-      const clearScene = function(scene) {
-        for (let i = scene.children.length - 1; i >= 0; i--) {
-          const object = scene.children[i];
-          if (object.type === 'Mesh') {
-            object.geometry.dispose();
-            object.material.dispose();
-            scene.remove(object);
-          }
-        }
-      };
-
-      //   	mapbg.addEventListener('mousemove', function(evt){
-
-      // 	let movementX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || 0;
-      // 	let movementY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || 0;
-
-      // 	camera.rotation.x -= movementY / 5000;
-      // 	camera.rotation.y -= movementX / 20000;
-      // }, false);
-      const resetPosition = function() {
-        const from = {
-          x: camera.position.x,
-          y: camera.position.y,
-          z: camera.position.z,
-        };
-
-        const to = {
-          x: posX,
-          y: posY,
-          z: posZ,
-        };
-        const tween = new TWEEN.Tween(from)
-          .to(to, 2000)
-          .easing(TWEEN.Easing.Linear.None)
-          .onUpdate(() => {
-            camera.position.set(1, 1, 1);
-            camera.rotation.x = -0.86;
-            camera.rotation.y = 0.75;
-          })
-          .onComplete(() => {
-            camera.rotation.x = -0.86;
-            camera.rotation.y = 0.75;
-          })
-          .start();
-      };
+    
       // Main render function
       const render = function() {
+        
         if (selectedTerritory && visitButton) {
           const boundingBox = selectedTerritory.object.geometry.boundingBox;
-
           const position = new THREE.Vector3();
           position.subVectors(boundingBox.max, boundingBox.min);
           position.multiplyScalar(0.5);
           position.add(boundingBox.min);
-
           position.applyMatrix4(selectedTerritory.object.matrixWorld);
-          const to = createVector(position, camera);
+          if(self.camera)
+          {
+          const to = createVector(position, self.camera);
           visitButton.style.top = `${to.y + 20}px`;
           visitButton.style.left = `${to.x + 20}px`;
           visitTitle.style.top = `${to.y + 60}px`;
@@ -596,32 +301,87 @@ export default {
           visitTitle.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
           visitTitle.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
           visitTitle.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+          }
         }
-        // if(rotating)
-        // {
-        //       camera.rotation.x = -0.86;
-        //     camera.rotation.y = 0.75;
-
-        // }
-
-        if (scene.getObjectByName('territories')) {
-          scene.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
-          scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
-          earth.getObjectByName('atmosphere').rotation.y -= (1 / 8) * 0.01;
+        if (self.scene &&  self.camera) {
+          if(self.scene.getObjectByName('territories'))
+          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+          self.animation = requestAnimationFrame(render);
+          self.renderer.render(self.scene, self.camera);
         }
-        // TWEEN.update();
-
-        // camera.lookAt(earth.position)
-        requestAnimationFrame(render);
-        renderer.render(scene, camera);
-        orbitControls.update();
       };
+      self.controls.update();
 
       render();
       this.showLoading = false;
-      // camera.lookAt(20,30,40);
-      /* eslint-enable */
     },
+    clearThree(obj){
+      while(obj.children.length > 0){ 
+        this.clearThree(obj.children[0])
+        obj.remove(obj.children[0]);
+      }
+     if (obj.geometry) {
+                obj.geometry.dispose();
+            }
+            if (obj.material) {
+                var materialArray;
+                if (obj.material instanceof THREE.MeshFaceMaterial || obj.material instanceof THREE.MultiMaterial) {
+                    materialArray = obj.material.materials;
+                }
+                else if(obj.material instanceof Array) {
+                    materialArray = obj.material;
+                }
+                if(materialArray) {
+                    materialArray.forEach(function (mtrl, idx) {
+                        if (mtrl.map) mtrl.map.dispose();
+                        if (mtrl.lightMap) mtrl.lightMap.dispose();
+                        if (mtrl.bumpMap) mtrl.bumpMap.dispose();
+                        if (mtrl.normalMap) mtrl.normalMap.dispose();
+                        if (mtrl.specularMap) mtrl.specularMap.dispose();
+                        if (mtrl.envMap) mtrl.envMap.dispose();
+                        mtrl.dispose();
+                    });
+                }
+                else {
+                    if (obj.material.map) obj.material.map.dispose();
+                    if (obj.material.lightMap) obj.material.lightMap.dispose();
+                    if (obj.material.bumpMap) obj.material.bumpMap.dispose();
+                    if (obj.material.normalMap) obj.material.normalMap.dispose();
+                    if (obj.material.specularMap) obj.material.specularMap.dispose();
+                    if (obj.material.envMap) obj.material.envMap.dispose();
+                    obj.material.dispose();
+                }
+            }
+      }   
+    ,
+    clearScene(scene){
+         cancelAnimationFrame(self.animation)
+         var territories = scene.getObjectByName('territories')
+          for (let i = territories.children.length - 1; i >= 0; i--) {
+                            this.clearThree(territories.children[i])
+          }
+
+         for (let i = scene.children.length - 1; i >= 0; i--) {
+          const object = scene.children[i];
+          object.children.forEach(element => {
+                this.clearThree(element)
+          });
+        }
+         for (let i = scene.children.length - 1; i >= 0; i--) {
+          const object = scene.children[i];
+          if(this.clearThree)
+          this.clearThree(object)
+        }
+        scene.dispose()
+        this.scene.dispose()
+        this.renderer.context = null;
+        this.renderer.domElement = null;
+        this.renderer = null;
+        this.scene = null;
+        this.camera = null;
+        this.controls = null;
+        this.animation = null;
+    }
   },
   mounted() {
     this.init();

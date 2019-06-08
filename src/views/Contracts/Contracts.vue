@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import { trainings } from 'drugwars';
 import client from '@/helpers/client';
 
 export default {

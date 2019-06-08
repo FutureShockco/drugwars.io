@@ -6,9 +6,9 @@ import client from '@/helpers/client';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
-const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
-const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Missions/Tutorial.vue');
-const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview.vue');
+const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue');
+const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Overview/Tutorial.vue');
+const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
 
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
@@ -143,16 +143,16 @@ export default new Router({
       component: Overview,
     },
     {
-      path: '/missions',
-      name: 'missions',
-      beforeEnter: requireAuth,
-      component: Missions,
-    },
-    {
-      path: '/missions/tutorial',
+      path: '/overview/tutorial',
       name: 'tutorial',
       beforeEnter: requireAuth,
       component: Tutorial,
+    },
+    {
+      path: '/jobs',
+      name: 'jobs',
+      beforeEnter: requireAuth,
+      component: Jobs,
     },
     {
       path: '/buildings',

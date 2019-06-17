@@ -125,7 +125,7 @@ export default {
     },
     handleRequestPayment() {
       this.requestPayment({
-        memo: `upgrade:${this.id}`,
+        memo: `training:${this.id}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

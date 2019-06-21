@@ -17,7 +17,7 @@
 
     <div class="mb-2">Instant upgrade</div>
     <button v-if="steemAccount"
-      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || !base"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -26,7 +26,7 @@
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress || !base"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >
@@ -59,6 +59,9 @@ export default {
   computed: {
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.researchCenterLvl);
+    },
+    base() {
+      return this.$store.state.game.base;
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);

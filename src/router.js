@@ -20,6 +20,7 @@ const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootca
 
 const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Actions/Fight.vue');
 const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
+const Occup = () => import(/* webpackChunkName: "occup" */ '@/views/Actions/Occup.vue');
 
 const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
@@ -51,7 +52,7 @@ const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
 const WMap = () => import(/* webpackChunkName: "map" */ '@/views/Map/Map.vue');
-
+const Territory = () => import(/* webpackChunkName: "territory" */ '@/views/Map/Territory.vue');
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
 const Heistboard = () =>
@@ -209,6 +210,12 @@ export default new Router({
       component: Transport,
     },
     {
+      path: '/actions/occup',
+      name: 'occup',
+      beforeEnter: requireAuth,
+      component: Occup,
+    },
+    {
       path: '/actions/outgoing',
       name: 'outgoing',
       beforeEnter: requireAuth,
@@ -340,6 +347,12 @@ export default new Router({
       name: 'map',
       beforeEnter: requireAuth,
       component: WMap,
+    },
+    {
+      path: '/map/territory',
+      name: 'territory',
+      beforeEnter: requireAuth,
+      component: Territory,
     },
     {
       path: '/settings',

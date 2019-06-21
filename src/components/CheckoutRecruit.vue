@@ -5,7 +5,7 @@
       {{ pendingAmount ? timeToWait : (updateTime) | ms }}
     </div>
     <button
-      :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough || inProgress"
+      :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough || inProgress || !base"
       @click="handleSubmit()"
       class="button btn-block button-green mb-2"
     >
@@ -22,7 +22,7 @@
 
     <div class="mb-2">Instant recruit</div>
     <button
-      :disabled="isLoading" v-if="steemAccount"
+      :disabled="isLoading || !base" v-if="steemAccount"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -31,7 +31,7 @@
       {{ priceInSteem | amount }} STEEM
     </button> 
     <button
-      :disabled="isLoading || notEnoughFuture ||pendingAmount >0"
+      :disabled="isLoading || notEnoughFuture ||pendingAmount >0 || !base"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >
@@ -66,6 +66,9 @@ export default {
       // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
       return (this.coeff * 200 - (this.coeff * 240 * this.level) / 100) * (this.quantity * 1000);
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+    },
+    base() {
+      return this.$store.state.game.base;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -114,9 +117,21 @@ export default {
       if (this.quantity > 0) {
         let payload = {};
         if (use === 'future')
-          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'future' };
+          payload = {
+            unit: this.id,
+            unit_amount: Number(this.quantity),
+            use: 'future',
+            territory: Number(this.base.territory),
+            base: Number(this.base.base),
+          };
         else {
-          payload = { unit: this.id, unit_amount: Number(this.quantity), use: 'resources' };
+          payload = {
+            unit: this.id,
+            unit_amount: Number(this.quantity),
+            use: 'resources',
+            territory: Number(this.base.territory),
+            base: Number(this.base.base),
+          };
         }
         this.recruitUnit(payload)
           .then(() => {

@@ -47,7 +47,6 @@ export default {
       modalIsOpen: localStorage.firstime || false,
     };
   },
-
   computed: {
     username() {
       return this.$store.state.auth.username;
@@ -129,7 +128,6 @@ export default {
 .content {
   position: relative;
   left: 0;
-  min-height: 99vh;
   margin-top: @header-height;
   transition: left 0.3s;
   background: #000000;

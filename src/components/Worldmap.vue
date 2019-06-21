@@ -12,10 +12,14 @@
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <div class="map-title" id="visit" style="opacity:0;" >
-        <button class="button button-blue"  :disabled="!selected">VISIT (COMINGSOON)</button>
-        <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button>
+        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
+        <button class="button button-blue"  :disabled="!selected">
+          <span v-if="main">VISIT</span>
+          <span v-else>CHOOSE AS MAIN TERRITORY</span>
+          </button>
+        </router-link>
+        <!-- <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button> -->
         </div>
-
         <div class="first-line"></div>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
@@ -29,6 +33,7 @@ import OrbitControls from 'three-orbitcontrols';
 export default {
   data() {
     return {
+      main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
       camera: null,
       scene: null,
       renderer: null,
@@ -143,25 +148,28 @@ export default {
             if (isLand(latLon.lat, latLon.lon)) {
               if (count < 7) {
                 material = meshMaterials[1];
-                material.name = `mission ${count}`;
+                material.name = `mission`;
+                material.userData.count = count;
               } else {
                 material = meshMaterials[0];
-                material.name = `territory ${count}`;
+                material.name = `territory`;
                 material.opacity = 0.8;
+                material.count = count;
+                material.userData.count = count;
               }
-              material.count = count;
               const mesh = new THREE.Mesh(geometry, material.clone());
               mesh.name = 'grid ';
               mesh.geometry.computeBoundingBox();
               territories.add(mesh);
               hexasphere.tiles[i].mesh = mesh;
               count++;
-            } else {
+            } 
+            else {
               material = oceanMaterial[0];
               material.name = 'void';
+              material.count = 0;
               material.opacity = 0;
               var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
-
               const mesh = new THREE.Mesh(bufferGeometry, material.clone());
               mesh.name = 'void ';
               territories.add(mesh);
@@ -234,7 +242,7 @@ export default {
           selectedTerritory.object.material.color.set(0xff0000);
           self.selected = {};
           self.selected.name = selectedTerritory.object.material.name;
-          self.selected.count = selectedTerritory.object.material.count;
+          self.selected.count = selectedTerritory.object.material.userData.count;
 
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;
@@ -391,11 +399,7 @@ export default {
 
 <style scoped lang="less">
 .mapbg {
-  height: 100vh;
-}
-
-#map {
-  height: 100%;
+  height: calc(100vh - 98px);
 }
 
 img {
@@ -431,7 +435,7 @@ img {
   left: 50%;
   border: 1px solid red;
   width: 2px;
-  height: 100vh;
+  height: 100%;
   pointer-events: none;
 }
 

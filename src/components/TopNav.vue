@@ -17,11 +17,11 @@
       </div>
     </div>
     </div>
-            <div class="prize mx-auto">
+            <!-- <div class="prize mx-auto">
                 {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
                         id="earnings" style="color:#fbbd08;font-weight: 700;">{{Math.round(totalRewards.daily)}}</span>
                 FUTURE based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
-        </div>
+        </div> -->
   </div>
 </template>
 
@@ -80,7 +80,7 @@ export default {
   z-index: 1500;
   text-align: center;
   font-size: 12px;
-  max-width: 1120px;
+  // max-width: 1120px;
   width: 100%;
 }
 
@@ -102,7 +102,7 @@ export default {
     height: @topnav-height;
   }
   .logo {
-    margin-top: 10px;
+    margin-top: 0px;
   }
 
   .topnav-logo {
@@ -118,7 +118,7 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
-    height: 94px;
+    height: 60px;
     .prize {
       font-size: 22px;
       font-family: @heading-font;

@@ -36,8 +36,15 @@
                         <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                     </div>
                 </div>
-                <h3 >Select your target user</h3>
-                <input class="input form-control btn-block mb-4" placeholder="username" v-model="target">
+                <h3 >Select your target location</h3>
+                <div>
+                  Territory :
+                  <input class="input form-control mb-4" type="number" placeholder="Territory" v-model="target">
+                </div>
+                 <div>
+                   Base : 
+                <input class="input form-control mb-4" type="number" placeholder="Base" v-model="base">
+                </div>
                 <h3>Add a fight message*</h3>
                 <div>* optional</div>
                 <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
@@ -72,15 +79,20 @@ export default {
     return {
       isLoading: false,
       target: this.$route.query.target || null,
+      base: this.$route.query.base || null,
       selectedUnits: [],
       message: null,
       username: this.$store.state.auth.username,
       errorMessage: null,
       favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
       combination_name: null,
+      units: [],
     };
   },
   computed: {
+    ownBase() {
+      return this.$store.state.game.base;
+    },
     sent_fights() {
       return this.$store.state.game.sent_fights;
     },
@@ -88,10 +100,14 @@ export default {
       return this.$store.state.game.user.user.nickname;
     },
     ownUnits() {
-      return this.$store.state.game.user.units.map(unit => ({
-        key: unit.unit,
-        amount: unit.amount,
-      }));
+      return this.$store.state.game.user.units.map(
+        unit =>
+          unit.base === this.ownBase.base &&
+          unit.territory === this.ownBase.territory && {
+            key: unit.unit,
+            amount: unit.amount,
+          },
+      );
     },
     defensivePower() {
       let supply = 0;

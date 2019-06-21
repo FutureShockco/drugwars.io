@@ -25,6 +25,7 @@ const state = {
   gang_buildings: [],
   chat: false,
   isconnected: null,
+  base: null,
 };
 
 const mutations = {
@@ -61,6 +62,9 @@ const mutations = {
   saveConnected(_state, payload) {
     Vue.set(_state, 'isconnected', payload);
   },
+  saveBase(_state, payload) {
+    Vue.set(_state, 'base', payload);
+  },
 };
 
 const authToken = function() {
@@ -84,6 +88,11 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
+                if (state.user.buildings.find(b => b.main === 1))
+                  commit(
+                    'saveBase',
+                    state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                  );
                 resolve();
               });
             } else {
@@ -309,7 +318,6 @@ const actions = {
       payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -321,17 +329,13 @@ const actions = {
         return reject();
       });
     }),
-  investHeist: ({ rootState }, amount) =>
+  investHeist: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      const payload = {
-        amount: Number(amount),
-        type: 'dw-heists',
-      };
       payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-heists'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -470,6 +474,9 @@ const actions = {
         dispatch('init');
       });
     }
+  },
+  setBase: ({ commit }, payload) => {
+    commit('saveBase', payload);
   },
   disconnect: ({ commit }) => {
     commit('saveConnected', false);

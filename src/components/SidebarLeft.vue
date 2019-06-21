@@ -20,6 +20,11 @@
         </div>
       </div>
       <div class="height-full">
+        <ul class="pt-1 border-bottom">
+            <li>
+                <BaseDropdown   class="pb-2 px-4 d-block" :config="config"/>
+            </li>
+        </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>
             <router-link
@@ -181,6 +186,24 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
+  data() {
+    return {
+      config: {
+        options: [
+          // {
+          //     value: "Message"
+          // },
+          {
+            value: 'Attack',
+          },
+          {
+            value: 'Carry',
+          },
+        ],
+        backgroundColor: 'green',
+      },
+    };
+  },
   computed: {
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;

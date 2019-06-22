@@ -79,6 +79,11 @@ const actions = {
   init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
+      let totalbases = 0;
+      if(state.user && state.user.buildings)
+      {
+        totalbases = state.user.buildings.length;
+      }
       if (token) {
         client
           .requestAsync('get_user', { token })
@@ -88,7 +93,7 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
-                if (state.user.buildings.find(b => b.main === 1))
+                if (!state.base)
                   commit(
                     'saveBase',
                     state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),

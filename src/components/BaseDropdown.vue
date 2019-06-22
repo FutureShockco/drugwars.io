@@ -20,14 +20,14 @@
 		</div>
 
 		<div v-expand="isExpanded" class="options expand">
-			<div v-for="building in buildings" :key="building.key" @click="setCurrentSelectedOption(building)">
+			<div v-for="building in buildings" :key="building.key">
         <div class="option" v-if="building.building === 'headquarters'">
          <router-link  class="text-green" :to="`/map/territory?location=${building.territory}`"><i class="iconfont icon-eye mr-1"></i>
          </router-link>
-				 <span class="text text-blue" v-if="building.main || building.custom === 'primary'">
+				 <span class="text text-blue" v-if="building.main || building.custom === 'primary'" @click="setCurrentSelectedOption(building)">
            Primary
         </span>
-         <span class="text text-orange" v-else>
+         <span class="text text-orange" v-else @click="setCurrentSelectedOption(building)">
            {{building.custom}}
         </span>
           <span class="ml-1">
@@ -201,6 +201,9 @@ $option-padding: 4px 10px;
       height: var(--option-height);
       .text {
         font-size: 17px;
+        max-width: 70px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       .angle-down {
         display: flex;

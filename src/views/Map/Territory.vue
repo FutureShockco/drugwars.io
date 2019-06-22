@@ -1,6 +1,5 @@
 <template>
     <div id="territorybg" class="territorybg">
-        <canvas id="canvas" class="mt-1"></canvas>
         <h3 class="title" id="title" style="opacity:0;">
             <div v-if="selectedTile">BASE {{selectedTile}}</div>
             <h5 class="mt-0">UNDER THE CONTROL OF :
@@ -22,15 +21,19 @@
                 <button class="button button-blue">CREATE NEW BASE</button>
             </router-link>
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
-                  ALREADY SELECTED
-                  </button>
-            <button v-else-if="currentNickname === nickname" class="button button-blue" @click="selectBase()">
-                  SELECT
-                  </button>
+                      ALREADY SELECTED
+                      </button>
     
-
+            <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
+                      SELECT
+                </button>
+                <router-link :to="`/actions/transport?target=${location}&base=${selectedTile}`">
+                    <button class="button button-blue">CARRY</button>
+                </router-link>
+            </div>
             <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
         </div>
+        <canvas id="canvas" class="mt-1"></canvas>
     </div>
 </template>
 
@@ -43,7 +46,6 @@ export default {
         return {
             isMain: null,
             isLoading: false,
-            location: this.$route.query.location || null,
             selectedTile: null,
             selected: null,
             customName: null,
@@ -58,14 +60,16 @@ export default {
             if (this.base)
                 return this.$store.state.game.user.buildings.find(b => b.main === 1) || null;
         },
+        location() {
+            return this.$route.query.location || null;
+        },
         base() {
-            console.log(this.$store.state.game.base)
             return this.$store.state.game.base;
         },
         ownOccupationTroop() {
-            if (this.$store.state.game.user.units.find(u => u.unit === 'spy'))
+            if (this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop'))
                 return (
-                    this.$store.state.game.user.units.find(u => u.unit === 'spy').amount || {
+                    this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop').amount || {
                         amount: 0,
                     }
                 );
@@ -80,7 +84,6 @@ export default {
             canvas_element.width = bg.offsetWidth;
             canvas_element.height = bg.offsetHeight;
             let context = canvas_element.getContext('2d');
-
             let tiles_array = [];
 
             const TILE_TYPES = {
@@ -132,7 +135,6 @@ export default {
                 } else if (self.selectedTile != null) {
                     tiles_array[self.selectedTile - 1].fillColor = 'black';
                 }
-                console.log(elementClickedId)
                 self.selectedTile = elementClickedId.id;
                 self.currentNickname = elementClickedId.nickname
                 self.currentHq = elementClickedId.hq
@@ -140,11 +142,13 @@ export default {
                 self.isMain = elementClickedId.main
                 if (elementClickedId.nickname === self.nickname) {
                     tiles_array[elementClickedId.id - 1].fillColor = 'green';
-                } else {
+                } else if (elementClickedId.nickname !== self.nickname) {
                     tiles_array[elementClickedId.id - 1].fillColor = 'red';
+                } else {
+                    tiles_array[elementClickedId.id - 1].fillColor = 'gray';
                 }
-                visitButton.style.top = `${tiles_array[elementClickedId.id].y +50}px`;
-                visitButton.style.left = `${tiles_array[elementClickedId.id].x -35}px`;
+                visitButton.style.top = `${tiles_array[elementClickedId.id].y +10}px`;
+                visitButton.style.left = `${tiles_array[elementClickedId.id].x +15}px`;
                 visitButton.style.opacity = 1;
                 visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 60}px`;
                 visitTitle.style.left = `${tiles_array[elementClickedId.id].x -35}px`;
@@ -193,20 +197,22 @@ export default {
             }
 
             function createTiles(quantityX, quantityY) {
-                let quantityAll = quantityX * quantityY + 2;
-                var tileWidth = canvas_element.width / quantityX;
+                tiles_array = [];
+                let quantityAll = quantityX * quantityY + 1;
+                let tileWidth = canvas_element.width / quantityX;
                 let tileHeight = canvas_element.height / quantityY;
 
-                var drawPosition = {
+                let drawPosition = {
                     x: 0,
                     y: 0
                 }
-                for (var i = 1; i < quantityAll; i++) {
-                    var fillColor = TILE_TYPES.land.color;
-                    var nickname = ''
-                    var level = '';
-                    var custom_name = '';
-                    var main = '';
+                let i = 1;
+                for (i = 1; i < quantityAll; i++) {
+                    let fillColor = TILE_TYPES.land.color;
+                    let nickname = ''
+                    let level = '';
+                    let custom_name = '';
+                    let main = '';
                     self.bases.forEach(element => {
                         if (element.base === i) {
                             fillColor = 'blue';
@@ -216,133 +222,147 @@ export default {
                             main = element.main;
                         }
                     });
-                let tile = new Tile(drawPosition.x, drawPosition.y, tileWidth, tileHeight, i, nickname, level, custom_name, main, fillColor);
-                tiles_array.push(tile);
+                    let tile = new Tile(drawPosition.x, drawPosition.y, tileWidth, tileHeight, i, nickname, level, custom_name, main, fillColor);
+                    tiles_array.push(tile);
 
-                drawPosition.x += tileWidth;
-                if (drawPosition.x >= canvas_element.width) {
-                    drawPosition.x = 0;
-                    drawPosition.y += tileHeight;
+                    drawPosition.x += tileWidth;
+                    if (drawPosition.x >= canvas_element.width) {
+                        drawPosition.x = 0;
+                        drawPosition.y += tileHeight;
+                    }
                 }
+
             }
 
-        }
-        createTiles(20, 20);
+            function clearCanvas() {
+                const ctx = canvas_element.getContext('2d');
+                ctx.save();
+                ctx.globalCompositeOperation = 'copy';
+                ctx.strokeStyle = 'transparent';
+                ctx.beginPath();
+                ctx.lineTo(0, 0);
+                ctx.stroke();
+                ctx.restore();
+            }
+            createTiles(20, 20);
 
-        function drawTiles() {
-            tiles_array.forEach(tile => {
-                context.beginPath();
-                context.fillStyle = tile.fillColor;
-                context.rect(tile.x, tile.y, tile.width, tile.height);
-                context.lineWidth = '5';
-                context.strokeStyle = tile.strokeStyle;
-                context.strokeStyle = '#ffc508';
-                context.stroke()
-                context.fill();
-                context.textAlign = 'center';
-                context.font = '16px American Captain';
-                context.fillStyle = '#fff';
-                context.fillText(tile.id, tile.x + 16, tile.y + 26);
-            });
-        }
-        drawTiles();
-
-        function changeCursor(cursorType) {
-            document.body.style.cursor = cursorType;
-        }
-        this.showLoading = false;
-    },
-    ...mapActions(['send', 'notify', 'setBase']),
-    async handleSubmit() {
-        const self = this;
-        const isValid = await this.validateFormFree();
-        console.log(this.location)
-        this.isLoading = true;
-        if (isValid && this.location && this.selectedTile) {
-            const payload = {
-                type: 'dw-firstloc',
-                territory: Number(this.location),
-                base: Number(this.selectedTile),
-            };
-            this.send(payload)
-                .then(() => {
-                    client.requestAsync('get_bases', this.location).then(result => {
-                        console.log(result);
-                        self.bases = result;
-                        self.setBase(self.bases);
-                        self.isLoading = false;
-                    });
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to create gang' });
-                    console.error('Failed to create gang', e);
-                    this.isLoading = false;
+            function drawTiles() {
+                tiles_array.forEach(tile => {
+                    context.beginPath();
+                    context.fillStyle = tile.fillColor;
+                    context.rect(tile.x, tile.y, tile.width, tile.height);
+                    context.lineWidth = '5';
+                    context.strokeStyle = tile.strokeStyle;
+                    context.strokeStyle = '#ffc508';
+                    context.stroke()
+                    context.fill();
+                    context.textAlign = 'center';
+                    context.font = '16px American Captain';
+                    context.fillStyle = '#fff';
+                    context.fillText(tile.id, tile.x + 16, tile.y + 26);
                 });
-        } else {
-            this.isLoading = false;
-        }
-    },
-    async validateFormFree() {
-        this.errorMessage = null;
-        const base = this.selectedTile;
-        const territory = this.location;
-        const params = { base, territory };
-        if (this.$store.state.game.user.buildings.find(b => b.main === 1 && b.territory != 0)) {
-            this.errorMessage = 'You already have a main base!';
-        }
+            }
+            drawTiles();
 
-        if (!base || !territory) {
-            this.errorMessage = 'Please choose a location and a base';
-        }
-        const now = new Date();
-        const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
-        if (isPunished > now) {
-            this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
-        }
+            function changeCursor(cursorType) {
+                document.body.style.cursor = cursorType;
+            }
+            this.showLoading = false;
+        },
+        ...mapActions(['send', 'notify', 'setBase']),
+        async handleSubmit() {
+            const self = this;
+            const isValid = await this.validateFormFree();
+            console.log(this.location)
+            this.isLoading = true;
+            if (isValid && this.location && this.selectedTile) {
+                const payload = {
+                    type: 'dw-firstloc',
+                    territory: Number(this.location),
+                    base: Number(this.selectedTile),
+                };
+                this.send(payload)
+                    .then(() => {
+                        client.requestAsync('get_bases', this.location).then(result => {
+                            console.log(result);
+                            self.bases = result;
+                            self.setBase(self.bases);
+                            self.isLoading = false;
+                        });
+                    })
+                    .catch(e => {
+                        this.notify({ type: 'error', message: 'Failed to create gang' });
+                        console.error('Failed to create gang', e);
+                        this.isLoading = false;
+                    });
+            } else {
+                this.isLoading = false;
+            }
+        },
+        async validateFormFree() {
+            this.errorMessage = null;
+            const base = this.selectedTile;
+            const territory = this.location;
+            const params = { base, territory };
+            if (this.$store.state.game.user.buildings.find(b => b.main === 1 && b.territory != 0)) {
+                this.errorMessage = 'You already have a main base!';
+            }
 
-        if (!this.errorMessage)
-            try {
-                const base = await client.requestAsync('check_base', params);
-                console.log(base);
-                if (base) {
-                    this.errorMessage = `Base number '${base}' is already taken`;
+            if (!base || !territory) {
+                this.errorMessage = 'Please choose a location and a base';
+            }
+            const now = new Date();
+            const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+            if (isPunished > now) {
+                this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+            }
+
+            if (!this.errorMessage)
+                try {
+                    const base = await client.requestAsync('check_base', params);
+                    console.log(base);
+                    if (base) {
+                        this.errorMessage = `Base number '${base}' is already taken`;
+                    }
+                    return !this.errorMessage;
+                } catch (e) {
+                    this.errorMessage = `Base number '${base}' doesn't exist`;
+                    console.error(`Base number '${base}' doesn't exist`, e);
+                    return false;
                 }
-                return !this.errorMessage;
-            } catch (e) {
-                this.errorMessage = `Base number '${base}' doesn't exist`;
-                console.error(`Base number '${base}' doesn't exist`, e);
+            if (this.errorMessage) {
                 return false;
             }
-        if (this.errorMessage) {
-            return false;
-        }
-        return !this.errorMessage;
+            return !this.errorMessage;
+        },
+        selectBase() {
+            const territory = this.location;
+            const base = this.selectedTile;
+            const custom = this.customName;
+            const main = this.isMain;
+            this.setBase({ territory, base, custom, main });
+        },
     },
-    selectBase() {
-        const territory = this.location;
-        const base = this.selectedTile;
-        const custom = this.customName;
-        const main = this.isMain;
-        console.log(territory, base, custom, main);
-        this.setBase({ territory, base, custom, main });
+    created() {
+        console.log('bra')
+
     },
-},
-mounted() {
-    const self = this;
-    client.requestAsync('get_bases', this.location).then(result => {
-        console.log(result);
-        self.bases = result;
-        self.init();
-        self.isLoading = false;
-    });
-},
+    mounted() {
+        const self = this;
+        self.bases = null;
+        client.requestAsync('get_bases', this.location).then(result => {
+            self.bases = result;
+            self.init();
+            self.isLoading = false;
+        });
+    },
 };
 </script>
 
 
 <style lang="less" scoped>
 .territorybg {
-    height: calc(100vh - 98px);
+    height: calc(100vh - 120px);
 }
 
 canvas {

@@ -5,8 +5,8 @@
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <h3>Select your army composition</h3>
                 <div>
-                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key" v-if="ownUnit.amount > 0">
-                        <UnitSelect :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
+                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key">
+                        <UnitSelect  v-if="ownUnit.amount > 0" :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
                     </div>
                 </div>
                 <div class="column pl-0 mt-6 col-6 text-left width-full">
@@ -20,6 +20,12 @@
             </div>
     
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
+                <h3 >Select your action type</h3>
+                <div>
+                  <button class="button button-red mb-4">ATTACK</button>
+                  <button class="button button-blue ml-1 mb-4">TRANSPORT</button>
+                  <button class="button button-yellow ml-1 mb-4">OCCUP</button>
+                </div>
                 <div>
                     <div class="mb-2">
                         <h3 class="mb-2">Your selected army</h3>
@@ -36,7 +42,17 @@
                         <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                     </div>
                 </div>
-                <h3 >Select your target location</h3>
+                 <h3 >Type a nickname</h3>
+                  <div>
+                  Nickname :
+                  <input class="input form-control mb-4" type="string" placeholder="Nickname" v-model="targetNickname">
+                  <button class="button button-green" @click="getUserBase()"><i class="iconfont icon-search"></i></button>
+                  <div v-for="base in bases" :key="base.id">
+                    <button class="button button-yellow" @click="chooseBase(base.territory,base.base)"> Territory : {{base.territory}} - Location : {{base.base}}</button>
+                  </div>
+                </div>
+                <h3 >or Select your target location</h3>
+               
                 <div>
                   Territory :
                   <input class="input form-control mb-4" type="number" placeholder="Territory" v-model="target">
@@ -82,11 +98,13 @@ export default {
       base: this.$route.query.base || null,
       selectedUnits: [],
       message: null,
+      targetNickname: null,
       username: this.$store.state.auth.username,
       errorMessage: null,
       favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
       combination_name: null,
       units: [],
+      bases:[]
     };
   },
   computed: {
@@ -134,6 +152,18 @@ export default {
       this.target = null;
       this.selectedUnits = [];
       this.message = null;
+    },
+    chooseBase(territory,location){
+        this.target = territory;
+        this.base = location;
+    },
+    getUserBase(){
+        const self = this;
+        self.bases = null;
+        client.requestAsync('get_user_bases', self.targetNickname).then(result => {
+            self.bases = result;
+            self.isLoading = false;
+        });
     },
     removeUnits() {
       this.selectedUnits = [];

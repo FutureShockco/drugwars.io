@@ -121,10 +121,10 @@ export default {
       this.selectedUnits = [];
     },
     async handleSubmit() {
-      this.isLoading = true;
       const self = this;
       const isValid = await this.validateForm();
       if (isValid) {
+        this.isLoading = true;
         if (this.territory > 0 && this.base > 0) {
           const payload = {
             territory: Number(this.territory),
@@ -159,7 +159,11 @@ export default {
       const territory = this.territory;
       const params = { base, territory };
       const now = new Date();
-      if (!this.name || this.name.length > 25) {
+      if (!this.name) {
+        this.errorMessage = `Please choose a name for your base`;
+      }
+      if(this.name.length > 25)
+      {
         this.errorMessage = `Please choose a shorter name for your base`;
       }
       const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));

@@ -18,6 +18,9 @@
             <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions/transport?target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CARRY</button>
             </router-link>
+            <router-link v-else-if="currentNickname != nickname" :to="`/actions/occup?target=${location}&base=${selectedTile}`">
+                <button class="button button-blue">CREATE NEW BASE</button>
+            </router-link>
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
                   ALREADY SELECTED
                   </button>
@@ -25,9 +28,7 @@
                   SELECT
                   </button>
     
-            <router-link v-else-if="!base && ownOccupationTroop >0 || main" :to="`/actions/occup?target=${location}&base=${selectedTile}`">
-                <button class="button button-blue">CREATE NEW BASE</button>
-            </router-link>
+
             <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
         </div>
     </div>

@@ -18,7 +18,6 @@
                 </div>
                 </div>
             </div>
-    
             <div v-if="ownUnits.length > 0" class="column b col-6 text-center">
                 <h3 >Select your action type</h3>
                 <div>
@@ -52,13 +51,13 @@
                   </div>
                 </div>
                 <h3 >or Select your target location</h3>
-               
+
                 <div>
                   Territory :
                   <input class="input form-control mb-4" type="number" placeholder="Territory" v-model="target">
                 </div>
                  <div>
-                   Base : 
+                   Base :
                 <input class="input form-control mb-4" type="number" placeholder="Base" v-model="base">
                 </div>
                 <h3>Add a fight message*</h3>
@@ -72,7 +71,7 @@
                     {{ errorMessage }}
                 </p>
                 <h3>Defensive Power : {{defensivePower}}%</h3>
-    
+
                 <a @click="openInNewTab()" target="_blank">
                   Access to the Fight simulator
                 </a>
@@ -170,21 +169,25 @@ export default {
     },
     async handleSubmit() {
       this.isLoading = true;
-
+      const self = this;
       const payload = {
-        target: this.target.toLowerCase(),
-        units: this.selectedUnits,
+        from_territory:Number(self.ownBase.territory),
+        from_base:Number(self.ownBase.base),
+        territory: Number(self.target),
+        base: Number(self.base),
+        units: self.selectedUnits,
         type: 'fight',
       };
 
-      if (this.message) {
-        payload.message = this.message;
+      if (self.message) {
+        payload.message = self.message;
       }
 
       const isValid = await this.validateForm();
 
       if (isValid) {
         this.resetForm();
+        console.log(payload)
         this.startFight(payload)
           .then(() => {
             this.isLoading = false;
@@ -199,7 +202,7 @@ export default {
     },
     async validateForm() {
       this.errorMessage = null;
-      const target = this.target.toLowerCase();
+      const target = this.targetNickname.toLowerCase();
 
       if (target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';

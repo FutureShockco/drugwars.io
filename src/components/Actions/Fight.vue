@@ -106,7 +106,17 @@
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
-			<div class="text-center mb-3" v-if="fight.is_stable">Start : {{start}} - End : {{end}}</div>
+			<div class="text-center mb-3" v-if="fight.is_stable">
+				<div v-if="fight.attacker_base">
+				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
+				</div>
+				<div v-if="fight.transporter_base">
+				FROM Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
+				</div>
+				<div>
+				Start : {{start}} - End : {{end}}
+				</div>
+				</div>
 			<div v-if="fight.is_done!=0">
 				<div v-if="!details" class="text-center">
 					<button class="button button-blue" @click="showDetails()">Show details</button>

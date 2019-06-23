@@ -23,6 +23,7 @@
                 <div>
                   <button class="button button-red mb-4">ATTACK</button>
                   <button class="button button-blue ml-1 mb-4">TRANSPORT</button>
+                  <button class="button button-green ml-1 mb-4">STATION</button>
                   <button class="button button-yellow ml-1 mb-4">OCCUP</button>
                 </div>
                 <div>

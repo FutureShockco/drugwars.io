@@ -48,7 +48,7 @@
                   <input class="input form-control mb-4" type="string" placeholder="Nickname" v-model="targetNickname">
                   <button class="button button-green" @click="getUserBase()"><i class="iconfont icon-search"></i></button>
                   <div v-for="base in bases" :key="base.id">
-                    <button class="button button-yellow" @click="chooseBase(base.territory,base.base)"> Territory : {{base.territory}} - Location : {{base.base}}</button>
+                    <button class="button button-yellow" @click="chooseBase(base.territory,base.base)">{{base.lvl}} {{base.custom}} {{base.territory}} : {{base.base}}</button>
                   </div>
                 </div>
                 <h3 >or Select your target location</h3>

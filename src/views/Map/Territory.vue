@@ -145,8 +145,8 @@ export default {
                 if (self.selectedTile != null && self.nickname === self.currentNickname) {
                     tiles_array[self.selectedTile - 1].fillColor = 'green';
                 } 
-                else if (self.selectedTile != null) {
-                    tiles_array[self.selectedTile - 1].fillColor = 'black';
+                else if (self.selectedTile != null && self.currentNickname &&  self.nickname !== self.currentNickname) {
+                    tiles_array[self.selectedTile - 1].fillColor = 'red';
                 }
                 else if (self.selectedTile != null) {
                     tiles_array[self.selectedTile - 1].fillColor = 'black';
@@ -159,7 +159,7 @@ export default {
                 if (elementClickedId.nickname === self.nickname) {
                     tiles_array[elementClickedId.id - 1].fillColor = 'green';
                 } else if (elementClickedId.nickname !== self.nickname) {
-                    tiles_array[elementClickedId.id - 1].fillColor = 'red';
+                    tiles_array[elementClickedId.id - 1].fillColor = 'blue';
                 } else {
                     tiles_array[elementClickedId.id - 1].fillColor = 'gray';
                 }
@@ -238,7 +238,7 @@ export default {
                             main = element.main;
                         }
                         else if(element.base === i && element.nickname !== self.nickname){
-                            fillColor = 'blue';
+                            fillColor = 'red';
                             nickname = element.nickname;
                             level = element.lvl;
                             custom_name = element.custom;

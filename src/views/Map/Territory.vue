@@ -53,6 +53,7 @@ export default {
             currentHq: null,
             nickname: this.$store.state.game.user.user.nickname,
             bases: [],
+            currentLocation:null
         };
     },
     computed: {
@@ -79,14 +80,25 @@ export default {
     methods: {
         init() {
             const self = this;
-            let bg = document.getElementById('territorybg');
-            var canvas_element = document.getElementById('canvas');
-            canvas_element.width = bg.offsetWidth;
-            canvas_element.height = bg.offsetHeight;
+            const bg = document.getElementById('territorybg');
+            const canvas_element = document.getElementById('canvas');
+            const width = bg.offsetWidth;
+            const height = bg.offsetHeight;
+            console.log(width,height)
+            canvas_element.width = width;
+            canvas_element.height = height;
             let context = canvas_element.getContext('2d');
             let tiles_array = [];
+            function clearCanvas() {
+                const ctx = canvas_element.getContext('2d');
+                ctx.clearRect(0, 0, width, height);
 
+            }
+            clearCanvas()
+            canvas_element.width =width;
+            canvas_element.height = height;
             const TILE_TYPES = {
+                me: { name: 'Me', color: 'green' },
                 sea: { name: 'Sea', color: 'lightBlue' },
                 land: { name: 'Land', color: 'black' }
             }
@@ -130,9 +142,13 @@ export default {
             canvas_element.onclick = function(e) {
                 event = e;
                 var elementClickedId = checkClick(event);
-                if (self.selectedTile != null && self.currentNickname != null) {
-                    tiles_array[self.selectedTile - 1].fillColor = 'blue';
-                } else if (self.selectedTile != null) {
+                if (self.selectedTile != null && self.nickname === self.currentNickname) {
+                    tiles_array[self.selectedTile - 1].fillColor = 'green';
+                } 
+                else if (self.selectedTile != null) {
+                    tiles_array[self.selectedTile - 1].fillColor = 'black';
+                }
+                else if (self.selectedTile != null) {
                     tiles_array[self.selectedTile - 1].fillColor = 'black';
                 }
                 self.selectedTile = elementClickedId.id;
@@ -214,7 +230,14 @@ export default {
                     let custom_name = '';
                     let main = '';
                     self.bases.forEach(element => {
-                        if (element.base === i) {
+                        if (element.base === i && element.nickname === self.nickname) {
+                            fillColor = 'green';
+                            nickname = element.nickname;
+                            level = element.lvl;
+                            custom_name = element.custom;
+                            main = element.main;
+                        }
+                        else if(element.base === i && element.nickname !== self.nickname){
                             fillColor = 'blue';
                             nickname = element.nickname;
                             level = element.lvl;
@@ -234,16 +257,7 @@ export default {
 
             }
 
-            function clearCanvas() {
-                const ctx = canvas_element.getContext('2d');
-                ctx.save();
-                ctx.globalCompositeOperation = 'copy';
-                ctx.strokeStyle = 'transparent';
-                ctx.beginPath();
-                ctx.lineTo(0, 0);
-                ctx.stroke();
-                ctx.restore();
-            }
+
             createTiles(20, 20);
 
             function drawTiles() {
@@ -343,19 +357,31 @@ export default {
             this.setBase({ territory, base, custom, main });
         },
     },
-    created() {
-        console.log('bra')
-
-    },
     mounted() {
         const self = this;
         self.bases = null;
+        self.currentLocation = self.location;
         client.requestAsync('get_bases', this.location).then(result => {
             self.bases = result;
             self.init();
             self.isLoading = false;
         });
     },
+      updated() {
+        const self = this;
+        self.bases = null;
+        if(self.currentLocation != self.location)
+        {
+            self.currentLocation = self.location;
+          console.log(self.currentLocation, self.location, 'changed')
+            client.requestAsync('get_bases', this.location).then(result => {
+            self.bases = result;
+            self.init();
+            self.isLoading = false;
+        });
+        }
+
+  },
 };
 </script>
 
@@ -363,6 +389,7 @@ export default {
 <style lang="less" scoped>
 .territorybg {
     height: calc(100vh - 120px);
+    max-width: calc(1120px - 400px);
 }
 
 canvas {

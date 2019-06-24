@@ -262,6 +262,7 @@ export default {
         INTERSECTED;
       const mouse = new THREE.Vector2();
       mapbg.addEventListener('click', onclick, false);
+      mapbg.addEventListener('touchend', onclick, false);
 
       function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
@@ -293,6 +294,8 @@ export default {
       function onclick(event) {
         if (selectedTerritory) 
         selectedTerritory.object.material.color.set(self.oldcolor);
+
+
         const array = getMousePosition( mapbg, event.clientX, event.clientY );
 				onClickPosition.fromArray( array );
 				var intersects = getIntersects( onClickPosition, territories.children );

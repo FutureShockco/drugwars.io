@@ -1,19 +1,17 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/actions">Actions</UiTab>
-      <!-- <UiTab to="/actions/transport">Transport   
-      </UiTab> -->
-      <UiTab to="/actions/outgoing">Out   
+      <UiTab to="/missions">Missions</UiTab>
+      <UiTab to="/missions/outgoing">Out   
         <span>
           ({{ activeFightsCount + activeTransportsCount }})
         </span>
       </UiTab>
-      <UiTab to="/actions/incoming">In   
+      <UiTab to="/missions/incoming">In   
         <span>
           ({{ activeIncFightsCount +  activeIncTransportsCount }})
         </span></UiTab>
-      <UiTab to="/actions/targets">Targets</UiTab>
+      <UiTab to="/missions/targets">Targets</UiTab>
     </UiTabs>
         <div class="coordbase" v-if="base">
         <span class="text text-blue" v-if="main">

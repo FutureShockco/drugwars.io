@@ -48,13 +48,13 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
   }
 
   return {
-    drugs: drugs > building.drug_storage ? building.drug_storage : parseFloat(drugs).toFixed(0),
+    drugs: drugs > building.drug_storage ? building.drug_storage : parseFloat(drugs).toFixed(3),
     weapons:
-      weapons > building.weapon_storage ? building.weapon_storage : parseFloat(weapons).toFixed(0),
+      weapons > building.weapon_storage ? building.weapon_storage : parseFloat(weapons).toFixed(3),
     alcohols:
       alcohols > building.alcohol_storage
         ? building.alcohol_storage
-        : parseFloat(alcohols).toFixed(0),
+        : parseFloat(alcohols).toFixed(3),
   };
 };
 

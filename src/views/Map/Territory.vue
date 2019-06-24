@@ -11,13 +11,13 @@
             <h5 class="mt-0">DETAIL : {{customName}}</h5>
         </h3>
         <div class="map-title" id="visit" style="opacity:0;">
-            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions/fight?target=${location}&base=${selectedTile}`">
+            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/missions?type=attack&target=${location}&base=${selectedTile}`">
                 <button class="button button-red">ATTACK</button>
             </router-link>
-            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions/transport?target=${location}&base=${selectedTile}`">
+            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/missions?type=transport&target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CARRY</button>
             </router-link>
-            <router-link v-else-if="currentNickname != nickname" :to="`/actions/occup?target=${location}&base=${selectedTile}`">
+            <router-link v-else-if="currentNickname != nickname" :to="`/missions?type=occup&target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CREATE NEW BASE</button>
             </router-link>
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
@@ -27,7 +27,7 @@
             <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
                       SELECT
                 </button>
-                <router-link :to="`/actions/transport?target=${location}&base=${selectedTile}`">
+                <router-link :to="`/missions/transport?target=${location}&base=${selectedTile}`">
                     <button class="button button-blue">CARRY</button>
                 </router-link>
             </div>
@@ -78,7 +78,7 @@ export default {
         },
     },
     methods: {
-        init() {
+        start() {
             const self = this;
             const bg = document.getElementById('territorybg');
             const canvas_element = document.getElementById('canvas');
@@ -283,7 +283,7 @@ export default {
             }
             this.showLoading = false;
         },
-        ...mapActions(['send', 'notify', 'setBase']),
+        ...mapActions(['send', 'notify', 'setBase','init']),
         async handleSubmit() {
             const self = this;
             const isValid = await this.validateFormFree();
@@ -301,6 +301,7 @@ export default {
                             console.log(result);
                             self.bases = result;
                             self.setBase(self.bases);
+                            self.init();
                             self.isLoading = false;
                         });
                     })
@@ -363,7 +364,7 @@ export default {
         self.currentLocation = self.location;
         client.requestAsync('get_bases', this.location).then(result => {
             self.bases = result;
-            self.init();
+            self.start();
             self.isLoading = false;
         });
     },
@@ -373,10 +374,9 @@ export default {
         if(self.currentLocation != self.location)
         {
             self.currentLocation = self.location;
-          console.log(self.currentLocation, self.location, 'changed')
             client.requestAsync('get_bases', this.location).then(result => {
             self.bases = result;
-            self.init();
+            self.start();
             self.isLoading = false;
         });
         }

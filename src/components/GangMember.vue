@@ -1,6 +1,6 @@
    <template>
 	<div>
-		<router-link :to="`/actions/fight?target=${member.nickname}`">
+		<router-link :to="`/actions?target=${member.nickname}`">
 			<GangImage :image="member.picture" size="40" class="mr-2"/>
 			{{ member.nickname }} {{ member.role }}
 		</router-link>
@@ -32,7 +32,7 @@
 			<SmallLoading v-else/>
 		</button>
         <router-link
-      :to="`/actions/transport?target=${member.nickname}`">
+      :to="`/missions/transport?target=${member.nickname}`">
     <button
 			class="button button-blue float-right mr-2"
 			:disabled="isLoading"

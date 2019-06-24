@@ -8,8 +8,7 @@
         </div>
         <div class="detail">
         +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
-        </div>
-         <div class="detail">
+
          <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
@@ -22,8 +21,7 @@
         </div>
           <div class="detail">
            +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
-        </div>
-                        <div class="detail">
+
          <span class="text-green">{{HQ.weapon_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
@@ -36,8 +34,7 @@
         </div>
             <div class="detail">
             +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
-        </div>
-                                <div class="detail">
+
           <span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> /SAFE
         </div>
          </div>
@@ -47,10 +44,8 @@
         <div class="balance">
         <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
           <div class="balance">
-         <div class="detail"> DAILY: <span class="detail text-green">
-        +{{ Math.round(totalRewards.daily)}} FUTURE</span></div>
-                 <div class="detail"> HEIST: <span class="detail text-green">
-        +{{ Math.round(ownHeistReward.amount)}} FUTURE</span></div>
+         <div class="detail"> TOTAL: <span class="detail text-green">
+        +{{ Math.round(totalRewards.daily) + Math.round(ownHeistReward.amount)}}  FUTURE</span></div>
          </div>
             <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
@@ -266,8 +261,8 @@ export default {
   text-align: left !important;
   li {
     padding: 0px;
-    margin-top: 10px;
-    margin-left: 5px;
+    margin-top: 5px;
+    margin-left: 10px;
     border-left: 1px rgb(10, 10, 10) solid;
     border-right: 1px rgb(10, 10, 10) solid;
 

@@ -96,6 +96,9 @@ export default {
       }
       return 0;
     },
+    base() {
+      return this.$store.state.game.base;
+    },
     requireUpdate() {
       return this.level > this.researchCenterLvl && this.id !== 'research_center';
     },
@@ -111,19 +114,32 @@ export default {
     ...mapActions(['upgradeTraining', 'requestPayment']),
     handleSubmit(use) {
       this.isLoading = true;
+      const self = this;
       let payload = {};
-      if (use === 'future') payload = { training: this.id, level: this.level, use: 'future' };
+      if (use === 'future')
+      {
+      payload = { 
+        training: this.id, 
+        level: this.level, 
+        use: 'future',             
+        territory: Number(this.base.territory),
+        base: Number(this.base.base)}
+        } 
       else {
-        payload = { training: this.id, level: this.level, use: 'resources' };
+        payload = { 
+          training: this.id, 
+          level: this.level, 
+          use: 'resources',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base)}
       }
-      this.upgradeTraining(payload)
-        .then(() => {
-          this.waitingConfirmation = true;
-          this.isLoading = false;
+      this.upgradeTraining(payload).then(() => {
+          this.waitingConfirmation = false;
+          self.isLoading = false;
         })
         .catch(e => {
           console.error('Failed', e);
-          this.isLoading = false;
+          self.isLoading = false;
         });
     },
     handleRequestPayment() {

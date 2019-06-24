@@ -50,9 +50,7 @@ export default {
   name: 'dropdown',
   data() {
     return {
-      buildings: this.$store.state.game.user.buildings || [],
       isBottomSectionToggled: false,
-      optionsHeight: 0,
       optionHeight: 35,
       width: 100,
       configOptions: [],
@@ -67,6 +65,12 @@ export default {
   },
   components: {},
   computed: {
+    buildings() {
+       return this.$store.state.game.user.buildings || null
+    },
+    optionsHeight(){
+      return this.configOptions.length * this.optionHeight;
+    },
     config() {
       return {
         prefix: this.$store.state.game.base || null,
@@ -77,7 +81,7 @@ export default {
       return [
         { '--options-height': `${this.optionsHeight}px` },
         { '--options-height-neg': `-${this.optionsHeight}px` },
-        { '--option-height': `${this.optionHeight}px` },
+        { '--option-height': `${this.optionsHeight}px` },
         { '--main-el-border-radius': this.borderRadius },
         { '--dropdown-width': `${this.width}px` },
         { '--dropdown-background-color': this.backgroundColor },

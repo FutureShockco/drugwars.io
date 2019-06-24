@@ -18,15 +18,15 @@ const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Building
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
-const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Actions/Fight.vue');
-const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
-const Occup = () => import(/* webpackChunkName: "occup" */ '@/views/Actions/Occup.vue');
+const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
+const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Missions/Transport.vue');
+const Occup = () => import(/* webpackChunkName: "occup" */ '@/views/Missions/Occup.vue');
 
-const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
-const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
-const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
+const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Missions/Outgoing.vue');
+const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Missions/Incoming.vue');
+const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Missions/Targets.vue');
 const HallOfFame = () =>
-  import(/* webpackChunkName: "hall-of-fame" */ '@/views/Actions/HallOfFame.vue');
+  import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
 
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
@@ -62,6 +62,7 @@ const Fightboard = () =>
 
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
+const Privacy = () => import(/* webpackChunkName: "privacy" */ '@/views/Settings/Privacy.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -192,43 +193,37 @@ export default new Router({
       component: Training,
     },
     {
-      path: '/actions',
-      name: 'actions',
+      path: '/missions',
+      name: 'missions',
       beforeEnter: requireAuth,
-      component: Fight,
+      component: Missions,
     },
     {
-      path: '/actions/fight',
-      name: 'fight',
-      beforeEnter: requireAuth,
-      component: Fight,
-    },
-    {
-      path: '/actions/transport',
+      path: '/missions/transport',
       name: 'transport',
       beforeEnter: requireAuth,
       component: Transport,
     },
     {
-      path: '/actions/occup',
+      path: '/missions/occup',
       name: 'occup',
       beforeEnter: requireAuth,
       component: Occup,
     },
     {
-      path: '/actions/outgoing',
+      path: '/missions/outgoing',
       name: 'outgoing',
       beforeEnter: requireAuth,
       component: Outgoing,
     },
     {
-      path: '/actions/incoming',
+      path: '/missions/incoming',
       name: 'incoming',
       beforeEnter: requireAuth,
       component: Incoming,
     },
     {
-      path: '/actions/targets',
+      path: '/missions/targets',
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,
@@ -365,6 +360,12 @@ export default new Router({
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
+    },
+    {
+      path: '/settings/privacy',
+      name: 'privacy',
+      beforeEnter: requireAuth,
+      component: Privacy,
     },
     {
       path: '/i/:username',

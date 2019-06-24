@@ -4,7 +4,7 @@
 			<div class="column col-5">
 				<div
 					v-if="fight.transporter_nickname != user.nickname"
-					:to="`/actions/fight?target=${fight.transporter_nickname}`">
+					:to="`/actions?target=${fight.transporter_nickname}`">
 					<Avatar :size="60" :username="fight.transporter_nickname" :picture="fight.transporter_picture"/>
 				</div>
 				<Avatar
@@ -32,7 +32,7 @@
 			<div class="column col-5">
 				<div
 					v-if="fight.target_nickname != user.nickname"
-					:to="`/actions/fight?target=${fight.target_nickname}`"
+					:to="`/actions?target=${fight.target_nickname}`"
 				>
 					<Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture"/>
 				</div>

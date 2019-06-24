@@ -1,10 +1,10 @@
 <template>
-	<div  class="border-bottom pb-4 mb-4 columns" :id="fight.fight_key.slice(0, 10)">
+	<div  class="border-bottom pt-2 pb-2 columns" :id="fight.fight_key.slice(0, 10)">
 		<div class="columns text-center">
 			<div class="column col-5">
 				<div
 					v-if="fight.attacker_nickname != user.nickname"
-					:to="`/actions/fight?target=${fight.attacker_nickname}`">
+					:to="`/missions?type=attack&target=${fight.attacker_territory}&base=${fight.attacker_base}`">
 					<Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture"/>
 				</div>
 				<Avatar
@@ -35,8 +35,8 @@
 						:stolenResources="json.target.loot"
 					/>
 				</div>
-				<h1 class="mt-0" v-else>VS</h1>
-				<h5 class="mt-0" v-if="timeToWait && fight.is_stable">Start in <div>{{ timeToWait | ms }}</div></h5>
+				<h1 class="mt-0 mb-0" v-else>VS</h1>
+				<h5 class="mt-0 mb-0" v-if="timeToWait && fight.is_stable">Start in <div>{{ timeToWait | ms }}</div></h5>
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else>Preparation</h5>
 				<Icon v-if="share" class="logo" name="logo"/>
@@ -45,7 +45,7 @@
 			<div class="column col-5">
 				<div
 					v-if="fight.target_nickname != user.nickname"
-					:to="`/actions/fight?target=${fight.target_nickname}`"
+					:to="`/missions?type=attack&target=${fight.attacker_territory}&base=${fight.attacker_base}`"
 				>
 					<Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture"/>
 				</div>
@@ -78,7 +78,7 @@
 						<b>Defender Start:</b>
 						<ActionsValue :result="json.target.start_value"/>
 					</div>
-					<div class="mb-2 mt-2" v-if="json.target">
+					<div v-if="json.target">
 						<Army v-if="json.target.units" :units="json.target.units" :withDead="true"/>
 					</div>
           	<div v-if="details && json && json.target && json.target.start_value">

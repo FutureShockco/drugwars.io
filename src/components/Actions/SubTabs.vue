@@ -2,9 +2,9 @@
   <Header>
     <UiTabs>
 
-      <!-- <UiTab to="/actions/station">Station   
+      <!-- <UiTab to="/missions/station">Station   
         </UiTab> -->
-      <!-- <UiTab to="/actions/station">Occupy   
+      <!-- <UiTab to="/missions/station">Occupy   
       </UiTab> -->
     </UiTabs>
   </Header>

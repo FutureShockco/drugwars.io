@@ -10,10 +10,10 @@
 				:key="option.key"
 				:class="option">
       <router-link v-if="option.value ==='Attack'"
-      :to="`/actions/fight?target=${prefix}`"><span class="button button-red">{{ option.value }}</span>
+      :to="`/missions?nickname=${prefix}&type=attack`"><span class="button button-red">{{ option.value }}</span>
       </router-link>
       <router-link v-if="option.value ==='Carry'"
-      :to="`/actions/transport?target=${prefix}`"><span class="button button-blue">{{ option.value }}</span>
+      :to="`/missions/transport?target=${prefix}`"><span class="button button-blue">{{ option.value }}</span>
       </router-link>
       </div>
 		</div>
@@ -91,9 +91,9 @@ export default {
       this.isExpanded = !this.isExpanded;
     },
     setCurrentSelectedOption(option) {
-      if (option.value === 'Attack') this.$router.push(`/actions/fight?target=${this.prefix}`);
+      if (option.value === 'Attack') this.$router.push(`/missions?type=attack&nickname=${this.prefix}`);
       if (option.value === 'Transport')
-        this.$router.push(`/actions/transport?target=${this.prefix}`);
+        this.$router.push(`/missions?type=transport&nickname=${this.prefix}`);
       this.$emit('setSelectedOption', option);
     },
     setConfigData() {

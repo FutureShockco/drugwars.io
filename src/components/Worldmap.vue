@@ -4,21 +4,20 @@
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
           <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
           <div>INFORMATIONS</div>
-          <h5 class="mt-0">TOTAL LOCATIONS : 800</h5>
-          <h5 class="mt-0">TOTAL PLAYERS : 0</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{400 - selected.total_player}}</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL PLAYERS : {{selected.total_player}}</h5>
           <h5 class="mt-0">TOTAL SCORE : 0</h5>
-          <h5 class="mt-0">DANGEROSITY : 0</h5>
+          <h5 class="mt-0">DANGEROSITY : LOW</h5>
         </h3>
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <div class="map-title" id="visit" style="opacity:0;" >
-        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
+        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`" @click="prevent">
         <button class="button button-blue"  :disabled="!selected">
           <span v-if="main">VISIT</span>
           <span v-else>CHOOSE AS MAIN TERRITORY</span>
           </button>
         </router-link>
-        <!-- <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button> -->
         </div>
         <div class="first-line"></div>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
@@ -29,6 +28,7 @@
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
+import client from '@/helpers/client';
 
 export default {
   data() {
@@ -41,9 +41,10 @@ export default {
       showLoading: true,
       selected: null,
       currentTerritory: null,
+      territories: null,
       oldcolor: null,
       animation: null,
-      territories: null,
+      player_territories: null,
       controls: null,
     };
   },
@@ -51,6 +52,10 @@ export default {
     this.clearScene(this.scene);
   },
   methods: {
+      prevent: function(e) {
+          e.preventDefault()
+        // else continue to route
+    } ,
     init() {
       /* eslint-disable */
       const self = this;
@@ -120,8 +125,34 @@ export default {
           meshMaterials.push(
             new THREE.MeshBasicMaterial({ color: 'rgb(12, 12, 12)' }),
           );
+
           meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#ffc508' }));
           oceanMaterial.push(new THREE.MeshBasicMaterial({ color: '#000' }));
+
+          function intToHex(i) {
+                  var hex = parseInt(i).toString(16);
+                  return (hex.length < 2) ? "0" + hex : hex;
+              }   
+
+          function redYellowGreen(value)
+          {
+        value = Math.min(Math.max(0,value), 1) * 400;
+
+        var redValue;
+        var greenValue;
+        if (value < 255) {
+            redValue = 255;
+            greenValue = Math.sqrt(value) * 16;
+            greenValue = Math.round(greenValue);
+        } else {
+            greenValue = 255;
+            value = value - 255;
+            redValue = 256 - (value * value / 255)
+            redValue = Math.round(redValue);
+        }
+
+        return "#" + intToHex(redValue) + intToHex(greenValue) + "00";
+          }
 
           // let radius = 0.519;
           const radius = 0.61;
@@ -150,12 +181,32 @@ export default {
                 material = meshMaterials[1];
                 material.name = `mission`;
                 material.userData.count = count;
-              } else {
+              } 
+              else {
+                if(self.player_territories.find(t => t.territory === count))
+                {
+                  let playercount = 0;
+                  self.player_territories.forEach(element => {
+                    if(element.territory === count){
+                      playercount = playercount+1;
+                    }
+                  });
+                  let riskcolor = redYellowGreen(playercount)
+                  material = new THREE.MeshBasicMaterial({ color: riskcolor })
+                  material.name = `territory`;
+                  material.count = count;
+                  material.userData.total_player = playercount;
+                  material.userData.count = count;
+                }
+                else{
                 material = meshMaterials[0];
-                material.name = `territory`;
+                material.name = `empty territory`;
                 material.opacity = 0.8;
+                 material.userData.total_player = 0;
                 material.count = count;
                 material.userData.count = count;
+                }
+
               }
               const mesh = new THREE.Mesh(geometry, material.clone());
               mesh.name = 'grid ';
@@ -187,9 +238,10 @@ export default {
           cb(territories);
         };
       };
-      createTerritories(result => {
-        self.scene.add(result);
-      });
+
+          createTerritories(allterritories => {
+          self.scene.add(allterritories);
+        });
      
       this.camera.rotation.x = -0.86;
       this.camera.rotation.y = 0.75;
@@ -243,7 +295,7 @@ export default {
           self.selected = {};
           self.selected.name = selectedTerritory.object.material.name;
           self.selected.count = selectedTerritory.object.material.userData.count;
-
+          self.selected.total_player = selectedTerritory.object.material.userData.total_player;
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;
           visitButton.style.opacity = 1;
@@ -392,7 +444,12 @@ export default {
     }
   },
   mounted() {
-    this.init();
+    const self = this;
+       client.requestAsync('get_territories',null).then(result => {
+          console.log(result)
+          self.player_territories = result;
+          self.init();
+      });
   },
 };
 </script>

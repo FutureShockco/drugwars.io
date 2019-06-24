@@ -304,7 +304,6 @@ const actions = {
       payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -417,6 +416,26 @@ const actions = {
             type: 'success',
             message: result,
           });
+          return resolve(result);
+        }
+        console.log(result);
+        return reject();
+      });
+    }),
+    missions: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      console.log(payload);
+      return dwsocial(username, payload, result => {
+        if (result) {
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_sent_transport_count');
           return resolve(result);
         }
         console.log(result);

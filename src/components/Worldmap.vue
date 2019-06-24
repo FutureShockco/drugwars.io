@@ -126,7 +126,7 @@ export default {
             new THREE.MeshBasicMaterial({ color: 'rgb(12, 12, 12)' }),
           );
 
-          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#ffc508' }));
+          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#0043fd' }));
           oceanMaterial.push(new THREE.MeshBasicMaterial({ color: '#000' }));
 
           function intToHex(i) {
@@ -136,11 +136,12 @@ export default {
 
           function redYellowGreen(value)
           {
-        value = Math.min(Math.max(0,value), 1) * 400;
+        value = Math.min(Math.max(0,value), 1) * 510;
 
         var redValue;
         var greenValue;
-        if (value < 255) {
+        if (value > 255) {
+            value = value - 255;
             redValue = 255;
             greenValue = Math.sqrt(value) * 16;
             greenValue = Math.round(greenValue);
@@ -191,7 +192,7 @@ export default {
                       playercount = playercount+1;
                     }
                   });
-                  let riskcolor = redYellowGreen(playercount)
+                  let riskcolor = redYellowGreen(playercount/10)
                   material = new THREE.MeshBasicMaterial({ color: riskcolor })
                   material.name = `territory`;
                   material.count = count;

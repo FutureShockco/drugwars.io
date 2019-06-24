@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      amount: this.$store.state.game.user.user.drugs_balance,
+      amount: Math.round(this.$store.state.game.user.user.drugs_balance),
     };
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalHeistFuture / 100) * percent;
+      const amount = Math.round((this.totalHeistFuture / 100) * percent);
       return {
         amount,
         percent,
@@ -134,7 +134,7 @@ export default {
       if (Number(this.amount) > 0) {
         this.isLoading = true;
         const payload = {
-          amount: this.amount,
+          amount: Math.round(Number(this.amount)),
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
@@ -152,7 +152,7 @@ export default {
       }
     },
     handleFullSubmit() {
-      this.amount = this.balances.drugs - parseInt((this.balances.drugs / 100) * 1);
+      this.amount = Math.round(this.balances.drugs - parseInt((this.balances.drugs / 100) * 1));
     },
   },
 };

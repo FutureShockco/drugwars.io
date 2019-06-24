@@ -17,7 +17,7 @@
             <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/missions?type=transport&target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CARRY</button>
             </router-link>
-            <router-link v-else-if="currentNickname != nickname" :to="`/missions?type=occup&target=${location}&base=${selectedTile}`">
+            <router-link v-else-if="currentNickname != nickname" :to="`/missions?type=occupy&target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CREATE NEW BASE</button>
             </router-link>
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
@@ -27,7 +27,7 @@
             <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
                       SELECT
                 </button>
-                <router-link :to="`/missions/transport?target=${location}&base=${selectedTile}`">
+                <router-link :to="`/missions?type=transport&target=${location}&base=${selectedTile}`">
                     <button class="button button-blue">CARRY</button>
                 </router-link>
             </div>

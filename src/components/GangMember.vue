@@ -32,7 +32,7 @@
 			<SmallLoading v-else/>
 		</button>
         <router-link
-      :to="`/missions/transport?target=${member.nickname}`">
+      :to="`/missions?type=transport&nickname=${member.nickname}`">
     <button
 			class="button button-blue float-right mr-2"
 			:disabled="isLoading"

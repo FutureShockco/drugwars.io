@@ -8,7 +8,7 @@
                     <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' }">ATTACK</button>
                     <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-green' : action_type ==='transport' }">TRANSPORT</button>
                     <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
-                    <button class="button ml-1" @click="chooseActionType('occup')" :class="{ 'button-green' : action_type ==='occup' }">OCCUP</button>
+                    <button class="button ml-1" @click="chooseActionType('occupy')" :class="{ 'button-green' : action_type ==='occupy' }">OCCUPY</button>
                 </div>
                 <h3>Select your army composition</h3>
                 <div v-if="ownUnits.length > 0" >
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="action_type !== 'occup'">
+                <div v-if="action_type !== 'occupy'">
                 <h3>Type a nickname</h3>
                 <div>
                     <input class="input form-control mb-1" type="string" placeholder="Nickname" v-model="targetNickname">
@@ -141,7 +141,7 @@
                     <div>* optional</div>
                     <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
                 </div>
-                <div v-if="action_type === 'occup'">
+                <div v-if="action_type === 'occupy'">
                     <h3>Choose Base Name</h3>
                     <input class="input form-control btn-block mb-4" placeholder="Eg : Saint Street" v-model="baseName" maxlength="280">
                 </div>
@@ -210,7 +210,7 @@ export default {
             return this.$store.state.game.user.user.nickname;
         },
         ownUnits() {
-          if(this.action_type !== 'occup')
+          if(this.action_type !== 'occupy')
           {
             return this.$store.state.game.user.units.map(
                 unit =>
@@ -323,18 +323,31 @@ export default {
                   base: Number(self.base),
                   units: self.selectedUnits,
                   type: 'fight',
+                 message:self.message || ''
                 };
-                if (self.message) {
-                payload.message = self.message;
-                }
                 break;
               case 'transport':
-                
+                  const drugs = parseInt(this.drugs_amount) || 0;
+                    const weapons = parseInt(this.weapons_amount) || 0;
+                    const alcohol = parseInt(this.alcohol_amount) || 0;
+                    const future = parseInt(this.future_amount) || 0;
+                    if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && future >= 0) {
+                        payload = {
+                        from_territory: Number(self.ownBase.territory),
+                        from_base: Number(self.ownBase.base),
+                        territory: Number(self.target),
+                        base: Number(self.base),
+                        units: self.selectedUnits,
+                        type: 'transport',
+                        resources: { drugs, weapons, alcohol, future },
+                        message :self.message || ''
+                    }
+                    }
                 break;
               case 'station':
                 
                 break;
-              case 'occup':
+              case 'occupy':
                 payload = {
                   from_territory: Number(self.ownBase.territory),
                   from_base: Number(self.ownBase.base),
@@ -349,7 +362,7 @@ export default {
                 break;
             }
 
-            const isValid = await this.validateForm();
+            const isValid = await this.validateForm(self.action_type);
 
             if (isValid) {
                 this.resetForm();
@@ -366,13 +379,13 @@ export default {
                 this.isLoading = false;
             }
         },
-        async validateForm() {
+        async validateForm(type) {
             this.errorMessage = null;
             let target;
             if(this.targetNickname)
             target = this.targetNickname.toLowerCase();
 
-            if (target === this.nickname) {
+            if (type === 'attack' && target === this.nickname) {
                 this.errorMessage = 'Attack yourself? Are you serious?';
             }
             const now = new Date();
@@ -381,14 +394,14 @@ export default {
                 this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
             }
 
-            if (!this.baseName && this.action_type === 'occup') {
+            if (!this.baseName && this.action_type === 'occupy') {
               this.errorMessage = `Please choose a name for your base`;
             }
-            else if(this.action_type === 'occup' && this.baseName.length > 25)
+            else if(this.action_type === 'occupy' && this.baseName.length > 25)
             {
               this.errorMessage = `Please choose a shorter name for your base`;
             }
-            else if(this.action_type === 'occup' && this.baseName.length < 4)
+            else if(this.action_type === 'occupy' && this.baseName.length < 4)
             {
               this.errorMessage = `Please choose a longer name for your base`;
             }

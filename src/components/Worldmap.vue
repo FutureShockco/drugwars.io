@@ -6,8 +6,8 @@
           <div>INFORMATIONS</div>
           <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{400 - selected.total_player}}</h5>
           <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL PLAYERS : {{selected.total_player}}</h5>
-          <h5 class="mt-0">TOTAL SCORE : 0</h5>
-          <h5 class="mt-0">DANGEROSITY : LOW</h5>
+          <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
+          <h5 class="mt-0" v-if="selected && selected.dangerosity">DANGEROSITY : {{selected.dangerosity}}</h5>
         </h3>
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
+      all_players: this.$store.state.game.prizeProps.users[0].total || null,
       camera: null,
       scene: null,
       renderer: null,
@@ -157,7 +158,7 @@ export default {
 
           // let radius = 0.519;
           const radius = 0.61;
-          const divisions = 12;
+          const divisions = 10+Math.round(self.all_players/50);
           const tileSize = 0.9;
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -192,12 +193,22 @@ export default {
                       playercount = playercount+1;
                     }
                   });
-                  let riskcolor = redYellowGreen(playercount/10)
+                  let riskcolor = redYellowGreen(playercount/25)
                   material = new THREE.MeshBasicMaterial({ color: riskcolor })
                   material.name = `territory`;
                   material.count = count;
                   material.userData.total_player = playercount;
                   material.userData.count = count;
+                  material.userData.risk = 'low'
+
+                  if(playercount/25 > 0.50)
+                  {
+                    material.userData.risk = 'middle'
+                  }
+                  else if(playercount/25 > 0.90)
+                  {
+                    material.userData.risk = 'high'
+                  }
                 }
                 else{
                 material = meshMaterials[0];
@@ -216,17 +227,17 @@ export default {
               hexasphere.tiles[i].mesh = mesh;
               count++;
             } 
-            else {
-              material = oceanMaterial[0];
-              material.name = 'void';
-              material.count = 0;
-              material.opacity = 0;
-              var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
-              const mesh = new THREE.Mesh(bufferGeometry, material.clone());
-              mesh.name = 'void ';
-              territories.add(mesh);
-              hexasphere.tiles[i].mesh = mesh;
-            }
+            // else {
+            //   material = oceanMaterial[0];
+            //   material.name = 'void';
+            //   material.count = 0;
+            //   material.opacity = 0;
+            //   var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
+            //   const mesh = new THREE.Mesh(bufferGeometry, material.clone());
+            //   mesh.name = 'void ';
+            //   territories.add(mesh);
+            //   hexasphere.tiles[i].mesh = mesh;
+            // }
           }
 
           seenTiles = {};
@@ -297,6 +308,7 @@ export default {
           self.selected.name = selectedTerritory.object.material.name;
           self.selected.count = selectedTerritory.object.material.userData.count;
           self.selected.total_player = selectedTerritory.object.material.userData.total_player;
+          self.selected.dangerosity = selectedTerritory.object.material.userData.risk;
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;
           visitButton.style.opacity = 1;
@@ -366,7 +378,7 @@ export default {
         }
         if (self.scene &&  self.camera) {
           if(self.scene.getObjectByName('territories'))
-          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.02;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }

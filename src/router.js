@@ -20,7 +20,7 @@ const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootca
 
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
 const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Missions/Transport.vue');
-const Occup = () => import(/* webpackChunkName: "occup" */ '@/views/Missions/Occup.vue');
+const Occup = () => import(/* webpackChunkName: "occupy" */ '@/views/Missions/Occup.vue');
 
 const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Missions/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Missions/Incoming.vue');
@@ -205,8 +205,8 @@ export default new Router({
       component: Transport,
     },
     {
-      path: '/missions/occup',
-      name: 'occup',
+      path: '/missions/occupy',
+      name: 'occupy',
       beforeEnter: requireAuth,
       component: Occup,
     },

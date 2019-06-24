@@ -10,10 +10,10 @@
 				:key="option.key"
 				:class="option">
       <router-link v-if="option.value ==='Attack'"
-      :to="`/missions?nickname=${prefix}&type=attack`"><span class="button button-red">{{ option.value }}</span>
+      :to="`/missions?type=attack&nickname=${prefix}`"><span class="button button-red">{{ option.value }}</span>
       </router-link>
       <router-link v-if="option.value ==='Carry'"
-      :to="`/missions/transport?target=${prefix}`"><span class="button button-blue">{{ option.value }}</span>
+      :to="`/missions?type=transport&nickname=${prefix}`"><span class="button button-blue">{{ option.value }}</span>
       </router-link>
       </div>
 		</div>

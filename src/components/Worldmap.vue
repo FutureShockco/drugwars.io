@@ -94,6 +94,196 @@ export default {
       self.renderer.setSize(mapbg.width, mapbg.height);
       mapbg.appendChild(self.renderer.domElement);
      
+
+      // Lights
+      const spotLight = new THREE.AmbientLight(0xffffff);
+      // Texture Loader
+      const textureLoader = new THREE.TextureLoader();
+       // Planet Proto
+      const planetProto = {
+        sphere(size) {
+          const sphere = new THREE.SphereGeometry(size, 32, 32);
+          return sphere;
+        },
+        material(options) {
+          const material = new THREE.MeshPhongMaterial();
+          if (options) {
+            for (const property in options) {
+              material[property] = options[property];
+            }
+          }
+          return material;
+        },
+        glowMaterial(intensity, fade, color) {
+          const glowMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              c: {
+                type: 'f',
+                value: intensity,
+              },
+              p: {
+                type: 'f',
+                value: fade,
+              },
+              glowColor: {
+                type: 'c',
+                value: new THREE.Color(color),
+              },
+              viewVector: {
+                type: 'v3',
+                value: self.camera.position,
+              },
+            },
+            vertexShader: `
+        uniform vec3 viewVector;
+        uniform float c;
+        uniform float p;
+        varying float intensity;
+        void main() {
+          vec3 vNormal = normalize( normalMatrix * normal );
+          vec3 vNormel = normalize( normalMatrix * viewVector );
+          intensity = pow( c - dot(vNormal, vNormel), p );
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }`,
+            fragmentShader: `
+        uniform vec3 glowColor;
+        varying float intensity;
+        void main() 
+        {
+          vec3 glow = glowColor * intensity;
+          gl_FragColor = vec4( glow, 1.0 );
+        }`,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+          });
+          return glowMaterial;
+        },
+        texture(material, property, uri) {
+          const textureLoader = new THREE.TextureLoader();
+          textureLoader.crossOrigin = true;
+          textureLoader.load(uri, texture => {
+            material[property] = texture;
+            material.needsUpdate = true;
+          });
+        },
+      };
+  const createPlanet = function(options) {
+        // Create the planet's Surface
+        const surfaceGeometry = planetProto.sphere(options.surface.size);
+        const surfaceMaterial = planetProto.material(options.surface.material);
+        const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        // Create the planet's Atmosphere
+        const atmosphereGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size,
+        );
+        const atmosphereMaterialDefaults = {
+          side: THREE.DoubleSide,
+          transparent: true,
+        };
+        const atmosphereMaterialOptions = Object.assign(
+          atmosphereMaterialDefaults,
+          options.atmosphere.material,
+        );
+        const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        // Create the planet's Atmospheric glow
+        const atmosphericGlowGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
+        );
+        const atmosphericGlowMaterial = planetProto.glowMaterial(
+          options.atmosphere.glow.intensity,
+          options.atmosphere.glow.fade,
+          options.atmosphere.glow.color,
+        );
+        const atmosphericGlow = new THREE.Mesh(atmosphericGlowGeometry, atmosphericGlowMaterial);
+        // Nest the planet's Surface and Atmosphere into a planet object
+        const planet = new THREE.Object3D();
+        surface.name = 'surface';
+        atmosphere.name = 'atmosphere';
+        atmosphericGlow.name = 'atmosphericGlow';
+        planet.add(surface);
+        planet.add(atmosphere);
+        planet.add(atmosphericGlow);
+        // Load the Surface's textures
+        for (const textureProperty in options.surface.textures) {
+          planetProto.texture(
+            surfaceMaterial,
+            textureProperty,
+            options.surface.textures[textureProperty],
+          );
+        }
+        // Load the Atmosphere's texture
+        for (const textureProperty in options.atmosphere.textures) {
+          planetProto.texture(
+            atmosphereMaterial,
+            textureProperty,
+            options.atmosphere.textures[textureProperty],
+          );
+        }
+        return planet;
+      };
+
+      self.earth = createPlanet({
+        surface: {
+          size: 0.5,
+          material: {
+            bumpScale: 0.05,
+            specular: new THREE.Color('grey'),
+            shininess: 10,
+          },
+          textures: {
+            map: 'img/map/8081_earthmap2k.jpg',
+            bumpMap: 'img/map/8081_earthbump2k.jpg',
+            specularMap: 'img/map/8081_earthspec2k.jpg',
+          },
+        },
+        atmosphere: {
+          size: 0.1,
+          material: {
+            opacity: 0.8,
+          },
+          textures: {
+            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
+          },
+          glow: {
+            size: 0.02,
+            intensity: 0.7,
+            fade: 7,
+            color: 0x93cfef,
+          },
+        },
+      });
+
+      // Galaxy
+      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+      const galaxyMaterial = new THREE.MeshBasicMaterial({
+        side: THREE.BackSide,
+      });
+      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
+      // Load Galaxy Textures
+      textureLoader.crossOrigin = true;
+      textureLoader.load(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+        texture => {
+          galaxyMaterial.map = texture;
+          self.scene.add(galaxy);
+        },
+      );
+
+      // Light Configurations
+      spotLight.position.set(1, 1, 1);
+
+            // Mesh Configurations
+      self.earth.receiveShadow = false;
+      self.earth.castShadow = false;
+      self.earth.rotateY(179.05);
+      self.earth.rotateX(0);
+      self.earth.rotateZ(0);
+
+      self.scene.add(self.earth);
+      self.scene.add(spotLight);
       const territories = new THREE.Object3D();
       const createTerritories = function(cb) {
         const img = document.getElementById('projection');
@@ -381,7 +571,9 @@ export default {
         }
         if (self.scene &&  self.camera) {
           if(self.scene.getObjectByName('territories'))
-          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.02;
+          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.005;
+          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }

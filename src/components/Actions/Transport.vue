@@ -48,7 +48,11 @@
 					v-if="json.transporter && json.transporter.units"
 					:units="json.transporter.units"
 				/>
-			<ul class="columns text-center list-style-none user-balances mb-4">
+        <Troops class="text-center"
+					v-if="json.attacker && json.attacker.units"
+					:units="json.attacker.units"
+				/>
+			<ul class="columns text-center list-style-none user-balances mb-4" v-if="json.resources">
       <li class="column col-3">
         <Icon name="drug"/>
         <div class="text-green">
@@ -74,7 +78,23 @@
         </div>
       </li>
     </ul>
-			<div class="text-center mb-3">Start : {{start}} - End : {{end}}</div>
+    <div  class="text-center mb-3">
+        <div v-if="fight.attacker_base">
+				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
+
+      	</div>
+				<div v-if="fight.transporter_base">
+				FROM Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
+			   
+      	</div>
+			<div>Start : {{start}} - End : {{end}}</div>
+        <div v-if="fight.fight_key">
+          Tx/Steem blockNum :	{{fight.fight_key}}
+        </div>
+        <div v-else-if="fight.transport_key">
+          Tx/Steem blockNum :	{{fight.transport_key}}
+        </div>
+    </div>
 	</div>
 </template>
 

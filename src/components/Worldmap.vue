@@ -389,15 +389,35 @@ export default {
                   material.count = count;
                   material.userData.total_player = playercount;
                   material.userData.count = count;
-                  material.userData.risk = 'low'
+                  material.userData.risk = 'inexistant'
 
+                  if(playercount/25 > 0.15)
+                  {
+                   material.userData.risk = 'low'
+                  }
+                  if(playercount/25 > 0.25)
+                  {
+                    material.userData.risk = 'moderate'
+                  }
                   if(playercount/25 > 0.50)
                   {
-                    material.userData.risk = 'middle'
+                    material.userData.risk = 'considerable'
                   }
-                  else if(playercount/25 > 0.90)
+                  if(playercount/25 > 0.75)
                   {
                     material.userData.risk = 'high'
+                  }
+                  if(playercount/25 > 1)
+                  {
+                    material.userData.risk = 'extreme'
+                  }
+                  if(playercount/25 > 1.25)
+                  {
+                    material.userData.risk = 'pariah'
+                  }
+                  else if(playercount/25 > 1.50)
+                  {
+                    material.userData.risk = 'incredible'
                   }
                 }
                 else{

@@ -106,7 +106,7 @@
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
-			<div class="text-center mb-3" v-if="fight.is_stable">
+			<div class="text-center mb-3">
 				<div v-if="fight.attacker_base">
 				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
 				</div>
@@ -116,6 +116,12 @@
 				<div>
 				Start : {{start}} - End : {{end}}
 				</div>
+				   <div v-if="fight.fight_key">
+          Tx/Steem blockNum :	{{fight.fight_key}}
+        </div>
+        <div v-else-if="fight.transport_key">
+          	Tx/Steem blockNum : {{fight.transport_key}}
+        </div>
 				</div>
 			<div v-if="fight.is_done!=0">
 				<div v-if="!details" class="text-center">

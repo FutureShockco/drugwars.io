@@ -345,7 +345,15 @@ export default {
                     }
                 break;
               case 'station':
-                
+                 payload = {
+                  from_territory: Number(self.ownBase.territory),
+                  from_base: Number(self.ownBase.base),
+                  territory: Number(self.target),
+                  base: Number(self.base),
+                  units: self.selectedUnits,
+                  type: 'station',
+                 message:self.message || ''
+                };
                 break;
               case 'occupy':
                 payload = {

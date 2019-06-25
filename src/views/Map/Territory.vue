@@ -23,7 +23,6 @@
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
                       ALREADY SELECTED
                       </button>
-    
             <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
                       SELECT
                 </button>
@@ -84,7 +83,6 @@ export default {
             const canvas_element = document.getElementById('canvas');
             const width = bg.offsetWidth;
             const height = bg.offsetHeight;
-            console.log(width,height)
             canvas_element.width = width;
             canvas_element.height = height;
             let context = canvas_element.getContext('2d');
@@ -271,9 +269,9 @@ export default {
                     context.stroke()
                     context.fill();
                     context.textAlign = 'center';
-                    context.font = '16px American Captain';
+                    context.font = '12px American Captain';
                     context.fillStyle = '#fff';
-                    context.fillText(tile.id, tile.x + 16, tile.y + 26);
+                    context.fillText(tile.id, tile.x + 9, tile.y + 26);
                 });
             }
             drawTiles();

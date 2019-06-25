@@ -482,11 +482,21 @@ export default {
 
       let selectedTerritory;
       function onclick(event) {
+        console.log(event)
         if (selectedTerritory) 
         selectedTerritory.object.material.color.set(self.oldcolor);
 
 
-        const array = getMousePosition( mapbg, event.clientX, event.clientY );
+        let array = [];
+        if(event.changedTouches)
+        {
+        array = getMousePosition( mapbg, event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+
+        }
+        else{
+        array = getMousePosition( mapbg, event.clientX, event.clientY );
+
+        }
 				onClickPosition.fromArray( array );
 				var intersects = getIntersects( onClickPosition, territories.children );
         if (

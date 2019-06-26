@@ -167,8 +167,19 @@ export default {
     this.setConfigData();
     this.setOptionsHeight();
   },
-  beforeUdate() {
-    // this.setOptionsHeight();
+  updated() {
+              console.log(this.$store.state.game.base)
+
+        if(!this.config.prefix)
+        {
+          this.config = {}
+          this.config.prefix = this.$store.state.game.base
+          const territory = this.config.prefix.territory;
+          const base = this.config.prefix.base;
+          const custom = this.config.prefix.custom;
+          const main = this.config.prefix.main;
+           this.setBase({ territory, base, custom, main });
+        }
   },
   mounted() {},
 };

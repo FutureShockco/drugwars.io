@@ -18,13 +18,14 @@ const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Building
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
-const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Missions/Missions.vue');
-const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Missions/Transport.vue');
-const Occup = () => import(/* webpackChunkName: "occupy" */ '@/views/Missions/Occup.vue');
+const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Actions/Actions.vue');
+const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
+const Occup = () => import(/* webpackChunkName: "occupy" */ '@/views/Actions/Occup.vue');
 
-const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Missions/Outgoing.vue');
-const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Missions/Incoming.vue');
-const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Missions/Targets.vue');
+const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
+const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
+const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
+const Station = () => import(/* webpackChunkName: "station" */ '@/views/Actions/Station.vue');
 const HallOfFame = () =>
   import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
 
@@ -87,6 +88,8 @@ const requireAuth = (to, from, next) => {
           store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_inc_transport_count');
           store.dispatch('refresh_sent_transport_count');
+          store.dispatch('refresh_inc_station_count');
+          store.dispatch('refresh_sent_station_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -109,6 +112,8 @@ const requireAuth = (to, from, next) => {
           store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_inc_transport_count');
           store.dispatch('refresh_sent_transport_count');
+          store.dispatch('refresh_inc_station_count');
+          store.dispatch('refresh_sent_station_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -193,40 +198,46 @@ export default new Router({
       component: Training,
     },
     {
-      path: '/missions',
+      path: '/actions',
       name: 'missions',
       beforeEnter: requireAuth,
       component: Missions,
     },
     {
-      path: '/missions/transport',
+      path: '/actions/transport',
       name: 'transport',
       beforeEnter: requireAuth,
       component: Transport,
     },
     {
-      path: '/missions/occupy',
+      path: '/actions/occupy',
       name: 'occupy',
       beforeEnter: requireAuth,
       component: Occup,
     },
     {
-      path: '/missions/outgoing',
+      path: '/actions/outgoing',
       name: 'outgoing',
       beforeEnter: requireAuth,
       component: Outgoing,
     },
     {
-      path: '/missions/incoming',
+      path: '/actions/incoming',
       name: 'incoming',
       beforeEnter: requireAuth,
       component: Incoming,
     },
     {
-      path: '/missions/targets',
+      path: '/actions/targets',
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,
+    },
+    {
+      path: '/actions/station',
+      name: 'station',
+      beforeEnter: requireAuth,
+      component: Station,
     },
     {
       path: '/hall-of-fame',

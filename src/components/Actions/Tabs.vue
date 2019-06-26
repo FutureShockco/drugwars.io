@@ -1,18 +1,23 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/missions">Missions</UiTab>
-      <UiTab to="/missions/outgoing">Out   
+      <UiTab to="/actions">Actions</UiTab>
+      <UiTab to="/actions/outgoing">Out   
         <span>
           ({{ activeFightsCount + activeTransportsCount }})
         </span>
       </UiTab>
-      <UiTab to="/missions/incoming">In   
+      <UiTab to="/actions/incoming">In   
         <span>
           ({{ activeIncFightsCount +  activeIncTransportsCount }})
         </span></UiTab>
-      <UiTab to="/missions/targets">Targets</UiTab>
+              <UiTab to="/actions/station">Station   
+        <span>
+          ({{ activeIncStationsCount +  activeStationsCount }})
+        </span></UiTab>
+      <!-- <UiTab to="/actions/targets">Targets</UiTab> -->
     </UiTabs>
+    
         <div class="coordbase" v-if="base">
         <span class="text text-blue" v-if="main">
            Primary
@@ -59,6 +64,18 @@ export default {
     activeTransportsCount() {
       if (this.$store.state.game.sent_transports_count) {
         return this.$store.state.game.sent_transports_count;
+      }
+      return 0;
+    },
+    activeIncStationsCount() {
+      if (this.$store.state.game.inc_stations_count) {
+        return this.$store.state.game.inc_stations_count;
+      }
+      return 0;
+    },
+    activeStationsCount() {
+      if (this.$store.state.game.sent_stations_count) {
+        return this.$store.state.game.sent_stations_count;
       }
       return 0;
     },

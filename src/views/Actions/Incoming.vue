@@ -3,7 +3,7 @@
 		<ActionsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
-			:page-count="Math.ceil(sent/50)"
+			:page-count="Math.ceil(inc/50)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -15,13 +15,13 @@
 		<div class="p-4">
       <div class="fight"  v-for="fight in fights" :key="fight.fight_key || fight.transport_key" >
         	<ActionsFight v-if="fight.type === 'fight'" :fight="fight"/>
-           <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
+          <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
       </div>
 			<p v-if="!fights || !fights.length"><Loading/></p>
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
-			:page-count="Math.ceil(sent/50)"
+			:page-count="Math.ceil(inc/50)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -47,21 +47,21 @@ export default {
   },
   data() {
     return {
-      sent: this.$store.state.game.user.total_sent[0].total_sent || 0,
+      inc: this.$store.state.game.user.total_received[0].total_received || 0,
     };
   },
   computed: {
     fights() {
-      return orderBy(this.$store.state.game.sent_fights, 'end_date', 'desc');
+      return orderBy(this.$store.state.game.inc_fights, 'end_date', 'desc');
     },
   },
   methods: {
-    ...mapActions(['init', 'notify', 'refresh_sent_fights']),
+    ...mapActions(['init', 'notify', 'refresh_inc_fights']),
     load_fights(start) {
       let end = 50;
       end = start * 50;
       start = end - 50; // eslint-disable-line no-param-reassign
-      this.refresh_sent_fights({ start, end })
+      this.refresh_inc_fights({ start, end })
         .then(() => {
           this.isLoading = false;
         })
@@ -75,6 +75,14 @@ export default {
 </script>
 
     <style lang="less">
+.username{
+    width: 250px;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 26px;
+}
+
 .pagination {
   margin-left: auto;
   margin-right: auto;

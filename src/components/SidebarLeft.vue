@@ -55,11 +55,11 @@
           </li>
           <li>
             <router-link
-              to="/missions" 
+              to="/actions" 
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Missions
+              Actions
               <span class="text-red" v-if="activeIncFightsCount > 0">
               ({{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
             </span>              <span class="text-green" v-if="activeFightsCount > 0">
@@ -188,23 +188,24 @@ import client from '@/helpers/client';
 export default {
   data() {
     return {
-      config: {
+    
+    };
+  },
+  computed: {
+    config(){
+      return  {
         options: [
-          // {
-          //     value: "Message"
-          // },
+          
           {
             value: 'Attack',
           },
           {
-            value: 'Carry',
+            value: 'Transport',
           },
         ],
         backgroundColor: 'green',
-      },
-    };
-  },
-  computed: {
+      }
+    },
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;
     },

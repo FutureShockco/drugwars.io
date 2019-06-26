@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-lg-row flex-column text-center text-lg-left item">
         <div class="mr-3">
-            <img class="preview" :src="`/img/missions/${item.img}.jpg`">
+            <img class="preview" :src="`/img/actions/${item.img}.jpg`">
         </div>
         <div class="level">{{ item.type }} - Difficulty : {{item.difficulty}}</div>
         <div class="item-content width-full mr-3 mb-4">

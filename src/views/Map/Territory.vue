@@ -16,13 +16,13 @@
             <h5 class="mt-0">DETAIL : {{customName}}</h5>
         </h3>
         <div class="map-title" id="visit" style="opacity:0;">
-            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/missions?type=attack&target=${location}&base=${selectedTile}`">
+            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=attack&target=${location}&base=${selectedTile}`">
                 <button class="button button-red">ATTACK</button>
             </router-link>
-            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/missions?type=transport&target=${location}&base=${selectedTile}`">
-                <button class="button button-blue">CARRY</button>
+            <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=transport&target=${location}&base=${selectedTile}`">
+                <button class="button button-blue">TRANSPORT</button>
             </router-link>
-            <router-link v-else-if="currentNickname != nickname" :to="`/missions?type=occupy&target=${location}&base=${selectedTile}`">
+            <router-link v-else-if="currentNickname != nickname && base" :to="`/actions?type=occupy&target=${location}&base=${selectedTile}`">
                 <button class="button button-blue">CREATE NEW BASE</button>
             </router-link>
             <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
@@ -31,8 +31,8 @@
             <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
                       SELECT
                 </button>
-                <router-link :to="`/missions?type=transport&target=${location}&base=${selectedTile}`">
-                    <button class="button button-blue">CARRY</button>
+                <router-link :to="`/actions?type=transport&target=${location}&base=${selectedTile}`">
+                    <button class="button button-blue">TRANSPORT</button>
                 </router-link>
             </div>
             <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
@@ -308,7 +308,7 @@ export default {
                     .then(() => {
                         client.requestAsync('get_bases', this.location).then(result => {
                             console.log(result);
-                            self.bases = result;
+                            self.bases = result[0];
                             self.setBase(self.bases);
                             self.init();
                             self.isLoading = false;

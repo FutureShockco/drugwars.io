@@ -13,9 +13,8 @@
 			:page-class="'fight'"
 		></Paginate>
 		<div class="p-4">
-      <div class="fight"  v-for="fight in fights" :key="fight.fight_key || fight.transport_key" >
-        	<ActionsFight v-if="fight.type === 'fight'" :fight="fight"/>
-           <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
+      <div class="fight"  v-for="fight in fights" :key="fight.fight_key" >
+                   <ActionsStation v-if="fight.type === 'station'" :fight="fight"/>
       </div>
 			<p v-if="!fights || !fights.length"><Loading/></p>
 		</div>
@@ -75,6 +74,15 @@ export default {
 </script>
 
     <style lang="less">
+
+.username{
+    width: 250px;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 26px;
+}
+
 .pagination {
   margin-left: auto;
   margin-right: auto;

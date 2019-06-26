@@ -1,5 +1,5 @@
 <template>
-	<div  class="border-bottom pt-2 pb-2 columns" :id="fight.fight_key.slice(0, 10)">
+	<div  class="border-bottom pt-2 pb-2 columns" :id="fight.transport_key.slice(0, 10)">
 		<div class="columns text-center">
 			<div class="column col-5">
 				<div
@@ -35,10 +35,12 @@
 						:stolenResources="json.target.loot"
 					/>
 				</div>
-				<h1 class="mt-0 mb-0" v-else>VS</h1>
+				<h1 class="mt-0 mb-0" v-else-if="fight.type !== 'station'">VS</h1>
+				<h1 class="mt-0 mb-0" v-else>HELP</h1>
 				<h5 class="mt-0 mb-0" v-if="timeToWait && fight.is_stable">Start in <div>{{ timeToWait | ms }}</div></h5>
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
-				<h5 class="mt-0" v-else>Preparation</h5>
+				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
+				<h5 class="mt-0" v-else>Units are ready</h5>
 				<Icon v-if="share" class="logo" name="logo"/>
 				<h4 v-if="share">JOIN US!</h4>
 			</div>
@@ -97,14 +99,11 @@
 					v-if="json && json.target && fight.target_nickname != user.nickname && json.target.detail"
 					:detail="json.target.detail"
 				/>
-				<Share v-if="!timeToWait" :fight="this.fight" :fight_key="this.fight.fight_key"/>
+				<Share v-if="!timeToWait" :fight="this.fight" :transport_key="this.fight.transport_key"/>
 				<div
 					class="sharemessage"
 					v-if="!timeToWait"
 				>Share your victory on our forum and obtain a chance to get rewarded.</div>
-			</div>
-			<div v-if="details || fight.is_done === 0" class="text-center">
-				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
 			<div class="text-center mb-3">
 				<div v-if="fight.attacker_base">
@@ -116,8 +115,8 @@
 				<div>
 				Start : {{start}} - End : {{end}}
 				</div>
-				   <div v-if="fight.fight_key">
-          Tx :	{{fight.fight_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+				   <div v-if="fight.transport_key">
+          Tx :	{{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
         </div>
         <div v-else-if="fight.transport_key">
           	Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>

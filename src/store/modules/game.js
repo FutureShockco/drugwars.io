@@ -53,6 +53,12 @@ const mutations = {
   saveSentTransportsCount(_state, payload) {
     Vue.set(_state, 'sent_transports_count', payload);
   },
+  saveIncStationsCount(_state, payload) {
+    Vue.set(_state, 'inc_stations_count', payload);
+  },
+  saveSentStationsCount(_state, payload) {
+    Vue.set(_state, 'sent_stations_count', payload);
+  },
   saveGangBuildings(_state, payload) {
     Vue.set(_state, 'gang_buildings', payload);
   },
@@ -214,6 +220,36 @@ const actions = {
         .catch(err => {
           console.log(err);
           handleError(dispatch, err, 'Loading sent transports count failed');
+          return reject(err);
+        });
+    }),
+    refresh_inc_station_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_inc_station_count', { token })
+        .then(stations => {
+          commit('saveIncStationsCount', stations);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading inc stations count failed');
+          return reject(err);
+        });
+    }),
+  refresh_sent_station_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_sent_station_count', { token })
+        .then(stations => {
+          commit('saveSentStationsCount', stations);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent stations count failed');
           return reject(err);
         });
     }),
@@ -500,6 +536,7 @@ const actions = {
     }
   },
   setBase: ({ commit }, payload) => {
+    console.log(payload)
     commit('saveBase', payload);
   },
   disconnect: ({ commit }) => {

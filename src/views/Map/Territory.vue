@@ -1,5 +1,10 @@
 <template>
     <div id="territorybg" class="territorybg">
+        <div class="text-center">
+        <button class="button button-yellow" @click="decreaseLocation()"><div class="iconfont icon-arrow-left"></div>
+        </button><input type="number" v-model="location" placeholder="25" class="mt-5 input">
+        <button class="button button-yellow"  @click="increaseLocation()"><div class="iconfont icon-arrow-right"></div></button>
+        </div>
         <h3 class="title" id="title" style="opacity:0;">
             <div v-if="selectedTile">BASE {{selectedTile}}</div>
             <h5 class="mt-0">UNDER THE CONTROL OF :
@@ -52,7 +57,7 @@ export default {
             currentHq: null,
             nickname: this.$store.state.game.user.user.nickname,
             bases: [],
-            currentLocation:null
+            currentLocation:null,
         };
     },
     computed: {
@@ -77,6 +82,12 @@ export default {
         },
     },
     methods: {
+        increaseLocation(){
+            this.$router.push({ path:  `/map/territory?location=${Number(this.location)+1}` });
+        },
+        decreaseLocation(){
+           this.$router.push({ path:  `/map/territory?location=${Number(this.location)-1}` });
+        },
         start() {
             const self = this;
             const bg = document.getElementById('territorybg');
@@ -256,7 +267,7 @@ export default {
             }
 
 
-            createTiles(20, 20);
+            createTiles(15, 15);
 
             function drawTiles() {
                 tiles_array.forEach(tile => {
@@ -386,7 +397,7 @@ export default {
 
 <style lang="less" scoped>
 .territorybg {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 160px);
     max-width: calc(1120px - 400px);
 }
 

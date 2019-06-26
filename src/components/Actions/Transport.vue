@@ -88,11 +88,11 @@
 			   
       	</div>
 			<div>Start : {{start}} - End : {{end}}</div>
-        <div v-if="fight.fight_key">
-          Tx/Steem blockNum :	{{fight.fight_key}}
+				   <div v-if="fight.fight_key">
+          Tx :	{{fight.fight_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
         </div>
         <div v-else-if="fight.transport_key">
-          Tx/Steem blockNum :	{{fight.transport_key}}
+          	Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block: {{fight.steem_block}}</span>
         </div>
     </div>
 	</div>

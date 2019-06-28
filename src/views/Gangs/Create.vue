@@ -115,7 +115,7 @@ export default {
         this.balances.weapons > this.gangCreationFee.weapons &&
         this.balances.alcohols > this.gangCreationFee.alcohols
       );
-    },
+    }
   },
   methods: {
     ...mapActions(['send', 'notify']),
@@ -126,6 +126,8 @@ export default {
         gang: this.gang.trim().toLowerCase(),
         ticker: this.ticker.toUpperCase(),
         type: 'gang-create',
+        territory: Number(this.base.territory),
+        base: Number(this.base.base),
       };
 
       this.send(payload)

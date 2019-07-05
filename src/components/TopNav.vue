@@ -1,11 +1,11 @@
 <template>
     <div>
   <div class="topnav brush-black">
-      <div class="topnav-logo hide-sm hide-md hide-lg text-center">
+      <!-- <div class="topnav-logo hide-sm hide-md hide-lg text-center">
         <router-link to="/">
           <img src="/img/drugwars.png" class="logo" name="logo"/>
         </router-link>
-      </div>
+      </div> -->
     <div class="topnav-content d-flex mx-auto">
       <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
         <span class="iconfont icon-three-bars"/>
@@ -13,7 +13,7 @@
 
           <Balances class="width-full text-center"/>
       <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
-        <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
+        <Icon v-if="shieldEnd" name="shield" size="32" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>

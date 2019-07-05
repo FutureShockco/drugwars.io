@@ -43,7 +43,7 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     totalVest() {
-      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
+      return 14000000;
     },
     totalReward() {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
@@ -77,7 +77,7 @@ export default {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
+          2) /
         0.005
       );
     },
@@ -120,7 +120,7 @@ export default {
       );
     },
     ownHeistReward() {
-      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
+      const percent = (100 / 380000000) * this.totalVest;
       const amount = Math.round((this.totalHeistFuture / 100) * percent);
       return {
         amount,

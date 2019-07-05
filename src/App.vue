@@ -24,6 +24,7 @@
 			</UiCenter>
 			<TopNav v-if="username"/>
 			<Sidebars v-if="username && showSidebar"/>
+      <!-- <BottomNav v-if="username"/> -->
 			<balloon v-if="username" title="DrugWars LiveChat" position="bottom-right" :zooming="false">
 			</balloon>
 			<router-view

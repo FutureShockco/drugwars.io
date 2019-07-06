@@ -116,24 +116,25 @@ export default {
       this.isLoading = true;
       const self = this;
       let payload = {};
-      if (use === 'future')
-      {
-      payload = { 
-        training: this.id, 
-        level: this.level, 
-        use: 'future',             
-        territory: Number(this.base.territory),
-        base: Number(this.base.base)}
-        } 
-      else {
-        payload = { 
-          training: this.id, 
-          level: this.level, 
+      if (use === 'future') {
+        payload = {
+          training: this.id,
+          level: this.level,
+          use: 'future',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
+      } else {
+        payload = {
+          training: this.id,
+          level: this.level,
           use: 'resources',
           territory: Number(this.base.territory),
-          base: Number(this.base.base)}
+          base: Number(this.base.base),
+        };
       }
-      this.upgradeTraining(payload).then(() => {
+      this.upgradeTraining(payload)
+        .then(() => {
           this.waitingConfirmation = false;
           self.isLoading = false;
         })

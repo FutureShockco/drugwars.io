@@ -75,11 +75,7 @@ export default {
     },
     totalHeistFuture() {
       const { prizeProps } = this.$store.state.game;
-      return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          2) /
-        0.005
-      );
+      return (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * 2) / 0.005;
     },
     balances() {
       let ocLvl = 0;

@@ -12,8 +12,8 @@
       </button>
 
           <Balances class="width-full text-center"/>
-      <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
-        <Icon v-if="shieldEnd" name="shield" size="32" class="text-gray"/>
+      <div class="shield text-center hide-sm hide-md hide-lg mt-2" >
+        <Icon v-if="shieldEnd" name="shield" size="26" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
@@ -149,6 +149,7 @@ export default {
 
   .shield {
     min-width: 80px;
+    font-size: 10px;
   }
   @media screen and (min-width: 399px) and (max-width: 1119px) {
     .shield {

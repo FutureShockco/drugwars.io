@@ -162,8 +162,7 @@ export default {
       if (!this.name) {
         this.errorMessage = `Please choose a name for your base`;
       }
-      if(this.name.length > 25)
-      {
+      if (this.name.length > 25) {
         this.errorMessage = `Please choose a shorter name for your base`;
       }
       const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));

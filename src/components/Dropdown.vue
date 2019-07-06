@@ -91,7 +91,8 @@ export default {
       this.isExpanded = !this.isExpanded;
     },
     setCurrentSelectedOption(option) {
-      if (option.value === 'Attack') this.$router.push(`/actions?type=attack&nickname=${this.prefix}`);
+      if (option.value === 'Attack')
+        this.$router.push(`/actions?type=attack&nickname=${this.prefix}`);
       if (option.value === 'Transport')
         this.$router.push(`/actions?type=transport&nickname=${this.prefix}`);
       this.$emit('setSelectedOption', option);

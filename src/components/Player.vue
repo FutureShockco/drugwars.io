@@ -107,11 +107,21 @@ export default {
       return diff > 0 ? diff : 0;
     },
     ownSpy() {
-      if (this.$store.state.game.user.units.find(u => u.unit === 'spy' && u.base === this.$store.state.game.base.base &&
-            u.territory === this.$store.state.game.base.territory))
+      if (
+        this.$store.state.game.user.units.find(
+          u =>
+            u.unit === 'spy' &&
+            u.base === this.$store.state.game.base.base &&
+            u.territory === this.$store.state.game.base.territory,
+        )
+      )
         return (
-          this.$store.state.game.user.units.find(u => u.unit === 'spy' && u.base === this.$store.state.game.base.base &&
-            u.territory === this.$store.state.game.base.territory).amount || {
+          this.$store.state.game.user.units.find(
+            u =>
+              u.unit === 'spy' &&
+              u.base === this.$store.state.game.base.base &&
+              u.territory === this.$store.state.game.base.territory,
+          ).amount || {
             amount: 0,
           }
         );

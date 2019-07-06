@@ -48,25 +48,23 @@ export default {
     ...mapActions(['send', 'notify']),
     handleSubmit() {
       this.isLoading = true;
-      if (this.nickname === this.user.username)
-      {
-      const payload = {
-        type: 'delete-profile'
-            };
-      this.send(payload)
-        .then(() => {
-          this.isLoading = false;
-          this.$auth.logOut();
-          this.$router.push({ path: '/' });
-        })
-        .catch(e => {
-          this.notify({ type: 'error', message: 'Failed to delete profile' });
-          console.error('Failed to delete profile', e);
-          this.isLoading = false;
-        });
-          }
+      if (this.nickname === this.user.username) {
+        const payload = {
+          type: 'delete-profile',
+        };
+        this.send(payload)
+          .then(() => {
+            this.isLoading = false;
+            this.$auth.logOut();
+            this.$router.push({ path: '/' });
+          })
+          .catch(e => {
+            this.notify({ type: 'error', message: 'Failed to delete profile' });
+            console.error('Failed to delete profile', e);
+            this.isLoading = false;
+          });
       }
-     
+    },
   },
 };
 </script>

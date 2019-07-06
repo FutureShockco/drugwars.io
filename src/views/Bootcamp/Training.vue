@@ -28,8 +28,12 @@ export default {
   computed: {
     researchCenter() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'research_center' && b.base === this.$store.state.game.base.base &&
-            b.territory === this.$store.state.game.base.territory) || {
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'research_center' &&
+            b.base === this.$store.state.game.base.base &&
+            b.territory === this.$store.state.game.base.territory,
+        ) || {
           lvl: 0,
         }
       );

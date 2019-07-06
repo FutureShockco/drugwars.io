@@ -66,9 +66,9 @@ export default {
   components: {},
   computed: {
     buildings() {
-       return this.$store.state.game.user.buildings || null
+      return this.$store.state.game.user.buildings || null;
     },
-    optionsHeight(){
+    optionsHeight() {
       return this.configOptions.length * this.optionHeight;
     },
     config() {
@@ -168,18 +168,17 @@ export default {
     this.setOptionsHeight();
   },
   updated() {
-              console.log(this.$store.state.game.base)
+    console.log(this.$store.state.game.base);
 
-        if(!this.config.prefix)
-        {
-          this.config = {}
-          this.config.prefix = this.$store.state.game.base
-          const territory = this.config.prefix.territory;
-          const base = this.config.prefix.base;
-          const custom = this.config.prefix.custom;
-          const main = this.config.prefix.main;
-           this.setBase({ territory, base, custom, main });
-        }
+    if (!this.config.prefix) {
+      this.config = {};
+      this.config.prefix = this.$store.state.game.base;
+      const territory = this.config.prefix.territory;
+      const base = this.config.prefix.base;
+      const custom = this.config.prefix.custom;
+      const main = this.config.prefix.main;
+      this.setBase({ territory, base, custom, main });
+    }
   },
   mounted() {},
 };
@@ -248,20 +247,18 @@ $option-padding: 4px 10px;
     .option {
       display: flex;
       align-items: center;
-			height: 35px;
-			font-size: 15px;
+      height: 35px;
+      font-size: 15px;
     }
     .option:hover {
       color: #ffc508;
       transition: all 0.7s;
     }
     .option:last-child {
-      border-radius: 0 0 var(--main-el-border-radius)
-      var(--main-el-border-radius);
+      border-radius: 0 0 var(--main-el-border-radius) var(--main-el-border-radius);
     }
     .option:last-child:hover {
-      border-radius: 0 0 var(--main-el-border-radius)
-      var(--main-el-border-radius);
+      border-radius: 0 0 var(--main-el-border-radius) var(--main-el-border-radius);
     }
   }
 }
@@ -278,20 +275,11 @@ $option-padding: 4px 10px;
 
   transition-property: height;
   transition-duration: 0.4s; // Durations can be changed without touching JS
-  transition-timing-function: cubic-bezier(
-                  0.175,
-                  0.885,
-                  0.32,
-                  1.275
-  ); // Timing functions also!
+  transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275); // Timing functions also!
 
   &[aria-expanded='false'] {
     height: 0 !important;
-    transition-timing-function: cubic-bezier(
-                    0.6,
-                    -0.28,
-                    0.735,
-                    0.045)
+    transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
   }
 }
 

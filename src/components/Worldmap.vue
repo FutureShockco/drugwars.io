@@ -5,9 +5,9 @@
           <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
           <div>INFORMATIONS</div>
           <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{400 - selected.total_player}}</h5>
-          <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL PLAYERS : {{selected.total_player}}</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
           <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
-          <h5 class="mt-0" v-if="selected && selected.dangerosity">DANGEROSITY : {{selected.dangerosity}}</h5>
+          <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
         </h3>
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
@@ -53,10 +53,10 @@ export default {
     this.clearScene(this.scene);
   },
   methods: {
-      prevent: function(e) {
-          e.preventDefault()
-        // else continue to route
-    } ,
+    prevent(e) {
+      e.preventDefault();
+      // else continue to route
+    },
     init() {
       /* eslint-disable */
       const self = this;

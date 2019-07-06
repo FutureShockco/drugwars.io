@@ -115,7 +115,7 @@ export default {
         this.balances.weapons > this.gangCreationFee.weapons &&
         this.balances.alcohols > this.gangCreationFee.alcohols
       );
-    }
+    },
   },
   methods: {
     ...mapActions(['send', 'notify']),

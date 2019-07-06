@@ -75,8 +75,20 @@ export default {
       return false;
     },
     pendingAmount() {
-      if (this.$store.state.game.user.units.find(b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base))
-        return this.$store.state.game.user.units.find(b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base).pending_amount || 0;
+      if (
+        this.$store.state.game.user.units.find(
+          b =>
+            b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
+        )
+      )
+        return (
+          this.$store.state.game.user.units.find(
+            b =>
+              b.unit === this.id &&
+              b.territory === this.base.territory &&
+              b.base === this.base.base,
+          ).pending_amount || 0
+        );
       return 0;
     },
     priceInSteem() {
@@ -94,7 +106,9 @@ export default {
       );
     },
     timeToWait() {
-      const unit = this.$store.state.game.user.units.find(b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base);
+      const unit = this.$store.state.game.user.units.find(
+        b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
+      );
       if (unit) {
         if (unit.pending_update) {
           const nextUpdate = new Date(unit.pending_update).getTime();

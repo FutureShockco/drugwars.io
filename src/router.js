@@ -14,6 +14,7 @@ const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buil
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
+const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Buildings/Defense.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
@@ -26,8 +27,7 @@ const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Action
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
 const Station = () => import(/* webpackChunkName: "station" */ '@/views/Actions/Station.vue');
-const HallOfFame = () =>
-  import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
+const HallOfFame = () => import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
 
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
@@ -184,6 +184,12 @@ export default new Router({
       name: 'alcohol',
       beforeEnter: requireAuth,
       component: Alcohol,
+    },
+    {
+      path: '/buildings/defense',
+      name: 'defense',
+      beforeEnter: requireAuth,
+      component: Defense,
     },
     {
       path: '/units',

@@ -86,8 +86,7 @@ const actions = {
     new Promise((resolve, reject) => {
       const token = authToken();
       let totalbases = 0;
-      if(state.user && state.user.buildings)
-      {
+      if (state.user && state.user.buildings) {
         totalbases = state.user.buildings.length;
       }
       if (token) {
@@ -223,7 +222,7 @@ const actions = {
           return reject(err);
         });
     }),
-    refresh_inc_station_count: ({ commit, dispatch }) =>
+  refresh_inc_station_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -458,7 +457,7 @@ const actions = {
         return reject();
       });
     }),
-    missions: ({ rootState }, payload) =>
+  missions: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
       console.log(payload);
@@ -536,7 +535,7 @@ const actions = {
     }
   },
   setBase: ({ commit }, payload) => {
-    console.log(payload)
+    console.log(payload);
     commit('saveBase', payload);
   },
   disconnect: ({ commit }) => {

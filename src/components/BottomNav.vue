@@ -164,16 +164,13 @@
 import { mapActions } from 'vuex';
 
 export default {
-   data() {
-    return {
-    
-    };
+  data() {
+    return {};
   },
   computed: {
-    config(){
-      return  {
+    config() {
+      return {
         options: [
-          
           {
             value: 'Attack',
           },
@@ -182,7 +179,7 @@ export default {
           },
         ],
         backgroundColor: 'green',
-      }
+      };
     },
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;

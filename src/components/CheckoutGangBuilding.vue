@@ -143,7 +143,7 @@ export default {
           use: 'resources',
           resources: { drugs, weapons, alcohol, future },
           territory: Number(this.base.territory),
-          base: Number(this.base.base)
+          base: Number(this.base.base),
         };
         this.depositGangBuilding(payload)
           .then(() => {
@@ -175,7 +175,7 @@ export default {
           use: 'resources',
           resources: { drugs, weapons, alcohol },
           territory: Number(this.base.territory),
-          base: Number(this.base.base)
+          base: Number(this.base.base),
         };
       }
       this.upgradeGangBuilding(payload)

@@ -77,7 +77,12 @@ export default {
       return false;
     },
     timeToWait() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id && b.territory === this.base.territory && b.base === this.base.base);
+      const building = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === this.id &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      );
       if (building) {
         if (building.pending_update) {
           const nextUpdate = new Date(building.pending_update).getTime();

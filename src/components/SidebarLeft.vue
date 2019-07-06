@@ -187,15 +187,12 @@ import client from '@/helpers/client';
 
 export default {
   data() {
-    return {
-    
-    };
+    return {};
   },
   computed: {
-    config(){
-      return  {
+    config() {
+      return {
         options: [
-          
           {
             value: 'Attack',
           },
@@ -204,7 +201,7 @@ export default {
           },
         ],
         backgroundColor: 'green',
-      }
+      };
     },
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;

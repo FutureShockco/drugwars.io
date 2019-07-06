@@ -74,13 +74,12 @@ export default {
 </script>
 
     <style lang="less">
-
-.username{
-    width: 250px;
-    max-width: 250px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height: 26px;
+.username {
+  width: 250px;
+  max-width: 250px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 26px;
 }
 
 .pagination {

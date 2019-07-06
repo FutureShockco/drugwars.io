@@ -13,7 +13,7 @@
                 <span class="text-orange">{{ building.feature }}</span>
             </div>
             <div v-if="building.production_type" class="mb-2">
-                <BuildingProduction :compactview="0" :type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
+                <BuildingProduction :compactview="0" :production_type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
             </div>
             <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
                 <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10) | amount }}</div>

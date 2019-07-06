@@ -2,7 +2,8 @@
     <div class="production">
     <div v-if="production_rate">
       <span v-if="!compactview"><b>Current:</b></span>
-      +{{ current | amount }}
+      <Icon v-if="production_type" :name="production_type" size="20"/> 
+      +{{ current | amount }} {{type}}
          <span>/ DAY</span>
     </div>
     <div v-if="production_rate && compactview">
@@ -19,7 +20,7 @@
 
 <script>
 export default {
-  props: ['level', 'coeff', 'production_rate', 'compactview'],
+  props: ['production_type', 'level', 'coeff', 'production_rate', 'compactview'],
   computed: {
     perhour() {
       const perhour = Number(

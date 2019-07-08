@@ -29,6 +29,15 @@
                     <div v-if="level"><b>Next Safe:</b> {{ (35000 * (level+1) + (10000 + ((40000 * (level+1)) / 100) * 10))*2.5 /100*10 | amount }}</div>
                     <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
                 </div>
+                <div v-if="['headquarters'].includes(building.id)" class="mb-2">
+                 Coming Soon
+                </div>
+                 <div v-if="['training_facility'].includes(building.id)" class="mb-2">
+                    <div v-if="level"><b>Super Bouncer:</b> {{(0.84 * 200 - (0.84 * 240 * level) / 100) * (1 * 1000) | ms}}</div>
+                     <div v-if="level"><b>Big Mama:</b> {{(4.72 * 200 - (4.72 * 240 * level) / 100) * (1 * 1000) | ms}}</div>
+                    <div v-if="level"><b>Spy :</b> {{(0.65 * 200 - (0.65 * 240 * level) / 100) * (1 * 1000) | ms}}</div>
+                    <div v-if="level"><b>Mercenary:</b> {{(8 * 200 - (8 * 240 * level) / 100) * (1 * 1000) | ms}}</div>
+                </div>
             </div>
         </div>
 </div>
@@ -55,6 +64,18 @@ export default {
         levels.push(index+1);
       }
       return levels
+    },
+    training_facility() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'training_facility' &&
+            b.base === this.$store.state.game.base.base &&
+            b.territory === this.$store.state.game.base.territory,
+        ) || {
+          lvl: 0,
+        }
+      );
     },
     HQ() {
       if (

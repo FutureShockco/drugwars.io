@@ -7,7 +7,7 @@
           {{ balances.drugs | amount }} <span class="mini"> DRUGS</span>
         </div>
         <div class="detail">
-        +{{ user.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
+        +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
         </div>
                 <div class="detail">
          <span class="text-green">{{user.drug_storage/100*25 | amount}}</span> /SAFE
@@ -18,7 +18,7 @@
       <Icon name="weapon" size="36"/>
        <div class="balance">
         <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
-          {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
+          {{ HQ.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
           <div class="detail">
            +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
@@ -32,7 +32,7 @@
        <Icon name="alcohol" size="36"/>
         <div class="balance">
         <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
-          {{ balances.alcohols | amount }}<span class="mini"> ALCOHOL</span>
+          {{ HQ.alcohols | amount }}<span class="mini"> ALCOHOL</span>
         </div>
             <div class="detail">
             +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
@@ -117,7 +117,8 @@ export default {
             b.base === this.base.base,
         );
       }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters' && b.territory === this.base.territory &&
+            b.base === this.base.base);
     },
     balances() {
       let ocLvl = 0;

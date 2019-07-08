@@ -18,12 +18,12 @@
                 <BuildingProduction :compactview="0" :production_type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
             </div>
             <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
-                <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10) | amount }}</div>
-                <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Safe:</b> {{ (35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ (35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ (35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10))*2.5 /100*10 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ (35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10))*2.5 /100*10 | amount }}</div>
+                    <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
             </div>
         </div>
         <div class="mx-auto">

@@ -1,10 +1,11 @@
 <template>
-    <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress, 'not-enough': hasNotEnough }">
+<div>
+    <div class="d-flex flex-lg-row text-center text-lg-left item">
         <div class="mr-3">
             <img class="preview" :src="`/img/buildings/${building.id}.jpg`">
         </div>
         <div class="level">{{ ownItem.lvl }}</div>
-        <div class="item-content width-full mr-3 mb-4">
+        <div class="item-content width-full">
             <h5>{{ building.name }}</h5>
             <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="building.desc"></div>
@@ -12,19 +13,25 @@
                 UNIQUE:
                 <span class="text-orange">{{ building.feature }}</span>
             </div>
-            <div v-if="building.production_type" class="mb-2">
-                <BuildingProduction :compactview="0" :production_type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
-            </div>
-            <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
-                <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10) | amount }}</div>
-                <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Safe:</b> {{ (35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ (35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
-            </div>
         </div>
     </div>
+          <div class="item-content width-full">
+            <div v-for="level in nextLevels" :key="level" class="border-bottom mx-3">
+               <h5 class="mb-0">Level {{level}}</h5>
+                <div v-if="building.production_type" class="mb-2">
+                    <BuildingProduction :compactview="0" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
+                </div>
+                <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
+                    <div v-if="level"><b>Current capacity:</b> {{ 35000 * level + (10000 + ((40000 * level) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-if="level"><b>Next capacity:</b> {{ 35000 * (level+1) + (10000 + ((40000 * (level+1)) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-if="level"><b>Safe:</b> {{ (35000 * level + (10000 + ((40000 * level) / 100) * 10))*2.5 /100*10 | amount }}</div>
+                    <div v-if="level"><b>Next Safe:</b> {{ (35000 * (level+1) + (10000 + ((40000 * (level+1)) / 100) * 10))*2.5 /100*10 | amount }}</div>
+                    <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
+                </div>
+            </div>
+        </div>
+</div>
 </template>
 
 <script>
@@ -40,6 +47,14 @@ export default {
   computed: {
     base() {
       return this.$store.state.game.base;
+    },
+    nextLevels(){
+      var levels = []
+      levels.push(this.ownItem.lvl)
+      for (let index = this.ownItem.lvl; index < this.ownItem.lvl+20; index++) {
+        levels.push(index+1);
+      }
+      return levels
     },
     HQ() {
       if (
@@ -149,17 +164,6 @@ export default {
     },
     alcoholsCost() {
       return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl);
-    },
-    inProgress() {
-      if (!this.ownItem) return false;
-      if (this.ownItem.pending_update) {
-        const pendingUpdate = new Date(this.ownItem.pending_update).getTime();
-        const now = new Date().getTime();
-        return pendingUpdate >= now;
-      }
-      const nextUpdate = new Date(this.ownItem.next_update).getTime();
-      const now = new Date().getTime();
-      return nextUpdate >= now;
     },
   },
 };

@@ -3,42 +3,42 @@
     <li>
          <Icon name="drug" size="36"/>
          <div class="balance">
-        <div :class="{ 'text-red': balances.drugs >= user.drug_storage }">
+        <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
           {{ balances.drugs | amount }} <span class="mini"> DRUGS</span>
         </div>
         <div class="detail">
         +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
         </div>
                 <div class="detail">
-         <span class="text-green">{{user.drug_storage/100*25 | amount}}</span> /SAFE
+         <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
     <li>
       <Icon name="weapon" size="36"/>
        <div class="balance">
-        <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
+        <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
           {{ HQ.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
           <div class="detail">
-           +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
+           +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
         </div>
                         <div class="detail">
-         <span class="text-green">{{user.weapon_storage/100*25 | amount}}</span> /SAFE
+         <span class="text-green">{{HQ.weapon_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
     <li>
        <Icon name="alcohol" size="36"/>
         <div class="balance">
-        <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
+        <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
           {{ HQ.alcohols | amount }}<span class="mini"> ALCOHOL</span>
         </div>
             <div class="detail">
-            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
+            +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
         </div>
                                 <div class="detail">
-          <span class="text-green">{{user.alcohol_storage/100*25 | amount}}</span> /SAFE
+          <span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> /SAFE
         </div>
          </div>
     </li>

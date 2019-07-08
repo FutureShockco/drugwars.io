@@ -19,7 +19,7 @@
             <div v-for="level in nextLevels" :key="level" class="border-bottom mx-3">
                <h5 class="mb-0">Level {{level}}</h5>
                 <div v-if="building.production_type" class="mb-2">
-                    <BuildingProduction :compactview="0" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
+                    <BuildingProduction :compactview="1" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
                 </div>
                 <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
                     <div v-if="level"><b>Current capacity:</b> {{ 35000 * level + (10000 + ((40000 * level) / 100) * 10)*2.5 | amount }}</div>

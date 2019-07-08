@@ -158,7 +158,11 @@
                     </a>
             </div>
             <h2 class="text-center" v-else>
-               You don't have any unit to fight.
+               You don't have any unit.
+               <div>
+                  <router-link :to="`/units`"  class="text-yellow">Click here to start to recruit
+                  </router-link>
+               </div>
             </h2>
     
         </div>
@@ -376,6 +380,10 @@ export default {
         console.log(payload);
         this.missions(payload)
           .then(() => {
+            if(self.action_type === 'occupy')
+            {
+              self.init();
+            }
             this.isLoading = false;
           })
           .catch(e => {

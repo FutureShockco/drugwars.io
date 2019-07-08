@@ -71,9 +71,9 @@ import { pickBy } from 'lodash';
 export default {
   data() {
     return {
-      drug_buildings: pickBy(buildings, b => b.production_type === 'drugs'),
-      weapon_buildings: pickBy(buildings, b => b.production_type === 'weapons'),
-      alcohol_buildings: pickBy(buildings, b => b.production_type === 'alcohol'),
+      drug_buildings: pickBy(buildings, b => b.production_type === 'drugs') || [],
+      weapon_buildings: pickBy(buildings, b => b.production_type === 'weapons') ||[],
+      alcohol_buildings: pickBy(buildings, b => b.production_type === 'alcohol') ||[],
     };
   },
   computed: {

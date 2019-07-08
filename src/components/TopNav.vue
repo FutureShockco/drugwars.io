@@ -1,12 +1,12 @@
 <template>
     <div>
   <div class="topnav brush-black">
-      <!-- <div class="topnav-logo hide-sm hide-md hide-lg text-center">
+    <div class="topnav-content d-flex mx-auto">
+            <div class="topnav-logo hide-sm hide-md hide-lg text-center">
         <router-link to="/">
           <img src="/img/drugwars.png" class="logo" name="logo"/>
         </router-link>
-      </div> -->
-    <div class="topnav-content d-flex mx-auto">
+      </div>
       <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
         <span class="iconfont icon-three-bars"/>
       </button>
@@ -103,7 +103,7 @@ export default {
     height: @topnav-height;
   }
   .logo {
-    margin-top: 0px;
+    margin-top: 5px;
     height: 45px;
   }
 

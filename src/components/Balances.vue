@@ -1,156 +1,73 @@
 <template>
-    <ul class="balances list-style-none">
-        <li class="crypto">
-            <Icon name="cash" size="32" /> <span class="mini"> CRYPTO</span>
-            <div class="balance">
-                <div>
-                     {{ user.future | amount }}
-                </div>
+  <ul class="balances list-style-none">
+    <li>
+         <Icon name="drug" size="36"/>
+         <div class="balance">
+        <div :class="{ 'text-red': balances.drugs >= user.drug_storage }">
+          {{ balances.drugs | amount }} <span class="mini"> DRUGS</span>
+        </div>
+        <div class="detail">
+        +{{ user.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
+        </div>
                 <div class="detail">
-                  +{{ Math.round(totalRewards.daily) + Math.round(ownHeistReward.amount)}} FUTURE
-                    <!-- SAFE :  <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span>   -->
-                </div>
-            </div>
-        </li>
-        <li>DRUGS</li>
-        <li v-for="drug in resources.drug" :key="drug.name">
-            <Icon :name="drug" size="16" />
-            <!-- <span class="mini">{{drug}}</span>   -->
-            <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
-                {{ balances.drugs | amount }}
-            </div>
-        </li>
-
-        <li>EQUIPMENT</li>
-        <li v-for="equipment in resources.equipment" :key="equipment.name">
-            <Icon :name="equipment" size="16" />
-            <!-- <span class="mini">{{drug}}</span>   -->
-            <div :class="{ 'text-red': balances.weapons >= HQ.drug_storage }">
-                {{ balances.weapons | amount }}
-    
-            </div>
-        </li>
-
-        <li>ALCOHOL</li>
-        <li v-for="alcohol in resources.alcohol" :key="alcohol.name">
-            <Icon :name="alcohol" size="16" />
-            <!-- <span class="mini">{{drug}}</span>   -->
-            <div :class="{ 'text-red': balances.alcohols >= HQ.drug_storage }">
-                {{ balances.alcohols | amount }}
-    
-            </div>
-        </li>
-        <!-- <li>
-                <Icon name="drug" size="32" /> <span class="mini"> DRUGS</span>
-                <div class="balance">
-                    <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
-                        {{ balances.drugs | amount }}
-        
-                    </div>
-                    <div class="detail">
-                        {{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus">{{drugBonus | amount}}</span>/DAY
-        
-                        SAFE :  <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span> 
-                    </div>
-                </div>
-            </li>
-            <li>
-                <Icon name="weapon" size="32" /><span class="mini"> WEAPONS</span>
-                <div class="balance">
-                    <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
-                        {{ balances.weapons | amount }}
-        
-                    </div>
-                    <div class="detail">
-                        {{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">{{weaponBonus | amount}}</span>/DAY
-        
-                        SAFE : <span class="text-green">{{HQ.weapon_storage/100*25 | amount}}</span> 
-                    </div>
-                </div>
-            </li>
-            <li>
-                <Icon name="alcohol" size="32" /> <span class="mini"> ALCOHOL</span>
-                <div class="balance">
-                    <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
-                        {{ balances.alcohols | amount }}
-        
-                    </div>
-                    <div class="detail">
-                        {{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">{{alcoholBonus | amount}}</span>/DAY
-        
-                        SAFE :<span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> 
-                    </div>
-                </div>
-            </li>
-            <li>
-                <Icon name="future" size="32" /> <span class="mini"> FUTURE</span>
-                <div class="balance">
-                    <div>
-                        {{ user.future | amount }}
-        
-                    </div>
-                    <div class="detail">
-                        +{{ Math.round(totalRewards.daily) + Math.round(ownHeistReward.amount)}} FUTURE</div>
-        
-                    SAFE :<span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> 
-                </div>
-            </li> -->
-        <!-- <li>
-              <Icon name="future" size="32"/>
-                <div class="balance">
-                <div>{{ user.future - user.future_pending | amount}} </div>
-                  <div class="balance">
-                 <div class="detail"> TOTAL: <span class="detail text-green">
-                 PROD : +{{ Math.round(totalRewards.daily) + Math.round(ownHeistReward.amount)}}  FUTURE</span></div>
-                 </div>
-                    <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
-                 </div>
-            </li> -->
-        <!-- <li v-if="this.$store.state.auth.account">
-              <Icon  name="steem" size="32"/>
-                <div class="balance">
-                <div >{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
-                  <div >{{ sbdBalance | amount}} <span class="mini"> SBD</span></div>
-                 </div>
-            </li> -->
-    </ul>
+         <span class="text-green">{{user.drug_storage/100*25 | amount}}</span> /SAFE
+        </div>
+        </div>
+    </li>
+    <li>
+      <Icon name="weapon" size="36"/>
+       <div class="balance">
+        <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
+          {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
+        </div>
+          <div class="detail">
+           +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
+        </div>
+                        <div class="detail">
+         <span class="text-green">{{user.weapon_storage/100*25 | amount}}</span> /SAFE
+        </div>
+        </div>
+    </li>
+    <li>
+       <Icon name="alcohol" size="36"/>
+        <div class="balance">
+        <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
+          {{ balances.alcohols | amount }}<span class="mini"> ALCOHOL</span>
+        </div>
+            <div class="detail">
+            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
+        </div>
+                                <div class="detail">
+          <span class="text-green">{{user.alcohol_storage/100*25 | amount}}</span> /SAFE
+        </div>
+         </div>
+    </li>
+    <li>
+      <Icon name="future" size="36"/>
+        <div class="balance">
+        <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
+          <div class="balance">
+         <div class="detail"> DAILY: <span class="detail text-green">
+        +{{ Math.round(totalRewards.daily)}} FUTURE</span></div>
+                 <div class="detail"> HEIST: <span class="detail text-green">
+        +{{ Math.round(ownHeistReward.amount)}} FUTURE</span></div>
+         </div>
+            <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
+         </div>
+    </li>
+     <li v-if="this.$store.state.auth.account">
+      <Icon  name="steem" size="36"/>
+        <div class="balance">
+        <div >{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
+          <div >{{ sbdBalance | amount}} <span class="mini"> SBD</span></div>
+         </div>
+    </li>
+  </ul>
 </template>
 
 <script>
 import { getBalances } from '@/helpers/utils';
-
 export default {
-  data() {
-    return {
-      resources: {
-        drug: [
-          'crack',
-          'weed',
-          'mushroom',
-          'heroine',
-          'meth',
-          'excstasy',
-          'lsd',
-          'ghb',
-          'cocaine',
-          'pills',
-        ],
-        equipment: [
-          'bat',
-          'knife',
-          'katana',
-          'pistol',
-          'sniper',
-          'bazooka',
-          'assault_rifle',
-          'machine_gun',
-          'medkit',
-          'vest',
-        ],
-        alcohol: ['beer', 'wine', 'liquor', 'whisky', 'champagne'],
-      },
-    };
-  },
   computed: {
     timeToWait() {
       const midnight = new Date().setUTCHours(24, 0, 0, 0);
@@ -180,44 +97,11 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
-    base() {
-      return this.$store.state.game.base;
-    },
-    HQ() {
-      if (
-        this.base &&
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      ) {
-        return this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-      }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
-    },
     balances() {
       let ocLvl = 0;
-      if (
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      )
-        ocLvl = this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        ).lvl;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+          .lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -232,7 +116,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.HQ,
+        this.user,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -336,40 +220,34 @@ export default {
   margin-top: -8px !important;
   font-size: 12px;
 }
-
 .balances {
   color: white;
-  font-size: 12px;
+  font-size: 26px;
   font-weight: 500;
-  display: block;
-  line-height: 7px;
+  display: inline-flex;
+  line-height: 22px;
   font-family: @heading-font;
   text-align: left !important;
-  overflow: hidden;
-  margin: 0px;
   li {
-    padding: 6px 3px 5px 3px;
-    border: 1px #0a0a0a solid;
-    background: black;
-    display: -webkit-box;
-    float: left;
-    height: 20px;
-    min-width: 82px;
+    padding: 0px;
+    margin-top: 5px;
+    margin-left: 5px;
+    border-left: 1px rgb(10, 10, 10) solid;
+    border-right: 1px rgb(10, 10, 10) solid;
     .balance {
       float: right;
-      text-align: left;
-      margin-top: 2px;
+      text-align: right;
     }
     span {
-      float: left;
+      float: right;
       line-height: 42px;
     }
     .text-gray {
       font-size: 16px;
     }
     .detail {
-      font-size: 10px;
-      line-height: 7px !important;
+      font-size: 13px;
+      line-height: 13px !important;
       text-align: left;
       span {
         float: none;
@@ -377,36 +255,18 @@ export default {
       }
     }
     .icon {
-      font-size: 28px;
-      line-height: 26px;
-      margin-right: 5px;
+      font-size: 32px;
+      line-height: 32px;
+      margin-right: 10px;
       font-weight: 100;
-      margin-top: -5px;
     }
   }
-  .li:nth-child(4) {
-    clear: left;
-  }
-  .inventory {
-    display: inline;
-  }
-  .crypto {
-    padding: 10px;
-    line-height: 22px;
-    height: 60px;
-    width: 115px;
-  }
   .mini {
-    font-size: 10px;
-    margin-top: 10px;
-    text-align: center;
-    left: 0px;
-    position: relative;
-    width: 0px;
-    color: #554908;
+    font-size: 12px;
+    margin-top: -20px;
+    text-align: left;
   }
 }
-
 @media screen and (min-width: 200px) and (max-width: 669px) {
   .balances {
     display: flex;
@@ -423,7 +283,7 @@ export default {
         text-align: left;
       }
       span {
-        float: left;
+        float: right;
         line-height: 42px;
       }
       .text-gray {
@@ -450,7 +310,6 @@ export default {
     }
   }
 }
-
 @media screen and (min-width: 670px) and (max-width: 1119px) {
   .balances {
     display: inline-flex;
@@ -468,7 +327,7 @@ export default {
         text-align: left;
       }
       span {
-        float: left;
+        float: right;
         line-height: 42px;
         min-width: 50px;
       }

@@ -117,7 +117,9 @@
                 </p>
             </div>
             <div v-else>
-                <p>You don't have any unit to transport.</p>
+                <p>You don't have any unit.</p>
+                   <router-link  class="text-green">Create units
+                  </router-link>
             </div>
 
         </div>

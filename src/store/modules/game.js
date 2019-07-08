@@ -98,7 +98,7 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
-                if (!state.base)
+                if (!state.base || state.base.length != state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0))
                   commit(
                     'saveBase',
                     state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),

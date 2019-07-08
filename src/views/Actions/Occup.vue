@@ -45,7 +45,7 @@
                 </p>
             </div>
             <div v-else>
-                <p>You don't have any unit to transport.</p>
+                <p>You don't have any unit.</p>
             </div>
 
         </div>

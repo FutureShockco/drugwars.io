@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="mx-auto">
-            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 10000" :notEnough="hasNotEnough" />
+            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 30000" :notEnough="hasNotEnough" />
         </div>
     </div>
 </template>

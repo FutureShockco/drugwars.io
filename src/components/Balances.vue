@@ -18,7 +18,7 @@
       <Icon name="weapon" size="36"/>
        <div class="balance">
         <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
-          {{ HQ.weapons | amount }} <span class="mini"> WEAPONS</span>
+          {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
           <div class="detail">
            +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
@@ -32,7 +32,7 @@
        <Icon name="alcohol" size="36"/>
         <div class="balance">
         <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
-          {{ HQ.alcohols | amount }}<span class="mini"> ALCOHOL</span>
+          {{ balances.alcohols | amount }}<span class="mini"> ALCOHOL</span>
         </div>
             <div class="detail">
             +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY

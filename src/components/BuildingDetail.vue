@@ -5,9 +5,7 @@
         </div>
         <div class="level">{{ ownItem.lvl }}</div>
         <div class="item-content width-full mr-3 mb-4">
-                <router-link :to="`/buildings/detail?name=${building.id}`">
-                    <h5>{{ building.name }}</h5>
-         </router-link>
+            <h5>{{ building.name }}</h5>
             <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="building.desc"></div>
             <div v-if="building.feature" class="mb-2">
@@ -26,18 +24,19 @@
                 <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
             </div>
         </div>
-        <div class="mx-auto">
-            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 30000" :notEnough="hasNotEnough" />
-        </div>
     </div>
 </template>
 
 <script>
-import { utils } from 'drugwars';
+import { buildings, utils } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
-
+import { pickBy } from 'lodash';
 export default {
-  props: ['building'],
+  data() {
+    return {
+      building: pickBy(buildings, b => b.id === this.$route.query.name)[this.$route.query.name],
+    };
+  },
   computed: {
     base() {
       return this.$store.state.game.base;

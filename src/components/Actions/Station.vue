@@ -37,7 +37,7 @@
 				</div>
 				<h1 class="mt-0 mb-0" v-else-if="fight.type !== 'station'">VS</h1>
 				<h1 class="mt-0 mb-0" v-else>HELP</h1>
-				<h5 class="mt-0 mb-0" v-if="timeToWait && fight.is_stable">Start in <div>{{ timeToWait | ms }}</div></h5>
+				<h5 class="mt-0 mb-0" v-if="timeToWait">Done in <div>{{ timeToWait | ms }}</div></h5>
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
 				<h5 class="mt-0" v-else>Units are ready</h5>
@@ -121,28 +121,20 @@
         <div v-else-if="fight.transport_key">
           	Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
         </div>
+				<button class="button button-red mt-2" v-if="fight.is_done && fight.target_nickname != user.nickname">Cancel Station</button>
 				</div>
-			<div v-if="fight.is_done!=0">
-				<div v-if="!details" class="text-center">
-					<button class="button button-blue" @click="showDetails()">Show details</button>
-				</div>
-				<div v-else class="text-center">
-					<button class="button button-blue" @click="hideDetails()">Hide details</button>
-				</div>
-			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import { jsonParse } from '@/helpers/utils';
+import { mapActions } from 'vuex';
 
 export default {
   props: ['fight'],
   data() {
     return {
-      share: false,
-      details: false,
     };
   },
   computed: {
@@ -182,14 +174,32 @@ export default {
     json() {
       return jsonParse(this.fight.json) || {};
     },
-  },
+	},
+	
   methods: {
-    showDetails() {
-      this.details = true;
-    },
-    hideDetails() {
-      this.details = false;
-    },
+    ...mapActions(['send', 'init']),
+		handleSubmit() {
+					const payload = {
+						station_id: this.fight.transport_key,
+						type: 'cancel-station',
+					};
+					this.isLoading = true;
+					this.send(payload)
+						.then(result => {
+							if (result) {
+								this.notify({
+									type: 'success',
+									message: result,
+								});
+								this.isLoading = false;
+							}
+						})
+						.catch(e => {
+							this.notify({ type: 'error', message: `Failed to cancel station ${this.fight.transport_key}` });
+							console.error(`Failed to cancel station ${this.fight.transport_key}`, e);
+							this.isLoading = false;
+						});
+		}
   },
 };
 </script>

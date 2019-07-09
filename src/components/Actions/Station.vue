@@ -19,7 +19,7 @@
 					class="username gang mt-4"
 				>{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
 				<div
-					v-if="details && json && json.attacker && json.attacker.value"
+					v-if="json && json.attacker && json.attacker.value"
 					v-html="json.attacker.value"
 				></div>
 			</div>
@@ -41,8 +41,6 @@
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
 				<h5 class="mt-0" v-else>Units are ready</h5>
-				<Icon v-if="share" class="logo" name="logo"/>
-				<h4 v-if="share">JOIN US!</h4>
 			</div>
 			<div class="column col-5">
 				<div
@@ -56,54 +54,37 @@
 				<div v-if="fight.target_ticker"
 					class="username gang mt-4"
 				>{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
-				<div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
+				<div v-if="json && json.target &&json.target.value" v-html="json.target.value"></div>
 			</div>
 		</div>
 		<div>
-			<div v-if="details || fight.is_done === 0" class="columns text-center">
+			<div v-if="fight.is_done === 0" class="columns text-center">
 				<div class="column col-6">
-					<div v-if="details && json && json.attacker && json.attacker.start_value">
+					<div v-if="json && json.attacker && json.attacker.start_value">
 						<b>Attacker Start:</b>
 						<ActionsValue :result="json.attacker.start_value"/>
 					</div>
 					<div class="mb-2 mt-2" v-if="json.attacker">
 						<Army v-if="json.attacker.units" :units="json.attacker.units" :withDead="true"/>
 					</div>
-					<div v-if="details && json && json.target && json.target.start_value">
+					<div v-if="json && json.target && json.target.start_value">
 						<ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value"/>
 					</div>
 					<div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
 					<p class="message mb-4">{{ fight.message }}</p>
 				</div>
 				<div class="column col-6">
-					<div v-if="details && json && json.target && json.target.start_value">
+					<div v-if="json && json.target && json.target.start_value">
 						<b>Defender Start:</b>
 						<ActionsValue :result="json.target.start_value"/>
 					</div>
 					<div v-if="json.target">
 						<Army v-if="json.target.units" :units="json.target.units" :withDead="true"/>
 					</div>
-          	<div v-if="details && json && json.target && json.target.start_value">
+          	<div v-if="json && json.target && json.target.start_value">
 					<ActionsValue :result="json.target.start_value" :lose="json.target.end_value"/>
           </div>
 				</div>
-			</div>
-			<div v-if="details" class="text-center">
-				<h5 v-if="fight.attacker_reward">REWARDS :</h5>
-				<div v-if="fight.attacker_reward">{{fight.attacker_reward}} FUTURE</div>
-				<Troops
-					v-if="json.target.detail && json.target.detail.units"
-					:units="json.target.detail.units"
-				/>
-				<ActionsDetail
-					v-if="json && json.target && fight.target_nickname != user.nickname && json.target.detail"
-					:detail="json.target.detail"
-				/>
-				<Share v-if="!timeToWait" :fight="this.fight" :transport_key="this.fight.transport_key"/>
-				<div
-					class="sharemessage"
-					v-if="!timeToWait"
-				>Share your victory on our forum and obtain a chance to get rewarded.</div>
 			</div>
 			<div class="text-center mb-3">
 				<div v-if="fight.attacker_base">
@@ -121,7 +102,7 @@
         <div v-else-if="fight.transport_key">
           	Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
         </div>
-				<button class="button button-red mt-2" v-if="fight.is_done && fight.target_nickname != user.nickname">Cancel Station</button>
+				<button class="button button-red mt-2" @click="handleSubmit()" v-if="fight.is_done && fight.target_nickname != user.nickname">Cancel Station</button>
 				</div>
 		</div>
 	</div>

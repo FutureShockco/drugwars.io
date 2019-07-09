@@ -22,11 +22,8 @@
                     <BuildingProduction :compactview="1" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
                 </div>
                 <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
-                    <div v-if="level"><b>Current capacity:</b> {{ 35000 * level + (10000 + ((40000 * level) / 100) * 10)*2.5 | amount }}</div>
-                    <div v-if="level"><b>Next capacity:</b> {{ 35000 * (level+1) + (10000 + ((40000 * (level+1)) / 100) * 10)*2.5 | amount }}</div>
-                    <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10)*2.5 | amount }}</div>
-                    <div v-if="level"><b>Safe:</b> {{ (35000 * level + (10000 + ((40000 * level) / 100) * 10))*2.5 /100*10 | amount }}</div>
-                    <div v-if="level"><b>Next Safe:</b> {{ (35000 * (level+1) + (10000 + ((40000 * (level+1)) / 100) * 10))*2.5 /100*10 | amount }}</div>
+                    <div v-if="level"><b>Capacity:</b> {{ ((35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) | amount }}</div>
+                    <div v-if="level"><b>Safe:</b> {{ ((35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) /100*15 | amount }}</div>
                     <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
                 </div>
                 <div v-if="['headquarters'].includes(building.id)" class="mb-2">
@@ -58,9 +55,12 @@ export default {
       return this.$store.state.game.base;
     },
     nextLevels(){
-      var levels = []
-      levels.push(this.ownItem.lvl)
-      for (let index = this.ownItem.lvl; index < this.ownItem.lvl+20; index++) {
+      let levels = []
+      let item = this.ownItem.lvl
+      if(!item)
+      item = 1;
+      levels.push(item)
+      for (let index = item; index < item+20; index++) {
         levels.push(index+1);
       }
       return levels

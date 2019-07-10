@@ -7,7 +7,6 @@
         <div class="level">{{ ownItem.lvl }}</div>
         <div class="item-content width-full">
             <h5>{{ building.name }}</h5>
-            <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="building.desc"></div>
             <div v-if="building.feature" class="mb-2">
                 UNIQUE:
@@ -17,7 +16,8 @@
     </div>
           <div class="item-content width-full">
             <div v-for="level in nextLevels" :key="level" class="border-bottom mx-3">
-               <h5 class="mb-0">Level {{level}}</h5>
+               <h5 class="mb-0 mt-0">Level {{level}}</h5>
+                <Cost :drugsCost="drugsCost(level)" :weaponsCost="weaponsCost(level)" :alcoholsCost="alcoholsCost(level)" :quantity="1" />
                 <div v-if="building.production_type" class="mb-2">
                     <BuildingProduction :compactview="1" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
                 </div>
@@ -37,6 +37,7 @@
                 </div>
             </div>
         </div>
+
 </div>
 </template>
 
@@ -177,15 +178,17 @@ export default {
         this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || { lvl: 0 }
       );
     },
-    drugsCost() {
-      return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl);
-    },
-    weaponsCost() {
-      return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl);
-    },
-    alcoholsCost() {
-      return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl);
-    },
   },
+  methods:{
+        drugsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.drugs_cost, lvl);
+    },
+    weaponsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.weapons_cost, lvl);
+    },
+    alcoholsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.alcohols_cost, lvl);
+    },
+  }
 };
 </script>

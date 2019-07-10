@@ -14,8 +14,7 @@
             <div>INFORMATIONS</div>
             <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>
             <h5 class="mt-0">DETAIL : {{customName}}</h5>
-        </h3>
-        <div class="map-title" id="visit" style="opacity:0;">
+                    <div class="map-title text-left" id="visit" style="opacity:0;">
             <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=attack&target=${location}&base=${selectedTile}`">
                 <button class="button button-red">ATTACK</button>
             </router-link>
@@ -37,6 +36,8 @@
             </div>
             <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
         </div>
+        </h3>
+
         <canvas id="canvas" class="mt-1"></canvas>
     </div>
 </template>
@@ -149,6 +150,7 @@ export default {
       canvas_element.onclick = function(e) {
         event = e;
         const elementClickedId = checkClick(event);
+        console.log(elementClickedId)
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
           tiles_array[self.selectedTile - 1].fillColor = 'green';
         } else if (
@@ -159,6 +161,17 @@ export default {
           tiles_array[self.selectedTile - 1].fillColor = 'red';
         } else if (self.selectedTile != null) {
           tiles_array[self.selectedTile - 1].fillColor = 'black';
+        }
+        if(elementClickedId.id === 225)
+        {
+          if (elementClickedId.nickname === self.nickname) {
+            tiles_array[224].fillColor = 'green';
+          } else 
+          if (elementClickedId.nickname !== self.nickname) {
+            tiles_array[224].fillColor = 'blue';
+          } else {
+            tiles_array[224].fillColor = 'gray';
+          }
         }
         self.selectedTile = elementClickedId.id;
         self.currentNickname = elementClickedId.nickname;
@@ -172,12 +185,16 @@ export default {
         } else {
           tiles_array[elementClickedId.id - 1].fillColor = 'gray';
         }
-        visitButton.style.top = `${tiles_array[elementClickedId.id].y + 10}px`;
-        visitButton.style.left = `${tiles_array[elementClickedId.id].x + 15}px`;
+        // visitButton.style.top = `${tiles_array[elementClickedId.id].y + 10}px`;
+        // visitButton.style.left = `${tiles_array[elementClickedId.id].x + 15}px`;
         visitButton.style.opacity = 1;
-        visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 60}px`;
+        if(tiles_array[elementClickedId.id])
+        {
+        visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
         visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
         visitTitle.style.opacity = 1;
+        }
+
 
         drawTiles();
       };
@@ -289,7 +306,7 @@ export default {
           context.textAlign = 'center';
           context.font = '12px American Captain';
           context.fillStyle = '#fff';
-          context.fillText(tile.id, tile.x + 9, tile.y + 26);
+          context.fillText(tile.id, tile.x + 10, tile.y + 25);
         });
       }
       drawTiles();
@@ -416,13 +433,13 @@ canvas {
   left: 50%;
   top: 20%;
   text-shadow: 5px 5px 5px black;
-  pointer-events: none;
-  background: rgba(0, 0, 0, 1);
+  // pointer-events: none;
+  background: rgba(0, 0, 0, 0.8);
   padding: 20px;
   border-radius: 5px;
 }
 
-.map-title {
-  position: absolute;
-}
+// .map-title {
+//   position: absolute;
+// }
 </style>

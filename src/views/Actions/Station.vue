@@ -3,7 +3,7 @@
 		<ActionsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
-			:page-count="Math.ceil(sent/50)"
+			:page-count="Math.ceil(sent/25)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -20,7 +20,7 @@
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
-			:page-count="Math.ceil(sent/50)"
+			:page-count="Math.ceil(sent/25)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -57,9 +57,9 @@ export default {
   methods: {
     ...mapActions(['init', 'notify', 'refresh_sent_fights']),
     load_fights(start) {
-      let end = 50;
-      end = start * 50;
-      start = end - 50; // eslint-disable-line no-param-reassign
+      let end = 25;
+      end = start * 25;
+      start = end - 25; // eslint-disable-line no-param-reassign
       this.refresh_sent_fights({ start, end })
         .then(() => {
           this.isLoading = false;

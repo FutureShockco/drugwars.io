@@ -22,25 +22,23 @@
 					v-if="json && json.attacker && json.attacker.value"
 					v-html="json.attacker.value"
 				></div>
+								<!-- <Troops
+					:units="json.attacker.units"
+				/> -->
 			</div>
 			<div class="column col-2">
 				<div class="mt-2" v-if="result">
 					<div class="button button-green result" v-if="result === 'win'">Win</div>
 					<div class="button result" v-if="result === 'draw'">Draw</div>
 					<div class="button button-red result" v-if="result === 'lost'">Lost</div>
-					<ActionsLoot
-						class="mt-2"
-						v-if="json.target.loot"
-						:result="result"
-						:stolenResources="json.target.loot"
-					/>
 				</div>
 				<h1 class="mt-0 mb-0" v-else-if="fight.type !== 'station'">VS</h1>
-				<h1 class="mt-0 mb-0" v-else>HELP</h1>
-				<h5 class="mt-0 mb-0" v-if="timeToWait">Done in <div>{{ timeToWait | ms }}</div></h5>
+				<h1 class="mt-0 mb-0" v-else>TO</h1>
+				<h5 class="mt-0 mb-0" v-if="timeToWait">Ready in <div>{{ timeToWait | ms }}</div></h5>
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
-				<h5 class="mt-0" v-else>Units are ready</h5>
+				<h5 class="mt-0" v-else-if="fight.target_nickname === user.nickname">Units are back</h5>
+			<h5 class="mt-0" v-else>Units are ready</h5>
 			</div>
 			<div class="column col-5">
 				<div
@@ -58,7 +56,7 @@
 			</div>
 		</div>
 		<div>
-			<div v-if="fight.is_done === 0" class="columns text-center">
+			<div class="columns text-center">
 				<div class="column col-6">
 					<div v-if="json && json.attacker && json.attacker.start_value">
 						<b>Attacker Start:</b>

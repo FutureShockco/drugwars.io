@@ -52,7 +52,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     HQ() {
       if (

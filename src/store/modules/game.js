@@ -26,6 +26,7 @@ const state = {
   chat: false,
   isconnected: null,
   base: null,
+  mainbase : null
 };
 
 const mutations = {
@@ -71,6 +72,9 @@ const mutations = {
   saveBase(_state, payload) {
     Vue.set(_state, 'base', payload);
   },
+  saveMainBase(_state, payload) {
+    Vue.set(_state, 'mainbase', payload);
+  },
 };
 
 const authToken = function() {
@@ -87,7 +91,7 @@ const actions = {
       const token = authToken();
       let totalbases = 0;
       if (state.user && state.user.buildings) {
-        totalbases = state.user.buildings.length;
+        totalbases = state.user.buildings.find(b => b.building === 'headquarters').length;
       }
       if (token) {
         client
@@ -98,10 +102,14 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
-                if (!state.base || totalbases != state.user.buildings.length)
+                commit(
+                  'saveBase',
+                  state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                );
+                if (!state.base || totalbases != state.user.buildings.find(b => b.building === 'headquarters').length)
                   commit(
-                    'saveBase',
-                    state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                    'saveMainBase',
+                    state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0 && b.building === 'headquarters'),
                   );
                 resolve();
               });
@@ -537,6 +545,10 @@ const actions = {
   setBase: ({ commit }, payload) => {
     console.log(payload);
     commit('saveBase', payload);
+  },
+  setMainBase: ({ commit }, payload) => {
+    console.log(payload);
+    commit('saveMainBase', payload);
   },
   disconnect: ({ commit }) => {
     commit('saveConnected', false);

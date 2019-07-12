@@ -69,7 +69,7 @@ export default {
       return this.$route.query.location || null;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     ownOccupationTroop() {
       if (this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop'))
@@ -316,7 +316,7 @@ export default {
       }
       this.showLoading = false;
     },
-    ...mapActions(['send', 'notify', 'setBase', 'init']),
+    ...mapActions(['send', 'notify', 'setMainBase', 'init']),
     async handleSubmit() {
       const self = this;
       const isValid = await this.validateFormFree();
@@ -330,13 +330,15 @@ export default {
         };
         this.send(payload)
           .then(() => {
-            client.requestAsync('get_bases', this.location).then(result => {
-              console.log(result);
-              self.bases = result[0];
-              self.setBase(self.bases);
-              self.init();
-              self.isLoading = false;
-            });
+            Promise.delay(2000).then(() => {
+              client.requestAsync('get_bases', this.location).then(result => {
+                console.log(result);
+                self.bases = result[0];
+                self.setMainBase(self.bases);
+                self.init();
+                self.isLoading = false;
+              });
+            })
           })
           .catch(e => {
             this.notify({ type: 'error', message: 'Failed to create gang' });
@@ -388,7 +390,7 @@ export default {
       const base = this.selectedTile;
       const custom = this.customName;
       const main = this.isMain;
-      this.setBase({ territory, base, custom, main });
+      this.setMainBase({ territory, base, custom, main });
     },
   },
   mounted() {

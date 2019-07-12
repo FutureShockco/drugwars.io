@@ -37,7 +37,7 @@ export default {
   props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
   computed: {
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     HQ() {
       if (

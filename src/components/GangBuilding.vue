@@ -148,7 +148,7 @@ export default {
       return this.user.role === 'boss' && this.user.gang === this.id;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     HQ() {
       if (

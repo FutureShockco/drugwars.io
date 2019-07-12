@@ -68,7 +68,7 @@ export default {
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

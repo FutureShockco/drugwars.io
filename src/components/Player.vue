@@ -111,16 +111,16 @@ export default {
         this.$store.state.game.user.units.find(
           u =>
             u.unit === 'spy' &&
-            u.base === this.$store.state.game.base.base &&
-            u.territory === this.$store.state.game.base.territory,
+            u.base === this.$store.state.game.mainbase.base &&
+            u.territory === this.$store.state.game.mainbase.territory,
         )
       )
         return (
           this.$store.state.game.user.units.find(
             u =>
               u.unit === 'spy' &&
-              u.base === this.$store.state.game.base.base &&
-              u.territory === this.$store.state.game.base.territory,
+              u.base === this.$store.state.game.mainbase.base &&
+              u.territory === this.$store.state.game.mainbase.territory,
           ).amount || {
             amount: 0,
           }

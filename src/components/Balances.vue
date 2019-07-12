@@ -98,7 +98,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     HQ() {
       if (
@@ -109,7 +109,8 @@ export default {
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
-      ) {
+      ) 
+      {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
@@ -117,8 +118,7 @@ export default {
             b.base === this.base.base,
         );
       }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters' && b.territory === this.base.territory &&
-            b.base === this.base.base);
+      return {drug_balance : 0}
     },
     balances() {
       let ocLvl = 0;

@@ -124,7 +124,7 @@ export default {
       return label;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
   },
   methods: {

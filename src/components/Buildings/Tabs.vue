@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     main() {
       return (

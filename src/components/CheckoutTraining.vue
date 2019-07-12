@@ -61,7 +61,7 @@ export default {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.researchCenterLvl);
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -97,7 +97,7 @@ export default {
       return 0;
     },
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     requireUpdate() {
       return this.level > this.researchCenterLvl && this.id !== 'research_center';

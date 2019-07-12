@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     base() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     nextLevels(){
       let levels = []
@@ -71,8 +71,8 @@ export default {
         this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'training_facility' &&
-            b.base === this.$store.state.game.base.base &&
-            b.territory === this.$store.state.game.base.territory,
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
         ) || {
           lvl: 0,
         }
@@ -148,8 +148,8 @@ export default {
           this.$store.state.game.user.buildings.find(
             b =>
               b.building === this.building.id &&
-              b.base === this.$store.state.game.base.base &&
-              b.territory === this.$store.state.game.base.territory,
+              b.base === this.$store.state.game.mainbase.base &&
+              b.territory === this.$store.state.game.mainbase.territory,
           ) || {
             lvl: 0,
           }
@@ -169,8 +169,8 @@ export default {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
-            b.base === this.$store.state.game.base.base &&
-            b.territory === this.$store.state.game.base.territory,
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
         );
       }
 

@@ -73,7 +73,7 @@ export default {
     },
     config() {
       return {
-        prefix: this.$store.state.game.base || null,
+        prefix: this.$store.state.game.mainbase || null,
         backgroundColor: 'green',
       };
     },
@@ -122,7 +122,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setBase']),
+    ...mapActions(['setMainBase']),
     toggleRiskLevels() {
       this.isExpanded = !this.isExpanded;
     },
@@ -132,7 +132,7 @@ export default {
       const base = this.config.prefix.base;
       const custom = this.config.prefix.custom;
       const main = this.config.prefix.main;
-      this.setBase({ territory, base, custom, main });
+      this.setMainBase({ territory, base, custom, main });
       // this.$emit("setSelectedOption", building);
     },
     setConfigData() {
@@ -168,16 +168,16 @@ export default {
     this.setOptionsHeight();
   },
   updated() {
-    console.log(this.$store.state.game.base);
+    console.log(this.$store.state.game.mainbase);
 
     if (!this.config.prefix) {
       this.config = {};
-      this.config.prefix = this.$store.state.game.base;
+      this.config.prefix = this.$store.state.game.mainbase;
       const territory = this.config.prefix.territory;
       const base = this.config.prefix.base;
       const custom = this.config.prefix.custom;
       const main = this.config.prefix.main;
-      this.setBase({ territory, base, custom, main });
+      this.setMainBase({ territory, base, custom, main });
     }
   },
   mounted() {},

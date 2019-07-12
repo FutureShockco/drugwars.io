@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.base;
+      return this.$store.state.game.mainbase;
     },
     sent_fights() {
       return this.$store.state.game.sent_fights;
@@ -382,7 +382,9 @@ export default {
           .then(() => {
             if(self.action_type === 'occupy')
             {
-              self.init();
+              Promise.delay(2000).then(() => {
+                self.init();
+              })
             }
             this.isLoading = false;
           })

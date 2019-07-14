@@ -1,7 +1,7 @@
 <template>
   <div>
     <OverviewTabs/>
-    <div v-if="HQ && HQ.drug_production_rate && HQ.drug_balance">
+    <div v-if="HQ && drugProductionRate && drugBalance">
       <div class="item">
       <div class="itemcompact">
         <h5><Icon name="drug" size="32"/> DRUGS PRODUCTION  </h5>
@@ -13,8 +13,8 @@
       />
       <div class="p-2">
         <div class="right-floated">
-          <h3 class="total"> Total: {{ HQ.drug_production_rate * 60 * 60 * 24 | amount }}/Day - {{ HQ.drug_production_rate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (drugStorage - HQ.drug_balance) / HQ.drug_production_rate * 1000 | ms}}</h5>
+          <h3 class="total"> Total: {{ drugProductionRate * 60 * 60 * 24 | amount }}/Day - {{ drugProductionRate * 60 * 60 | amount }}/Hour</h3>
+          <h5 class="m-0"> Full in : {{ (drugStorage - drugBalance) / drugProductionRate * 1000 | ms}}</h5>
         </div>
       <h3 class="total">Total capacity : {{ drugStorage | amount }}</h3>
         <h5 class="m-0 text-green">Safe : {{ drugStorage /100*25 | amount }}
@@ -32,8 +32,8 @@
       />
       <div class="p-2">
         <div class="right-floated">
-        <h3 class="total"> Total: {{ HQ.weapon_production_rate * 60 * 60 * 24 | amount }}/Day - {{ HQ.weapon_production_rate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (weaponStorage - HQ.weapon_balance) / HQ.weapon_production_rate * 1000 | ms }}</h5>
+        <h3 class="total"> Total: {{ weaponProductionRate * 60 * 60 * 24 | amount }}/Day - {{ weaponProductionRate * 60 * 60 | amount }}/Hour</h3>
+          <h5 class="m-0"> Full in : {{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms }}</h5>
         </div>
         <h3 class="total">Total capacity : {{ weaponStorage | amount }}</h3>
           <h5 class="m-0 text-green">Safe : {{ weaponStorage /100*25 | amount }}</h5>
@@ -50,8 +50,8 @@
       />
       <div class="p-2">
         <div class="right-floated">
-          <h3 class="total"> Total: {{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount }}/Day - {{ HQ.alcohol_production_rate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (alcoholStorage - HQ.alcohol_balance) / HQ.alcohol_production_rate * 1000 | ms}}</h5>
+          <h3 class="total"> Total: {{ alcoholProductionRate * 60 * 60 * 24 | amount }}/Day - {{ alcoholProductionRate * 60 * 60 | amount }}/Hour</h3>
+          <h5 class="m-0"> Full in : {{ (alcoholStorage - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</h5>
         </div>
         <h3 class="total"> Total capacity : {{ alcoholStorage | amount }}</h3>
           <h5 class="m-0 text-green">Safe : {{ alcoholStorage /100*25 | amount }}</h5>
@@ -90,28 +90,43 @@ export default {
           b =>
             b.building === 'headquarters' &&
             b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.base === this.base.base
         )
       ) {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
             b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.base === this.base.base
         );
-      } else if (this.$store.state.game.user.buildings.find(b => b.building === 'headquarters')) {
-        return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
       }
-      return false;
     },
     drugStorage() {
-      return this.HQ.drug_storage;
+      return this.HQ.drug_storage || 0;
     },
     weaponStorage() {
-      return this.HQ.weapon_storage;
+      return this.HQ.weapon_storage || 0;
     },
     alcoholStorage() {
-      return this.HQ.alcohol_storage;
+      return this.HQ.alcohol_storage || 0;
+    },
+    drugBalance() {
+      return this.HQ.drug_balance || 0;
+    },
+    weaponBalance() {
+      return this.HQ.weapon_balance || 0;
+    },
+    alcoholBalance() {
+      return this.HQ.alcohol_balance || 0;
+    },
+    drugProductionRate() {
+      return this.HQ.drug_production_rate || 1;
+    },
+    weaponProductionRate() {
+      return this.HQ.weapon_production_rate || 1;
+    },
+    alcoholProductionRate() {
+      return this.HQ.alcohol_production_rate || 1;
     },
   },
 };

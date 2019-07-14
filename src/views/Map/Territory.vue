@@ -45,6 +45,7 @@
 <script>
 import client from '@/helpers/client';
 import { mapActions } from 'vuex';
+import Promise from 'bluebird';
 
 export default {
   data() {
@@ -341,8 +342,8 @@ export default {
             })
           })
           .catch(e => {
-            this.notify({ type: 'error', message: 'Failed to create gang' });
-            console.error('Failed to create gang', e);
+            this.notify({ type: 'error', message: 'Failed to take base' });
+            console.error('Failed to take base', e);
             this.isLoading = false;
           });
       } else {

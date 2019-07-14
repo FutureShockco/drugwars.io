@@ -173,7 +173,7 @@
 import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
-import { switchCase } from '@babel/types';
+import Promise from 'bluebird';
 
 export default {
   data() {
@@ -382,7 +382,7 @@ export default {
           .then(() => {
             if(self.action_type === 'occupy')
             {
-              Promise.delay(2000).then(() => {
+              Promise.delay(3000).then(() => {
                 self.init();
               })
             }

@@ -13,7 +13,6 @@
                         <SmallLoading v-if="isLoading"/>    
                         <span v-else>Edit</span>   
                       </button>
-                <p>Can't edit nickname before : {{lastUpdate}}</p>    
             </form>   
              <a @click.prevent="alert.isActive ? stop_alerts(alert) : activate_alerts(alert)" v-for="alert in alerts" :key="alert.id">
              <div v-if="alert.isActive" class="iconfont icon-mute">Stop alerts on incoming Attacks</div>

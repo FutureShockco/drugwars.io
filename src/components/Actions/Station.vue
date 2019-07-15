@@ -37,7 +37,7 @@
 				<h5 class="mt-0 mb-0" v-if="timeToWait">Ready in <div>{{ timeToWait | ms }}</div></h5>
 				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
-				<h5 class="mt-0" v-else-if="fight.target_nickname === user.nickname">Units are back</h5>
+				<h5 class="mt-0" v-else-if="fight.target_nickname === user.nickname">Units are defending</h5>
 			<h5 class="mt-0" v-else>Units are ready</h5>
 			</div>
 			<div class="column col-5">

@@ -19,7 +19,7 @@
             </div>
             <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
                     <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ (35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl | amount }}</div>
-                    <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * ownItem.lvl+1 * (Math.round(Math.sqrt(250-(ownItem.lvl+1)) / 100)) * ownItem.lvl+1 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250-(ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) | amount }}</div>
                     <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10)*2.5 | amount }}</div>
                     <div v-if="ownItem.lvl"><b>Safe:</b> {{ ((35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl ) /100*15 | amount }}</div>
                     <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ((35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250-(ownItem.lvl+1))) / 100)) * (ownItem.lvl+1) ) /100*15 | amount }}</div>

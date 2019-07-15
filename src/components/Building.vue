@@ -143,13 +143,13 @@ export default {
       );
     },
     drugsCost() {
-      return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl+1);
+      return utils.calculateCostToUpgrade(this.building.drugs_cost, this.ownItem.lvl);
     },
     weaponsCost() {
-      return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl+1);
+      return utils.calculateCostToUpgrade(this.building.weapons_cost, this.ownItem.lvl);
     },
     alcoholsCost() {
-      return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl+1);
+      return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl);
     },
     inProgress() {
       if (!this.ownItem) return false;

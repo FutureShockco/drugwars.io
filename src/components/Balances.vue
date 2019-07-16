@@ -59,7 +59,6 @@
       <Icon  name="steem" size="36"/>
         <div class="balance">
         <div >{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
-          <div >{{ sbdBalance | amount}} <span class="mini"> SBD</span></div>
          </div>
     </li>
   </ul>
@@ -294,7 +293,7 @@ export default {
   .balances {
     display: flex;
     font-size: 16px !important;
-    margin-top: 24px !important;
+    margin-top: 6px !important;
     line-height: 12px !important;
     li {
       padding: 5px;
@@ -316,7 +315,7 @@ export default {
         margin: 0px;
         display: -webkit-inline-box;
         line-height: 4px !important;
-        font-size: 6px;
+        font-size: 8px;
       }
     }
     .mini {
@@ -337,8 +336,8 @@ export default {
   .balances {
     display: inline-flex;
     font-size: 20px !important;
-    margin-top: 14px !important;
-    line-height: 16px !important;
+    line-height: 14px !important;
+    margin: 0px;
     li {
       padding: 0px;
       margin-top: 15px;

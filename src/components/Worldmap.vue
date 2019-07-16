@@ -1,5 +1,13 @@
 <template>
-    <div id="mapbg" class="mapbg">
+<div class="text-center py-1">
+      <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
+        <button class="button button-blue text-center"  :disabled="!selected">
+          <span v-if="main">VISIT</span>
+          <span v-else>CHOOSE AS MAIN TERRITORY</span>
+          </button>
+        </router-link>
+   <div id="mapbg" class="mapbg">
+      
         <h3 class="title" id="title" style="opacity:0;">
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
           <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
@@ -20,8 +28,11 @@
         </router-link>
         </div>
         <div class="first-line"></div>
+
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
+</div>
+ 
 </template>
 
 <script>

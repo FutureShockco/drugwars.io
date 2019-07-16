@@ -43,7 +43,7 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     totalVest() {
-      return 14000000;
+      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
     totalReward() {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;

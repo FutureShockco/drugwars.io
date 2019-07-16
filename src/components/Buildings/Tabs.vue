@@ -5,7 +5,7 @@
       <UiTab to="/buildings/drugs">Drugs</UiTab>
       <UiTab to="/buildings/weapons">Weapons</UiTab>
       <UiTab to="/buildings/alcohol">Alcohol</UiTab>
-      <UiTab to="/buildings/defense">Defense</UiTab>
+      <!-- <UiTab to="/buildings/defense">Defense</UiTab> -->
     </UiTabs>
     <div class="coordbase" v-if="base">
         <span class="text text-blue" v-if="main">

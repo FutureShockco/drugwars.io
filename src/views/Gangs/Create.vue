@@ -103,13 +103,6 @@ export default {
       );
     },
     hasEnough() {
-      console.log(
-        this.balances.drugs,
-        this.balances.weapons,
-        this.balances.alcohols,
-        this.gangCreationFee.drugs,
-      );
-
       return (
         this.balances.drugs > this.gangCreationFee.drugs &&
         this.balances.weapons > this.gangCreationFee.weapons &&

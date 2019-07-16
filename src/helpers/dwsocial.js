@@ -5,7 +5,6 @@ function dwsocial(username, payload, cb) {
   client
     .requestAsync('custom_event', { username, token: accessToken, payload })
     .then(result => {
-      console.log(result);
       cb(result);
     })
     .catch(err => {

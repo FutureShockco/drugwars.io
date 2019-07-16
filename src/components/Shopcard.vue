@@ -99,7 +99,6 @@ export default {
       });
     },
     paymentAuthorized(data) {
-      console.log(data.orderID);
       this.handleSubmit(data.orderID);
     },
     paymentCompleted(data) {

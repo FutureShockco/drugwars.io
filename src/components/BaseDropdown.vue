@@ -168,8 +168,6 @@ export default {
     this.setOptionsHeight();
   },
   updated() {
-    console.log(this.$store.state.game.mainbase);
-
     if (!this.config.prefix) {
       this.config = {};
       this.config.prefix = this.$store.state.game.mainbase;

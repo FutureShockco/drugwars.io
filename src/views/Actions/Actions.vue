@@ -282,6 +282,7 @@ export default {
     ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
     resetForm() {
       this.target = null;
+      this.base = null;
       this.selectedUnits = [];
       this.message = null;
     },
@@ -377,7 +378,6 @@ export default {
 
       if (isValid) {
         this.resetForm();
-        console.log(payload);
         this.missions(payload)
           .then(() => {
             if(self.action_type === 'occupy')

@@ -12,7 +12,7 @@
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <div class="map-title" id="visit" style="opacity:0;" >
-        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`" @click="prevent">
+        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
         <button class="button button-blue"  :disabled="!selected">
           <span v-if="main">VISIT</span>
           <span v-else>CHOOSE AS MAIN TERRITORY</span>

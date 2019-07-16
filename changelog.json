@@ -1,18 +1,8 @@
 [
-  "Notification improvement",
-  "Improvements of the UI and the back-end",
-  "In-game Exchange (FUTURE to STEEM)",
-  "Anonimity",
-  "New reward system incentivizing battles",
-  "Unit skills",
-  "New battle system",
-  "You can now directly open the fight simulator from the left sidebar",
-  "Refresh your state before the next battle (it should help players to less spam their F5 key)",
-  "You can now click on the profile of any players and target them from everywhere",
-  "New share system (will be improved with time while we start to turn on our SEO)",
-  "Improved error messages",
-  "Added notifications on the interface when there is an error message",
-  "Referred user get the double of resources as bonus when they signup",
-  "Added limitation to the API to prevent the use of bots",
-  "You can only get 1 upvote now per day and per person (but they are bigger depending on how much you have spent ingame)"
+  "Map system with coordinates",
+  "Each players can take up to 5 bases for free",
+  "New Unit : Occupation troop",
+  "Decrease of items prices",
+  "No more limit to change settings (nickname, picture)",
+  "Possibility to delete account"
 ]

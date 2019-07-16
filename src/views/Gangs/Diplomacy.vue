@@ -9,7 +9,7 @@
 						<h1 class="mb-4">
 							<GangImage class="mr-3" size="120" v-if="mygang && mygang.image" :image="mygang.image"/>
 							<div v-if="mygang">{{ mygang.name || mygang.gang }}</div>
-							<span>[{{ mygang.ticker }}]</span>
+							<span v-if="mygang.ticker">[{{ mygang.ticker }}]</span>
 						</h1>
 						<div>
 							<h3>Choose Action</h3>
@@ -21,7 +21,7 @@
 							>
 								<h2 class="mt-0 column col-6">
 									<GangImage class="mr-2" size="40" v-if="gang.image" :image="gang.image"/>
-									<router-link v-if="gang"
+									<router-link v-if="gang && gang.ticker"
 										:to="`/gangs/gang/${gang.gang}`"
 									>{{ gang.name || gang.gang }} [{{gang.ticker}}]
                      <button  v-if="otherEvents(gang.gang).event_type ==='alliance' && myEvents(gang.gang).event_type ==='alliance'" class="button ml-2 allies button-green ">

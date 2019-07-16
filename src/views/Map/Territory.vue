@@ -151,7 +151,6 @@ export default {
       canvas_element.onclick = function(e) {
         event = e;
         const elementClickedId = checkClick(event);
-        console.log(elementClickedId)
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
           tiles_array[self.selectedTile - 1].fillColor = 'green';
         } else if (
@@ -321,7 +320,6 @@ export default {
     async handleSubmit() {
       const self = this;
       const isValid = await this.validateFormFree();
-      console.log(this.location);
       this.isLoading = true;
       if (isValid && this.location && this.selectedTile) {
         const payload = {
@@ -333,7 +331,6 @@ export default {
           .then(() => {
             Promise.delay(2000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
-                console.log(result);
                 self.bases = result[0];
                 self.setMainBase(self.bases);
                 self.init();
@@ -371,7 +368,6 @@ export default {
       if (!this.errorMessage)
         try {
           const base = await client.requestAsync('check_base', params);
-          console.log(base);
           if (base) {
             this.errorMessage = `Base number '${base}' is already taken`;
           }

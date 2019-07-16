@@ -348,7 +348,7 @@ export default {
 
           // let radius = 0.519;
           const radius = 0.61;
-          const divisions = 10+Math.round(self.all_players/50);
+          const divisions = Math.round(self.all_players/1300);
           const tileSize = 0.9;
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -502,7 +502,6 @@ export default {
 
       let selectedTerritory;
       function onclick(event) {
-        console.log(event)
         if (selectedTerritory) 
         selectedTerritory.object.material.color.set(self.oldcolor);
 
@@ -684,7 +683,6 @@ export default {
   mounted() {
     const self = this;
        client.requestAsync('get_territories',null).then(result => {
-          console.log(result)
           self.player_territories = result;
           self.init();
       });

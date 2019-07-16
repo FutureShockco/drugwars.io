@@ -142,7 +142,7 @@
                     <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
                 </div>
                 <div v-if="action_type === 'occupy'">
-                    <h3>Choose Base Name</h3>
+                    <h3>Choose Base Name (max 5 bases)</h3>
                     <input class="input form-control btn-block mb-4" placeholder="Eg : Saint Street" v-model="baseName" maxlength="280">
                 </div>
                 <button :disabled="selectedUnits.length === 0 || !target || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">

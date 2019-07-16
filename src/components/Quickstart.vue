@@ -13,15 +13,15 @@
       </li>
       <li>
         <Icon size="18" class="mr-2" :name="mission2 ? 'check' : 'future'"/>
-        <router-link to="/drugs">Increase your DRUGS production</router-link>
+        <router-link to="/buildings/drugs">Increase your DRUGS production</router-link>
       </li>
       <li>
         <Icon size="18" class="mr-2" :name="mission3 ? 'check' : 'future'"/>
-        <router-link to="/weapons">Increase your WEAPONS production</router-link>
+        <router-link to="/buildings/weapons">Increase your WEAPONS production</router-link>
       </li>
       <li>
         <Icon size="18" class="mr-2" :name="mission4 ? 'check' : 'future'"/>
-        <router-link to="/alcohol">Increase your ALCOHOL production</router-link>
+        <router-link to="/buildings/alcohol">Increase your ALCOHOL production</router-link>
       </li>
       <li>
         <Icon size="18" class="mr-2" :name="mission5 ? 'check' : 'future'"/>
@@ -33,7 +33,7 @@
       </li>
       <li>
         <Icon size="18" class="mr-2" :name="mission7 ? 'check' : 'future'"/>
-        <router-link to="/fight">Start a fight</router-link>
+        <router-link to="/actions">Start a fight</router-link>
       </li>
     </ul>
   </div>

@@ -2,26 +2,27 @@
     <div>
   <div class="topnav brush-black">
     <div class="topnav-content d-flex mx-auto">
-      <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
-        <span class="iconfont icon-three-bars"/>
-      </button>
-      <div class="topnav-logo hide-sm hide-md hide-lg text-center">
+            <div class="topnav-logo hide-sm hide-md hide-lg text-center">
         <router-link to="/">
           <img src="/img/drugwars.png" class="logo" name="logo"/>
         </router-link>
       </div>
+      <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
+        <span class="iconfont icon-three-bars"/>
+      </button>
+
           <Balances class="width-full text-center"/>
-      <div class="shield text-center hide-sm hide-md hide-lg pt-2" >
-        <Icon v-if="shieldEnd" name="shield" size="36" class="text-gray"/>
+      <div class="shield text-center hide-sm hide-md hide-lg mt-2" >
+        <Icon v-if="shieldEnd" name="shield" size="26" class="text-gray"/>
         <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
       </div>
     </div>
     </div>
-            <div class="prize mx-auto">
+            <!-- <div class="prize mx-auto">
                 {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
                         id="earnings" style="color:#fbbd08;font-weight: 700;">{{Math.round(totalRewards.daily)}}</span>
                 FUTURE based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
-        </div>
+        </div> -->
   </div>
 </template>
 
@@ -80,7 +81,7 @@ export default {
   z-index: 1500;
   text-align: center;
   font-size: 12px;
-  max-width: 1120px;
+  // max-width: 1120px;
   width: 100%;
 }
 
@@ -102,7 +103,8 @@ export default {
     height: @topnav-height;
   }
   .logo {
-    margin-top: 10px;
+    margin-top: 5px;
+    height: 45px;
   }
 
   .topnav-logo {
@@ -118,7 +120,7 @@ export default {
   .topnav-content {
     max-width: @main-width;
     width: 100%;
-    height: 94px;
+    height: 60px;
     .prize {
       font-size: 22px;
       font-family: @heading-font;
@@ -147,6 +149,7 @@ export default {
 
   .shield {
     min-width: 80px;
+    font-size: 10px;
   }
   @media screen and (min-width: 399px) and (max-width: 1119px) {
     .shield {

@@ -5,7 +5,9 @@
         </div>
         <div class="level">{{ ownItem.lvl }}</div>
         <div class="item-content width-full mr-3 mb-4">
-            <h5>{{ building.name }}</h5>
+                <router-link :to="`/buildings/detail?name=${building.id}`">
+                    <h5>{{ building.name }}</h5>
+         </router-link>
             <Cost :drugsCost="drugsCost" :weaponsCost="weaponsCost" :alcoholsCost="alcoholsCost" :quantity="1" />
             <div class="mb-2" v-html="building.desc"></div>
             <div v-if="building.feature" class="mb-2">
@@ -13,19 +15,19 @@
                 <span class="text-orange">{{ building.feature }}</span>
             </div>
             <div v-if="building.production_type" class="mb-2">
-                <BuildingProduction :compactview="0" :type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
+                <BuildingProduction :compactview="0" :production_type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
             </div>
             <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
-                <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10) | amount }}</div>
-                <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10) | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Safe:</b> {{ (35000 * ownItem.lvl + (10000 + ((40000 * ownItem.lvl) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ (35000 * (ownItem.lvl+1) + (10000 + ((40000 * (ownItem.lvl+1)) / 100) * 10)) /100*25 | amount }}</div>
-                <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ (35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next capacity:</b>  {{ (35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250- (ownItem.lvl+1))) / 100)) *  (ownItem.lvl+1) | amount }}</div>
+                    <div v-else><b>Next capacity:</b> {{ 35000 * 1 + (10000 + ((40000 * 1) / 100) * 10)*2.5 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ ((35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl ) /100*15 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ((35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250-(ownItem.lvl+1))) / 100)) * (ownItem.lvl+1) ) /100*15 | amount }}</div>
+                    <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
             </div>
         </div>
         <div class="mx-auto">
-            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 10000" :notEnough="hasNotEnough" />
+            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 30000" :notEnough="hasNotEnough" />
         </div>
     </div>
 </template>
@@ -37,14 +39,44 @@ import { getBalances } from '@/helpers/utils';
 export default {
   props: ['building'],
   computed: {
-    user() {
-      return this.$store.state.game.user.user;
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
     },
     balances() {
       let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-          .lvl;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -59,7 +91,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.user,
+        this.HQ,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -75,17 +107,39 @@ export default {
       );
     },
     ownItem() {
-      return (
-        this.$store.state.game.user.buildings.find(b => b.building === this.building.id) || {
-          lvl: 0,
-        }
-      );
+      if (this.base)
+        return (
+          this.$store.state.game.user.buildings.find(
+            b =>
+              b.building === this.building.id &&
+              b.base === this.$store.state.game.mainbase.base &&
+              b.territory === this.$store.state.game.mainbase.territory,
+          ) || {
+            lvl: 0,
+          }
+        );
+      return { lvl: 0 };
     },
     ownHq() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        );
+      }
+
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || {
-          lvl: 0,
-        }
+        this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || { lvl: 0 }
       );
     },
     drugsCost() {

@@ -22,7 +22,7 @@
 						<div class="column pl-1 col-3">
 							<div
 								v-if="response.sender != user.nickname"
-								:to="`/actions/fight?target=${response.sender}`"
+								:to="`/actions?target=${response.sender}`"
 							>
 								<Avatar :size="40" :username="response.sender" :picture="response.picture"/>
 							</div>

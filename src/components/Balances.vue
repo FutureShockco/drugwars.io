@@ -3,42 +3,42 @@
     <li>
          <Icon name="drug" size="36"/>
          <div class="balance">
-        <div :class="{ 'text-red': balances.drugs >= user.drug_storage }">
+        <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
           {{ balances.drugs | amount }} <span class="mini"> DRUGS</span>
         </div>
         <div class="detail">
-        +{{ user.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
+        +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
         </div>
-         <div class="detail">
-         <span class="text-green">{{user.drug_storage/100*25 | amount}}</span> /SAFE
+                <div class="detail">
+         <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
     <li>
       <Icon name="weapon" size="36"/>
        <div class="balance">
-        <div :class="{ 'text-red': balances.weapons >= user.weapon_storage }">
+        <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
           {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
           <div class="detail">
-           +{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
+           +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
         </div>
                         <div class="detail">
-         <span class="text-green">{{user.weapon_storage/100*25 | amount}}</span> /SAFE
+         <span class="text-green">{{HQ.weapon_storage/100*25 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
     <li>
        <Icon name="alcohol" size="36"/>
         <div class="balance">
-        <div :class="{ 'text-red': balances.alcohols >= user.alcohol_storage }">
+        <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
           {{ balances.alcohols | amount }}<span class="mini"> ALCOHOL</span>
         </div>
             <div class="detail">
-            +{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
+            +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
         </div>
                                 <div class="detail">
-          <span class="text-green">{{user.alcohol_storage/100*25 | amount}}</span> /SAFE
+          <span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> /SAFE
         </div>
          </div>
     </li>
@@ -67,7 +67,6 @@
 
 <script>
 import { getBalances } from '@/helpers/utils';
-
 export default {
   computed: {
     timeToWait() {
@@ -98,6 +97,29 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) 
+      {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return {drug_balance : 0}
+    },
     balances() {
       let ocLvl = 0;
       if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
@@ -117,7 +139,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.user,
+        this.HQ,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -217,12 +239,10 @@ export default {
 
 <style scoped lang="less">
 @import '../vars.less';
-
 .sync {
   margin-top: -8px !important;
   font-size: 12px;
 }
-
 .balances {
   color: white;
   font-size: 26px;
@@ -233,16 +253,14 @@ export default {
   text-align: left !important;
   li {
     padding: 0px;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-left: 5px;
     border-left: 1px rgb(10, 10, 10) solid;
     border-right: 1px rgb(10, 10, 10) solid;
-
     .balance {
       float: right;
       text-align: right;
     }
-
     span {
       float: right;
       line-height: 42px;
@@ -272,7 +290,6 @@ export default {
     text-align: left;
   }
 }
-
 @media screen and (min-width: 200px) and (max-width: 669px) {
   .balances {
     display: flex;
@@ -316,7 +333,6 @@ export default {
     }
   }
 }
-
 @media screen and (min-width: 670px) and (max-width: 1119px) {
   .balances {
     display: inline-flex;

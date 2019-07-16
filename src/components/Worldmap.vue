@@ -4,18 +4,21 @@
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
           <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
           <div>INFORMATIONS</div>
-          <h5 class="mt-0">TOTAL LOCATIONS : 800</h5>
-          <h5 class="mt-0">TOTAL PLAYERS : 0</h5>
-          <h5 class="mt-0">TOTAL SCORE : 0</h5>
-          <h5 class="mt-0">DANGEROSITY : 0</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{400 - selected.total_player}}</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
+          <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
+          <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
         </h3>
         <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
         <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
         <div class="map-title" id="visit" style="opacity:0;" >
-        <button class="button button-blue"  :disabled="!selected">VISIT (COMINGSOON)</button>
-        <button class="button button-red" :disabled="!selected" >DISCOVER (COMINGSOON)</button>
+        <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`" @click="prevent">
+        <button class="button button-blue"  :disabled="!selected">
+          <span v-if="main">VISIT</span>
+          <span v-else>CHOOSE AS MAIN TERRITORY</span>
+          </button>
+        </router-link>
         </div>
-
         <div class="first-line"></div>
         <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
@@ -25,10 +28,13 @@
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
+import client from '@/helpers/client';
 
 export default {
   data() {
     return {
+      main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
+      all_players: this.$store.state.game.prizeProps.users[0].total || null,
       camera: null,
       scene: null,
       renderer: null,
@@ -36,9 +42,10 @@ export default {
       showLoading: true,
       selected: null,
       currentTerritory: null,
+      territories: null,
       oldcolor: null,
       animation: null,
-      territories: null,
+      player_territories: null,
       controls: null,
     };
   },
@@ -46,6 +53,10 @@ export default {
     this.clearScene(this.scene);
   },
   methods: {
+    prevent(e) {
+      e.preventDefault();
+      // else continue to route
+    },
     init() {
       /* eslint-disable */
       const self = this;
@@ -83,6 +94,196 @@ export default {
       self.renderer.setSize(mapbg.width, mapbg.height);
       mapbg.appendChild(self.renderer.domElement);
      
+
+      // Lights
+      const spotLight = new THREE.AmbientLight(0xffffff);
+      // Texture Loader
+      const textureLoader = new THREE.TextureLoader();
+       // Planet Proto
+      const planetProto = {
+        sphere(size) {
+          const sphere = new THREE.SphereGeometry(size, 32, 32);
+          return sphere;
+        },
+        material(options) {
+          const material = new THREE.MeshPhongMaterial();
+          if (options) {
+            for (const property in options) {
+              material[property] = options[property];
+            }
+          }
+          return material;
+        },
+        glowMaterial(intensity, fade, color) {
+          const glowMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+              c: {
+                type: 'f',
+                value: intensity,
+              },
+              p: {
+                type: 'f',
+                value: fade,
+              },
+              glowColor: {
+                type: 'c',
+                value: new THREE.Color(color),
+              },
+              viewVector: {
+                type: 'v3',
+                value: self.camera.position,
+              },
+            },
+            vertexShader: `
+        uniform vec3 viewVector;
+        uniform float c;
+        uniform float p;
+        varying float intensity;
+        void main() {
+          vec3 vNormal = normalize( normalMatrix * normal );
+          vec3 vNormel = normalize( normalMatrix * viewVector );
+          intensity = pow( c - dot(vNormal, vNormel), p );
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }`,
+            fragmentShader: `
+        uniform vec3 glowColor;
+        varying float intensity;
+        void main() 
+        {
+          vec3 glow = glowColor * intensity;
+          gl_FragColor = vec4( glow, 1.0 );
+        }`,
+            side: THREE.BackSide,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+          });
+          return glowMaterial;
+        },
+        texture(material, property, uri) {
+          const textureLoader = new THREE.TextureLoader();
+          textureLoader.crossOrigin = true;
+          textureLoader.load(uri, texture => {
+            material[property] = texture;
+            material.needsUpdate = true;
+          });
+        },
+      };
+  const createPlanet = function(options) {
+        // Create the planet's Surface
+        const surfaceGeometry = planetProto.sphere(options.surface.size);
+        const surfaceMaterial = planetProto.material(options.surface.material);
+        const surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial);
+        // Create the planet's Atmosphere
+        const atmosphereGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size,
+        );
+        const atmosphereMaterialDefaults = {
+          side: THREE.DoubleSide,
+          transparent: true,
+        };
+        const atmosphereMaterialOptions = Object.assign(
+          atmosphereMaterialDefaults,
+          options.atmosphere.material,
+        );
+        const atmosphereMaterial = planetProto.material(atmosphereMaterialOptions);
+        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
+        // Create the planet's Atmospheric glow
+        const atmosphericGlowGeometry = planetProto.sphere(
+          options.surface.size + options.atmosphere.size + options.atmosphere.glow.size,
+        );
+        const atmosphericGlowMaterial = planetProto.glowMaterial(
+          options.atmosphere.glow.intensity,
+          options.atmosphere.glow.fade,
+          options.atmosphere.glow.color,
+        );
+        const atmosphericGlow = new THREE.Mesh(atmosphericGlowGeometry, atmosphericGlowMaterial);
+        // Nest the planet's Surface and Atmosphere into a planet object
+        const planet = new THREE.Object3D();
+        surface.name = 'surface';
+        atmosphere.name = 'atmosphere';
+        atmosphericGlow.name = 'atmosphericGlow';
+        planet.add(surface);
+        planet.add(atmosphere);
+        planet.add(atmosphericGlow);
+        // Load the Surface's textures
+        for (const textureProperty in options.surface.textures) {
+          planetProto.texture(
+            surfaceMaterial,
+            textureProperty,
+            options.surface.textures[textureProperty],
+          );
+        }
+        // Load the Atmosphere's texture
+        for (const textureProperty in options.atmosphere.textures) {
+          planetProto.texture(
+            atmosphereMaterial,
+            textureProperty,
+            options.atmosphere.textures[textureProperty],
+          );
+        }
+        return planet;
+      };
+
+      self.earth = createPlanet({
+        surface: {
+          size: 0.5,
+          material: {
+            bumpScale: 0.05,
+            specular: new THREE.Color('grey'),
+            shininess: 10,
+          },
+          textures: {
+            map: 'img/map/8081_earthmap2k.jpg',
+            bumpMap: 'img/map/8081_earthbump2k.jpg',
+            specularMap: 'img/map/8081_earthspec2k.jpg',
+          },
+        },
+        atmosphere: {
+          size: 0.1,
+          material: {
+            opacity: 0.8,
+          },
+          textures: {
+            map: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmap.jpg',
+            alphaMap: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/earthcloudmaptrans.jpg',
+          },
+          glow: {
+            size: 0.02,
+            intensity: 0.7,
+            fade: 7,
+            color: 0x93cfef,
+          },
+        },
+      });
+
+      // Galaxy
+      const galaxyGeometry = new THREE.SphereGeometry(100, 32, 32);
+      const galaxyMaterial = new THREE.MeshBasicMaterial({
+        side: THREE.BackSide,
+      });
+      const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
+      // Load Galaxy Textures
+      textureLoader.crossOrigin = true;
+      textureLoader.load(
+        'https://s3-us-west-2.amazonaws.com/s.cdpn.io/141228/starfield.png',
+        texture => {
+          galaxyMaterial.map = texture;
+          self.scene.add(galaxy);
+        },
+      );
+
+      // Light Configurations
+      spotLight.position.set(1, 1, 1);
+
+            // Mesh Configurations
+      self.earth.receiveShadow = false;
+      self.earth.castShadow = false;
+      self.earth.rotateY(179.05);
+      self.earth.rotateX(0);
+      self.earth.rotateZ(0);
+
+      self.scene.add(self.earth);
+      self.scene.add(spotLight);
       const territories = new THREE.Object3D();
       const createTerritories = function(cb) {
         const img = document.getElementById('projection');
@@ -115,12 +316,39 @@ export default {
           meshMaterials.push(
             new THREE.MeshBasicMaterial({ color: 'rgb(12, 12, 12)' }),
           );
-          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#ffc508' }));
+
+          meshMaterials.push(new THREE.MeshBasicMaterial({ color: '#0043fd' }));
           oceanMaterial.push(new THREE.MeshBasicMaterial({ color: '#000' }));
+
+          function intToHex(i) {
+                  var hex = parseInt(i).toString(16);
+                  return (hex.length < 2) ? "0" + hex : hex;
+              }   
+
+          function redYellowGreen(value)
+          {
+        value = Math.min(Math.max(0,value), 1) * 510;
+
+        var redValue;
+        var greenValue;
+        if (value > 255) {
+            value = value - 255;
+            redValue = 255;
+            greenValue = Math.sqrt(value) * 16;
+            greenValue = Math.round(greenValue);
+        } else {
+            greenValue = 255;
+            value = value - 255;
+            redValue = 256 - (value * value / 255)
+            redValue = Math.round(redValue);
+        }
+
+        return "#" + intToHex(redValue) + intToHex(greenValue) + "00";
+          }
 
           // let radius = 0.519;
           const radius = 0.61;
-          const divisions = 12;
+          const divisions = Math.round(self.all_players/1300);
           const tileSize = 0.9;
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -143,30 +371,83 @@ export default {
             if (isLand(latLon.lat, latLon.lon)) {
               if (count < 7) {
                 material = meshMaterials[1];
-                material.name = `mission ${count}`;
-              } else {
+                material.name = `mission`;
+                material.userData.count = count;
+              } 
+              else {
+                if(self.player_territories.find(t => t.territory === count))
+                {
+                  let playercount = 0;
+                  self.player_territories.forEach(element => {
+                    if(element.territory === count){
+                      playercount = playercount+1;
+                    }
+                  });
+                  let riskcolor = redYellowGreen(playercount/25)
+                  material = new THREE.MeshBasicMaterial({ color: riskcolor })
+                  material.name = `territory`;
+                  material.count = count;
+                  material.userData.total_player = playercount;
+                  material.userData.count = count;
+                  material.userData.risk = 'inexistant'
+
+                  if(playercount/25 > 0.15)
+                  {
+                   material.userData.risk = 'low'
+                  }
+                  if(playercount/25 > 0.25)
+                  {
+                    material.userData.risk = 'moderate'
+                  }
+                  if(playercount/25 > 0.50)
+                  {
+                    material.userData.risk = 'considerable'
+                  }
+                  if(playercount/25 > 0.75)
+                  {
+                    material.userData.risk = 'high'
+                  }
+                  if(playercount/25 > 1)
+                  {
+                    material.userData.risk = 'extreme'
+                  }
+                  if(playercount/25 > 1.25)
+                  {
+                    material.userData.risk = 'pariah'
+                  }
+                  else if(playercount/25 > 1.50)
+                  {
+                    material.userData.risk = 'incredible'
+                  }
+                }
+                else{
                 material = meshMaterials[0];
-                material.name = `territory ${count}`;
+                material.name = `empty territory`;
                 material.opacity = 0.8;
+                 material.userData.total_player = 0;
+                material.count = count;
+                material.userData.count = count;
+                }
+
               }
-              material.count = count;
               const mesh = new THREE.Mesh(geometry, material.clone());
               mesh.name = 'grid ';
               mesh.geometry.computeBoundingBox();
               territories.add(mesh);
               hexasphere.tiles[i].mesh = mesh;
               count++;
-            } else {
-              material = oceanMaterial[0];
-              material.name = 'void';
-              material.opacity = 0;
-              var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
-
-              const mesh = new THREE.Mesh(bufferGeometry, material.clone());
-              mesh.name = 'void ';
-              territories.add(mesh);
-              hexasphere.tiles[i].mesh = mesh;
-            }
+            } 
+            // else {
+            //   material = oceanMaterial[0];
+            //   material.name = 'void';
+            //   material.count = 0;
+            //   material.opacity = 0;
+            //   var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
+            //   const mesh = new THREE.Mesh(bufferGeometry, material.clone());
+            //   mesh.name = 'void ';
+            //   territories.add(mesh);
+            //   hexasphere.tiles[i].mesh = mesh;
+            // }
           }
 
           seenTiles = {};
@@ -179,9 +460,10 @@ export default {
           cb(territories);
         };
       };
-      createTerritories(result => {
-        self.scene.add(result);
-      });
+
+          createTerritories(allterritories => {
+          self.scene.add(allterritories);
+        });
      
       this.camera.rotation.x = -0.86;
       this.camera.rotation.y = 0.75;
@@ -190,6 +472,7 @@ export default {
         INTERSECTED;
       const mouse = new THREE.Vector2();
       mapbg.addEventListener('click', onclick, false);
+      mapbg.addEventListener('touchend', onclick, false);
 
       function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
@@ -221,7 +504,18 @@ export default {
       function onclick(event) {
         if (selectedTerritory) 
         selectedTerritory.object.material.color.set(self.oldcolor);
-        const array = getMousePosition( mapbg, event.clientX, event.clientY );
+
+
+        let array = [];
+        if(event.changedTouches)
+        {
+        array = getMousePosition( mapbg, event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+
+        }
+        else{
+        array = getMousePosition( mapbg, event.clientX, event.clientY );
+
+        }
 				onClickPosition.fromArray( array );
 				var intersects = getIntersects( onClickPosition, territories.children );
         if (
@@ -234,8 +528,9 @@ export default {
           selectedTerritory.object.material.color.set(0xff0000);
           self.selected = {};
           self.selected.name = selectedTerritory.object.material.name;
-          self.selected.count = selectedTerritory.object.material.count;
-
+          self.selected.count = selectedTerritory.object.material.userData.count;
+          self.selected.total_player = selectedTerritory.object.material.userData.total_player;
+          self.selected.dangerosity = selectedTerritory.object.material.userData.risk;
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;
           visitButton.style.opacity = 1;
@@ -306,6 +601,8 @@ export default {
         if (self.scene &&  self.camera) {
           if(self.scene.getObjectByName('territories'))
           self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
+          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.005;
+          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }
@@ -384,18 +681,18 @@ export default {
     }
   },
   mounted() {
-    this.init();
+    const self = this;
+       client.requestAsync('get_territories',null).then(result => {
+          self.player_territories = result;
+          self.init();
+      });
   },
 };
 </script>
 
 <style scoped lang="less">
 .mapbg {
-  height: 100vh;
-}
-
-#map {
-  height: 100%;
+  height: calc(100vh - 98px);
 }
 
 img {
@@ -431,7 +728,7 @@ img {
   left: 50%;
   border: 1px solid red;
   width: 2px;
-  height: 100vh;
+  height: 100%;
   pointer-events: none;
 }
 

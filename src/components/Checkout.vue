@@ -3,7 +3,7 @@
     <div class="mb-2">
     <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
     </div>
-    <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" 
+    <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate || !base" 
             @click="handleSubmit()" class="button btn-block button-green mb-2">
     <template v-if="isLoading || waitingConfirmation">
     <SmallLoading/>
@@ -16,7 +16,7 @@
     </button>
     <div class="mb-2">Instant upgrade</div>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || !base"
       @click="handleRequestPayment()" v-if="steemAccount"
       class="button btn-block button-blue mb-2">
       <i class="iconfont icon-zap"/>
@@ -24,7 +24,7 @@
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress || !base"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2">
     <img class="futureicon" src="/img/icons/future.png"/>
@@ -54,6 +54,9 @@ export default {
     },
   },
   computed: {
+    base() {
+      return this.$store.state.game.mainbase;
+    },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
@@ -66,15 +69,19 @@ export default {
     notEnoughFuture() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future
-      );
+        this.$store.state.game.user.user.future);
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
       return false;
     },
     timeToWait() {
-      const building = this.$store.state.game.user.buildings.find(b => b.building === this.id);
+      const building = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === this.id &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      );
       if (building) {
         if (building.pending_update) {
           const nextUpdate = new Date(building.pending_update).getTime();
@@ -98,6 +105,7 @@ export default {
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.inProgress) label = 'Upgrading';
+      if (!this.base) label = 'Choose a location';
       return label;
     },
   },
@@ -106,9 +114,22 @@ export default {
     handleSubmit(use) {
       this.isLoading = true;
       let payload = {};
-      if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
+      if (use === 'future')
+        payload = {
+          building: this.id,
+          level: this.level,
+          use: 'future',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
       else {
-        payload = { building: this.id, level: this.level, use: 'resources' };
+        payload = {
+          building: this.id,
+          level: this.level,
+          use: 'resources',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
       }
       this.upgradeBuilding(payload)
         .then(() => {

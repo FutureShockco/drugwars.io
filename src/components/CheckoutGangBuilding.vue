@@ -123,10 +123,13 @@ export default {
       if (this.inProgress) label = 'Upgrading';
       return label;
     },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
   },
   methods: {
     ...mapActions(['upgradeGangBuilding', 'depositGangBuilding', 'requestPayment']),
-    handleSubmit(use) {
+    handleSubmit() {
       this.isLoading = true;
       let payload = {};
       const drugs = this.drugs || 0;
@@ -139,6 +142,8 @@ export default {
           level: this.level,
           use: 'resources',
           resources: { drugs, weapons, alcohol, future },
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
         };
         this.depositGangBuilding(payload)
           .then(() => {
@@ -169,6 +174,8 @@ export default {
           level: this.level,
           use: 'resources',
           resources: { drugs, weapons, alcohol },
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
         };
       }
       this.upgradeGangBuilding(payload)

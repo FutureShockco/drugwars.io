@@ -10,42 +10,51 @@ function jsonParse(input) {
   }
 }
 
-const getBalances = (user, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
+const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
   const now = new Date();
-  const time = (now.getTime() - new Date(user.last_update).getTime()) / 1000;
-  let drugs = user.drugs_balance + Number(parseFloat(time * user.drug_production_rate).toFixed(2));
+  const time = (now.getTime() - new Date(Date.parse(building.last_update)).getTime()) / 1000;
+  let drugs =
+    building.drug_balance + Number(parseFloat(time * building.drug_production_rate).toFixed(2));
   let weapons =
-    user.weapons_balance + Number(parseFloat(time * user.weapon_production_rate).toFixed(2));
+    building.weapon_balance + Number(parseFloat(time * building.weapon_production_rate).toFixed(2));
   let alcohols =
-    user.alcohols_balance + Number(parseFloat(time * user.alcohol_production_rate).toFixed(2));
+    building.alcohol_balance +
+    Number(parseFloat(time * building.alcohol_production_rate).toFixed(2));
   if (ocLvl > 0) {
-    drugs += Number(parseFloat(time * user.drug_production_rate).toFixed(2) * (ocLvl * 0.005));
-    weapons += Number(parseFloat(time * user.weapon_production_rate).toFixed(2) * (ocLvl * 0.005));
+    drugs += Number(parseFloat(time * building.drug_production_rate).toFixed(2) * (ocLvl * 0.005));
+    weapons += Number(
+      parseFloat(time * building.weapon_production_rate).toFixed(2) * (ocLvl * 0.005),
+    );
     alcohols += Number(
-      parseFloat(time * user.alcohol_production_rate).toFixed(2) * (ocLvl * 0.005),
+      parseFloat(time * building.alcohol_production_rate).toFixed(2) * (ocLvl * 0.005),
     );
   }
-
   if (labLvl > 0) {
-    drugs += Number(parseFloat(time * user.drug_production_rate).toFixed(2) * (labLvl * 0.0025));
+    drugs += Number(
+      parseFloat(time * building.drug_production_rate).toFixed(2) * (labLvl * 0.0025),
+    );
   }
 
   if (weaponLvl > 0) {
     weapons += Number(
-      parseFloat(time * user.weapon_production_rate).toFixed(2) * (weaponLvl * 0.005),
+      parseFloat(time * building.weapon_production_rate).toFixed(2) * (weaponLvl * 0.005),
     );
   }
 
   if (aSchoolLvl > 0) {
     alcohols += Number(
-      parseFloat(time * user.alcohol_production_rate).toFixed(2) * (aSchoolLvl * 0.005),
+      parseFloat(time * building.alcohol_production_rate).toFixed(2) * (aSchoolLvl * 0.005),
     );
   }
+
   return {
-    drugs: drugs > user.drug_storage ? user.drug_storage : parseFloat(drugs).toFixed(0),
-    weapons: weapons > user.weapon_storage ? user.weapon_storage : parseFloat(weapons).toFixed(0),
+    drugs: drugs > building.drug_storage ? building.drug_storage : parseFloat(drugs).toFixed(3),
+    weapons:
+      weapons > building.weapon_storage ? building.weapon_storage : parseFloat(weapons).toFixed(3),
     alcohols:
-      alcohols > user.alcohol_storage ? user.alcohol_storage : parseFloat(alcohols).toFixed(0),
+      alcohols > building.alcohol_storage
+        ? building.alcohol_storage
+        : parseFloat(alcohols).toFixed(3),
   };
 };
 

@@ -32,9 +32,20 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-          .lvl;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -49,13 +60,35 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.user,
+        this.HQ,
         ocLvl,
         labLvl,
         weaponLvl,
         distilleryLvl,
         this.$store.state.ui.timestamp,
       );
+    },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
     },
     hasNotEnough() {
       return (
@@ -73,7 +106,12 @@ export default {
     },
     ownResearchCenter() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'research_center') || {
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'research_center' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        ) || {
           lvl: 0,
         }
       );

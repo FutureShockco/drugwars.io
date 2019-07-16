@@ -17,7 +17,7 @@
 
     <div class="mb-2">Instant upgrade</div>
     <button v-if="steemAccount"
-      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || !base"
       @click="handleRequestPayment()"
       class="button btn-block button-blue mb-2"
     >
@@ -26,7 +26,7 @@
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress || !base"
       @click="handleSubmit('future')"
       class="button btn-block button-yellow mb-2"
     >
@@ -59,6 +59,9 @@ export default {
   computed: {
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.researchCenterLvl);
+    },
+    base() {
+      return this.$store.state.game.mainbase;
     },
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -93,6 +96,9 @@ export default {
       }
       return 0;
     },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
     requireUpdate() {
       return this.level > this.researchCenterLvl && this.id !== 'research_center';
     },
@@ -108,19 +114,33 @@ export default {
     ...mapActions(['upgradeTraining', 'requestPayment']),
     handleSubmit(use) {
       this.isLoading = true;
+      const self = this;
       let payload = {};
-      if (use === 'future') payload = { training: this.id, level: this.level, use: 'future' };
-      else {
-        payload = { training: this.id, level: this.level, use: 'resources' };
+      if (use === 'future') {
+        payload = {
+          training: this.id,
+          level: this.level,
+          use: 'future',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
+      } else {
+        payload = {
+          training: this.id,
+          level: this.level,
+          use: 'resources',
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
       }
       this.upgradeTraining(payload)
         .then(() => {
-          this.waitingConfirmation = true;
-          this.isLoading = false;
+          this.waitingConfirmation = false;
+          self.isLoading = false;
         })
         .catch(e => {
           console.error('Failed', e);
-          this.isLoading = false;
+          self.isLoading = false;
         });
     },
     handleRequestPayment() {

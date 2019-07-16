@@ -14,18 +14,21 @@ const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buil
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
 const Weapons = () => import(/* webpackChunkName: "weapons" */ '@/views/Buildings/Weapons.vue');
 const Alcohol = () => import(/* webpackChunkName: "alcohol" */ '@/views/Buildings/Alcohol.vue');
+const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Buildings/Defense.vue');
+const BuildingDetail = () => import(/* webpackChunkName: "buildingdetail" */ '@/components/BuildingDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
-const Fight = () => import(/* webpackChunkName: "fight" */ '@/views/Actions/Fight.vue');
+const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Actions/Actions.vue');
 const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
+const Occup = () => import(/* webpackChunkName: "occupy" */ '@/views/Actions/Occup.vue');
 
 const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
-const HallOfFame = () =>
-  import(/* webpackChunkName: "hall-of-fame" */ '@/views/Actions/HallOfFame.vue');
+const Station = () => import(/* webpackChunkName: "station" */ '@/views/Actions/Station.vue');
+const HallOfFame = () => import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
 
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
 const GangCreate = () => import(/* webpackChunkName: "gang-create" */ '@/views/Gangs/Create.vue');
@@ -51,7 +54,7 @@ const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
 const WMap = () => import(/* webpackChunkName: "map" */ '@/views/Map/Map.vue');
-
+const Territory = () => import(/* webpackChunkName: "territory" */ '@/views/Map/Territory.vue');
 const Leaderboards = () =>
   import(/* webpackChunkName: "leaderboards" */ '@/views/Leaderboards/Leaderboards.vue');
 const Heistboard = () =>
@@ -61,6 +64,7 @@ const Fightboard = () =>
 
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
+const Privacy = () => import(/* webpackChunkName: "privacy" */ '@/views/Settings/Privacy.vue');
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -85,6 +89,8 @@ const requireAuth = (to, from, next) => {
           store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_inc_transport_count');
           store.dispatch('refresh_sent_transport_count');
+          store.dispatch('refresh_inc_station_count');
+          store.dispatch('refresh_sent_station_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -107,6 +113,8 @@ const requireAuth = (to, from, next) => {
           store.dispatch('refresh_sent_fights_count');
           store.dispatch('refresh_inc_transport_count');
           store.dispatch('refresh_sent_transport_count');
+          store.dispatch('refresh_inc_station_count');
+          store.dispatch('refresh_sent_station_count');
           store.dispatch('refresh_inc_fights');
           store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
@@ -179,6 +187,18 @@ export default new Router({
       component: Alcohol,
     },
     {
+      path: '/buildings/defense',
+      name: 'defense',
+      beforeEnter: requireAuth,
+      component: Defense,
+    },
+    {
+      path: '/buildings/detail',
+      name: 'buildingdetail',
+      beforeEnter: requireAuth,
+      component: BuildingDetail,
+    },
+    {
       path: '/units',
       name: 'units',
       beforeEnter: requireAuth,
@@ -192,21 +212,21 @@ export default new Router({
     },
     {
       path: '/actions',
-      name: 'actions',
+      name: 'missions',
       beforeEnter: requireAuth,
-      component: Fight,
-    },
-    {
-      path: '/actions/fight',
-      name: 'fight',
-      beforeEnter: requireAuth,
-      component: Fight,
+      component: Missions,
     },
     {
       path: '/actions/transport',
       name: 'transport',
       beforeEnter: requireAuth,
       component: Transport,
+    },
+    {
+      path: '/actions/occupy',
+      name: 'occupy',
+      beforeEnter: requireAuth,
+      component: Occup,
     },
     {
       path: '/actions/outgoing',
@@ -225,6 +245,12 @@ export default new Router({
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,
+    },
+    {
+      path: '/actions/station',
+      name: 'station',
+      beforeEnter: requireAuth,
+      component: Station,
     },
     {
       path: '/hall-of-fame',
@@ -342,6 +368,12 @@ export default new Router({
       component: WMap,
     },
     {
+      path: '/map/territory',
+      name: 'territory',
+      beforeEnter: requireAuth,
+      component: Territory,
+    },
+    {
       path: '/settings',
       name: 'settings',
       beforeEnter: requireAuth,
@@ -352,6 +384,12 @@ export default new Router({
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
+    },
+    {
+      path: '/settings/privacy',
+      name: 'privacy',
+      beforeEnter: requireAuth,
+      component: Privacy,
     },
     {
       path: '/i/:username',

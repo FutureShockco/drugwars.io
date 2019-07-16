@@ -38,7 +38,7 @@
         :level="training_facility.lvl"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.weapons_cost / 34000 + unit.alcohols_cost / 34000 "
+        :price="unit.weapons_cost / 80000 + unit.alcohols_cost / 80000 "
         :notEnough="hasNotEnough"
         :quantity="quantity"
       />
@@ -83,11 +83,44 @@ export default {
       const speed = this.unit.speed * 60 * 1000;
       return speed - (speed / 200) * routing;
     },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+    },
     balances() {
       let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-          .lvl;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -102,7 +135,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.user,
+        this.HQ,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -119,7 +152,12 @@ export default {
     },
     ownItem() {
       return (
-        this.$store.state.game.user.units.find(b => b.unit === this.unit.id) || {
+        this.$store.state.game.user.units.find(
+          b =>
+            b.unit === this.unit.id &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        ) || {
           amount: 0,
         }
       );
@@ -137,7 +175,12 @@ export default {
     },
     training_facility() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === 'training_facility') || {
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'training_facility' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        ) || {
           lvl: 0,
         }
       );

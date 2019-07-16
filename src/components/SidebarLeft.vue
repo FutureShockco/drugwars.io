@@ -20,6 +20,11 @@
         </div>
       </div>
       <div class="height-full">
+        <ul class="pt-1 border-bottom">
+            <li>
+                <BaseDropdown   class="pb-2 px-4 d-block" :config="config"/>
+            </li>
+        </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>
             <router-link
@@ -54,7 +59,7 @@
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Missions
+              Actions
               <span class="text-red" v-if="activeIncFightsCount > 0">
               ({{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
             </span>              <span class="text-green" v-if="activeFightsCount > 0">
@@ -181,7 +186,23 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
+  data() {
+    return {};
+  },
   computed: {
+    config() {
+      return {
+        options: [
+          {
+            value: 'Attack',
+          },
+          {
+            value: 'Transport',
+          },
+        ],
+        backgroundColor: 'green',
+      };
+    },
     sidebarVisible() {
       return this.$store.state.ui.sidebarVisible;
     },

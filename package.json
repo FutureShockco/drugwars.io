@@ -1,6 +1,6 @@
 {
   "name": "drugwars.io",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "homepage": "https://drugwars.io",
   "description": "The drugs are virtual, but the money is real",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "bluebird": "^3.5.3",
     "bs58": "^4.0.1",
     "dom-to-image": "^2.6.0",
-    "drugwars": "0.0.76",
+    "drugwars": "0.0.83",
     "dsteem": "^0.10.1",
     "express": "^4.16.3",
     "hexasphere.js": "^0.2.2",

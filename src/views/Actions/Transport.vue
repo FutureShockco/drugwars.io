@@ -23,7 +23,7 @@
                         <p>You need to select at least 1 unit.</p>
                     </div>
                     <div v-else>
-                        <h3>Carry : {{carry | amount}}</h3>
+                        <h3>Transport : {{carry | amount}}</h3>
                         <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                         			<div class="columns mt-2">
                                 <div class="column col-3">
@@ -117,7 +117,9 @@
                 </p>
             </div>
             <div v-else>
-                <p>You don't have any unit to transport.</p>
+                <p>You don't have any unit.</p>
+                   <router-link  class="text-green">Create units
+                  </router-link>
             </div>
 
         </div>

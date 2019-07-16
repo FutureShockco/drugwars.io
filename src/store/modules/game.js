@@ -25,6 +25,8 @@ const state = {
   gang_buildings: [],
   chat: false,
   isconnected: null,
+  base: null,
+  mainbase : null
 };
 
 const mutations = {
@@ -52,6 +54,12 @@ const mutations = {
   saveSentTransportsCount(_state, payload) {
     Vue.set(_state, 'sent_transports_count', payload);
   },
+  saveIncStationsCount(_state, payload) {
+    Vue.set(_state, 'inc_stations_count', payload);
+  },
+  saveSentStationsCount(_state, payload) {
+    Vue.set(_state, 'sent_stations_count', payload);
+  },
   saveGangBuildings(_state, payload) {
     Vue.set(_state, 'gang_buildings', payload);
   },
@@ -60,6 +68,12 @@ const mutations = {
   },
   saveConnected(_state, payload) {
     Vue.set(_state, 'isconnected', payload);
+  },
+  saveBase(_state, payload) {
+    Vue.set(_state, 'base', payload);
+  },
+  saveMainBase(_state, payload) {
+    Vue.set(_state, 'mainbase', payload);
   },
 };
 
@@ -75,6 +89,10 @@ const actions = {
   init: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
+      let totalbases = 0;
+      if (state.user && state.user.buildings) {
+        totalbases = state.user.buildings.find(b => b.building === 'headquarters').length;
+      }
       if (token) {
         client
           .requestAsync('get_user', { token })
@@ -84,6 +102,15 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
+                commit(
+                  'saveBase',
+                  state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                );
+                if (!state.base || totalbases != state.user.buildings.find(b => b.building === 'headquarters').length)
+                  commit(
+                    'saveMainBase',
+                    state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0 && b.building === 'headquarters'),
+                  );
                 resolve();
               });
             } else {
@@ -203,6 +230,36 @@ const actions = {
           return reject(err);
         });
     }),
+  refresh_inc_station_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_inc_station_count', { token })
+        .then(stations => {
+          commit('saveIncStationsCount', stations);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading inc stations count failed');
+          return reject(err);
+        });
+    }),
+  refresh_sent_station_count: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_sent_station_count', { token })
+        .then(stations => {
+          commit('saveSentStationsCount', stations);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent stations count failed');
+          return reject(err);
+        });
+    }),
   signup: ({ rootState }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
@@ -290,7 +347,6 @@ const actions = {
       payload.type = 'dw-trainings'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -309,7 +365,6 @@ const actions = {
       payload.type = 'dw-units'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -321,17 +376,13 @@ const actions = {
         return reject();
       });
     }),
-  investHeist: ({ rootState }, amount) =>
+  investHeist: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      const payload = {
-        amount: Number(amount),
-        type: 'dw-heists',
-      };
       payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'dw-heists'; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
@@ -414,6 +465,26 @@ const actions = {
         return reject();
       });
     }),
+  missions: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      console.log(payload);
+      return dwsocial(username, payload, result => {
+        if (result) {
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+          store.dispatch('refresh_sent_fights_count');
+          store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_sent_transport_count');
+          return resolve(result);
+        }
+        console.log(result);
+        return reject();
+      });
+    }),
   refresh_gang_buildings: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
@@ -470,6 +541,14 @@ const actions = {
         dispatch('init');
       });
     }
+  },
+  setBase: ({ commit }, payload) => {
+    console.log(payload);
+    commit('saveBase', payload);
+  },
+  setMainBase: ({ commit }, payload) => {
+    console.log(payload);
+    commit('saveMainBase', payload);
   },
   disconnect: ({ commit }) => {
     commit('saveConnected', false);

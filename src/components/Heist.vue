@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      amount: this.$store.state.game.user.user.drugs_balance,
+      amount: Math.round(this.$store.state.game.user.user.drugs_balance),
     };
   },
   computed: {
@@ -43,7 +43,7 @@ export default {
       return this.$store.state.game.prizeProps;
     },
     totalVest() {
-      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
+      return 14000000;
     },
     totalReward() {
       return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
@@ -51,19 +51,48 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+    },
     totalHeistFuture() {
       const { prizeProps } = this.$store.state.game;
-      return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
-        0.005
-      );
+      return (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * 2) / 0.005;
     },
     balances() {
       let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
-          .lvl;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -78,7 +107,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.user,
+        this.HQ,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -87,8 +116,8 @@ export default {
       );
     },
     ownHeistReward() {
-      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalHeistFuture / 100) * percent;
+      const percent = (100 / 380000000) * this.totalVest;
+      const amount = Math.round((this.totalHeistFuture / 100) * percent);
       return {
         amount,
         percent,
@@ -100,7 +129,12 @@ export default {
     handleSubmit() {
       if (Number(this.amount) > 0) {
         this.isLoading = true;
-        this.investHeist(this.amount)
+        const payload = {
+          amount: Math.round(Number(this.amount)),
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+        };
+        this.investHeist(payload)
           .then(() => {
             Promise.delay(3000).then(() => {
               this.isLoading = false;
@@ -114,7 +148,7 @@ export default {
       }
     },
     handleFullSubmit() {
-      this.amount = this.balances.drugs - parseInt((this.balances.drugs / 100) * 1);
+      this.amount = Math.round(this.balances.drugs - parseInt((this.balances.drugs / 100) * 1));
     },
   },
 };

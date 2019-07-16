@@ -68,7 +68,7 @@
         </span>
       </h5>
     </div>
-    <div class="column px-0  col-2">
+    <div class="column px-0  col-4">
       <h5 class="production">
         <span class="mr-3" v-if="player && rank && !player.amount" >
            BONUS :
@@ -79,13 +79,13 @@
         </span>
       </h5>
     </div>
-    <div class="column  col-2">
+    <!-- <div class="column  col-2">
         <button v-if="ownSpy"
       :disabled="isLoading || waitingConfirmation || !ownSpy"
       @click="handleSubmit()"
       class="button btn-block button-red mb-2"
     >SPY</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -107,9 +107,21 @@ export default {
       return diff > 0 ? diff : 0;
     },
     ownSpy() {
-      if (this.$store.state.game.user.units.find(u => u.unit === 'spy'))
+      if (
+        this.$store.state.game.user.units.find(
+          u =>
+            u.unit === 'spy' &&
+            u.base === this.$store.state.game.mainbase.base &&
+            u.territory === this.$store.state.game.mainbase.territory,
+        )
+      )
         return (
-          this.$store.state.game.user.units.find(u => u.unit === 'spy').amount || {
+          this.$store.state.game.user.units.find(
+            u =>
+              u.unit === 'spy' &&
+              u.base === this.$store.state.game.mainbase.base &&
+              u.territory === this.$store.state.game.mainbase.territory,
+          ).amount || {
             amount: 0,
           }
         );
@@ -148,7 +160,6 @@ export default {
       if (!this.errorMessage)
         try {
           const user = await client.requestAsync('check_user', target);
-          console.log(user);
           if (!user || !user[0].nickname) {
             this.errorMessage = `Player '${target}' does not exist`;
           }

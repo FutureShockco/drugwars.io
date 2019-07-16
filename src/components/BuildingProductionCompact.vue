@@ -25,7 +25,12 @@ export default {
     },
     ownBuilding() {
       return (
-        this.$store.state.game.user.buildings.find(b => b.building === this.$props.building.id && b.base === this.base.base && b.territory === this.base.territory ) || {
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === this.$props.building.id &&
+            b.base === this.base.base &&
+            b.territory === this.base.territory,
+        ) || {
           lvl: 0,
         }
       );

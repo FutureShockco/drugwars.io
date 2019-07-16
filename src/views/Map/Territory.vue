@@ -162,12 +162,10 @@ export default {
         } else if (self.selectedTile != null) {
           tiles_array[self.selectedTile - 1].fillColor = 'black';
         }
-        if(elementClickedId.id === 225)
-        {
+        if (elementClickedId.id === 225) {
           if (elementClickedId.nickname === self.nickname) {
             tiles_array[224].fillColor = 'green';
-          } else 
-          if (elementClickedId.nickname !== self.nickname) {
+          } else if (elementClickedId.nickname !== self.nickname) {
             tiles_array[224].fillColor = 'blue';
           } else {
             tiles_array[224].fillColor = 'gray';
@@ -188,13 +186,11 @@ export default {
         // visitButton.style.top = `${tiles_array[elementClickedId.id].y + 10}px`;
         // visitButton.style.left = `${tiles_array[elementClickedId.id].x + 15}px`;
         visitButton.style.opacity = 1;
-        if(tiles_array[elementClickedId.id])
-        {
-        visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
-        visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
-        visitTitle.style.opacity = 1;
+        if (tiles_array[elementClickedId.id]) {
+          visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
+          visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
+          visitTitle.style.opacity = 1;
         }
-
 
         drawTiles();
       };
@@ -336,7 +332,7 @@ export default {
                 self.init();
                 self.isLoading = false;
               });
-            })
+            });
           })
           .catch(e => {
             this.notify({ type: 'error', message: 'Failed to take base' });

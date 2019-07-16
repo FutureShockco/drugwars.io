@@ -45,6 +45,7 @@
 import { buildings, utils } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
 import { pickBy } from 'lodash';
+
 export default {
   data() {
     return {
@@ -55,16 +56,15 @@ export default {
     base() {
       return this.$store.state.game.mainbase;
     },
-    nextLevels(){
-      let levels = []
-      let item = this.ownItem.lvl
-      if(!item)
-      item = 1;
-      levels.push(item)
-      for (let index = item; index < item+20; index++) {
-        levels.push(index+1);
+    nextLevels() {
+      const levels = [];
+      let item = this.ownItem.lvl;
+      if (!item) item = 1;
+      levels.push(item);
+      for (let index = item; index < item + 20; index++) {
+        levels.push(index + 1);
       }
-      return levels
+      return levels;
     },
     training_facility() {
       return (
@@ -179,8 +179,8 @@ export default {
       );
     },
   },
-  methods:{
-        drugsCost(lvl) {
+  methods: {
+    drugsCost(lvl) {
       return utils.calculateCostToUpgrade(this.building.drugs_cost, lvl);
     },
     weaponsCost(lvl) {
@@ -189,6 +189,6 @@ export default {
     alcoholsCost(lvl) {
       return utils.calculateCostToUpgrade(this.building.alcohols_cost, lvl);
     },
-  }
+  },
 };
 </script>

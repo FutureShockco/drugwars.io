@@ -51,12 +51,12 @@ export default {
   },
   computed: {
     fights() {
-      let fights = []
+      const fights = [];
       this.$store.state.game.sent_fights.forEach(element => {
-        fights.push(element)
+        fights.push(element);
       });
       this.$store.state.game.inc_fights.forEach(element => {
-        fights.push(element)
+        fights.push(element);
       });
       return orderBy(fights, 'end_date', 'desc');
     },

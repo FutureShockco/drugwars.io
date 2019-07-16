@@ -380,11 +380,10 @@ export default {
         this.resetForm();
         this.missions(payload)
           .then(() => {
-            if(self.action_type === 'occupy')
-            {
+            if (self.action_type === 'occupy') {
               Promise.delay(3000).then(() => {
                 self.init();
-              })
+              });
             }
             this.isLoading = false;
           })

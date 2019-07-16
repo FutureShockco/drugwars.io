@@ -67,6 +67,7 @@
 
 <script>
 import { getBalances } from '@/helpers/utils';
+
 export default {
   computed: {
     timeToWait() {
@@ -109,8 +110,7 @@ export default {
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
-      ) 
-      {
+      ) {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
@@ -118,7 +118,7 @@ export default {
             b.base === this.base.base,
         );
       }
-      return {drug_balance : 0}
+      return { drug_balance: 0 };
     },
     balances() {
       let ocLvl = 0;

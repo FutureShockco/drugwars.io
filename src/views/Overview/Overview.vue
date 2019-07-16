@@ -72,8 +72,8 @@ export default {
   data() {
     return {
       drug_buildings: pickBy(buildings, b => b.production_type === 'drugs') || [],
-      weapon_buildings: pickBy(buildings, b => b.production_type === 'weapons') ||[],
-      alcohol_buildings: pickBy(buildings, b => b.production_type === 'alcohol') ||[],
+      weapon_buildings: pickBy(buildings, b => b.production_type === 'weapons') || [],
+      alcohol_buildings: pickBy(buildings, b => b.production_type === 'alcohol') || [],
     };
   },
   computed: {
@@ -90,14 +90,14 @@ export default {
           b =>
             b.building === 'headquarters' &&
             b.territory === this.base.territory &&
-            b.base === this.base.base
+            b.base === this.base.base,
         )
       ) {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
             b.territory === this.base.territory &&
-            b.base === this.base.base
+            b.base === this.base.base,
         );
       }
     },

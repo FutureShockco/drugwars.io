@@ -113,8 +113,7 @@ import { mapActions } from 'vuex';
 export default {
   props: ['fight'],
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
     timeToWait() {
@@ -153,32 +152,35 @@ export default {
     json() {
       return jsonParse(this.fight.json) || {};
     },
-	},
-	
+  },
+
   methods: {
     ...mapActions(['send', 'init']),
-		handleSubmit() {
-					const payload = {
-						station_id: this.fight.transport_key,
-						type: 'cancel-station',
-					};
-					this.isLoading = true;
-					this.send(payload)
-						.then(result => {
-							if (result) {
-								this.notify({
-									type: 'success',
-									message: result,
-								});
-								this.isLoading = false;
-							}
-						})
-						.catch(e => {
-							this.notify({ type: 'error', message: `Failed to cancel station ${this.fight.transport_key}` });
-							console.error(`Failed to cancel station ${this.fight.transport_key}`, e);
-							this.isLoading = false;
-						});
-		}
+    handleSubmit() {
+      const payload = {
+        station_id: this.fight.transport_key,
+        type: 'cancel-station',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.notify({
+              type: 'success',
+              message: result,
+            });
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({
+            type: 'error',
+            message: `Failed to cancel station ${this.fight.transport_key}`,
+          });
+          console.error(`Failed to cancel station ${this.fight.transport_key}`, e);
+          this.isLoading = false;
+        });
+    },
   },
 };
 </script>

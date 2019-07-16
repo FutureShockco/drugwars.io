@@ -69,7 +69,8 @@ export default {
     notEnoughFuture() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future);
+        this.$store.state.game.user.user.future
+      );
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

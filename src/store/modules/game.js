@@ -26,7 +26,7 @@ const state = {
   chat: false,
   isconnected: null,
   base: null,
-  mainbase : null
+  mainbase: null,
 };
 
 const mutations = {
@@ -106,10 +106,19 @@ const actions = {
                   'saveBase',
                   state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
                 );
-                if (!state.base || totalbases != state.user.buildings.find(b => b.building === 'headquarters').length)
+                if (
+                  !state.base ||
+                  totalbases != state.user.buildings.find(b => b.building === 'headquarters').length
+                )
                   commit(
                     'saveMainBase',
-                    state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0 && b.building === 'headquarters'),
+                    state.user.buildings.find(
+                      b =>
+                        b.main === 1 &&
+                        b.territory != 0 &&
+                        b.base != 0 &&
+                        b.building === 'headquarters',
+                    ),
                   );
                 resolve();
               });

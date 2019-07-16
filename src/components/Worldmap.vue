@@ -473,7 +473,7 @@ export default {
       const mouse = new THREE.Vector2();
       mapbg.addEventListener('click', onclick, false);
       mapbg.addEventListener('touchend', onclick, false);
-
+      mapbg.addEventListener('touchstart', onclick, false);
       function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
         const vector = p.project(camera);

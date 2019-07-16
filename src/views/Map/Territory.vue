@@ -34,7 +34,7 @@
                     <button class="button button-blue">TRANSPORT</button>
                 </router-link>
             </div>
-            <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
+            <button v-if="!main" class="button button-blue" v-touch="handleSubmit()" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
         </div>
         </h3>
 

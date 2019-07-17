@@ -19,7 +19,7 @@
                 <div v-else>
                   You must buy troops
                 </div>
-                <div class="column pl-0 mt-6 col-6 text-left width-full">
+                <div v-if="action_type !=='occupy'" class="column pl-0 mt-6 col-6 text-left width-full">
                     <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
                     <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
                     <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">

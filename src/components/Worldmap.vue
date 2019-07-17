@@ -12,7 +12,7 @@
           <div v-if="selected">{{selected.name}} {{selected.count}}</div>
           <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
           <div>INFORMATIONS</div>
-          <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{400 - selected.total_player}}</h5>
+          <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{225 - selected.total_player}}</h5>
           <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
           <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
           <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>

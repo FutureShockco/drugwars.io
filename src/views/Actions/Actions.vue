@@ -42,7 +42,7 @@
                         <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                         <div v-if="action_type === 'transport'">
                         			<div class="columns mt-4">
-                                <div class="column col-3">
+                                <div class="column col-4">
                                   <ProgressBar
                                     :icon="'drug'"
                                     :color="'#00b31e'"
@@ -60,7 +60,7 @@
                                   />
                                   <input type="number" v-model="drugs_amount" placeholder="amount" class="mt-5 input width-full">
                                 </div>
-                                <div class="column col-3">
+                                <div class="column col-4">
                                   <ProgressBar
                                     :icon="'weapon'"
                                     :color="'#00b31e'"
@@ -78,7 +78,7 @@
                                   />
                                   <input type="number" v-model="weapons_amount" placeholder="amount" class="mt-5 input width-full">
                                 </div>
-                                <div class="column col-3">
+                                <div class="column col-4">
                                   <ProgressBar
                                     :icon="'alcohol'"
                                     :color="'#00b31e'"
@@ -95,24 +95,6 @@
                                     :text-color="'#ffffff'"
                                   />
                                   <input type="number" v-model="alcohol_amount" placeholder="amount" class="mt-5 input width-full">
-                                </div>
-                                <div class="column col-3">
-                                  <ProgressBar
-                                    :icon="'future'"
-                                    :color="'#00b31e'"
-                                    :width="70"
-                                    font-size="20"
-                                    :pv="progressPercent(future_amount,selectedTotal)"
-                                    :total="future_amount"
-                                    :cost="carry - selectedTotal"
-                                    :bold="12"
-                                    :text-bg-color="'#1f1f1f'"
-                                    :during="3"
-                                    :border-color="'#ffc508'"
-                                    :bg-color="'#fbb034'"
-                                    :text-color="'#ffffff'"
-                                  />
-                                  <input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input width-full">
                                 </div>
                               </div>
                                <h5 :class="{'text-red': progressPercent(selectedTotal,carry)>100}">Total {{progressPercent(selectedTotal,carry)}}%</h5>
@@ -194,8 +176,7 @@ export default {
       bases: [],
       drugs_amount: 0,
       weapons_amount: 0,
-      alcohol_amount: 0,
-      future_amount: 0,
+      alcohol_amount: 0
     };
   },
   created() {
@@ -240,8 +221,7 @@ export default {
       const drugs = parseInt(this.drugs_amount) || 0;
       const weapons = parseInt(this.weapons_amount) || 0;
       const alcohol = parseInt(this.alcohol_amount) || 0;
-      const future = parseInt(this.future_amount) || 0;
-      selected = drugs + weapons + alcohol + future;
+      selected = drugs + weapons + alcohol;
       return selected;
     },
     carry() {
@@ -273,8 +253,7 @@ export default {
       return (
         parseInt(this.drugs_amount) > this.user.drugs_balance ||
         parseInt(this.weapons_amount) > this.user.weapons_balance ||
-        parseInt(this.alcohol_amount) > this.user.alcohols_balance ||
-        parseInt(this.future_amount) > this.user.future
+        parseInt(this.alcohol_amount) > this.user.alcohols_balance
       );
     },
   },
@@ -292,6 +271,10 @@ export default {
     },
     chooseActionType(value) {
       this.action_type = value;
+      if(this.action_type ==="occupy")
+      {
+              this.selectedUnits = [];
+      }
     },
     getUserBase() {
       const self = this;
@@ -334,8 +317,7 @@ export default {
           const drugs = parseInt(this.drugs_amount) || 0;
           const weapons = parseInt(this.weapons_amount) || 0;
           const alcohol = parseInt(this.alcohol_amount) || 0;
-          const future = parseInt(this.future_amount) || 0;
-          if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && future >= 0) {
+          if (drugs >= 0 && weapons >= 0 && alcohol >= 0) {
             payload = {
               from_territory: Number(self.ownBase.territory),
               from_base: Number(self.ownBase.base),
@@ -343,7 +325,7 @@ export default {
               base: Number(self.base),
               units: self.selectedUnits,
               type: 'transport',
-              resources: { drugs, weapons, alcohol, future },
+              resources: { drugs, weapons, alcohol },
               message: self.message || '',
             };
           }

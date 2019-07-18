@@ -8,9 +8,9 @@
         <h3 class="title" id="title" style="opacity:0;">
             <div v-if="selectedTile">BASE {{selectedTile}}</div>
             <h5 class="mt-0">UNDER THE CONTROL OF :
-                <span v-if="currentNickname">{{currentNickname}}</span>
+                <div v-if="currentNickname">{{currentNickname}}</div>
                 <span v-else>Nobody </span>
-                <div v-if="currentGang && currentGang.name">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
+                <div v-if="currentGang && currentGang.role !== null">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
             </h5>
             <div>INFORMATIONS</div>
             <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>

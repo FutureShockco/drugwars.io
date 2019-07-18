@@ -21,8 +21,8 @@
                     <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ (35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl | amount }}</div>
                     <div v-if="ownItem.lvl"><b>Next capacity:</b>  {{ (35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250- (ownItem.lvl+1))) / 100)) *  (ownItem.lvl+1) | amount }}</div>
                     <div v-else><b>Next capacity:</b> {{(35000 * 1 * (Math.round(Math.sqrt(250- 1)) / 100)) * 1 | amount }}</div>
-                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ ((35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl ) /100*15 | amount }}</div>
-                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ((35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250-(ownItem.lvl+1))) / 100)) * (ownItem.lvl+1) ) /100*15 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ ((35000 * ownItem.lvl * (Math.round(Math.sqrt(250-ownItem.lvl)) / 100)) * ownItem.lvl ) /100*25 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ((35000 * (ownItem.lvl+1) * (Math.round(Math.sqrt(250-(ownItem.lvl+1))) / 100)) * (ownItem.lvl+1) ) /100*25 | amount }}</div>
                     <div v-else><b>Safe:</b> {{ 10000 /100*15 | amount }}</div>
             </div>
         </div>

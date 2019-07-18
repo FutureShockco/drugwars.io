@@ -10,7 +10,7 @@
             <h5 class="mt-0">UNDER THE CONTROL OF :
                 <span v-if="currentNickname">{{currentNickname}}</span>
                 <span v-else>Nobody </span>
-                <div v-if="currentGang.name">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
+                <div v-if="currentGang && currentGang.name">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
             </h5>
             <div>INFORMATIONS</div>
             <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>

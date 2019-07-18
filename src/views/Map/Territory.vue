@@ -10,6 +10,7 @@
             <h5 class="mt-0">UNDER THE CONTROL OF :
                 <span v-if="currentNickname">{{currentNickname}}</span>
                 <span v-else>Nobody </span>
+                <div v-if="currentGang">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
             </h5>
             <div>INFORMATIONS</div>
             <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>
@@ -56,6 +57,7 @@ export default {
       selected: null,
       customName: null,
       currentNickname: null,
+      currentGang:null,
       currentHq: null,
       nickname: this.$store.state.game.user.user.nickname,
       bases: [],
@@ -122,12 +124,14 @@ export default {
         level,
         custom_name,
         main,
+        gang,
         fillColor,
         strokeStyle,
       ) {
         this.id = id;
         this.nickname = nickname || null;
         this.level = level || null;
+        this.gang = gang || null;
         this.custom_name = custom_name || null;
         this.main = main || null;
         this.x = x;
@@ -176,6 +180,8 @@ export default {
         self.currentHq = elementClickedId.hq;
         self.customName = elementClickedId.custom_name;
         self.isMain = elementClickedId.main;
+        self.currentGang = elementClickedId.gang;
+        console.log(elementClickedId)
         if (elementClickedId.nickname === self.nickname) {
           tiles_array[elementClickedId.id - 1].fillColor = 'green';
         } else if (elementClickedId.nickname !== self.nickname) {
@@ -227,6 +233,7 @@ export default {
               hq: tile.level,
               custom_name: tile.custom_name,
               main: tile.main,
+              gang:tile.gang
             };
           }
         });
@@ -250,20 +257,25 @@ export default {
           let level = '';
           let custom_name = '';
           let main = '';
+          let gang = {};
           self.bases.forEach(element => {
             if (element.base === i && element.nickname === self.nickname) {
               fillColor = 'green';
               nickname = element.nickname;
+              gang = {role : element.role, gang:element.name, ticker: element.ticker}
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;
             } else if (element.base === i && element.nickname !== self.nickname) {
               fillColor = 'red';
               nickname = element.nickname;
+              gang = {role : element.role, gang:element.name, ticker: element.ticker}
+                                  console.log(gang)
+
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;
-            }
+            } 
           });
           const tile = new Tile(
             drawPosition.x,
@@ -275,8 +287,10 @@ export default {
             level,
             custom_name,
             main,
+            gang,
             fillColor,
           );
+
           tiles_array.push(tile);
 
           drawPosition.x += tileWidth;

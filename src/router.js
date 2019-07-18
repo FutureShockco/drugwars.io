@@ -86,14 +86,6 @@ const requireAuth = (to, from, next) => {
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
-          store.dispatch('refresh_inc_fights_count');
-          store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_inc_transport_count');
-          store.dispatch('refresh_sent_transport_count');
-          store.dispatch('refresh_inc_station_count');
-          store.dispatch('refresh_sent_station_count');
-          store.dispatch('refresh_inc_fights');
-          store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
           store.dispatch('hideLoading');
           next();
@@ -110,14 +102,6 @@ const requireAuth = (to, from, next) => {
     store.dispatch('login').then(() => {
       if (store.state.auth.username) {
         store.dispatch('init').then(() => {
-          store.dispatch('refresh_inc_fights_count');
-          store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_inc_transport_count');
-          store.dispatch('refresh_sent_transport_count');
-          store.dispatch('refresh_inc_station_count');
-          store.dispatch('refresh_sent_station_count');
-          store.dispatch('refresh_inc_fights');
-          store.dispatch('refresh_sent_fights');
           store.dispatch('refresh_gang_buildings');
           store.dispatch('hideLoading');
           next();

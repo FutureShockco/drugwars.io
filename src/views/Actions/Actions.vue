@@ -19,8 +19,8 @@
                 <div class="mt-1">
                     <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' }">ATTACK</button>
                     <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-green' : action_type ==='transport' }">TRANSPORT</button>
-                    <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
                     <button class="button ml-1" @click="chooseActionType('occupy')" :class="{ 'button-green' : action_type ==='occupy' }">OCCUPY</button>
+                    <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
                 </div>
                 <h3>Select your army composition</h3>
                 <div v-if="ownUnits.length > 0" >

@@ -3,8 +3,20 @@
         <ActionsTabs/>
         <div class="p-4 columns">
             <div v-if="ownUnits.length > 0" class="column text-left col-6">
-                <h3>Select your action type</h3>
-                <div>
+                <h3 class="mb-0">Select your action type</h3>
+                  <div v-if="action_type === 'attack'">
+                     Attack another player
+                   </div>
+                   <div v-if="action_type === 'transport'">
+                     Transport resources to another base
+                   </div>
+                   <div v-if="action_type === 'station'">
+                     Station units in another base/on the map
+                   </div>
+                  <div v-if="action_type === 'occupy'">
+                     Take a new base (need 1 occupation troop)
+                   </div>
+                <div class="mt-1">
                     <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' }">ATTACK</button>
                     <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-green' : action_type ==='transport' }">TRANSPORT</button>
                     <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
@@ -131,6 +143,7 @@
                       <SmallLoading v-if="isLoading"/>
                     <span v-else>{{action_type}}</span>
                   </button>
+
                 <p class="text-red text-left" v-if="errorMessage">
                     {{ errorMessage }}
                 </p>

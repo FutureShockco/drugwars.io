@@ -24,7 +24,7 @@
                 </div>
                 <h3>Select your army composition</h3>
                 <div v-if="ownUnits.length > 0" >
-                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key">
+                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key+ownUnit.amount">
                         <UnitSelect v-if="ownUnit.amount > 0" :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
                     </div>
                 </div>
@@ -208,8 +208,9 @@ export default {
       return this.$store.state.game.user.user.nickname;
     },
     ownUnits() {
+      let units = [];
       if (this.action_type !== 'occupy') {
-        return this.$store.state.game.user.units.map(
+        units = this.$store.state.game.user.units.map(
           unit =>
             unit.base === this.ownBase.base &&
             unit.territory === this.ownBase.territory && {
@@ -218,8 +219,8 @@ export default {
             },
         );
       }
-
-      return this.$store.state.game.user.units.map(
+      else
+      units = this.$store.state.game.user.units.map(
         unit =>
           unit.base === this.ownBase.base &&
           unit.unit === 'occupation_troop' &&
@@ -228,6 +229,7 @@ export default {
             amount: unit.amount,
           },
       );
+      return units;
     },
     selectedTotal() {
       let selected = 0;

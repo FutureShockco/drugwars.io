@@ -56,6 +56,9 @@ export default {
         fights.push(element);
       });
       this.$store.state.game.inc_fights.forEach(element => {
+        if(fights.find(item=>item.fight_key === element.fight_key))
+        {}
+        else
         fights.push(element);
       });
       return orderBy(fights, 'end_date', 'desc');

@@ -100,7 +100,7 @@
         <div v-else-if="fight.transport_key">
           	Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
         </div>
-				<button class="button button-red mt-2" @click="handleSubmit()" v-if="fight.is_done && fight.target_nickname != user.nickname">Cancel Station</button>
+				<button class="button button-red mt-2" @click="handleSubmit()" v-if="fight.is_done && fight.attacker_nickname === user.nickname && (fight.attacker_territory != fight.target_territory || fight.attacker_base != fight.target_base)">Cancel Station</button>
 				</div>
 		</div>
 	</div>

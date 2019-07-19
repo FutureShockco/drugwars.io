@@ -14,7 +14,7 @@
                     <img class="mini" :src="`/img/units/${unit.id}.jpg`">
                     <div class="unitname">{{unit.id}}</div>
                 </div>
-        </div>
+                </div>
                     <div class="mx-auto" v-if="item.rewards">
                 <h5>Rewards (in work)</h5>
                 <div class="columns m-2 p-2 text-center" v-for="reward in item.rewards" :reward="reward" :key="reward.id">

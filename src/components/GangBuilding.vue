@@ -9,8 +9,8 @@
 		<div class="level">{{ ownItem.lvl }}</div>
 		<div class="item-content width-full mr-3 mb-4">
 			<h5>{{ building.name }}</h5>
-			<div class="d-inline-flex width-full">
-				<div
+			<div class="columns">
+				<div class="column col-4 text-center"
 					v-if="drugsCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
@@ -31,7 +31,7 @@
 					<input type="number" v-model="drugs_amount" placeholder="amount" class="mt-5 input">
 				</div>
 				<div
-					class="ml-5"
+					class="column col-4 text-center"
 					v-if="weaponsCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
@@ -52,7 +52,7 @@
 					<input type="number" v-model="weapons_amount" placeholder="amount" class="mt-5 input">
 				</div>
 				<div
-					class="ml-5"
+					class="column col-4 text-center"
 					v-if="alcoholsCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar

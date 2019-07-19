@@ -151,8 +151,8 @@ export default {
   z-index: 45;
   font-size: 16px;
   text-align: center;
-  margin-left: calc(50% - 35px);
-  width: 70px;
+  margin-left: calc(50% - 50px);
+  width: 100px;
   height: 20px;
   top: -25px;
   position: absolute;

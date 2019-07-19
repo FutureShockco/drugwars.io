@@ -15,7 +15,7 @@
         <span class="text">
           {{config.prefix.territory}} : {{config.prefix.base}}
         </span>
-				<i class="angle-down" :class="{ toggled: isExpanded }"></i>
+				<i class="iconfont icon-arrow-down" :class="{ toggled: isExpanded }"></i>
 			</div>
 		</div>
 
@@ -233,8 +233,8 @@ $option-padding: 4px 10px;
         transition: all 0.7s;
       }
       .toggled {
-        margin-bottom: -12px;
-        transform: rotate(-135deg);
+        margin-bottom: 0px;
+        transform: rotate(-180deg);
         transition: all 0.7s;
       }
     }

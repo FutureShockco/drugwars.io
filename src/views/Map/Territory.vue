@@ -1,10 +1,5 @@
 <template>
     <div id="territorybg" class="territorybg">
-        <div class="text-center">
-        <button class="button button-yellow" @click="decreaseLocation()"><div class="iconfont icon-arrow-left"></div>
-        </button><input type="number" v-model="location" placeholder="25" class="mt-5 input">
-        <button class="button button-yellow"  @click="increaseLocation()"><div class="iconfont icon-arrow-right"></div></button>
-        </div>
         <h3 class="title" id="title" style="opacity:0;">
             <div v-if="selectedTile">BASE {{selectedTile}}</div>
             <h5 class="mt-0">UNDER THE CONTROL OF :
@@ -40,6 +35,11 @@
         </h3>
 
         <canvas id="canvas" class="mt-1"></canvas>
+                <div class="text-center">
+        <button class="button button-yellow" @click="decreaseLocation()"><div class="iconfont icon-arrow-left"></div>
+        </button><input type="number" v-model="location" placeholder="25" class="mt-1 input">
+        <button class="button button-yellow"  @click="increaseLocation()"><div class="iconfont icon-arrow-right"></div></button>
+        </div>
     </div>
 </template>
 

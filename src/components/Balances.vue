@@ -121,8 +121,12 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center')
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,))
+        ocLvl = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,)
           .lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
@@ -194,8 +198,12 @@ export default {
     },
     drugBonus() {
       let oc = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
@@ -207,8 +215,12 @@ export default {
     },
     weaponBonus() {
       let oc = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,).lvl;
       let weaponLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
         weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
@@ -220,8 +232,12 @@ export default {
     },
     alcoholBonus() {
       let oc = 0;
-      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center'))
-        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center').lvl;
+      if (this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,))
+        oc = this.$store.state.game.user.buildings.find(b => b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,).lvl;
       let distilleryLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(

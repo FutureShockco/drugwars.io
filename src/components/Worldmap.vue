@@ -1,7 +1,7 @@
 <template>
 <div class="text-center py-1">
       <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
-        <button class="button button-blue text-center"  :disabled="!selected">
+        <button class="button button-blue top text-center" :disabled="!selected">
           <span v-if="main">VISIT</span>
           <span v-else>CHOOSE AS MAIN TERRITORY</span>
           </button>
@@ -702,6 +702,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import '../vars';
 .mapbg {
   height: calc(100vh - 98px);
 }
@@ -763,5 +764,11 @@ img {
   padding-top: 7%;
   width: 100%;
   height: 99%;
+}
+
+.button.top{
+    @media @bp-small {
+      display: none;
+    }
 }
 </style>

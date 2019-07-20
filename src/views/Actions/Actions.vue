@@ -118,8 +118,11 @@
                 <div>
                     <input class="input form-control mb-1" type="string" placeholder="Nickname" v-model="targetNickname">
                     <button class="button button-green" @click="getUserBase()"><div class="iconfont icon-search"></div></button>
+                    <h5 v-if="bases" class="mt-1">
+                        <span v-if="bases[0]">{{bases[0].role}} OF </span> <span v-if="bases[0]">{{bases[0].name}}</span> <span v-if="bases[0]"> [{{bases[0].ticker}}]</span>
+                    </h5>
                     <div v-for="base in bases" :key="base.id">
-                        <button class="button button-yellow" @click="chooseBase(base.territory,base.base)">{{base.lvl}} {{base.custom}} {{base.territory}} : {{base.base}}</button>
+                        <button class="button button-yellow" @click="chooseBase(base.territory,base.base)">{{base.territory}}:{{base.base}} - {{base.custom}} - HQ:{{base.lvl}}  </button>
                     </div>
                 </div>
                 </div>

@@ -44,6 +44,8 @@ function Sub(rawClient) {
       message[1].body.type === 'start_attack'
     ) {
       store.dispatch('refresh_sent_fights');
+      store.dispatch('refresh_sent_transport_count');
+      store.dispatch('refresh_sent_station_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
@@ -77,6 +79,8 @@ function Sub(rawClient) {
     }
     if (message[1].body === 'fight') {
       store.dispatch('refresh_sent_fights_count');
+      store.dispatch('refresh_sent_transport_count');
+      store.dispatch('refresh_sent_station_count');
       store.dispatch('init');
     }
 
@@ -109,7 +113,6 @@ function Sub(rawClient) {
     if (message[1].body === 'end_transport') {
       store.dispatch('refresh_sent_fights_count');
       store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_inc_transport_count');
       store.dispatch('refresh_sent_station_count');
       store.dispatch('init');
       store.dispatch('notify', {
@@ -134,15 +137,6 @@ function Sub(rawClient) {
       store.dispatch('notify', {
         type: 'success',
         message: 'You received some resources!',
-      });
-    }
-
-    if (message[1].body === 'start_attack') {
-      store.dispatch('init');
-      store.dispatch('refresh_sent_fights_count');
-      store.dispatch('notify', {
-        type: 'success',
-        message: 'Your troops are on their way to their destination!',
       });
     }
     if (message[1].body === 'unit') {

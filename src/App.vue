@@ -78,8 +78,13 @@ export default {
           store.dispatch('init').then(() => {
             store.dispatch('refresh_inc_fights_count');
             store.dispatch('refresh_sent_fights_count');
+            store.dispatch('refresh_sent_transport_count');
+            store.dispatch('refresh_inc_transport_count');
+            store.dispatch('refresh_sent_station_count');
+            store.dispatch('refresh_inc_station_count');
             store.dispatch('refresh_inc_fights');
             store.dispatch('refresh_sent_fights');
+
           });
         } else {
           this.$router.push({ path: '/login' });

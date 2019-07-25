@@ -3,7 +3,7 @@
 		<ActionsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
-			:page-count="Math.ceil(sent/25)"
+			:page-count="Math.ceil(sent/26)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -20,7 +20,7 @@
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
-			:page-count="Math.ceil(sent/25)"
+			:page-count="Math.ceil(sent/26)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_fights"
@@ -52,9 +52,11 @@ export default {
   computed: {
     fights() {
       const fights = [];
+      if(this.$store.state.game.sent_fights)
       this.$store.state.game.sent_fights.forEach(element => {
         fights.push(element);
       });
+      if(this.$store.state.game.inc_fights)
       this.$store.state.game.inc_fights.forEach(element => {
         if(fights.find(item=>item.fight_key === element.fight_key))
         {}
@@ -64,21 +66,41 @@ export default {
       return orderBy(fights, 'end_date', 'desc');
     },
   },
+  updated (){
+    this.refresh_count()
+  },
   methods: {
-    ...mapActions(['init', 'notify', 'refresh_sent_fights']),
+    ...mapActions(['init', 'notify', 'refresh_sent_fights','refresh_inc_fights','refresh_sent_station_count']),
     load_fights(start) {
-      let end = 25;
-      end = start * 25;
-      start = end - 25; // eslint-disable-line no-param-reassign
+      let end = 13;
+      end = start * 13;
+      start = end - 13; // eslint-disable-line no-param-reassign
       this.refresh_sent_fights({ start, end })
         .then(() => {
-          this.isLoading = false;
+        this.refresh_inc_fights({ start, end })
+            .then(() => {
+              this.isLoading = false;
+            })
+            .catch(e => {
+              console.error('Failed', e);
+              this.isLoading = false;
+            });
         })
         .catch(e => {
           console.error('Failed', e);
           this.isLoading = false;
         });
     },
+    refresh_count(){
+       this.refresh_sent_station_count()
+            .then(() => {
+              this.isLoading = false;
+            })
+            .catch(e => {
+              console.error('Failed', e);
+              this.isLoading = false;
+            });
+        }
   },
 };
 </script>

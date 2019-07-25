@@ -120,6 +120,12 @@ const actions = {
                         b.building === 'headquarters',
                     ),
                   );
+                  dispatch('refresh_inc_fights_count');
+                  dispatch('refresh_sent_fights_count');
+                  dispatch('refresh_sent_transport_count');
+                  dispatch('refresh_inc_transport_count');
+                  dispatch('refresh_sent_station_count');
+                  dispatch('refresh_inc_station_count');
                 resolve();
               });
             } else {
@@ -345,7 +351,6 @@ const actions = {
           });
           return resolve(result);
         }
-
         return reject();
       });
     }),

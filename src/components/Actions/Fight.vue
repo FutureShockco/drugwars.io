@@ -106,7 +106,7 @@
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
-			<div class="text-center mb-3">
+			<div class="text-center mb-3 mt-3">
 				<div v-if="fight.attacker_base">
 				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
 				</div>

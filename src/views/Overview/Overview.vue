@@ -100,6 +100,7 @@ export default {
             b.base === this.base.base,
         );
       }
+      return null;
     },
     drugStorage() {
       return this.HQ.drug_storage || 0;

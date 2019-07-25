@@ -58,7 +58,7 @@ export default {
       animation: null,
       player_territories: null,
       controls: null,
-      textlabels:[]
+      textlabels: [],
     };
   },
   beforeDestroy() {
@@ -444,7 +444,7 @@ export default {
               territories.add(mesh);
               hexasphere.tiles[i].mesh = mesh;
               count++;
-
+                            console.log(count)
               //DRAW LABELS
               // const oldm = mesh
               // var tgeometry = new THREE.CylinderGeometry(5, 15, 30, 4, 1);
@@ -687,9 +687,9 @@ export default {
         }
         if (self.scene &&  self.camera) {
           if(self.scene.getObjectByName('territories'))
-          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.01;
-          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.005;
-          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.01;
+          self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
+          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
+          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }

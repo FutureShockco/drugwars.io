@@ -84,7 +84,6 @@ export default {
             store.dispatch('refresh_inc_station_count');
             store.dispatch('refresh_inc_fights');
             store.dispatch('refresh_sent_fights');
-
           });
         } else {
           this.$router.push({ path: '/login' });

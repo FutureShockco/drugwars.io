@@ -57,7 +57,7 @@ export default {
       selected: null,
       customName: null,
       currentNickname: null,
-      currentGang:null,
+      currentGang: null,
       currentHq: null,
       nickname: this.$store.state.game.user.user.nickname,
       bases: [],
@@ -232,7 +232,7 @@ export default {
               hq: tile.level,
               custom_name: tile.custom_name,
               main: tile.main,
-              gang:tile.gang
+              gang: tile.gang,
             };
           }
         });
@@ -261,18 +261,18 @@ export default {
             if (element.base === i && element.nickname === self.nickname) {
               fillColor = 'green';
               nickname = element.nickname;
-              gang = {role : element.role, gang:element.name, ticker: element.ticker}
+              gang = { role: element.role, gang: element.name, ticker: element.ticker };
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;
             } else if (element.base === i && element.nickname !== self.nickname) {
               fillColor = 'red';
               nickname = element.nickname;
-              gang = {role : element.role, gang:element.name, ticker: element.ticker}
+              gang = { role: element.role, gang: element.name, ticker: element.ticker };
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;
-            } 
+            }
           });
           const tile = new Tile(
             drawPosition.x,

@@ -52,32 +52,36 @@ export default {
   computed: {
     fights() {
       const fights = [];
-      if(this.$store.state.game.sent_fights)
-      this.$store.state.game.sent_fights.forEach(element => {
-        fights.push(element);
-      });
-      if(this.$store.state.game.inc_fights)
-      this.$store.state.game.inc_fights.forEach(element => {
-        if(fights.find(item=>item.fight_key === element.fight_key))
-        {}
-        else
-        fights.push(element);
-      });
+      if (this.$store.state.game.sent_fights)
+        this.$store.state.game.sent_fights.forEach(element => {
+          fights.push(element);
+        });
+      if (this.$store.state.game.inc_fights)
+        this.$store.state.game.inc_fights.forEach(element => {
+          if (fights.find(item => item.fight_key === element.fight_key)) {
+          } else fights.push(element);
+        });
       return orderBy(fights, 'end_date', 'desc');
     },
   },
-  updated (){
-    this.refresh_count()
+  updated() {
+    this.refresh_count();
   },
   methods: {
-    ...mapActions(['init', 'notify', 'refresh_sent_fights','refresh_inc_fights','refresh_sent_station_count']),
+    ...mapActions([
+      'init',
+      'notify',
+      'refresh_sent_fights',
+      'refresh_inc_fights',
+      'refresh_sent_station_count',
+    ]),
     load_fights(start) {
       let end = 13;
       end = start * 13;
       start = end - 13; // eslint-disable-line no-param-reassign
       this.refresh_sent_fights({ start, end })
         .then(() => {
-        this.refresh_inc_fights({ start, end })
+          this.refresh_inc_fights({ start, end })
             .then(() => {
               this.isLoading = false;
             })
@@ -91,29 +95,21 @@ export default {
           this.isLoading = false;
         });
     },
-    refresh_count(){
-       this.refresh_sent_station_count()
-            .then(() => {
-              this.isLoading = false;
-            })
-            .catch(e => {
-              console.error('Failed', e);
-              this.isLoading = false;
-            });
-        }
+    refresh_count() {
+      this.refresh_sent_station_count()
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
+        });
+    },
   },
 };
 </script>
 
-    <style lang="less">
-.username {
-  width: 250px;
-  max-width: 250px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-height: 26px;
-}
-
+<style lang="less">
 .pagination {
   margin-left: auto;
   margin-right: auto;

@@ -187,7 +187,7 @@ export default {
 $default-text-hover-color: black;
 $default-hover-color: #cde4f5;
 $default-text-color: #fff;
-$option-padding: 4px 10px;
+$option-padding: 2px 10px;
 
 .dropdown {
   display: flex;
@@ -216,6 +216,7 @@ $option-padding: 4px 10px;
         max-width: 70px;
         text-overflow: ellipsis;
         overflow: hidden;
+        white-space: nowrap;
       }
       .angle-down {
         display: flex;
@@ -247,6 +248,13 @@ $option-padding: 4px 10px;
       align-items: center;
       height: 35px;
       font-size: 15px;
+      .text {
+        font-size: 17px;
+        width: 90px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
     .option:hover {
       color: #ffc508;
@@ -269,7 +277,6 @@ $option-padding: 4px 10px;
 // Expand Class - Most important part
 .expand {
   overflow: hidden;
-  padding-left: 5px;
 
   transition-property: height;
   transition-duration: 0.4s; // Durations can be changed without touching JS

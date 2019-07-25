@@ -192,7 +192,7 @@ export default {
       bases: [],
       drugs_amount: 0,
       weapons_amount: 0,
-      alcohol_amount: 0
+      alcohol_amount: 0,
     };
   },
   created() {
@@ -221,17 +221,16 @@ export default {
               amount: unit.amount,
             },
         );
-      }
-      else
-      units = this.$store.state.game.user.units.map(
-        unit =>
-          unit.base === this.ownBase.base &&
-          unit.unit === 'occupation_troop' &&
-          unit.territory === this.ownBase.territory && {
-            key: unit.unit,
-            amount: unit.amount,
-          },
-      );
+      } else
+        units = this.$store.state.game.user.units.map(
+          unit =>
+            unit.base === this.ownBase.base &&
+            unit.unit === 'occupation_troop' &&
+            unit.territory === this.ownBase.territory && {
+              key: unit.unit,
+              amount: unit.amount,
+            },
+        );
       return units;
     },
     selectedTotal() {
@@ -289,9 +288,8 @@ export default {
     },
     chooseActionType(value) {
       this.action_type = value;
-      if(this.action_type ==="occupy")
-      {
-              this.selectedUnits = [];
+      if (this.action_type === 'occupy') {
+        this.selectedUnits = [];
       }
     },
     getUserBase() {

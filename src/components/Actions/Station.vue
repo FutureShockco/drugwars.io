@@ -85,7 +85,7 @@
           </div>
 				</div>
 			</div>
-			<div class="text-center mb-3">
+			<div class="text-center mb-3 mt-3">
 				<div v-if="fight.attacker_base">
 				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
 				</div>

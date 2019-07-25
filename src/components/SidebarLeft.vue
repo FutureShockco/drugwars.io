@@ -71,6 +71,9 @@
             <span class="text-blue" v-if="activeTransportsCount > 0">
               ({{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>)
             </span>
+             <span class="text-orange" v-if="activeStationsCount > 0">
+              ({{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>)
+            </span>
             </router-link>
           </li>
           <li>
@@ -239,6 +242,18 @@ export default {
     activeTransportsCount() {
       if (this.$store.state.game.sent_transports_count) {
         return this.$store.state.game.sent_transports_count;
+      }
+      return 0;
+    },
+    activeIncStationsCount() {
+      if (this.$store.state.game.inc_stations_count) {
+        return this.$store.state.game.inc_stations_count;
+      }
+      return 0;
+    },
+    activeStationsCount() {
+      if (this.$store.state.game.sent_stations_count) {
+        return this.$store.state.game.sent_stations_count;
       }
       return 0;
     },

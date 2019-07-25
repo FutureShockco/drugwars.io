@@ -116,7 +116,7 @@ export default {
       );
     },
     ownHeistReward() {
-      const percent = (100 / 380000000) * this.totalVest;
+      const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
       const amount = Math.round((this.totalHeistFuture / 100) * percent);
       return {
         amount,

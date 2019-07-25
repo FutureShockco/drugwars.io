@@ -58,6 +58,7 @@ export default {
       animation: null,
       player_territories: null,
       controls: null,
+      textlabels:[]
     };
   },
   beforeDestroy() {
@@ -350,7 +351,7 @@ export default {
         } else {
             greenValue = 255;
             value = value - 255;
-            redValue = 256 - (value * value / 255)
+            redValue = 255 - (value * value / 255)
             redValue = Math.round(redValue);
         }
 
@@ -364,7 +365,9 @@ export default {
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
           for (let i = 0; i < hexasphere.tiles.length; i++) {
-            const t = hexasphere.tiles[i];
+            if(hexasphere.tiles[i])
+            {
+  const t = hexasphere.tiles[i];
             const latLon = t.getLatLon(hexasphere.radius);
             const geometry = new THREE.Geometry();
             for (let j = 0; j < t.boundary.length; j++) {
@@ -380,12 +383,6 @@ export default {
             }
             let material;
             if (isLand(latLon.lat, latLon.lon)) {
-              if (count < 7) {
-                material = meshMaterials[1];
-                material.name = `mission`;
-                material.userData.count = count;
-              } 
-              else {
                 if(self.player_territories.find(t => t.territory === count))
                 {
                   let playercount = 0;
@@ -394,6 +391,7 @@ export default {
                       playercount = playercount+1;
                     }
                   });
+
                   let riskcolor = redYellowGreen(playercount/25)
                   material = new THREE.MeshBasicMaterial({ color: riskcolor })
                   material.name = `territory`;
@@ -440,21 +438,97 @@ export default {
                 material.userData.count = count;
                 }
 
-              }
               const mesh = new THREE.Mesh(geometry, material.clone());
               mesh.name = 'grid ';
               mesh.geometry.computeBoundingBox();
               territories.add(mesh);
               hexasphere.tiles[i].mesh = mesh;
               count++;
+
+              //DRAW LABELS
+              // const oldm = mesh
+              // var tgeometry = new THREE.CylinderGeometry(5, 15, 30, 4, 1);
+              // var mesh = new THREE.Mesh(tgeometry, material);
+              // const boundingBox = oldm.geometry.boundingBox;
+              // const position = new THREE.Vector3();
+              // position.subVectors(boundingBox.max, boundingBox.min);
+              // position.multiplyScalar(0.5);
+              // position.add(boundingBox.min);
+              // position.applyMatrix4(oldm.matrixWorld);
+              //     mesh.position.x = oldm.geometry.vertices[3].x;
+              //     mesh.position.y = oldm.geometry.vertices[3].y;
+              //     mesh.position.z = oldm.geometry.vertices[3].z;
+              //     mesh.updateMatrix();
+              //     mesh.matrixAutoUpdate = false;
+              //     mesh.geometry.computeBoundingBox();
+              //     territories.add(mesh);
+              //     const createTextLabel = function(mesh) {
+              //         var div = document.createElement('div');
+              //         div.className = 'text-label';
+              //         div.style.position = 'absolute';
+              //         div.style.width = 100;
+              //         div.style.height = 100;
+              //         div.innerHTML = "hi there!";
+              //         div.style.top = -1000;
+              //         div.style.left = -1000;
+                      
+              //         var _this = this;
+                      
+              //         return {
+              //           element: div,
+              //           parent: false,
+              //           position: new THREE.Vector3(0,0,0),
+              //           setHTML: function(html) {
+              //             this.element.innerHTML = html;
+              //           },
+              //           setParent: function(threejsobj) {
+              //             this.parent = threejsobj;
+              //           },
+              //           updatePosition: function() {
+              //             if(parent) {
+              //               this.position.copy(this.parent.position);
+              //             }
+              //             const position = new THREE.Vector3();
+              //             console.log(mesh)
+              //              const boundingBox = mesh.geometry.boundingBox;
+              //             position.subVectors(boundingBox.max, boundingBox.min);
+              //             position.multiplyScalar(0.5);
+              //             position.add(boundingBox.min);
+              //             position.applyMatrix4(mesh.matrixWorld);
+              //             if(self.camera)
+              //             {
+              //             const to = createVector(position, self.camera);
+              //             // var coords2d = this.get2DCoords(this.position, self.camera);
+              //             this.element.style.left = to.x + 'px';
+              //             this.element.style.top = to.y + 'px';
+              //             }
+              //           },
+              //           get2DCoords: function(position, camera) {
+              //             var vector = position.project(camera);
+              //             vector.x = (vector.x + 1)/2 * window.innerWidth;
+              //             vector.y = -(vector.y - 1)/2 * window.innerHeight;
+              //             return vector;
+              //           }
+              //         };
+              //       }
+              //     var text = createTextLabel(mesh);
+              //     text.setHTML(i);
+              //     text.setParent(mesh);
+              //     self.textlabels.push(text);
+              //     mapbg.appendChild(text.element);
+              
             } 
+
+              
+            }
+          
             // else {
             //   material = oceanMaterial[0];
             //   material.name = 'void';
             //   material.count = 0;
             //   material.opacity = 0;
             //   var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
-            //   const mesh = new THREE.Mesh(bufferGeometry, material.clone());
+            //   const tmesh = new THREE.Mesh(bufferGeometry, material.clone());
             //   mesh.name = 'void ';
             //   territories.add(mesh);
             //   hexasphere.tiles[i].mesh = mesh;
@@ -475,7 +549,7 @@ export default {
           createTerritories(allterritories => {
           self.scene.add(allterritories);
         });
-     
+
       this.camera.rotation.x = -0.86;
       this.camera.rotation.y = 0.75;
       self.scene.add(this.camera);
@@ -583,7 +657,9 @@ export default {
     
       // Main render function
       const render = function() {
-        
+          for(var i=0; i<self.textlabels.length; i++) {
+            self.textlabels[i].updatePosition();
+          }
         if (selectedTerritory && visitButton) {
           const boundingBox = selectedTerritory.object.geometry.boundingBox;
           const position = new THREE.Vector3();

@@ -181,7 +181,6 @@ export default {
         self.customName = elementClickedId.custom_name;
         self.isMain = elementClickedId.main;
         self.currentGang = elementClickedId.gang;
-        console.log(elementClickedId)
         if (elementClickedId.nickname === self.nickname) {
           tiles_array[elementClickedId.id - 1].fillColor = 'green';
         } else if (elementClickedId.nickname !== self.nickname) {
@@ -270,8 +269,6 @@ export default {
               fillColor = 'red';
               nickname = element.nickname;
               gang = {role : element.role, gang:element.name, ticker: element.ticker}
-                                  console.log(gang)
-
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;

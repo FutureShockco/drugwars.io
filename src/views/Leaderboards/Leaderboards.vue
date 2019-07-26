@@ -47,15 +47,14 @@ export default {
   },
   created() {
     this.isLoading = true;
-    this.load_leaders;
+    this.load_leaders();
   },
    methods: {
-    ...mapActions(['init', 'notify', 'refresh_inc_fights']),
     load_leaders(start) {
       let end = 25;
       end = start * 25;
       start = end - 25; // eslint-disable-line no-param-reassign
-      client.requestAsync('get_props', start,end).then(result => {
+      client.requestAsync('get_props', { start, end }).then(result => {
       this.users = result.players;
       this.isLoading = false;
     });

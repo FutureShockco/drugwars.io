@@ -1,18 +1,38 @@
 <template>
-  <div>
-    <LeaderboardsTabs/>
-    <div class="p-4 text-center mt-6" v-if="isLoading || users.length === 0">
-      <Loading/>
-    </div>
-    <div class="mb-4" v-else>
-      <Player
-        v-for="(user, key) in users"
-        :player="user"
+	<div>
+		<LeaderboardsTabs/>
+		<Paginate
+			class="ml-6 mt-4 text-center width-full"
+			:page-count="Math.ceil(inc/25)"
+			:page-range="3"
+			:margin-pages="2"
+			:click-handler="load_fights"
+			:prev-text="'Prev'"
+			:next-text="'Next'"
+			:container-class="'pagination'"
+			:page-class="'fight'"
+		></Paginate>
+		<div class="p-4">
+      <div class="fight"   v-for="(user, key) in users"  :player="user"
         :key="user.username"
-        :rank="key + 1"
-      />
-    </div>
-  </div>
+        :rank="key + 1">
+        	<ActionsFight v-if="fight.type === 'fight'" :fight="fight"/>
+          <ActionsTransport v-if="fight.type === 'transport'" :fight="fight"/>
+      </div>
+			<p v-if="!fights || !fights.length"><Loading/></p>
+		</div>
+		<Paginate
+			class="ml-6 mb-4 mt-0 text-center width-full"
+			:page-count="Math.ceil(inc/25)"
+			:page-range="3"
+			:margin-pages="2"
+			:click-handler="load_fights"
+			:prev-text="'Prev'"
+			:next-text="'Next'"
+			:container-class="'pagination'"
+			:page-class="'fight'"
+		></Paginate>
+	</div>
 </template>
 
 <script>
@@ -27,10 +47,19 @@ export default {
   },
   created() {
     this.isLoading = true;
-    client.requestAsync('get_props', null).then(result => {
+    this.load_leaders;
+  },
+   methods: {
+    ...mapActions(['init', 'notify', 'refresh_inc_fights']),
+    load_leaders(start) {
+      let end = 25;
+      end = start * 25;
+      start = end - 25; // eslint-disable-line no-param-reassign
+      client.requestAsync('get_props', start,end).then(result => {
       this.users = result.players;
       this.isLoading = false;
     });
+    },
   },
 };
 </script>

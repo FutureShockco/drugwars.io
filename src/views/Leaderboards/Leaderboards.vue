@@ -3,7 +3,7 @@
 		<LeaderboardsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
-			:page-count="Math.ceil(count/100)"
+			:page-count="Math.ceil(count/50)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_leaders"
@@ -15,13 +15,13 @@
 		<div class="p-4">
       <Player class="leaders" v-for="(user, key) in users"  :player="user"
         :key="user.username"
-        :rank="key + 1">
+        :rank="key + currentRank + 1">
       </Player>
 			<p v-if="!users || !users.length"><Loading/></p>
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
-			:page-count="Math.ceil(count/100)"
+			:page-count="Math.ceil(count/50)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_leaders"
@@ -44,20 +44,23 @@ export default {
     return {
       isLoading: false,
       users: [],
-      count:0
+      count:0,
+      currentRank :0
     };
   },
   created() {
     this.isLoading = true;
-    this.load_leaders();
+    this.load_leaders(1);
   },
    methods: {
     load_leaders(start) {
-      let end = 100;
-      end = start * 100;
-      start = end - 100; // eslint-disable-line no-param-reassign
-      client.requestAsync('get_props', { start, end }).then(result => {
-        console.log(result)
+      this.users=[];
+      this.currentRank = (start-1) * 50
+      let end = 50;
+      end = start * 50;
+      start = end - 50; // eslint-disable-line no-param-reassign
+      const params = {start,end}
+      client.requestAsync('get_props', params).then(result => {
       this.users = result.players;
       this.count = result.count[0]['COUNT(*)'];
       this.isLoading = false;

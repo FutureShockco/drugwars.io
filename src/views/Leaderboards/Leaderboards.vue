@@ -3,44 +3,48 @@
 		<LeaderboardsTabs/>
 		<Paginate
 			class="ml-6 mt-4 text-center width-full"
-			:page-count="Math.ceil(users.length/50)"
+			:page-count="Math.ceil(count/100)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_leaders"
 			:prev-text="'Prev'"
 			:next-text="'Next'"
 			:container-class="'pagination'"
-			:page-class="'fight'"
+			:page-class="'leaders'"
 		></Paginate>
 		<div class="p-4">
-      <Player  v-for="(user, key) in users"  :player="user"
+      <Player class="leaders" v-for="(user, key) in users"  :player="user"
         :key="user.username"
         :rank="key + 1">
       </Player>
-			<p v-if="!fights || !fights.length"><Loading/></p>
+			<p v-if="!users || !users.length"><Loading/></p>
 		</div>
 		<Paginate
 			class="ml-6 mb-4 mt-0 text-center width-full"
-			:page-count="Math.ceil(users.length/50)"
+			:page-count="Math.ceil(count/100)"
 			:page-range="3"
 			:margin-pages="2"
 			:click-handler="load_leaders"
 			:prev-text="'Prev'"
 			:next-text="'Next'"
 			:container-class="'pagination'"
-			:page-class="'fight'"
+			:page-class="'leaders'"
 		></Paginate>
 	</div>
 </template>
 
 <script>
 import client from '@/helpers/client';
-
+import Paginate from 'vuejs-paginate';
 export default {
+  components: {
+    Paginate,
+  },
   data() {
     return {
       isLoading: false,
       users: [],
+      count:0
     };
   },
   created() {
@@ -53,7 +57,9 @@ export default {
       end = start * 100;
       start = end - 100; // eslint-disable-line no-param-reassign
       client.requestAsync('get_props', { start, end }).then(result => {
+        console.log(result)
       this.users = result.players;
+      this.count = result.count[0]['COUNT(*)'];
       this.isLoading = false;
     });
     },

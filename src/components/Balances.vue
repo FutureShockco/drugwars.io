@@ -97,6 +97,15 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
+    user_production() {
+      const all_hq = this.$store.state.game.user.buildings.filter(b=> b.building === "headquarters")
+      let production = 0;
+      all_hq.forEach(element => {
+        if(element.drug_production_rate)
+        production = production + element.drug_production_rate
+      });
+      return production
+    },
     base() {
       return this.$store.state.game.mainbase;
     },
@@ -169,7 +178,7 @@ export default {
     },
     totalRewards() {
       const daily = parseFloat(
-        (this.user.drug_production_rate / this.prizeProps.drug_production_rate) *
+        (this.user_production / this.prizeProps.drug_production_rate) *
           this.totalDailyFuture,
       ).toFixed(3);
       return { daily };

@@ -22,8 +22,8 @@
                     <BuildingProduction :compactview="1" :production_type="building.production_type" :level="level" :coeff="building.coeff" :production_rate="building.production_rate" />
                 </div>
                 <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
-                    <div v-if="level"><b>Capacity:</b> {{ ((35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) | amount }}</div>
-                    <div v-if="level"><b>Safe:</b> {{ ((35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) /100*25 | amount }}</div>
+                    <div v-if="level"><b>Capacity:</b> {{ (10000+(35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) | amount }}</div>
+                    <div v-if="level"><b>Safe:</b> {{ (10000+(35000 * level * (Math.round(Math.sqrt(250-level)) / 100)) * level ) /100*25 | amount }}</div>
                     <div v-else><b>Safe:</b> {{ 10000 /100*25 | amount }}</div>
                 </div>
                 <div v-if="['headquarters'].includes(building.id)" class="mb-2">

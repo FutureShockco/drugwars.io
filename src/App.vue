@@ -19,7 +19,7 @@
 				<button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
 			</UiCenter>
       	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
-          <h5>You have lost the connection to the game!</h5>
+          <h5>A new patch has been released!</h5>
 				<button class="button button-green" id="show-modal" @click="reconnect()">Reconnect</button>
 			</UiCenter>
 			<TopNav v-if="username"/>

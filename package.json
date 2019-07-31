@@ -40,6 +40,7 @@
     "request": "^2.88.0",
     "serve-static": "^1.13.2",
     "socket.io-client": "^2.2.0",
+    "sscjs": "0.0.8",
     "steemconnect": "^3.0.0-beta.1",
     "three": "^0.104.0",
     "three-orbitcontrols": "^2.102.1",

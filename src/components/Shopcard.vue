@@ -6,11 +6,11 @@
       size="44"
       :name="item.img"
     />
-    <div class="username">
+    <div class="title">
       {{ item.name }}
     </div>
     
-    <div class="username type">
+    <div class="title type">
       {{ item.type }}
     </div>
         {{item.detail}}
@@ -150,9 +150,23 @@ export default {
   color: #fbbd08;
 }
 
-.username {
+.title {
   color: #fbbd08;
   top: 0px;
+   font-family: @heading-font;
+  font-size: 26px;
+  text-transform: uppercase;
+  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  width: 200px;
+  left:50%;
+  text-align: center;
+  margin: 0;
+  line-height: 20px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
 }
 .type {
   color: #fbbd08;

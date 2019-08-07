@@ -45,14 +45,13 @@
     <li>
       <Icon name="future" size="36"/>
         <div class="balance">
-        <div>{{ user.future - user.future_pending | amount}} <span class="mini"> FUTURE</span></div>
+        <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
           <div class="balance">
          <div class="detail"> DAILY: <span class="detail text-green">
         +{{ Math.round(totalRewards.daily)}} FUTURE</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
         +{{ Math.round(ownHeistReward.amount)}} FUTURE</span></div>
          </div>
-            <div class="sync text-left" v-if="user.future_pending">Synchronizing...</div>
          </div>
     </li>
      <li v-if="this.$store.state.auth.account">

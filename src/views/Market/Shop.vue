@@ -3,6 +3,7 @@
 		<MarketTabs/>
 		<div class="p-2 text-center">
 			<h2>DEALER SHOP</h2>
+			<p class="mb-4">We allways recommend you to use SteemEngine to get DWD tokens at a free price decided by players.</p>
 			<div class="columns">
 				<Shopcard v-for="item in shop" :item="item" :key="item.name"/>
 			</div>
@@ -10,12 +11,7 @@
 		<div class="text-center">
 			<p class="mb-4">Where can I buy DWD tokens outside of the shop?</p>
 			<div>
-				Buy with BTC by using
-				<a href="https://cryptox.pl/">Cryptox.pl</a>.
-			</div>
-			<div>
-				Buy with GBYTE by using the official
-				<a href="https://obyte.org/">Obyte Wallet</a>.
+				<a href="https://steem-engine.com/?p=market&t=DWD">Buy on SteemEngine</a>.
 			</div>
 		</div>
 	</div>

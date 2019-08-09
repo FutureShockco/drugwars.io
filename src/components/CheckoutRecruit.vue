@@ -28,7 +28,7 @@
     >
       <i class="iconfont icon-zap"/>
       ${{ price * quantity | amount }} =
-      {{ priceInSteem | amount }} STEEM
+      {{ this.priceInSteem | amount }} STEEM
     </button> 
     <button
       :disabled="isLoading || notEnoughDWD ||pendingAmount >0 || !base"
@@ -36,8 +36,8 @@
       class="button btn-block button-yellow mb-2"
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-      ${{ ((price - price /100*20) * this.quantity) | amount }} =
-      {{ priceInDWD | amount }} DWD
+      ${{ (price * quantity) | amount }} =
+      {{ this.priceInDWD | amount }} DWD
     </button>
   </div>
 </template>
@@ -105,11 +105,11 @@ export default {
       );
     },
     priceInDWD() {
-      return ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(0);
+      return (this.priceInSteem / 3).toFixed(3);
     },
     notEnoughDWD() {
       return (
-        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        (this.priceInSteem / 3).toFixed(3) >
         this.$store.state.game.user.user.dwd
       );
     },

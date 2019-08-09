@@ -75,7 +75,11 @@ export default {
     },
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
-      return ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) / 0.005;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.heist_percent) /
+        0.005
+      );
     },
     balances() {
       let ocLvl = 0;

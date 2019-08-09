@@ -30,7 +30,7 @@
             <div>
                 <div class="mt-4">
     				What is SteemEngine?
-    				<a href="https://steem-engine.com">https://steem-engine.com</a>.
+    				<a href="https://steem-engine.com">https://steem-engine.com/</a>.
     			</div> 
             </div>
         </div>

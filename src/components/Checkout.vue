@@ -28,7 +28,7 @@
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2">
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-      ${{ price - price /100*20 | amount }} =
+      ${{ price | amount }} =
       {{ priceInDWD | amount }} DWD
     </button>
   </div>
@@ -64,11 +64,11 @@ export default {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
+      return (this.priceInSteem / 3).toFixed(3);
     },
     notEnoughDWD() {
       return (
-        ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
+        (this.priceInSteem / 3).toFixed(3) >
         this.$store.state.game.user.user.dwd
       );
     },

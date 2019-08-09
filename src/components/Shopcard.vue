@@ -7,7 +7,7 @@
       :name="item.img"
     />
     <div class="title">
-      {{ item.name }}
+      {{ this.amountOfDWD }}
     </div>
     
     <div class="title type">
@@ -69,6 +69,9 @@ export default {
   computed: {
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+    },
+    amountOfDWD() {
+      return (this.item.price / this.$store.state.game.prizeProps.steemprice *3).toFixed(3);
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

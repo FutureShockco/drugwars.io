@@ -22,10 +22,10 @@
           <span>
           {{player.role}} OF {{player.gang}}    
           <div>[{{ player.ticker }}]</div>
-          <div class="text-green">  Wins :{{ player.wins }}</div>
-          <div  class="text-red">  Loses :{{ player.loses }}</div> 
         </span>
         </router-link>
+          <div class="text-green">  Wins :{{ player.wins }}</div>
+          <div  class="text-red">  Loses :{{ player.loses }}</div> 
       </h5>
       <div class="shield mb-2" v-if="shieldEnd">
         <Icon name="shield" size="36" class="text-gray"/>

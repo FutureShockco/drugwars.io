@@ -299,7 +299,7 @@ export default {
 }
 .balances {
   color: white;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 500;
   display: inline-flex;
   line-height: 22px;
@@ -323,8 +323,8 @@ export default {
       font-size: 16px;
     }
     .detail {
-      font-size: 13px;
-      line-height: 13px !important;
+      font-size: 11px;
+      line-height: 11px !important;
       text-align: left;
       span {
         float: none;

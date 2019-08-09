@@ -3,7 +3,7 @@
 		<MarketTabs/>
 		<div class="p-2 text-center">
 			<h2>DEALER SHOP</h2>
-			<p class="mb-4">We allways recommend you to use SteemEngine to get DWD tokens at a free price decided by players.</p>
+			<p class="mb-4">We always recommend you to use SteemEngine to get DWD tokens at a fair price decided by players.</p>
 			<div class="columns">
 				<Shopcard v-for="item in shop" :item="item" :key="item.name"/>
 			</div>

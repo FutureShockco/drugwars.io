@@ -22,7 +22,7 @@
 		<div>Vest: {{ totalVest | amount }} DRUGS</div>
 		<div
 			class="text-green"
-		>+{{ ownHeistReward.amount | amount }} DWD ({{ownHeistReward.percent | amount}}%)</div>
+		>+{{ ownHeistReward.amount }} DWD ({{ownHeistReward.percent | amount}}%)</div>
 	</div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalHeistDWD / 100) * percent;
+      const amount = parseFloat((this.totalHeistDWD / 100) * percent).toFixed(3);
       return {
         amount,
         percent,

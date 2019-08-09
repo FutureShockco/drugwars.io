@@ -67,9 +67,9 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
     };
   }
   return {
-    drugs: drugs > 10000 ? 10000 : parseFloat(drugs).toFixed(3),
-    weapons: weapons > 10000 ? 10000 : parseFloat(weapons).toFixed(3),
-    alcohols: alcohols > 10000 ? 10000 : parseFloat(alcohols).toFixed(3),
+    drugs: drugs > 10000 ? 10000 : parseFloat(drugs).toFixed(2),
+    weapons: weapons > 10000 ? 10000 : parseFloat(weapons).toFixed(2),
+    alcohols: alcohols > 10000 ? 10000 : parseFloat(alcohols).toFixed(2),
   };
 };
 

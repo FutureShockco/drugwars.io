@@ -28,7 +28,7 @@
     >
       <i class="iconfont icon-zap"/>
       ${{ price * quantity | amount }} =
-      {{ this.priceInSteem | amount }} STEEM
+      {{ this.priceInSteem  }} STEEM
     </button> 
     <button
       :disabled="isLoading || notEnoughDWD ||pendingAmount >0 || !base"
@@ -37,7 +37,7 @@
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
       ${{ (price * quantity) | amount }} =
-      {{ this.priceInDWD | amount }} DWD
+      {{ this.priceInDWD }} DWD
     </button>
   </div>
 </template>

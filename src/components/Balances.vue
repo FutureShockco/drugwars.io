@@ -45,12 +45,12 @@
     <li>
       <Icon name="dwd" size="36"/>
         <div class="balance">
-        <div>{{ user.dwd | amount}} <span class="mini"> DWD</span></div>
+        <div>{{ user.dwd }} <span class="mini"> DWD</span></div>
           <div class="balance">
          <div class="detail"> DAILY: <span class="detail text-green">
-        +{{ totalRewards.daily | amount}} DWD</span></div>
+        +{{ totalRewards.daily }} DWD</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
-        +{{ ownHeistReward.amount | amount}} DWD</span></div>
+        +{{ ownHeistReward.amount }} DWD</span></div>
          </div>
          </div>
     </li>
@@ -192,7 +192,7 @@ export default {
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalHeistDWD / 100) * percent;
+      const amount = parseFloat((this.totalHeistDWD / 100) * percent).toFixed(3);
       return {
         amount,
         percent,
@@ -232,8 +232,8 @@ export default {
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
           .lvl;
       return (
-        this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
-        this.user.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025
+        parseFloat(this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025).toFixed(2)
       );
     },
     weaponBonus() {
@@ -257,8 +257,8 @@ export default {
         weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
           .lvl;
       return (
-        this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
-        this.user.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005
+        parseFloat(this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005).toFixed(2)
       );
     },
     alcoholBonus() {
@@ -283,8 +283,8 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return (
-        this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
-        this.user.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005
+        parseFloat(this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
+        this.user.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005).toFixed(2)
       );
     },
   },
@@ -299,7 +299,7 @@ export default {
 }
 .balances {
   color: white;
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 500;
   display: inline-flex;
   line-height: 22px;
@@ -323,8 +323,8 @@ export default {
       font-size: 16px;
     }
     .detail {
-      font-size: 11px;
-      line-height: 11px !important;
+      font-size: 12px;
+      line-height: 12px !important;
       text-align: left;
       span {
         float: none;

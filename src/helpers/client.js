@@ -74,7 +74,7 @@ function Sub(rawClient) {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
-        message: 'You received your FUTURE Tokens!',
+        message: 'You received your DWD Tokens!',
       });
     }
     if (message[1].body === 'fight') {

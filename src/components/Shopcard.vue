@@ -97,8 +97,8 @@ export default {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `shop:${this.item.ref},amount:${this.item.quantity}`,
-        amount: `${this.priceInSteem} STEEM`,
+        memo: `shop:${this.item.ref},amount:3`,
+        amount: `1 STEEM`,
       });
     },
     paymentAuthorized(data) {

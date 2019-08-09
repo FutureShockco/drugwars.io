@@ -9,7 +9,7 @@
       :picture="player.picture"
       :xp="player.xp"
     />
-    <div class="username">
+    <div class="username" :class="{ 'text-blue' : player.gang === user.gang }">
       {{ player.nickname }}
       <div class="gang-label" v-if="player.ticker">
         [{{ player.ticker }}]
@@ -22,6 +22,8 @@
           <span>
           {{player.role}} OF {{player.gang}}    
           <div>[{{ player.ticker }}]</div>
+          <div class="text-green">  Wins :{{ player.wins }}</div>
+          <div  class="text-red">  Loses :{{ player.loses }}</div> 
         </span>
         </router-link>
       </h5>
@@ -102,6 +104,9 @@ export default {
     };
   },
   computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
     shieldEnd() {
       const diff = this.player.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;

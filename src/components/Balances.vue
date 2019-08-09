@@ -43,14 +43,14 @@
          </div>
     </li>
     <li>
-      <Icon name="future" size="36"/>
+      <Icon name="dwd" size="36"/>
         <div class="balance">
-        <div>{{ user.future | amount}} <span class="mini"> FUTURE</span></div>
+        <div>{{ user.dwd | amount}} <span class="mini"> DWD</span></div>
           <div class="balance">
          <div class="detail"> DAILY: <span class="detail text-green">
-        +{{ Math.round(totalRewards.daily)}} FUTURE</span></div>
+        +{{ totalRewards.daily | amount}} DWD</span></div>
                  <div class="detail"> HEIST: <span class="detail text-green">
-        +{{ Math.round(ownHeistReward.amount)}} FUTURE</span></div>
+        +{{ ownHeistReward.amount | amount}} DWD</span></div>
          </div>
          </div>
     </li>
@@ -82,16 +82,16 @@ export default {
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
-    totalDailyFuture() {
+    totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
         (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
         0.005
       );
     },
-    futureToSteem() {
+    dwdToSteem() {
       const { prizeProps } = this.$store.state.game;
-      return parseFloat(prizeProps.total_future / parseFloat(prizeProps.balance)).toFixed(0);
+      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
     },
     user() {
       return this.$store.state.game.user.user;
@@ -178,11 +178,11 @@ export default {
     totalRewards() {
       const daily = parseFloat(
         (this.user_production / this.prizeProps.drug_production_rate) *
-          this.totalDailyFuture,
+          this.totalDailyDWD,
       ).toFixed(3);
       return { daily };
     },
-    totalHeistFuture() {
+    totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
@@ -192,7 +192,7 @@ export default {
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = (this.totalHeistFuture / 100) * percent;
+      const amount = (this.totalHeistDWD / 100) * percent;
       return {
         amount,
         percent,
@@ -208,8 +208,8 @@ export default {
         return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
       return 0;
     },
-    futureBalance() {
-      return parseFloat(this.$store.state.game.user.future).toFixed(3);
+    dwdBalance() {
+      return parseFloat(this.$store.state.game.user.dwd).toFixed(3);
     },
     drugBonus() {
       let oc = 0;

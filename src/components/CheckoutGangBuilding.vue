@@ -25,12 +25,12 @@
 		</button>
 		<button
 			v-if="isTheExchange"
-			:disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress || exchangeClaimed"
-			@click="handleSubmit('future')"
+			:disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || exchangeClaimed"
+			@click="handleSubmit('dwd')"
 			class="button btn-block button-green mb-2"
 		>
-			<img class="futureicon" src="/img/icons/future.png">
-			CLAIM 6 FUTURE
+			<img class="dwdicon" src="/img/icons/dwd.png">
+			CLAIM 6 DWD
 		</button>
 	</div>
 </template>
@@ -54,7 +54,7 @@ export default {
     'drugs',
     'weapons',
     'alcohol',
-    'future',
+    'dwd',
   ],
   data() {
     return {
@@ -79,13 +79,13 @@ export default {
     priceInSteem() {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
-    priceInFuture() {
+    priceInDWD() {
       return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
     },
-    notEnoughFuture() {
+    notEnoughDWD() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future
+        this.$store.state.game.user.user.dwd
       );
     },
     steemAccount() {
@@ -135,13 +135,13 @@ export default {
       const drugs = this.drugs || 0;
       const weapons = this.weapons || 0;
       const alcohol = this.alcohol || 0;
-      const future = this.future || 0;
-      if (drugs > 0 || weapons > 0 || alcohol > 0 || future > 0) {
+      const dwd = this.dwd || 0;
+      if (drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources: { drugs, weapons, alcohol, future },
+          resources: { drugs, weapons, alcohol, dwd },
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
@@ -151,7 +151,7 @@ export default {
             self.drugs = 0;
             self.weapons = 0;
             self.alcohol = 0;
-            self.future = 0;
+            self.dwd = 0;
           })
           .catch(e => {
             console.error('Failed', e);
@@ -164,7 +164,7 @@ export default {
     handleUpgrade(use) {
       this.isLoading = true;
       let payload = {};
-      if (use === 'future') payload = { building: this.id, level: this.level, use: 'future' };
+      if (use === 'dwd') payload = { building: this.id, level: this.level, use: 'dwd' };
       else {
         const drugs = this.drugs;
         const weapons = this.weapons;
@@ -203,7 +203,7 @@ export default {
   width: 180px;
 }
 
-.futureicon {
+.dwdicon {
   width: 22px;
   left: 0px;
   position: relative;

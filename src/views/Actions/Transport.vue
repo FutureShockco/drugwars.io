@@ -82,12 +82,12 @@
                                 </div>
                                 <div class="column col-3">
                                   <ProgressBar
-                                    :icon="'future'"
+                                    :icon="'dwd'"
                                     :color="'#00b31e'"
                                     :width="70"
                                     font-size="20"
-                                    :pv="progressPercent(future_amount,selectedTotal)"
-                                    :total="future_amount"
+                                    :pv="progressPercent(dwd_amount,selectedTotal)"
+                                    :total="dwd_amount"
                                     :cost="carry - selectedTotal"
                                     :bold="12"
                                     :text-bg-color="'#1f1f1f'"
@@ -96,7 +96,7 @@
                                     :bg-color="'#fbb034'"
                                     :text-color="'#ffffff'"
                                   />
-                                  <input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input width-full">
+                                  <input type="number" v-model="dwd_amount" placeholder="amount" class="mt-5 input width-full">
                                 </div>
                               </div>
                                <h5 :class="{'text-red': progressPercent(selectedTotal,carry)>100}">Total {{progressPercent(selectedTotal,carry)}}%</h5>
@@ -143,7 +143,7 @@ export default {
       drugs_amount: 0,
       weapons_amount: 0,
       alcohol_amount: 0,
-      future_amount: 0,
+      dwd_amount: 0,
     };
   },
   created() {
@@ -170,8 +170,8 @@ export default {
       const drugs = parseInt(this.drugs_amount) || 0;
       const weapons = parseInt(this.weapons_amount) || 0;
       const alcohol = parseInt(this.alcohol_amount) || 0;
-      const future = parseInt(this.future_amount) || 0;
-      selected = drugs + weapons + alcohol + future;
+      const dwd = parseInt(this.dwd_amount) || 0;
+      selected = drugs + weapons + alcohol + dwd;
       return selected;
     },
     carry() {
@@ -186,7 +186,7 @@ export default {
         parseInt(this.drugs_amount) > this.user.drugs_balance ||
         parseInt(this.weapons_amount) > this.user.weapons_balance ||
         parseInt(this.alcohol_amount) > this.user.alcohols_balance ||
-        parseInt(this.future_amount) > this.user.future
+        parseInt(this.dwd_amount) > this.user.dwd
       );
     },
   },
@@ -199,7 +199,7 @@ export default {
       this.drugs_amount = 0;
       this.weapons_amount = 0;
       this.alcohol_amount = 0;
-      this.future_amount = 0;
+      this.dwd_amount = 0;
     },
     progressPercent(total, cost) {
       let progress;
@@ -233,12 +233,12 @@ export default {
         const drugs = parseInt(this.drugs_amount) || 0;
         const weapons = parseInt(this.weapons_amount) || 0;
         const alcohol = parseInt(this.alcohol_amount) || 0;
-        const future = parseInt(this.future_amount) || 0;
-        if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && future >= 0) {
+        const dwd = parseInt(this.dwd_amount) || 0;
+        if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && dwd >= 0) {
           const payload = {
             target: this.target.toLowerCase(),
             units: this.selectedUnits,
-            resources: { drugs, weapons, alcohol, future },
+            resources: { drugs, weapons, alcohol, dwd },
           };
           if (this.message) {
             payload.message = this.message;

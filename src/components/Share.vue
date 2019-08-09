@@ -77,7 +77,7 @@ export default {
                   break;
                 case `twitter`:
                   window.open(
-                    `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cfuture%2Csteem%2Cobyte&original_referer=${ref}&text=Check my latest fight ! ${
+                    `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cdwd%2Csteem%2Cobyte&original_referer=${ref}&text=Check my latest fight ! ${
                       self.fight.attacker_nickname
                     } vs ${self.fight.target_nickname}, ${imgurl.toLowerCase()}`,
                     'myWindow',

@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<p class="mb-4">Where can I buy FUTURE tokens outside of the shop?</p>
+			<p class="mb-4">Where can I buy DWD tokens outside of the shop?</p>
 			<div>
 				Buy with BTC by using
 				<a href="https://cryptox.pl/">Cryptox.pl</a>.

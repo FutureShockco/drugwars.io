@@ -35,9 +35,9 @@
         </div>
       </li>
       <li class="column col-3">
-        <Icon name="future"/>
+        <Icon name="dwd"/>
         <div class="text-red">
-          <div>{{ contract.future | amount }} </div>
+          <div>{{ contract.dwd | amount }} </div>
         </div>
       </li>
     </ul>

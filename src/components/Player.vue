@@ -63,7 +63,7 @@
           REWARDS : 
           <div>
           {{ player.amount | amount}}
-          <Icon name="future" size="22"/>
+          <Icon name="dwd" size="22"/>
           </div>
         </span>
       </h5>
@@ -74,7 +74,7 @@
            BONUS :
           <div>
           {{ Math.round(100/rank) | amount}}
-          <Icon name="future" size="22"/>
+          <Icon name="dwd" size="22"/>
           </div>
         </span>
       </h5>

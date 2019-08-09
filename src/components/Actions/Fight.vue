@@ -88,7 +88,7 @@
 			</div>
 			<div v-if="details" class="text-center">
 				<h5 v-if="fight.attacker_reward">REWARDS :</h5>
-				<div v-if="fight.attacker_reward">{{fight.attacker_reward}} FUTURE</div>
+				<div v-if="fight.attacker_reward">{{fight.attacker_reward}} DWD</div>
 				<Troops
 					v-if="json.target.detail && json.target.detail.units"
 					:units="json.target.detail.units"

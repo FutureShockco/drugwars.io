@@ -3,10 +3,10 @@
     <MarketTabs/>
     <div class="p-4 text-center">
       <div>
-        <img src="/img/icons/future.png"/>
-        <h3 class="mb-4">You have <b>{{ user.future }} FUTURE</b> token(s) in-game </h3>
+        <img src="/img/icons/dwd.png"/>
+        <h3 class="mb-4">You have <b>{{ user.dwd }} DWD</b> token(s) in-game </h3>
         <div class="mb-4 text-left">
-          <h4>To withdraw FUTURE token on a secured wallet, you need to carefully follow these steps:</h4>
+          <h4>To withdraw DWD token on a secured wallet, you need to carefully follow these steps:</h4>
           <p>
             1. Install
             <a href="https://obyte.org" target="_blank">
@@ -24,7 +24,7 @@
           <p class="text-red">5. Check that those two addresses are the same. If not - DON'T WITHDRAW YOUR TOKENS</p>
           <p>6. Fill the withdraw form below with the amount you would like to receive, try with a small amount first if you aren't sure.</p>
         </div>
-        <form v-if="user.future > 0" class="form mx-auto" @submit.prevent="handleSubmit">
+        <form v-if="user.dwd > 0" class="form mx-auto" @submit.prevent="handleSubmit">
           <input
             class="input input-primary mb-2"
             v-model="amount"
@@ -70,7 +70,7 @@ export default {
     },
     handleSubmit() {
       this.isLoading = true;
-      const payload = { FUTURE: parseInt(this.amount, 10) };
+      const payload = { DWD: parseInt(this.amount, 10) };
       client.request('claim_reward', payload, (err, result) => {
         if (err) {
           this.notify({ type: 'error', message: err });
@@ -80,7 +80,7 @@ export default {
           this.isLoading = false;
           this.notify({
             type: 'success',
-            message: `You successfully claimed ${this.amount} FUTURE tokens`,
+            message: `You successfully claimed ${this.amount} DWD tokens`,
           });
           console.log('Claim success, the unit id is', result);
           this.resetForm();

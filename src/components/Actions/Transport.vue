@@ -71,12 +71,6 @@
           <h5>{{ json.resources.alcohol | amount }} </h5>
         </div>
       </li>
-			<li class="column col-3">
-        <Icon name="future"/>
-        <div class="text-green">
-          <h5>{{ json.resources.future | amount }} </h5>
-        </div>
-      </li>
     </ul>
     <div  class="text-center mb-3 mt-3">
         <div v-if="fight.attacker_base">

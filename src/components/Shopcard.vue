@@ -58,7 +58,7 @@ export default {
       myItems: [
         {
           name: 'DW Shop',
-          description: 'FutureTokens.',
+          description: 'DWDTokens.',
           quantity: 1,
           price: this.item.price,
           currency: 'USD',
@@ -124,8 +124,8 @@ export default {
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} FUTURE` });
-          console.error(`Failed to withdraw ${payload.amount} FUTURE`, e);
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
+          console.error(`Failed to withdraw ${payload.amount} DWD`, e);
           this.isLoading = false;
         });
     },

@@ -22,7 +22,7 @@
 		<div>Vest: {{ totalVest | amount }} DRUGS</div>
 		<div
 			class="text-green"
-		>+{{ Math.round(ownHeistReward.amount) | amount }} FUTURE ({{ownHeistReward.percent | amount}}%)</div>
+		>+{{ ownHeistReward.amount | amount }} DWD ({{ownHeistReward.percent | amount}}%)</div>
 	</div>
 </template>
 
@@ -73,9 +73,9 @@ export default {
       }
       return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
     },
-    totalHeistFuture() {
+    totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
-      return (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) * 2) / 0.005;
+      return ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) / 0.005;
     },
     balances() {
       let ocLvl = 0;
@@ -117,7 +117,7 @@ export default {
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;
-      const amount = Math.round((this.totalHeistFuture / 100) * percent);
+      const amount = (this.totalHeistDWD / 100) * percent;
       return {
         amount,
         percent,

@@ -20,20 +20,20 @@
 		<div class="prize">
 			<div class="detail">Today's prize</div>
 			<div class="mb-4">
-				{{ totalFuture | amount }}
-				<img class="future_logo" width="44" src="/img/icons/future.png">
+				{{ totalDWD | amount }}
+				<img class="dwd_logo" width="44" src="/img/icons/dwd.png">
 			</div>
 			<div class="prizes">
 				<div class="sub">
-					<div>BATTLE {{prizeProps.fight_percent}}%</div>
-					{{totalFight+prizeProps.free_future-prizeProps.daily_rewards | amount}}
+					<div>BATTLE</div>
+					{{totalFight+prizeProps.free_dwd-prizeProps.daily_rewards | amount}}
 				</div>
 				<div class="sub">
-					<div>DAILY {{prizeProps.daily_percent}}%</div>
+					<div>DAILY</div>
 					{{totalDaily | amount}}
 				</div>
 				<div class="sub">
-					<div>HEIST {{prizeProps.heist_percent}}%</div>
+					<div>HEIST</div>
 					{{totalHeist | amount}}
 				</div>
 			</div>
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       population: null,
-      future_price: 0.005,
+      dwd_price: 0.005,
     };
   },
   computed: {
@@ -70,17 +70,17 @@ export default {
         (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)
       );
     },
-    lastDayFuture() {
+    lastDayDWD() {
       const { prizeProps } = this.$store.state.game;
       return parseFloat(prizeProps.daily_purchase);
     },
-    totalFuture() {
+    totalDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)) /
-          this.future_price +
-        prizeProps.free_future -
+          this.dwd_price +
+        prizeProps.free_dwd -
         prizeProps.daily_rewards
       );
     },
@@ -96,7 +96,7 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.daily_percent) /
-        this.future_price
+        this.dwd_price
       );
     },
     totalFight() {
@@ -104,7 +104,7 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.fight_percent) /
-        this.future_price
+        this.dwd_price
       );
     },
     totalHeist() {
@@ -112,7 +112,7 @@ export default {
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
           prizeProps.heist_percent) /
-        this.future_price
+        this.dwd_price
       );
     },
     user() {
@@ -140,7 +140,7 @@ export default {
   text-align: center;
   line-height: 40px;
 
-  .future {
+  .dwd {
     font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
     text-transform: uppercase;
@@ -160,7 +160,7 @@ export default {
     margin-bottom: 25px;
   }
 
-  .future_logo {
+  .dwd_logo {
     margin-bottom: -3px;
   }
   .detail {

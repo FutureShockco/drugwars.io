@@ -74,16 +74,16 @@
 				</div>
 				<div
 					class="ml-5"
-					v-if="futureCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
+					v-if="dwdCost && (building.id !=='exchange' || ownItem.lvl < 1) && (building.id !== 'embassy' || ownItem.lvl < 1)"
 				>
 					<ProgressBar
-						:icon="'future'"
+						:icon="'dwd'"
 						:color="'#00b31e'"
 						:width="70"
 						font-size="20"
-						:pv="progressPercent(ownItem.future,futureCost,future_amount)"
-						:total="ownItem.future"
-						:cost="futureCost"
+						:pv="progressPercent(ownItem.dwd,dwdCost,dwd_amount)"
+						:total="ownItem.dwd"
+						:cost="dwdCost"
 						:bold="12"
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
@@ -91,7 +91,7 @@
 						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
-					<input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input">
+					<input type="number" v-model="dwd_amount" placeholder="amount" class="mt-5 input">
 				</div>
 			</div>
 			<div class="mt-2 mb-2" v-html="building.desc"></div>
@@ -113,7 +113,7 @@
 				:drugs="drugs_amount"
 				:weapons="weapons_amount"
 				:alcohol="alcohol_amount"
-				:future="future_amount"
+				:dwd="dwd_amount"
 			/>
 		</div>
 	</div>
@@ -137,7 +137,7 @@ export default {
       drugs_amount: 0,
       weapons_amount: 0,
       alcohol_amount: 0,
-      future_amount: 0,
+      dwd_amount: 0,
     };
   },
   computed: {
@@ -212,7 +212,7 @@ export default {
         parseInt(this.drugs_amount) > this.balances.drugs ||
         parseInt(this.weapons_amount) > this.balances.weapons ||
         parseInt(this.alcohol_amount) > this.balances.alcohols ||
-        parseInt(this.future_amount) > this.balances.future
+        parseInt(this.dwd_amount) > this.balances.dwd
       );
     },
     hasNotEnoughForUpgrade() {
@@ -221,7 +221,7 @@ export default {
         this.drugsCost > this.ownItem.drugs ||
         this.weaponsCost > this.ownItem.weapons ||
         this.alcoholsCost > this.ownItem.alcohol ||
-        this.futureCost > this.ownItem.future
+        this.dwdCost > this.ownItem.dwd
       );
     },
     ownItem() {
@@ -247,8 +247,8 @@ export default {
     alcoholsCost() {
       return utils.calculateCostToUpgrade(this.building.alcohols_cost, this.ownItem.lvl) || 0;
     },
-    futureCost() {
-      return utils.calculateCostToUpgrade(this.building.future_cost, this.ownItem.lvl) || 0;
+    dwdCost() {
+      return utils.calculateCostToUpgrade(this.building.dwd_cost, this.ownItem.lvl) || 0;
     },
     inProgress() {
       if (!this.ownItem) return false;

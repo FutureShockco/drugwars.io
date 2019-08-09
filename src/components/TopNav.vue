@@ -20,8 +20,8 @@
     </div>
             <!-- <div class="prize mx-auto">
                 {{this.prizeProps.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS are produced per day. You will receive <span
-                        id="earnings" style="color:#fbbd08;font-weight: 700;">{{Math.round(totalRewards.daily)}}</span>
-                FUTURE based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
+                        id="earnings" style="color:#fbbd08;font-weight: 700;">{{totalRewards.daily | amount}}</span>
+                DWD based on your production of {{this.user.drug_production_rate * 60 * 60 * 24 | amount}} DRUGS ({{overall}}%)
         </div> -->
   </div>
 </template>

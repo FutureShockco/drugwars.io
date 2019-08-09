@@ -62,13 +62,13 @@
 				</div>
 				<div class="column col-3">
 					<ProgressBar
-						:icon="'future'"
+						:icon="'dwd'"
 						:color="'#00b31e'"
 						:width="70"
 						font-size="20"
-						:pv="progressPercent(future_amount,user.future)"
-						:total="future_amount"
-						:cost="user.future"
+						:pv="progressPercent(dwd_amount,user.dwd)"
+						:total="dwd_amount"
+						:cost="user.dwd"
 						:bold="12"
 						:text-bg-color="'#1f1f1f'"
 						:during="3"
@@ -76,7 +76,7 @@
 						:bg-color="'#fbb034'"
 						:text-color="'#ffffff'"
 					/>
-					<input type="number" v-model="future_amount" placeholder="amount" class="mt-5 input width-full">
+					<input type="number" v-model="dwd_amount" placeholder="amount" class="mt-5 input width-full">
 				</div>
 </div>
 			</div>
@@ -113,7 +113,7 @@ export default {
       drugs_amount: 0,
       weapons_amount: 0,
       alcohol_amount: 0,
-      future_amount: 0,
+      dwd_amount: 0,
     };
   },
   computed: {
@@ -199,11 +199,11 @@ export default {
       const drugs = this.drugs_amount || 0;
       const weapons = this.weapons_amount || 0;
       const alcohol = this.alcohol_amount || 0;
-      const future = this.future_amount || 0;
-      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || future > 0) {
+      const dwd = this.dwd_amount || 0;
+      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
         const payload = {
           target: this.target.trim().toLowerCase(),
-          resources: { drugs, weapons, alcohol, future },
+          resources: { drugs, weapons, alcohol, dwd },
           type: 'dw-contracts',
           anonymous: false,
         };
@@ -228,11 +228,11 @@ export default {
       const drugs = this.drugs_amount || 0;
       const weapons = this.weapons_amount || 0;
       const alcohol = this.alcohol_amount || 0;
-      const future = this.future_amount || 0;
-      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || future > 0) {
+      const dwd = this.dwd_amount || 0;
+      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
         const payload = {
           target: this.target.trim().toLowerCase(),
-          resources: { drugs, weapons, alcohol, future },
+          resources: { drugs, weapons, alcohol, dwd },
           type: 'dw-contracts',
           anonymous: true,
         };

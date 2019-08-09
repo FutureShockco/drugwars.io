@@ -58,7 +58,8 @@ export default {
       let depositers = [];
       [depositers] = result;
       depositers.forEach(user => {
-        const total = user.drugs + user.weapons + user.alcohol + user.future;
+        const total = user.drugs + user.weapons + user.alcohol + user.dwd;
+        console.log( user.dwd)
         user.total = total; // eslint-disable-line no-param-reassign
         this.alldeposits.push(user);
       });

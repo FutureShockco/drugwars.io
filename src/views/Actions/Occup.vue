@@ -95,7 +95,7 @@ export default {
         parseInt(this.drugs_amount) > this.user.drugs_balance ||
         parseInt(this.weapons_amount) > this.user.weapons_balance ||
         parseInt(this.alcohol_amount) > this.user.alcohols_balance ||
-        parseInt(this.future_amount) > this.user.future
+        parseInt(this.dwd_amount) > this.user.dwd
       );
     },
   },

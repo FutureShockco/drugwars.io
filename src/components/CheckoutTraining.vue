@@ -26,13 +26,13 @@
       {{ priceInSteem | amount }} STEEM
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughFuture || inProgress || !base"
-      @click="handleSubmit('future')"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !base"
+      @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2"
     >
-    <img class="futureicon" src="/img/icons/future.png"/>
+    <img class="dwdicon" src="/img/icons/dwd.png"/>
       ${{ price - price /100*20 | amount }} =
-      {{ priceInFuture | amount }} FUTURE
+      {{ priceInDWD | amount }} DWD
     </button>
   </div>
 </template>
@@ -70,13 +70,13 @@ export default {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
       return false;
     },
-    priceInFuture() {
+    priceInDWD() {
       return (this.price / 0.005 - ((this.price / 100) * 20) / 0.005).toFixed(0);
     },
-    notEnoughFuture() {
+    notEnoughDWD() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future
+        this.$store.state.game.user.user.dwd
       );
     },
     timeToWait() {
@@ -116,11 +116,11 @@ export default {
       this.isLoading = true;
       const self = this;
       let payload = {};
-      if (use === 'future') {
+      if (use === 'dwd') {
         payload = {
           training: this.id,
           level: this.level,
-          use: 'future',
+          use: 'dwd',
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
@@ -159,7 +159,7 @@ export default {
   width: 180px;
 }
 
-.futureicon {
+.dwdicon {
   width: 22px;
   left: 0px;
   position: relative;

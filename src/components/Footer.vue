@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="px-2 mb-2">
-    <a target="_blank" href="https://app.steemconnect.com/sign/account-witness-vote?witness=future.witness&approve=1">Vote for @future.witness and support DrugWars.</a>
+    <a target="_blank" href="https://app.steemconnect.com/sign/account-witness-vote?witness=dwd.witness&approve=1">Vote for @dwd.witness and support DrugWars.</a>
     </div>
     <ul class="columns mx-2 pb-2 list-style-none">
       <li class="column col-4">
@@ -37,7 +37,7 @@
         </a>
       </li> -->
     </ul>
-    <div class="company">Made by <a href="https://github.com/FutureShockco" target="_blank"> FutureShock</a> </div>
+    <div class="company">Made by <a href="https://github.com/DWDShockco" target="_blank"> DWDShock</a> </div>
   </footer>
 </template>
 

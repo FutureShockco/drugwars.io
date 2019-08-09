@@ -54,6 +54,15 @@ const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Market
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
+const MyCollection = () =>
+  import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');
+  const CardsMarket = () =>
+  import(/* webpackChunkName: "cardsmarket" */ '@/views/Cards/Market.vue');
+
+  const AllCards = () =>
+  import(/* webpackChunkName: "allcards" */ '@/views/Cards/AllCards.vue');
+
+
 const WMap = () => import(/* webpackChunkName: "map" */ '@/views/Map/Map.vue');
 const Territory = () => import(/* webpackChunkName: "territory" */ '@/views/Map/Territory.vue');
 const Leaderboards = () =>
@@ -299,8 +308,8 @@ export default new Router({
       component: Shop,
     },
     {
-      path: '/market/future',
-      name: 'future',
+      path: '/market/dwd',
+      name: 'dwd',
       beforeEnter: requireAuth,
       component: Claim,
     },
@@ -315,6 +324,24 @@ export default new Router({
       name: 'exchange',
       beforeEnter: requireAuth,
       component: Exchange,
+    },
+    {
+      path: '/cards/mycollection',
+      name: 'mycollection',
+      beforeEnter: requireAuth,
+      component: MyCollection,
+    },
+    {
+      path: '/cards/market',
+      name: 'cardmarket',
+      beforeEnter: requireAuth,
+      component: CardsMarket,
+    },
+    {
+      path: '/cards/allcards',
+      name: 'allcards',
+      beforeEnter: requireAuth,
+      component: AllCards,
     },
     {
       path: '/gangs/create',

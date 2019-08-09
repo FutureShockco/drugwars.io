@@ -30,9 +30,9 @@
                         <Icon name="alcohol" size="32" />
                         <div>Min:{{reward.alcohol.min}} Max:{{reward.alcohol.max}}</div>
                     </div>
-                     <div v-if="reward.future" class="column m-0 p-0 col-6 reward">
-                        <Icon name="future" size="32" />
-                        <div>Min:{{reward.future.min}} Max:{{reward.future.max}}</div>
+                     <div v-if="reward.dwd" class="column m-0 p-0 col-6 reward">
+                        <Icon name="dwd" size="32" />
+                        <div>Min:{{reward.dwd.min}} Max:{{reward.dwd.max}}</div>
                     </div>
                     <div class="column m-0 p-0 col-6 reward" v-for="unit in reward.units" :unit="unit" :key="unit.id">
                           <div class="unitamount"> {{unit.min}} - {{unit.max}}</div>

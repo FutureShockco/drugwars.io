@@ -31,13 +31,13 @@
       {{ priceInSteem | amount }} STEEM
     </button> 
     <button
-      :disabled="isLoading || notEnoughFuture ||pendingAmount >0 || !base"
-      @click="handleSubmit('future')"
+      :disabled="isLoading || notEnoughDWD ||pendingAmount >0 || !base"
+      @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2"
     >
-    <img class="futureicon" src="/img/icons/future.png"/>
+    <img class="dwdicon" src="/img/icons/dwd.png"/>
       ${{ ((price - price /100*20) * this.quantity) | amount }} =
-      {{ priceInFuture | amount }} FUTURE
+      {{ priceInDWD | amount }} DWD
     </button>
   </div>
 </template>
@@ -64,11 +64,19 @@ export default {
   computed: {
     updateTime() {
       // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
-      return (this.coeff * 200 - (this.coeff * 240 * this.level) / 100) * (this.quantity * 1000);
+      return (this.coeff * 200 - (this.coeff * 240 * (this.level+this.militaryAcademy)) / 100) * (this.quantity * 1000);
       // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
     },
     base() {
       return this.$store.state.game.mainbase;
+    },
+    militaryAcademy()
+    {
+      let militaryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'academy'))
+        militaryLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'academy')
+          .lvl;
+        return militaryLvl
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -96,13 +104,13 @@ export default {
         3,
       );
     },
-    priceInFuture() {
+    priceInDWD() {
       return ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(0);
     },
-    notEnoughFuture() {
+    notEnoughDWD() {
       return (
         ((this.price / 0.005 - ((this.price / 100) * 20) / 0.005) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.future
+        this.$store.state.game.user.user.dwd
       );
     },
     timeToWait() {
@@ -130,11 +138,11 @@ export default {
       this.isLoading = true;
       if (this.quantity > 0) {
         let payload = {};
-        if (use === 'future')
+        if (use === 'dwd')
           payload = {
             unit: this.id,
             unit_amount: Number(this.quantity),
-            use: 'future',
+            use: 'dwd',
             territory: Number(this.base.territory),
             base: Number(this.base.base),
           };
@@ -175,7 +183,7 @@ export default {
   width: 180px;
 }
 
-.futureicon {
+.dwdicon {
   width: 22px;
   left: 0px;
   position: relative;

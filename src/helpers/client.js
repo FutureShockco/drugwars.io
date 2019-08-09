@@ -70,7 +70,7 @@ function Sub(rawClient) {
         message: 'Training complete!',
       });
     }
-    if (message[1].body === 'future') {
+    if (message[1].body === 'dwd') {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',

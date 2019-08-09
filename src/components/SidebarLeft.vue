@@ -103,7 +103,7 @@
               Gangs
             </router-link>
           </li>
-                    <li>
+                    <!-- <li>
             <router-link
               to="/contracts"
               class="py-1 px-4 d-block"
@@ -111,7 +111,7 @@
             >
               Contracts
             </router-link>
-          </li>
+          </li> -->
           <li>
             <router-link
               to="/jobs"
@@ -130,7 +130,7 @@
               Rewards
             </router-link>
           </li>
-          <li>
+          <!-- <li>
             <router-link
               to="/cards/mycollection"
               class="py-1 px-4 d-block"
@@ -138,7 +138,7 @@
             >
               Cards
             </router-link>
-          </li>
+          </li> -->
           <li>
             <router-link
               to="/market/shop"

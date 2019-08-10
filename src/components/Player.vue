@@ -75,7 +75,7 @@
         <span class="mr-3" v-if="player && rank && !player.amount" >
            BONUS :
           <div>
-          {{ Math.round(100/rank) | amount}}
+          {{ Math.round(10/rank) | amount}}
           <Icon name="dwd" size="22"/>
           </div>
         </span>

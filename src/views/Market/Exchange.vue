@@ -10,7 +10,7 @@
 			<div v-if="steemAccount" class="m2-4">
 				<h4>Withdraw DWD token(s) to SteemEngine</h4>
 			</div>
-			<div v-else>
+			<div v-else> 
 				<h5>At this moment SteemEngine is only available for Steem users.</h5>
 			</div>
 		</div>

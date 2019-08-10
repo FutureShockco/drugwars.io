@@ -16,12 +16,22 @@
 				<div class="username mb-4">{{ fight.attacker_nickname }}</div>
 				<div
 					v-if="fight.attacker_gang"
-					class="username gang mt-4"
+					class="username gang mt-4 mb-4"
 				>{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
-				<div
-					v-if="details && json && json.attacker && json.attacker.value"
-					v-html="json.attacker.value"
-				></div>
+				<div >
+					<div v-if="details && json && json.attacker && json.attacker.start_value">
+						<b>Attacker Start:</b>
+						<ActionsValue :result="json.attacker.start_value"/>
+					</div>
+					<div class="mb-2 mt-2" v-if="json.attacker">
+						<Army v-if="json.attacker.units" :units="json.attacker.units" :withDead="true"/>
+					</div>
+					<div v-if="details && json && json.target && json.target.start_value">
+						<ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value"/>
+					</div>
+					<div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
+					<p class="message mb-4">{{ fight.message }}</p>
+				</div>
 			</div>
 			<div class="column col-2">
 				<div class="mt-2" v-if="result">
@@ -52,28 +62,9 @@
 				<Avatar v-else :size="60" :username="user.nickname" :picture="user.picture"/>
 				<div class="username mb-4">{{ fight.target_nickname }}</div>
 				<div v-if="fight.target_ticker"
-					class="username gang mt-4"
+					class="username gang mt-4 mb-4"
 				>{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
-				<div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
-			</div>
-		</div>
-		<div>
-			<div v-if="details || fight.is_done === 0" class="columns text-center">
-				<div class="column col-6">
-					<div v-if="details && json && json.attacker && json.attacker.start_value">
-						<b>Attacker Start:</b>
-						<ActionsValue :result="json.attacker.start_value"/>
-					</div>
-					<div class="mb-2 mt-2" v-if="json.attacker">
-						<Army v-if="json.attacker.units" :units="json.attacker.units" :withDead="true"/>
-					</div>
-					<div v-if="details && json && json.target && json.target.start_value">
-						<ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value"/>
-					</div>
-					<div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
-					<p class="message mb-4">{{ fight.message }}</p>
-				</div>
-				<div class="column col-6">
+				<div >
 					<div v-if="details && json && json.target && json.target.start_value">
 						<b>Defender Start:</b>
 						<ActionsValue :result="json.target.start_value"/>
@@ -86,6 +77,8 @@
           </div>
 				</div>
 			</div>
+		</div>
+		<div>
 			<div v-if="details" class="text-center">
 				<h5 v-if="fight.attacker_reward">REWARDS :</h5>
 				<div v-if="fight.attacker_reward">{{fight.attacker_reward}} DWD</div>

@@ -2,7 +2,7 @@
     <div>
         <ActionsTabs/>
         <div class="p-4 columns">
-            <div v-if="ownUnits.length > 0" class="column text-left col-6">
+            <div v-if="ownUnits.length > 0" class="column">
                 <h3 class="mb-0">Select your action type</h3>
                   <div v-if="action_type === 'attack'">
                      Attack another player

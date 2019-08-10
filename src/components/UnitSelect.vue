@@ -1,6 +1,8 @@
 <template>
   <div class="column px-0 col-4 mb-6 sunit">
     <div class="sunit"  @click="handleClick">
+              <div class="smalltitle">{{unit.name}}</div>
+
     <img class="mini rounded-2" :src="`/img/units/${unit.id}.jpg`" />
     <i class="iconfont icon-plus"></i>
     </div>
@@ -47,7 +49,7 @@ export default {
 }
 
 .sunit {
-  height: 65px;
+  height: 70px;
   width: 60px;
   margin-right: 10px;
 }
@@ -63,5 +65,9 @@ input {
   top: -56px;
   color: #fbbd07;
   left: 0px;
+}
+.smalltitle{
+  font-size: 8px;
+  color: #fbbd07;
 }
 </style>

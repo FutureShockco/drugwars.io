@@ -2,7 +2,6 @@
 	<div>
 		<MarketTabs />
 		<div class="p-4 text-center">
-			<img src="/img/icons/dwd.png" />
 			<h3 class="mb-4">
 				You have
 				<b>{{ user.dwd }} DWD</b> token(s) in-game
@@ -15,7 +14,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<form v-if="user.dwd > 0" class="form mx-auto" @submit.prevent="handleSubmit">
+			<form v-if="user.dwd > 0 && steemAccount" class="form mx-auto" @submit.prevent="handleSubmit">
 				<input
 					class="input input-primary mb-2"
 					type="number"
@@ -40,57 +39,60 @@
 				<p class="mb-4">You don't have any token to claim.</p>
 			</div>
 			<div>
-				<div class="p-4 text-center">
-					<h5>DWD Informations</h5>
-					<h6>
+				<div class="p-4 text-center mt-6 mb-6">
+					<h5 class="columns">DWD Token Informations</h5>
+					<h6 class="column col-4 m-0">
 						Max Supply :
-						<b> {{ this.maxSupply | amount }} DWD</b>
+						<p class="text-yellow"> {{ this.maxSupply | amount }} DWD</p>
 					</h6>
-					<h6>
+					<div class="column text-center col-4 m-0">
+					<img  src="/img/icons/dwd.png" />
+					</div>
+					<h6 class="column col-4 m-0">
 						Staking activated :
-						<b>False</b>
+						<p class="text-yellow">False</p>
 					</h6>
-					<h5>
+					<h5 class="columns">
 						Token distribution
 					</h5>
-					<h6>
+					<h6 class="column col-4 m-0">
 						Total issued :
-						<b>{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</b>
+						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</p>
 					</h6>
-					<h6>
-						Circulating Supply (ON MARKET):
-						<b>{{ this.supply | amount }} DWD</b>
+					<h6 class="column col-4 m-0">
+						Circulating (ON MARKET) :
+						<p class="text-yellow">{{ this.supply | amount }} DWD</p>
 					</h6>
-					<h6>
-						Unissued Supply (IN GAME):
-						<b>{{ this.prizeProps.total_dwd | amount}} DWD</b>
+					<h6 class="column col-4 m-0">
+						Circulating (IN GAME) :
+						<p class="text-yellow">{{ this.prizeProps.total_dwd | amount}} DWD</p>
 					</h6>
-					<h5>Statistics</h5>
-					<h6>
-					 Today total spent:
-						<b>{{ this.prizeProps.daily_purchase | amount}} DWD</b>
+					<h5 class="columns">Statistics</h5>
+					<h6 class="column col-3 m-0">
+					 Today spent:
+						<p :class="{ 'text-green' : this.prizeProps.daily_purchase > this.prizeProps.daily_rewards }">{{ this.prizeProps.daily_purchase | amount}} DWD</p>
 					</h6>
-          <h6 v-if="this.prizeProps.yesterday_purchase">
-					 Yesterday total spent:
-					<b>{{ this.prizeProps.yesterday_purchase | amount}} DWD</b>
-					</h6>
-					<h6>
+					<h6 class="column col-3 m-0">
 					 Today rewards:
-						<b>{{ this.prizeProps.daily_rewards | amount}} DWD</b>
+						<p class="text-yellow">{{ this.prizeProps.daily_rewards | amount}} DWD</p>
 					</h6>
-					<h6>
+					 <h6 class="column col-3 m-0">
+					 Yesterday spent:
+					<p :class="{ 'text-green' : this.prizeProps.yesterday_purchase > this.prizeProps.yesterday_rewards }">{{ this.prizeProps.yesterday_purchase | amount}} DWD</p>
+					</h6>
+					<h6 class="column col-3 m-0">
 					 Yesterday rewards:
-						<b>{{ this.prizeProps.yesterday_rewards | amount}} DWD</b>
+						<p class="text-yellow">{{ this.prizeProps.yesterday_rewards | amount}} DWD</p>
 					</h6>
-					<div class="mt-4">
+				</div>
+			</div>
+		</div>
+					<div class="text-center p-6">
 						More on SteemEngine
 						<a
 							href="https://steem-engine.com/?p=market&t=DWD"
 						>https://steem-engine.com/</a>.
-					</div>
-				</div>
 			</div>
-		</div>
 	</div>
 </template>
 
@@ -175,5 +177,8 @@
 <style scoped lang="less">
 	.icons {
 		margin-bottom: -3px;
+	}
+	.text-yellow{
+		color:#ffc508;
 	}
 </style>

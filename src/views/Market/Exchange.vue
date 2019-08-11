@@ -143,7 +143,6 @@
 					self.maxSupply = result[0].maxSupply;
 					ssc.find('market', 'metrics', {symbol: 'DWD' }, 1000, 0, '', false).then(async (metrics) => {
 						let [stat] = metrics;
-						console.log(stat)
 						self.volume = stat.volume
 						self.priceChangePercent = stat.priceChangePercent.split('%')[0]
 						self.priceChangeSteem = stat.priceChangeSteem

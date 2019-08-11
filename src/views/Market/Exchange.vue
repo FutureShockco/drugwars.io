@@ -56,7 +56,7 @@
 						Token distribution
 					</h5>
 					<h6 class="column col-4 m-0">
-						Total issued :
+						Total circulating :
 						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</p>
 					</h6>
 					<h6 class="column col-4 m-0">
@@ -68,6 +68,22 @@
 						<p class="text-yellow">{{ this.prizeProps.total_dwd | amount}} DWD</p>
 					</h6>
 					<h5 class="columns">Statistics</h5>
+						<h6 class="column col-3 m-0">
+					 Volume (24h):
+						<p class="text-yellow">{{ this.volume | amount}} DWD</p>
+					</h6>
+					<h6 class="column col-3 m-0">
+					 Price Change:
+						<p class="text-red" :class="{ 'text-green' : this.priceChangePercent | amount > 0 }">{{ this.priceChangePercent }}%</p>
+					</h6>
+					 <h6 class="column col-3 m-0">
+					 Last Price:
+					<p> ${{ parseFloat(this.lastPrice * this.prizeProps.steemprice).toFixed(3) }} </p>
+					</h6>
+					<h6 class="column col-3 m-0">
+					 Bid/Ask:
+						<p> ${{ parseFloat(this.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</p>
+					</h6>
 					<h6 class="column col-3 m-0">
 					 Today spent:
 						<p :class="{ 'text-green' : this.prizeProps.daily_purchase > this.prizeProps.daily_rewards }">{{ this.prizeProps.daily_purchase | amount}} DWD</p>
@@ -109,6 +125,13 @@
 				amount: 0,
 				supply: null,
 				maxSupply: null,
+				volume:null,
+				priceChangePercent:null,
+				priceChangeSteem:null,
+				lastDayPrice: null,
+				lastPrice: null,
+				highestBid:null,
+				lowestAsk:null,
 			};
 		},
 		created() {
@@ -118,8 +141,20 @@
 				if (result) {
 					self.supply = result[0].circulatingSupply;
 					self.maxSupply = result[0].maxSupply;
+					ssc.find('market', 'metrics', {symbol: 'DWD' }, 1000, 0, '', false).then(async (metrics) => {
+						let [stat] = metrics;
+						console.log(stat)
+						self.volume = stat.volume
+						self.priceChangePercent = stat.priceChangePercent.split('%')[0]
+						self.priceChangeSteem = stat.priceChangeSteem
+						self.lastDayPrice = stat.lastDayPrice
+						self.lastPrice = stat.lastPrice
+						self.highestBid = stat.highestBid
+						self.lowestAsk = stat.lowestAsk
+					})
 				}
 			});
+	
 		},
 		computed: {
 			user() {

@@ -64,7 +64,7 @@
         <span class="mr-3">
           REWARDS : 
           <div>
-          {{ player.amount | amount}}
+          {{ player.amount }}
           <Icon name="dwd" size="22"/>
           </div>
         </span>

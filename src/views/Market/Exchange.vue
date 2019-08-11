@@ -41,31 +41,47 @@
 			</div>
 			<div>
 				<div class="p-4 text-center">
-					<p class="mb-4">Informations</p>
-					<h5>
+					<h5>DWD Informations</h5>
+					<h6>
 						Max Supply :
-						<b>{{ this.maxSupply | amount }} DWD</b>
-					</h5>
+						<b> {{ this.maxSupply | amount }} DWD</b>
+					</h6>
+					<h6>
+						Staking activated :
+						<b>False</b>
+					</h6>
 					<h5>
+						Token distribution
+					</h5>
+					<h6>
+						Total issued :
+						<b>{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</b>
+					</h6>
+					<h6>
 						Circulating Supply (ON MARKET):
 						<b>{{ this.supply | amount }} DWD</b>
-					</h5>
-					<h5>
+					</h6>
+					<h6>
 						Unissued Supply (IN GAME):
 						<b>{{ this.prizeProps.total_dwd | amount}} DWD</b>
-					</h5>
-          <h5>
-					 Total spent (TODAY):
+					</h6>
+					<h5>Statistics</h5>
+					<h6>
+					 Today total spent:
 						<b>{{ this.prizeProps.daily_purchase | amount}} DWD</b>
-					</h5>
-                    <h5>
+					</h6>
+          <h6 v-if="this.prizeProps.yesterday_purchase">
+					 Yesterday total spent:
+					<b>{{ this.prizeProps.yesterday_purchase | amount}} DWD</b>
+					</h6>
+					<h6>
 					 Today rewards:
 						<b>{{ this.prizeProps.daily_rewards | amount}} DWD</b>
-					</h5>
-                    <h5>
+					</h6>
+					<h6>
 					 Yesterday rewards:
 						<b>{{ this.prizeProps.yesterday_rewards | amount}} DWD</b>
-					</h5>
+					</h6>
 					<div class="mt-4">
 						More on SteemEngine
 						<a

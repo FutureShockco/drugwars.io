@@ -14,7 +14,7 @@
             <div v-else class="card-box">
 
                 <div v-for="card in cards" class="card" :key="card.id" :id="card.id+'-card'">
-    
+                    
                     <canvas width="200" height="264" :id="card.id+'-card-front'" class="card-front"></canvas>
     
                 </div>
@@ -85,7 +85,7 @@ export default {
                 const flag = new Image();
                 const effect = new Image();
                 const path = 'http://teelkee.com/dw'
-                background.src = `${path}/backgrounds/weapon/1.png`;
+                background.src = `../img/cards/background/1.png`;
 
                 background.onload = () => {
                     frame.src = `${path}/frames/1.png`;
@@ -94,12 +94,7 @@ export default {
                 };
 
                 frame.onload = () => {
-                    effect.src = `${path}/effects/5.png`;
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
-                };
 
-                effect.onload = () => {
                     if (card.ctype === 'buildings') {
                       console.log(card.id)
                         character.src = `../img/cards/buildings/${card.id}.png`;
@@ -111,10 +106,18 @@ export default {
                         character.src = `${path}/heroes/${card.pic}.png`;
                     }
                     ctx.imageSmoothingEnabled = true;
-                    ctx.drawImage(effect, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+
                 };
 
                 character.onload = () => {
+                    effect.src = `../img/cards/fx/1.png`;
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.drawImage(character, 0, 0, canvas.width, canvas.height);
+
+                };
+
+                effect.onload = () => {
                     //border.src = `${path}/borders/${card.quality}.png`;
                     if (card.owned && card.ctype === 'units') {
                         attack_type.src = `${path}/icons/${card.dmg_type}.png`;
@@ -123,7 +126,7 @@ export default {
                         attack_type.src = `${path}/icons/weapon.png`;
                     }
                     ctx.imageSmoothingEnabled = true;
-                    ctx.drawImage(character, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(effect, 0, 0, canvas.width, canvas.height);
                 };
                 attack_type.onload = () => {
                     flag.src = `${path}/flags/fr.png`;
@@ -162,7 +165,7 @@ export default {
                         this.wrapText(
                             ctx,
                             card.name,
-                            10,
+                            20,
                             142,
                             canvas.width - 50,
                             16,
@@ -176,91 +179,92 @@ export default {
                             this.wrapText(
                                 ctx,
                                 card.feature.toString().toUpperCase(),
-                                10,
+                                20,
                                 158,
-                                canvas.width - 10,
+                                canvas.width - 70,
                                 11,
                             );
                          }
-                         if (card.desc) {
-                            ctx.font = '8px Helvetica';
+                        //  if (card.desc) {
+                        //     ctx.font = '8px Helvetica';
 
-                            ctx.fillStyle = '#fff';
-                            this.wrapText(
-                                ctx,
-                                card.desc.toString().toUpperCase(),
-                                10,
-                                208,
-                                canvas.width - 10,
-                                11,
-                            );
+                        //     ctx.fillStyle = '#fff';
+                        //     this.wrapText(
+                        //         ctx,
+                        //         card.desc.toString().toUpperCase(),
+                        //         20,
+                        //         208,
+                        //         canvas.width - 10,
+                        //         11,
+                        //     );
 
-                        }
+                        // }
 
                     }
-                    if (card.ctype === 'unit') {
+                    console.log(card.ctype)
+                    if (card.ctype === 'units') {
 
                         //DRAW attributes TOP
                         ctx.textAlign = 'center';
-                        ctx.font = '10px American Captain';
+                        ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('ATTACK', 87, 240);
-                        ctx.font = '14px American Captain';
+                        ctx.fillText('ATTACK', 173, 168);
+                        ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.attack, 87, 252);
+                        ctx.fillText(card.attack, 173, 180);
 
-                        ctx.font = '10px American Captain';
+                        ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('HEALTH', 119, 240);
-                        ctx.font = '14px American Captain';
+                        ctx.fillText('HEALTH', 173, 190);
+                        ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.health, 119, 252);
+                        ctx.fillText(card.health, 173, 202);
 
-                        ctx.font = '10px American Captain';
+                        ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('SPEED', 151, 240);
-                        ctx.font = '14px American Captain';
+                        ctx.fillText('SPEED', 173, 212);
+                        ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.speed, 151, 252);
+                        ctx.fillText(card.speed, 173, 224);
 
-                        ctx.font = '10px American Captain';
+                        ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('CARRY', 183, 240);
-                        ctx.font = '14px American Captain';
+                        ctx.fillText('CARRY', 173, 234);
+                        ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.capacity, 183, 252);
+                        ctx.fillText(card.capacity, 173, 246);
 
 
 
-                        //DRAW attributes BOTTOM
-                        ctx.textAlign = 'center';
-                        ctx.font = '10px American Captain';
-                        ctx.fillStyle = yellowgradient;
-                        ctx.fillText('PHYSICAL', 87, 268);
-                        ctx.font = '14px American Captain';
-                        ctx.fillStyle = '#fff';
-                        ctx.fillText(card.res_physical, 87, 280);
+                        // //DRAW attributes BOTTOM
+                        // ctx.textAlign = 'center';
+                        // ctx.font = '10px American Captain';
+                        // ctx.fillStyle = yellowgradient;
+                        // ctx.fillText('PHYSICAL', 87, 268);
+                        // ctx.font = '14px American Captain';
+                        // ctx.fillStyle = '#fff';
+                        // ctx.fillText(card.res_physical, 87, 280);
 
-                        ctx.font = '10px American Captain';
-                        ctx.fillStyle = yellowgradient;
-                        ctx.fillText('WEAPON', 119, 268);
-                        ctx.font = '14px American Captain';
-                        ctx.fillStyle = '#fff';
-                        ctx.fillText(card.res_weapon, 119, 280);
+                        // ctx.font = '10px American Captain';
+                        // ctx.fillStyle = yellowgradient;
+                        // ctx.fillText('WEAPON', 119, 268);
+                        // ctx.font = '14px American Captain';
+                        // ctx.fillStyle = '#fff';
+                        // ctx.fillText(card.res_weapon, 119, 280);
 
-                        ctx.font = '10px American Captain';
-                        ctx.fillStyle = yellowgradient;
-                        ctx.fillText('FIRE', 151, 268);
-                        ctx.font = '14px American Captain';
-                        ctx.fillStyle = '#fff';
-                        ctx.fillText(card.res_fire, 151, 280);
+                        // ctx.font = '10px American Captain';
+                        // ctx.fillStyle = yellowgradient;
+                        // ctx.fillText('FIRE', 151, 268);
+                        // ctx.font = '14px American Captain';
+                        // ctx.fillStyle = '#fff';
+                        // ctx.fillText(card.res_fire, 151, 280);
 
-                        ctx.font = '10px American Captain';
-                        ctx.fillStyle = yellowgradient;
-                        ctx.fillText('CHEMICAL', 183, 268);
-                        ctx.font = '14px American Captain';
-                        ctx.fillStyle = '#fff';
-                        ctx.fillText(card.res_chemical, 183, 280);
+                        // ctx.font = '10px American Captain';
+                        // ctx.fillStyle = yellowgradient;
+                        // ctx.fillText('CHEMICAL', 183, 268);
+                        // ctx.font = '14px American Captain';
+                        // ctx.fillStyle = '#fff';
+                        // ctx.fillText(card.res_chemical, 183, 280);
                     } else if (!card.owned) {
 
                         ctx.imageSmoothingEnabled = true;
@@ -284,10 +288,11 @@ export default {
                         );
                         ctx.font = '13px American Captain';
                     }
-                    ctx.font = ' 26px Legend';
+                    ctx.textAlign = 'center';
+                    ctx.font = '14px Legend';
 
                     ctx.fillStyle = '#fff';
-                    ctx.fillText('X1'.toUpperCase(), 40, 280);
+                    ctx.fillText('X1'.toUpperCase(), 173, 148);
 
                     c.style.transform = 'rotateY(0deg)';
                     this.card = card;

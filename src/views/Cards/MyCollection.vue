@@ -10,9 +10,8 @@
               <button class="button ml-1" @click="chooseCardType('heroes')" :class="{ 'button-yellow' : card_type ==='heroes' }">HEROES</button>
               <button class="button ml-1" @click="chooseCardType('consumables')" :class="{ 'button-yellow' : card_type ==='consumables' }">CONSUMABLES</button>
             </div>
-			    <Loading v-if="loading"/>
-            <div v-else class="card-box">
-
+            <Loading v-if="loading"/>
+            <div class="card-box">
                 <div v-for="card in cards" class="card" :key="card.id" :id="card.id+'-card'">
                     <canvas width="220" height="295" :id="card.id+'-card-front'" class="card-front"></canvas>
                 </div>
@@ -42,7 +41,7 @@ export default {
     const self = this;
     self.cards = [];
     // self.handleSubmit()
-    this.loading = true;
+    self.loading = true;
     const b = filter(pickBy(buildings));
     const u = filter(pickBy(units));
     const t = filter(pickBy(trainings));
@@ -62,13 +61,16 @@ export default {
     //     self.cards.push(element)
     // });
     // const generator = new CardPack(5);
-    self.loading = false;
     setTimeout(() => {
       self.handleSubmit();
     }, 3000);
   },
   methods: {
     handleSubmit() {
+            const self = this;
+            self.loading = true;
+
+
       this.cards.forEach(card => {
         const c = document.getElementById(`${card.id}-card`);
         let canvas = document.getElementById(`${card.id}-card-front`),
@@ -293,6 +295,7 @@ export default {
 
           ctx.fillStyle = '#fff';
           ctx.fillText('X1'.toUpperCase(), 190, 165);
+            self.loading = false;
 
           c.style.transform = 'rotateY(0deg)';
           this.card = card;
@@ -351,7 +354,7 @@ export default {
       self.loading = false;
       setTimeout(() => {
         self.handleSubmit();
-      }, 1000);
+      }, 2000);
     },
   },
 };

@@ -39,76 +39,79 @@
 				<p class="mb-4">You don't have any token to claim.</p>
 			</div>
 			<div>
-				<div class="p-4 text-center mt-6 mb-6">
+				<div class="p-4 text-center mt-6 mb-6 border-top">
 					<h5 class="columns">DWD Token Informations</h5>
 					<h6 class="column col-4 m-0">
-						Max Supply :
+						Max Supply
 						<p class="text-yellow"> {{ this.maxSupply | amount }} DWD</p>
 					</h6>
-					<div class="column text-center col-4 m-0">
-					<img  src="/img/icons/dwd.png" />
-					</div>
-					<h6 class="column col-4 m-0">
-						Staking activated :
+					<h6 class="column col-4 m-0 border-left">
+						Total Burned
+						<p class="text-yellow"> {{ this.prizeProps.total_burn | amount }} DWD</p>
+					</h6>
+					<h6 class="column col-4 m-0 border-left">
+						Staking activated
 						<p class="text-yellow">False</p>
+					</h6>
+					<h6 class="column col-6 m-0">
+					 Estimated end of issuance (Unissued tokens / yesterday reward)
+						<p class="text-yellow"> {{ endDate }} </p>
+					</h6>
+					<h6 class="column col-6 m-0">
+					 Estimated end of combustion (Unissued tokens / yesterday burn)
+						<p class="text-yellow"> {{ endSupply }} </p>
 					</h6>
 					<h5 class="columns">
 						Token distribution
 					</h5>
-					<h6 class="column col-4 m-0">
-						Total circulating :
+					<h6 class="column col-4 m-0 ">
+						Total circulating
 						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</p>
 					</h6>
-					<h6 class="column col-4 m-0">
-						Circulating (ON MARKET) :
+					<h6 class="column col-4 m-0 border-left">
+						Circulating (ON MARKET)
 						<p class="text-yellow">{{ this.supply | amount }} DWD</p>
 					</h6>
-					<h6 class="column col-4 m-0">
-						Circulating (IN GAME) :
+					<h6 class="column col-4 m-0 border-left">
+						Circulating (IN GAME)
 						<p class="text-yellow">{{ this.prizeProps.total_dwd | amount}} DWD</p>
 					</h6>
 					<h5 class="columns">Statistics</h5>
 						<h6 class="column col-3 m-0">
-					 Volume (24h):
+					 Volume (24h)
 						<p class="text-yellow">{{ this.volume | amount}} DWD</p>
 					</h6>
-					<h6 class="column col-3 m-0">
-					 Price Change:
+					<h6 class="column col-3 m-0 border-left">
+					 Price Change
 						<p class="text-red" :class="{ 'text-green' : this.priceChangePercent | amount > 0 }">{{ this.priceChangePercent }}%</p>
 					</h6>
-					 <h6 class="column col-3 m-0">
-					 Last Price:
+					 <h6 class="column col-3 m-0 border-left">
+					 Last Price
 					<p> ${{ parseFloat(this.lastPrice * this.prizeProps.steemprice).toFixed(3) }} </p>
 					</h6>
-					<h6 class="column col-3 m-0">
-					 Bid/Ask:
+					<h6 class="column col-3 m-0 border-left">
+					 Bid/Ask
 						<p> ${{ parseFloat(this.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</p>
 					</h6>
 					<h6 class="column col-3 m-0">
-					 Today spent:
+					 Today spent
 						<p :class="{ 'text-green' : this.prizeProps.daily_purchase > this.prizeProps.daily_rewards }">{{ this.prizeProps.daily_purchase | amount}} DWD</p>
 					</h6>
-					<h6 class="column col-3 m-0">
-					 Today rewards:
+					<h6 class="column col-3 m-0 border-left">
+					 Today rewards
 						<p class="text-yellow">{{ this.prizeProps.daily_rewards | amount}} DWD</p>
 					</h6>
-					 <h6 class="column col-3 m-0">
-					 Yesterday spent:
+					 <h6 class="column col-3 m-0 border-left">
+					 Yesterday spents
 					<p :class="{ 'text-green' : this.prizeProps.yesterday_purchase > this.prizeProps.yesterday_rewards }">{{ this.prizeProps.yesterday_purchase | amount}} DWD</p>
 					</h6>
-					<h6 class="column col-3 m-0">
-					 Yesterday rewards:
+					<h6 class="column col-3 m-0 border-left">
+					 Yesterday rewards
 						<p class="text-yellow">{{ this.prizeProps.yesterday_rewards | amount}} DWD</p>
 					</h6>
 				</div>
 			</div>
 		</div>
-					<div class="text-center p-6">
-						More on SteemEngine
-						<a
-							href="https://steem-engine.com/?p=market&t=DWD"
-						>https://steem-engine.com/</a>.
-			</div>
 	</div>
 </template>
 
@@ -150,9 +153,9 @@ export default {
           self.lastPrice = stat.lastPrice;
           self.highestBid = stat.highestBid;
           self.lowestAsk = stat.lowestAsk;
-        });
-      }
-    });
+				});
+			}
+		})
   },
   computed: {
     user() {
@@ -180,6 +183,20 @@ export default {
       return parseFloat(
         this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
       ).toFixed(3);
+		},    
+		endDate() {
+			const { prizeProps } = this.$store.state.game;
+			const end = parseFloat((10000000 - (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
+			var date = new Date();
+			date.setDate(date.getDay() + end);
+			return date.toLocaleString();
+			},
+			endSupply() {
+				const { prizeProps } = this.$store.state.game;
+				const end = parseFloat((10000000 - (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase-this.prizeProps.yesterday_rewards))
+						var date = new Date();
+			date.setDate(date.getDay() + end);
+			return date.toLocaleString();
     },
   },
   methods: {

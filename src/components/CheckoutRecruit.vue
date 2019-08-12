@@ -63,20 +63,19 @@ export default {
   },
   computed: {
     updateTime() {
-      // return (this.coeff * 160 - (this.level * 70) / 100) * this.quantity * 1000;
-      return (this.coeff * 200 - (this.coeff * 240 * (this.level+this.militaryAcademy)) / 100) * (this.quantity * 1000);
-      // utils.calculateTimeToTrain(this.coeff, this.level, this.quantity);
+      return (
+        (this.coeff * 200 - (this.coeff * 240 * (this.level + this.militaryAcademy)) / 100) *
+        (this.quantity * 1000)
+      );
     },
     base() {
       return this.$store.state.game.mainbase;
     },
-    militaryAcademy()
-    {
+    militaryAcademy() {
       let militaryLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'academy'))
-        militaryLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'academy')
-          .lvl;
-        return militaryLvl
+        militaryLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'academy').lvl;
+      return militaryLvl;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -108,10 +107,7 @@ export default {
       return (this.priceInSteem / 3).toFixed(3);
     },
     notEnoughDWD() {
-      return (
-        (this.priceInSteem / 3).toFixed(3) >
-        this.$store.state.game.user.user.dwd
-      );
+      return (this.priceInSteem / 3).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     timeToWait() {
       const unit = this.$store.state.game.user.units.find(

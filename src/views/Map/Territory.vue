@@ -301,34 +301,28 @@ export default {
 
       createTiles(15, 15);
 
-
       function drawTiles() {
-              const background = new Image();
-      background.src = `../img/map/map.jpg`;
-      background.onload = () => {
+        const background = new Image();
+        background.src = `../img/map/map.jpg`;
+        background.onload = () => {
           context.imageSmoothingEnabled = true;
           context.drawImage(background, 0, 0, canvas.width, canvas.height);
-           tiles_array.forEach(tile => {
-          context.beginPath();
-          if(tile.fillColor)
-          context.fillStyle = tile.fillColor;
-          else
-          context.fillStyle = "rgba(255, 255, 255, 0.0)";
-          context.rect(tile.x, tile.y, tile.width, tile.height);
-          context.lineWidth = '3';
-          context.strokeStyle = tile.strokeStyle;
-          context.strokeStyle = '#000';
-          context.stroke();
-          if(tile.fillColor)
-          context.fill();
-          context.textAlign = 'center';
-          context.font = '12px American Captain';
-          context.fillStyle = '#fff';
-          context.fillText(tile.id, tile.x + 10, tile.y + 25);
-        });
-      };
-
-       
+          tiles_array.forEach(tile => {
+            context.beginPath();
+            if (tile.fillColor) context.fillStyle = tile.fillColor;
+            else context.fillStyle = 'rgba(255, 255, 255, 0.0)';
+            context.rect(tile.x, tile.y, tile.width, tile.height);
+            context.lineWidth = '3';
+            context.strokeStyle = tile.strokeStyle;
+            context.strokeStyle = '#000';
+            context.stroke();
+            if (tile.fillColor) context.fill();
+            context.textAlign = 'center';
+            context.font = '12px American Captain';
+            context.fillStyle = '#fff';
+            context.fillText(tile.id, tile.x + 10, tile.y + 25);
+          });
+        };
       }
       drawTiles();
 

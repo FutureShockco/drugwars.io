@@ -67,10 +67,7 @@ export default {
       return (this.priceInSteem / 3).toFixed(3);
     },
     notEnoughDWD() {
-      return (
-        (this.priceInSteem / 3).toFixed(3) >
-        this.$store.state.game.user.user.dwd
-      );
+      return (this.priceInSteem / 3).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

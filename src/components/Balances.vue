@@ -97,13 +97,14 @@ export default {
       return this.$store.state.game.user.user;
     },
     user_production() {
-      const all_hq = this.$store.state.game.user.buildings.filter(b=> b.building === "headquarters")
+      const all_hq = this.$store.state.game.user.buildings.filter(
+        b => b.building === 'headquarters',
+      );
       let production = 0;
       all_hq.forEach(element => {
-        if(element.drug_production_rate)
-        production = production + element.drug_production_rate
+        if (element.drug_production_rate) production = production + element.drug_production_rate;
       });
-      return production
+      return production;
     },
     base() {
       return this.$store.state.game.mainbase;
@@ -231,10 +232,12 @@ export default {
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
           .lvl;
-      return (
-        parseFloat(this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
+          
+      return parseFloat(
+        this.user.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
         this.user.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025).toFixed(2)
-      );
+          
+
     },
     weaponBonus() {
       let oc = 0;
@@ -256,10 +259,10 @@ export default {
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
         weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
           .lvl;
-      return (
-        parseFloat(this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
+      return parseFloat(
+        this.user.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
         this.user.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005).toFixed(2)
-      );
+ 
     },
     alcoholBonus() {
       let oc = 0;
@@ -282,10 +285,10 @@ export default {
         distilleryLvl = this.$store.state.game.gang_buildings.find(
           b => b.building === 'distillery_school',
         ).lvl;
-      return (
-        parseFloat(this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
-        this.user.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005).toFixed(2)
-      );
+      return parseFloat(
+        this.user.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
+          this.user.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005,
+      ).toFixed(2);
     },
   },
 };

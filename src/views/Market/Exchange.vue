@@ -113,106 +113,105 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex';
-	import SSC from 'sscjs';
+import { mapActions } from 'vuex';
+import SSC from 'sscjs';
 
-	export default {
-		data() {
-			return {
-				isLoading: false,
-				nickname: null,
-				picked: 'steem',
-				amount: 0,
-				supply: null,
-				maxSupply: null,
-				volume:null,
-				priceChangePercent:null,
-				priceChangeSteem:null,
-				lastDayPrice: null,
-				lastPrice: null,
-				highestBid:null,
-				lowestAsk:null,
-			};
-		},
-		created() {
-			const self = this;
-			const ssc = new SSC('https://api.steem-engine.com/rpc/');
-			ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
-				if (result) {
-					self.supply = result[0].circulatingSupply;
-					self.maxSupply = result[0].maxSupply;
-					ssc.find('market', 'metrics', {symbol: 'DWD' }, 1000, 0, '', false).then(async (metrics) => {
-						let [stat] = metrics;
-						self.volume = stat.volume
-						self.priceChangePercent = stat.priceChangePercent.split('%')[0]
-						self.priceChangeSteem = stat.priceChangeSteem
-						self.lastDayPrice = stat.lastDayPrice
-						self.lastPrice = stat.lastPrice
-						self.highestBid = stat.highestBid
-						self.lowestAsk = stat.lowestAsk
-					})
-				}
-			});
-	
-		},
-		computed: {
-			user() {
-				return this.$store.state.game.user.user;
-			},
-			prizeProps() {
-				const { prizeProps } = this.$store.state.game;
-				return prizeProps;
-			},
-			lastUpdate() {
-				return new Date(
-					Date.parse(this.$store.state.game.user.user.last_profile_update),
-				).toLocaleString();
-			},
-			steemAccount() {
-				if (this.$store.state.auth.account) return this.$store.state.auth.account;
-				return 0;
-			},
-			dwdToSteem() {
-				const { prizeProps } = this.$store.state.game;
-				return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
-			},
-			totalDWD() {
-				const { prizeProps } = this.$store.state.game;
-				return parseFloat(this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance))).toFixed(
-					3,
-				);
-			},
-		},
-		methods: {
-			...mapActions(['send', 'notify']),
-			handleSubmit() {
-				const payload = {
-					currency: this.picked,
-					amount: parseInt(this.amount),
-					type: 'widthraw',
-				};
-				this.isLoading = true;
-				this.send(payload)
-					.then(result => {
-						if (result) {
-							this.isLoading = false;
-						}
-					})
-					.catch(e => {
-						this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
-						console.error(`Failed to withdraw ${payload.amount} DWD`, e);
-						this.isLoading = false;
-					});
-			},
-		},
-	};
+export default {
+  data() {
+    return {
+      isLoading: false,
+      nickname: null,
+      picked: 'steem',
+      amount: 0,
+      supply: null,
+      maxSupply: null,
+      volume: null,
+      priceChangePercent: null,
+      priceChangeSteem: null,
+      lastDayPrice: null,
+      lastPrice: null,
+      highestBid: null,
+      lowestAsk: null,
+    };
+  },
+  created() {
+    const self = this;
+    const ssc = new SSC('https://api.steem-engine.com/rpc/');
+    ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
+      if (result) {
+        self.supply = result[0].circulatingSupply;
+        self.maxSupply = result[0].maxSupply;
+        ssc.find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false).then(async metrics => {
+          const [stat] = metrics;
+          self.volume = stat.volume;
+          self.priceChangePercent = stat.priceChangePercent.split('%')[0];
+          self.priceChangeSteem = stat.priceChangeSteem;
+          self.lastDayPrice = stat.lastDayPrice;
+          self.lastPrice = stat.lastPrice;
+          self.highestBid = stat.highestBid;
+          self.lowestAsk = stat.lowestAsk;
+        });
+      }
+    });
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    prizeProps() {
+      const { prizeProps } = this.$store.state.game;
+      return prizeProps;
+    },
+    lastUpdate() {
+      return new Date(
+        Date.parse(this.$store.state.game.user.user.last_profile_update),
+      ).toLocaleString();
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
+    dwdToSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
+    },
+    totalDWD() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
+      ).toFixed(3);
+    },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    handleSubmit() {
+      const payload = {
+        currency: this.picked,
+        amount: parseInt(this.amount),
+        type: 'widthraw',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
+          console.error(`Failed to withdraw ${payload.amount} DWD`, e);
+          this.isLoading = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
-	.icons {
-		margin-bottom: -3px;
-	}
-	.text-yellow{
-		color:#ffc508;
-	}
+.icons {
+  margin-bottom: -3px;
+}
+.text-yellow {
+  color: #ffc508;
+}
 </style>

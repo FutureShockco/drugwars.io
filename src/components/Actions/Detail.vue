@@ -60,10 +60,10 @@ export default {
     openInNewTab() {
       const url = 'https://simulator.drugwars.io/';
       let toOpen = '';
-      let myarmy = this.$store.state.game.user.units.filter(unit =>
-            unit.base === this.ownBase.base &&
-            unit.territory === this.ownBase.territory)
-      myarmy =myarmy.map(unit =>
+      let myarmy = this.$store.state.game.user.units.filter(
+        unit => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
+      );
+      myarmy = myarmy.map(unit =>
         this.serialize({
           p: 1,
           key: unit.unit,

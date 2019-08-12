@@ -66,7 +66,7 @@ input {
   color: #fbbd07;
   left: 0px;
 }
-.smalltitle{
+.smalltitle {
   font-size: 8px;
   color: #fbbd07;
 }

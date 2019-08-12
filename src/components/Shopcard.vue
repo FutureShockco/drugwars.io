@@ -71,7 +71,7 @@ export default {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     amountOfDWD() {
-      return (this.item.price / this.$store.state.game.prizeProps.steemprice *3).toFixed(3);
+      return ((this.item.price / this.$store.state.game.prizeProps.steemprice) * 3).toFixed(3);
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -156,12 +156,12 @@ export default {
 .title {
   color: #fbbd08;
   top: 0px;
-   font-family: @heading-font;
+  font-family: @heading-font;
   font-size: 26px;
   text-transform: uppercase;
-  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
   width: 200px;
-  left:50%;
+  left: 50%;
   text-align: center;
   margin: 0;
   line-height: 20px;

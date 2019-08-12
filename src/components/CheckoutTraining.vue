@@ -75,8 +75,7 @@ export default {
     },
     notEnoughDWD() {
       return (
-        ((this.priceInSteem / 3) * this.quantity).toFixed(3) >
-        this.$store.state.game.user.user.dwd
+        ((this.priceInSteem / 3) * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
       );
     },
     timeToWait() {

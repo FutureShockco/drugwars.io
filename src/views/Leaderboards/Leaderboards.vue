@@ -36,6 +36,7 @@
 <script>
 import client from '@/helpers/client';
 import Paginate from 'vuejs-paginate';
+
 export default {
   components: {
     Paginate,
@@ -44,27 +45,27 @@ export default {
     return {
       isLoading: false,
       users: [],
-      count:0,
-      currentRank :0
+      count: 0,
+      currentRank: 0,
     };
   },
   created() {
     this.isLoading = true;
     this.load_leaders(1);
   },
-   methods: {
+  methods: {
     load_leaders(start) {
-      this.users=[];
-      this.currentRank = (start-1) * 50
+      this.users = [];
+      this.currentRank = (start - 1) * 50;
       let end = 50;
       end = start * 50;
       start = end - 50; // eslint-disable-line no-param-reassign
-      const params = {start,end}
+      const params = { start, end };
       client.requestAsync('get_props', params).then(result => {
-      this.users = result.players;
-      this.count = result.count[0]['COUNT(*)'];
-      this.isLoading = false;
-    });
+        this.users = result.players;
+        this.count = result.count[0]['COUNT(*)'];
+        this.isLoading = false;
+      });
     },
   },
 };

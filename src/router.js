@@ -56,12 +56,9 @@ const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/D
 
 const MyCollection = () =>
   import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');
-  const CardsMarket = () =>
-  import(/* webpackChunkName: "cardsmarket" */ '@/views/Cards/Market.vue');
+const CardsMarket = () => import(/* webpackChunkName: "cardsmarket" */ '@/views/Cards/Market.vue');
 
-  const AllCards = () =>
-  import(/* webpackChunkName: "allcards" */ '@/views/Cards/AllCards.vue');
-
+const AllCards = () => import(/* webpackChunkName: "allcards" */ '@/views/Cards/AllCards.vue');
 
 const WMap = () => import(/* webpackChunkName: "map" */ '@/views/Map/Map.vue');
 const Territory = () => import(/* webpackChunkName: "territory" */ '@/views/Map/Territory.vue');

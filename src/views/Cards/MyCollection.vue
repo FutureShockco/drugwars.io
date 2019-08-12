@@ -46,21 +46,21 @@ export default {
     const b = filter(pickBy(buildings));
     const u = filter(pickBy(units));
     const t = filter(pickBy(trainings));
-    b.forEach(element => {
-        element.ctype = 'buildings';
-        element.owned = true;
-        self.cards.push(element)
-    });
+    // b.forEach(element => {
+    //     element.ctype = 'buildings';
+    //     element.owned = true;
+    //     self.cards.push(element)
+    // });
     u.forEach(element => {
       element.ctype = 'units';
       element.owned = true;
       self.cards.push(element);
     });
-    t.forEach(element => {
-        element.ctype = 'training';
-        element.owned = true;
-        self.cards.push(element)
-    });
+    // t.forEach(element => {
+    //     element.ctype = 'training';
+    //     element.owned = true;
+    //     self.cards.push(element)
+    // });
     // const generator = new CardPack(5);
     self.loading = false;
     setTimeout(() => {

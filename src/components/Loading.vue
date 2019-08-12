@@ -47,7 +47,7 @@
 .revolver_part:before {
   content: ' ';
   display: block;
-  background: #000;
+  background: #0c0c0c;
   height: 26px;
   width: 26px;
   border-radius: 13px;
@@ -60,8 +60,8 @@
   width: 12px;
   margin-top: 11px;
   right: -5px;
-  background: #000;
-  border: 2px solid #000;
+  background: #0c0c0c;
+  border: 2px solid #0c0c0c;
 }
 
 section:nth-of-type(0) {

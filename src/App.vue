@@ -136,6 +136,8 @@ export default {
   margin-top: @header-height;
   transition: left 0.3s;
   background: #000000;
+  background-image: linear-gradient(to top, #0e0e0e, #0c0c0c 74%) !important;
+  min-height: 94vh;
   @media @bp-small {
     margin-left: @sidebar-width !important;
     margin-right: @sidebar-width !important;

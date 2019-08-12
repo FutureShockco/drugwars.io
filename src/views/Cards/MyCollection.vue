@@ -14,15 +14,10 @@
             <div v-else class="card-box">
 
                 <div v-for="card in cards" class="card" :key="card.id" :id="card.id+'-card'">
-                    
                     <canvas width="200" height="264" :id="card.id+'-card-front'" class="card-front"></canvas>
-    
                 </div>
-    
             </div>
-    
         </div>
-    
     </div>
 </template>
 <script>
@@ -233,9 +228,6 @@ export default {
                         ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
                         ctx.fillText(card.capacity, 173, 246);
-
-
-
                         // //DRAW attributes BOTTOM
                         // ctx.textAlign = 'center';
                         // ctx.font = '10px American Captain';

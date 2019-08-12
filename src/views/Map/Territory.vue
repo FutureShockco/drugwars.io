@@ -111,7 +111,7 @@ export default {
       const TILE_TYPES = {
         me: { name: 'Me', color: 'green' },
         sea: { name: 'Sea', color: 'lightBlue' },
-        land: { name: 'Land', color: 'black' },
+        land: { name: 'Land', color: null },
       };
 
       function Tile(
@@ -153,6 +153,7 @@ export default {
       const visitTitle = document.getElementById('title');
       const visitButton = document.getElementById('visit');
       canvas_element.onclick = function(e) {
+        clearCanvas();
         event = e;
         const elementClickedId = checkClick(event);
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
@@ -164,7 +165,7 @@ export default {
         ) {
           tiles_array[self.selectedTile - 1].fillColor = 'red';
         } else if (self.selectedTile != null) {
-          tiles_array[self.selectedTile - 1].fillColor = 'black';
+          tiles_array[self.selectedTile - 1].fillColor = null;
         }
         if (elementClickedId.id === 225) {
           if (elementClickedId.nickname === self.nickname) {
@@ -300,21 +301,34 @@ export default {
 
       createTiles(15, 15);
 
+
       function drawTiles() {
-        tiles_array.forEach(tile => {
+              const background = new Image();
+      background.src = `../img/map/map.jpg`;
+      background.onload = () => {
+          context.imageSmoothingEnabled = true;
+          context.drawImage(background, 0, 0, canvas.width, canvas.height);
+           tiles_array.forEach(tile => {
           context.beginPath();
+          if(tile.fillColor)
           context.fillStyle = tile.fillColor;
+          else
+          context.fillStyle = "rgba(255, 255, 255, 0.0)";
           context.rect(tile.x, tile.y, tile.width, tile.height);
-          context.lineWidth = '5';
+          context.lineWidth = '3';
           context.strokeStyle = tile.strokeStyle;
-          context.strokeStyle = '#ffc508';
+          context.strokeStyle = '#000';
           context.stroke();
+          if(tile.fillColor)
           context.fill();
           context.textAlign = 'center';
           context.font = '12px American Captain';
           context.fillStyle = '#fff';
           context.fillText(tile.id, tile.x + 10, tile.y + 25);
         });
+      };
+
+       
       }
       drawTiles();
 
@@ -427,10 +441,6 @@ export default {
 .territorybg {
   height: calc(100vh - 160px);
   max-width: calc(1120px - 400px);
-}
-
-canvas {
-  border: 3px solid #ffc508;
 }
 
 .title {

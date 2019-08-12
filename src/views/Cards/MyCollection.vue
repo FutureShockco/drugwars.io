@@ -14,7 +14,7 @@
             <div v-else class="card-box">
 
                 <div v-for="card in cards" class="card" :key="card.id" :id="card.id+'-card'">
-                    <canvas width="200" height="264" :id="card.id+'-card-front'" class="card-front"></canvas>
+                    <canvas width="220" height="295" :id="card.id+'-card-front'" class="card-front"></canvas>
                 </div>
             </div>
         </div>
@@ -45,21 +45,21 @@ export default {
         const b = filter(pickBy(buildings))
         const u = filter(pickBy(units))
         const t = filter(pickBy(trainings))
-        b.forEach(element => {
-            element.ctype = 'buildings';
-            element.owned = true;
-            self.cards.push(element)
-        });
+        // b.forEach(element => {
+        //     element.ctype = 'buildings';
+        //     element.owned = true;
+        //     self.cards.push(element)
+        // });
         u.forEach(element => {
             element.ctype = 'units';
             element.owned = true;
             self.cards.push(element)
         });
-        t.forEach(element => {
-            element.ctype = 'training';
-            element.owned = true;
-            self.cards.push(element)
-        });
+        // t.forEach(element => {
+        //     element.ctype = 'training';
+        //     element.owned = true;
+        //     self.cards.push(element)
+        // });
         //const generator = new CardPack(5);
         self.loading = false;
         setTimeout(() => {
@@ -152,48 +152,80 @@ export default {
                         ctx.fillStyle = yellowgradient;
                         ctx.shadowColor = 'rgba(0,0,0,1)';
                         ctx.shadowBlur = 3;
-                        ctx.font = '13px American Captain';
-                        ctx.fillStyle = '#000';
-
-                        ctx.font = '16px American Captain';
+                        ctx.fillStyle = '#fff';
+                        ctx.font = '10px Legend';
+                        ctx.fillText('CLASSIC', 20, 140);
+                        ctx.font = '20px American Captain';
+                        ctx.fillStyle = "#000";
+                        this.wrapText(
+                            ctx,
+                            card.name,
+                            21,
+                            163,
+                            canvas.width - 50,
+                            16,
+                        );
                         ctx.fillStyle = yellowgradient;
                         this.wrapText(
                             ctx,
                             card.name,
                             20,
-                            142,
+                            162,
                             canvas.width - 50,
                             16,
                         );
-                        ctx.font = '13px American Captain';
-                        if (card.feature) {
-                            ctx.textAlign = 'left';
-                            ctx.font = '10px Legend';
-                            ctx.fillStyle = '#fff';
 
-                            this.wrapText(
+                        if (card.feature) {
+                        ctx.font = '10px American Captain';
+                        ctx.strokeStyle="#000";   
+                        ctx.lineWidth="2";   
+                          ctx.fillStyle = '#000';
+                        ctx.fillRect(20,168,38,14);
+                        ctx.stroke();
+                        ctx.fillStyle = '#ffc508';
+                        ctx.shadowBlur = 0;
+
+                        ctx.fillText('UNIQUE', 24, 178);
+                            ctx.textAlign = 'left';
+                            ctx.font = '8px Helvetica';
+                            ctx.fillStyle = '#fff';
+                        ctx.shadowBlur = 3;
+                        let text_height = this.wrapText(
                                 ctx,
                                 card.feature.toString().toUpperCase(),
                                 20,
-                                158,
-                                canvas.width - 70,
+                                192,
+                                canvas.width - 60,
                                 11,
                             );
+                    if (card.desc) {
+                        ctx.font = '10px American Captain';
+
+                        ctx.strokeStyle="#000";   
+                        ctx.lineWidth="2";   
+                          ctx.fillStyle = '#000';
+                        ctx.fillRect(20,text_height+5,60,14);
+                        ctx.stroke();
+                        ctx.fillStyle = '#ffc508';
+                        ctx.shadowBlur = 0;
+
+                        ctx.fillText('DESCRIPTION', 24, text_height+15);
+                            ctx.textAlign = 'left';
+                            ctx.font = '8px Helvetica';
+                            ctx.fillStyle = '#fff';
+                   ctx.shadowBlur = 3;
+                        this.wrapText(
+                            ctx,
+                            card.desc.toString().toUpperCase(),
+                            20,
+                            30+text_height,
+                            canvas.width - 60,
+                            11,
+                        );
+
+                    }
                          }
-                        //  if (card.desc) {
-                        //     ctx.font = '8px Helvetica';
-
-                        //     ctx.fillStyle = '#fff';
-                        //     this.wrapText(
-                        //         ctx,
-                        //         card.desc.toString().toUpperCase(),
-                        //         20,
-                        //         208,
-                        //         canvas.width - 10,
-                        //         11,
-                        //     );
-
-                        // }
+                        
 
                     }
                     console.log(card.ctype)
@@ -203,31 +235,31 @@ export default {
                         ctx.textAlign = 'center';
                         ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('ATTACK', 173, 168);
+                        ctx.fillText('ATTACK', 190, 186);
                         ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.attack, 173, 180);
+                        ctx.fillText(card.attack, 190, 198);
 
                         ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('HEALTH', 173, 190);
+                        ctx.fillText('HEALTH', 190, 210);
                         ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.health, 173, 202);
+                        ctx.fillText(card.health, 190, 222);
 
                         ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('SPEED', 173, 212);
+                        ctx.fillText('SPEED', 190, 234);
                         ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.speed, 173, 224);
+                        ctx.fillText(card.speed, 190, 246);
 
                         ctx.font = '7px American Captain';
                         ctx.fillStyle = yellowgradient;
-                        ctx.fillText('CARRY', 173, 234);
+                        ctx.fillText('CARRY', 190, 258);
                         ctx.font = '12px American Captain';
                         ctx.fillStyle = '#fff';
-                        ctx.fillText(card.capacity, 173, 246);
+                        ctx.fillText(card.capacity, 190, 270);
                         // //DRAW attributes BOTTOM
                         // ctx.textAlign = 'center';
                         // ctx.font = '10px American Captain';
@@ -284,7 +316,7 @@ export default {
                     ctx.font = '14px Legend';
 
                     ctx.fillStyle = '#fff';
-                    ctx.fillText('X1'.toUpperCase(), 173, 148);
+                    ctx.fillText('X1'.toUpperCase(), 190, 165);
 
                     c.style.transform = 'rotateY(0deg)';
                     this.card = card;
@@ -302,13 +334,13 @@ export default {
                 if (testWidth > maxWidth) {
                     context.fillText(line, x, y);
                     line = words[n] + ' ';
-
                     y += lineHeight;
                 } else {
                     line = testLine;
                 }
             }
             context.fillText(line, x, y);
+            return y
         },
       chooseCardType(value) {
         this.card_type = value;
@@ -392,12 +424,6 @@ export default {
 .vs {
     margin-top: 40%;
 }
-
-input {
-    min-height: 16px !important;
-    padding: 0px 8px !important;
-}
-
 
 @keyframes rotate {
     0%,
@@ -490,8 +516,9 @@ input {
 
 .card-box .card {
     position: relative;
-    height: 264px;
-    width: 200px;
+    height: 295px;
+    width: 220px;
+    margin-bottom: 20px;
     /* animation-name: cardshake; */
     animation-iteration-count: infinite;
     animation-direction: alternate;

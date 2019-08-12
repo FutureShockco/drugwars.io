@@ -105,11 +105,11 @@ export default {
       );
     },
     priceInDWD() {
-      return (this.priceInSteem / 6).toFixed(3);
+      return (this.priceInSteem / 3).toFixed(3);
     },
     notEnoughDWD() {
       return (
-        (this.priceInSteem / 6).toFixed(3) >
+        (this.priceInSteem / 3).toFixed(3) >
         this.$store.state.game.user.user.dwd
       );
     },

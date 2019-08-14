@@ -46,11 +46,11 @@
 						<p class="text-yellow"> {{ this.maxSupply - this.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
-						Total to burn
+						Burn pending
 						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
-						Total Burned
+						Burnt
 						<p class="text-yellow"> {{ this.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">

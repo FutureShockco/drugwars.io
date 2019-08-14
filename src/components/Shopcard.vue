@@ -139,11 +139,7 @@ export default {
 <style scoped lang="less">
 @import '../vars.less';
 
-.shopcard {
-  background: -webkit-gradient(linear, left top, left bottom, from(#0e111496), to(#000000cc)),
-    url(/img/fake-brick.png);
-  background: linear-gradient(#0e111496, #000000cc), url(/img/fake-brick.png);
-}
+
 .icon {
   top: -10px;
   position: relative;

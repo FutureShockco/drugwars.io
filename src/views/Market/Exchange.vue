@@ -70,7 +70,7 @@
 					</h5>
 					<h6 class="column col-4 m-0 ">
 						Total circulating
-						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply) *100 | amount }} %</p>
+						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply- this.nullBalance) *100 | amount }} %</p>
 					</h6>
 					<h6 class="column col-4 m-0 border-left">
 						Circulating (ON MARKET)

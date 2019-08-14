@@ -465,7 +465,7 @@ const actions = {
   send: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      console.log(payload);
+      // console.log(payload);
       return dwsocial(username, payload, result => {
         if (result) {
           store.dispatch('init');
@@ -475,14 +475,12 @@ const actions = {
           });
           return resolve(result);
         }
-        console.log(result);
         return reject();
       });
     }),
   missions: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
-      console.log(payload);
       return dwsocial(username, payload, result => {
         if (result) {
           store.dispatch('init');
@@ -495,7 +493,6 @@ const actions = {
           store.dispatch('refresh_sent_transport_count');
           return resolve(result);
         }
-        console.log(result);
         return reject();
       });
     }),

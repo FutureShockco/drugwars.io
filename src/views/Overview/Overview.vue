@@ -11,14 +11,13 @@
         :building="building"
         :key="building.id"
       />
-      <div class="p-2">
-        <div class="right-floated">
-          <h3 class="total"> Total: {{ drugProductionRate * 60 * 60 * 24 | amount }}/Day - {{ drugProductionRate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (drugStorage - drugBalance) / drugProductionRate * 1000 | ms}}</h5>
-        </div>
-      <h3 class="total">Total capacity : {{ drugStorage | amount }}</h3>
-        <h5 class="m-0 text-green">Safe : {{ drugStorage /100*25 | amount }}
-      </h5>
+      <div class="pt-2">
+        <h4 class="text-center">
+          <span> Total: {{ drugProductionRate * 60 * 60 * 24 | amount }}/Day <p>{{ drugProductionRate * 60 * 60 | amount }}/Hour</p></span>
+          <span> Full in : <p>{{ (drugStorage - drugBalance) / drugProductionRate * 1000 | ms}}</p></span>
+          <span>Total capacity : {{ drugStorage | amount }}</span>
+          <span class="text-green"> Safe : {{ drugStorage /100*25 | amount }} </span>
+        </h4>
         </div>
         </div>
         <div class="item">
@@ -30,13 +29,14 @@
         :building="building"
         :key="building.id"
       />
-      <div class="p-2">
-        <div class="right-floated">
-        <h3 class="total"> Total: {{ weaponProductionRate * 60 * 60 * 24 | amount }}/Day - {{ weaponProductionRate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms }}</h5>
-        </div>
-        <h3 class="total">Total capacity : {{ weaponStorage | amount }}</h3>
-          <h5 class="m-0 text-green">Safe : {{ weaponStorage /100*25 | amount }}</h5>
+      <div class="pt-2">
+         <h4 class="text-center">
+        <span > Total: {{ weaponProductionRate * 60 * 60 * 24 | amount }}/Day - <p>{{ weaponProductionRate * 60 * 60 | amount }}/Hour</p></span>
+          <span > Full in :  <p>{{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms }}</p></span>
+             <span >Total capacity : {{ weaponStorage | amount }}</span>
+          <span class="text-green"> Safe : {{ weaponStorage /100*25 | amount }}</span>
+        </h4>
+     
       </div>
       </div>
        <div class="item">
@@ -48,13 +48,13 @@
         :building="building"
         :key="building.id"
       />
-      <div class="p-2">
-        <div class="right-floated">
-          <h3 class="total"> Total: {{ alcoholProductionRate * 60 * 60 * 24 | amount }}/Day - {{ alcoholProductionRate * 60 * 60 | amount }}/Hour</h3>
-          <h5 class="m-0"> Full in : {{ (alcoholStorage - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</h5>
-        </div>
-        <h3 class="total"> Total capacity : {{ alcoholStorage | amount }}</h3>
-          <h5 class="m-0 text-green">Safe : {{ alcoholStorage /100*25 | amount }}</h5>
+      <div class="pt-2">
+        <h4 class="text-center">
+          <span> Total: {{ alcoholProductionRate * 60 * 60 * 24 | amount }}/Day - <p>{{ alcoholProductionRate * 60 * 60 | amount }}/Hour</p></span>
+          <span> Full in : <p>{{ (alcoholStorage - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</p></span>
+        <span> Total capacity : {{ alcoholStorage | amount }}</span>
+          <span class="text-green"> Safe : {{ alcoholStorage /100*25 | amount }}</span>
+                  </h4>
         </div>
       </div>
     </div>
@@ -136,6 +136,10 @@ export default {
 <style scoped lang="less">
 h5 {
   display: inline-flex;
+}
+
+h4{
+  font-size: 16px;
 }
 
 h3 {

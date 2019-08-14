@@ -20,7 +20,7 @@
         <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
           {{ balances.weapons | amount }} <span class="mini"> WEAPONS</span>
         </div>
-          <div class="detail">
+          <div class="detail ">
            +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
         </div>
                         <div class="detail">
@@ -352,9 +352,9 @@ export default {
     display: flex;
     font-size: 16px !important;
     margin-top: 6px !important;
-    line-height: 12px !important;
+    line-height: 10px !important;
     li {
-      padding: 5px;
+      padding: 0px;
       padding-top: 0px;
       border-left: 1px rgb(10, 10, 10) solid;
       border-right: 1px rgb(10, 10, 10) solid;
@@ -373,7 +373,7 @@ export default {
         margin: 0px;
         display: -webkit-inline-box;
         line-height: 4px !important;
-        font-size: 8px;
+        font-size: 7px;
       }
     }
     .mini {

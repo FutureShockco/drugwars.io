@@ -43,7 +43,7 @@
 					<h5 class="columns">DWD Token Informations</h5>
 					<h6 class="column col-3 m-0">
 						Max Supply
-						<p class="text-yellow"> {{ this.maxSupply | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.maxSupply - this.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Total to burn

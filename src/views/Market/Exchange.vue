@@ -41,15 +41,19 @@
 			<div>
 				<div class="p-4 text-center mt-6 mb-6 border-top">
 					<h5 class="columns">DWD Token Informations</h5>
-					<h6 class="column col-4 m-0">
+					<h6 class="column col-3 m-0">
 						Max Supply
 						<p class="text-yellow"> {{ this.maxSupply | amount }} DWD</p>
 					</h6>
-					<h6 class="column col-4 m-0 border-left">
-						Total Burned
-						<p class="text-yellow"> {{ this.prizeProps.total_burn | amount }} DWD</p>
+					<h6 class="column col-3 m-0 border-left">
+						Total to burn
+						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.nullBalance | amount }} DWD</p>
 					</h6>
-					<h6 class="column col-4 m-0 border-left">
+					<h6 class="column col-3 m-0 border-left">
+						Total Burned
+						<p class="text-yellow"> {{ this.nullBalance | amount }} DWD</p>
+					</h6>
+					<h6 class="column col-3 m-0 border-left">
 						Staking activated
 						<p class="text-yellow">False</p>
 					</h6>
@@ -134,7 +138,8 @@ export default {
       lastDayPrice: null,
       lastPrice: null,
       highestBid: null,
-      lowestAsk: null,
+			lowestAsk: null,
+			nullBalance:null,
     };
   },
   created() {
@@ -152,7 +157,15 @@ export default {
           self.lastDayPrice = stat.lastDayPrice;
           self.lastPrice = stat.lastPrice;
           self.highestBid = stat.highestBid;
-          self.lowestAsk = stat.lowestAsk;
+					self.lowestAsk = stat.lowestAsk;
+					   ssc.findOne(
+      'tokens',
+      'balances', {
+        account: `null`,
+        symbol: `DWD`
+      }, (err, result) => {
+				 self.nullBalance = result.balance
+			})
 				});
 			}
 		})

@@ -4,7 +4,7 @@
     <div>
       <div v-if="trainingFacility.lvl > 0">
         <Unit
-          v-if="!unit.disabled"
+          v-if="!unit.disabled && !unit.npc"
           v-for="unit in units"
           :unit="unit"
           :key="unit.id"

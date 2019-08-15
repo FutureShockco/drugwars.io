@@ -37,7 +37,7 @@
         </a>
       </li> -->
     </ul>
-    <div class="company">Made by <a href="https://github.com/DWDShockco" target="_blank"> DWDShock</a> </div>
+    <div class="company">Made by <a href="https://github.com/FutureShockco" target="_blank"> FutureShock</a> </div>
   </footer>
 </template>
 

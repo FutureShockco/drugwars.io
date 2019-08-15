@@ -23,7 +23,7 @@ import { pickBy } from 'lodash';
 export default {
   data() {
     return {
-      items: pickBy(missions, b => b.type === 'solo'),
+      items: pickBy(missions, b => b.type === 'gang'),
     };
   },
   methods: {},

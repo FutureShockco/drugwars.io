@@ -7,6 +7,7 @@ import client from '@/helpers/client';
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
 const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue');
+const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/GangJobs.vue');
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Overview/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
 
@@ -152,6 +153,12 @@ export default new Router({
       name: 'jobs',
       beforeEnter: requireAuth,
       component: Jobs,
+    },
+    { 
+      path: '/jobs/gang',
+      name: 'gangjobs',
+      beforeEnter: requireAuth,
+      component: GangJobs,
     },
     {
       path: '/buildings',

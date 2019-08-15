@@ -100,12 +100,39 @@
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
 			<div class="text-center mb-3 mt-3">
-				<div v-if="fight.attacker_base">
-				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
-				</div>
-				<div v-if="fight.transporter_base">
-				FROM Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
-				</div>
+				<span>FROM</span>
+					<span v-if="fight.attacker_base">
+						<router-link 	v-if="fight.target_nickname === user.nickname" :to="`/actions?type=attack&target=${fight.attacker_territory}&base=${fight.attacker_base}`">
+													Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}}
+						</router-link>
+						<span v-else>
+									Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}}
+						</span>
+						<span>TO :  
+						</span>
+						<router-link 	v-if="fight.target_nickname != user.nickname" :to="`/actions?type=attack&target=${fight.target_territory}&base=${fight.target_base}`">
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</router-link>
+						<span v-else>
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</span>
+				</span>
+				<span v-if="fight.transporter_base">
+						<router-link 	v-if="fight.target_nickname === user.nickname" :to="`/actions?type=attack&target=${fight.transporter_territory}&base=${fight.transporter_base}`">
+													Territory {{fight.transporter_territory}} : Location {{fight.attacker_base}}
+						</router-link>
+						<span v-else>
+									Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}}
+						</span>
+						<span>TO :  
+						</span>
+						<router-link 	v-if="fight.target_nickname != user.nickname" :to="`/actions?type=attack&target=${fight.target_territory}&base=${fight.target_base}`">
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</router-link>
+						<span v-else>
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</span>
+				</span>
 				<div>
 				Start : {{start}} - End : {{end}}
 				</div>

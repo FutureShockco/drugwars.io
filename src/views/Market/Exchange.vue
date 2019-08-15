@@ -199,14 +199,14 @@ export default {
 		},    
 		endDate() {
 			const { prizeProps } = this.$store.state.game;
-			const end = parseFloat((10000000 - (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
+			const end = parseFloat(((this.maxSupply - this.nullBalance) -  (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
 			var date = new Date();
 			date.setDate(date.getDay() + end);
 			return date.toLocaleString();
 			},
 			endSupply() {
 				const { prizeProps } = this.$store.state.game;
-				const end = parseFloat((10000000 - (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase-this.prizeProps.yesterday_rewards))
+				const end = parseFloat(((this.maxSupply - this.nullBalance)-  (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase-this.prizeProps.yesterday_rewards))
 						var date = new Date();
 			date.setDate(date.getDay() + end);
 			return date.toLocaleString();

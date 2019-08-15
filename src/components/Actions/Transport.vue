@@ -77,10 +77,22 @@
 				FROM Territory {{fight.attacker_territory}} : Location {{fight.attacker_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
 
       	</div>
-				<div v-if="fight.transporter_base">
-				FROM Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}} - TO :  Territory {{fight.target_territory}} : Location {{fight.target_base}}
-			   
-      	</div>
+	      <span v-if="fight.transporter_base">
+						<router-link 	v-if="fight.target_nickname === user.nickname" :to="`/actions?type=attack&target=${fight.transporter_territory}&base=${fight.transporter_base}`">
+													Territory {{fight.transporter_territory}} : Location {{fight.attacker_base}}
+						</router-link>
+						<span v-else>
+									Territory {{fight.transporter_territory}} : Location {{fight.transporter_base}}
+						</span>
+						<span>TO :  
+						</span>
+						<router-link 	v-if="fight.target_nickname != user.nickname" :to="`/actions?type=attack&target=${fight.target_territory}&base=${fight.target_base}`">
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</router-link>
+						<span v-else>
+						Territory {{fight.target_territory}} : Location {{fight.target_base}}
+						</span>
+				</span>
 			<div>Start : {{start}} - End : {{end}}</div>
 				   <div v-if="fight.fight_key">
           Tx :	{{fight.fight_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>

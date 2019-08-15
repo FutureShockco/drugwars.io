@@ -63,7 +63,7 @@ export default {
               const imgurl = response.secure_url;
               const ref = `https://drugwars.io/i/${self.$store.state.auth.username}`;
               const pic = `https://cdn.stateofthedapps.com/dapps/drugwars/product_image_drugwars_624db1de4ae771212221afef1e4f60c47d7e7932d3ee7a928683f5a6c10c0c5e_opti.jpg`;
-              const mes = `DrugWars is a free to play massively multiplayer strategy and simulation game based on Steem and Obytes where people can get rewarded with cryptocurrency.`;
+              const mes = `DrugWars is a free to play massively multiplayer strategy and simulation game based on Steem where people can get rewarded with cryptocurrency.`;
               switch (where) {
                 case `facebook`:
                   window.open(
@@ -77,7 +77,7 @@ export default {
                   break;
                 case `twitter`:
                   window.open(
-                    `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cdwd%2Csteem%2Cobyte&original_referer=${ref}&text=Check my latest fight ! ${
+                    `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cdwd%2Csteem&original_referer=${ref}&text=Check my latest fight ! ${
                       self.fight.attacker_nickname
                     } vs ${self.fight.target_nickname}, ${imgurl.toLowerCase()}`,
                     'myWindow',

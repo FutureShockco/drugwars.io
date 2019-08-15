@@ -2,6 +2,7 @@
   <Header>
     <UiTabs>
       <UiTab to="/jobs">Jobs</UiTab>
+      <UiTab to="/jobs/gang" v-if="user.gang">Gang Jobs</UiTab>
       <!-- <UiTab to="/jobs/tutorial">Tutorial</UiTab> -->
     </UiTabs>
                 <div class="coordbase text-right" v-if="base">
@@ -17,6 +18,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: this.$store.state.game.user.user,
+    };
+  },
   computed: {
     base() {
       return this.$store.state.game.mainbase;

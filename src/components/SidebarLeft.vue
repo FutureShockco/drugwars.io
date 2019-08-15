@@ -118,7 +118,9 @@
               class="py-1 px-4 d-block"
               @click.native="toggleSidebar"
             >
-              Jobs
+              Jobs              <span class="text-red" v-if="jobs > 0">
+              ({{ jobs }})
+            </span> 
             </router-link>
           </li>
           <li>
@@ -229,6 +231,16 @@ export default {
     },
     xp() {
       return this.$store.state.game.user.user.xp;
+    },
+    jobs() {
+      let jobs = 0
+      this.$store.state.game.user.jobs.forEach(element => {
+          const pendingUpdate = new Date(element.date).getTime();
+        const now = new Date().getTime();
+        if(pendingUpdate >= now)
+        jobs++
+      });
+      return jobs;
     },
     activeIncFightsCount() {
       if (this.$store.state.game.inc_fights_count) {

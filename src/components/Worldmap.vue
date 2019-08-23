@@ -1,8 +1,8 @@
 <template>
     <div class="text-center py-1">
-        <button v-if="!showTargets" @click="switchTargets" class="button button-green">Show Targets</button>
-        <button v-else @click="switchTargets" class="button button-red">Hide Targets</button>
-        <button @click="refreshTargets()" class="button button-green">Refresh Targets</button>
+        <button v-if="!showTargets" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
+        <button v-else @click="switchTargets" class="button button-red btnmapl">Hide Targets</button>
+        <button @click="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
 
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
     
@@ -923,6 +923,18 @@ img {
     width: 100%;
     height: 2px;
     pointer-events: none;
+}
+
+.btnmapl{
+  position: absolute;
+  left:20%;
+  top:10px;
+}
+
+.btnmapr{
+  position: absolute;
+  right:20%;
+  top:10px;
 }
 
 .grid {

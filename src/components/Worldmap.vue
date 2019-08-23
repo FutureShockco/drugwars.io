@@ -754,7 +754,6 @@ export default {
                                 else{
                                    b.style.opacity = 1;
                                 }
-                                console.log(element.nickname,to.z)
                                 b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
                                 b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
                                 b.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;

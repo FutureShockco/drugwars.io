@@ -1,6 +1,6 @@
 <template>
   <div>
-    <SettingsTabs/>
+    <ReferralTabs/>
     <div class="p-4">
       <p>Invite your friends! Use the link below and obtain 15% bonus on their DWD rewards.</p>
       <div class="link mb-4">

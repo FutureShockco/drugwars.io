@@ -1,10 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/leaderboards">Production</UiTab>
-      <UiTab to="/leaderboards/heist">Heist</UiTab>
-      <UiTab to="/leaderboards/fights">Hall of fame</UiTab>
-      <UiTab to="/leaderboards/jobs">Job</UiTab>
+      <UiTab to="/referral">Referral</UiTab>
     </UiTabs>
                 <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">
@@ -17,13 +14,9 @@
   </Header>
 </template>
 
+
 <script>
 export default {
-  data() {
-    return {
-      user: this.$store.state.game.user.user,
-    };
-  },
   computed: {
     base() {
       return this.$store.state.game.mainbase;

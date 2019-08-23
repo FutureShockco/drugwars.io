@@ -4,7 +4,7 @@
         <div class="p-4 columns">
             <div v-if="ownUnits.length > 0" class="column">
                 <h3 class="mb-0">Select your action type</h3>
-                  <div v-if="action_type === 'attack'">
+                  <div v-if="action_type === 'attack' || target_type === 'npc'">
                      Attack another player
                    </div>
                    <div v-if="action_type === 'transport'">
@@ -17,15 +17,15 @@
                      Take a new base (need 1 occupation troop)
                    </div>
                 <div class="mt-1">
-                    <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' }">ATTACK</button>
+                    <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' || target_type === 'npc' }">ATTACK</button>
                     <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-green' : action_type ==='transport' }">TRANSPORT</button>
                     <button class="button ml-1" @click="chooseActionType('occupy')" :class="{ 'button-green' : action_type ==='occupy' }">OCCUPY</button>
                     <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
                 </div>
                 <h3>Select your army composition</h3>
                 <div v-if="ownUnits.length > 0" >
-                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key+ownUnit.amount">
-                        <UnitSelect v-if="ownUnit.amount > 0" :item="ownUnit" :key="ownUnit.key" @click="addUnit" />
+                    <div v-for="ownUnit in ownUnits" :key="ownUnit.key">
+                        <UnitSelect v-if="ownUnit.amount > 0" :item="ownUnit"  @click="addUnit" />
                     </div>
                 </div>
                 <div v-else>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="action_type !== 'occupy'">
+                <div v-if="action_type !== 'occupy' && target_type !== 'npc'">
                 <h3>Type a nickname</h3>
                 <div>
                     <input class="input form-control mb-1" type="string" placeholder="Nickname" v-model="targetNickname">
@@ -133,7 +133,7 @@
                 <div>
                     <input class="input form-control mb-4" type="number" placeholder="Base" v-model="base">
                 </div>
-                <div v-if="action_type === 'attack' || action_type === 'transport'">
+                <div v-if="target_type !== 'npc' && (action_type === 'attack' || action_type === 'transport')">
                     <h3>Add a fight message*</h3>
                     <div>* optional</div>
                     <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message" maxlength="280">
@@ -179,6 +179,7 @@ export default {
       isLoading: false,
       action_type: this.$route.query.type || 'attack',
       target: this.$route.query.target || null,
+      target_type: this.$route.query.target_type || null,
       base: this.$route.query.base || null,
       selectedUnits: [],
       message: null,
@@ -281,6 +282,7 @@ export default {
       this.base = null;
       this.selectedUnits = [];
       this.message = null;
+      this.target_type  = null;
     },
     chooseBase(territory, location) {
       this.target = territory;
@@ -290,6 +292,10 @@ export default {
       this.action_type = value;
       if (this.action_type === 'occupy') {
         this.selectedUnits = [];
+      }
+      if(this.target_type === 'npc')
+      {
+        this.resetForm();
       }
     },
     getUserBase() {
@@ -319,6 +325,16 @@ export default {
       let payload = {};
       switch (self.action_type) {
         case 'attack':
+          if(self.target_type==='npc')
+          payload = {
+            from_territory: Number(self.ownBase.territory),
+            from_base: Number(self.ownBase.base),
+            territory: Number(self.target),
+            base: Number(self.base),
+            units: self.selectedUnits,
+            type: 'fight-npc',
+          };
+          else
           payload = {
             from_territory: Number(self.ownBase.territory),
             from_base: Number(self.ownBase.base),

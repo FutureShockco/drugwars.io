@@ -28,7 +28,7 @@
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2">
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-      ${{ price | amount }} =
+      ${{ dwdPrice | amount }} =
       {{ priceInDWD  }} DWD
     </button>
   </div>
@@ -64,10 +64,14 @@ export default {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return (this.priceInSteem / 3).toFixed(3);
+      return (this.priceInSteem * 2).toFixed(3);
+    },
+    dwdPrice(){
+      const price = this.$store.state.game.steemengine.lastPrice
+      return price*this.priceInDWD
     },
     notEnoughDWD() {
-      return (this.priceInSteem / 3).toFixed(3) > this.$store.state.game.user.user.dwd;
+      return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

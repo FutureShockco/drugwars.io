@@ -159,7 +159,9 @@ export default {
           message,
         });
         this.message = null;
-        this.scrollToEnd();
+        setTimeout(() => {
+          this.scrollToEnd();
+        }, 500);
         this.isLoading = false;
       }
     },

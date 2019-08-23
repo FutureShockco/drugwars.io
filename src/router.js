@@ -69,11 +69,18 @@ const Heistboard = () =>
   import(/* webpackChunkName: "heistboard" */ '@/views/Leaderboards/Heistboard.vue');
 const Fightboard = () =>
   import(/* webpackChunkName: "fightboard" */ '@/views/Leaderboards/Fightboard.vue');
+const Jobboard = () =>
+  import(/* webpackChunkName: "jobboard" */ '@/views/Leaderboards/Jobboard.vue');
+
+const DeleteBuilding = () =>
+import(/* webpackChunkName: "jobboard" */ '@/views/Settings/DeleteBuilding.vue');
+const SteemAccount = () =>
+import(/* webpackChunkName: "jobboard" */ '@/views/Settings/SteemAccount.vue');
 
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
 const Privacy = () => import(/* webpackChunkName: "privacy" */ '@/views/Settings/Privacy.vue');
-const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Settings/Referral.vue');
+const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help/Help.vue');
@@ -378,6 +385,12 @@ export default new Router({
       component: Fightboard,
     },
     {
+      path: '/leaderboards/jobs',
+      name: 'jobboard',
+      beforeEnter: requireAuth,
+      component: Jobboard,
+    }, 
+    {
       path: '/map',
       name: 'map',
       beforeEnter: requireAuth,
@@ -396,7 +409,7 @@ export default new Router({
       component: Settings,
     },
     {
-      path: '/settings/referral',
+      path: '/referral',
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
@@ -406,6 +419,18 @@ export default new Router({
       name: 'privacy',
       beforeEnter: requireAuth,
       component: Privacy,
+    },
+    {
+      path: '/settings/building',
+      name: 'deletebuilding',
+      beforeEnter: requireAuth,
+      component: DeleteBuilding,
+    },
+    {
+      path: '/settings/steem',
+      name: 'steemaccount',
+      beforeEnter: requireAuth,
+      component: SteemAccount,
     },
     {
       path: '/i/:username',

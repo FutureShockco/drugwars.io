@@ -2,7 +2,8 @@
   <Header>
     <UiTabs>
       <UiTab to="/settings">Settings</UiTab>
-      <UiTab to="/settings/referral">Referral</UiTab>
+      <!-- <UiTab to="/settings/steem">Steem</UiTab>
+      <UiTab to="/settings/building">Delete building</UiTab> -->
       <UiTab to="/settings/privacy">Privacy</UiTab>
     </UiTabs>
                 <div class="coordbase text-right" v-if="base">

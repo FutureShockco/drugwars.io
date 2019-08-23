@@ -1,6 +1,7 @@
 <template>
-    <div id="territorybg" class="territorybg">
-        <h3 class="title" id="title" style="opacity:0;">
+    <div id="territorybg" class="territorybg" @mousedown="startDrag" @mousemove="doDrag">
+        <!-- <div>X: {{x}}, Y: {{y}}</div> -->
+        <h3 class="title" id="title" style="display:none;" >
             <div v-if="selectedTile">BASE {{selectedTile}}</div>
             <h5 class="mt-0">UNDER THE CONTROL OF :
                 <div v-if="currentNickname">{{currentNickname}}</div>
@@ -10,7 +11,7 @@
             <div>INFORMATIONS</div>
             <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>
             <h5 class="mt-0">DETAIL : {{customName}}</h5>
-                    <div class="map-title text-left" id="visit" style="opacity:0;">
+                    <div class="map-title text-left" id="visit" >
             <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=attack&target=${location}&base=${selectedTile}`">
                 <button class="button button-red">ATTACK</button>
             </router-link>
@@ -33,13 +34,18 @@
             <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
         </div>
         </h3>
-
+      <table id="table">
         <canvas id="canvas" class="mt-1"></canvas>
+        </table>
+
                 <div class="text-center">
         <button class="button button-yellow" @click="decreaseLocation()"><div class="iconfont icon-arrow-left"></div>
-        </button><input type="number" v-model="location" placeholder="25" class="mt-1 input">
+        </button><input type="number" v-model="currentLocation" placeholder="25" class="mt-1 input">
         <button class="button button-yellow"  @click="increaseLocation()"><div class="iconfont icon-arrow-right"></div></button>
         </div>
+        <!-- <div class="text-center">
+            <button class="button button-yellow mt-2"  @click="testIso()">isometric test</button>
+        </div> -->
     </div>
 </template>
 
@@ -59,9 +65,14 @@ export default {
       currentNickname: null,
       currentGang: null,
       currentHq: null,
+      job:null,
       nickname: this.$store.state.game.user.user.nickname,
       bases: [],
       currentLocation: null,
+      dragging:false,
+      iso:false,
+      x: 'no',
+      y: 'no'
     };
   },
   computed: {
@@ -85,29 +96,79 @@ export default {
     },
   },
   methods: {
+    testIso(){
+      if(!this.iso)
+      {
+        let tb = document.getElementById('table');
+        tb.style.position = 'absolute';
+        tb.style.borderSpacing = '0px';
+        tb.style.padding = '5px';
+        tb.style.transform = 'rotateX(60deg) rotateZ(-45deg)';
+      }
+      else{
+        let tb = document.getElementById('table');
+        tb.style.position = 'initial';
+        tb.style.borderSpacing = '0px';
+        tb.style.padding = '5px';
+        tb.style.transform = 'rotateX(0deg) rotateZ(0deg)';
+      }
+      this.iso = !this.iso;
+      start()
+    },
     increaseLocation() {
       this.$router.push({ path: `/map/territory?location=${Number(this.location) + 1}` });
     },
     decreaseLocation() {
       this.$router.push({ path: `/map/territory?location=${Number(this.location) - 1}` });
     },
+     startDrag() {
+      this.dragging = true;
+      this.x = this.y = 0;
+    },
+    stopDrag() {
+      this.dragging = false;
+      this.x = this.y = 'no';
+    },
+    doDrag(event) {
+      if (this.dragging) {
+        this.x = event.clientX;
+        this.y = event.clientY;
+              const bg = document.getElementById('territorybg');
+              let tb = document.getElementById('table');
+              const canvas_element = document.getElementById('canvas');
+              const limit = (document.body.clientWidth)-bg.offsetWidth
+              tb.style.left = ((limit+50)) - (this.x*1.66) +'px';
+              tb.style.top = ((document.body.clientHeight/5)) - (this.y/2.25)-100 +'px';
+      }
+    },
     start() {
       const self = this;
       const bg = document.getElementById('territorybg');
       const canvas_element = document.getElementById('canvas');
-      const width = bg.offsetWidth;
-      const height = bg.offsetHeight;
-      canvas_element.width = width;
-      canvas_element.height = height;
+      const tb = document.getElementById('table');
+
       const context = canvas_element.getContext('2d');
       let tiles_array = [];
+
+      let width  = 0;
+      let height = 0;
+      if(self.iso)
+      {
+      width = bg.offsetWidth*2;
+      height = (bg.offsetHeight-150)*2;
+      canvas_element.width = width*2;
+      canvas_element.height = height*2;
+      }
+      else{
+      width = bg.offsetWidth;
+      height = (bg.offsetHeight-150);
+      canvas_element.width = width;
+      canvas_element.height = height;
+      }
       function clearCanvas() {
         const ctx = canvas_element.getContext('2d');
         ctx.clearRect(0, 0, width, height);
       }
-      clearCanvas();
-      canvas_element.width = width;
-      canvas_element.height = height;
       const TILE_TYPES = {
         me: { name: 'Me', color: 'green' },
         sea: { name: 'Sea', color: 'lightBlue' },
@@ -125,6 +186,7 @@ export default {
         custom_name,
         main,
         gang,
+        job,
         fillColor,
         strokeStyle,
       ) {
@@ -132,6 +194,7 @@ export default {
         this.nickname = nickname || null;
         this.level = level || null;
         this.gang = gang || null;
+        this.job = job || null;
         this.custom_name = custom_name || null;
         this.main = main || null;
         this.x = x;
@@ -153,26 +216,38 @@ export default {
       const visitTitle = document.getElementById('title');
       const visitButton = document.getElementById('visit');
       canvas_element.onclick = function(e) {
-        clearCanvas();
         event = e;
         const elementClickedId = checkClick(event);
+        console.log(elementClickedId)
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
           tiles_array[self.selectedTile - 1].fillColor = 'green';
+          clearCanvas();
         } else if (
           self.selectedTile != null &&
           self.currentNickname &&
           self.nickname !== self.currentNickname
         ) {
           tiles_array[self.selectedTile - 1].fillColor = 'red';
-        } else if (self.selectedTile != null) {
+          clearCanvas();
+        } 
+        else if (self.selectedTile != null && !self.currentNickname && self.job ) {
+          tiles_array[self.selectedTile - 1].fillColor = '#ffc508';
+        }
+        else if (self.selectedTile != null) {
           tiles_array[self.selectedTile - 1].fillColor = null;
         }
         if (elementClickedId.id === 225) {
-          if (elementClickedId.nickname === self.nickname) {
+          if(elementClickedId.job === self.job)
+          {
+            tiles_array[224].fillColor = '#ffc508';
+          }
+          else if (elementClickedId.nickname === self.nickname) {
             tiles_array[224].fillColor = 'green';
-          } else if (elementClickedId.nickname !== self.nickname) {
+          } 
+          else if (elementClickedId.nickname !== self.nickname) {
             tiles_array[224].fillColor = 'blue';
-          } else {
+          } 
+          else {
             tiles_array[224].fillColor = 'gray';
           }
         }
@@ -182,37 +257,47 @@ export default {
         self.customName = elementClickedId.custom_name;
         self.isMain = elementClickedId.main;
         self.currentGang = elementClickedId.gang;
-        if (elementClickedId.nickname === self.nickname) {
+        self.job = elementClickedId.job;
+        if(elementClickedId.job && !elementClickedId.nickname)
+        {
+          tiles_array[elementClickedId.id - 1].fillColor = '#ffc508';
+        }
+        else if (elementClickedId.nickname === self.nickname) {
           tiles_array[elementClickedId.id - 1].fillColor = 'green';
         } else if (elementClickedId.nickname !== self.nickname) {
           tiles_array[elementClickedId.id - 1].fillColor = 'blue';
         } else {
           tiles_array[elementClickedId.id - 1].fillColor = 'gray';
         }
-        // visitButton.style.top = `${tiles_array[elementClickedId.id].y + 10}px`;
-        // visitButton.style.left = `${tiles_array[elementClickedId.id].x + 15}px`;
-        visitButton.style.opacity = 1;
-        if (tiles_array[elementClickedId.id]) {
+
+        if (tiles_array[elementClickedId.id] && !elementClickedId.job) {
+          visitTitle.style.display = 'block'
           visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
           visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
-          visitTitle.style.opacity = 1;
         }
-
+        else if (elementClickedId.job)
+        {
+           visitTitle.style.display = 'none'
+        }
         drawTiles();
       };
 
-      canvas_element.onmousemove = function(e) {
-        const elementUnder = checkClick(event);
-        if (elementUnder == 1) {
-          changeCursor('pointer');
-        } else {
-          changeCursor('default');
-        }
-      };
+      // canvas_element.onmousemove = function(e) {
+      //   const elementUnder = checkClick(event);
+      //   if (elementUnder == 1) {
+      //     changeCursor('hand');
+      //   } else {
+      //     changeCursor('default');
+      //   }
+      // };
 
-      canvas_element.onmouseout = function(e) {
-        changeCursor('default');
-      };
+      // canvas_element.onmouseout = function(e) {
+      //   changeCursor('default');
+      // };
+
+      // function changeCursor(value){
+      //   canvas_element.style.cursor = value;
+      // }
 
       function checkClick(event) {
         const clickX = event.layerX;
@@ -234,6 +319,7 @@ export default {
               custom_name: tile.custom_name,
               main: tile.main,
               gang: tile.gang,
+              job: tile.job
             };
           }
         });
@@ -258,15 +344,26 @@ export default {
           let custom_name = '';
           let main = '';
           let gang = {};
+          let job = '';
           self.bases.forEach(element => {
-            if (element.base === i && element.nickname === self.nickname) {
+            if(element.base === i && element.job != undefined)
+            {
+              fillColor = '#ffc508';
+              nickname = element.nickname;
+              level = element.lvl;
+              custom_name = element.custom;
+              main = element.main;
+              job = element.job;
+            }
+            else if (element.base === i && element.nickname === self.nickname) {
               fillColor = 'green';
               nickname = element.nickname;
               gang = { role: element.role, gang: element.name, ticker: element.ticker };
               level = element.lvl;
               custom_name = element.custom;
               main = element.main;
-            } else if (element.base === i && element.nickname !== self.nickname) {
+            } 
+            else if (element.base === i && element.nickname !== self.nickname) {
               fillColor = 'red';
               nickname = element.nickname;
               gang = { role: element.role, gang: element.name, ticker: element.ticker };
@@ -286,6 +383,7 @@ export default {
             custom_name,
             main,
             gang,
+            job,
             fillColor,
           );
 
@@ -312,7 +410,7 @@ export default {
             if (tile.fillColor) context.fillStyle = tile.fillColor;
             else context.fillStyle = 'rgba(255, 255, 255, 0.0)';
             context.rect(tile.x, tile.y, tile.width, tile.height);
-            context.lineWidth = '3';
+            context.lineWidth = '0';
             context.strokeStyle = tile.strokeStyle;
             context.strokeStyle = '#000';
             context.stroke();
@@ -325,11 +423,8 @@ export default {
         };
       }
       drawTiles();
-
-      function changeCursor(cursorType) {
-        document.body.style.cursor = cursorType;
-      }
-      this.showLoading = false;
+      // const limit = (document.body.clientWidth)-bg.offsetWidth;
+      // tb.style.left = (limit+50) +'px';
     },
     ...mapActions(['send', 'notify', 'setMainBase', 'init']),
     async handleSubmit() {
@@ -404,13 +499,29 @@ export default {
       const main = this.isMain;
       this.setMainBase({ territory, base, custom, main });
     },
+    handleZoom(){
+      const self = this;
+      const bg = document.getElementById('territorybg');
+      const canvas_element = document.getElementById('canvas');
+      const width = bg.offsetWidth;
+      const height = bg.offsetHeight-300;
+      canvas_element.width = width;
+      canvas_element.height = height;
+      const context = canvas_element.getContext('2d');
+      context.scale(1, 0.50);
+      context.translate(0, 500);
+      context.rotate(-45 * Math.PI /180);
+    }
   },
   mounted() {
     const self = this;
     self.bases = null;
     self.currentLocation = self.location;
     client.requestAsync('get_bases', this.location).then(result => {
-      self.bases = result;
+      self.bases = result[0];
+      result[1].forEach(element => {
+        self.bases.push(element)
+      });
       self.start();
       self.isLoading = false;
     });
@@ -421,7 +532,10 @@ export default {
     if (self.currentLocation !== self.location) {
       self.currentLocation = self.location;
       client.requestAsync('get_bases', this.location).then(result => {
-        self.bases = result;
+      self.bases = result[0];
+      result[1].forEach(element => {
+        self.bases.push(element)
+      });
         self.start();
         self.isLoading = false;
       });
@@ -433,8 +547,7 @@ export default {
 
 <style lang="less" scoped>
 .territorybg {
-  height: calc(100vh - 160px);
-  max-width: calc(1120px - 400px);
+  overflow: hidden;
 }
 
 .title {
@@ -452,4 +565,118 @@ export default {
 // .map-title {
 //   position: absolute;
 // }
+
+
+
+//table{
+
+//}
+tr{
+    height: 0px;
+    width: 0px;
+    display: block;
+}
+td{
+    height: 0px;
+    width: 0px;
+    display: block;
+	padding: 0px;
+}
+.tile{
+	transform: translate3d(0em, 0em, 0em);
+	width: 4em;
+	height: 4em;
+
+	transition: all 1s cubic-bezier(0.22, 0.6, 0.39, 1.42);
+}
+.tile.hide{
+	transform: translate3d(12em, 12em, 0em) !important;
+	opacity: 0;
+
+	transition: all 1s cubic-bezier(0.7, -0.4, 0.88, 0.51);
+}
+.tile>div{
+	transform: 
+		rotateZ(-45deg) rotateY(-60deg)
+		translate3d(-1.1em, -4.8em, 0em);
+
+	width: 11.5em;
+	height: 10em;
+
+    background-size: 1600% 100%;
+    background-position: -6px 0px;
+    background-repeat: no-repeat;
+	background-image: url(http://img14.deviantart.net/f99b/i/2011/354/d/5/isometric_new_tiles_by_spasquini-d4jnp2i.png);
+    image-rendering: pixelated;
+}
+
+@keyframes showTile {
+    from {
+    	transform: translate3d(12em, 12em, 0em);
+    	opacity: 0;
+    }
+    to {
+    	transform: translate3d(0em, 0em, 0em);
+    	opacity: 1;
+    }
+}
+@keyframes hideTile {
+    from {
+    	transform: translate3d(0em, 0em, 0em);
+    	opacity: 1;
+    }
+    to {
+    	transform: translate3d(12em, 12em, 0em);
+    	opacity: 0;
+    }
+}
+
+.tile>div.tile-0{
+    background-position: calc(-6px + (-183.5px * 0)) 0px;
+}
+.tile>div.tile-1{
+    background-position: calc(-6px + (-183.5px * 1)) 0px;
+}
+.tile>div.tile-2{
+	background-position: calc(-6px + (-183.5px * 2)) 0px;
+}
+.tile>div.tile-3{
+	background-position: calc(-6px + (-183.5px * 3)) 0px;
+}
+.tile>div.tile-4{
+	background-position: calc(-6px + (-183.5px * 4)) 0px;
+}
+.tile>div.tile-5{
+	background-position: calc(-6px + (-183.5px * 5)) 0px;
+}
+.tile>div.tile-6{
+	background-position: calc(-6px + (-183.5px * 6)) 0px;
+}
+.tile>div.tile-7{
+	background-position: calc(-6px + (-183.5px * 7)) 0px;
+}
+.tile>div.tile-8{
+	background-position: calc(-6px + (-183.5px * 8)) 0px;
+}
+.tile>div.tile-9{
+	background-position: calc(-6px + (-183.5px * 9)) 0px;
+}
+.tile>div.tile-10{
+	background-position: calc(-6px + (-183.5px * 10)) 0px;
+}
+.tile>div.tile-11{
+	background-position: calc(-6px + (-183.5px * 11)) 0px;
+}
+.tile>div.tile-12{
+	background-position: calc(-6px + (-183.5px * 12)) 0px;
+}
+.tile>div.tile-13{
+	background-position: calc(-6px + (-183.5px * 13)) 0px;
+}
+.tile>div.tile-14{
+	background-position: calc(-6px + (-183.5px * 14)) 0px;
+}
+.tile>div.tile-15{
+	background-position: calc(-6px + (-183.5px * 15)) 0px;
+}
 </style>

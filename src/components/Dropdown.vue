@@ -87,7 +87,8 @@ export default {
     },
   },
   methods: {
-    toggleRiskLevels() {
+    toggleRiskLevels(event) {
+      event.preventDefault()
       this.isExpanded = !this.isExpanded;
     },
     setCurrentSelectedOption(option) {

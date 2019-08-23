@@ -80,11 +80,15 @@ export default {
       return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return (this.priceInSteem / 3).toFixed(3);
+      return (this.priceInSteem * 2).toFixed(3);
+    },
+    dwdPrice(){
+      const price = this.$store.state.game.steemengine.lastPrice
+      return price*this.priceInDWD
     },
     notEnoughDWD() {
       return (
-        ((this.priceInSteem / 3) * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
+        ((this.priceInSteem * 2) * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
       );
     },
     steemAccount() {

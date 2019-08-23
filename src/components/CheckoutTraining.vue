@@ -31,7 +31,7 @@
       class="button btn-block button-yellow mb-2"
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-      ${{ price | amount }} =
+      ${{ dwdPrice | amount }} =
       {{ priceInDWD }} DWD
     </button>
   </div>
@@ -70,12 +70,16 @@ export default {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
       return false;
     },
+    dwdPrice(){
+      const price = this.$store.state.game.steemengine.lastPrice
+      return price*this.priceInDWD
+    },
     priceInDWD() {
-      return (this.priceInSteem / 3).toFixed(3);
+      return (this.priceInSteem * 2).toFixed(3);
     },
     notEnoughDWD() {
       return (
-        ((this.priceInSteem / 3) * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
+        ((this.priceInSteem * 2) * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
       );
     },
     timeToWait() {

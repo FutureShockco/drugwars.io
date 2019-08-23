@@ -43,15 +43,15 @@
 					<h5 class="columns">DWD Token Informations</h5>
 					<h6 class="column col-3 m-0">
 						Max Supply
-						<p class="text-yellow"> {{ this.maxSupply - this.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.steemengine.maxSupply - this.steemengine.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burn pending
-						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.steemengine.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burnt
-						<p class="text-yellow"> {{ this.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.steemengine.nullBalance | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Staking activated
@@ -70,11 +70,11 @@
 					</h5>
 					<h6 class="column col-4 m-0 ">
 						Total circulating
-						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.supply)) /  parseInt(this.maxSupply- this.nullBalance) *100 | amount }} %</p>
+						<p class="text-yellow">{{ (this.prizeProps.total_dwd + parseInt(this.steemengine.supply)) /  parseInt(this.steemengine.maxSupply- this.steemengine.nullBalance) *100 | amount }} %</p>
 					</h6>
 					<h6 class="column col-4 m-0 border-left">
 						Circulating (ON MARKET)
-						<p class="text-yellow">{{ this.supply | amount }} DWD</p>
+						<p class="text-yellow">{{ this.steemengine.supply | amount }} DWD</p>
 					</h6>
 					<h6 class="column col-4 m-0 border-left">
 						Circulating (IN GAME)
@@ -83,19 +83,19 @@
 					<h5 class="columns">Statistics</h5>
 						<h6 class="column col-3 m-0">
 					 Volume (24h)
-						<p class="text-yellow">{{ this.volume | amount}} DWD</p>
+						<p class="text-yellow">{{ this.steemengine.volume | amount}} DWD</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 					 Price Change
-						<p class="text-red" :class="{ 'text-green' : this.priceChangePercent | amount > 0 }">{{ this.priceChangePercent }}%</p>
+						<p class="text-red" :class="{ 'text-green' : this.steemengine.priceChangePercent > 0 }">{{ this.steemengine.priceChangePercent }}%</p>
 					</h6>
 					 <h6 class="column col-3 m-0 border-left">
 					 Last Price
-					<p> ${{ parseFloat(this.lastPrice * this.prizeProps.steemprice).toFixed(3) }} </p>
+					<p> ${{ parseFloat(this.steemengine.lastPrice * this.prizeProps.steemprice).toFixed(3) }} </p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 					 Bid/Ask
-						<p> ${{ parseFloat(this.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</p>
+						<p> ${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</p>
 					</h6>
 					<h6 class="column col-3 m-0">
 					 Today spent
@@ -121,8 +121,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import SSC from 'sscjs';
-
 export default {
   data() {
     return {
@@ -130,49 +128,14 @@ export default {
       nickname: null,
       picked: 'steem',
       amount: 0,
-      supply: null,
-      maxSupply: null,
-      volume: null,
-      priceChangePercent: null,
-      priceChangeSteem: null,
-      lastDayPrice: null,
-      lastPrice: null,
-      highestBid: null,
-			lowestAsk: null,
-			nullBalance:null,
     };
-  },
-  created() {
-    const self = this;
-    const ssc = new SSC('https://api.steem-engine.com/rpc/');
-    ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
-      if (result) {
-        self.supply = result[0].circulatingSupply;
-        self.maxSupply = result[0].maxSupply;
-        ssc.find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false).then(async metrics => {
-          const [stat] = metrics;
-          self.volume = stat.volume;
-          self.priceChangePercent = stat.priceChangePercent.split('%')[0];
-          self.priceChangeSteem = stat.priceChangeSteem;
-          self.lastDayPrice = stat.lastDayPrice;
-          self.lastPrice = stat.lastPrice;
-          self.highestBid = stat.highestBid;
-					self.lowestAsk = stat.lowestAsk;
-					   ssc.findOne(
-      'tokens',
-      'balances', {
-        account: `null`,
-        symbol: `DWD`
-      }, (err, result) => {
-				 self.nullBalance = result.balance
-			})
-				});
-			}
-		})
   },
   computed: {
     user() {
       return this.$store.state.game.user.user;
+		},
+		steemengine() {
+      return this.$store.state.game.steemengine;
     },
     prizeProps() {
       const { prizeProps } = this.$store.state.game;
@@ -199,14 +162,14 @@ export default {
 		},    
 		endDate() {
 			const { prizeProps } = this.$store.state.game;
-			const end = parseFloat(((this.maxSupply - this.nullBalance) -  (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
+			const end = parseFloat(((this.steemengine.maxSupply - this.steemengine.nullBalance) -  (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
 			var date = new Date();
 			date.setDate(date.getDay() + end);
 			return date.toLocaleString();
 			},
 			endSupply() {
 				const { prizeProps } = this.$store.state.game;
-				const end = parseFloat(((this.maxSupply - this.nullBalance)-  (parseInt(this.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase-this.prizeProps.yesterday_rewards))
+				const end = parseFloat(((this.steemengine.maxSupply - this.steemengine.nullBalance)-  (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase-this.prizeProps.yesterday_rewards))
 						var date = new Date();
 			date.setDate(date.getDay() + end);
 			return date.toLocaleString();

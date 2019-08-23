@@ -146,6 +146,20 @@ function Sub(rawClient) {
         message: 'Your troops are now available in the bootcamp!',
       });
     }
+    if (message[1].body === 'job') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'There is a new about your job!',
+      });
+    }
+    if (message[1].body === 'job_success') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'success',
+        message: 'Job successfully done!',
+      });
+    }
   });
   return rawClient;
 }

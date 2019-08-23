@@ -4,6 +4,7 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
+import SSC from 'sscjs';
 
 // import * as util from 'util';
 // import { inspect } from 'util';
@@ -27,6 +28,7 @@ const state = {
   isconnected: null,
   base: null,
   mainbase: null,
+  steemengine: null,
 };
 
 const mutations = {
@@ -74,6 +76,9 @@ const mutations = {
   },
   saveMainBase(_state, payload) {
     Vue.set(_state, 'mainbase', payload);
+  },
+  saveSE(_state, payload) {
+    Vue.set(_state, 'steemengine', payload);
   },
 };
 
@@ -126,6 +131,7 @@ const actions = {
                 dispatch('refresh_inc_transport_count');
                 dispatch('refresh_sent_station_count');
                 dispatch('refresh_inc_station_count');
+                dispatch('get_se_props');
                 resolve();
               });
             } else {
@@ -468,11 +474,11 @@ const actions = {
       // console.log(payload);
       return dwsocial(username, payload, result => {
         if (result) {
-          store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
             message: result,
           });
+          store.dispatch('init');
           return resolve(result);
         }
         return reject();
@@ -553,6 +559,36 @@ const actions = {
       });
     }
   },
+  get_se_props:({ commit, dispatch }) =>
+  new Promise((resolve, reject) => {
+    const ssc = new SSC('https://api.steem-engine.com/rpc/');
+    ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
+      if (result) {
+        const self = {}
+        self.supply = result[0].circulatingSupply;
+        self.maxSupply = result[0].maxSupply;
+        ssc.find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false).then(async metrics => {
+          const [stat] = metrics;
+          self.volume = stat.volume;
+          self.priceChangePercent = stat.priceChangePercent.split('%')[0];
+          self.priceChangeSteem = stat.priceChangeSteem;
+          self.lastDayPrice = stat.lastDayPrice;
+          self.lastPrice = stat.lastPrice;
+          self.highestBid = stat.highestBid;
+					self.lowestAsk = stat.lowestAsk;
+					   ssc.findOne(
+						'tokens',
+						'balances', {
+							account: `null`,
+							symbol: `DWD`
+						}, (err, result) => {
+                self.nullBalance = result.balance
+                commit('saveSE', self);
+						})
+			});
+			}
+		})
+  }),
   setBase: ({ commit }, payload) => {
     console.log(payload);
     commit('saveBase', payload);

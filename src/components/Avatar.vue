@@ -1,7 +1,7 @@
 <template>
 <div>
-  <Dropdown v-if="username != user.nickname" :config="config" :prefix="username">
-  <div
+  <!-- <Dropdown v-if="username != user.nickname" :config="config" :prefix="username"> -->
+  <router-link :to="`/actions?type=attack&nickname=${username}`"
     class="avatar"
     :style="{
       'width': `${size}px`,
@@ -22,9 +22,9 @@
     <span class="level py-1 px-2" v-if="xp">
       Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
-  </div>
-</Dropdown>
-<div v-else
+  </router-link>
+<!-- </Dropdown> -->
+<!-- <div v-else
     class="avatar"
     :style="{
       'width': `${size}px`,
@@ -45,7 +45,7 @@
     <span class="level py-1 px-2" v-if="xp">
       Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
     </span>
-  </div>
+  </div> -->
   </div>
 </template>
 

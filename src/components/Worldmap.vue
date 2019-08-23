@@ -39,7 +39,7 @@
     
             <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
             <div v-if="showTargets">
-            <PlayerBubble
+            <PlayerBubble v-if="target.territory !== 0"
               :key="target.nickname"
               :player="target"
               v-for="target in targets"

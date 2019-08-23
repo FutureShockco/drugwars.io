@@ -87,7 +87,7 @@
         </div>
       </div>
       <router-link
-        v-if="timeToWait && restUnits"
+        v-if="timeToWait && restUnits > 0"
         :to="`/actions?type=attack&target=${ownJob.territory}&base=${ownJob.base}&target_type=npc`">
         <button class="button btn-block button-red mb-2">
           <i class="iconfont icon-target" />

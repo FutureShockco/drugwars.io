@@ -6,21 +6,21 @@
         <Icon name="drug"/>
         <div class="text-red">
           <div>{{ detail.drugs_balance | amount }}</div>
-          <div class="text-green">{{ detail.drug_storage / 100 * 25 | amount }} safe</div>
+          <div class="text-green">{{ detail.drug_storage / 100 * 20 | amount }} safe</div>
         </div>
       </li>
       <li class="column col-4">
         <Icon name="weapon"/>
         <div class="text-red">
           <div>{{ detail.weapons_balance | amount }}</div>
-          <div class="text-green">{{ detail.weapon_storage / 100 * 25 | amount }} safe</div>
+          <div class="text-green">{{ detail.weapon_storage / 100 * 20 | amount }} safe</div>
         </div>
       </li>
       <li class="column col-4">
         <Icon name="alcohol"/>
         <div class="text-red">
           <div>{{ detail.alcohols_balance | amount }} </div>
-          <div class="text-green">{{ detail.alcohol_storage / 100 * 25 | amount }} safe</div>
+          <div class="text-green">{{ detail.alcohol_storage / 100 * 20 | amount }} safe</div>
         </div>
       </li>
     </ul>

@@ -25,13 +25,13 @@
           </span>
           <span class="column col-4">
             Safe:
-            <span class="text-green">{{ drugStorage /100*25 | amount }}</span>
+            <span class="text-green">{{ drugStorage /100*20 | amount }}</span>
             <p>
               Out of safe in:
               <span
-                v-if="((drugStorage/100*25)  - drugBalance) / drugProductionRate * 1000 > 0"
+                v-if="((drugStorage/100*20)  - drugBalance) / drugProductionRate * 1000 > 0"
                 class="text-green"
-              >{{ ((drugStorage/100*25) - drugBalance) / drugProductionRate * 1000 | ms}}</span>
+              >{{ ((drugStorage/100*20) - drugBalance) / drugProductionRate * 1000 | ms}}</span>
               <span v-else class="text-red">Now</span>
             </p>
           </span>
@@ -64,13 +64,13 @@
           </span>
           <span class="column col-4">
             Safe:
-            <span class="text-green">{{ weaponStorage /100*25 | amount }}</span>
+            <span class="text-green">{{ weaponStorage /100*20 | amount }}</span>
             <p>
               Out of safe in:
               <span
-                v-if="((weaponStorage/100*25)  - weaponBalance) / weaponProductionRate * 1000 > 0"
+                v-if="((weaponStorage/100*20)  - weaponBalance) / weaponProductionRate * 1000 > 0"
                 class="text-green"
-              >{{ ((weaponStorage/100*25) - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
+              >{{ ((weaponStorage/100*20) - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
               <span v-else class="text-red">Now</span>
             </p>
           </span>
@@ -103,13 +103,13 @@
           </span>
           <span class="column col-4">
             Safe:
-            <span class="text-green">{{ alcoholStorage /100*25 | amount }}</span>
+            <span class="text-green">{{ alcoholStorage /100*20 | amount }}</span>
             <p>
               Out of safe in:
               <span
-                v-if="((alcoholStorage/100*25)  - alcoholBalance) / alcoholProductionRate * 1000 > 0"
+                v-if="((alcoholStorage/100*20)  - alcoholBalance) / alcoholProductionRate * 1000 > 0"
                 class="text-green"
-              >{{ ((alcoholStorage/100*25) - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</span>
+              >{{ ((alcoholStorage/100*20) - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</span>
               <span v-else class="text-red">Now</span>
             </p>
           </span>

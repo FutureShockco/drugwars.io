@@ -21,13 +21,13 @@
                     <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 10000+ (35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl) / 100)) * ownItem.lvl | amount }}</div>
                     <div v-if="ownItem.lvl"><b>Next capacity:</b>  {{  10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250- (ownItem.lvl+1)) / 100)) *  (ownItem.lvl+1) | amount }}</div>
                     <div v-else><b>Next capacity:</b> {{ 10000+(35000 * 1 * ((Math.sqrt(250- 1)) / 100)) * 1 | amount }}</div>
-                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ ( 10000+(35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl)) / 100) * ownItem.lvl ) /100*25 | amount }}</div>
-                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ( 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250-(ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) ) /100*25 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Safe:</b> {{ ( 10000+(35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl)) / 100) * ownItem.lvl ) /100*20 | amount }}</div>
+                    <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ( 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250-(ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) ) /100*20 | amount }}</div>
                     <div v-else><b>Safe:</b> {{ 10000 /100*15 | amount }}</div>
             </div>
         </div>
         <div class="mx-auto">
-            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 40000" :notEnough="hasNotEnough" />
+            <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 80000" :notEnough="hasNotEnough" />
         </div>
     </div>
 </template>

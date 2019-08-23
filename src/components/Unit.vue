@@ -38,7 +38,7 @@
         :level="training_facility.lvl"
         :coeff="unit.coeff"
         :inProgress="inProgress"
-        :price="unit.drugs_cost / 90000  + unit.weapons_cost / 90000 + unit.alcohols_cost / 90000 "
+        :price="unit.drugs_cost / 120000  + unit.weapons_cost / 120000 + unit.alcohols_cost / 120000 "
         :notEnough="hasNotEnough"
         :quantity="quantity"
       />

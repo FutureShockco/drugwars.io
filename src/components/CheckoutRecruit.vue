@@ -103,12 +103,12 @@ export default {
         3,
       );
     },
+    priceInDWD() {
+      return (this.priceInSteem * 2).toFixed(3);
+    },
     dwdPrice(){
       const price = this.$store.state.game.steemengine.lastPrice
       return price*this.priceInDWD
-    },
-    priceInDWD() {
-      return (this.priceInSteem * 2).toFixed(3);
     },
     notEnoughDWD() {
       return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;

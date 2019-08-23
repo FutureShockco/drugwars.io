@@ -10,7 +10,7 @@
         +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
         </div>
                 <div class="detail">
-         <span class="text-green">{{HQ.drug_storage/100*25 | amount}}</span> /SAFE
+         <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
@@ -24,7 +24,7 @@
            +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY                  
         </div>
                         <div class="detail">
-         <span class="text-green">{{HQ.weapon_storage/100*25 | amount}}</span> /SAFE
+         <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span> /SAFE
         </div>
         </div>
     </li>
@@ -38,7 +38,7 @@
             +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
         </div>
                                 <div class="detail">
-          <span class="text-green">{{HQ.alcohol_storage/100*25 | amount}}</span> /SAFE
+          <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span> /SAFE
         </div>
          </div>
     </li>

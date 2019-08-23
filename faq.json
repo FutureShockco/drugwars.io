@@ -102,7 +102,7 @@
   {
     "cat": "battles",
     "q": "Why didn’t I win any resources after winning a battle?",
-    "a": "It is possible that your opponent has used all of his resources while waiting for the battle confirmation. Also note that the attacker can only steal up to 30% of 75% which is not safe. The remaining 25% is safe in the storage."
+    "a": "It is possible that your opponent has used all of his resources while waiting for the battle confirmation. Also note that the attacker can only steal up to 30% of 75% which is not safe. The remaining 250% is safe in the storage."
   },
   {
     "cat": "battles",
@@ -167,7 +167,7 @@
   {
     "cat": "prize",
     "q": "How much resources are protected in the storage?",
-    "a": "Depending on the level of the storage buildings, it can protect 25% of the full capacity, whether it is full or not."
+    "a": "Depending on the level of the storage buildings, it can protect 250 of the full capacity, whether it is full or not."
   },
   {
     "cat": "referral",

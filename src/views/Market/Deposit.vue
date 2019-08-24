@@ -1,26 +1,26 @@
 <template>
-  <div>
-    <MarketTabs/>
-    <div class="p-4">
-      <div class="mb-4">
-        <h4>Deposit to your dedicated address</h4>
-        <template v-if="!isLoading">
-          <div v-if="depositAddresses && depositAddresses.length > 0">
-            <p>Here is your dedicated deposit Obyte address:</p>
-            <a :href="`byteball:${depositAddresses[0].address}?asset=NMuNvOJRO2ZY9L17uKtsa7OYkgsV8LfSBIV9BUoVJPQ%3D`">
-              <p><b>{{ depositAddresses[0].address }}</b></p>
-            </a>
-          </div>
-          <div v-else>
-            <button
-              class="button button-blue mb-2 mt-2"
-              @click="issueDepositAddress()"
-              :disabled="isLoading"
-            >
-              Generate deposit address
-            </button>
-          </div>
-        </template>
+    <div>
+        <MarketTabs/>
+        <div class="p-4">
+            <div class="mb-4">
+                <h4>Deposit to your dedicated address</h4>
+                <template v-if="!isLoading">
+              <div v-if="depositAddresses && depositAddresses.length > 0">
+                <p>Here is your dedicated deposit Obyte address:</p>
+                <a :href="`byteball:${depositAddresses[0].address}?asset=NMuNvOJRO2ZY9L17uKtsa7OYkgsV8LfSBIV9BUoVJPQ%3D`">
+                  <p><b>{{ depositAddresses[0].address }}</b></p>
+                </a>
+              </div>
+              <div v-else>
+                <button
+                  class="button button-blue mb-2 mt-2"
+                  @click="issueDepositAddress()"
+                  :disabled="isLoading"
+                >
+                  Generate deposit address
+                </button>
+              </div>
+</template>
       </div>
       <div class="mb-4">
         <h4>Deposit from a Steem attested Obyte wallet</h4>
@@ -74,38 +74,38 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 
 export default {
-  data() {
-    return {
-      isLoading: false,
-      depositAddresses: [],
-      items: [],
-    };
-  },
-  computed: {
-    user() {
-      return this.$store.state.game.user.user;
+    data() {
+        return {
+            isLoading: false,
+            depositAddresses: [],
+            items: [],
+        };
     },
-  },
-  created() {
-    this.loadDepositsAndAddresses();
-  },
-  methods: {
-    loadDepositsAndAddresses() {
-      this.isLoading = true;
-      Promise.all([
-        client.requestAsync('get_deposits', null),
-        client.requestAsync('get_deposit_addresses', null),
-      ]).then(result => {
-        [this.items, this.depositAddresses] = result;
-        this.isLoading = false;
-      });
+    computed: {
+        user() {
+            return this.$store.state.game.user.user;
+        },
     },
-    issueDepositAddress() {
-      this.isLoading = true;
-      client.requestAsync('issue_deposit_address', null).then(() => {
+    created() {
         this.loadDepositsAndAddresses();
-      });
     },
-  },
+    methods: {
+        loadDepositsAndAddresses() {
+            this.isLoading = true;
+            Promise.all([
+                client.requestAsync('get_deposits', null),
+                client.requestAsync('get_deposit_addresses', null),
+            ]).then(result => {
+                [this.items, this.depositAddresses] = result;
+                this.isLoading = false;
+            });
+        },
+        issueDepositAddress() {
+            this.isLoading = true;
+            client.requestAsync('issue_deposit_address', null).then(() => {
+                this.loadDepositsAndAddresses();
+            });
+        },
+    },
 };
 </script>

@@ -68,6 +68,23 @@ a.iconfont:hover {
   white-space: nowrap;
 }
 
+.preview.unit {
+  background-image: url('../public/img/cards/background/2.png');
+  background-size: contain;
+  width: 80px;
+  height: 107px;
+
+  @media @bp-small {
+    width: 80px;
+    height: 107px;
+  }
+
+  &.mini {
+    height: 54px;
+    width: 40px;
+  }
+}
+
 .preview {
   width: 80px;
   height: 80px;
@@ -82,6 +99,7 @@ a.iconfont:hover {
     width: 30px;
   }
 }
+
 
 .border-top, .border-bottom, .border-left, .border-right {
   border-color: @border-color !important;

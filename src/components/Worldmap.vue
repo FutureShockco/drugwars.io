@@ -1,73 +1,135 @@
 <template>
     <div class="text-center py-1">
+    
         <button v-if="!showTargets" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
+    
         <button v-else @click="switchTargets" class="button button-red btnmapl">Hide Targets</button>
+    
         <button @click="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
-
+    
+    
+    
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
+    
+    
     
             <button class="button button-blue top text-center" :disabled="!selected">
     
-              <span v-if="main">VISIT</span>
+        
     
-              <span v-else>CHOOSE AS MAIN TERRITORY</span>
+                  <span v-if="main">VISIT</span>
     
-              </button>
+        
+    
+                  <span v-else>CHOOSE AS MAIN TERRITORY</span>
+    
+        
+    
+                  </button>
+    
+    
     
         </router-link>
     
+    
+    
         <div id="mapbg" class="mapbg">
+    
             <h3 class="title" id="title" style="opacity:0;">
+    
+    
     
                 <div v-if="selected">{{selected.name}} {{selected.count}}</div>
     
+    
+    
                 <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
+    
+    
     
                 <div>INFORMATIONS</div>
     
+    
+    
                 <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{225 - selected.total_player}}</h5>
+    
+    
     
                 <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
     
+    
+    
                 <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
+    
+    
     
                 <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
     
+    
+    
             </h3>
+    
+    
     
             <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
     
+    
+    
             <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
+    
             <div v-if="showTargets">
-            <PlayerBubble v-if="target.territory !== 0"
-              :key="target.nickname"
-              :player="target"
-              v-for="target in targets"
-            />
+    
+                <PlayerBubble v-if="target.territory !== 0" :key="target.nickname" :player="target" v-for="target in targets" />
+    
             </div>
+    
             <div class="map-title" id="visit" style="opacity:0;">
+    
+    
     
                 <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
     
+    
+    
                     <button class="button button-blue" :disabled="!selected">
     
-              <span v-if="main">VISIT</span>
+        
     
-              <span v-else>CHOOSE AS MAIN TERRITORY</span>
+                  <span v-if="main">VISIT</span>
     
-              </button>
+        
+    
+                  <span v-else>CHOOSE AS MAIN TERRITORY</span>
+    
+        
+    
+                  </button>
+    
+    
     
                 </router-link>
     
+    
+    
             </div>
+    
+    
     
             <div class="first-line"></div>
     
     
     
+    
+    
+    
+    
             <img id="projection" src="/img/map/equirectangle_projection.png" />
     
+    
+    
         </div>
+    
+    
     
     </div>
 </template>
@@ -98,7 +160,7 @@ export default {
             textlabels: [],
             targets: [],
             username: this.$store.state.auth.username,
-            showTargets:true
+            showTargets: true
         };
     },
     beforeDestroy() {
@@ -109,19 +171,18 @@ export default {
             e.preventDefault();
             // else continue to route
         },
-        switchTargets(){
-          this.showTargets = !this.showTargets
+        switchTargets() {
+            this.showTargets = !this.showTargets
         },
-        refreshTargets()
-        {
-          const self = this;
-          self.targets = [];
+        refreshTargets() {
+            const self = this;
+            self.targets = [];
             client.requestAsync('get_users', null)
                 .then(users => {
 
                     self.targets = users;
                     self.isLoading = false;
-                   
+
                 })
                 .catch(e => {
                     console.error('Failed to get users', e);
@@ -735,7 +796,7 @@ export default {
                     self.targets.forEach(element => {
                         let search_territories = self.scene.getObjectByName('territories')
                         if (search_territories.children[element.territory - 1] && document.getElementById(`bubble${element.nickname}`)) {
-                             const mapbg = document.getElementById('mapbg');
+                            const mapbg = document.getElementById('mapbg');
                             const boundingBox = search_territories.children[element.territory - 1].geometry.boundingBox;
                             const position = new THREE.Vector3();
                             position.subVectors(boundingBox.max, boundingBox.min);
@@ -747,12 +808,10 @@ export default {
                                 const b = document.getElementById(`bubble${element.nickname}`);
                                 b.style.top = `${to.y}px`;
                                 b.style.left = `${to.x }px`;
-                                if(to.x > mapbg.offsetWidth || to.x < 0 ||  to.y < 50 ||  to.y > mapbg.offsetHeight || to.z > 0.84)
-                                {
-                                  b.style.opacity = 0;
-                                }
-                                else{
-                                   b.style.opacity = 1;
+                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.84) {
+                                    b.style.opacity = 0;
+                                } else {
+                                    b.style.opacity = 1;
                                 }
                                 b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
                                 b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
@@ -859,7 +918,7 @@ export default {
 
                     self.targets = users;
                     self.isLoading = false;
-                   
+
                 })
                 .catch(e => {
                     console.error('Failed to get users', e);
@@ -925,16 +984,16 @@ img {
     pointer-events: none;
 }
 
-.btnmapl{
-  position: absolute;
-  left:20%;
-  top:10px;
+.btnmapl {
+    position: absolute;
+    left: 20%;
+    top: 10px;
 }
 
-.btnmapr{
-  position: absolute;
-  right:20%;
-  top:10px;
+.btnmapr {
+    position: absolute;
+    right: 20%;
+    top: 10px;
 }
 
 .grid {

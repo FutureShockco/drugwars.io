@@ -1,3 +1,3 @@
 <template>
-        <Worldmap />
+    <Worldmap />
 </template>

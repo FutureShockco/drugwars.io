@@ -1,7 +1,7 @@
 <template>
   <div>
     <JobsTabs />
-    <div class="text-center">
+    <div class="text-center anim-fade-in">
       <div class="columns m-0" v-for="item in items" :key="item.id">
         <MissionCard :item="item" />
         <div class="columns m-0" v-for="job in ownJobs" :key="job.id">

@@ -1,69 +1,62 @@
 <template>
-  <div>
-    <div v-if="!isLoading && user" class="mb-2 py-6 border-bottom text-center">
-      <Avatar
-        :username="username"
-        size="100"
-        :rank="rank"
-      />
-      <div class="username">
-        {{ username }}
-      </div>
-    </div>
-    <div class="p-4 text-center mt-6">
-      <div v-if="isLoading">
-        <Loading/>
-      </div>
-      <div v-else-if="user" class="text-center container-xxs">
-        <div class="shield mb-4" v-if="shieldEnd">
-          <h5>Shield</h5>
-          <Icon name="shield" size="36" class="text-gray"/>
-          <div class="text-gray">{{ shieldEnd | ms }}</div>
+    <div>
+        <div v-if="!isLoading && user" class="mb-2 py-6 border-bottom text-center">
+            <Avatar :username="username" size="100" :rank="rank" />
+            <div class="username">
+                {{ username }}
+            </div>
         </div>
-        <h5>Balances</h5>
-        <ul class="columns list-style-none user-balances mb-4">
-          <li class="column col-4">
-            <Icon name="drug"/>
-            <div>
-              <div>{{ balances.drugs | amount }} / {{ user.drug_storage | amount }}</div>
-              <div>{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
-              <div class="text-green">{{ user.drug_storage / 100 * 25 | amount }} safe</div>
-              <div class="text-gray">DRUGS</div>
+        <div class="p-4 text-center mt-6">
+            <div v-if="isLoading">
+                <Loading/>
             </div>
-          </li>
-          <li class="column col-4">
-            <Icon name="weapon"/>
-            <div>
-              <div>{{ balances.weapons | amount }} / {{ user.weapon_storage | amount }}</div>
-              <div>{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
-              <div class="text-green">{{ user.weapon_storage / 100 * 25 | amount }} safe</div>
-              <div class="text-gray">WEAPONS</div>
+            <div v-else-if="user" class="text-center container-xxs">
+                <div class="shield mb-4" v-if="shieldEnd">
+                    <h5>Shield</h5>
+                    <Icon name="shield" size="36" class="text-gray" />
+                    <div class="text-gray">{{ shieldEnd | ms }}</div>
+                </div>
+                <h5>Balances</h5>
+                <ul class="columns list-style-none user-balances mb-4">
+                    <li class="column col-4">
+                        <Icon name="drug" />
+                        <div>
+                            <div>{{ balances.drugs | amount }} / {{ user.drug_storage | amount }}</div>
+                            <div>{{ user.drug_production_rate * 60 * 60 * 24 | amount}} / day</div>
+                            <div class="text-green">{{ user.drug_storage / 100 * 25 | amount }} safe</div>
+                            <div class="text-gray">DRUGS</div>
+                        </div>
+                    </li>
+                    <li class="column col-4">
+                        <Icon name="weapon" />
+                        <div>
+                            <div>{{ balances.weapons | amount }} / {{ user.weapon_storage | amount }}</div>
+                            <div>{{ user.weapon_production_rate * 60 * 60 * 24 | amount}} / day</div>
+                            <div class="text-green">{{ user.weapon_storage / 100 * 25 | amount }} safe</div>
+                            <div class="text-gray">WEAPONS</div>
+                        </div>
+                    </li>
+                    <li class="column col-4">
+                        <Icon name="alcohol" />
+                        <div>
+                            <div>{{ balances.alcohols | amount }} / {{ user.alcohol_storage | amount }}</div>
+                            <div>{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
+                            <div class="text-green">{{ user.alcohol_storage / 100 * 25 | amount }} safe</div>
+                            <div class="text-gray">ALCOHOL</div>
+                        </div>
+                    </li>
+                </ul>
+                <h5>Army</h5>
+                <Army class="mb-4" :units="units" />
+                <h5>Base</h5>
+                <div v-if="username !== me" class="mb-4">
+                    <router-link class="button button-red button-large" :to="`/actions?target=${username}`">
+                        Attack {{ username }}
+                    </router-link>
+                </div>
             </div>
-          </li>
-          <li class="column col-4">
-            <Icon name="alcohol"/>
-            <div>
-              <div>{{ balances.alcohols | amount }} / {{ user.alcohol_storage | amount }}</div>
-              <div>{{ user.alcohol_production_rate * 60 * 60 * 24 | amount}} / day</div>
-              <div class="text-green">{{ user.alcohol_storage / 100 * 25 | amount }} safe</div>
-              <div class="text-gray">ALCOHOL</div>
-            </div>
-          </li>
-        </ul>
-        <h5>Army</h5>
-        <Army class="mb-4" :units="units"/>
-        <h5>Base</h5>
-        <div v-if="username !== me" class="mb-4">
-          <router-link
-            class="button button-red button-large"
-            :to="`/actions?target=${username}`"
-          >
-            Attack {{ username }}
-          </router-link>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -122,12 +115,11 @@
 
 <style scoped lang="less">
 .user-balances {
-  li {
-    font-size: 18px;
-  }
-
-  .iconfont {
-    font-size: 28px;
-  }
+    li {
+        font-size: 18px;
+    }
+    .iconfont {
+        font-size: 28px;
+    }
 }
 </style>

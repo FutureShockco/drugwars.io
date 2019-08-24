@@ -39,11 +39,11 @@
 	
 			<div v-else>
 	
-				<div class="column m-0 mr-2 p-0 col-2 text-center" v-for="unit in json" :unit="unit" :key="unit.id">
+				<div class="column m-0 mr-2 p-0 col-2 text-center" v-for="unit in json" :unit="unit" :key="unit.key">
 	
 					<div class="unitamount">{{unit.amount}}</div>
 	
-				<img class="preview unit  width-full" width="50" :src="`/img/cards/units/${unit.id}.png`">
+				<img class="preview unit  width-full" width="50" :src="`/img/cards/units/${unit.key}.png`">
 	
 					<div class="unitname">{{unit.key}}</div>
 	

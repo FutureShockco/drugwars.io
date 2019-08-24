@@ -50,7 +50,7 @@
                         <p>You need to select at least 1 unit.</p>
                     </div>
                     <div v-else>
-                        <h5 >Power : {{offensivePower}}%  - Timer : {{ timer|ms}}</h5>
+                        <h5 >Power : {{offensivePower}}%  - Timer : {{ timer|ms}} - Cost : None</h5>
                         <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
                         <div v-if="action_type === 'transport'">
                             <div class="columns mt-4">

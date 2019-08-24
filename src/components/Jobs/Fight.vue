@@ -37,6 +37,12 @@
 						:result="result"
 						:stolenResources="json.target.loot"
 					/>
+					<div v-if="json.members && json.rewarded"> Split by {{json.members}} with
+							<div class="text-blue" v-for="item in json.rewarded" :key="item.nickname"  >
+                {{item}}
+							</div>
+						</div>
+
 				</div>
 				<h1 class="mt-0 mb-0" v-else>VS</h1>
 				<h5 class="mt-0 mb-0" v-if="timeToWait">Start in <div>{{ timeToWait | ms }}</div></h5>

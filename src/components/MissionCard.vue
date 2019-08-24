@@ -22,7 +22,7 @@
 			</div>
 	
 			<h5>Enemies</h5>
-			<div class="text-green" v-if="json && json.length < 1">MISSION ACCOMPLISHED</div>
+			<div class="text-green" v-if="ownJob && json && json.length < 1">MISSION ACCOMPLISHED</div>
 			<div v-if="!timeToWait">
 	
 				<div class="column m-0 mr-2 p-0 col-2 text-center" v-for="unit in item.units" :unit="unit" :key="unit.id">

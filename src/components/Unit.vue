@@ -2,7 +2,7 @@
     <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress }">
         <div class="item-content width-full mr-3 mb-4">
             <div class="mr-2 left-floated">
-                <img class="preview unit" :src="`/img/cards/units/${unit.id}.png`">
+                <img class="preview unit" :src="`/img/units/${unit.id}.png`">
                 <div class="skill-icons text-center">
                 </div>
             </div>

@@ -254,9 +254,17 @@ export default {
                     b.training === 'routing'
                 )
             if(training)
+            {
             reduce = training.lvl
-            timer = (timer + (distance*2)) * 1000
-            return timer = timer - (timer/200*reduce)
+            }
+            if(this.selectedUnits &&  this.selectedUnits.length === 1 &&  this.selectedUnits[0].key === 'spy' && self.target)
+            {
+              timer = timer + distance;
+            }
+            else{
+              timer = timer + (distance*2)
+            }
+            return timer = (timer - (timer/200*reduce))*1000
         }
     },
     methods: {

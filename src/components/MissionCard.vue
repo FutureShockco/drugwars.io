@@ -21,7 +21,7 @@
         >
           <div class="unitamount">{{unit.amount.mini}} - {{unit.amount.max}}</div>
 
-          <img class="preview unit width-full" width="50" :src="`/img/cards/units/${unit.id}.png`" />
+          <img class="preview unit width-full" width="50" :src="`/img/units/${unit.id}.png`" />
 
           <div class="unitname">{{unit.id}}</div>
         </div>
@@ -36,7 +36,7 @@
         >
           <div class="unitamount">{{unit.amount}}</div>
 
-          <img class="preview unit width-full" width="50" :src="`/img/cards/units/${unit.key}.png`" />
+          <img class="preview unit width-full" width="50" :src="`/img/units/${unit.key}.png`" />
 
           <div class="unitname">{{unit.key}}</div>
         </div>

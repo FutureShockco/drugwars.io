@@ -590,11 +590,11 @@ const actions = {
 		})
   }),
   setBase: ({ commit }, payload) => {
-    console.log(payload);
+    //console.log(payload);
     commit('saveBase', payload);
   },
   setMainBase: ({ commit }, payload) => {
-    console.log(payload);
+    //console.log(payload);
     commit('saveMainBase', payload);
   },
   disconnect: ({ commit }) => {

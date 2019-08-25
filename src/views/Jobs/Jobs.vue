@@ -46,7 +46,6 @@ export default {
 			client.requestAsync('get_sent_fights_npc', this.user.username).then(result => {
 				this.fights = result;
 				this.isLoading = false;
-				console.log(result)
 			});
 		},
 	},

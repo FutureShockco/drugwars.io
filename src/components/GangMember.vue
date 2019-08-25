@@ -7,6 +7,10 @@
     			<span v-if="!isLoading">Kick {{member.role}}</span>
     			<SmallLoading v-else/>
     		</button>
+        <button @click="handleSetBoss(member.nickname)" class="button button-green float-right mr-2" :disabled="isLoadingCapo " v-if="member.role === 'capo' && isBoss">
+    			<span v-if="!isLoadingCapo">Give boss role</span>
+    			<SmallLoading v-else/>
+    		</button>
         <button @click="handleAddCapo(member.nickname)" class="button button-green float-right mr-2" :disabled="isLoadingCapo " v-if="member.role === 'soldier' && isBoss">
     			<span v-if="!isLoadingCapo">Promote to capo</span>
     			<SmallLoading v-else/>
@@ -72,6 +76,24 @@ export default {
                 gang: this.id,
                 capo,
                 type: 'gang-add-capo',
+            };
+
+            this.send(payload)
+                .then(() => {
+                    this.isLoadingCapo = false;
+                })
+                .catch(e => {
+                    this.notify({ type: 'error', message: 'Failed to add capo' });
+                    console.error('Failed to add capo', e);
+                    this.isLoadingCapo = false;
+                });
+        },
+        handleSetBoss(capo) {
+            this.isLoadingCapo = true;
+            const payload = {
+                gang: this.id,
+                capo,
+                type: 'gang-set-boss',
             };
 
             this.send(payload)

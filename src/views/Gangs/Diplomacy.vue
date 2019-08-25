@@ -122,7 +122,6 @@ export default {
             };
             this.send(payload)
                 .then(result => {
-                    console.log(result);
                     this.load_events();
                     this.isLoading = false;
                 })

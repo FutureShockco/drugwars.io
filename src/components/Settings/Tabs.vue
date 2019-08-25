@@ -2,8 +2,8 @@
   <Header>
     <UiTabs>
       <UiTab to="/settings">Settings</UiTab>
-      <!-- <UiTab to="/settings/steem">Steem</UiTab>
-      <UiTab to="/settings/building">Delete building</UiTab> -->
+       <UiTab v-if="!steemAccount" to="/settings/steem">Steem</UiTab>
+     <!-- <UiTab to="/settings/building">Delete building</UiTab> -->
       <UiTab to="/settings/privacy">Privacy</UiTab>
     </UiTabs>
                 <div class="coordbase text-right" v-if="base">
@@ -31,6 +31,10 @@ export default {
         ) || null
       );
     },
+    steemAccount() {
+			if (this.$store.state.auth.account) return this.$store.state.auth.account;
+			return 0;
+		},
   },
 };
 </script>

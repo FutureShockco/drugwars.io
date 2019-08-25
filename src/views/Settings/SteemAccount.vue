@@ -2,84 +2,47 @@
     <div>
         <SettingsTabs/>
         <div class="p-4 text-center anim-fade-in">
-            <h2>Change your settings</h2>
-            <h5>Be carefull, you can not change your nickname more than one time per month and/or 2 days after starting a fight</h5>
-            <form class="form container-xxs" @submit.prevent="handleSubmit">
-                <p>Nickname</p>
-                <input class="input input-primary mb-2" v-model="nickname" maxlength="32" :placeholder="user.nickname" v-lowercase />
-                <p>Profile picture</p>
-                <input class="input input-primary mb-4" v-model="picture" type="url" :placeholder="user.picture" />
-                <button class="button input-block button-large button-green mb-2" type="submit" :disabled="isLoading">   
-                            <SmallLoading v-if="isLoading"/>    
-                            <span v-else>Edit</span>   
-                          </button>
+            <h2>Your Steem account settings</h2>
+            <h4>Attention : don't share your keys with any other player. <strong>DrugWars does not take any responsibility</strong> for lost accounts/wallets.</h4>
+            <form class="form container-xxs">
+                <div class="text-green">Steem Username <div> (use to login to your account)</div></div>
+                <input class="input input-primary mb-2" :value="steem_account.steem_account" />
+                <div class="text-blue">Posting Key <div> (use to post contents, will be asked for most of Steem Apps)</div></div>
+                <input id="posting" @mouseenter="showKey('posting')" @mouseleave="hideKey('posting')" type="password" class="input input-primary mb-2" :value="steem_account.posting_key" />
+                <div class="text-red">Active Key <div>(use to transfer funds, be carefull at use and don't let anyone else obtain it)</div></div> 
+                <input id="private" @mouseenter="showKey('private')" @mouseleave="hideKey('private')" type="password" class="input input-primary mb-2" :value="steem_account.posting_key" />
             </form>
-            <a @click.prevent="alert.isActive ? stop_alerts(alert) : activate_alerts(alert)" v-for="alert in alerts" :key="alert.id">
-                <div v-if="alert.isActive" class="iconfont icon-mute">Stop alerts on incoming Attacks</div>
-                <div v-else class="iconfont icon-unmute">Activate alerts on incoming Attacks</div>
-            </a>
+                        (Mouse over to show keys)
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 
 export default {
     data() {
         return {
             isLoading: false,
-            nickname: null,
-            picture: null,
-            alerts: [{
-                id: 'alert',
-                name: 'Attack',
-                isActive: localStorage.getItem('attack_alert') || false,
-            }, ],
+            pkey: '',
         };
     },
     computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        lastUpdate() {
-            return new Date(
-                Date.parse(this.$store.state.game.user.user.last_profile_update),
-            ).toLocaleString();
+        steem_account() {
+            return this.$store.state.game.user.steem_account;
         },
     },
-    methods: {
-        ...mapActions(['send', 'notify']),
-        handleSubmit() {
-            this.isLoading = true;
-            let nick = '';
-            if (this.nickname) nick = this.nickname.trim().toLowerCase();
-            else nick = '';
-            if (!this.picture) this.picture = this.user.picture;
-            const payload = {
-                nickname: nick,
-                picture: this.picture.trim(),
-                type: 'edit-profile',
-            };
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to edit profile' });
-                    console.error('Failed to edit profile', e);
-                    this.isLoading = false;
-                });
-        },
-        activate_alerts(alert) {
-            localStorage.setItem('attack_alert', true);
-            alert.isActive = true; // eslint-disable-line no-param-reassign
-        },
-        stop_alerts(alert) {
-            localStorage.setItem('attack_alert', false);
-            alert.isActive = false; // eslint-disable-line no-param-reassign
-        },
-    },
+     methods: {
+       showKey(key){
+           const input = document.getElementById(key);
+           input.type = 'text';
+           console.log(input)
+       },
+      hideKey(key){
+           const input = document.getElementById(key);
+           input.type = 'password';
+       }
+     }
+
 };
 </script>
 

@@ -1,13 +1,13 @@
 <template>
     <div>
         <ReferralTabs/>
-        <div class="p-4 anim-fade-in">
-            <p>Invite your friends! Use the link below and obtain 15% bonus on their DWD rewards.</p>
-            <div class="link mb-4">
-                <a :href="url" target="_blank">
+        <div class="p-4 anim-fade-in text-center">
+            <h1>DrugWars Referral Program</h1>
+            <h3>1.Invite your friends with this link!      <a :href="url" target="_blank">
               {{ url }}
-            </a>
-            </div>
+            </a></h3>
+            <h3>2.Make them win a Steem account!</h3>
+            <h3>3.And obtain 15% bonus on their DWD crypto rewards.</h3>
             <h3>Your referrals</h3>
             <div>
                 <div :key="key" v-for="(referral, key) in referrals">
@@ -25,6 +25,7 @@
             <div v-if="!referrals.length">
                 <p>You have not referred anyone yet.</p>
             </div>
+            <img class="refferalimg" :src="'/img/referral.png'">
         </div>
     </div>
 </template>
@@ -69,5 +70,11 @@ export default {
 <style scoped lang="less">
 .link {
     font-size: 26px;
+}
+.refferalimg{
+    z-index: 0;
+    position: absolute;
+    width: 50%;
+    bottom:0px;
 }
 </style>

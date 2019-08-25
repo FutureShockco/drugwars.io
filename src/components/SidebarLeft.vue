@@ -100,8 +100,8 @@
                     </li>
                 </ul>
                 <ul class="pt-1 pb-2 border-bottom">
-                    <li>
-                        <router-link to="/referral" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                    <li class="referral">
+                        <router-link to="/referral" class="py-1 px-4 d-block " @click.native="toggleSidebar">
                             referral
                         </router-link>
                     </li>
@@ -271,5 +271,9 @@ export default {
             }
         }
     }
+}
+
+.referral{
+     background-image: linear-gradient(180deg, #b40000 0%, #7a0000 74%);
 }
 </style>

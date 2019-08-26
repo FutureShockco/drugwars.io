@@ -18,6 +18,7 @@
 						<SmallLoading v-else />
 					</button>
 			</form>
+			<h3 v-if="!steemAccount">Get started on Steem Engine by using your <router-link :to="`/settings/steem`">Steem account</router-link></h3>
 			<div v-if="!picked">
 				<p class="mb-4">You must choose your currency.</p>
 			</div>

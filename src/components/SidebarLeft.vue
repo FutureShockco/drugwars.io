@@ -89,8 +89,8 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/market/shop" class="py-1 px-4 d-block" @click.native="toggleSidebar">
-                            Market
+                        <router-link to="/market/exchange" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                            Exchange
                         </router-link>
                     </li>
                     <li>

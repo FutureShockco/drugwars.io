@@ -1,136 +1,39 @@
 <template>
     <div class="text-center py-1">
-    
         <button v-if="!showTargets" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
-    
         <button v-else @click="switchTargets" class="button button-red btnmapl">Hide Targets</button>
-    
         <button @click="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
-    
-    
-    
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
-    
-    
-    
             <button class="button button-blue top text-center" :disabled="!selected">
-    
-        
-    
                   <span v-if="main">VISIT</span>
-    
-        
-    
                   <span v-else>CHOOSE AS MAIN TERRITORY</span>
-    
-        
-    
                   </button>
-    
-    
-    
         </router-link>
-    
-    
-    
         <div id="mapbg" class="mapbg">
-    
             <h3 class="title" id="title" style="opacity:0;">
-    
-    
-    
                 <div v-if="selected">{{selected.name}} {{selected.count}}</div>
-    
-    
-    
                 <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
-    
-    
-    
                 <div>INFORMATIONS</div>
-    
-    
-    
                 <h5 class="mt-0" v-if="selected && selected.total_player">FREE LOCATIONS : {{225 - selected.total_player}}</h5>
-    
-    
-    
                 <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
-    
-    
-    
-                <!-- <h5 class="mt-0">TOTAL SCORE : 0</h5> -->
-    
-    
-    
                 <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
-    
-    
-    
             </h3>
-    
-    
-    
             <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
-    
-    
-    
             <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
-    
             <div v-if="showTargets">
-    
                 <PlayerBubble v-if="target.territory !== 0" :key="target.nickname" :player="target" v-for="target in targets" />
-    
             </div>
-    
             <div class="map-title" id="visit" style="opacity:0;">
-    
-    
-    
                 <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
-    
-    
-    
                     <button class="button button-blue" :disabled="!selected">
-    
-        
-    
                   <span v-if="main">VISIT</span>
-    
-        
-    
                   <span v-else>CHOOSE AS MAIN TERRITORY</span>
-    
-        
-    
                   </button>
-    
-    
-    
                 </router-link>
-    
-    
-    
             </div>
-    
-    
-    
             <div class="first-line"></div>
-    
-    
-    
-    
-    
-    
-    
             <img id="projection" src="/img/map/equirectangle_projection.png" />
-    
-    
-    
         </div>
-    
-    
-    
     </div>
 </template>
 
@@ -160,7 +63,8 @@ export default {
             textlabels: [],
             targets: [],
             username: this.$store.state.auth.username,
-            showTargets: true
+            showTargets: true,
+            selectedTerritory:null
         };
     },
     beforeDestroy() {
@@ -189,7 +93,7 @@ export default {
                     this.isLoading = false;
                 });
         },
-        init() {
+        initPlanet() {
             /* eslint-disable */
             const self = this;
             this.showLoading = true;
@@ -202,7 +106,6 @@ export default {
             this.scene.updateMatrixWorld(true);
             this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
             self.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-            var onClickPosition = new THREE.Vector2();
             let rotating = true;
             self.controls.keys = {
                 LEFT: null, // left arrow
@@ -416,6 +319,184 @@ export default {
 
             self.scene.add(self.earth);
             self.scene.add(spotLight);
+            mapbg.camera = this.camera;
+            this.camera.position.set(1, 1, 1);
+
+            this.camera.rotation.x = -0.86;
+            this.camera.rotation.y = 0.75;
+            this.camera.updateProjectionMatrix();
+
+            const posX = this.camera.position.x + 1;
+            const posY = this.camera.position.y - 2;
+            const posZ = this.camera.position.z + 1;
+
+            mapbg.addEventListener('resize', () => {
+                this.camera.aspect = mapbg.width / mapbg.height;
+
+                this.camera.rotation.x = -0.86;
+                this.camera.rotation.y = 0.75;
+
+                this.camera.updateProjectionMatrix();
+                self.renderer.setSize(mapbg.width, mapbg.height);
+            });
+            self.camera.rotation.x = -0.86;
+            self.camera.rotation.y = 0.75;
+            self.scene.add(this.camera);
+            // Main render function
+            const visitTitle = document.getElementById('title');
+            const visitButton = document.getElementById('visit');
+            const crosshairx = document.getElementById('crosshairx');
+            const crosshairy = document.getElementById('crosshairy');
+            const render = function() {
+                for (var i = 0; i < self.textlabels.length; i++) {
+                    self.textlabels[i].updatePosition();
+                }
+                if (self.scene.getObjectByName('territories') && self.selectedTerritory && visitButton) {
+                    const boundingBox = self.selectedTerritory.object.geometry.boundingBox;
+                    const position = new THREE.Vector3();
+                    position.subVectors(boundingBox.max, boundingBox.min);
+                    position.multiplyScalar(0.5);
+                    position.add(boundingBox.min);
+                    position.applyMatrix4(self.selectedTerritory.object.matrixWorld);
+                    if (self.camera) {
+                        const to = createVector(position, self.camera);
+                        visitButton.style.top = `${to.y + 20}px`;
+                        visitButton.style.left = `${to.x + 20}px`;
+                        visitTitle.style.top = `${to.y + 60}px`;
+                        visitTitle.style.left = `${to.x + 20}px`;
+
+                        crosshairx.style.left = `${to.x}px`;
+                        crosshairy.style.top = `${to.y}px`;
+
+                        visitTitle.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                        visitTitle.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                        visitTitle.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                        visitTitle.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                        visitTitle.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                    }
+                }
+                if (self.scene.getObjectByName('territories') && self.targets.length > 0 && self.showTargets) {
+                    self.targets.forEach(element => {
+                        let search_territories = self.scene.getObjectByName('territories')
+                        if (search_territories.children[element.territory - 1] && document.getElementById(`bubble${element.nickname}`)) {
+                            const mapbg = document.getElementById('mapbg');
+                            const boundingBox = search_territories.children[element.territory - 1].geometry.boundingBox;
+                            const position = new THREE.Vector3();
+                            position.subVectors(boundingBox.max, boundingBox.min);
+                            position.multiplyScalar(0.5);
+                            position.add(boundingBox.min);
+                            position.applyMatrix4(search_territories.children[element.territory - 1].matrixWorld);
+                            if (self.camera && search_territories.children[element.territory - 1]) {
+                                const to = createVector(position, self.camera);
+                                const b = document.getElementById(`bubble${element.nickname}`);
+                                b.style.top = `${to.y}px`;
+                                b.style.left = `${to.x }px`;
+                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.84) {
+                                    b.style.opacity = 0;
+                                } else {
+                                    b.style.opacity = 1;
+                                }
+                                b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                            }
+                        }
+
+                    });
+                }
+                if (self.scene && self.camera) {
+                    if (self.scene.getObjectByName('territories'))
+                        self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
+                    self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
+                    self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
+                    self.animation = requestAnimationFrame(render);
+                    self.renderer.render(self.scene, self.camera);
+                }
+            };
+
+              function createVector(obj, camera) {
+                const p = new THREE.Vector3(obj.x, obj.y, obj.z);
+                const vector = p.project(camera);
+
+                vector.x = ((vector.x + 1) / 2) * mapbg.width;
+                vector.y = (-(vector.y - 1) / 2) * mapbg.height;
+
+                return vector;
+            }
+            self.controls.update();
+
+            render();
+            this.showLoading = false;
+        },
+        clearThree(obj) {
+            while (obj.children.length > 0) {
+                this.clearThree(obj.children[0])
+                obj.remove(obj.children[0]);
+            }
+            if (obj.geometry) {
+                obj.geometry.dispose();
+            }
+            if (obj.material) {
+                var materialArray;
+                if (obj.material instanceof THREE.MeshFaceMaterial || obj.material instanceof THREE.MultiMaterial) {
+                    materialArray = obj.material.materials;
+                } else if (obj.material instanceof Array) {
+                    materialArray = obj.material;
+                }
+                if (materialArray) {
+                    materialArray.forEach(function(mtrl, idx) {
+                        if (mtrl.map) mtrl.map.dispose();
+                        if (mtrl.lightMap) mtrl.lightMap.dispose();
+                        if (mtrl.bumpMap) mtrl.bumpMap.dispose();
+                        if (mtrl.normalMap) mtrl.normalMap.dispose();
+                        if (mtrl.specularMap) mtrl.specularMap.dispose();
+                        if (mtrl.envMap) mtrl.envMap.dispose();
+                        mtrl.dispose();
+                    });
+                } else {
+                    if (obj.material.map) obj.material.map.dispose();
+                    if (obj.material.lightMap) obj.material.lightMap.dispose();
+                    if (obj.material.bumpMap) obj.material.bumpMap.dispose();
+                    if (obj.material.normalMap) obj.material.normalMap.dispose();
+                    if (obj.material.specularMap) obj.material.specularMap.dispose();
+                    if (obj.material.envMap) obj.material.envMap.dispose();
+                    obj.material.dispose();
+                }
+            }
+        },
+        clearScene(scene) {
+            cancelAnimationFrame(self.animation)
+            var territories = scene.getObjectByName('territories')
+            for (let i = territories.children.length - 1; i >= 0; i--) {
+                this.clearThree(territories.children[i])
+            }
+
+            for (let i = scene.children.length - 1; i >= 0; i--) {
+                const object = scene.children[i];
+                object.children.forEach(element => {
+                    this.clearThree(element)
+                });
+            }
+            for (let i = scene.children.length - 1; i >= 0; i--) {
+                const object = scene.children[i];
+                if (this.clearThree)
+                    this.clearThree(object)
+            }
+            scene.dispose()
+            this.scene.dispose()
+            this.renderer.context = null;
+            this.renderer.domElement = null;
+            this.renderer = null;
+            this.scene = null;
+            this.camera = null;
+            this.controls = null;
+            this.animation = null;
+        },
+         initTerritories() {
+            const self = this;
+            var onClickPosition = new THREE.Vector2();
             const territories = new THREE.Object3D();
             const createTerritories = function(cb) {
                 const img = document.getElementById('projection');
@@ -552,95 +633,8 @@ export default {
                                 territories.add(mesh);
                                 hexasphere.tiles[i].mesh = mesh;
                                 count++;
-                                //console.log(count)
-                                //DRAW LABELS
-                                // const oldm = mesh
-                                // var tgeometry = new THREE.CylinderGeometry(5, 15, 30, 4, 1);
-                                // var mesh = new THREE.Mesh(tgeometry, material);
-                                // const boundingBox = oldm.geometry.boundingBox;
-                                // const position = new THREE.Vector3();
-                                // position.subVectors(boundingBox.max, boundingBox.min);
-                                // position.multiplyScalar(0.5);
-                                // position.add(boundingBox.min);
-                                // position.applyMatrix4(oldm.matrixWorld);
-                                //     mesh.position.x = oldm.geometry.vertices[3].x;
-                                //     mesh.position.y = oldm.geometry.vertices[3].y;
-                                //     mesh.position.z = oldm.geometry.vertices[3].z;
-                                //     mesh.updateMatrix();
-                                //     mesh.matrixAutoUpdate = false;
-                                //     mesh.geometry.computeBoundingBox();
-                                //     territories.add(mesh);
-                                //     const createTextLabel = function(mesh) {
-                                //         var div = document.createElement('div');
-                                //         div.className = 'text-label';
-                                //         div.style.position = 'absolute';
-                                //         div.style.width = 100;
-                                //         div.style.height = 100;
-                                //         div.innerHTML = "hi there!";
-                                //         div.style.top = -1000;
-                                //         div.style.left = -1000;
-
-                                //         var _this = this;
-
-                                //         return {
-                                //           element: div,
-                                //           parent: false,
-                                //           position: new THREE.Vector3(0,0,0),
-                                //           setHTML: function(html) {
-                                //             this.element.innerHTML = html;
-                                //           },
-                                //           setParent: function(threejsobj) {
-                                //             this.parent = threejsobj;
-                                //           },
-                                //           updatePosition: function() {
-                                //             if(parent) {
-                                //               this.position.copy(this.parent.position);
-                                //             }
-                                //             const position = new THREE.Vector3();
-                                //             console.log(mesh)
-                                //              const boundingBox = mesh.geometry.boundingBox;
-                                //             position.subVectors(boundingBox.max, boundingBox.min);
-                                //             position.multiplyScalar(0.5);
-                                //             position.add(boundingBox.min);
-                                //             position.applyMatrix4(mesh.matrixWorld);
-                                //             if(self.camera)
-                                //             {
-                                //             const to = createVector(position, self.camera);
-                                //             // var coords2d = this.get2DCoords(this.position, self.camera);
-                                //             this.element.style.left = to.x + 'px';
-                                //             this.element.style.top = to.y + 'px';
-                                //             }
-                                //           },
-                                //           get2DCoords: function(position, camera) {
-                                //             var vector = position.project(camera);
-                                //             vector.x = (vector.x + 1)/2 * window.innerWidth;
-                                //             vector.y = -(vector.y - 1)/2 * window.innerHeight;
-                                //             return vector;
-                                //           }
-                                //         };
-                                //       }
-                                //     var text = createTextLabel(mesh);
-                                //     text.setHTML(i);
-                                //     text.setParent(mesh);
-                                //     self.textlabels.push(text);
-                                //     mapbg.appendChild(text.element);
-
                             }
-
-
                         }
-
-                        // else {
-                        //   material = oceanMaterial[0];
-                        //   material.name = 'void';
-                        //   material.count = 0;
-                        //   material.opacity = 0;
-                        //   var bufferGeometry = new THREE.BufferGeometry().fromGeometry( geometry );
-                        //   const tmesh = new THREE.Mesh(bufferGeometry, material.clone());
-                        //   mesh.name = 'void ';
-                        //   territories.add(mesh);
-                        //   hexasphere.tiles[i].mesh = mesh;
-                        // }
                     }
 
                     seenTiles = {};
@@ -658,9 +652,7 @@ export default {
                 self.scene.add(allterritories);
             });
 
-            this.camera.rotation.x = -0.86;
-            this.camera.rotation.y = 0.75;
-            self.scene.add(this.camera);
+       
             let raycaster = new THREE.Raycaster(),
                 INTERSECTED;
             const mouse = new THREE.Vector2();
@@ -694,11 +686,11 @@ export default {
                 return raycaster.intersectObjects(objects);
             };
 
-            let selectedTerritory;
+            let rotating = true;
 
             function onclick(event) {
-                if (selectedTerritory)
-                    selectedTerritory.object.material.color.set(self.oldcolor);
+                if (self.selectedTerritory)
+                    self.selectedTerritory.object.material.color.set(self.oldcolor);
 
 
                 let array = [];
@@ -716,14 +708,14 @@ export default {
                     intersects[0].object.name != 'void' &&
                     intersects[0].object.material.name != 'void'
                 ) {
-                    selectedTerritory = intersects[0];
-                    self.oldcolor = selectedTerritory.object.material.color.getHex();
-                    selectedTerritory.object.material.color.set(0xff0000);
+                    self.selectedTerritory = intersects[0];
+                    self.oldcolor = self.selectedTerritory.object.material.color.getHex();
+                    self.selectedTerritory.object.material.color.set(0xff0000);
                     self.selected = {};
-                    self.selected.name = selectedTerritory.object.material.name;
-                    self.selected.count = selectedTerritory.object.material.userData.count;
-                    self.selected.total_player = selectedTerritory.object.material.userData.total_player;
-                    self.selected.dangerosity = selectedTerritory.object.material.userData.risk;
+                    self.selected.name = self.selectedTerritory.object.material.name;
+                    self.selected.count = self.selectedTerritory.object.material.userData.count;
+                    self.selected.total_player = self.selectedTerritory.object.material.userData.total_player;
+                    self.selected.dangerosity = self.selectedTerritory.object.material.userData.risk;
                     visitButton.style.top = `${event.clientY}px`;
                     visitButton.style.left = `${event.clientX + 20}px`;
                     visitButton.style.opacity = 1;
@@ -741,181 +733,17 @@ export default {
                     rotating = true;
                 }
             }
-
-            mapbg.camera = this.camera;
-            this.camera.position.set(1, 1, 1);
-
-            this.camera.rotation.x = -0.86;
-            this.camera.rotation.y = 0.75;
-            this.camera.updateProjectionMatrix();
-
-            const posX = this.camera.position.x + 1;
-            const posY = this.camera.position.y - 2;
-            const posZ = this.camera.position.z + 1;
-
-            mapbg.addEventListener('resize', () => {
-                this.camera.aspect = mapbg.width / mapbg.height;
-
-                this.camera.rotation.x = -0.86;
-                this.camera.rotation.y = 0.75;
-
-                this.camera.updateProjectionMatrix();
-                self.renderer.setSize(mapbg.width, mapbg.height);
-            });
-
-            // Main render function
-            const render = function() {
-                for (var i = 0; i < self.textlabels.length; i++) {
-                    self.textlabels[i].updatePosition();
-                }
-                if (selectedTerritory && visitButton) {
-                    const boundingBox = selectedTerritory.object.geometry.boundingBox;
-                    const position = new THREE.Vector3();
-                    position.subVectors(boundingBox.max, boundingBox.min);
-                    position.multiplyScalar(0.5);
-                    position.add(boundingBox.min);
-                    position.applyMatrix4(selectedTerritory.object.matrixWorld);
-                    if (self.camera) {
-                        const to = createVector(position, self.camera);
-                        visitButton.style.top = `${to.y + 20}px`;
-                        visitButton.style.left = `${to.x + 20}px`;
-                        visitTitle.style.top = `${to.y + 60}px`;
-                        visitTitle.style.left = `${to.x + 20}px`;
-
-                        crosshairx.style.left = `${to.x}px`;
-                        crosshairy.style.top = `${to.y}px`;
-
-                        visitTitle.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                        visitTitle.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                        visitTitle.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                        visitTitle.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                        visitTitle.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                    }
-                }
-                if (self.targets.length > 0 && self.showTargets) {
-                    self.targets.forEach(element => {
-                        let search_territories = self.scene.getObjectByName('territories')
-                        if (search_territories.children[element.territory - 1] && document.getElementById(`bubble${element.nickname}`)) {
-                            const mapbg = document.getElementById('mapbg');
-                            const boundingBox = search_territories.children[element.territory - 1].geometry.boundingBox;
-                            const position = new THREE.Vector3();
-                            position.subVectors(boundingBox.max, boundingBox.min);
-                            position.multiplyScalar(0.5);
-                            position.add(boundingBox.min);
-                            position.applyMatrix4(search_territories.children[element.territory - 1].matrixWorld);
-                            if (self.camera && search_territories.children[element.territory - 1]) {
-                                const to = createVector(position, self.camera);
-                                const b = document.getElementById(`bubble${element.nickname}`);
-                                b.style.top = `${to.y}px`;
-                                b.style.left = `${to.x }px`;
-                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.84) {
-                                    b.style.opacity = 0;
-                                } else {
-                                    b.style.opacity = 1;
-                                }
-                                b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                                b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                                b.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                                b.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                                b.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
-                            }
-                            // var node = document.createElement("LI");                 // Create a <li> node
-                            // var textnode = document.createTextNode(element);         // Create a text node
-                            // node.appendChild(textnode);                              // Append the text to <li>
-                            // document.getElementById("mapbg").appendChild(node);     // Append <li> to <ul> with id="myList"
-                        }
-
-                    });
-                }
-                if (self.scene && self.camera) {
-                    if (self.scene.getObjectByName('territories'))
-                        self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
-                    self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
-                    self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
-                    self.animation = requestAnimationFrame(render);
-                    self.renderer.render(self.scene, self.camera);
-                }
-            };
-            self.controls.update();
-
-            render();
-            this.showLoading = false;
         },
-        clearThree(obj) {
-            while (obj.children.length > 0) {
-                this.clearThree(obj.children[0])
-                obj.remove(obj.children[0]);
-            }
-            if (obj.geometry) {
-                obj.geometry.dispose();
-            }
-            if (obj.material) {
-                var materialArray;
-                if (obj.material instanceof THREE.MeshFaceMaterial || obj.material instanceof THREE.MultiMaterial) {
-                    materialArray = obj.material.materials;
-                } else if (obj.material instanceof Array) {
-                    materialArray = obj.material;
-                }
-                if (materialArray) {
-                    materialArray.forEach(function(mtrl, idx) {
-                        if (mtrl.map) mtrl.map.dispose();
-                        if (mtrl.lightMap) mtrl.lightMap.dispose();
-                        if (mtrl.bumpMap) mtrl.bumpMap.dispose();
-                        if (mtrl.normalMap) mtrl.normalMap.dispose();
-                        if (mtrl.specularMap) mtrl.specularMap.dispose();
-                        if (mtrl.envMap) mtrl.envMap.dispose();
-                        mtrl.dispose();
-                    });
-                } else {
-                    if (obj.material.map) obj.material.map.dispose();
-                    if (obj.material.lightMap) obj.material.lightMap.dispose();
-                    if (obj.material.bumpMap) obj.material.bumpMap.dispose();
-                    if (obj.material.normalMap) obj.material.normalMap.dispose();
-                    if (obj.material.specularMap) obj.material.specularMap.dispose();
-                    if (obj.material.envMap) obj.material.envMap.dispose();
-                    obj.material.dispose();
-                }
-            }
-        },
-        clearScene(scene) {
-            cancelAnimationFrame(self.animation)
-            var territories = scene.getObjectByName('territories')
-            for (let i = territories.children.length - 1; i >= 0; i--) {
-                this.clearThree(territories.children[i])
-            }
-
-            for (let i = scene.children.length - 1; i >= 0; i--) {
-                const object = scene.children[i];
-                object.children.forEach(element => {
-                    this.clearThree(element)
-                });
-            }
-            for (let i = scene.children.length - 1; i >= 0; i--) {
-                const object = scene.children[i];
-                if (this.clearThree)
-                    this.clearThree(object)
-            }
-            scene.dispose()
-            this.scene.dispose()
-            this.renderer.context = null;
-            this.renderer.domElement = null;
-            this.renderer = null;
-            this.scene = null;
-            this.camera = null;
-            this.controls = null;
-            this.animation = null;
-        }
     },
     mounted() {
         const self = this;
+        self.initPlanet();
         client.requestAsync('get_territories', null).then(result => {
             self.player_territories = result;
-            self.init();
-
             client.requestAsync('get_users', null)
                 .then(users => {
                     self.targets = null;
-
+                    self.initTerritories();
                     self.targets = users;
                     self.isLoading = false;
 

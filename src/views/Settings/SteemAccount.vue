@@ -10,7 +10,7 @@
                 <div class="text-blue">Posting Key <div> (use to post contents, will be asked for most of Steem Apps)</div></div>
                 <input id="posting" @mouseenter="showKey('posting')" @mouseleave="hideKey('posting')" type="password" class="input input-primary mb-2" :value="steem_account.posting_key" />
                 <div class="text-red">Active Key <div>(use to transfer funds, be carefull at use and don't let anyone else obtain it)</div></div> 
-                <input id="private" @mouseenter="showKey('private')" @mouseleave="hideKey('private')" type="password" class="input input-primary mb-2" :value="steem_account.posting_key" />
+                <input id="private" @mouseenter="showKey('private')" @mouseleave="hideKey('private')" type="password" class="input input-primary mb-2" :value="steem_account.active_key" />
             </form>
                         (Mouse over to show keys)
         </div>

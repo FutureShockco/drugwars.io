@@ -6,15 +6,12 @@
 				You have
 				<b>{{ user.dwd }} DWD</b> token(s) in-game
 			</h3>
-			<div v-if="steemAccount" class="m2-4">
+			<div class="m2-4">
 				<h4>Withdraw DWD token(s) to SteemEngine</h4>
-			</div>
-			<div v-else>
-				<h5>At this moment SteemEngine is only available for Steem users.</h5>
 			</div>
 		</div>
 		<div class="text-center">
-			<form v-if="user.dwd > 0 && steemAccount" class="form mx-auto" @submit.prevent="handleSubmit">
+			<form v-if="user.dwd > 0" class="form mx-auto" @submit.prevent="handleSubmit">
 				<input class="input input-primary mb-2" type="number" v-model="amount" :disabled="isLoading" maxlength="10" placeholder="Amount to change" />
 				<button :disabled="isLoading || user.dwd < amount" type="submit" class="button input-block button-large button-green">
 						<span v-if="!isLoading">Withdraw</span>

@@ -21,7 +21,7 @@
     
                 </div>
             </div>
-            <h4 class="ui white header big px-6">DrugWars is a free to play massively multiplayer strategy and simulation game using the Steem Blockchain to reward players with cryptocurrencies.</h4>
+            <h4 class="ui white header big px-6">{{ 'message.login_message' | translate}}</h4>
     
             <div class="d-inline-grid">
                 <!-- <div class="ui blue header big">Join the early access now for Free. </div> -->

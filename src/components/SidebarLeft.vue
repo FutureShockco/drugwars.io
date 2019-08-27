@@ -85,7 +85,7 @@
                     </li>
                     <li>
                         <router-link to="/rewards" class="py-1 px-4 d-block sidebar-rewards" @click.native="toggleSidebar">
-                            {{'sidebar.rewards' | translate}}
+                            {{'sidebar.heist' | translate}}
                         </router-link>
                     </li>
                     <li>

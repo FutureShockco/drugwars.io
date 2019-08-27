@@ -62,9 +62,11 @@ const language =
   (navigator.languages && navigator.languages[0]) ||
   navigator.language ||
   navigator.userLanguage;
+let languageWithoutRegionCode = 'en';
 
 // Split locales with a region code
-const languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+if(messages[language.toLowerCase().split(/[_-]+/)[0]])
+languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0]
 const i18n = new VueI18n({
   locale: languageWithoutRegionCode,
   messages,

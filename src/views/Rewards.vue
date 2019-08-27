@@ -8,10 +8,5 @@
                 <Heist/>
             </div>
         </div>
-        <h3 class="text-center mb-6">
-            <router-link to="/shop/dwd">
-                DWD tokens
-            </router-link>
-        </h3>
     </div>
 </template>

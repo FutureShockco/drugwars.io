@@ -27,7 +27,7 @@
                 <!-- <div class="ui blue header big">Join the early access now for Free. </div> -->
     
                 <div class="button button-green button-large mb-4" @click="socialLogin">
-                    Login
+                    {{ 'message.login' | translate}}
                 </div>
     
             </div>

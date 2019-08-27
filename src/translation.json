@@ -9,10 +9,11 @@
       "day": "day",
       "hour": "hour",
       "per": "per",
-      "contact_us":"Contact us",
+      "contact_us": "Contact us",
       "force_logout": "Force Logout"
     },
     "sidebar": {
+      "overview": "Overview",
       "buildings": "Buildings",
       "bootcamp": "Bootcamp",
       "actions": "Actions",
@@ -41,10 +42,11 @@
       "day": "jour",
       "hour": "heure",
       "per": "par",
-      "contact_us":"Contactez-nous",
+      "contact_us": "Contactez-nous",
       "force_logout": "Se déconnecter"
     },
     "sidebar": {
+      "overview": "Apercu",
       "buildings": "Batiments",
       "bootcamp": "Camp",
       "actions": "Actions",
@@ -76,6 +78,7 @@
       "force_logout": "Abmelden erzwingen"
     },
     "sidebar": {
+      "overview": "Uberblick",
       "buildings": "Gebaude",
       "bootcamp": "Bootcamp",
       "actions": "Actions",
@@ -107,6 +110,7 @@
       "force_logout": "Force Logout"
     },
     "sidebar": {
+      "overview": "Przegląd",
       "buildings": "Budynki",
       "bootcamp": "Bootcamp",
       "actions": "Akcje",
@@ -123,68 +127,169 @@
       "vote_for": "GLOSUJ NA SWOJEGO SWIADKA I WSPARCIE DRUGWARS.",
       "made_by": "Made by",
       "logout": "Wylogowanie"
+    }
+  },
+  "cz": {
+    "message": {
+      "login_message": "DrugWars je bezplatná hra na masivní multiplayerovou strategickou a simulační hru využívající Steem Blockchain k odměňování hráčů s kryptoměnami.",
+      "login": "Login",
+      "drugs": "Drogy",
+      "weapons": "Zbrane",
+      "alcohol": "Alkohol",
+      "day": "den",
+      "hour": "hour",
+      "per": "za",
+      "force_logout": "Force Logout"
     },
-    "cz": {
-      "message": {
-        "login_message": "DrugWars je bezplatná hra na masivní multiplayerovou strategickou a simulační hru využívající Steem Blockchain k odměňování hráčů s kryptoměnami.",
-        "login": "Login",
-        "drugs": "Drogy",
-        "weapons": "Zbrane",
-        "alcohol": "Alkohol",
-        "day": "den",
-        "hour": "hour",
-        "per": "za",
-        "force_logout": "Force Logout"
-      },
-      "sidebar": {
-        "buildings": "Budovy",
-        "bootcamp": "Bootcamp",
-        "actions": "Akce",
-        "map": "Mapa",
-        "leaderboards": "Leaderboards",
-        "gangs": "Gangy",
-        "jobs": "Jobs",
-        "exchange": "Exchange",
-        "cards": "Karty",
-        "referral": "Doporuceni",
-        "settings": "Settings",
-        "help": "Pomoc",
-        "forum": "Forum",
-        "vote_for": "HLASUJTE PRO NASE BEZPLATNE A PODPOROVE DRUGWARS.",
-        "made_by": "Made by",
-        "logout": "Odhlaseni"
-      },
-      "es": {
-        "message": {
-          "login_message": "DrugWars es un juego de estrategia y simulación multijugador masivo basado en la cadena de bloques Steem que paga a los jugadores en criptomonedas.",
-          "login": "Conexion",
-          "drugs": "Drogas",
-          "weapons": "Armas",
-          "alcohol": "Alcohol",
-          "day": "dia",
-          "hour": "hora",
-          "per": "por",
-          "force_logout": "Desconectar"
-        },
-        "sidebar": {
-          "buildings": "Edificios",
-          "bootcamp": "Campamento",
-          "actions": "Acciones",
-          "map": "Mapa",
-          "leaderboards": "Clasificación",
-          "gangs": "Pandillas",
-          "jobs": "Trabajo",
-          "exchange": "Marche",
-          "cards": "Tarjeta",
-          "referral": "Remisión",
-          "settings": "Preferencias",
-          "help": "Ayuda",
-          "forum": "Forum",
-          "vote_for": "VOTA POR NUESTRO TESTIGO Y APOYA DRUGWARS.",
-          "made_by": "Made by",
-          "logout": "Salir"
-        }
-      }
+    "sidebar": {
+      "overview": "Prehled",
+      "buildings": "Budovy",
+      "bootcamp": "Bootcamp",
+      "actions": "Akce",
+      "map": "Mapa",
+      "leaderboards": "Leaderboards",
+      "gangs": "Gangy",
+      "jobs": "Jobs",
+      "exchange": "Exchange",
+      "cards": "Karty",
+      "referral": "Doporuceni",
+      "settings": "Settings",
+      "help": "Pomoc",
+      "forum": "Forum",
+      "vote_for": "HLASUJTE PRO NASE BEZPLATNE A PODPOROVE DRUGWARS.",
+      "made_by": "Made by",
+      "logout": "Odhlaseni"
+    }
+  },
+  "es": {
+    "message": {
+      "login_message": "DrugWars es un juego de estrategia y simulación multijugador masivo basado en la cadena de bloques Steem que paga a los jugadores en criptomonedas.",
+      "login": "Conexion",
+      "drugs": "Drogas",
+      "weapons": "Armas",
+      "alcohol": "Alcohol",
+      "day": "dia",
+      "hour": "hora",
+      "per": "por",
+      "force_logout": "Desconectar"
+    },
+    "sidebar": {
+      "overview": "Vision global",
+      "buildings": "Edificios",
+      "bootcamp": "Campamento",
+      "actions": "Acciones",
+      "map": "Mapa",
+      "leaderboards": "Clasificación",
+      "gangs": "Pandillas",
+      "jobs": "Trabajo",
+      "exchange": "Marche",
+      "cards": "Tarjeta",
+      "referral": "Remisión",
+      "settings": "Preferencias",
+      "help": "Ayuda",
+      "forum": "Forum",
+      "vote_for": "VOTA POR NUESTRO TESTIGO Y APOYA DRUGWARS.",
+      "made_by": "Made by",
+      "logout": "Salir"
+    }
+  },
+  "hr": {
+    "message": {
+      "login_message": "DrugWars je slobodno igrati strategiju i simulacijsku igru za više igrača s Steem Blockchainom za nagrađivanje igrača s kripto valutama.",
+      "login": "Prijava",
+      "drugs": "Lijekovi",
+      "weapons": "Oruzje",
+      "alcohol": "Alkohol",
+      "day": "dan",
+      "hour": "sat",
+      "per": "per",
+      "contact_us": "Kontaktirajte nas",
+      "force_logout": "Prisilno odjava"
+    },
+    "sidebar": {
+      "overview": "Pregled",
+      "buildings": "Zgrade",
+      "bootcamp": "Bootcamp",
+      "actions": "Akcije",
+      "map": "Karta",
+      "leaderboards": "Leaderboards",
+      "gangs": "Gangs",
+      "jobs": "Poslovi",
+      "exchange": "Razmjena",
+      "cards": "Kartice",
+      "referral": "Preporuka",
+      "settings": "Postavke",
+      "help": "Pomoc",
+      "forum": "Forum",
+      "vote_for": "GLASUJEMO ZA NASU SVJETLOST I PODRSKU DRUGWARS.",
+      "made_by": "Made by",
+      "logout": "Odjava"
+    }
+  },
+  "kr": {
+    "message": {
+      "login_message": "DrugWars는 Steem Blockchain을 사용하여 크립토 통화로 플레이어에게 보상하는 대규모 멀티 플레이어 전략 및 시뮬레이션 게임을 무료로 즐길 수 있습니다.",
+      "login": "로그인",
+      "drugs": "마약",
+      "weapons": "무기",
+      "alcohol": "알코올",
+      "day": "일",
+      "hour": "시간",
+      "per": "per",
+      "contact_us": "문의하기",
+      "force_logout": "강제 로그 아웃"
+    },
+    "sidebar": {
+      "overview": "개요",
+      "buildings": "건물",
+      "bootcamp": "부트 캠프",
+      "actions": "조치",
+      "map": "지도",
+      "leaderboards": "리더 보드",
+      "gangs": "갱",
+      "jobs": "작업",
+      "exchange": "교환",
+      "cards": "카드",
+      "referral": "추천",
+      "settings": "설정",
+      "help": "도움말",
+      "forum": "포럼",
+      "vote_for": "우리의 증인과 지원 마약에 투표하십시오.",
+      "made_by": "Made by",
+      "logout": "로그 아웃"
+    }
+  },
+  "cn": {
+    "message": {
+      "login_message": "DrugWars是一款免費玩大型多人戰略和模擬遊戲，使用Steem Blockchain獎勵玩家使用加密貨幣。",
+      "login": "登錄",
+      "drugs": "毒品",
+      "weapons": "武器",
+      "alcohol": "酒精",
+      "day": "天",
+      "hour": "小時",
+      "per": "per",
+      "contact_us": "聯繫我們",
+      "force_logout": "強制註銷"
+    },
+    "sidebar": {
+      "overview": "概述",
+      "buildings": "建築物",
+      "bootcamp": "訓練營",
+      "actions": "行動",
+      "map": "地圖",
+      "leaderboards": "排行榜",
+      "gangs": "幫派",
+      "jobs": "工作",
+      "exchange": "交流",
+      "cards": "卡片",
+      "referral": "推薦",
+      "settings": "設置",
+      "help": "幫助",
+      "forum": "論壇",
+      "vote_for": "為我們的證人和支持藥物投票。",
+      "made_by": "Made by",
+      "logout": "退出"
     }
   }
 }

@@ -46,42 +46,42 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            amount: 0,
-        };
+  data() {
+    return {
+      isLoading: false,
+      amount: 0,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
     },
-    computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
+  },
+  methods: {
+    ...mapActions(['init', 'notify']),
+    resetForm() {
+      this.amount = 0;
     },
-    methods: {
-        ...mapActions(['init', 'notify']),
-        resetForm() {
-            this.amount = 0;
-        },
-        handleSubmit() {
-            this.isLoading = true;
-            const payload = { DWD: parseInt(this.amount, 10) };
-            client.request('claim_reward', payload, (err, result) => {
-                if (err) {
-                    this.notify({ type: 'error', message: err });
-                    console.error('Failed to claim reward', err);
-                    this.isLoading = false;
-                } else {
-                    this.isLoading = false;
-                    this.notify({
-                        type: 'success',
-                        message: `You successfully claimed ${this.amount} DWD tokens`,
-                    });
-                    console.log('Claim success, the unit id is', result);
-                    this.resetForm();
-                    this.init();
-                }
-            });
-        },
+    handleSubmit() {
+      this.isLoading = true;
+      const payload = { DWD: parseInt(this.amount, 10) };
+      client.request('claim_reward', payload, (err, result) => {
+        if (err) {
+          this.notify({ type: 'error', message: err });
+          console.error('Failed to claim reward', err);
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `You successfully claimed ${this.amount} DWD tokens`,
+          });
+          console.log('Claim success, the unit id is', result);
+          this.resetForm();
+          this.init();
+        }
+      });
     },
+  },
 };
 </script>

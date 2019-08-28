@@ -12,6 +12,6 @@
 
 <script>
 export default {
-    props: ['units'],
+  props: ['units'],
 };
 </script>

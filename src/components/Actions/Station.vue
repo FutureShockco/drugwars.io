@@ -96,122 +96,122 @@ import { jsonParse } from '@/helpers/utils';
 import { mapActions } from 'vuex';
 
 export default {
-	props: ['fight'],
-	data() {
-		return {};
-	},
-	computed: {
-		timeToWait() {
-			const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
-			return timeToWait > 0 ? timeToWait : 0;
-		},
-		start() {
-			const start = new Date(this.fight.timestamp_start * 1000).toLocaleString();
-			return start;
-		},
-		end() {
-			const end = new Date(this.fight.end_date).toLocaleString();
-			return end;
-		},
-		result() {
-			let result;
-			let isAuthor;
-			if (this.fight.attacker_nickname !== this.user.nickname && !this.fight.target) {
-				isAuthor = false;
-			} else if (this.fight.target_nickname !== this.user.nickname) isAuthor = true;
-			if (this.fight.result === 1) {
-				result = isAuthor ? 'win' : 'lost';
-			} else if (this.fight.result === 3) {
-				result = !isAuthor ? 'win' : 'lost';
-			} else if (this.fight.result === 2) {
-				result = 'draw';
-			}
-			return result;
-		},
-		user() {
-			return this.$store.state.game.user.user;
-		},
-		username() {
-			return this.$store.state.auth.username;
-		},
-		json() {
-			return jsonParse(this.fight.json) || {};
-		},
-	},
+  props: ['fight'],
+  data() {
+    return {};
+  },
+  computed: {
+    timeToWait() {
+      const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
+      return timeToWait > 0 ? timeToWait : 0;
+    },
+    start() {
+      const start = new Date(this.fight.timestamp_start * 1000).toLocaleString();
+      return start;
+    },
+    end() {
+      const end = new Date(this.fight.end_date).toLocaleString();
+      return end;
+    },
+    result() {
+      let result;
+      let isAuthor;
+      if (this.fight.attacker_nickname !== this.user.nickname && !this.fight.target) {
+        isAuthor = false;
+      } else if (this.fight.target_nickname !== this.user.nickname) isAuthor = true;
+      if (this.fight.result === 1) {
+        result = isAuthor ? 'win' : 'lost';
+      } else if (this.fight.result === 3) {
+        result = !isAuthor ? 'win' : 'lost';
+      } else if (this.fight.result === 2) {
+        result = 'draw';
+      }
+      return result;
+    },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    username() {
+      return this.$store.state.auth.username;
+    },
+    json() {
+      return jsonParse(this.fight.json) || {};
+    },
+  },
 
-	methods: {
-		...mapActions(['send', 'init']),
-		handleSubmit() {
-			const payload = {
-				station_id: this.fight.transport_key,
-				type: 'cancel-station',
-			};
-			this.isLoading = true;
-			this.send(payload)
-				.then(result => {
-					if (result) {
-						this.notify({
-							type: 'success',
-							message: result,
-						});
-						this.isLoading = false;
-					}
-				})
-				.catch(e => {
-					this.notify({
-						type: 'error',
-						message: `Failed to cancel station ${this.fight.transport_key}`,
-					});
-					console.error(`Failed to cancel station ${this.fight.transport_key}`, e);
-					this.isLoading = false;
-				});
-		},
-	},
+  methods: {
+    ...mapActions(['send', 'init']),
+    handleSubmit() {
+      const payload = {
+        station_id: this.fight.transport_key,
+        type: 'cancel-station',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.notify({
+              type: 'success',
+              message: result,
+            });
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({
+            type: 'error',
+            message: `Failed to cancel station ${this.fight.transport_key}`,
+          });
+          console.error(`Failed to cancel station ${this.fight.transport_key}`, e);
+          this.isLoading = false;
+        });
+    },
+  },
 };
 </script>
 
 <style scoped type="less">
 @import '../../vars.less';
 p {
-	overflow: hidden;
-	max-width: 50%;
+  overflow: hidden;
+  max-width: 50%;
 }
 
 .logo {
-	margin-top: 10px;
-	width: 100%;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .result {
-	font-size: 24px;
-	padding: 5px;
-	height: 40px;
-	background-size: cover !important;
+  font-size: 24px;
+  padding: 5px;
+  height: 40px;
+  background-size: cover !important;
 }
 
 .gang {
-	font-size: 18px;
+  font-size: 18px;
 }
 
 .sharemessage {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 div .minip {
-	width: 28px !important;
-	height: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
 }
 
 img {
-	width: 28px;
-	height: 28px;
+  width: 28px;
+  height: 28px;
 }
 
 .message {
-	max-width: 260px;
-	margin: 0 auto;
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	hyphens: auto;
+  max-width: 260px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 </style>

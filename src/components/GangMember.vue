@@ -33,96 +33,96 @@
 import { mapActions } from 'vuex';
 
 export default {
-    props: ['member', 'id'],
-    data() {
-        return {
-            isLoading: false,
-            isLoadingCapo: false,
-            gang: null,
-            user: this.$store.state.game.user.user,
-        };
+  props: ['member', 'id'],
+  data() {
+    return {
+      isLoading: false,
+      isLoadingCapo: false,
+      gang: null,
+      user: this.$store.state.game.user.user,
+    };
+  },
+  computed: {
+    isBoss() {
+      return this.user.role === 'boss' && this.user.gang === this.id;
     },
-    computed: {
-        isBoss() {
-            return this.user.role === 'boss' && this.user.gang === this.id;
-        },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    resetForm() {
+      this.message = null;
     },
-    methods: {
-        ...mapActions(['send', 'notify']),
-        resetForm() {
-            this.message = null;
-        },
-        handleKick(soldier) {
-            this.isLoading = true;
+    handleKick(soldier) {
+      this.isLoading = true;
 
-            const payload = {
-                gang: this.id,
-                soldier,
-                type: 'gang-kick-soldier',
-            };
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to kick member' });
-                    console.error('Failed to kick member', e);
-                    this.isLoading = false;
-                });
-        },
-        handleAddCapo(capo) {
-            this.isLoadingCapo = true;
-            const payload = {
-                gang: this.id,
-                capo,
-                type: 'gang-add-capo',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoadingCapo = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to add capo' });
-                    console.error('Failed to add capo', e);
-                    this.isLoadingCapo = false;
-                });
-        },
-        handleSetBoss(capo) {
-            this.isLoadingCapo = true;
-            const payload = {
-                gang: this.id,
-                capo,
-                type: 'gang-set-boss',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoadingCapo = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to add capo' });
-                    console.error('Failed to add capo', e);
-                    this.isLoadingCapo = false;
-                });
-        },
-        handleLeave() {
-            this.isLoading = true;
-            const payload = {
-                gang: this.id,
-                username: this.user.username,
-                type: 'gang-leave',
-            };
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to leave gang' });
-                    console.error('Failed to leave gang', e);
-                    this.isLoading = false;
-                });
-        },
+      const payload = {
+        gang: this.id,
+        soldier,
+        type: 'gang-kick-soldier',
+      };
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to kick member' });
+          console.error('Failed to kick member', e);
+          this.isLoading = false;
+        });
     },
+    handleAddCapo(capo) {
+      this.isLoadingCapo = true;
+      const payload = {
+        gang: this.id,
+        capo,
+        type: 'gang-add-capo',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoadingCapo = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to add capo' });
+          console.error('Failed to add capo', e);
+          this.isLoadingCapo = false;
+        });
+    },
+    handleSetBoss(capo) {
+      this.isLoadingCapo = true;
+      const payload = {
+        gang: this.id,
+        capo,
+        type: 'gang-set-boss',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoadingCapo = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to add capo' });
+          console.error('Failed to add capo', e);
+          this.isLoadingCapo = false;
+        });
+    },
+    handleLeave() {
+      this.isLoading = true;
+      const payload = {
+        gang: this.id,
+        username: this.user.username,
+        type: 'gang-leave',
+      };
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to leave gang' });
+          console.error('Failed to leave gang', e);
+          this.isLoading = false;
+        });
+    },
+  },
 };
 </script>

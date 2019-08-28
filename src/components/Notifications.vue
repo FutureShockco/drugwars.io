@@ -8,13 +8,13 @@
 
 <script>
 export default {
-    computed: {
-        items() {
-            return this.$store.state.ui.notifications;
-        },
-        timestamp() {
-            return parseInt(this.$store.state.ui.timestamp / 1000);
-        },
+  computed: {
+    items() {
+      return this.$store.state.ui.notifications;
     },
+    timestamp() {
+      return parseInt(this.$store.state.ui.timestamp / 1000);
+    },
+  },
 };
 </script>

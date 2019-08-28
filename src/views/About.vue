@@ -35,23 +35,23 @@ import pkg from '@/../package.json';
 import changelog from '@/../changelog.json';
 
 export default {
-    data() {
-        return {
-            pkg,
-            changelog,
-        };
-    },
+  data() {
+    return {
+      pkg,
+      changelog,
+    };
+  },
 };
 </script>
 
 <style scoped lang="less">
 .changelog {
-    li {
-        font-size: 16px;
-    }
+  li {
+    font-size: 16px;
+  }
 }
 
 .egg {
-    float: right;
+  float: right;
 }
 </style>

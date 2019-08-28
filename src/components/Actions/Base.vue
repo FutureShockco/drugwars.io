@@ -3,7 +3,7 @@
         <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-inline-block mx-1 my-1 text-center">
             <img width="50" :src="`/img/buildings/${item.building}.jpg`">
             <div>
-                {{ item.lvl }}
+                {{ item.lvl }} {{item.building}}
             </div>
         </div>
     </div>
@@ -11,6 +11,6 @@
 
 <script>
 export default {
-    props: ['items'],
+  props: ['items'],
 };
 </script>

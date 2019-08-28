@@ -26,63 +26,64 @@
 import { mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            nickname: null,
-            picture: null,
-            alerts: [{
-                id: 'alert',
-                name: 'Attack',
-                isActive: localStorage.getItem('attack_alert') || false,
-            }, ],
-        };
+  data() {
+    return {
+      isLoading: false,
+      nickname: null,
+      picture: null,
+      alerts: [
+        {
+          id: 'alert',
+          name: 'Attack',
+          isActive: localStorage.getItem('attack_alert') || false,
+        },
+      ],
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
     },
-    computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        lastUpdate() {
-            return new Date(
-                Date.parse(this.$store.state.game.user.user.last_profile_update),
-            ).toLocaleString();
-        },
+    lastUpdate() {
+      return new Date(
+        Date.parse(this.$store.state.game.user.user.last_profile_update),
+      ).toLocaleString();
     },
-    methods: {
-        ...mapActions(['send', 'notify']),
-        handleSubmit() {
-            this.isLoading = true;
-            let nick = '';
-            if (this.nickname) nick = this.nickname.trim().toLowerCase();
-            else nick = '';
-            if (!this.picture) this.picture = this.user.picture;
-            const payload = {
-                nickname: nick,
-                picture: this.picture.trim(),
-                type: 'edit-profile',
-            };
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to edit profile' });
-                    console.error('Failed to edit profile', e);
-                    this.isLoading = false;
-                });
-        },
-        activate_alerts(alert) {
-            localStorage.setItem('attack_alert', true);
-            alert.isActive = true; // eslint-disable-line no-param-reassign
-        },
-        stop_alerts(alert) {
-            localStorage.setItem('attack_alert', false);
-            alert.isActive = false; // eslint-disable-line no-param-reassign
-        },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    handleSubmit() {
+      this.isLoading = true;
+      let nick = '';
+      if (this.nickname) nick = this.nickname.trim().toLowerCase();
+      else nick = '';
+      if (!this.picture) this.picture = this.user.picture;
+      const payload = {
+        nickname: nick,
+        picture: this.picture.trim(),
+        type: 'edit-profile',
+      };
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to edit profile' });
+          console.error('Failed to edit profile', e);
+          this.isLoading = false;
+        });
     },
+    activate_alerts(alert) {
+      localStorage.setItem('attack_alert', true);
+      alert.isActive = true; // eslint-disable-line no-param-reassign
+    },
+    stop_alerts(alert) {
+      localStorage.setItem('attack_alert', false);
+      alert.isActive = false; // eslint-disable-line no-param-reassign
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
-
 </style>

@@ -80,200 +80,200 @@ import client from '@/helpers/client';
 import { units } from 'drugwars';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            target: this.$route.query.target || null,
-            selectedUnits: [],
-            message: null,
-            username: this.$store.state.auth.username,
-            errorMessage: null,
-            drugs_amount: 0,
-            weapons_amount: 0,
-            alcohol_amount: 0,
-            dwd_amount: 0,
-        };
+  data() {
+    return {
+      isLoading: false,
+      target: this.$route.query.target || null,
+      selectedUnits: [],
+      message: null,
+      username: this.$store.state.auth.username,
+      errorMessage: null,
+      drugs_amount: 0,
+      weapons_amount: 0,
+      alcohol_amount: 0,
+      dwd_amount: 0,
+    };
+  },
+  created() {
+    this.load_buildings();
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
     },
-    created() {
-        this.load_buildings();
+    sent_fights() {
+      return this.$store.state.game.sent_fights;
     },
-    computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        sent_fights() {
-            return this.$store.state.game.sent_fights;
-        },
-        nickname() {
-            return this.$store.state.game.user.user.nickname;
-        },
-        ownUnits() {
-            return this.$store.state.game.user.units.map(unit => ({
-                key: unit.unit,
-                amount: unit.amount,
-            }));
-        },
-        selectedTotal() {
-            let selected = 0;
-            const drugs = parseInt(this.drugs_amount) || 0;
-            const weapons = parseInt(this.weapons_amount) || 0;
-            const alcohol = parseInt(this.alcohol_amount) || 0;
-            const dwd = parseInt(this.dwd_amount) || 0;
-            selected = drugs + weapons + alcohol + dwd;
-            return selected;
-        },
-        carry() {
-            let carry = 0;
-            this.selectedUnits.forEach(unit => {
-                carry += units[unit.key].capacity * unit.amount;
+    nickname() {
+      return this.$store.state.game.user.user.nickname;
+    },
+    ownUnits() {
+      return this.$store.state.game.user.units.map(unit => ({
+        key: unit.unit,
+        amount: unit.amount,
+      }));
+    },
+    selectedTotal() {
+      let selected = 0;
+      const drugs = parseInt(this.drugs_amount) || 0;
+      const weapons = parseInt(this.weapons_amount) || 0;
+      const alcohol = parseInt(this.alcohol_amount) || 0;
+      const dwd = parseInt(this.dwd_amount) || 0;
+      selected = drugs + weapons + alcohol + dwd;
+      return selected;
+    },
+    carry() {
+      let carry = 0;
+      this.selectedUnits.forEach(unit => {
+        carry += units[unit.key].capacity * unit.amount;
+      });
+      return carry;
+    },
+    hasNotEnough() {
+      return (
+        parseInt(this.drugs_amount) > this.user.drugs_balance ||
+        parseInt(this.weapons_amount) > this.user.weapons_balance ||
+        parseInt(this.alcohol_amount) > this.user.alcohols_balance ||
+        parseInt(this.dwd_amount) > this.user.dwd
+      );
+    },
+  },
+  methods: {
+    ...mapActions(['transport', 'init', 'refresh_gang_buildings']),
+    resetForm() {
+      this.target = null;
+      this.selectedUnits = [];
+      this.message = null;
+      this.drugs_amount = 0;
+      this.weapons_amount = 0;
+      this.alcohol_amount = 0;
+      this.dwd_amount = 0;
+    },
+    progressPercent(total, cost) {
+      let progress;
+      if (total && cost) {
+        this.up = false;
+        progress = parseFloat((total * 100) / cost).toFixed(2);
+        return progress;
+      }
+      this.up = false;
+      return 0;
+    },
+    load_buildings() {
+      this.isLoading = true;
+      this.refresh_gang_buildings()
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
+        });
+    },
+    removeUnits() {
+      this.selectedUnits = [];
+    },
+    async handleSubmit() {
+      this.isLoading = true;
+
+      const isValid = await this.validateForm();
+      if (isValid) {
+        const drugs = parseInt(this.drugs_amount) || 0;
+        const weapons = parseInt(this.weapons_amount) || 0;
+        const alcohol = parseInt(this.alcohol_amount) || 0;
+        const dwd = parseInt(this.dwd_amount) || 0;
+        if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && dwd >= 0) {
+          const payload = {
+            target: this.target.toLowerCase(),
+            units: this.selectedUnits,
+            resources: { drugs, weapons, alcohol, dwd },
+          };
+          if (this.message) {
+            payload.message = this.message;
+          }
+          this.resetForm();
+          this.transport(payload)
+            .then(() => {
+              this.isLoading = false;
+            })
+            .catch(e => {
+              console.error('Failed to start a fight=', e);
+              this.isLoading = false;
             });
-            return carry;
-        },
-        hasNotEnough() {
-            return (
-                parseInt(this.drugs_amount) > this.user.drugs_balance ||
-                parseInt(this.weapons_amount) > this.user.weapons_balance ||
-                parseInt(this.alcohol_amount) > this.user.alcohols_balance ||
-                parseInt(this.dwd_amount) > this.user.dwd
-            );
-        },
+        } else {
+          this.isLoading = false;
+          this.errorMessage = 'Not enough resources?';
+        }
+      } else {
+        this.isLoading = false;
+      }
     },
-    methods: {
-        ...mapActions(['transport', 'init', 'refresh_gang_buildings']),
-        resetForm() {
-            this.target = null;
-            this.selectedUnits = [];
-            this.message = null;
-            this.drugs_amount = 0;
-            this.weapons_amount = 0;
-            this.alcohol_amount = 0;
-            this.dwd_amount = 0;
-        },
-        progressPercent(total, cost) {
-            let progress;
-            if (total && cost) {
-                this.up = false;
-                progress = parseFloat((total * 100) / cost).toFixed(2);
-                return progress;
-            }
-            this.up = false;
-            return 0;
-        },
-        load_buildings() {
-            this.isLoading = true;
-            this.refresh_gang_buildings()
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    console.error('Failed', e);
-                    this.isLoading = false;
-                });
-        },
-        removeUnits() {
-            this.selectedUnits = [];
-        },
-        async handleSubmit() {
-            this.isLoading = true;
+    async validateForm() {
+      this.errorMessage = null;
+      const target = this.target.toLowerCase();
 
-            const isValid = await this.validateForm();
-            if (isValid) {
-                const drugs = parseInt(this.drugs_amount) || 0;
-                const weapons = parseInt(this.weapons_amount) || 0;
-                const alcohol = parseInt(this.alcohol_amount) || 0;
-                const dwd = parseInt(this.dwd_amount) || 0;
-                if (drugs >= 0 && weapons >= 0 && alcohol >= 0 && dwd >= 0) {
-                    const payload = {
-                        target: this.target.toLowerCase(),
-                        units: this.selectedUnits,
-                        resources: { drugs, weapons, alcohol, dwd },
-                    };
-                    if (this.message) {
-                        payload.message = this.message;
-                    }
-                    this.resetForm();
-                    this.transport(payload)
-                        .then(() => {
-                            this.isLoading = false;
-                        })
-                        .catch(e => {
-                            console.error('Failed to start a fight=', e);
-                            this.isLoading = false;
-                        });
-                } else {
-                    this.isLoading = false;
-                    this.errorMessage = 'Not enough resources?';
-                }
-            } else {
-                this.isLoading = false;
-            }
-        },
-        async validateForm() {
-            this.errorMessage = null;
-            const target = this.target.toLowerCase();
+      if (target === this.nickname) {
+        this.errorMessage = 'Attack yourself? Are you serious?';
+      }
+      const now = new Date();
+      const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+      if (isPunished > now) {
+        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+      }
 
-            if (target === this.nickname) {
-                this.errorMessage = 'Attack yourself? Are you serious?';
-            }
-            const now = new Date();
-            const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
-            if (isPunished > now) {
-                this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
-            }
-
-            if (!this.errorMessage)
-                try {
-                    const user = await client.requestAsync('check_user', target);
-                    if (!user || !user[0].nickname) {
-                        this.errorMessage = `Player '${target}' does not exist`;
-                    }
-                    return !this.errorMessage;
-                } catch (e) {
-                    this.errorMessage = `Player with nickname '${target}' doesn't exist`;
-                    console.error(`Player with nickname '${target}' doesn't exist`, e);
-                    return false;
-                }
-            if (this.errorMessage) {
-                return false;
-            }
-            return !this.errorMessage;
-        },
-        addUnit(payload) {
-            const amount = parseInt(payload.amount);
-            const selectedUnitsObj = {};
-            const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
-
-            this.selectedUnits.forEach(unit => {
-                selectedUnitsObj[unit.key] = unit.amount;
-            });
-            selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key] ?
-                amount :
-                amount + parseInt(selectedUnitsObj[payload.key]);
-            if (selectedUnitsObj[payload.key] > ownUnit.amount) {
-                selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
-            }
-            if (selectedUnitsObj[payload.key] < 0) {
-                selectedUnitsObj[payload.key] = 0;
-            }
-
-            this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
-                key,
-                amount: selectedUnitsObj[key],
-            }));
-        },
+      if (!this.errorMessage)
+        try {
+          const user = await client.requestAsync('check_user', target);
+          if (!user || !user[0].nickname) {
+            this.errorMessage = `Player '${target}' does not exist`;
+          }
+          return !this.errorMessage;
+        } catch (e) {
+          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+          console.error(`Player with nickname '${target}' doesn't exist`, e);
+          return false;
+        }
+      if (this.errorMessage) {
+        return false;
+      }
+      return !this.errorMessage;
     },
+    addUnit(payload) {
+      const amount = parseInt(payload.amount);
+      const selectedUnitsObj = {};
+      const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
+
+      this.selectedUnits.forEach(unit => {
+        selectedUnitsObj[unit.key] = unit.amount;
+      });
+      selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
+        ? amount
+        : amount + parseInt(selectedUnitsObj[payload.key]);
+      if (selectedUnitsObj[payload.key] > ownUnit.amount) {
+        selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
+      }
+      if (selectedUnitsObj[payload.key] < 0) {
+        selectedUnitsObj[payload.key] = 0;
+      }
+
+      this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
+        key,
+        amount: selectedUnitsObj[key],
+      }));
+    },
+  },
 };
 </script>
 
 
 <style scoped lang="less">
 .width-full {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 @media screen and (min-width: 399px) and (max-width: 1119px) {
-    .column.b {
-        width: 100% !important;
-    }
+  .column.b {
+    width: 100% !important;
+  }
 }
 </style>

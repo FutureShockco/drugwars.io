@@ -120,7 +120,7 @@
 import { jsonParse } from '@/helpers/utils';
 
 export default {
-  props: ['fight','job'],
+  props: ['fight', 'job'],
   data() {
     return {
       share: false,

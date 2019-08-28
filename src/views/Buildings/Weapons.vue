@@ -12,10 +12,10 @@ import { buildings } from 'drugwars';
 import { pickBy } from 'lodash';
 
 export default {
-    data() {
-        return {
-            items: pickBy(buildings, b => b.type === 'weapons'),
-        };
-    },
+  data() {
+    return {
+      items: pickBy(buildings, b => b.type === 'weapons'),
+    };
+  },
 };
 </script>

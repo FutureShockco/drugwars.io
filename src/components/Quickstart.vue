@@ -44,68 +44,68 @@
 import { buildings } from 'drugwars';
 
 export default {
-    data() {
-        return {
-            username: this.$store.state.auth.username,
-            nickname: this.$store.state.game.user.user.nickname,
-        };
+  data() {
+    return {
+      username: this.$store.state.auth.username,
+      nickname: this.$store.state.game.user.user.nickname,
+    };
+  },
+  computed: {
+    mission1() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === 'headquarters',
+      );
+      return !!(building && building.lvl > 0);
     },
-    computed: {
-        mission1() {
-            const building = this.$store.state.game.user.buildings.find(
-                b => b.building === 'headquarters',
-            );
-            return !!(building && building.lvl > 0);
-        },
-        mission2() {
-            return !!this.$store.state.game.user.buildings.find(
-                b =>
-                b.building &&
-                buildings[b.building].production_type === 'drugs' &&
-                buildings[b.building].production_rate > 0,
-            );
-        },
-        mission3() {
-            return !!this.$store.state.game.user.buildings.find(
-                b =>
-                b.building &&
-                buildings[b.building].production_type === 'weapons' &&
-                buildings[b.building].production_rate > 0,
-            );
-        },
-        mission4() {
-            return !!this.$store.state.game.user.buildings.find(
-                b =>
-                b.building &&
-                buildings[b.building].production_type === 'alcohol' &&
-                buildings[b.building].production_rate > 0,
-            );
-        },
-        mission5() {
-            const building = this.$store.state.game.user.buildings.find(
-                b => b.building === 'training_facility',
-            );
-            return !!(building && building.lvl > 0);
-        },
-        mission6() {
-            return this.$store.state.game.user.units.length > 0;
-        },
-        mission7() {
-            if (this.$store.state.game.sent_fights)
-                return this.$store.state.game.sent_fights.find(f => f.attacker_nickname === this.nickname);
-        },
+    mission2() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'drugs' &&
+          buildings[b.building].production_rate > 0,
+      );
     },
+    mission3() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'weapons' &&
+          buildings[b.building].production_rate > 0,
+      );
+    },
+    mission4() {
+      return !!this.$store.state.game.user.buildings.find(
+        b =>
+          b.building &&
+          buildings[b.building].production_type === 'alcohol' &&
+          buildings[b.building].production_rate > 0,
+      );
+    },
+    mission5() {
+      const building = this.$store.state.game.user.buildings.find(
+        b => b.building === 'training_facility',
+      );
+      return !!(building && building.lvl > 0);
+    },
+    mission6() {
+      return this.$store.state.game.user.units.length > 0;
+    },
+    mission7() {
+      if (this.$store.state.game.sent_fights)
+        return this.$store.state.game.sent_fights.find(f => f.attacker_nickname === this.nickname);
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 .missions {
-    li {
-        font-size: 18px;
-        margin-bottom: 12px;
-        .iconfont {
-            font-size: 18px;
-        }
+  li {
+    font-size: 18px;
+    margin-bottom: 12px;
+    .iconfont {
+      font-size: 18px;
     }
+  }
 }
 </style>

@@ -38,7 +38,6 @@ Vue.filter('ms', value => prettyMs(parseInt(value / 1000) * 1000));
 Vue.filter('parseUrl', value => urlParse(value).host);
 Vue.filter('amount', value => numeral(value).format('0.[00] a'));
 
-
 Vue.directive('lowercase', {
   update: el => {
     el.value = el.value.toLowerCase(); // eslint-disable-line no-param-reassign
@@ -59,20 +58,25 @@ Vue.use(Vue2TouchEvents);
 store.dispatch('loadSettings');
 
 const language =
-  (navigator.languages && navigator.languages[0]) ||
-  navigator.language ||
-  navigator.userLanguage;
+  (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
 let languageWithoutRegionCode = 'en';
 
-if(messages[language.toLowerCase().split(/[_-]+/)[0]])
-languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0]
+if (messages[language.toLowerCase().split(/[_-]+/)[0]])
+  languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
 const i18n = new VueI18n({
   locale: languageWithoutRegionCode,
   messages,
   numberFormats,
 });
 
-Vue.filter('translate', value => i18n.messages[i18n.locale][value.split('.')[0]] && i18n.messages[i18n.locale][value.split('.')[0]][value.split('.')[1]] ? i18n.messages[i18n.locale][value.split('.')[0]][value.split('.')[1]] : i18n.messages['en'][value.split('.')[0]][value.split('.')[1]]);
+Vue.filter(
+  'translate',
+  value =>
+    i18n.messages[i18n.locale][value.split('.')[0]] &&
+    i18n.messages[i18n.locale][value.split('.')[0]][value.split('.')[1]]
+      ? i18n.messages[i18n.locale][value.split('.')[0]][value.split('.')[1]]
+      : i18n.messages.en[value.split('.')[0]][value.split('.')[1]],
+);
 
 Vue.config.productionTip = false;
 

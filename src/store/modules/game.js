@@ -559,42 +559,47 @@ const actions = {
       });
     }
   },
-  get_se_props:({ commit, dispatch }) =>
-  new Promise((resolve, reject) => {
-    const ssc = new SSC('https://api.steem-engine.com/rpc/');
-    ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
-      if (result) {
-        const self = {}
-        self.supply = result[0].circulatingSupply;
-        self.maxSupply = result[0].maxSupply;
-        ssc.find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false).then(async metrics => {
-          const [stat] = metrics;
-          self.volume = stat.volume;
-          self.priceChangePercent = stat.priceChangePercent.split('%')[0];
-          self.priceChangeSteem = stat.priceChangeSteem;
-          self.lastDayPrice = stat.lastDayPrice;
-          self.lastPrice = stat.lastPrice;
-          self.highestBid = stat.highestBid;
-					self.lowestAsk = stat.lowestAsk;
-					   ssc.findOne(
-						'tokens',
-						'balances', {
-							account: `null`,
-							symbol: `DWD`
-						}, (err, result) => {
-                self.nullBalance = result.balance
-                commit('saveSE', self);
-						})
-			});
-			}
-		})
-  }),
+  get_se_props: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const ssc = new SSC('https://api.steem-engine.com/rpc/');
+      ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
+        if (result) {
+          const self = {};
+          self.supply = result[0].circulatingSupply;
+          self.maxSupply = result[0].maxSupply;
+          ssc
+            .find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false)
+            .then(async metrics => {
+              const [stat] = metrics;
+              self.volume = stat.volume;
+              self.priceChangePercent = stat.priceChangePercent.split('%')[0];
+              self.priceChangeSteem = stat.priceChangeSteem;
+              self.lastDayPrice = stat.lastDayPrice;
+              self.lastPrice = stat.lastPrice;
+              self.highestBid = stat.highestBid;
+              self.lowestAsk = stat.lowestAsk;
+              ssc.findOne(
+                'tokens',
+                'balances',
+                {
+                  account: `null`,
+                  symbol: `DWD`,
+                },
+                (err, result) => {
+                  self.nullBalance = result.balance;
+                  commit('saveSE', self);
+                },
+              );
+            });
+        }
+      });
+    }),
   setBase: ({ commit }, payload) => {
-    //console.log(payload);
+    // console.log(payload);
     commit('saveBase', payload);
   },
   setMainBase: ({ commit }, payload) => {
-    //console.log(payload);
+    // console.log(payload);
     commit('saveMainBase', payload);
   },
   disconnect: ({ commit }) => {

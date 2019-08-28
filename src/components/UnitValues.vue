@@ -60,30 +60,30 @@
 
 <script>
 export default {
-	props: ['unit', 'modifiedValues', 'speed'],
+  props: ['unit', 'modifiedValues', 'speed'],
 };
 </script>
 
 
 <style scoped lang="less">
 .item-skill {
-	background: rgba(0, 0, 0, 0.5);
-	padding: 5px;
-	border-radius: 5px;
-	margin: 2px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 2px;
 }
 
 h5 {
-	font-size: 13px;
-	margin: 0px;
+  font-size: 13px;
+  margin: 0px;
 }
 
 .column {
-	font-size: 10px;
-	padding: 5px;
+  font-size: 10px;
+  padding: 5px;
 }
 
 .skill-detail {
-	color: white;
+  color: white;
 }
 </style>

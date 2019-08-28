@@ -36,64 +36,64 @@ import { filter, pickBy, orderBy } from 'lodash';
 import { mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            items: filter(pickBy(buildings, b => b.type === 'gang'), item => item.id !== 'exchange'),
-            isLoading: false,
-            buildings: [],
-            alldeposits: [],
-            id: this.$route.params.id,
-        };
-    },
-    created() {
-        this.load_buildings();
-        const promises = [client.requestAsync('get_gang_deposits', this.id)];
-        Promise.all(promises).then(result => {
-            let depositers = [];
-            [depositers] = result;
-            depositers.forEach(user => {
-                const total = user.drugs + user.weapons + user.alcohol;
-                user.total = total; // eslint-disable-line no-param-reassign
-                this.alldeposits.push(user);
-            });
-            this.isInit = false;
-            this.isLoading = false;
+  data() {
+    return {
+      items: filter(pickBy(buildings, b => b.type === 'gang'), item => item.id !== 'exchange'),
+      isLoading: false,
+      buildings: [],
+      alldeposits: [],
+      id: this.$route.params.id,
+    };
+  },
+  created() {
+    this.load_buildings();
+    const promises = [client.requestAsync('get_gang_deposits', this.id)];
+    Promise.all(promises).then(result => {
+      let depositers = [];
+      [depositers] = result;
+      depositers.forEach(user => {
+        const total = user.drugs + user.weapons + user.alcohol;
+        user.total = total; // eslint-disable-line no-param-reassign
+        this.alldeposits.push(user);
+      });
+      this.isInit = false;
+      this.isLoading = false;
+    });
+  },
+  methods: {
+    ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
+    load_buildings() {
+      this.isLoading = true;
+      this.refresh_gang_buildings()
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
         });
     },
-    methods: {
-        ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
-        load_buildings() {
-            this.isLoading = true;
-            this.refresh_gang_buildings()
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    console.error('Failed', e);
-                    this.isLoading = false;
-                });
-        },
-        depositPerBuilding() {},
-        deposits(id) {
-            return filter(orderBy(this.alldeposits, 'total', 'desc'), item => item.building === id);
-        },
+    depositPerBuilding() {},
+    deposits(id) {
+      return filter(orderBy(this.alldeposits, 'total', 'desc'), item => item.building === id);
     },
-    computed: {},
+  },
+  computed: {},
 };
 </script>
 
 <style lang="less" scoped>
 .name {
-    font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 .special {
-    color: rgb(0, 173, 0);
-    font-weight: 700;
+  color: rgb(0, 173, 0);
+  font-weight: 700;
 }
 
 .deposit {
-    background: rgba(0, 0, 0, 0.699);
-    border-radius: 5px;
+  background: rgba(0, 0, 0, 0.699);
+  border-radius: 5px;
 }
 </style>

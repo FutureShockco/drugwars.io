@@ -22,26 +22,26 @@ import client from '@/helpers/client';
 import { orderBy } from 'lodash';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            gangs: [],
-        };
-    },
-    created() {
-        this.isLoading = true;
-        client.requestAsync('get_gangs', null).then(result => {
-            const gangs = result;
-            const all = [];
-            gangs.forEach(element => {
-                if (element.lvl === null) {
-                    element.lvl = 0; // eslint-disable-line no-param-reassign
-                }
-                all.push(element);
-            });
-            this.gangs = orderBy(all, 'lvl', 'desc');
-            this.isLoading = false;
-        });
-    },
+  data() {
+    return {
+      isLoading: false,
+      gangs: [],
+    };
+  },
+  created() {
+    this.isLoading = true;
+    client.requestAsync('get_gangs', null).then(result => {
+      const gangs = result;
+      const all = [];
+      gangs.forEach(element => {
+        if (element.lvl === null) {
+          element.lvl = 0; // eslint-disable-line no-param-reassign
+        }
+        all.push(element);
+      });
+      this.gangs = orderBy(all, 'lvl', 'desc');
+      this.isLoading = false;
+    });
+  },
 };
 </script>

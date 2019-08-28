@@ -74,38 +74,38 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            depositAddresses: [],
-            items: [],
-        };
+  data() {
+    return {
+      isLoading: false,
+      depositAddresses: [],
+      items: [],
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
     },
-    computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
+  },
+  created() {
+    this.loadDepositsAndAddresses();
+  },
+  methods: {
+    loadDepositsAndAddresses() {
+      this.isLoading = true;
+      Promise.all([
+        client.requestAsync('get_deposits', null),
+        client.requestAsync('get_deposit_addresses', null),
+      ]).then(result => {
+        [this.items, this.depositAddresses] = result;
+        this.isLoading = false;
+      });
     },
-    created() {
+    issueDepositAddress() {
+      this.isLoading = true;
+      client.requestAsync('issue_deposit_address', null).then(() => {
         this.loadDepositsAndAddresses();
+      });
     },
-    methods: {
-        loadDepositsAndAddresses() {
-            this.isLoading = true;
-            Promise.all([
-                client.requestAsync('get_deposits', null),
-                client.requestAsync('get_deposit_addresses', null),
-            ]).then(result => {
-                [this.items, this.depositAddresses] = result;
-                this.isLoading = false;
-            });
-        },
-        issueDepositAddress() {
-            this.isLoading = true;
-            client.requestAsync('issue_deposit_address', null).then(() => {
-                this.loadDepositsAndAddresses();
-            });
-        },
-    },
+  },
 };
 </script>

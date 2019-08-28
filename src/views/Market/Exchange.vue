@@ -108,91 +108,102 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 export default {
-	data() {
-		return {
-			isLoading: false,
-			nickname: null,
-			picked: 'steem',
-			amount: 0,
-		};
-	},
-	computed: {
-		user() {
-			return this.$store.state.game.user.user;
-		},
-		steemengine() {
-			return this.$store.state.game.steemengine;
-		},
-		prizeProps() {
-			const { prizeProps } = this.$store.state.game;
-			return prizeProps;
-		},
-		lastUpdate() {
-			return new Date(
-				Date.parse(this.$store.state.game.user.user.last_profile_update),
-			).toLocaleString();
-		},
-		steemAccount() {
-			if (this.$store.state.auth.account) return this.$store.state.auth.account;
-			return 0;
-		},
-		dwdToSteem() {
-			const { prizeProps } = this.$store.state.game;
-			return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
-		},
-		totalDWD() {
-			const { prizeProps } = this.$store.state.game;
-			return parseFloat(
-				this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
-			).toFixed(3);
-		},
-		endDate() {
-			const { prizeProps } = this.$store.state.game;
-			const end = parseFloat(((this.steemengine.maxSupply - this.steemengine.nullBalance) - (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) / this.prizeProps.yesterday_rewards).toFixed(0)
-			var date = new Date();
-			date.setDate(date.getDay() + end);
-			return date.toLocaleString();
-		},
-		endSupply() {
-			const { prizeProps } = this.$store.state.game;
-			const end = parseFloat(((this.steemengine.maxSupply - this.steemengine.nullBalance) - (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) / (this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards))
-			var date = new Date();
-			date.setDate(date.getDay() + end);
-			return date.toLocaleString();
-		},
-	},
-	methods: {
-		...mapActions(['send', 'notify']),
-		handleSubmit() {
-			const payload = {
-				currency: this.picked,
-				amount: parseInt(this.amount),
-				type: 'widthraw',
-			};
-			this.isLoading = true;
-			this.send(payload)
-				.then(result => {
-					if (result) {
-						this.isLoading = false;
-					}
-				})
-				.catch(e => {
-					this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
-					console.error(`Failed to withdraw ${payload.amount} DWD`, e);
-					this.isLoading = false;
-				});
-		},
-	},
+  data() {
+    return {
+      isLoading: false,
+      nickname: null,
+      picked: 'steem',
+      amount: 0,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    steemengine() {
+      return this.$store.state.game.steemengine;
+    },
+    prizeProps() {
+      const { prizeProps } = this.$store.state.game;
+      return prizeProps;
+    },
+    lastUpdate() {
+      return new Date(
+        Date.parse(this.$store.state.game.user.user.last_profile_update),
+      ).toLocaleString();
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
+    dwdToSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
+    },
+    totalDWD() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
+      ).toFixed(3);
+    },
+    endDate() {
+      const { prizeProps } = this.$store.state.game;
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          this.prizeProps.yesterday_rewards,
+      ).toFixed(0);
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+    endSupply() {
+      const { prizeProps } = this.$store.state.game;
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          (this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards),
+      );
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    handleSubmit() {
+      const payload = {
+        currency: this.picked,
+        amount: parseInt(this.amount),
+        type: 'widthraw',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
+          console.error(`Failed to withdraw ${payload.amount} DWD`, e);
+          this.isLoading = false;
+        });
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 .icons {
-	margin-bottom: -3px;
+  margin-bottom: -3px;
 }
 
 .text-yellow {
-	color: #ffc508;
+  color: #ffc508;
 }
 </style>

@@ -36,59 +36,61 @@
 
 <script>
 export default {
-    data() {
-        return {
-            audios: [{
-                id: 'drugwars',
-                name: 'DrugWars',
-                file: new Audio('./audio/audio.mp3'),
-                isPlaying: false,
-            }, ],
-        };
+  data() {
+    return {
+      audios: [
+        {
+          id: 'drugwars',
+          name: 'DrugWars',
+          file: new Audio('./audio/audio.mp3'),
+          isPlaying: false,
+        },
+      ],
+    };
+  },
+  methods: {
+    logout() {
+      this.$auth.logOut();
+      this.$router.push({ path: '/' });
     },
-    methods: {
-        logout() {
-            this.$auth.logOut();
-            this.$router.push({ path: '/' });
-        },
-        play(audio) {
-            audio.isPlaying = true; // eslint-disable-line no-param-reassign
-            audio.loop = true; // eslint-disable-line no-param-reassign
-            audio.file.play();
-        },
-        pause(audio) {
-            audio.isPlaying = false; // eslint-disable-line no-param-reassign
-            audio.file.pause();
-        },
+    play(audio) {
+      audio.isPlaying = true; // eslint-disable-line no-param-reassign
+      audio.loop = true; // eslint-disable-line no-param-reassign
+      audio.file.play();
     },
+    pause(audio) {
+      audio.isPlaying = false; // eslint-disable-line no-param-reassign
+      audio.file.pause();
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 @import '../vars';
 .footer {
-    i {
-        font-size: 22px;
+  i {
+    font-size: 22px;
+  }
+  ul {
+    a {
+      opacity: 0.4;
+      color: @text-color;
+      display: block;
+      &:hover {
+        opacity: 1;
+      }
     }
-    ul {
-        a {
-            opacity: 0.4;
-            color: @text-color;
-            display: block;
-            &:hover {
-                opacity: 1;
-            }
-        }
-    }
-    .company {
-        opacity: 0.5;
-        text-align: center;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-bottom: 15px;
-    }
-    .vote {
-        font-family: 'Legend', Courier, monospace;
-    }
+  }
+  .company {
+    opacity: 0.5;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+  }
+  .vote {
+    font-family: 'Legend', Courier, monospace;
+  }
 }
 </style>

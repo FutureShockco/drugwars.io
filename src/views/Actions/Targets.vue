@@ -15,27 +15,27 @@
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            targets: [],
-            username: this.$store.state.auth.username,
-        };
-    },
-    mounted() {
-        this.isLoading = true;
-        const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
-        const accessToken = localStorage.getItem('access_token');
-        client
-            .requestAsync('get_users', { token: accessToken, maxDrugProductionRate })
-            .then(users => {
-                this.targets = users;
-                this.isLoading = false;
-            })
-            .catch(e => {
-                console.error('Failed to get users', e);
-                this.isLoading = false;
-            });
-    },
+  data() {
+    return {
+      isLoading: false,
+      targets: [],
+      username: this.$store.state.auth.username,
+    };
+  },
+  mounted() {
+    this.isLoading = true;
+    const maxDrugProductionRate = this.$store.state.game.user.user.drug_production_rate;
+    const accessToken = localStorage.getItem('access_token');
+    client
+      .requestAsync('get_users', { token: accessToken, maxDrugProductionRate })
+      .then(users => {
+        this.targets = users;
+        this.isLoading = false;
+      })
+      .catch(e => {
+        console.error('Failed to get users', e);
+        this.isLoading = false;
+      });
+  },
 };
 </script>

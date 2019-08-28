@@ -20,8 +20,8 @@
             </h3>
             <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
             <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
-            <div v-if="showTargets">
-                <PlayerBubble v-if="target.territory !== 0" :key="target.nickname" :player="target" v-for="target in targets" />
+            <div v-if="showTargets && !isLoading">
+                <PlayerBubble class="plbubble" v-if="target.territory !== 0" :key="target.nickname" :player="target" v-for="target in targets" />
             </div>
             <div class="map-title" id="visit" style="opacity:0;">
                 <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
@@ -44,57 +44,58 @@ import OrbitControls from 'three-orbitcontrols';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
-            all_players: this.$store.state.game.prizeProps.users[0].total || null,
-            camera: null,
-            scene: null,
-            renderer: null,
-            mesh: null,
-            showLoading: true,
-            selected: null,
-            currentTerritory: null,
-            territories: null,
-            oldcolor: null,
-            animation: null,
-            player_territories: null,
-            controls: null,
-            textlabels: [],
-            targets: [],
-            username: this.$store.state.auth.username,
-            showTargets: true,
-            selectedTerritory:null
-        };
+  data() {
+    return {
+      main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
+      all_players: this.$store.state.game.prizeProps.users[0].total || null,
+      camera: null,
+      isLoading:true,
+      scene: null,
+      renderer: null,
+      mesh: null,
+      showLoading: true,
+      selected: null,
+      maxcount:0,
+      currentTerritory: null,
+      territories: null,
+      oldcolor: null,
+      animation: null,
+      player_territories: null,
+      controls: null,
+      textlabels: [],
+      targets: [],
+      username: this.$store.state.auth.username,
+      showTargets: true,
+      selectedTerritory: null,
+    };
+  },
+  beforeDestroy() {
+    this.clearScene(this.scene);
+  },
+  methods: {
+    prevent(e) {
+      e.preventDefault();
+      // else continue to route
     },
-    beforeDestroy() {
-        this.clearScene(this.scene);
+    switchTargets() {
+      this.showTargets = !this.showTargets;
     },
-    methods: {
-        prevent(e) {
-            e.preventDefault();
-            // else continue to route
-        },
-        switchTargets() {
-            this.showTargets = !this.showTargets
-        },
-        refreshTargets() {
-            const self = this;
-            self.targets = [];
-            client.requestAsync('get_users', null)
-                .then(users => {
-
-                    self.targets = users;
-                    self.isLoading = false;
-
-                })
-                .catch(e => {
-                    console.error('Failed to get users', e);
-                    this.isLoading = false;
-                });
-        },
-        initPlanet() {
-            /* eslint-disable */
+    refreshTargets() {
+      const self = this;
+      self.targets = [];
+      client
+        .requestAsync('get_users', null)
+        .then(users => {
+          self.targets = users;
+          self.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed to get users', e);
+          this.isLoading = false;
+        });
+    },
+    initPlanet() {
+      /* eslint-disable */
             const self = this;
             this.showLoading = true;
             this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -389,9 +390,9 @@ export default {
                             if (self.camera && search_territories.children[element.territory - 1]) {
                                 const to = createVector(position, self.camera);
                                 const b = document.getElementById(`bubble${element.nickname}`);
-                                b.style.top = `${to.y}px`;
-                                b.style.left = `${to.x }px`;
-                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.84) {
+                                b.style.top = `${to.y-10}px`;
+                                b.style.left = `${to.x -50 }px`;
+                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.86) {
                                     b.style.opacity = 0;
                                 } else {
                                     b.style.opacity = 1;
@@ -496,6 +497,7 @@ export default {
         },
          initTerritories() {
             const self = this;
+            self.isLoading = true;
             var onClickPosition = new THREE.Vector2();
             const territories = new THREE.Object3D();
             const createTerritories = function(cb) {
@@ -636,7 +638,7 @@ export default {
                             }
                         }
                     }
-
+                    self.maxcount=count;
                     seenTiles = {};
 
                     currentTiles = hexasphere.tiles.slice().splice(0, 12);
@@ -644,6 +646,7 @@ export default {
                         seenTiles[item.toString()] = 1;
                     });
                     territories.name = 'territories';
+                    self.isLoading = false;
                     cb(territories);
                 };
             };
@@ -740,11 +743,19 @@ export default {
         self.initPlanet();
         client.requestAsync('get_territories', null).then(result => {
             self.player_territories = result;
+            self.initTerritories();
             client.requestAsync('get_users', null)
-                .then(users => {
+                .then(users => {  
                     self.targets = null;
-                    self.initTerritories();
-                    self.targets = users;
+                    const allusers =[];
+                    let time = 0;
+                    users.forEach(element => {
+                        if(!allusers.find(t => t.territory === element.territory) && element.territory < self.maxcount)
+                        {
+                           allusers.push(element)
+                        }
+                    });
+                    self.targets = allusers;
                     self.isLoading = false;
 
                 })
@@ -761,6 +772,11 @@ export default {
 
 <style scoped lang="less">
 @import '../vars';
+
+.plbubble{
+    opacity: 0;
+}
+
 .mapbg {
     height: calc(100vh - 98px);
 }

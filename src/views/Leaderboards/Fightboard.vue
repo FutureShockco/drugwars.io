@@ -14,18 +14,18 @@
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            isLoading: false,
-            users: [],
-        };
-    },
-    created() {
-        this.isLoading = true;
-        client.requestAsync('get_fightboard', null).then(result => {
-            this.users = result.players;
-            this.isLoading = false;
-        });
-    },
+  data() {
+    return {
+      isLoading: false,
+      users: [],
+    };
+  },
+  created() {
+    this.isLoading = true;
+    client.requestAsync('get_fightboard', null).then(result => {
+      this.users = result.players;
+      this.isLoading = false;
+    });
+  },
 };
 </script>

@@ -73,9 +73,9 @@ const Jobboard = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Leaderboards/Jobboard.vue');
 
 const DeleteBuilding = () =>
-import(/* webpackChunkName: "jobboard" */ '@/views/Settings/DeleteBuilding.vue');
+  import(/* webpackChunkName: "jobboard" */ '@/views/Settings/DeleteBuilding.vue');
 const SteemAccount = () =>
-import(/* webpackChunkName: "jobboard" */ '@/views/Settings/SteemAccount.vue');
+  import(/* webpackChunkName: "jobboard" */ '@/views/Settings/SteemAccount.vue');
 
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
@@ -161,7 +161,7 @@ export default new Router({
       beforeEnter: requireAuth,
       component: Jobs,
     },
-    { 
+    {
       path: '/jobs/gang',
       name: 'gangjobs',
       beforeEnter: requireAuth,
@@ -389,7 +389,7 @@ export default new Router({
       name: 'jobboard',
       beforeEnter: requireAuth,
       component: Jobboard,
-    }, 
+    },
     {
       path: '/map',
       name: 'map',

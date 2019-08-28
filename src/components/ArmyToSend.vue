@@ -16,6 +16,6 @@
 
 <script>
 export default {
-    props: ['units', 'withDead'],
+  props: ['units', 'withDead'],
 };
 </script>

@@ -22,47 +22,47 @@
 
 <script>
 export default {
-    data() {
-        return {
-            share: false,
-            details: false,
-        };
+  data() {
+    return {
+      share: false,
+      details: false,
+    };
+  },
+  computed: {
+    base() {
+      return this.$store.state.game.mainbase;
     },
-    computed: {
-        base() {
-            return this.$store.state.game.mainbase;
-        },
-        main() {
-            return (
-                this.$store.state.game.user.buildings.find(
-                    b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
-                ) || null
-            );
-        },
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        username() {
-            return this.$store.state.auth.username;
-        },
-        json() {
-            return jsonParse(this.fight.json) || {};
-        },
+    main() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
+        ) || null
+      );
     },
-    methods: {
-        showDetails() {
-            this.details = true;
-        },
-        hideDetails() {
-            this.details = false;
-        },
+    user() {
+      return this.$store.state.game.user.user;
     },
+    username() {
+      return this.$store.state.auth.username;
+    },
+    json() {
+      return jsonParse(this.fight.json) || {};
+    },
+  },
+  methods: {
+    showDetails() {
+      this.details = true;
+    },
+    hideDetails() {
+      this.details = false;
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .coordbase {
-    position: absolute;
-    right: 10px;
+  position: absolute;
+  right: 10px;
 }
 </style>

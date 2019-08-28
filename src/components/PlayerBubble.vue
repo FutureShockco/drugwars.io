@@ -1,11 +1,27 @@
 <template>
     <div :id="'bubble'+player.nickname" :class="player.nickname" class="bubble px-0 m-1 text-center ">
-        <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :xp="player.xp" />
+        <Avatar class="mx-2" :size="30" :username="player.nickname" :rank="rank" :picture="player.picture" :xp="player.xp" />
         <div class="username" :class="{ 'text-blue' : player.gang === user.gang }">
             {{ player.nickname }}
             <div class="gang-label" v-if="player.ticker">
-                [{{ player.ticker }}]
+                {{player.role}} OF [{{ player.ticker }}]
             </div>
+        </div>
+        <div class="detail">
+          <div class="pt-3">
+          Coordinates</div>
+        <div>{{player.territory}} :{{player.base}}</div> 
+       <div>Distance Approx. : </div> 
+       {{timer | ms}}
+        <div  class="production mb-2">
+          <span>{{player.drug_production_rate * 60 * 60 * 24| amount}}  <Icon name="drug" size="18" /></span> 
+         <span> {{player.weapon_production_rate * 60 * 60 * 24| amount}}  <Icon name="weapon" size="18" /></span>
+          <span>{{player.alcohol_production_rate * 60 * 60 * 24| amount}}  <Icon name="alcohol" size="18" /></span> 
+        </div>
+          <button :disabled="!ownSpy && isLoading" class="button button-red btn-block" @click.prevent="handleSubmit(player.territory,player.base)">
+            <SmallLoading v-if="isLoading"/>
+          <span v-else>Spy</span>
+        </button>
         </div>
     </div>
 </template>
@@ -15,114 +31,183 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-    props: ['player', 'rank'],
-    data() {
-        return {
-            isLoading: false,
-            waitingConfirmation: false,
-        };
+  props: ['player', 'rank', 'info'],
+  data() {
+    return {
+      isLoading: false,
+      waitingConfirmation: false,
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
     },
-    computed: {
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        shieldEnd() {
-            const diff = this.player.shield_end * 1000 - this.$store.state.ui.timestamp;
-            return diff > 0 ? diff : 0;
-        },
-        ownSpy() {
-            if (
-                this.$store.state.game.user.units.find(
-                    u =>
-                    u.unit === 'spy' &&
-                    u.base === this.$store.state.game.mainbase.base &&
-                    u.territory === this.$store.state.game.mainbase.territory,
-                )
-            )
-                return (
-                    this.$store.state.game.user.units.find(
-                        u =>
-                        u.unit === 'spy' &&
-                        u.base === this.$store.state.game.mainbase.base &&
-                        u.territory === this.$store.state.game.mainbase.territory,
-                    ).amount || {
-                        amount: 0,
-                    }
-                );
-            return 0;
-        },
+    ownBase() {
+      return this.$store.state.game.mainbase;
     },
-    methods: {
-        ...mapActions(['startFight', 'init']),
-        async handleSubmit() {
-            this.isLoading = true;
-            const payload = {
-                target: this.player.nickname.toLowerCase(),
-                units: [{ key: 'spy', amount: 1 }],
-                type: 'fight',
-            };
-            if (this.message) {
-                payload.message = this.message;
-            }
-            const isValid = await this.validateForm();
-            if (isValid) {
-                this.startFight(payload)
-                    .then(() => {
-                        this.isLoading = false;
-                    })
-                    .catch(e => {
-                        console.error('Failed to start a fight=', e);
-                        this.isLoading = false;
-                    });
-            } else {
-                this.isLoading = false;
-            }
-        },
-        async validateForm() {
-            this.errorMessage = null;
-            const target = this.player.nickname.toLowerCase();
-            if (!this.errorMessage)
-                try {
-                    const user = await client.requestAsync('check_user', target);
-                    if (!user || !user[0].nickname) {
-                        this.errorMessage = `Player '${target}' does not exist`;
-                    }
-                    return !this.errorMessage;
-                } catch (e) {
-                    this.errorMessage = `Player with nickname '${target}' doesn't exist`;
-                    console.error(`Player with nickname '${target}' doesn't exist`, e);
-                    return false;
-                }
-            if (this.errorMessage) {
-                return false;
-            }
-            return !this.errorMessage;
-        },
+    shieldEnd() {
+      const diff = this.player.shield_end * 1000 - this.$store.state.ui.timestamp;
+      return diff > 0 ? diff : 0;
     },
+    ownSpy() {
+      if (
+        this.$store.state.game.user.units.find(
+          u =>
+            u.unit === 'spy' &&
+            u.base === this.$store.state.game.mainbase.base &&
+            u.territory === this.$store.state.game.mainbase.territory,
+        )
+      )
+        return (
+          this.$store.state.game.user.units.find(
+            u =>
+              u.unit === 'spy' &&
+              u.base === this.$store.state.game.mainbase.base &&
+              u.territory === this.$store.state.game.mainbase.territory,
+          ).amount || {
+            amount: 0,
+          }
+        );
+      return 0;
+    },
+    ownSpy() {
+    if (
+        this.$store.state.game.user.units.find(
+            u =>
+            u.unit === 'spy' &&
+            u.base === this.$store.state.game.mainbase.base &&
+            u.territory === this.$store.state.game.mainbase.territory,
+        ) || 0
+           
+    )
+        return (
+            this.$store.state.game.user.units.find(
+                u =>
+                u.unit === 'spy' &&
+                u.base === this.$store.state.game.mainbase.base &&
+                u.territory === this.$store.state.game.mainbase.territory,
+            ).amount || 0
+        );
+    return 0;
+},
+    timer() {
+      const self = this;
+      let timer = 15 * 60;
+      let distance = 0;
+      let reduce = 0;
+      if (self.ownBase && self.player)
+        distance =
+          Number(self.ownBase.territory) > Number(self.player.territory)
+            ? Number(self.ownBase.territory) - Number(self.player.territory)
+            : Number(self.player.territory) - Number(self.ownBase.territory);
+      const training = this.$store.state.game.user.trainings.find(b => b.training === 'routing');
+      if (training) {
+        reduce = training.lvl;
+      }
+      timer += distance;
+      return (timer = (timer - (timer / 200) * reduce) * 1000);
+    },
+  },
+  methods: {
+    ...mapActions(['startFight', 'init']),
+    async handleSubmit(territory,base) {
+      this.isLoading = true;
+      const self = this;
+      const payload = {
+          from_territory: Number(self.ownBase.territory),
+          from_base: Number(self.ownBase.base),
+          territory: Number(territory),
+          base: Number(base),
+        units: [{ key: 'spy', amount: 1 }],
+        type: 'fight',
+      };
+      if (this.message) {
+        payload.message = this.message;
+      }
+      const isValid = await this.validateForm();
+      if (isValid) {
+        this.startFight(payload)
+          .then(() => {
+            this.isLoading = false;
+          })
+          .catch(e => {
+            console.error('Failed to start a fight=', e);
+            this.isLoading = false;
+          });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    async validateForm() {
+      this.errorMessage = null;
+      const target = this.player.nickname.toLowerCase();
+      if (!this.errorMessage)
+        try {
+          const user = await client.requestAsync('check_user', target);
+          if (!user || !user[0].nickname) {
+            this.errorMessage = `Player '${target}' does not exist`;
+          }
+          return !this.errorMessage;
+        } catch (e) {
+          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+          console.error(`Player with nickname '${target}' doesn't exist`, e);
+          return false;
+        }
+      if (this.errorMessage) {
+        return false;
+      }
+      return !this.errorMessage;
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 @import '../vars.less';
 .username {
-    max-width: 100px;
-    text-overflow: ellipsis;
+  max-width: 100px;
+  text-overflow: ellipsis;
+      pointer-events: none;
+
 }
 
 .bubble {
-    position: absolute;
+  position: absolute;
+  width:100px;
 }
 
 .rank {
-    margin: 8px 0;
+  margin: 8px 0;
 }
 
 .icon {
-    margin-bottom: -5px;
+  margin-bottom: -5px;
+}
+
+    .detail {
+      padding: 0px;
+      height: 0px;
+      font-size: 12px;
+      overflow: hidden;
+      background: rgb(24, 24, 24);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .bubble:hover .detail {
+            padding: 10px;
+    height: auto;
+          overflow: auto;
+
+}
+
+.button{
+  pointer-events: initial;
 }
 
 .production {
-    display: inline-grid;
-    color: #fbbd08;
+  font-size: 12px;
+  color: #fbbd08;
+        pointer-events: none;
 }
 </style>

@@ -139,141 +139,150 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {};
+  data() {
+    return {};
+  },
+  computed: {
+    config() {
+      return {
+        options: [
+          {
+            value: 'Attack',
+          },
+          {
+            value: 'Transport',
+          },
+        ],
+        backgroundColor: 'green',
+      };
     },
-    computed: {
-        config() {
-            return {
-                options: [{
-                        value: 'Attack',
-                    },
-                    {
-                        value: 'Transport',
-                    },
-                ],
-                backgroundColor: 'green',
-            };
-        },
-        sidebarVisible() {
-            return this.$store.state.ui.sidebarVisible;
-        },
-        username() {
-            return this.$store.state.auth.username;
-        },
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        rank() {
-            return this.$store.state.game.user.rank[0].rank;
-        },
-        xp() {
-            return this.$store.state.game.user.user.xp;
-        },
-        jobs() {
-            let jobs = 0
-            this.$store.state.game.user.jobs.forEach(element => {
-                const pendingUpdate = new Date(element.date).getTime();
-                const now = new Date().getTime();
-                if (pendingUpdate >= now)
-                    jobs++
-            });
-            return jobs;
-        },
-        activeIncFightsCount() {
-            if (this.$store.state.game.inc_fights_count) {
-                return this.$store.state.game.inc_fights_count;
-            }
-            return 0;
-        },
-        activeFightsCount() {
-            if (this.$store.state.game.sent_fights_count) {
-                return this.$store.state.game.sent_fights_count;
-            }
-            return 0;
-        },
-        activeIncTransportsCount() {
-            if (this.$store.state.game.inc_transports_count) {
-                return this.$store.state.game.inc_transports_count;
-            }
-            return 0;
-        },
-        activeTransportsCount() {
-            if (this.$store.state.game.sent_transports_count) {
-                return this.$store.state.game.sent_transports_count;
-            }
-            return 0;
-        },
-        activeIncStationsCount() {
-            if (this.$store.state.game.inc_stations_count) {
-                return this.$store.state.game.inc_stations_count;
-            }
-            return 0;
-        },
-        activeStationsCount() {
-            if (this.$store.state.game.sent_stations_count) {
-                return this.$store.state.game.sent_stations_count;
-            }
-            return 0;
-        },
+    sidebarVisible() {
+      return this.$store.state.ui.sidebarVisible;
     },
-    methods: {
-        ...mapActions(['toggleSidebarVisibility']),
-        toggleSidebar() {
-            if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1011px)').matches) {
-                this.toggleSidebarVisibility();
-            }
-        },
-        logout() {
-            this.$auth.logOut();
-            this.$router.push({ path: '/' });
-        },
+    username() {
+      return this.$store.state.auth.username;
     },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    rank() {
+      return this.$store.state.game.user.rank[0].rank;
+    },
+    xp() {
+      return this.$store.state.game.user.user.xp;
+    },
+    jobs() {
+      let jobs = 0;
+      this.$store.state.game.user.jobs.forEach(element => {
+        const pendingUpdate = new Date(element.date).getTime();
+        const now = new Date().getTime();
+        if (pendingUpdate >= now) jobs++;
+      });
+      return jobs;
+    },
+    activeIncFightsCount() {
+      if (this.$store.state.game.inc_fights_count) {
+        return this.$store.state.game.inc_fights_count;
+      }
+      return 0;
+    },
+    activeFightsCount() {
+      if (this.$store.state.game.sent_fights_count) {
+        return this.$store.state.game.sent_fights_count;
+      }
+      return 0;
+    },
+    activeIncTransportsCount() {
+      if (this.$store.state.game.inc_transports_count) {
+        return this.$store.state.game.inc_transports_count;
+      }
+      return 0;
+    },
+    activeTransportsCount() {
+      if (this.$store.state.game.sent_transports_count) {
+        return this.$store.state.game.sent_transports_count;
+      }
+      return 0;
+    },
+    activeIncStationsCount() {
+      if (this.$store.state.game.inc_stations_count) {
+        return this.$store.state.game.inc_stations_count;
+      }
+      return 0;
+    },
+    activeStationsCount() {
+      if (this.$store.state.game.sent_stations_count) {
+        return this.$store.state.game.sent_stations_count;
+      }
+      return 0;
+    },
+    isConnected() {
+      if (store.state.auth.username) return this.$store.state.game.isconnected;
+      return true;
+    },
+  },
+  methods: {
+    ...mapActions(['toggleSidebarVisibility']),
+    toggleSidebar() {
+      if (typeof window !== 'undefined' && window.matchMedia('(max-width: 1011px)').matches) {
+        this.toggleSidebarVisibility();
+      }
+    },
+    logout() {
+      this.$auth.logOut();
+      this.$router.push({ path: '/' });
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 @import '../vars';
 @media screen and (min-width: 1119px) {
-    .sidebar-rewards {
-        display: none !important;
-    }
+  .sidebar-rewards {
+    display: none !important;
+  }
 }
 
 .sidebar-left {
-    left: -@sidebar-width;
-    @media @bp-small {
-        left: 0;
+  left: -@sidebar-width;
+  @media @bp-small {
+    left: 0;
+  }
+  &.sidebar-open {
+    left: 0;
+  }
+  ul {
+    list-style: none;
+    font-family: @heading-font;
+    font-size: 20px;
+    li {
+      clear: both;
+      font-family: @special-font;
+      .router-link-active {
+        opacity: 1;
+        color: black;
+        background-image: radial-gradient(
+          ellipse farthest-corner at center 0px,
+          #ffc400 -150%,
+          #ffc400 45%,
+          #ff8800 85%
+        ) !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: black !important;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      a {
+        color: @white-darker;
+        opacity: 0.8;
+      }
     }
-    &.sidebar-open {
-        left: 0;
-    }
-    ul {
-        list-style: none;
-        font-family: @heading-font;
-        font-size: 20px;
-        li {
-            clear: both;
-            font-family: @special-font;
-            .router-link-active {
-                opacity: 1;
-                color: black;
-                background-image: radial-gradient( ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%) !important;
-                background-size: cover;
-                background-repeat: no-repeat;
-                color: black !important;
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
-            a {
-                color: @white-darker;
-                opacity: 0.8;
-            }
-        }
-    }
+  }
 }
 
-.referral{
-     background-image: linear-gradient(180deg, #b40000 0%, #7a0000 74%);
+.referral {
+  background-image: linear-gradient(180deg, #b40000 0%, #7a0000 74%);
 }
 </style>

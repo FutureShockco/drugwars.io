@@ -110,155 +110,156 @@
 import { mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {};
+  data() {
+    return {};
+  },
+  computed: {
+    config() {
+      return {
+        options: [
+          {
+            value: 'Attack',
+          },
+          {
+            value: 'Transport',
+          },
+        ],
+        backgroundColor: 'green',
+      };
     },
-    computed: {
-        config() {
-            return {
-                options: [{
-                        value: 'Attack',
-                    },
-                    {
-                        value: 'Transport',
-                    },
-                ],
-                backgroundColor: 'green',
-            };
-        },
-        sidebarVisible() {
-            return this.$store.state.ui.sidebarVisible;
-        },
-        username() {
-            return this.$store.state.auth.username;
-        },
-        user() {
-            return this.$store.state.game.user.user;
-        },
-        rank() {
-            return this.$store.state.game.user.rank[0].rank;
-        },
-        xp() {
-            return this.$store.state.game.user.user.xp;
-        },
-        activeIncFightsCount() {
-            if (this.$store.state.game.inc_fights_count) {
-                return this.$store.state.game.inc_fights_count;
-            }
-            return 0;
-        },
-        activeFightsCount() {
-            if (this.$store.state.game.sent_fights_count) {
-                return this.$store.state.game.sent_fights_count;
-            }
-            return 0;
-        },
-        activeIncTransportsCount() {
-            if (this.$store.state.game.inc_transports_count) {
-                return this.$store.state.game.inc_transports_count;
-            }
-            return 0;
-        },
-        activeTransportsCount() {
-            if (this.$store.state.game.sent_transports_count) {
-                return this.$store.state.game.sent_transports_count;
-            }
-            return 0;
-        },
+    sidebarVisible() {
+      return this.$store.state.ui.sidebarVisible;
     },
-    methods: mapActions(['toggleSidebarVisibility']),
+    username() {
+      return this.$store.state.auth.username;
+    },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    rank() {
+      return this.$store.state.game.user.rank[0].rank;
+    },
+    xp() {
+      return this.$store.state.game.user.user.xp;
+    },
+    activeIncFightsCount() {
+      if (this.$store.state.game.inc_fights_count) {
+        return this.$store.state.game.inc_fights_count;
+      }
+      return 0;
+    },
+    activeFightsCount() {
+      if (this.$store.state.game.sent_fights_count) {
+        return this.$store.state.game.sent_fights_count;
+      }
+      return 0;
+    },
+    activeIncTransportsCount() {
+      if (this.$store.state.game.inc_transports_count) {
+        return this.$store.state.game.inc_transports_count;
+      }
+      return 0;
+    },
+    activeTransportsCount() {
+      if (this.$store.state.game.sent_transports_count) {
+        return this.$store.state.game.sent_transports_count;
+      }
+      return 0;
+    },
+  },
+  methods: mapActions(['toggleSidebarVisibility']),
 };
 </script>
 
 <style lang="less" scoped>
 @import '../vars';
 @media screen and (min-width: 200px) and (max-width: 1119px) {
-    .prize {
-        visibility: hidden;
-    }
+  .prize {
+    visibility: hidden;
+  }
 }
 
 .prize {
-    color: rgb(153, 153, 153);
-    position: fixed;
-    top: 74px;
-    z-index: 1500;
-    text-align: center;
-    font-size: 12px; // max-width: 1120px;
-    width: 100%;
+  color: rgb(153, 153, 153);
+  position: fixed;
+  top: 74px;
+  z-index: 1500;
+  text-align: center;
+  font-size: 12px; // max-width: 1120px;
+  width: 100%;
 }
 
 .bottomnav {
-    color: @heading-color;
-    position: fixed;
-    z-index: 100;
-    top: calc(100vh - @header-height);
-    left: 0;
+  color: @heading-color;
+  position: fixed;
+  z-index: 100;
+  top: calc(100vh - @header-height);
+  left: 0;
+  width: 100%;
+  height: @header-height;
+  color: white;
+  font-size: 26px;
+  font-weight: 500;
+  display: inline-flex;
+  line-height: 22px;
+  font-family: @heading-font;
+  text-align: left !important;
+  transition: width 0.3s;
+  box-shadow: -1px 5px 5px black;
+  z-index: 1000;
+  @media @bp-small {
+    height: @bottomnav-height;
+  }
+  .logo {
+    margin-top: 0px;
+    height: 45px;
+  }
+  .bottomnav-logo {
     width: 100%;
-    height: @header-height;
-    color: white;
-    font-size: 26px;
-    font-weight: 500;
-    display: inline-flex;
+    max-width: 200px;
+    .iconfont {
+      margin-top: 10px;
+      font-size: 40px;
+      color: white;
+    }
+  }
+  .bottomnav-content {
+    max-width: @main-width;
+    width: 100%;
+    height: 60px;
+    .prize {
+      font-size: 22px;
+      font-family: @heading-font;
+    }
+    .username {
+      font-size: 22px;
+    }
+  }
+  button {
     line-height: 22px;
-    font-family: @heading-font;
-    text-align: left !important;
-    transition: width 0.3s;
-    box-shadow: -1px 5px 5px black;
-    z-index: 1000;
+    background: none;
+    border: none;
+    outline: none;
     @media @bp-small {
-        height: @bottomnav-height;
+      display: none;
     }
-    .logo {
-        margin-top: 0px;
-        height: 45px;
+    .iconfont {
+      color: @border-color !important;
+      font-size: 20px;
     }
-    .bottomnav-logo {
-        width: 100%;
-        max-width: 200px;
-        .iconfont {
-            margin-top: 10px;
-            font-size: 40px;
-            color: white;
-        }
-    }
-    .bottomnav-content {
-        max-width: @main-width;
-        width: 100%;
-        height: 60px;
-        .prize {
-            font-size: 22px;
-            font-family: @heading-font;
-        }
-        .username {
-            font-size: 22px;
-        }
-    }
-    button {
-        line-height: 22px;
-        background: none;
-        border: none;
-        outline: none;
-        @media @bp-small {
-            display: none;
-        }
-        .iconfont {
-            color: @border-color  !important;
-            font-size: 20px;
-        }
-    }
+  }
+  .shield {
+    min-width: 80px;
+  }
+  @media screen and (min-width: 399px) and (max-width: 1119px) {
     .shield {
-        min-width: 80px;
+      min-width: 80px;
+      img {
+        width: 24px;
+        height: 24px;
+        margin-top: 10px;
+      }
     }
-    @media screen and (min-width: 399px) and (max-width: 1119px) {
-        .shield {
-            min-width: 80px;
-            img {
-                width: 24px;
-                height: 24px;
-                margin-top: 10px;
-            }
-        }
-    }
+  }
 }
 </style>

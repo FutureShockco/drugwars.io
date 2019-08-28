@@ -32,9 +32,9 @@ export default {
       );
     },
     steemAccount() {
-			if (this.$store.state.auth.account) return this.$store.state.auth.account;
-			return 0;
-		},
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
   },
 };
 </script>

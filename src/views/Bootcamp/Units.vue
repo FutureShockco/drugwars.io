@@ -16,24 +16,24 @@
 import { units } from 'drugwars';
 
 export default {
-    data() {
-        return {
-            units,
-        };
+  data() {
+    return {
+      units,
+    };
+  },
+  computed: {
+    trainingFacility() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'training_facility' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        ) || {
+          lvl: 0,
+        }
+      );
     },
-    computed: {
-        trainingFacility() {
-            return (
-                this.$store.state.game.user.buildings.find(
-                    b =>
-                    b.building === 'training_facility' &&
-                    b.base === this.$store.state.game.mainbase.base &&
-                    b.territory === this.$store.state.game.mainbase.territory,
-                ) || {
-                    lvl: 0,
-                }
-            );
-        },
-    },
+  },
 };
 </script>

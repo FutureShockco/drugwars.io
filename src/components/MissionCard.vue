@@ -156,156 +156,156 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex';
-	import { jsonParse } from '@/helpers/utils';
+import { mapActions } from 'vuex';
+import { jsonParse } from '@/helpers/utils';
 
-	export default {
-		props: ['item'],
-		data() {
-			return {
-				isLoading: false,
-				waitingConfirmation: false,
-				user: this.$store.state.game.user.user,
-			};
-		},
-		computed: {
-			priceInSteem() {
-				return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
-			},
-			isBoss() {
-				return this.user.role === 'boss' || this.user.role === 'capo';
-			},
-			timeToWait() {
-				const job = this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
-				if (job) {
-					const nextUpdate = new Date(job.date).getTime();
-					const now = this.$store.state.ui.timestamp;
-					const timeToWait = nextUpdate - now;
-					return timeToWait > 0 ? timeToWait : 0;
-				}
-				return 0;
-			},
-			timePast() {
-				const pendingUpdate = new Date(this.item.date).getTime();
-				const now = new Date().getTime();
-				return pendingUpdate >= now;
-			},
-			inProgress() {
-				if (!this.item) return false;
-				const pendingUpdate = new Date(this.item.date).getTime();
-				const now = new Date().getTime();
-				return pendingUpdate >= now;
-			},
-			ownJob() {
-				return this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
-			},
-			json() {
-				return jsonParse(this.ownJob.json) || {};
-			},
-			rewards() {
-				return jsonParse(this.ownJob.rewards) || {};
-			},
-			restUnits() {
-				if (this.json) return this.json.length || [];
-				else return 0;
-			},
-		},
-		methods: {
-			...mapActions(['init', 'send']),
-			handleSubmit() {
-				this.isLoading = true;
-				this.waitingConfirmation = true;
-				let payload = {};
-				payload = {
-					job: this.item.id,
-					job_type: this.item.type,
-					type: 'start-job',
-				};
-				this.send(payload)
-					.then(() => {
-						self.isLoading = false;
-						self.waitingConfirmation = false;
-					})
-					.catch(e => {
-						console.error('Failed', e);
-						self.isLoading = false;
-						self.waitingConfirmation = false;
-					});
-			},
-		},
-	};
+export default {
+  props: ['item'],
+  data() {
+    return {
+      isLoading: false,
+      waitingConfirmation: false,
+      user: this.$store.state.game.user.user,
+    };
+  },
+  computed: {
+    priceInSteem() {
+      return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+    },
+    isBoss() {
+      return this.user.role === 'boss' || this.user.role === 'capo';
+    },
+    timeToWait() {
+      const job = this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
+      if (job) {
+        const nextUpdate = new Date(job.date).getTime();
+        const now = this.$store.state.ui.timestamp;
+        const timeToWait = nextUpdate - now;
+        return timeToWait > 0 ? timeToWait : 0;
+      }
+      return 0;
+    },
+    timePast() {
+      const pendingUpdate = new Date(this.item.date).getTime();
+      const now = new Date().getTime();
+      return pendingUpdate >= now;
+    },
+    inProgress() {
+      if (!this.item) return false;
+      const pendingUpdate = new Date(this.item.date).getTime();
+      const now = new Date().getTime();
+      return pendingUpdate >= now;
+    },
+    ownJob() {
+      return this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
+    },
+    json() {
+      return jsonParse(this.ownJob.json) || {};
+    },
+    rewards() {
+      return jsonParse(this.ownJob.rewards) || {};
+    },
+    restUnits() {
+      if (this.json) return this.json.length || [];
+      return 0;
+    },
+  },
+  methods: {
+    ...mapActions(['init', 'send']),
+    handleSubmit() {
+      this.isLoading = true;
+      this.waitingConfirmation = true;
+      let payload = {};
+      payload = {
+        job: this.item.id,
+        job_type: this.item.type,
+        type: 'start-job',
+      };
+      this.send(payload)
+        .then(() => {
+          self.isLoading = false;
+          self.waitingConfirmation = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          self.isLoading = false;
+          self.waitingConfirmation = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
-	@import '../vars.less';
-	.shopcard {
-		background: -webkit-gradient(linear, left top, left bottom, from(#0e111496), to(#000000cc)),
-			url(/img/fake-brick.png);
-		background: linear-gradient(#0e111496, #000000cc), url(/img/fake-brick.png);
-	}
+@import '../vars.less';
+.shopcard {
+  background: -webkit-gradient(linear, left top, left bottom, from(#0e111496), to(#000000cc)),
+    url(/img/fake-brick.png);
+  background: linear-gradient(#0e111496, #000000cc), url(/img/fake-brick.png);
+}
 
-	.icon {
-		position: relative;
-	}
+.icon {
+  position: relative;
+}
 
-	.production {
-		display: inline-grid;
-		color: #fbbd08;
-	}
+.production {
+  display: inline-grid;
+  color: #fbbd08;
+}
 
-	.mini {
-		width: 100%;
-		height: auto;
-	}
+.mini {
+  width: 100%;
+  height: auto;
+}
 
-	.width {
-		width: 100%;
-	}
+.width {
+  width: 100%;
+}
 
-	.username {
-		color: #fbbd08;
-		top: 0px;
-	}
+.username {
+  color: #fbbd08;
+  top: 0px;
+}
 
-	.reward {
-		color: #fbbd08;
-		font-size: 9px;
-		position: relative;
-		background: transparent;
-		text-transform: uppercase;
-		img {
-			max-height: 32px;
-			max-width: 32px;
-		}
-		.unitname {
-			top: -2px;
-		}
-	}
+.reward {
+  color: #fbbd08;
+  font-size: 9px;
+  position: relative;
+  background: transparent;
+  text-transform: uppercase;
+  img {
+    max-height: 32px;
+    max-width: 32px;
+  }
+  .unitname {
+    top: -2px;
+  }
+}
 
-	.unitname {
-		color: #fbbd08;
-		font-size: 9px;
-		position: relative;
-		top: -19px;
-		width: 100%;
-		background: black;
-		text-transform: uppercase;
-	}
+.unitname {
+  color: #fbbd08;
+  font-size: 9px;
+  position: relative;
+  top: -19px;
+  width: 100%;
+  background: black;
+  text-transform: uppercase;
+}
 
-	.unitamount {
-		width: 100%;
-		background: #000000;
-		color: #fbbd07;
-		font-size: 9px;
-	}
+.unitamount {
+  width: 100%;
+  background: #000000;
+  color: #fbbd07;
+  font-size: 9px;
+}
 
-	.detail {
-		min-height: 44px;
-	}
+.detail {
+  min-height: 44px;
+}
 
-	.type {
-		color: #fbbd08;
-		top: 5px !important;
-		font-size: 16px;
-	}
+.type {
+  color: #fbbd08;
+  top: 5px !important;
+  font-size: 16px;
+}
 </style>

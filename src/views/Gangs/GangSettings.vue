@@ -27,61 +27,61 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            id: this.$route.params.id,
-            isInit: false,
-            isLoading: false,
-            gang: null,
-            name: null,
-            image: null,
-            website: null,
-            about: null,
-            user: this.$store.state.game.user.user,
-        };
+  data() {
+    return {
+      id: this.$route.params.id,
+      isInit: false,
+      isLoading: false,
+      gang: null,
+      name: null,
+      image: null,
+      website: null,
+      about: null,
+      user: this.$store.state.game.user.user,
+    };
+  },
+  computed: {
+    isBoss() {
+      return this.user.role === 'boss' && this.user.gang === this.id;
     },
-    computed: {
-        isBoss() {
-            return this.user.role === 'boss' && this.user.gang === this.id;
-        },
-    },
-    created() {
-        this.isInit = true;
-        client.requestAsync('get_gang', this.id).then(result => {
-            [this.gang] = result;
-            this.name = result[0].name;
-            this.image = result[0].image;
-            this.website = result[0].website;
-            this.about = result[0].about;
-            this.isInit = false;
+  },
+  created() {
+    this.isInit = true;
+    client.requestAsync('get_gang', this.id).then(result => {
+      [this.gang] = result;
+      this.name = result[0].name;
+      this.image = result[0].image;
+      this.website = result[0].website;
+      this.about = result[0].about;
+      this.isInit = false;
+    });
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    handleSubmit() {
+      this.isLoading = true;
+
+      const settings = {};
+      if (this.name) settings.name = this.name;
+      if (this.image) settings.image = this.image;
+      if (this.website) settings.website = this.website;
+      if (this.about) settings.about = this.about;
+
+      const payload = { gang: this.id, settings, type: 'gang-update' };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+          this.notify({
+            type: 'success',
+            message: `Settings successfully updated`,
+          });
+        })
+        .catch(e => {
+          console.error('Failed to update settings', e);
+          this.isLoading = false;
         });
     },
-    methods: {
-        ...mapActions(['send', 'notify']),
-        handleSubmit() {
-            this.isLoading = true;
-
-            const settings = {};
-            if (this.name) settings.name = this.name;
-            if (this.image) settings.image = this.image;
-            if (this.website) settings.website = this.website;
-            if (this.about) settings.about = this.about;
-
-            const payload = { gang: this.id, settings, type: 'gang-update' };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                    this.notify({
-                        type: 'success',
-                        message: `Settings successfully updated`,
-                    });
-                })
-                .catch(e => {
-                    console.error('Failed to update settings', e);
-                    this.isLoading = false;
-                });
-        },
-    },
+  },
 };
 </script>

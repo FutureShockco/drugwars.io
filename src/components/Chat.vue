@@ -67,158 +67,158 @@ if (socket) socket.disconnect();
 const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 
 export default {
-    data() {
-        return {
-            id: this.$route.params.id,
-            isInit: false,
-            isLoading: false,
-            gang: null,
-            members: [],
-            showChat: true,
-            showUsers: false,
-            gangChat: false,
-            privateChat: false,
-            message: null,
-            user: this.$store.state.game.user.user,
-            applies: null,
-            info: null,
-            autoscroll: false,
-            responses: [],
-        };
-    },
-    created() {
-        const token = localStorage.getItem('access_token');
+  data() {
+    return {
+      id: this.$route.params.id,
+      isInit: false,
+      isLoading: false,
+      gang: null,
+      members: [],
+      showChat: true,
+      showUsers: false,
+      gangChat: false,
+      privateChat: false,
+      message: null,
+      user: this.$store.state.game.user.user,
+      applies: null,
+      info: null,
+      autoscroll: false,
+      responses: [],
+    };
+  },
+  created() {
+    const token = localStorage.getItem('access_token');
+    const self = this;
+    socket.emit('add-user', { token });
+    socket.on('read-msg', message => {
+      self.responses.push({
+        text: message.text,
+        sender: message.sender,
+        gang: message.gang,
+        picture: message.picture,
+        date: message.date,
+      });
+    });
+    socket.on('user-connected', userId => {
+      self.members.push(userId);
+    });
+    socket.on('init-chat', messages => {
+      self.responses = messages;
+    });
+    socket.on('update-chat', messages => {
+      self.responses = messages;
+    });
+    socket.on('blocked', messages => {
+      self.responses = messages;
+      self.responses.push({
+        text: 'Please wait before sending another message',
+        sender: 'DrugWars',
+        gang: 'government',
+        picture: message.picture,
+        date: new Date().toString(),
+      });
+    });
+    socket.on('update-users', users => {
+      self.members = users;
+    });
+    setTimeout(() => {
+      this.scrollToEnd();
+    }, 500);
+  },
+  updated() {
+    if (this.isAtBottom()) this.scrollToEnd();
+  },
+  methods: {
+    ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
+    handleSubmit() {
+      if (this.message.length > 0) {
+        this.isLoading = true;
         const self = this;
-        socket.emit('add-user', { token });
-        socket.on('read-msg', message => {
-            self.responses.push({
-                text: message.text,
-                sender: message.sender,
-                gang: message.gang,
-                picture: message.picture,
-                date: message.date,
-            });
+        const message = this.message;
+        const token = localStorage.getItem('access_token');
+        socket.emit('send-msg', {
+          token,
+          message,
         });
-        socket.on('user-connected', userId => {
-            self.members.push(userId);
-        });
-        socket.on('init-chat', messages => {
-            self.responses = messages;
-        });
-        socket.on('update-chat', messages => {
-            self.responses = messages;
-        });
-        socket.on('blocked', messages => {
-            self.responses = messages;
-            self.responses.push({
-                text: 'Please wait before sending another message',
-                sender: 'DrugWars',
-                gang: 'government',
-                picture: message.picture,
-                date: new Date().toString(),
-            });
-        });
-        socket.on('update-users', users => {
-            self.members = users;
-        });
+        this.message = null;
         setTimeout(() => {
-            this.scrollToEnd();
+          this.scrollToEnd();
         }, 500);
+        this.isLoading = false;
+      }
     },
-    updated() {
-        if (this.isAtBottom()) this.scrollToEnd();
+    displayUsers() {
+      this.showChat = false;
+      this.gangChat = false;
+      this.privateChat = false;
+      this.showUsers = true;
     },
-    methods: {
-        ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
-        handleSubmit() {
-            if (this.message.length > 0) {
-                this.isLoading = true;
-                const self = this;
-                const message = this.message;
-                const token = localStorage.getItem('access_token');
-                socket.emit('send-msg', {
-                    token,
-                    message,
-                });
-                this.message = null;
-                setTimeout(() => {
-                    this.scrollToEnd();
-                }, 500);
-                this.isLoading = false;
-            }
-        },
-        displayUsers() {
-            this.showChat = false;
-            this.gangChat = false;
-            this.privateChat = false;
-            this.showUsers = true;
-        },
-        displayChat() {
-            this.showChat = true;
-            this.gangChat = false;
-            this.privateChat = false;
-            this.showUsers = false;
-        },
-        scrollToEnd() {
-            const container = this.$el.querySelector('.chat');
-            container.scrollTop = container.scrollHeight;
-        },
-        isAtBottom() {
-            const container = this.$el.querySelector('.chat');
-            if (container.scrollTop + 610 > container.scrollHeight) this.autoscroll = true;
-            else this.autoscroll = false;
-            return container.scrollTop + 610 > container.scrollHeight;
-        },
-        checkUrl(url) {
-            try {
-                url = url.replace(
-                    /(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/gi,
-                    "<br><img width='100%' src='$1'>",
-                );
-                return url;
-            } catch (e) {
-                return url;
-            }
-        },
+    displayChat() {
+      this.showChat = true;
+      this.gangChat = false;
+      this.privateChat = false;
+      this.showUsers = false;
     },
+    scrollToEnd() {
+      const container = this.$el.querySelector('.chat');
+      container.scrollTop = container.scrollHeight;
+    },
+    isAtBottom() {
+      const container = this.$el.querySelector('.chat');
+      if (container.scrollTop + 610 > container.scrollHeight) this.autoscroll = true;
+      else this.autoscroll = false;
+      return container.scrollTop + 610 > container.scrollHeight;
+    },
+    checkUrl(url) {
+      try {
+        url = url.replace(
+          /(https?:\/\/.*?\.(?:png|jpe?g|gif)(.*))(\w|$)/gi,
+          "<br><img width='100%' src='$1'>",
+        );
+        return url;
+      } catch (e) {
+        return url;
+      }
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
 @import '../vars.less';
 .message {
-    color: whitesmoke;
-    overflow-wrap: break-word;
+  color: whitesmoke;
+  overflow-wrap: break-word;
 }
 
 img {
-    max-width: 100% !important;
+  max-width: 100% !important;
 }
 
 .chat {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: calc(100vh - 360px);
-    width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 360px);
+  width: 100%;
 }
 
 .sender {
-    padding-top: 10px;
-    padding-bottom: 0px;
-    left: 20px !important;
-    font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  left: 20px !important;
+  font-size: 14px;
 }
 
 .reply {
-    bottom: 0px;
+  bottom: 0px;
 }
 
 .black {
-    background: black;
-    color: gray !important;
+  background: black;
+  color: gray !important;
 }
 
 .white {
-    color: white;
+  color: white;
 }
 </style>

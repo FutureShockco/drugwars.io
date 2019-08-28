@@ -18,34 +18,31 @@
 </template>
 
 <script>
-
 export default {
-    data() {
-        return {
-            isLoading: false,
-            pkey: '',
-        };
+  data() {
+    return {
+      isLoading: false,
+      pkey: '',
+    };
+  },
+  computed: {
+    steem_account() {
+      return this.$store.state.game.user.steem_account;
     },
-    computed: {
-        steem_account() {
-            return this.$store.state.game.user.steem_account;
-        },
+  },
+  methods: {
+    showKey(key) {
+      const input = document.getElementById(key);
+      input.type = 'text';
+      console.log(input);
     },
-     methods: {
-       showKey(key){
-           const input = document.getElementById(key);
-           input.type = 'text';
-           console.log(input)
-       },
-      hideKey(key){
-           const input = document.getElementById(key);
-           input.type = 'password';
-       }
-     }
-
+    hideKey(key) {
+      const input = document.getElementById(key);
+      input.type = 'password';
+    },
+  },
 };
 </script>
 
 <style scoped lang="less">
-
 </style>

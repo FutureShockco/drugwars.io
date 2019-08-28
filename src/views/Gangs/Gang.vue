@@ -68,137 +68,135 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            id: this.$route.params.id,
-            isInit: false,
-            isLoading: false,
-            gang: null,
-            members: null,
-            message: null,
-            user: this.$store.state.game.user.user,
-            applies: null,
-        };
+  data() {
+    return {
+      id: this.$route.params.id,
+      isInit: false,
+      isLoading: false,
+      gang: null,
+      members: null,
+      message: null,
+      user: this.$store.state.game.user.user,
+      applies: null,
+    };
+  },
+  computed: {
+    isBoss() {
+      return this.user.role === 'boss' && this.user.gang === this.id;
     },
-    computed: {
-        isBoss() {
-            return this.user.role === 'boss' && this.user.gang === this.id;
-        },
+  },
+  created() {
+    this.isInit = true;
+    const promises = [
+      client.requestAsync('get_gang', this.id),
+      client.requestAsync('get_gang_members', this.id),
+    ];
+    if (['boss', 'capo'].includes(this.user.role)) {
+      promises.push(client.requestAsync('get_gang_applies', this.id));
+    }
+    Promise.all(promises).then(result => {
+      [[this.gang], this.members, this.applies] = result;
+      this.isInit = false;
+    });
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    resetForm() {
+      this.message = null;
     },
-    created() {
-        this.isInit = true;
-        const promises = [
-            client.requestAsync('get_gang', this.id),
-            client.requestAsync('get_gang_members', this.id),
-        ];
-        if (['boss', 'capo'].includes(this.user.role)) {
-            promises.push(client.requestAsync('get_gang_applies', this.id));
-        }
-        Promise.all(promises).then(result => {
-            [
-                [this.gang], this.members, this.applies
-            ] = result;
-            this.isInit = false;
+    handleSubmit() {
+      this.isLoading = true;
+
+      const payload = { gang: this.id, type: 'gang-soldier-apply' };
+      if (this.message) payload.message = this.message;
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+
+          this.resetForm();
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to apply as soldier' });
+          console.error('Failed to apply as soldier', e);
+          this.isLoading = false;
         });
     },
-    methods: {
-        ...mapActions(['send', 'notify']),
-        resetForm() {
-            this.message = null;
-        },
-        handleSubmit() {
-            this.isLoading = true;
+    handleApprove(soldier) {
+      this.isLoading = true;
 
-            const payload = { gang: this.id, type: 'gang-soldier-apply' };
-            if (this.message) payload.message = this.message;
+      const payload = {
+        gang: this.id,
+        soldier,
+        type: 'gang-approve-soldier',
+      };
 
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-
-                    this.resetForm();
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to apply as soldier' });
-                    console.error('Failed to apply as soldier', e);
-                    this.isLoading = false;
-                });
-        },
-        handleApprove(soldier) {
-            this.isLoading = true;
-
-            const payload = {
-                gang: this.id,
-                soldier,
-                type: 'gang-approve-soldier',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to approve soldier' });
-                    console.error('Failed to approve soldier', e);
-                    this.isLoading = false;
-                });
-        },
-        handleReject(soldier) {
-            this.isLoading = true;
-
-            const payload = {
-                gang: this.id,
-                soldier,
-                type: 'gang-reject-soldier',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to reject candidate' });
-                    console.error('Failed to reject candidate', e);
-                    this.isLoading = false;
-                });
-        },
-        handleKick(soldier) {
-            this.isLoading = true;
-
-            const payload = {
-                gang: this.id,
-                soldier,
-                type: 'gang-kick-soldier',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to kick member' });
-                    console.error('Failed to kick member', e);
-                    this.isLoading = false;
-                });
-        },
-        handleAddCapo(capo) {
-            this.isLoading = true;
-
-            const payload = {
-                gang: this.id,
-                capo,
-                type: 'gang-add-capo',
-            };
-
-            this.send(payload)
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    console.error('Failed to add capo', e);
-                    this.isLoading = false;
-                });
-        },
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to approve soldier' });
+          console.error('Failed to approve soldier', e);
+          this.isLoading = false;
+        });
     },
+    handleReject(soldier) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        soldier,
+        type: 'gang-reject-soldier',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to reject candidate' });
+          console.error('Failed to reject candidate', e);
+          this.isLoading = false;
+        });
+    },
+    handleKick(soldier) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        soldier,
+        type: 'gang-kick-soldier',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to kick member' });
+          console.error('Failed to kick member', e);
+          this.isLoading = false;
+        });
+    },
+    handleAddCapo(capo) {
+      this.isLoading = true;
+
+      const payload = {
+        gang: this.id,
+        capo,
+        type: 'gang-add-capo',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed to add capo', e);
+          this.isLoading = false;
+        });
+    },
+  },
 };
 </script>

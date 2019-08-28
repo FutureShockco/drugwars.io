@@ -17,25 +17,25 @@
 
 <script>
 export default {
-    computed: {
-        base() {
-            return this.$store.state.game.mainbase;
-        },
-        main() {
-            return (
-                this.$store.state.game.user.buildings.find(
-                    b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
-                ) || null
-            );
-        },
+  computed: {
+    base() {
+      return this.$store.state.game.mainbase;
     },
+    main() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
+        ) || null
+      );
+    },
+  },
 };
 </script>
 
 
 <style lang="less" scoped>
 .coordbase {
-    position: absolute;
-    right: 10px;
+  position: absolute;
+  right: 10px;
 }
 </style>

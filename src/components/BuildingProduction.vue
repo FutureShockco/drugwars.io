@@ -16,26 +16,26 @@
 
 <script>
 export default {
-    props: ['production_type', 'level', 'coeff', 'production_rate', 'compactview'],
-    computed: {
-        perhour() {
-            const perhour = Number(
-                parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2),
-            );
-            return perhour + (perhour / 100) * this.level;
-        },
-        current() {
-            const current = Number(
-                parseFloat(this.production_rate * this.level * this.coeff * 60 * 60 * 24).toFixed(2),
-            );
-            return current + (current / 100) * this.level;
-        },
-        next() {
-            const next = Number(
-                parseFloat(this.production_rate * (this.level + 1) * this.coeff * 60 * 60 * 24).toFixed(2),
-            );
-            return next + (next / 100) * (this.level + 1);
-        },
+  props: ['production_type', 'level', 'coeff', 'production_rate', 'compactview'],
+  computed: {
+    perhour() {
+      const perhour = Number(
+        parseFloat(this.production_rate * this.level * this.coeff * 60 * 60).toFixed(2),
+      );
+      return perhour + (perhour / 100) * this.level;
     },
+    current() {
+      const current = Number(
+        parseFloat(this.production_rate * this.level * this.coeff * 60 * 60 * 24).toFixed(2),
+      );
+      return current + (current / 100) * this.level;
+    },
+    next() {
+      const next = Number(
+        parseFloat(this.production_rate * (this.level + 1) * this.coeff * 60 * 60 * 24).toFixed(2),
+      );
+      return next + (next / 100) * (this.level + 1);
+    },
+  },
 };
 </script>

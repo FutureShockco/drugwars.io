@@ -33,6 +33,6 @@
 
 <script>
 export default {
-	props: ['result', 'lose'],
+  props: ['result', 'lose'],
 };
 </script>

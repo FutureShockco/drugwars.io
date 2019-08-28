@@ -22,25 +22,25 @@
 import faq from '@/../faq.json';
 
 export default {
-    data() {
-        return {
-            q: '',
-        };
+  data() {
+    return {
+      q: '',
+    };
+  },
+  computed: {
+    faq() {
+      return faq.filter(q =>
+        JSON.stringify(q)
+          .toLowerCase()
+          .includes(this.q.toLowerCase()),
+      );
     },
-    computed: {
-        faq() {
-            return faq.filter(q =>
-                JSON.stringify(q)
-                .toLowerCase()
-                .includes(this.q.toLowerCase()),
-            );
-        },
-    },
+  },
 };
 </script>
 
 <style scoped class="less">
 .help {
-    font-size: 18px;
+  font-size: 18px;
 }
 </style>

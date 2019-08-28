@@ -115,11 +115,11 @@
 
 <style scoped lang="less">
 .user-balances {
-    li {
-        font-size: 18px;
-    }
-    .iconfont {
-        font-size: 28px;
-    }
+  li {
+    font-size: 18px;
+  }
+  .iconfont {
+    font-size: 28px;
+  }
 }
 </style>

@@ -31,7 +31,7 @@
 
 <script>
 export default {
-    data() {
+  data() {
     return {
       user: this.$store.state.game.user.user,
     };

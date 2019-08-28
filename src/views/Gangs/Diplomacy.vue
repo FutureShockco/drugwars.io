@@ -71,129 +71,129 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 
 export default {
-    data() {
-        return {
-            id: this.$route.params.id,
-            isInit: false,
-            isLoading: false,
-            mygang: null,
-            gangs: null,
-            members: null,
-            message: null,
-            user: this.$store.state.game.user.user,
-            events: null,
-        };
+  data() {
+    return {
+      id: this.$route.params.id,
+      isInit: false,
+      isLoading: false,
+      mygang: null,
+      gangs: null,
+      members: null,
+      message: null,
+      user: this.$store.state.game.user.user,
+      events: null,
+    };
+  },
+  created() {
+    this.isLoading = true;
+    this.load_buildings();
+    const promises = [
+      client.requestAsync('get_gangs', null),
+      client.requestAsync('get_gang', this.id),
+      client.requestAsync('get_gang_members', this.id),
+      client.requestAsync('get_gang_events', this.id),
+    ];
+    Promise.all(promises).then(result => {
+      [this.gangs, [this.mygang], this.members, this.events] = result;
+      this.isInit = false;
+      this.isLoading = false;
+    });
+  },
+  computed: {
+    embassy() {
+      return (
+        this.$store.state.game.gang_buildings.find(b => b.building === 'embassy') || {
+          lvl: 0,
+        }
+      );
     },
-    created() {
-        this.isLoading = true;
-        this.load_buildings();
-        const promises = [
-            client.requestAsync('get_gangs', null),
-            client.requestAsync('get_gang', this.id),
-            client.requestAsync('get_gang_members', this.id),
-            client.requestAsync('get_gang_events', this.id),
-        ];
-        Promise.all(promises).then(result => {
-            [this.gangs, [this.mygang], this.members, this.events] = result;
-            this.isInit = false;
-            this.isLoading = false;
+    isBoss() {
+      return this.user.role === 'boss' && this.user.gang === this.id;
+    },
+  },
+  methods: {
+    ...mapActions(['init', 'send', 'notify', 'refresh_gang_buildings']),
+    handleSubmit(type, gang) {
+      this.isLoading = true;
+      const payload = {
+        event: type,
+        gang,
+        type: 'dw-gang-event',
+      };
+      this.send(payload)
+        .then(result => {
+          this.load_events();
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to create event' });
+          console.error('Failed to create gang', e);
+          this.isLoading = false;
         });
     },
-    computed: {
-        embassy() {
-            return (
-                this.$store.state.game.gang_buildings.find(b => b.building === 'embassy') || {
-                    lvl: 0,
-                }
-            );
-        },
-        isBoss() {
-            return this.user.role === 'boss' && this.user.gang === this.id;
-        },
-    },
-    methods: {
-        ...mapActions(['init', 'send', 'notify', 'refresh_gang_buildings']),
-        handleSubmit(type, gang) {
-            this.isLoading = true;
-            const payload = {
-                event: type,
-                gang,
-                type: 'dw-gang-event',
-            };
-            this.send(payload)
-                .then(result => {
-                    this.load_events();
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to create event' });
-                    console.error('Failed to create gang', e);
-                    this.isLoading = false;
-                });
-        },
-        handleStop(type, gang) {
-            this.isLoading = true;
+    handleStop(type, gang) {
+      this.isLoading = true;
 
-            const payload = {
-                event: type,
-                gang,
-                type: 'dw-gang-stop-event',
-            };
-            this.send(payload)
-                .then(() => {
-                    this.load_events();
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    this.notify({ type: 'error', message: 'Failed to create event' });
-                    console.error('Failed to create gang', e);
-                    this.isLoading = false;
-                });
-        },
-        load_buildings() {
-            this.isLoading = true;
-            this.refresh_gang_buildings()
-                .then(() => {
-                    this.isLoading = false;
-                })
-                .catch(e => {
-                    console.error('Failed', e);
-                    this.isLoading = false;
-                });
-        },
-        load_events() {
-            this.isLoading = true;
-            const promises = [
-                client.requestAsync('get_gangs', null),
-                client.requestAsync('get_gang', this.id),
-                client.requestAsync('get_gang_members', this.id),
-                client.requestAsync('get_gang_events', this.id),
-            ];
-            Promise.all(promises).then(result => {
-                [this.gangs, [this.mygang], this.members, this.events] = result;
-                this.isInit = false;
-                this.isLoading = false;
-            });
-        },
-        otherEvents(gang) {
-            const event = this.events.filter(item => item.gang === gang);
-            if (event[0]) return event[0];
-            return event;
-        },
-        myEvents(gang) {
-            const event = this.events.filter(item => item.others === gang);
-            if (event[0]) return event[0];
-            return event;
-        },
-        lastUpdate(event) {
-            const now = new Date();
-            if (now < new Date(Date.parse(event.next_update))) {
-                return true;
-            }
-
-            return false;
-        },
+      const payload = {
+        event: type,
+        gang,
+        type: 'dw-gang-stop-event',
+      };
+      this.send(payload)
+        .then(() => {
+          this.load_events();
+          this.isLoading = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to create event' });
+          console.error('Failed to create gang', e);
+          this.isLoading = false;
+        });
     },
+    load_buildings() {
+      this.isLoading = true;
+      this.refresh_gang_buildings()
+        .then(() => {
+          this.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed', e);
+          this.isLoading = false;
+        });
+    },
+    load_events() {
+      this.isLoading = true;
+      const promises = [
+        client.requestAsync('get_gangs', null),
+        client.requestAsync('get_gang', this.id),
+        client.requestAsync('get_gang_members', this.id),
+        client.requestAsync('get_gang_events', this.id),
+      ];
+      Promise.all(promises).then(result => {
+        [this.gangs, [this.mygang], this.members, this.events] = result;
+        this.isInit = false;
+        this.isLoading = false;
+      });
+    },
+    otherEvents(gang) {
+      const event = this.events.filter(item => item.gang === gang);
+      if (event[0]) return event[0];
+      return event;
+    },
+    myEvents(gang) {
+      const event = this.events.filter(item => item.others === gang);
+      if (event[0]) return event[0];
+      return event;
+    },
+    lastUpdate(event) {
+      const now = new Date();
+      if (now < new Date(Date.parse(event.next_update))) {
+        return true;
+      }
+
+      return false;
+    },
+  },
 };
 </script>
 
@@ -201,7 +201,7 @@ export default {
 <style scoped lang="less">
 @import '../../vars.less';
 .allies {
-    margin-top: 5px !important;
-    position: absolute;
+  margin-top: 5px !important;
+  position: absolute;
 }
 </style>

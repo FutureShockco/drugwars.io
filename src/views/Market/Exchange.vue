@@ -30,15 +30,15 @@
 					<h5 class="columns">DWD Token Informations</h5>
 					<h6 class="column col-3 m-0">
 						Max Supply
-						<p class="text-yellow"> {{ this.steemengine.maxSupply - this.steemengine.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.steemengine.maxSupply - this.steemengine.nullBalance | million }}</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burn pending
-						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.steemengine.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.steemengine.nullBalance | amount }}</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burnt
-						<p class="text-yellow"> {{ this.steemengine.nullBalance | amount }} DWD</p>
+						<p class="text-yellow"> {{ this.steemengine.nullBalance | amount }}</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Staking activated
@@ -61,11 +61,11 @@
 					</h6>
 					<h6 class="column col-4 m-0 border-left">
 						Circulating (ON MARKET)
-						<p class="text-yellow">{{ this.steemengine.supply | amount }} DWD</p>
+						<p class="text-yellow">{{ this.steemengine.supply | million }}</p>
 					</h6>
 					<h6 class="column col-4 m-0 border-left">
 						Circulating (IN GAME)
-						<p class="text-yellow">{{ this.prizeProps.total_dwd | amount}} DWD</p>
+						<p class="text-yellow">{{ this.prizeProps.total_dwd | million}}</p>
 					</h6>
 					<h5 class="columns">Statistics</h5>
 					<h6 class="column col-3 m-0">

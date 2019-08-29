@@ -3,8 +3,8 @@
     <JobsTabs />
     <div class="text-center anim-fade-in">
       <div class="columns m-0" v-for="item in items" :key="item.id">
-        <MissionCard :item="item" />
-        <div class="columns m-0" v-for="job in ownJobs" :key="job.id">
+        <MissionCardGang :item="item" />
+        <div class="columns m-0" v-for="job in ownJobs" :key="job.id+job.base">
           <div v-if="job.job === item.id">
             <div class="columns m-0" v-for="fight in fights" :key="fight.fight_key">
               <div
@@ -30,7 +30,7 @@ export default {
       isLoading: false,
       user: this.$store.state.game.user.user,
       fights: null,
-      ownJobs: this.$store.state.game.user.jobs,
+      ownJobs: this.$store.state.game.user.gangjobs,
     };
   },
   created() {

@@ -83,10 +83,7 @@ export default {
      if (store.state.auth.username) 
       {
         if(!this.$store.state.game.isconnected)
-        {
-          this.attempt=1;
-          this.reconnect();
-        }
+        this.reconnect();
       }
   },
   methods: {
@@ -98,8 +95,6 @@ export default {
       const self = this;
       if(self.attempt<6)
       setTimeout(() => {
-          if(self.attempt!=0)
-          {
           client.restart();
           store.dispatch('login').then(() => {
             if (store.state.auth.username) {
@@ -118,7 +113,7 @@ export default {
               this.$router.push({ path: '/login' });
             }
           });
-          }
+          self.attempt++;
       }, 5000*self.attempt);
 
     },    

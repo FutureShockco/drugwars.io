@@ -116,6 +116,7 @@
 
           <div>{{rewards.randomDWD}}</div>
         </div>
+        <div v-if="item.type ==='gang'">+2.5% per daily active member</div>
       </div>
 
       <router-link
@@ -176,7 +177,7 @@ export default {
       return this.user.role === 'boss' || this.user.role === 'capo';
     },
     timeToWait() {
-      const job = this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
+      const job = this.$store.state.game.user.gangjobs.find(j => j.job === this.item.id);
       if (job) {
         const nextUpdate = new Date(job.date).getTime();
         const now = this.$store.state.ui.timestamp;
@@ -197,7 +198,7 @@ export default {
       return pendingUpdate >= now;
     },
     ownJob() {
-      return this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
+      return this.$store.state.game.user.gangjobs.find(j => j.job === this.item.id);
     },
     json() {
       return jsonParse(this.ownJob.json) || {};

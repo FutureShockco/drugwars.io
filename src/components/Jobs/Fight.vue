@@ -36,6 +36,7 @@
 						v-if="json.target.loot"
 						:result="result"
 						:stolenResources="json.target.loot"
+						:number="json.rewarded"
 					/>
 					<div v-if="json.members && json.rewarded"> Split by {{json.members}} with
 							<div class="text-blue" v-for="item in json.rewarded" :key="item.nickname"  >

@@ -71,7 +71,7 @@ export default {
       return false;
     },
     dwdPrice() {
-      const price = this.$store.state.game.steemengine.lastPrice;
+      const price = this.$store.state.game.steemengine.lastPrice  || 0;
       return price * this.priceInDWD;
     },
     priceInDWD() {

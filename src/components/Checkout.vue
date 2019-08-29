@@ -66,7 +66,7 @@ export default {
       return (this.priceInSteem * 2).toFixed(3);
     },
     dwdPrice() {
-      const price = this.$store.state.game.steemengine.lastPrice;
+      const price = this.$store.state.game.steemengine.lastPrice || 0;
       return price * this.priceInDWD;
     },
     notEnoughDWD() {

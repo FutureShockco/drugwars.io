@@ -101,7 +101,7 @@ export default {
     },
     priceInSteem() {
       return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(
-        3,
+        3  || 0
       );
     },
     priceInDWD() {

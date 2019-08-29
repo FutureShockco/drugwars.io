@@ -143,13 +143,11 @@ export default {
     result() {
       let result;
       let isAuthor;
-      if (this.fight.attacker_nickname !== this.user.nickname && !this.fight.target) {
-        isAuthor = false;
-      } else if (this.fight.target_nickname !== this.user.nickname) isAuthor = true;
+			isAuthor = true;
       if (this.fight.result === 1) {
-        result = isAuthor ? 'win' : 'lost';
+        result = 'win';
       } else if (this.fight.result === 3) {
-        result = !isAuthor ? 'win' : 'lost';
+        result = 'lost';
       } else if (this.fight.result === 2) {
         result = 'draw';
       }

@@ -114,7 +114,7 @@ export default {
             }
           });
           self.attempt++;
-      }, 5000*self.attempt);
+      }, 10000*self.attempt);
 
     },    
     forceReconnect() {

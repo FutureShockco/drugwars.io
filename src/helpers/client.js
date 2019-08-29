@@ -171,7 +171,7 @@ function Sub(rawClient) {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'error',
-        message: 'You have been too late for this job!',
+        message: 'Ooops. You have been too late for this job! Your units are back.',
       });
     }
     if (message[1].body === 'job_success') {

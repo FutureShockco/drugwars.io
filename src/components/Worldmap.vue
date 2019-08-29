@@ -394,8 +394,10 @@ export default {
                                 b.style.left = `${to.x -50 }px`;
                                 if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.86) {
                                     b.style.opacity = 0;
+                                    b.style.display = 'none';
                                 } else {
                                     b.style.opacity = 1;
+                                    b.style.display = 'block';
                                 }
                                 b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
                                 b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
@@ -750,7 +752,7 @@ export default {
                     const allusers =[];
                     let time = 0;
                     users.forEach(element => {
-                        if(!allusers.find(t => t.territory === element.territory) && element.territory < self.maxcount)
+                        if(!allusers.find(t => t.territory === element.territory))
                         {
                            allusers.push(element)
                         }

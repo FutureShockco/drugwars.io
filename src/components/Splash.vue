@@ -27,14 +27,14 @@ export default {
 
 <style lang="less" scoped>
 .wrapper {
-  width: 130px;
-  height: 40px;
-  border-radius: 40px;
+  width: 65px;
+  height: 20px;
+  border-radius: 20px;
   box-shadow: 0 3px 2px rgba(0, 0, 0, 0.2);
   transform: rotate(-35deg);
   cursor: pointer;
   animation: bgmove 5s infinite linear;
-  left: calc(50% - 65px);
+  left: calc(50% - 33px);
   top: 56%;
   position: absolute;
 }

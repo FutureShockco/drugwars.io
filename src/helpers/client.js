@@ -167,6 +167,13 @@ function Sub(rawClient) {
         message: 'There is a new about your job!',
       });
     }
+    if (message[1].body === 'job_late') {
+      store.dispatch('init');
+      store.dispatch('notify', {
+        type: 'error',
+        message: 'You have been too late for this job!',
+      });
+    }
     if (message[1].body === 'job_success') {
       store.dispatch('init');
       store.dispatch('notify', {

@@ -107,7 +107,7 @@ export default {
                 store.dispatch('refresh_inc_station_count');
                 store.dispatch('refresh_inc_fights');
                 store.dispatch('refresh_sent_fights');
-                attempt = 1;
+                self.attempt = 1;
               });
             } else {
               this.$router.push({ path: '/login' });

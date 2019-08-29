@@ -116,6 +116,7 @@
 
           <div>{{rewards.randomDWD}}</div>
         </div>
+        <div v-if="item.type ==='gang'">+2.5% per daily active member</div>
       </div>
 
       <router-link

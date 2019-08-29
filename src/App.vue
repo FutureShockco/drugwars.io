@@ -83,7 +83,10 @@ export default {
      if (store.state.auth.username) 
       {
         if(!this.$store.state.game.isconnected)
-        this.reconnect();
+        {
+          this.attempt=1;
+          this.reconnect();
+        }
       }
   },
   methods: {
@@ -95,6 +98,8 @@ export default {
       const self = this;
       if(self.attempt<6)
       setTimeout(() => {
+          if(self.attempt!=0)
+          {
           client.restart();
           store.dispatch('login').then(() => {
             if (store.state.auth.username) {
@@ -107,13 +112,13 @@ export default {
                 store.dispatch('refresh_inc_station_count');
                 store.dispatch('refresh_inc_fights');
                 store.dispatch('refresh_sent_fights');
-                self.attempt = 1;
+                self.attempt = 0;
               });
             } else {
               this.$router.push({ path: '/login' });
             }
           });
-          self.attempt++;
+          }
       }, 5000*self.attempt);
 
     },    
@@ -131,7 +136,7 @@ export default {
             store.dispatch('refresh_inc_station_count');
             store.dispatch('refresh_inc_fights');
             store.dispatch('refresh_sent_fights');
-            self.attempt = 1;
+            self.attempt = 0;
           });
         } else {
           this.$router.push({ path: '/login' });

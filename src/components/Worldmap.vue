@@ -4,7 +4,7 @@
         <button v-else @click.prevent="switchTargets" class="button button-red btnmapl">Hide Targets</button>
         <button @click.prevent="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
-            <button class="button button-blue top text-center" :disabled="!selected">
+            <button class="button button-blue top text-center mt-5" :disabled="!selected">
                   <span v-if="main">VISIT</span>
                   <span v-else>CHOOSE AS MAIN TERRITORY</span>
                   </button>
@@ -138,7 +138,7 @@ export default {
             // Planet Proto
             const planetProto = {
                 sphere(size) {
-                    const sphere = new THREE.SphereGeometry(size, 32, 32);
+                    const sphere = new THREE.SphereGeometry(size, 32, 32);;
                     return sphere;
                 },
                 material(options) {

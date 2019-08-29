@@ -54,12 +54,12 @@ export default {
         },
         size()
         {
-          if(this.player.drug_production_rate*20 > 150)
-          return 150
-          if((this.player.drug_production_rate*20 < 40))
-          return 40
+          if(this.player.drug_production_rate*15 > 100)
+          return 100
+          if((this.player.drug_production_rate*15 < 20))
+          return 20
           else{
-            return (this.player.drug_production_rate*20)
+            return (this.player.drug_production_rate*15)
           }
         },
         ownSpy() {

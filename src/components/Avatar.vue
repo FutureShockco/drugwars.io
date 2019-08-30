@@ -6,7 +6,7 @@
           'height': `${size}px`,
         }">
             <span class="avatar-img" :style="{
-            'background-image': `url(${picture}`,
+            'background-image': `url(${picture}`,'background-size':`contain!important`,
             'width': `${size}px`,
             'height': `${size}px`,
            }" />
@@ -84,7 +84,7 @@ export default {
     top: 0;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border-radius: 50%;

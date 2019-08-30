@@ -199,6 +199,10 @@ export default {
     margin-bottom: -5px;
 }
 
+.avatar-img{
+    background-size: contain!important;
+}
+
 .detail {
     z-index: 10;
     padding: 0px;

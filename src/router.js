@@ -10,6 +10,7 @@ const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue'
 const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/GangJobs.vue');
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Overview/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
+const Base = () => import(/* webpackChunkName: "base" */ '@/views/Overview/Base.vue');
 
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
@@ -51,6 +52,7 @@ const Contracts = () =>
   import(/* webpackChunkName: "contracts" */ '@/views/Contracts/Contracts.vue');
 
 const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
+const Market = () => import(/* webpackChunkName: "market" */ '@/views/Market/Market.vue');
 const Exchange = () => import(/* webpackChunkName: "exchange" */ '@/views/Market/Exchange.vue');
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
@@ -154,6 +156,12 @@ export default new Router({
       name: 'tutorial',
       beforeEnter: requireAuth,
       component: Tutorial,
+    },
+    {
+      path: '/overview/base',
+      name: 'base',
+      beforeEnter: requireAuth,
+      component: Base,
     },
     {
       path: '/jobs',
@@ -317,6 +325,12 @@ export default new Router({
       name: 'shop',
       beforeEnter: requireAuth,
       component: Shop,
+    },
+    {
+      path: '/market',
+      name: 'market',
+      beforeEnter: requireAuth,
+      component: Market,
     },
     {
       path: '/market/dwd',

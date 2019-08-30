@@ -90,7 +90,7 @@
                     </li>
                     <li>
                         <router-link to="/market/exchange" class="py-1 px-4 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.exchange' | translate}}
+                            {{'sidebar.market' | translate}}
                         </router-link>
                     </li>
                     <li>

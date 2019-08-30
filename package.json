@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@vue/ui": "^0.5.2",
+    "apexcharts": "^3.8.5",
     "auth0-js": "^9.11.3",
     "auth0-lock": "^11.16.0",
     "bluebird": "^3.5.3",
@@ -51,6 +52,7 @@
     "url-parse": "^1.4.3",
     "vue": "^2.5.17",
     "vue-analytics": "^5.16.2",
+    "vue-apexcharts": "^1.4.0",
     "vue-i18n": "^8.0.0",
     "vue-paypal-checkout": "^3.2.0",
     "vue-router": "^3.0.1",

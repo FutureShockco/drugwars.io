@@ -19,6 +19,7 @@ import messages from '@/translation.json';
 import numberFormats from '@/number.json';
 import AuthPlugin from './helpers/auth_plugin';
 import Vue2TouchEvents from 'vue2-touch-events';
+import VueApexCharts from 'vue-apexcharts'
 
 Vue.use(VueAnalytics, {
   id: 'UA-135445665-1',
@@ -38,6 +39,11 @@ Vue.filter('ms', value => prettyMs(parseInt(value / 1000) * 1000));
 Vue.filter('parseUrl', value => urlParse(value).host);
 Vue.filter('amount', value => numeral(value).format('0.[00] a'));
 Vue.filter('million', value => numeral(value).format('0,0.0000'));
+Vue.filter('decimal', value => numeral(value).format('0.[00000]'));
+
+Vue.filter('dateparse', value => moment(new Date(value*1000), 'YYYY-MM-DD').format('MMMM Do YYYY, h:mm:ss a'));
+Vue.filter('fromnow', value => moment(new Date(value*1000), 'YYYY-MM-DD').fromNow());
+
 
 Vue.directive('lowercase', {
   update: el => {
@@ -62,8 +68,8 @@ const language =
   (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
 let languageWithoutRegionCode = 'en';
 
-if (messages[language.toLowerCase().split(/[_-]+/)[0]])
-  languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
+// if (messages[language.toLowerCase().split(/[_-]+/)[0]])
+//   languageWithoutRegionCode = language.toLowerCase().split(/[_-]+/)[0];
 const i18n = new VueI18n({
   locale: languageWithoutRegionCode,
   messages,

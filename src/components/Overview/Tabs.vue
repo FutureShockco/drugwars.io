@@ -3,6 +3,7 @@
     <UiTabs>
       <UiTab to="/overview">Overview</UiTab>
       <UiTab to="/overview/tutorial">Tutorial</UiTab>
+            <!-- <UiTab to="/overview/base">Base</UiTab> -->
     </UiTabs>
         <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

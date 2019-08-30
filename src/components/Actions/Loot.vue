@@ -24,19 +24,18 @@
             <span v-if="result ==='lost'">-</span>
             <span v-else>+</span> {{ stolenResources.weapon | amount }} WEAPONS
         </div>
-        <div v-if="stolenResources.alcohols || stolenResources.alcohol && number">
+        <div v-if="(stolenResources.alcohols || stolenResources.alcohol) && number">
             <span v-if="result ==='lost'">-</span>
             <span v-else>+</span> {{ (stolenResources.alcohols + ((stolenResources.alcohols/100*2.5)*number.length)) || (stolenResources.alcohol + ((stolenResources.alcohol/100*2.5)*number.length)) | amount }} ALCOHOL
         </div>
+         <div v-else-if="stolenResources.alcohol">
+            <span v-if="result ==='lost'">-</span>
+            <span v-else>+</span> {{ stolenResources.alcohol  | amount }} ALCOHOL
+        </div>
         <div v-else-if="stolenResources.alcohols">
             <span v-if="result ==='lost'">-</span>
-            <span v-else>+</span> {{ stolenResources.alcohols | amount }} ALCOHOL
+            <span v-else>+</span> {{ stolenResources.alcohols  | amount }} ALCOHOL
         </div>
-        <div v-else-if="stolenResources.alcohol">
-            <span v-if="result ==='lost'">-</span>
-            <span v-else>+</span> {{ stolenResources.alcohol | amount }} ALCOHOL
-        </div>
-
         <div v-if="stolenResources.dwd && number">
             <span v-if="result ==='lost'">-</span>
             <span v-else>+</span> {{ parseFloat(Number(stolenResources.dwd) + ((stolenResources.dwd/100*2.5)*number.length)).toFixed(3) }} DWD

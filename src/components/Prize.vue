@@ -34,7 +34,6 @@
                     {{totalHeist | amount}}
                 </div>
             </div>
-            <div class="population mt-4">REDUCE THE POPULATION AND GET REWARDED</div>
             <div class="popdetail mb-0 mt-3">POPULATION : {{this.prizeProps.fight_supply | amount}}</div>
             <div class="popsubdetail mb-3 mt-0">Total units x supply</div>
         </div>

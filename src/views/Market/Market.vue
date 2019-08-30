@@ -9,27 +9,31 @@
             <div>Volume (24h)</div>
             <div
               class="text-yellow"
-            >{{this.steemengine.volume | amount}}DWD - ${{this.steemengine.volume *this.steemengine.lastPrice | amount}} - {{this.steemengine.volume *this.steemengine.lastPrice / prizeProps.steemprice | amount}}STEEM</div>
+            >${{this.steemengine.volume *this.steemengine.lastPrice | amount}} <div class="text-blue">{{this.steemengine.volume *this.steemengine.lastPrice / prizeProps.steemprice | amount}}STEEM</div></div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Price Change</div>
             <div
               class="text-red"
               :class="{ 'text-green' : this.steemengine.priceChangePercent > 0 }"
-            >{{ this.steemengine.priceChangePercent }}%</div>
+            >{{ this.steemengine.priceChangePercent }}% <i class="iconfont icon-arrow-down" :class="{ 'icon-arrow-up' : this.steemengine.priceChangePercent > 0 }"></i> </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Last Price</div>
             <div
               class="text-yellow"
-            >${{1 *this.steemengine.lastPrice }} - {{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(5)}} STEEM</div>
+            >${{1 *this.steemengine.lastPrice }} </div>
+						<div class="text-blue"> {{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(5)}} STEEM</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Bid/Ask</div>
             <div
               class="text-yellow"
-            >${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
-          </h5>
+            >
+						${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
+         <div class="text-blue">						{{this.steemengine.highestBid | decimal}} / {{ this.steemengine.lowestAsk| decimal}}
+</div>
+				  </h5>
         </div>
       </div>
     </div>
@@ -37,10 +41,41 @@
       <VueApexCharts width="100%" :options="options" :series="series" class="mb-6"></VueApexCharts>
     </div>
 
-    <div class="px-3 columns ">
+    <div class="px-3 columns text-left">
       <div class="column col-6 border-right p-0 m-0">
-        <h4 class="mb-0">Buy Orders</h4>
-        <h5 class="columns p-0 m-0 border-bottom text-center">
+        <h4 class="mb-0 p-1">Buy DWD</h4>
+          <div class="border-right"><input class="input form-control" v-model="quantity"> Price </div>
+          <div class="border-right"> <input class="input form-control mt-1" v-model="quantity"> Quantity</div>
+          <div class=""><input class="input form-control mt-1" v-model="quantity"> Total : </div>
+					<div class="columns  p-0 m-0">
+							<div class="column col-6 p-0 m-0">
+								Balance :
+						 </div>
+						 <div class="column col-6 p-0 m-0">
+							<button disabled class="button button-green">Buy DWD</button>
+						 </div>
+					</div>
+      </div>
+      <div class="column col-6 p-0 m-0 text-right">
+        <h4 class="mb-0 p-1">Sell DWD</h4>
+          <div class="border-right"> Price <input class="input form-control" v-model="quantity"></div>
+          <div class="border-right">  Quantity <input class="input form-control mt-1" v-model="quantity"></div>
+          <div class="">Total <input class="input form-control mt-1" v-model="quantity"></div>
+						<div class="columns  p-0 m-0">
+							<div class="column col-6 p-0 m-0">
+								Balance :
+						 </div>
+						 <div class="column col-6 p-0 m-0">
+							<button disabled class="button button-red">Sell DWD</button>
+						 </div>
+					</div>
+      </div>
+    </div>
+
+    <div class="px-3 columns text-center">
+      <div class="column col-6 border-right p-0 m-0">
+        <h4 class="mb-0 p-1">Buy Orders</h4>
+        <h5 class="columns p-0 m-0 border-bottom ">
           <div class="column col-3 border-right">Total</div>
           <div class="column col-3 border-right">STEEM</div>
           <div class="column col-3 border-right">Quantity</div>
@@ -57,9 +92,9 @@
           </div>
         </div>
       </div>
-      <div class="column col-6 p-0 m-0">
-        <h4 class="mb-0">Sell Orders</h4>
-        <h5 class="columns p-0 m-0 border-bottom text-center">
+      <div class="column col-6 p-0 m-0 text-center">
+        <h4 class="mb-0 p-1">Sell Orders</h4>
+        <h5 class="columns p-0 m-0 border-bottom">
           <div class="column col-3 border-right">USD Price</div>
           <div class="column col-3 border-right">Quantity</div>
           <div class="column col-3 border-right">STEEM</div>
@@ -76,30 +111,12 @@
           </div>
         </div>
       </div>
-
-      <!-- 	
-      <div v-for="item in tradehistory" :key="item.timestamp+item.$loki">
-        <div class="columns border-bottom text-center">
-          <div class="column col-4 border-right">
-            {{item.timestamp | fromnow}}
-            <div class="detail">{{item.timestamp | dateparse}}</div>
-          </div>
-          <div
-            class="column col-2 pt-2 text-uppercase text-red border-right"
-            :class="{'text-green':item.type==='buy'}"
-          >{{item.type}}</div>
-
-          <div class="column col-2 pt-2 border-right">{{item.price}}</div>
-          <div class="column col-2 pt-2 border-right">{{item.quantity}}</div>
-          <div class="column col-2 pt-2">{{item.quantity * item.price | decimal}}</div>
-        </div>
-      </div>-->
     </div>
 
-    <div class="px-3">
-			        <h4 class="mb-0">Trade History</h4>
+    <div class="text-center">
+			        <h4 class="mb-0 p-3 ">Trade History</h4>
 
-      <h5 class="columns border-bottom text-center">
+      <h5 class="columns p-0 m-0 border-bottom text-center">
         <div class="column col-4">Date</div>
         <div class="column col-2">Type</div>
         <div class="column col-2">Price</div>
@@ -107,7 +124,7 @@
         <div class="column col-2">Total</div>
       </h5>
       <div v-for="item in tradehistory" :key="item.timestamp+item.$loki">
-        <div class="columns border-bottom text-center">
+        <div class="columns p-0 m-0 border-bottom text-center">
           <div class="column col-4 border-right">
             {{item.timestamp | fromnow}}
             <div class="detail">{{item.timestamp | dateparse}}</div>
@@ -151,6 +168,9 @@
 				loading: false,
 				errored: false,
 				options: {
+					tooltip: {
+								enabled: false
+					},
 					chart: {
 						height: 350,
 						type: 'line',
@@ -161,7 +181,6 @@
 						enabled: false,
 					},
 					colors: ['#28a745', '#FF1654'],
-
 					stroke: {
 						width: [4, 4],
 						curve: 'smooth',

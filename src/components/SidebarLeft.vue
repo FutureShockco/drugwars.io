@@ -2,7 +2,7 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3 pb-3">
-                <!-- <h5 class="text-center text-red">LIVE MAINTENANCE, YOU MAY HAVE SOME ISSUE WHILE PLAYING. END TIME : 7PM UTC</h5> -->
+                <h5 class="text-center label text-green">SMALL ISSUES WITH 29/08/2019 PAYOUTS. WE DOUBLE THE PRIZE'S FOR THE WEEK-END</h5>
                 <Avatar :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}
@@ -89,7 +89,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/market/exchange" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/market" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                             {{'sidebar.market' | translate}}
                         </router-link>
                     </li>

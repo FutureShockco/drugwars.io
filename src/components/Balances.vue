@@ -54,7 +54,7 @@
                 </div>
             </div>
         </li>
-        <li v-if="this.$store.state.auth.account">
+        <li class="steembalance" v-if="this.$store.state.auth.account">
             <Icon name="steem" size="36" />
             <div class="balance">
                 <div>{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
@@ -298,7 +298,9 @@ export default {
   margin-top: -8px !important;
   font-size: 12px;
 }
-
+.steembalance{
+    display: initial;
+}
 .balances {
   color: white;
   font-size: 25px;
@@ -348,6 +350,9 @@ export default {
 }
 
 @media screen and (min-width: 200px) and (max-width: 669px) {
+  .steembalance{
+     display: none;
+   }
   .balances {
     display: flex;
     font-size: 16px !important;
@@ -392,6 +397,9 @@ export default {
 }
 
 @media screen and (min-width: 670px) and (max-width: 1119px) {
+  .steembalance{
+    display: none;
+  }
   .balances {
     display: inline-flex;
     font-size: 20px !important;

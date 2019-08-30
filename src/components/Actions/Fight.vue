@@ -28,7 +28,7 @@
 					<div class="button button-green result" v-if="result === 'win'">Win</div>
 					<div class="button result" v-if="result === 'draw'">Draw</div>
 					<div class="button button-red result" v-if="result === 'lost'">Lost</div>
-					<ActionsLoot class="mt-2" v-if="json.target.loot" :result="result" :stolenResources="json.target.loot" />
+					<ActionsLoot class="mt-2" v-if="json.target.loot" :result="result" :stolenResources="json.target.loot" :number="0" />
 				</div>
 				<h1 class="mt-0 mb-0" v-else>VS</h1>
 				<h5 class="mt-0 mb-0" v-if="timeToWait && fight.is_stable">Start in

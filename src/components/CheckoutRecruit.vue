@@ -37,7 +37,7 @@
       class="button btn-block button-yellow mb-2"
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-     <span v-if="dwdPrice"> ${{ (dwdPrice * quantity) | amount }} =</span>
+     <span> ${{ dwdPrice | amount }} =</span>
       {{ this.priceInDWD }} DWD
     </button>
   </div>
@@ -100,15 +100,13 @@ export default {
       return 0;
     },
     priceInSteem() {
-      return ((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(
-        3  || 0
-      );
+      return parseFloat((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return (this.priceInSteem * 2).toFixed(3);
+      return this.priceInSteem * 2;
     },
     dwdPrice() {
-      const price = this.$store.state.game.steemengine.lastPrice;
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD;
     },
     notEnoughDWD() {

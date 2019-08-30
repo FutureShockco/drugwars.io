@@ -16,22 +16,31 @@
         </div>
         <div class="prize">
             <div class="detail">Today's prize</div>
-            <div class="mb-4">
+            <div class="mb-0">
                 {{ totalDWD | amount }}
                 <img class="dwd_logo" width="44" src="/img/icons/dwd.png">
+                 <div class="sub">
+                ${{totalUSD}} - {{totalSteem}} STEEM
+                </div>
             </div>
             <div class="prizes">
                 <div class="sub">
-                    <div>BATTLE</div>
+                    <div>FIGHT</div>
                     {{totalFight+prizeProps.free_dwd-prizeProps.daily_rewards | amount}}
                 </div>
                 <div class="sub">
                     <div>DAILY</div>
                     {{totalDaily | amount}}
                 </div>
+            </div>
+             <div class="prizes">
                 <div class="sub">
                     <div>HEIST</div>
                     {{totalHeist | amount}}
+                </div>
+                <div class="sub">
+                    <div>LOTTERY</div>
+                    {{parseFloat(totalLottery).toFixed(3)}}
                 </div>
             </div>
             <div class="popdetail mb-0 mt-3">POPULATION : {{this.prizeProps.fight_supply | amount}}</div>
@@ -66,6 +75,10 @@ export default {
         (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)
       );
     },
+    totalUSD() {
+       const { prizeProps } = this.$store.state.game;
+      return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice * prizeProps.steemprice).toFixed(2)
+    },
     lastDayDWD() {
       const { prizeProps } = this.$store.state.game;
       return parseFloat(prizeProps.daily_purchase);
@@ -81,11 +94,11 @@ export default {
       );
     },
     totalSteem() {
+        return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice).toFixed(2)
+    },
+    totalLottery() {
       const { prizeProps } = this.$store.state.game;
-      return parseFloat(
-        (parseFloat(prizeProps.balance) / 100) *
-          (prizeProps.daily_percent + prizeProps.heist_percent),
-      ).toFixed(3);
+      return 5 + (prizeProps.all_tickets/1000)
     },
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
@@ -183,6 +196,7 @@ export default {
   }
   .prizes {
     background: #ffc508;
+    background-image: radial-gradient(ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%) !important;
     -webkit-text-fill-color: #000000;
     margin-top: 0px;
     display: -webkit-box;
@@ -190,8 +204,8 @@ export default {
     .sub {
       margin-left: 12px;
       margin-top: 0px;
-      width: 26%;
-      font-size: 18px;
+      width: 40%;
+      font-size: 17px;
       line-height: 20px;
     }
     .subdetail {

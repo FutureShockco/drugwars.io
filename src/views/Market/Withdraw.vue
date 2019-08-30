@@ -123,7 +123,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     steemengine() {
-      return this.$store.state.game.steemengine;
+      return this.$store.state.game.prizeProps.seProps;
     },
     prizeProps() {
       const { prizeProps } = this.$store.state.game;

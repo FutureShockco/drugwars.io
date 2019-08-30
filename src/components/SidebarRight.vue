@@ -4,5 +4,8 @@
         <div class="px-4">
             <Heist/>
         </div>
+        <div class="px-4">
+            <Lottery/>
+        </div>
     </div>
 </template>

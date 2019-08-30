@@ -78,14 +78,14 @@ export default {
     total() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
+        (parseFloat(prizePops.balance) * prizePops.steemprice)  / 100*
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100 * prizePops.daily_percent) /
         0.005
       );
     },

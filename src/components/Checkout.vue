@@ -60,17 +60,17 @@ export default {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
     priceInSteem() {
-      return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+      return parseFloat(this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return (this.priceInSteem * 2).toFixed(3);
+      return parseFloat(this.priceInSteem * 2).toFixed(3);
     },
     dwdPrice() {
-      const price = this.$store.state.game.steemengine.lastPrice || 0;
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD;
     },
     notEnoughDWD() {
-      return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
+      return parseFloat(this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;

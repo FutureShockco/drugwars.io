@@ -1,7 +1,7 @@
 <template>
     <div class="py-3  px-0 m-1 columns text-center border-bottom">
         <div class="column col-3 px-0">
-            <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :xp="player.xp" />
+            <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
             <div class="username" :class="{ 'text-blue' : player.gang === user.gang }">
                 {{ player.nickname }}
                 <div class="gang-label" v-if="player.ticker">
@@ -9,7 +9,7 @@
                 </div>
             </div>
         </div>
-        <div class="column px-0 col-2">
+        <div class="column px-0 col-3">
             <h5 class="production mt-0">
                 <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
                     <span>
@@ -25,7 +25,7 @@
                 <div class="text-gray">{{ shieldEnd | ms }}</div>
             </div>
         </div>
-        <div v-if="player.drug_production_rate" class="column col-3">
+        <div v-if="player.drug_production_rate" class="column col-4">
             <h5 class="production">
                 <span class="mr-3">
               <Icon name="drug" size="22"/>
@@ -41,7 +41,7 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player.drugs" class="column px-0  col-3">
+        <div v-else-if="player.drugs" class="column col-3">
             <h5 class="production">
                 <span class="mr-3">
               DEPOSIT : 
@@ -52,8 +52,8 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player && player.amount" class="column px-0  col-3">
-            <h5 class="production">
+        <div v-else-if="player && player.amount" class="column col-6">
+            <h5 class="production float-right">
                 <span class="mr-3">
               REWARDS : 
               <div>
@@ -63,7 +63,7 @@
             </span>
             </h5>
         </div>
-        <div class="column px-0  col-4">
+        <div class="column  col-2">
             <h5 class="production">
                 <span class="mr-3" v-if="player && rank && !player.amount">
                BONUS :
@@ -89,7 +89,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-  props: ['player', 'rank'],
+  props: ['player', 'rank','reputation'],
   data() {
     return {
       isLoading: false,

@@ -1,20 +1,23 @@
 <template>
-    <div class="pt-2 heist">
-        <h4>Heist</h4>
-        <img width="150px" :src="`/img/heist.jpg`">
-        <div class="heist-text text-center">
-             <div class="pt-2">Total {{ prizeProps.heist_pool | amount }}</div>
-        <div class="text-green">Vest: {{ totalVest | amount }} DRUGS</div>
-        <div class="text-yellow">+{{ ownHeistReward.amount }} ({{ownHeistReward.percent | amount}}%)</div>
+    <div class="pt-2 my-4 lottery">
+        <h4>Lottery</h4>
+        <img width="150px" :src="`/img/lottery.jpg`">
+        <div class="lottery-text text-center">
+        <div class="pt-2">TICKETS: {{myTickets}}</div>
+        <div class="text-green">Last winner : {{ lastWinner.nickname || 'government'}}</div>
+        <div class="text-yellow">Amount : {{ lastWinner.amount }} </div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">
-            <input class="input form-control input-block mb-2" v-model="amount" type="number" min="0">
-            <button :disabled="isLoading || Number(balances.drugs) < Number(amount)" type="submit" class="button button-red btn-block">
-    				<span v-if="!isLoading">Deposit</span>
-    				<SmallLoading v-else/>
-    			</button>
+               <input class="input form-control input-block mb-2" v-model="amount" type="number" min="1">
+              <button
+                :disabled="isLoading || waitingConfirmation || notEnoughDWD || !base"
+                type="submit" 
+                class="button btn-block button-yellow mb-2">
+              <img class="dwdicon" src="/img/icons/dwd.png"/>
+              <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
+                {{ priceInDWD  }} DWD
+              </button>
         </form>
-        <button :disabled="isLoading" @click="handleFullSubmit()" class="button button-blue btn-block">Deposit all</button>
     </div>
 </template>
 
@@ -27,18 +30,12 @@ export default {
   data() {
     return {
       isLoading: false,
-      amount: Math.round(this.$store.state.game.user.user.drugs_balance),
+      amount: 1,
     };
   },
   computed: {
     prizeProps() {
       return this.$store.state.game.prizeProps;
-    },
-    totalVest() {
-      return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
-    },
-    totalReward() {
-      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
     },
     user() {
       return this.$store.state.game.user.user;
@@ -46,32 +43,33 @@ export default {
     base() {
       return this.$store.state.game.mainbase;
     },
-    HQ() {
-      if (
-        this.base &&
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      ) {
-        return this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-      }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+    priceInSteem() {
+      return (this.priceInDWD * this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
-    totalHeistDWD() {
-      const { prizeProps } = this.$store.state.game;
-      return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
-        0.005
-      );
+    priceInDWD() {
+      return (this.amount * 0.001).toFixed(3);
+    },
+    dwdPrice() {
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
+      return price * this.priceInDWD;
+    },
+    notEnoughDWD() {
+      return this.priceInDWD > this.$store.state.game.user.user.dwd;
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return false;
+    },
+    myTickets(){
+      if(this.$store.state.game.user.lottery && this.$store.state.game.user.lottery[0])
+      {
+       return this.$store.state.game.user.lottery[0].ticket;
+
+      }
+      else return 0
+    },
+    lastWinner(){
+      return  this.$store.state.game.prizeProps.lotterywinner[0]
     },
     balances() {
       let ocLvl = 0;
@@ -121,30 +119,27 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['investHeist']),
+    ...mapActions(['send','init']),
     handleSubmit() {
       if (Number(this.amount) > 0) {
         this.isLoading = true;
         const payload = {
           amount: Math.round(Number(this.amount)),
-          territory: Number(this.base.territory),
-          base: Number(this.base.base),
+          type:'dw-lottery'
         };
-        this.investHeist(payload)
+        this.send(payload)
           .then(() => {
             Promise.delay(3000).then(() => {
+              this.init();
               this.isLoading = false;
-              this.amount = this.balances.drugs;
+              this.amount = 0;
             });
           })
           .catch(e => {
-            console.error('Failed to invest on heist', e);
+            console.error('Failed to buy ticket', e);
             this.isLoading = false;
           });
       }
-    },
-    handleFullSubmit() {
-      this.amount = Math.round(this.balances.drugs - parseInt((this.balances.drugs / 100) * 1));
     },
   },
 };
@@ -168,19 +163,31 @@ h4 {
   white-space: nowrap;
 }
 
-.heist{
+.lottery{
   position: relative;
 }
 
-.heist-text{
-  text-align: center;
+.lottery-text{
   color: white;
   text-transform: uppercase;
   font-weight: 700;
+  padding: 3px 25px;
   font-size: 11px;
   position: absolute;
-  left:32px;
-  top:26px;
+  top:20px;
   display: block!important;
+}
+
+.checkout {
+  text-align: center;
+  width: 180px;
+}
+
+.dwdicon {
+  width: 22px;
+  left: 0px;
+  position: relative;
+  float: left;
+  top: 5px;
 }
 </style>

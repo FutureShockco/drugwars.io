@@ -22,8 +22,8 @@
             <div>Last Price</div>
             <div
               class="text-yellow"
-            >${{1 *this.steemengine.lastPrice }} </div>
-						<div class="text-blue"> {{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(5)}} STEEM</div>
+            >${{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
+						<div class="text-blue"> {{parseFloat(1 *this.steemengine.lastPrice ).toFixed(5)}} STEEM</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Bid/Ask</div>
@@ -363,7 +363,7 @@
 				return this.$store.state.game.user.user;
 			},
 			steemengine() {
-				return this.$store.state.game.steemengine;
+				return this.$store.state.game.prizeProps.seProps;
 			},
 			prizeProps() {
 				const { prizeProps } = this.$store.state.game;

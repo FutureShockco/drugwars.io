@@ -131,7 +131,6 @@ const actions = {
                 dispatch('refresh_inc_transport_count');
                 dispatch('refresh_sent_station_count');
                 dispatch('refresh_inc_station_count');
-                dispatch('get_se_props');
                 resolve();
               });
             } else {

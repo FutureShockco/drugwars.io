@@ -10,13 +10,17 @@
             'width': `${size}px`,
             'height': `${size}px`,
            }" />
-            <span class="avatar-border" />
+            <span v-if="rank && rank <4" :class="'avatar-border' + rank" />
+            <span v-else class="avatar-border" />
             <span class="rank py-1 px-2" v-if="rank">
           Rank: {{ rank }}
         </span>
-            <span class="level py-1 px-2" v-if="xp">
+            <!-- <span class="level py-1 px-2" v-if="xp">
           Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
         </span>
+                    <span class="level py-1 px-2" v-if="reputation">
+          Reputation: {{ reputation }}
+        </span> -->
         </router-link>
         <!-- </Dropdown> -->
         <!-- <div v-else
@@ -46,7 +50,7 @@
 
 <script>
 export default {
-  props: ['username', 'size', 'xp', 'rank', 'picture'],
+  props: ['username', 'size', 'xp', 'rank', 'picture','reputation'],
   data() {
     return {
       config: {
@@ -111,7 +115,40 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border.png');
+    background-image: url('/img/avatar-border-black.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .avatar-border1 {
+    display: inline-block;
+    position: absolute;
+    top: -5%;
+    left: -12%;
+    bottom: -18%;
+    right: -10%;
+    background-image: url('/img/avatar-border-gold.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .avatar-border2 {
+    display: inline-block;
+    position: absolute;
+    top: -5%;
+    left: -12%;
+    bottom: -18%;
+    right: -10%;
+    background-image: url('/img/avatar-border-silver.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .avatar-border3 {
+    display: inline-block;
+    position: absolute;
+    top: -5%;
+    left: -12%;
+    bottom: -18%;
+    right: -10%;
+    background-image: url('/img/avatar-border-copper.png');
     background-size: contain;
     background-repeat: no-repeat;
   }

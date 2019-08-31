@@ -3,21 +3,18 @@
         <OverviewTabs/>
         <div class="p-4 text-center anim-fade-in">
             <h2>MOVE YOUR BASE TO ANOTHER SPOT</h2>
-            <Cost class="mx-auto" :drugsCost="5000000" :weaponsCost="5000000" :alcoholsCost="5000000" :quantity="1" />
-            <h5>Be carefull, nobody can recover your old location if you decide to move your base. You will keep all your buildings and your units.</h5>
+            <h5>Be carefull, nobody can recover your old location if you decide to move your base. You will keep all your buildings and your units. You can not move if you have any not ended fights.</h5>
            <h4>Current coordinates <div class="text-yellow">{{ownBase.territory}} : {{ownBase.base}}</div></h4>
-
             <form class="form container-xxs" @submit.prevent="handleSubmit">
               <h6>Territory </h6>
                 <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
                     <h6>Location </h6>
                 <input class="input input-primary mb-2" v-model="target_base" type="number"/>
             <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnough || !base ||!target_base || !target_territory"
-             @click="handleSubmit()" class="button btn-block button-green mb-2">
+             type="submit" class="button btn-block button-green mb-2">
             <template v-if="isLoading || waitingConfirmation">
                       <SmallLoading/>
               </template>
-
               <template v-else>
                   <i class="iconfont icon-tools" />
                   {{ upgradeLabel }}
@@ -25,11 +22,10 @@
               </button>
             <button
               :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !base ||!target_base || !target_territory"
-              @click="handleSubmit('dwd')"
               class="button btn-block button-yellow mb-2">
             <img class="dwdicon" src="/img/icons/dwd.png"/>
             <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
-              {{ priceInDWD  }} DWD
+              {{ price  }} DWD
             </button>
             </form>
             <h4 v-if="errorMessage" class="text-red">Please select a valid territory</h4>
@@ -71,20 +67,15 @@ export default {
     },
     price()
     {
-      return 5000000 /320000
+      return 100
     },
-    priceInSteem() {
-      return (this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
-    },
-    priceInDWD() {
-      return (this.priceInSteem * 2).toFixed(3);
-    },
+
     dwdPrice() {
-      const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
-      return price * this.priceInDWD;
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice ;
+      return (price * this.price) * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
-      return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
+      return this.price > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -182,48 +173,23 @@ export default {
         this.$store.state.ui.timestamp,
       );
     },
-    notEnough() {
-      return (
-        this.drugsCost > this.balances.drugs ||
-        this.weaponsCost > this.balances.weapons ||
-        this.alcoholsCost > this.balances.alcohols
-      );
-    },
-    drugsCost() {
-      return 5000;
-    },
-    weaponsCost() {
-      return 5000;
-    },
-    alcoholsCost() {
-      return 5000;
-    },
   },
   methods: {
     ...mapActions(['send','init']),
-    handleSubmit(use) {
+    handleSubmit() {
       const self = this;
       this.errorMessage = null;
-      let resource;
       if (this.target_territory > 460) {
         this.errorMessage = `Please choose a name for your base`;
       }
       if (this.target_base > 225) {
         this.errorMessage = `Please choose a shorter name for your base`;
       } 
-      if(use ==='dwd')
-      {
-        resource = 'dwd'
-      }
-      else{
-        resource = 'resource'
-      }
       if(!this.errorMessage)
       {
         this.isLoading = true;
         const payload = { 
         type: 'move-base',
-        resource:resource,
         from_territory: Number(self.ownBase.territory),
         from_base: Number(self.ownBase.base),
         territory: Number(self.target_territory),
@@ -235,7 +201,7 @@ export default {
           this.init();
         })
         .catch(e => {
-          this.notify({ type: 'error', message: 'Failed to move base' });
+          this.notify({ type: 'error', message: 'Failed to move base please check that the location is empty and you dont have any fight going from or coming to your base' });
           console.error('Failed to move base', e);
           this.isLoading = false;
         });

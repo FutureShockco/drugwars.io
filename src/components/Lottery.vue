@@ -10,11 +10,11 @@
         <form @submit.prevent="handleSubmit" class="mb-2">
                <input class="input form-control input-block mb-2" v-model="amount" type="number" min="1">
               <button
-                :disabled="isLoading || waitingConfirmation || notEnoughDWD || !base"
+                :disabled="isLoading  || notEnoughDWD || !base"
                 type="submit" 
                 class="button btn-block button-yellow mb-2">
               <img class="dwdicon" src="/img/icons/dwd.png"/>
-              <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
+              <span> ${{ dwdPrice | amount }} = </span>
                 {{ priceInDWD  }} DWD
               </button>
         </form>
@@ -51,7 +51,7 @@ export default {
     },
     dwdPrice() {
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
-      return price * this.priceInDWD;
+      return (price * this.priceInDWD) * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
       return this.priceInDWD > this.$store.state.game.user.user.dwd;

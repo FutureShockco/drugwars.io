@@ -34,7 +34,7 @@
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burn pending
-						<p class="text-yellow"> {{ this.prizeProps.total_burn - this.steemengine.nullBalance | amount }}</p>
+						<p class="text-yellow"> {{ (this.prizeProps.total_burn - this.steemengine.nullBalance) - (this.steemengine.nullBalance/100*25) | amount }}</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
 						Burnt

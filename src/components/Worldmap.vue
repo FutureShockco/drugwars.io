@@ -1,16 +1,25 @@
 <template>
     <div class="text-center py-1">
-        <button v-if="!showTargets" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
-        <button v-else @click.prevent="switchTargets" class="button button-red btnmapl">Hide Targets</button>
-        <button @click.prevent="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
+        <button v-if="!showTargets && !showAction" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
+        <button v-else-if="!showAction" @click.prevent="switchTargets" class="button button-red btnmapl">Hide Targets</button>
+        <button v-if="!showAction" @click.prevent="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
             <button class="button button-blue top text-center mt-5" :disabled="!selected">
                   <span v-if="main">VISIT</span>
                   <span v-else>CHOOSE AS MAIN TERRITORY</span>
                   </button>
         </router-link>
+            <MapAction :base="actionBase" :territory="actionTerritory" :targetNickname="nickname" :show="showAction" id="mapaction"/>
+                    <div v-if="showTargets && !isLoading">
+            <div v-if="target.territory !== 0 && !showAction" :key="target.nickname+target.base" :player="target" v-for="target in targets" >
+              <div :id="'bubble'+target.nickname" :class="target.nickname" class="plbubble bubble px-0 m-1 text-center anim-scale-in">
+                    <PlayerBubble  :player="target" />
+                    <button class="button button-red abs" @click="chooseTarget(target)"><span class="iconfont icon-target"></span></button>
+              </div>
+            </div>
+            </div>
         <div id="mapbg" class="mapbg">
-            <h3 class="title" id="title" style="opacity:0;">
+            <h3 class="title" id="title" style="opacity:0;" v-if="!showAction">
                 <div v-if="selected">{{selected.name}} {{selected.count}}</div>
                 <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
                 <div>INFORMATIONS</div>
@@ -18,12 +27,10 @@
                 <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
                 <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
             </h3>
-            <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
-            <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
-            <div v-if="showTargets && !isLoading">
-                <PlayerBubble class="plbubble" v-if="target.territory !== 0" :key="target.nickname" :player="target" v-for="target in targets" />
-            </div>
-            <div class="map-title" id="visit" style="opacity:0;">
+            <div class="crosshair" id="crosshairx" style="opacity:0;" v-if="!showAction"></div>
+            <div class="crosshairy" id="crosshairy" style="opacity:0;" v-if="!showAction"></div>
+
+            <div class="map-title" id="visit" style="opacity:0;" v-if="!showAction">
                 <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
                     <button class="button button-blue" :disabled="!selected">
                   <span v-if="main">VISIT</span>
@@ -67,15 +74,42 @@ export default {
       username: this.$store.state.auth.username,
       showTargets: true,
       selectedTerritory: null,
+      nickname:null,
+      actionBase:null,
+      actionTerritory:null,
+      showAction:false
     };
   },
   beforeDestroy() {
     this.clearScene(this.scene);
   },
+  computed:{
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
+     ownUnits() {
+      let units = [];
+        units = this.$store.state.game.user.units.map(
+          unit =>
+            unit.base === this.ownBase.base &&
+            unit.territory === this.ownBase.territory && {
+              key: unit.unit,
+              amount: unit.amount,
+            }
+        );
+      return units;
+    }
+  },
   methods: {
     prevent(e) {
       e.preventDefault();
       // else continue to route
+    },
+    chooseTarget(player){
+        this.actionBase = player.base;
+        this.actionTerritory = player.territory;
+            this.nickname = player.nickname;
+            this.showAction = true;
     },
     switchTargets() {
       this.showTargets = !this.showTargets;
@@ -117,8 +151,8 @@ export default {
             self.controls.enabled = true;
             self.controls.minZoom = 1;
             self.controls.maxZoom = 1;
-            self.controls.minDistance = 1.5;
-            self.controls.maxDistance = 2.5;
+            self.controls.minDistance = 1.2;
+            self.controls.maxDistance = 2.0;
             self.controls.screenSpacePanning = false;
             self.controls.mouseButtons = {
                 LEFT: THREE.MOUSE.LEFT,
@@ -352,7 +386,7 @@ export default {
                 for (var i = 0; i < self.textlabels.length; i++) {
                     self.textlabels[i].updatePosition();
                 }
-                if (self.scene.getObjectByName('territories') && self.selectedTerritory && visitButton) {
+                if (self.scene && self.scene.getObjectByName('territories') && self.selectedTerritory && visitButton) {
                     const boundingBox = self.selectedTerritory.object.geometry.boundingBox;
                     const position = new THREE.Vector3();
                     position.subVectors(boundingBox.max, boundingBox.min);
@@ -376,7 +410,7 @@ export default {
                         visitTitle.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
                     }
                 }
-                if (self.scene.getObjectByName('territories') && self.targets.length > 0 && self.showTargets) {
+                if (self.scene && self.scene.getObjectByName('territories') && self.targets.length > 0 && self.showTargets) {
                     self.targets.forEach(element => {
                         let search_territories = self.scene.getObjectByName('territories')
                         if (search_territories.children[element.territory - 1] && document.getElementById(`bubble${element.nickname}`)) {
@@ -718,6 +752,7 @@ export default {
                     self.selectedTerritory.object.material.color.set(0xff0000);
                     self.selected = {};
                     self.selected.name = self.selectedTerritory.object.material.name;
+                    self.nickname = self.selectedTerritory.object.material.name;
                     self.selected.count = self.selectedTerritory.object.material.userData.count;
                     self.selected.total_player = self.selectedTerritory.object.material.userData.total_player;
                     self.selected.dangerosity = self.selectedTerritory.object.material.userData.risk;
@@ -752,7 +787,7 @@ export default {
                     const allusers =[];
                     let time = 0;
                     users.forEach(element => {
-                        if(!allusers.find(t => t.territory === element.territory))
+                        if(!allusers.find(t => t.territory === element.territory || t.nickname === element.nickname))
                         {
                            allusers.push(element)
                         }
@@ -774,6 +809,21 @@ export default {
 
 <style scoped lang="less">
 @import '../vars';
+
+.bubble {
+    position: absolute;
+    width: 100px;
+}
+
+// #mapaction{
+//     display:none;
+// }
+.abs{
+    top:-10px;
+    left:65px;
+    border-radius:20px;
+      position: absolute;
+}
 
 .plbubble{
     opacity: 0;
@@ -859,4 +909,5 @@ img {
         display: none;
     }
 }
+
 </style>

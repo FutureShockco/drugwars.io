@@ -1,6 +1,6 @@
 <template>
-    <div :id="'bubble'+player.nickname" :class="player.nickname" class="bubble px-0 m-1 text-center anim-scale-in">
-        <Avatar class="mx-2" :size="size" :username="player.nickname" :rank="player.rank" :picture="player.picture" :xp="player.xp" :reputation="player.reputation" />
+    <div  class="bubble px-0 m-1 text-center ">
+        <AvatarBubble class="mx-2" :size="size" :username="player.nickname" :rank="player.rank" :picture="player.picture" :xp="player.xp" :reputation="player.reputation" />
         <div class="detail">
             <div class="busername" v-if="player.gang" :class="{ 'text-blue' : player.gang === user.gang }">
                 {{ player.nickname }}
@@ -54,10 +54,10 @@ export default {
         },
         size()
         {
-          if(this.player.drug_production_rate*10 > 80)
-          return 80
-          if((this.player.drug_production_rate*10 < 20))
-          return 20
+          if(this.player.drug_production_rate*10 > 100)
+          return 100
+          if((this.player.drug_production_rate*10 < 40))
+          return 40
           else{
             return (this.player.drug_production_rate*10)
           }

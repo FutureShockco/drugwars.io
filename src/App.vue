@@ -107,14 +107,14 @@ export default {
                 store.dispatch('refresh_inc_station_count');
                 store.dispatch('refresh_inc_fights');
                 store.dispatch('refresh_sent_fights');
-                self.attempt = 0;
+                self.attempt = 1;
               });
             } else {
               this.$router.push({ path: '/login' });
             }
           });
           self.attempt++;
-      }, 10000*self.attempt);
+      }, 5000*self.attempt);
 
     },    
     forceReconnect() {
@@ -131,7 +131,7 @@ export default {
             store.dispatch('refresh_inc_station_count');
             store.dispatch('refresh_inc_fights');
             store.dispatch('refresh_sent_fights');
-            self.attempt = 0;
+            self.attempt = 1;
           });
         } else {
           this.$router.push({ path: '/login' });

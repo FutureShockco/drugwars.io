@@ -72,11 +72,13 @@ const Fightboard = () =>
   import(/* webpackChunkName: "fightboard" */ '@/views/Leaderboards/Fightboard.vue');
 const Jobboard = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Leaderboards/Jobboard.vue');
+  const LotteryBoard = () =>
+  import(/* webpackChunkName: "lotteryboard" */ '@/views/Leaderboards/LotteryBoard.vue');
 
 const DeleteBuilding = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Settings/DeleteBuilding.vue');
 const SteemAccount = () =>
-  import(/* webpackChunkName: "jobboard" */ '@/views/Settings/SteemAccount.vue');
+  import(/* webpackChunkName: "steemaccount" */ '@/views/Settings/SteemAccount.vue');
 
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
@@ -396,6 +398,12 @@ export default new Router({
       name: 'jobboard',
       beforeEnter: requireAuth,
       component: Jobboard,
+    },
+    {
+      path: '/leaderboards/lottery',
+      name: 'lottery',
+      beforeEnter: requireAuth,
+      component: LotteryBoard,
     },
     {
       path: '/map',

@@ -5,6 +5,7 @@
       <UiTab to="/leaderboards/heist">Heist</UiTab>
       <UiTab to="/leaderboards/fights">Hall of fame</UiTab>
       <UiTab to="/leaderboards/jobs">Job</UiTab>
+      <UiTab to="/leaderboards/lottery">Lottery</UiTab>
     </UiTabs>
                 <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

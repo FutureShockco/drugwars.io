@@ -18,11 +18,10 @@
     				>Follow us on Youtube</a>
     				<button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
     			</UiCenter>
-          	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube" @change="reconnect()">
-              <h5>A new patch has been released!</h5>
-              <div class="text-green" v-if="attempt<3">Automatic reconnection... in {{ attempt * 5000|ms}}</div>
-               <div class="text-red" v-else>Automatic reconnection failed! Try to reconnect</div>
-    				<button class="button button-green" id="show-modal" v-if="attempt>2" @click="forceReconnect()" >Reconnect</button>
+          	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
+              <h5>Pops something went wrong!</h5>
+              <div class="text-red" >Try to reconnect</div>
+    				<button class="button button-green" id="show-modal"  @click="forceReconnect()" >Reconnect</button>
     			</UiCenter>
     			<TopNav v-if="username"/>
     			<Sidebars v-if="username && showSidebar"/>
@@ -91,25 +90,6 @@ export default {
       localStorage.setItem('firstime', true);
       this.modalIsOpen = true;
     },
-    reconnect() {
-      const self = this;
-      if(self.attempt<3)
-      setTimeout(() => {
-          client.restart();
-          store.dispatch('login').then(() => {
-            if (store.state.auth.username) {
-              store.dispatch('init').then(() => {
-                
-                self.attempt = 1;
-              });
-            } else {
-              this.$router.push({ path: '/login' });
-            }
-          });
-          self.attempt++;
-      }, 5000*self.attempt);
-
-    },    
     forceReconnect() {
       const self = this;
       client.restart();

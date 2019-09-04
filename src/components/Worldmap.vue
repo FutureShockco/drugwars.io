@@ -19,7 +19,7 @@
             </div>
             </div>
         <div id="mapbg" class="mapbg">
-            <h3 class="title" id="title" style="opacity:0;" v-if="!showAction">
+            <h3 class="title" id="title" style="opacity:0;" >
                 <div v-if="selected">{{selected.name}} {{selected.count}}</div>
                 <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
                 <div>INFORMATIONS</div>
@@ -27,10 +27,10 @@
                 <h5 class="mt-0" v-if="selected && selected.total_player">TOTAL BASES : {{selected.total_player}}</h5>
                 <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
             </h3>
-            <div class="crosshair" id="crosshairx" style="opacity:0;" v-if="!showAction"></div>
-            <div class="crosshairy" id="crosshairy" style="opacity:0;" v-if="!showAction"></div>
+            <div class="crosshair" id="crosshairx" style="opacity:0;" ></div>
+            <div class="crosshairy" id="crosshairy" style="opacity:0;" ></div>
 
-            <div class="map-title" id="visit" style="opacity:0;" v-if="!showAction">
+            <div class="map-title" id="visit" style="opacity:0;" >
                 <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
                     <button class="button button-blue" :disabled="!selected">
                   <span v-if="main">VISIT</span>
@@ -110,6 +110,14 @@ export default {
         this.actionTerritory = player.territory;
             this.nickname = player.nickname;
             this.showAction = true;
+                        const visitTitle = document.getElementById('title');
+            const visitButton = document.getElementById('visit');
+            const crosshairx = document.getElementById('crosshairx');
+            const crosshairy = document.getElementById('crosshairy');
+            crosshairx.style.opacity = 0;
+            crosshairy.style.opacity = 0;
+            visitTitle.style.opacity = 0;
+            visitButton.style.opacity = 0;
     },
     switchTargets() {
       this.showTargets = !this.showTargets;

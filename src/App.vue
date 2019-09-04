@@ -19,7 +19,7 @@
     				<button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
     			</UiCenter>
           	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
-              <h5>Pops something went wrong!</h5>
+              <h5>Oops something went wrong!</h5>
               <div class="text-red" >Try to reconnect</div>
     				<button class="button button-green" id="show-modal"  @click="forceReconnect()" >Reconnect</button>
     			</UiCenter>
@@ -78,13 +78,7 @@ export default {
       return true;
     },
   },
-  updated(){
-     if (store.state.auth.username) 
-      {
-        if(!this.$store.state.game.isconnected)
-        this.reconnect();
-      }
-  },
+
   methods: {
     closeModal() {
       localStorage.setItem('firstime', true);

@@ -63,6 +63,16 @@
             </span>
             </h5>
         </div>
+        <div v-else-if="player && player.ticket" class="column col-6">
+            <h5 class="production float-right">
+                <span class="mr-3">
+              TICKET : 
+              <div>
+              {{ player.ticket }}
+              </div>
+            </span>
+            </h5>
+        </div>
         <div class="column  col-2">
             <h5 class="production">
                 <span class="mr-3" v-if="player && rank && !player.amount">

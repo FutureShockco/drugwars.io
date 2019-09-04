@@ -11,7 +11,7 @@
         </router-link>
             <MapAction :base="actionBase" :territory="actionTerritory" :targetNickname="nickname" :show="showAction" id="mapaction"/>
                     <div v-if="showTargets && !isLoading">
-            <div v-if="target.territory !== 0 && !showAction" :key="target.nickname+target.base" :player="target" v-for="target in targets" >
+            <div v-if="target.territory !== 0 && !showAction" :key="target.nickname+target.base+target.territory" :player="target" v-for="target in targets" >
               <div :id="'bubble'+target.nickname" :class="target.nickname" class="plbubble bubble px-0 m-1 text-center anim-scale-in">
                     <PlayerBubble  :player="target" />
                     <button class="button button-red abs" @click="chooseTarget(target)"><span class="iconfont icon-target"></span></button>

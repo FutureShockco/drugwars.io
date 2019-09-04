@@ -66,7 +66,7 @@
         <div v-else-if="player && player.ticket" class="column col-6">
             <h5 class="production float-right">
                 <span class="mr-3">
-              TICKET : 
+              TICKETS : 
               <div>
               {{ player.ticket }}
               </div>

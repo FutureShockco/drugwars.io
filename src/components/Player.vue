@@ -66,7 +66,7 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player && player.ticket" class="column col-6">
+        <div v-else-if="player && player.ticket" class="column col-7">
             <h5 class="production float-right">
                 <span class="mr-3">
               TICKETS : 

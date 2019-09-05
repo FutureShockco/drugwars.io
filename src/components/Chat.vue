@@ -78,7 +78,7 @@ import io from 'socket.io-client';
 
 if (socket) socket.disconnect();
 
-const socket = new io.connect('http://localhost:8082/');
+const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 
 export default {
   data() {

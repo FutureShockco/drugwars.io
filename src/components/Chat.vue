@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="black p-0">
-            <button class="button white" @click="displayChat()">Main</button>
+            <button class="button white" @click="displayChat()">Public</button>
             <button v-if="user.gang" class="button white" @click="displayGangChat()">
     				Gang
     			</button>
-            <button class="button black">
+            <button class="button black" >
     				Private
     			</button>
             <button @click="displayUsers()" class="button white">
@@ -15,16 +15,18 @@
         </div>
         <div v-if="showChat" class="chat">
             <div :key="response.id" v-for="response in responses" class="border-bottom">
-                <div class="text-left item width-full">
+                <div class="text-left item width-full p-2">
                     <div class="columns">
-                        <div class="column pl-1 col-3">
+                        <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                             </div>
-                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
-                            <h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
+                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
-                        <div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        <div class="column col-8 mt-0 px-0 message text-left">
+                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                      <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
                     </div>
                 </div>
@@ -32,24 +34,45 @@
         </div>
         <div v-if="gangChat" class="gangchat">
             <div :key="response.id" v-for="response in gangresponses" class="border-bottom">
-                <div  class="text-left item width-full">
-                    <div class="columns">
-                        <div class="column pl-1 col-3">
+                <div  class="text-left item width-full p-2">
+                                     <div class="columns">
+                        <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
+                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                             </div>
-                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
-                            <h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
+                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
-                        <div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        <div class="column col-8 mt-0 px-0 message text-left">
+                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                      <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-if="showUsers" class="users text-left">
+        <div v-if="privateChat" class="privatechat">
+            <div :key="response.id" v-for="response in privateresponses" class="border-bottom">
+                <div  class="text-left item width-full p-2">
+                                     <div class="columns">
+                        <div class="column pl-3 pr-0 col-2">
+                            <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
+                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                            </div>
+                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
+                        </div>
+                        <div class="column col-8 mt-0 px-0 message text-left">
+                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                      <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        </div>
+                        <div class="column date pr-0 col-1">{{response.date}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showUsers" class="users text-center">
             <div :key="member.id" v-for="member in members" class="border-bottom text-center">
-                <Avatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" />
+                <Avatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" :reputation="'none'"/>
                 <h5 class="mt-1 sender">{{member.name}} {{member.gang}}</h5>
             </div>
         </div>
@@ -94,6 +117,7 @@ export default {
       showUsers: false,
       gangChat: false,
       privateChat: false,
+      receiver:null,
       message: null,
       user: this.$store.state.game.user.user,
       applies: null,
@@ -101,6 +125,7 @@ export default {
       autoscroll: false,
       responses: [],
       gangresponses: [],
+      privateresponses: []
     };
   },
   created() {
@@ -136,9 +161,15 @@ export default {
     socket.on('update-chat', messages => {
       self.responses = messages;
     });
+
+    socket.on('update-private-chat', messages => {
+      self.privateresponses = messages;
+    });
+
     socket.on('update-gang-chat', messages => {
       self.gangresponses = messages;
     });
+
     socket.on('blocked', messages => {
       self.responses = messages;
       self.responses.push({
@@ -170,9 +201,13 @@ export default {
         {
         channel ="public";
         }
-        else
+        else if(self.gangChat)
         {
         channel = self.user.gang;
+        }
+        else if(self.privateChat)
+        {
+          channel = receiver;
         }
         this.isLoading = true;
         const message = this.message;
@@ -209,6 +244,13 @@ export default {
       this.showUsers = false;
       this.scrollToEnd();
     },
+    displayPrivateChat() {
+      this.showChat = false;
+      this.gangChat = false;
+      this.privateChat = true;
+      this.showUsers = false;
+      this.scrollToEnd();
+    },
     scrollToEnd() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
               container.scrollTop = container.scrollHeight;
@@ -239,6 +281,11 @@ export default {
 .message {
   color: whitesmoke;
   overflow-wrap: break-word;
+  font-size: 13px;
+}
+
+.sender{
+  font-size: 10px;
 }
 
 img {
@@ -262,8 +309,10 @@ img {
 .sender {
   padding-top: 10px;
   padding-bottom: 0px;
-  left: 20px !important;
   font-size: 14px;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .reply {

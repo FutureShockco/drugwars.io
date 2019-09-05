@@ -19,7 +19,7 @@
     				<button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
     			</UiCenter>
           	<UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
-              <h5>Oops something went wrong!</h5>
+              <h5>A new patch has been released!</h5>
               <div class="text-red" >Try to reconnect</div>
     				<button class="button button-green" id="show-modal"  @click="forceReconnect()" >Reconnect</button>
     			</UiCenter>

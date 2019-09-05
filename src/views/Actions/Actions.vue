@@ -467,7 +467,7 @@ export default {
       const myarmy = this.ownUnits.map(unit => 
         this.serialize({
           p: 1,
-          key: unit.unit,
+          key: unit.key,
           n: unit.amount,
         }),
       );

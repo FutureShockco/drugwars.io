@@ -2,11 +2,14 @@
     <div class="py-3  px-0 m-1 columns text-center border-bottom">
         <div class="column col-3 px-0">
             <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
-            <div class="username" :class="{ 'text-blue' : player.gang === user.gang }">
+            <div v-if="player.gang" class="username" :class="{ 'text-blue' : player.gang === user.gang }" >
                 {{ player.nickname }}
                 <div class="gang-label" v-if="player.ticker">
                     [{{ player.ticker }}]
                 </div>
+            </div>
+            <div v-else class="username text-purple">
+                {{ player.nickname }}
             </div>
         </div>
         <div class="column px-0 col-3">

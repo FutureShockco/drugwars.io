@@ -1,15 +1,14 @@
 <template>
     <div>
         <LeaderboardsTabs/>
-        <Paginate class="ml-6 mt-4 text-center width-full" :page-count="Math.ceil(count/50)" :page-range="3" :margin-pages="2" :click-handler="load_leaders" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'leaders'"></Paginate>
-        <div class="p-4">
+        <div >
             <Player class="leaders" v-for="(user, key) in users" :player="user" :key="user.username"  :rank="key + currentRank + 1">
             </Player>
             <p v-if="!users || !users.length">
                 <Loading/>
             </p>
         </div>
-        <Paginate class="ml-6 mb-4 mt-0 text-center width-full" :page-count="Math.ceil(count/50)" :page-range="3" :margin-pages="2" :click-handler="load_leaders" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'leaders'"></Paginate>
+                <Paginate class="ml-6 mt-4 text-center width-full" :page-count="Math.ceil(count/50)" :page-range="3" :margin-pages="2" :click-handler="load_leaders" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'leaders'"></Paginate>
     </div>
 </template>
 

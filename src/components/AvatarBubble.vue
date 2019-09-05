@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <Dropdown v-if="username != user.nickname" :config="config" :prefix="username"> -->
         <div class="avatar" :style="{
           'width': `${size}px`,
           'height': `${size}px`,
@@ -15,36 +14,13 @@
             <span class="rank py-1 px-2" v-if="rank">
           Rank: {{ rank }}
         </span>
-            <!-- <span class="level py-1 px-2" v-if="xp">
-          Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
+                   <span class="prestige py-1 px-2" v-if="reputation">
+          Prestige: {{ reputation }}
         </span>
-                    <span class="level py-1 px-2" v-if="reputation">
-          Reputation: {{ reputation }}
-        </span> -->
+                           <span class="prestige py-1 px-2" v-else>
+          Prestige: 1000
+        </span>
         </div>
-        <!-- </Dropdown> -->
-        <!-- <div v-else
-        class="avatar"
-        :style="{
-          'width': `${size}px`,
-          'height': `${size}px`,
-        }"
-      >
-        <span class="avatar-img"
-          :style="{
-            'background-image': `url(${picture}`,
-            'width': `${size}px`,
-            'height': `${size}px`,
-           }"
-        />
-        <span class="avatar-border"/>
-        <span class="rank py-1 px-2" v-if="rank">
-          Rank: {{ rank }}
-        </span>
-        <span class="level py-1 px-2" v-if="xp">
-          Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
-        </span>
-      </div> -->
     </div>
 </template>
 
@@ -102,12 +78,7 @@ export default {
     left: -40px;
     font-size: 10px;
   }
-  .rank {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: -40px;
-  }
+  
   .avatar-border {
     display: inline-block;
     position: absolute;

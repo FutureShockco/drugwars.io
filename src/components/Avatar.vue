@@ -15,6 +15,12 @@
             <span class="rank py-1 px-2" v-if="rank">
           Rank: {{ rank }}
         </span>
+                   <span class="prestige py-1 px-2" v-if="reputation">
+          Prestige: {{ reputation }}
+        </span>
+                           <span class="prestige py-1 px-2" v-else>
+          Prestige: 1000
+        </span>
             <!-- <span class="level py-1 px-2" v-if="xp">
           Level: {{ parseFloat(((Math.sqrt(625 + 100 * xp) - 25) / 50) + 1).toFixed(0) }}
         </span>

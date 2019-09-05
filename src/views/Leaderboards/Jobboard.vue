@@ -11,7 +11,7 @@
     
         <div class="mb-4" v-else>
     
-            <Player v-for="user in users" :player="user" :key="user.username" />
+            <Player  v-for="(user, key) in users" :player="user" :key="user.username" :rank="key + 1"/>
     
         </div>
     

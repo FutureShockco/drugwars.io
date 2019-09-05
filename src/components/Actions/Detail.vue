@@ -28,7 +28,7 @@
         <ActionsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
         <h5 v-if="detail && detail.trainings">TRAINING :</h5>
         <ActionsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings" />
-        <div v-if="detail">
+        <div >
             <a @click="openInNewTab()">Open in the simulator</a>
         </div>
     </div>

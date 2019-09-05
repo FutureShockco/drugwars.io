@@ -12,11 +12,11 @@
                 {{ player.nickname }}
             </div>
         </div>
-        <div class="column px-0 col-3">
+        <div class="column px-0 col-2">
             <h5 class="production mt-0">
                 <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
                     <span>
-              {{player.role}} OF {{player.gang}}    
+              {{player.gang}}'s {{player.role}}
               <div>[{{ player.ticker }}]</div>
             </span>
                 </router-link>
@@ -28,7 +28,7 @@
                 <div class="text-gray">{{ shieldEnd | ms }}</div>
             </div>
         </div>
-        <div v-if="player.drug_production_rate" class="column col-4">
+        <div v-if="player.drug_production_rate" class="column col-3">
             <h5 class="production">
                 <span class="mr-3">
               <Icon name="drug" size="22"/>
@@ -55,7 +55,7 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player && player.amount" class="column col-6">
+        <div v-else-if="player && player.amount" class="column col-7">
             <h5 class="production float-right">
                 <span class="mr-3">
               REWARDS : 
@@ -78,7 +78,7 @@
         </div>
         <div class="column  col-2">
             <h5 class="production">
-                <span class="mr-3" v-if="player && rank && !player.amount">
+                <span class="mr-3" v-if="player && rank && !player.amount && rank <11">
                BONUS :
               <div>
               {{ Math.round(10/rank) | amount}}
@@ -87,13 +87,28 @@
             </span>
             </h5>
         </div>
-        <!-- <div class="column  col-2">
-            <button v-if="ownSpy"
-          :disabled="isLoading || waitingConfirmation || !ownSpy"
-          @click="handleSubmit()"
-          class="button btn-block button-red mb-2"
-        >SPY</button>
-        </div> -->
+                <div v-if="player.drug_production_rate && totalRewards" class="column col-2">
+            <h5 class="production">
+                <span class="mr-3">
+              REWARDS : 
+               <div>
+              <Icon name="dwd" size="22"/>
+               {{totalRewards.daily | amount }}
+              </div>
+            </span>
+            </h5>
+        </div>
+         <div v-if="player.drugs" class="column col-2">
+            <h5 class="production">
+              <span class="mr-3">
+              REWARDS : 
+               <div>
+              <Icon name="dwd" size="22"/>
+              {{ ownHeistReward.amount | amount }}
+              </div>
+            </span>
+            </h5>
+        </div>
     </div>
 </template>
 
@@ -137,6 +152,45 @@ export default {
           }
         );
       return 0;
+    },
+    prizeProps() {
+      return this.$store.state.game.prizeProps;
+    },
+    total() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return (
+        (parseFloat(prizePops.balance) * prizePops.steemprice)  / 100*
+        (prizePops.daily_percent + prizePops.heist_percent)
+      );
+    },
+    totalDailyDWD() {
+      const prizePops = this.$store.state.game.prizeProps;
+      return (
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100 * prizePops.daily_percent) /
+        0.005
+      );
+    },
+    totalRewards() {
+      const daily = parseFloat(
+        (this.player.drug_production_rate / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
+      ).toFixed(3);
+      return { daily };
+    },
+        totalHeistDWD() {
+      const { prizeProps } = this.$store.state.game;
+      return (
+        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
+          prizeProps.heist_percent) /
+        0.005
+      );
+    },
+    ownHeistReward() {
+      const percent = (100 / this.prizeProps.heist_pool) * this.player.drugs;
+      const amount = parseFloat((this.totalHeistDWD / 100) * percent).toFixed(3);
+      return {
+        amount,
+        percent,
+      };
     },
   },
   methods: {

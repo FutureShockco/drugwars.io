@@ -55,12 +55,12 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player && player.amount" class="column col-7">
-            <h5 class="production float-right">
+        <div v-else-if="player && player.amount" class="column  col-5">
+            <h5 class="production">
                 <span class="mr-3">
               REWARDS : 
               <div>
-              {{ player.amount }}
+              +{{ player.amount }}
               <Icon name="dwd" size="22"/>
               </div>
             </span>
@@ -76,35 +76,35 @@
             </span>
             </h5>
         </div>
-        <div class="column  col-2">
-            <h5 class="production">
-                <span class="mr-3" v-if="player && rank && !player.amount && rank <11">
-               BONUS :
-              <div>
-              {{ Math.round(10/rank) | amount}}
-              <Icon name="dwd" size="22"/>
-              </div>
-            </span>
-            </h5>
-        </div>
-                <div v-if="player.drug_production_rate && totalRewards" class="column col-2">
+        <div v-if="player.drug_production_rate && totalRewards" class="column px-0  col-2">
             <h5 class="production">
                 <span class="mr-3">
               REWARDS : 
                <div>
               <Icon name="dwd" size="22"/>
-               {{totalRewards.daily | amount }}
+               +{{totalRewards.daily | amount }}
               </div>
             </span>
             </h5>
         </div>
-         <div v-if="player.drugs" class="column col-2">
+         <div v-if="player.drugs" class="column  px-0  col-2">
             <h5 class="production">
               <span class="mr-3">
               REWARDS : 
                <div>
               <Icon name="dwd" size="22"/>
-              {{ ownHeistReward.amount | amount }}
+              +{{ ownHeistReward.amount | amount }}
+              </div>
+            </span>
+            </h5>
+        </div>
+        <div class="column  col-2">
+            <h5 class="production">
+                <span class="mr-3" v-if="player && rank && rank <11">
+               BONUS :
+              <div>
+              {{ Math.round(10/rank) | amount}}
+              <Icon name="dwd" size="22"/>
               </div>
             </span>
             </h5>

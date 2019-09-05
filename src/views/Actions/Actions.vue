@@ -464,7 +464,7 @@ export default {
     },
     openInNewTab() {
       const url = 'https://simulator.drugwars.io/';
-      const myarmy = this.$store.state.game.user.units.map(unit =>
+      const myarmy = this.ownUnits.map(unit => 
         this.serialize({
           p: 1,
           key: unit.unit,

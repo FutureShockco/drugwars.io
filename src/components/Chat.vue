@@ -2,13 +2,11 @@
     <div>
         <div class="black p-0">
             <button class="button white" @click="displayChat()">Main</button>
-            <button class="button black">
+            <button class="button white" @click="displayGangChat()">
     				Gang
-    				<span class="text-red">0</span>
     			</button>
             <button class="button black">
     				Private
-    				<span class="text-red">0</span>
     			</button>
             <button @click="displayUsers()" class="button white">
     				Users
@@ -32,6 +30,23 @@
                 </div>
             </div>
         </div>
+        <div v-if="gangChat" class="gangchat">
+            <div :key="response.id" v-for="response in gangresponses" class="border-bottom">
+                <div  class="text-left item width-full">
+                    <div class="columns">
+                        <div class="column pl-1 col-3">
+                            <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
+                                <Avatar :size="40" :username="response.sender" :picture="response.picture" />
+                            </div>
+                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" />
+                            <h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
+                        </div>
+                        <div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
+                        <div class="column date pr-0 col-1">{{response.date}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div v-if="showUsers" class="users text-left">
             <div :key="member.id" v-for="member in members" class="border-bottom text-center">
                 <Avatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" />
@@ -41,7 +56,6 @@
         <div v-else class="px-4 pt-2 reply text-center">
             <Loading v-if="isLoading" />
             <div v-else>
-                <div class="float-right">Auto <span class="text-green" v-if="autoscroll">On</span><span class="text-red" v-else>Off</span></div>
                 <div class="columns">
                     <h5 class="pt-0 mt-0">your message</h5>
                     <div class="column pl-0 col-10">
@@ -64,7 +78,7 @@ import io from 'socket.io-client';
 
 if (socket) socket.disconnect();
 
-const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+const socket = new io.connect('http://localhost:8082/');
 
 export default {
   data() {
@@ -74,7 +88,9 @@ export default {
       isLoading: false,
       gang: null,
       members: [],
+      gangmembers: [],
       showChat: true,
+      showGangChat: false,
       showUsers: false,
       gangChat: false,
       privateChat: false,
@@ -84,12 +100,23 @@ export default {
       info: null,
       autoscroll: false,
       responses: [],
+      gangresponses: [],
     };
   },
   created() {
     const token = localStorage.getItem('access_token');
     const self = this;
     socket.emit('add-user', { token });
+    socket.on('read-gang-msg', message => {
+      self.gangresponses.push({
+        text: message.text,
+        sender: message.sender,
+        gang: message.gang,
+        picture: message.picture,
+        date: message.date,
+      });
+        self.scrollToEnd();
+    });
     socket.on('read-msg', message => {
       self.responses.push({
         text: message.text,
@@ -98,6 +125,7 @@ export default {
         picture: message.picture,
         date: message.date,
       });
+        self.scrollToEnd();
     });
     socket.on('user-connected', userId => {
       self.members.push(userId);
@@ -107,6 +135,9 @@ export default {
     });
     socket.on('update-chat', messages => {
       self.responses = messages;
+    });
+    socket.on('update-gang-chat', messages => {
+      self.gangresponses = messages;
     });
     socket.on('blocked', messages => {
       self.responses = messages;
@@ -126,24 +157,34 @@ export default {
     }, 500);
   },
   updated() {
-    if (this.isAtBottom()) this.scrollToEnd();
+      if (this.isAtBottom()) this.scrollToEnd();
   },
   methods: {
     ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
     handleSubmit() {
       if (this.message.length > 0) {
-        this.isLoading = true;
+        let channel ="";
         const self = this;
+        if(self.showChat)
+        {
+        channel ="public";
+        }
+        else
+        {
+        channel = self.user.gang;
+        }
+        this.isLoading = true;
         const message = this.message;
         const token = localStorage.getItem('access_token');
         socket.emit('send-msg', {
           token,
           message,
+          channel
         });
         this.message = null;
         setTimeout(() => {
           this.scrollToEnd();
-        }, 500);
+        }, 1500);
         this.isLoading = false;
       }
     },
@@ -159,15 +200,21 @@ export default {
       this.privateChat = false;
       this.showUsers = false;
     },
+    displayGangChat() {
+      this.showChat = false;
+      this.gangChat = true;
+      this.privateChat = false;
+      this.showUsers = false;
+    },
     scrollToEnd() {
-      const container = this.$el.querySelector('.chat');
-      container.scrollTop = container.scrollHeight;
+      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
+              container.scrollTop = container.scrollHeight;
     },
     isAtBottom() {
-      const container = this.$el.querySelector('.chat');
-      if (container.scrollTop + 610 > container.scrollHeight) this.autoscroll = true;
-      else this.autoscroll = false;
-      return container.scrollTop + 610 > container.scrollHeight;
+      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
+          if (container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
+          else this.autoscroll = false;
+          return container.scrollTop + 650 > container.scrollHeight;
     },
     checkUrl(url) {
       try {
@@ -196,6 +243,13 @@ img {
 }
 
 .chat {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 360px);
+  width: 100%;
+}
+
+.gangchat {
   overflow-y: scroll;
   overflow-x: hidden;
   height: calc(100vh - 360px);

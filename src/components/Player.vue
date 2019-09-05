@@ -245,10 +245,6 @@ export default {
 
 <style scoped lang="less">
 @import '../vars.less';
-.rank {
-  margin: 8px 0;
-}
-
 .icon {
   margin-bottom: -5px;
 }

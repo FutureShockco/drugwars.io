@@ -108,12 +108,6 @@ export default {
     left: -40px;
     font-size: 10px;
   }
-  .rank {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: -40px;
-  }
   .avatar-border {
     display: inline-block;
     position: absolute;

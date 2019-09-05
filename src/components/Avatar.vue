@@ -15,10 +15,10 @@
             <span class="rank py-1 px-2" v-if="rank">
           Rank: {{ rank }}
         </span>
-                   <span class="prestige py-1 px-2" v-if="reputation">
+                   <span class="prestige py-1 px-2" v-if="reputation && reputation!='none'">
           Prestige: {{ reputation }}
         </span>
-                           <span class="prestige py-1 px-2" v-else>
+                           <span class="prestige py-1 px-2" v-else-if="!reputation || reputation!='none'">
           Prestige: 1000
         </span>
             <!-- <span class="level py-1 px-2" v-if="xp">

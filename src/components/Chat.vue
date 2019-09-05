@@ -2,7 +2,7 @@
     <div>
         <div class="black p-0">
             <button class="button white" @click="displayChat()">Main</button>
-            <button class="button white" @click="displayGangChat()">
+            <button v-if="user.gang" class="button white" @click="displayGangChat()">
     				Gang
     			</button>
             <button class="button black">
@@ -19,9 +19,9 @@
                     <div class="columns">
                         <div class="column pl-1 col-3">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="40" :username="response.sender" :picture="response.picture" />
+                                <Avatar :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                             </div>
-                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" />
+                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                             <h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
                         </div>
                         <div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
@@ -36,9 +36,9 @@
                     <div class="columns">
                         <div class="column pl-1 col-3">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="40" :username="response.sender" :picture="response.picture" />
+                                <Avatar :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                             </div>
-                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" />
+                            <Avatar v-else :size="40" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                             <h5 class="mt-1 sender">{{response.sender}} {{response.gang}}</h5>
                         </div>
                         <div class="column col-7 message text-left" v-if="response.text" v-html="checkUrl(response.text)"></div>
@@ -157,6 +157,7 @@ export default {
     }, 500);
   },
   updated() {
+    this.scrollToEnd();
       if (this.isAtBottom()) this.scrollToEnd();
   },
   methods: {
@@ -199,12 +200,14 @@ export default {
       this.gangChat = false;
       this.privateChat = false;
       this.showUsers = false;
+      this.scrollToEnd();
     },
     displayGangChat() {
       this.showChat = false;
       this.gangChat = true;
       this.privateChat = false;
       this.showUsers = false;
+      this.scrollToEnd();
     },
     scrollToEnd() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');

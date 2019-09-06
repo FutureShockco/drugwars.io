@@ -5,8 +5,12 @@
                 <div class="vb-header">
                     <div class="vb-title" v-if="concise && !maximized && !hideConciseButton" @click="changeState(false)">{{ title }}</div>
                     <div class="vb-title" v-else @click="changeState(true)">{{ title }}</div>
-    
                     <div class="vb-buttons">
+                      <i class="text-red iconfont icon-info" aria-hidden="true" v-if="newmessage">Public</i>
+                                            <i class="text-red iconfont icon-info" aria-hidden="true" v-if="newprivatemessage">{{newprivatemessage}}</i>
+
+                      <i class="text-red iconfont icon-info" aria-hidden="true" v-if="newgangmessage">Gang Talk</i>
+
                         <i class="iconfont icon-arrow-up" aria-hidden="true" v-if="concise && !maximized && !hideConciseButton" @click="changeState(false)"></i>
                         <i class="iconfont icon-arrow-down" aria-hidden="true" v-if="!concise && !maximized && !hideConciseButton" @click="changeState(true)"></i>
                         <i class='iconfont icon-x' aria-hidden='true' v-if="(showCloseWhenMaximized || !maximized) && !hideCloseButton" @click='close'></i>
@@ -14,7 +18,7 @@
                 </div>
                 <div class="vb-content">
                     <div class="vb-content-slot">
-                        <Chat v-if="showChat" />
+                        <Chat v-if="showChat"  />
                     </div>
                 </div>
             </div>
@@ -85,7 +89,10 @@ export default {
     return {
       concise: this.initiallyConcise,
       closed: false,
-      showChat: false,
+      showChat: true,
+      newmessage:false,
+      newgangmessage:false,
+      newprivatemessage:false
     };
   },
 

@@ -159,14 +159,17 @@ export default {
       self.responses = messages;
     });
     socket.on('update-chat', messages => {
+         this.$parent.$data.newmessage = true;
       self.responses = messages;
     });
 
     socket.on('update-private-chat', messages => {
+         this.$parent.$data.newprivatemessage = true;
       self.privateresponses = messages;
     });
 
     socket.on('update-gang-chat', messages => {
+         this.$parent.$data.newgangmessage = true;
       self.gangresponses = messages;
     });
 
@@ -235,6 +238,7 @@ export default {
       this.gangChat = false;
       this.privateChat = false;
       this.showUsers = false;
+      this.$parent.$data.newmessage = false;
       this.scrollToEnd();
     },
     displayGangChat() {
@@ -242,6 +246,7 @@ export default {
       this.gangChat = true;
       this.privateChat = false;
       this.showUsers = false;
+      this.$parent.$data.newgangmessage = false;
       this.scrollToEnd();
     },
     displayPrivateChat() {
@@ -249,6 +254,7 @@ export default {
       this.gangChat = false;
       this.privateChat = true;
       this.showUsers = false;
+      this.$parent.$data.newprivatemessage = false;
       this.scrollToEnd();
     },
     scrollToEnd() {

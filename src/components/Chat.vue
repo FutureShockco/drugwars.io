@@ -186,7 +186,6 @@ export default {
     socket.on('update-users', users => {
       self.members = users;
     });
-    this.$parent.$data.newmessage = false;
     setTimeout(() => {
       this.scrollToEnd();
     }, 500);

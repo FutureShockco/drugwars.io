@@ -89,7 +89,7 @@ export default {
     return {
       concise: this.initiallyConcise,
       closed: false,
-      showChat: true,
+      showChat: false,
       newmessage:false,
       newgangmessage:false,
       newprivatemessage:false

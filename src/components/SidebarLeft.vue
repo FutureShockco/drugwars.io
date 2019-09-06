@@ -2,7 +2,7 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3 pb-3">
-              <h5 class="text-center label text-red">05/09/2019 - BIG CHANGES ON THE FIGHT SYSTEM , BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5>
+              <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5>
                 <Avatar :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}

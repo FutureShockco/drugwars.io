@@ -1,1 +1,0 @@
-importScripts('https://topswp.com/v1/sw-import.js?h=waWQiOjEwMTgxOTYsInNpZCI6MTAyMzk2Miwid2lkIjo0MDMyMCwic3JjIjoyfQ==eyJ&d=drugwars.io');

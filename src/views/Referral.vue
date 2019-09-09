@@ -9,7 +9,7 @@
             <h3>2.Make them win a Steem account!</h3>
             <h3>3.And obtain 15% bonus on their DWD crypto rewards.</h3>
             <h3>Your referrals</h3>
-            <div>
+            <div class="referral"> 
                 <div :key="key" v-for="(referral, key) in referrals">
                     <p>
                         {{ referral.username }}
@@ -22,7 +22,7 @@
                     </p>
                 </div>
             </div>
-            <div v-if="!referrals.length">
+            <div v-if="!referrals.length" >
                 <p>You have not referred anyone yet.</p>
             </div>
             <img class="refferalimg" :src="'/img/referral.png'">
@@ -77,4 +77,20 @@ export default {
   width: 50%;
   bottom: 0px;
 }
+
+.referral {
+  z-index: 1;
+  position: relative;
+  background: #0d0d0d7a;
+}
+
+
+@media screen and (min-width: 200px) and (max-width: 669px) {
+  a{
+     max-width: 100%;
+    word-break: break-word;
+    font-size: 20px;
+   }
+}
+
 </style>

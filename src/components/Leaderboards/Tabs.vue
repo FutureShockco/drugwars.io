@@ -1,7 +1,7 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/leaderboards">Production</UiTab>
+      <UiTab to="/leaderboards">Dealer</UiTab>
       <UiTab to="/leaderboards/heist">Heist</UiTab>
       <UiTab to="/leaderboards/fights">Fight</UiTab>
       <UiTab to="/leaderboards/jobs">Job</UiTab>

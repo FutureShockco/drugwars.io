@@ -6,13 +6,13 @@
         Create gang
       </UiTab>
       <UiTab :to="`/gangs/gang/${user.gang}`" v-if="user.gang">
-        My gang
+        {{user.ticker}}
       </UiTab>
      <UiTab :to="`/gangs/gang/${user.gang}/buildings`" v-if="user.gang">
-        Buildings
+        Office
       </UiTab>
      <UiTab :to="`/gangs/gang/${user.gang}/diplomacy`" v-if="user.gang">
-        Diplomacy
+        State
       </UiTab>
            <UiTab :to="`/gangs/gang/${user.gang}/deposit`" v-if="user.gang">
         Deposit

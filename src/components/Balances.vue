@@ -7,10 +7,10 @@
                     {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
                 </div>
                 <div class="detail">
-                    +{{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}<span class="text-orange" v-if="drugBonus"> +{{drugBonus | amount}}</span>/DAY
+                    {{ HQ.drug_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus | round}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span> /SAFE
+                    <span class="text-green">{{HQ.drug_storage/100*20 | round}}</span>/SAFE
                 </div>
             </div>
         </li>
@@ -21,10 +21,10 @@
                     {{ balances.weapons | amount }} <span class="mini"> {{'message.weapons' | translate}}</span>
                 </div>
                 <div class="detail ">
-                    +{{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="weaponBonus">+{{weaponBonus | amount}}</span>/DAY
+                    {{ HQ.weapon_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus | round}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span> /SAFE
+                    <span class="text-green">{{HQ.weapon_storage/100*20 | round}}</span>/SAFE
                 </div>
             </div>
         </li>
@@ -35,10 +35,10 @@
                     {{ balances.alcohols | amount }}<span class="mini"> {{'message.alcohol' | translate}}</span>
                 </div>
                 <div class="detail">
-                    +{{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}} <span class="text-orange" v-if="alcoholBonus">+{{alcoholBonus | amount}}</span>/DAY
+                    {{ HQ.alcohol_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus | round}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span> /SAFE
+                    <span class="text-green">{{HQ.alcohol_storage/100*20 | round}}</span>/SAFE
                 </div>
             </div>
         </li>
@@ -48,9 +48,9 @@
                 <div>{{ user.dwd }} <span class="mini"> DWD</span></div>
                 <div class="balance">
                     <div class="detail"> DAILY: <span class="detail text-green">
-            +{{ totalRewards.daily }} DWD</span></div>
+            +{{ totalRewards.daily }} </span></div>
                     <div class="detail"> HEIST: <span class="detail text-green">
-            +{{ ownHeistReward.amount }} DWD</span></div>
+            +{{ ownHeistReward.amount }} </span></div>
                 </div>
             </div>
         </li>
@@ -130,20 +130,12 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      if (
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      )
-        ocLvl = this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        ).lvl;
+      ocLvl = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === 'operation_center' &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      ).lvl || 0;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')

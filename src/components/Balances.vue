@@ -43,7 +43,7 @@
             </div>
         </li>
         <li>
-            <Icon name="dwd" size="36" />
+            <Icon name="dwd" size="36" /> 
             <div class="balance">
                 <div>{{ user.dwd }} <span class="mini"> DWD</span></div>
                 <div class="balance">

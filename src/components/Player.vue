@@ -99,8 +99,17 @@
             </h5>
         </div>
         <div class="column  col-2">
-            <h5 class="production">
-                <span class="mr-3" v-if="player && rank && rank <11">
+            <h5 v-if="reward" class="production">
+                <span class="mr-3" v-if="player && rank && rank <26">
+               BONUS :
+              <div>
+              {{ Math.round(reward/rank) | amount}}
+              <Icon name="dwd" size="22"/>
+              </div>
+            </span>
+            </h5>
+            <h5 v-else class="production">
+                <span class="mr-3" v-if="player && rank && rank <26">
                BONUS :
               <div>
               {{ Math.round(10/rank) | amount}}
@@ -117,7 +126,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-  props: ['player', 'rank','reputation'],
+  props: ['player', 'rank','reputation','reward'],
   data() {
     return {
       isLoading: false,

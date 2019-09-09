@@ -2,17 +2,22 @@
   {
     "cat": "basic",
     "q": "What is DrugWars?",
-    "a": "It’s a simulation and strategy game based on the Steem blockchain with the possibility to earn rewards while having fun."
+    "a": "Drugwars is an online game built on a blockchain technology that combines simulation and stategy into one PvP gaming experience that provides monetized prizes that are awarded daily. Players receive cryptocurrency for their achievements in the game. Playing the game is currently completely free of charge although there are options of payment to speed up various game components and increase the chances of receiving a bigger payout at the end of the day. Drugwars game has been brought to you by Futureshock which already has successful projects in their history such as Fundition, a first blockchain based crowdfunding platform that you can visit here: https://fundition.io."
   },
   {
     "cat": "basic",
-    "q": "What should I do once I’m in the game?",
-    "a": "You should head over to “Missions” located on the left bar menu and start the missions to get a heads up on what is going on in DrugWars."
+    "q": "General info",
+    "a": "The game is available at https://drugwars.io/ while there is also a discord channel https://discord.me/drugwars on which players can get additional information and updates as well as steemit page https://steemit.com/@drugwars where regular news with updates are published. The basic gameplay consists of building an empire through upgrades of numerous buildings, collecting exclusive cards, and battling against other players."
   },
   {
     "cat": "basic",
-    "q": "Do I have to pay to play?",
-    "a": "DrugWars is a freemium game which means it’s free to play but if you want to level up at a light speed you will need to pay."
+    "q": "Login and signup",
+    "a": "To be able to play the game, a person needs to log in or sign up. This is possible by connecting the Drugwars account with those on Facebook, Google, Vkontakte, or Steemit through the services of Steem Connect. Logging in to the game is completely free of charge. To log in, visit https://drugwars.io/ and click on Login, when the screen with different login options appears, click on the one you prefer and follow the logical instructions. Once a player is logged in, he or she can continue to personalize his account and settings by choosing a nickname, profile picture, and alert options. There is also a referral link available which can be sent to people so the player receives an additional bonus."
+  },
+  {
+    "cat": "basic",
+    "q": "User Settings",
+    "a": "Players can change their nicknames no more than once a month and they can not do it for two days after their last started battle with other players. The profile picture is added by pasting down the image location a.k.a. image address. You can do this by the right click of your mouse on the image you want and choosing “copy image address”. Make sure that you use the image that is not protected by any copyright laws. Drugwars will not be responsible for any violations of copyrights done by its players."
   },
   {
     "cat": "production",

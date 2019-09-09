@@ -11,7 +11,7 @@
         </router-link>
             <MapAction :base="actionBase" :territory="actionTerritory" :targetNickname="nickname" :show="showAction" id="mapaction"/>
                     <div v-if="showTargets && !isLoading">
-            <div v-if="target.territory !== 0 && !showAction" :key="target.nickname+target.base+target.territory" :player="target" v-for="target in targets" >
+            <div v-if="target.territory > 0 && !showAction" :key="target.nickname+target.base+target.territory" :player="target" v-for="target in targets" >
               <div :id="'bubble'+target.nickname" :class="target.nickname" class="plbubble bubble px-0 m-1 text-center anim-scale-in">
                     <PlayerBubble  :player="target" />
                     <button class="button button-red abs" @click="chooseTarget(target)"><span class="iconfont icon-target"></span></button>
@@ -38,6 +38,11 @@
                   </button>
                 </router-link>
             </div>
+                <div  v-if="location.id !== 0 && !showTargets && !showAction && location.name === 'airport'" :key="location.id" v-for="location in locations" >
+                <div :id="'spot'+location.id" class="spot">    
+                    {{location.locationname}}
+                </div>
+            </div>
             <div class="first-line"></div>
             <img id="projection" src="/img/map/equirectangle_projection.png" />
         </div>
@@ -49,6 +54,7 @@ import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
 import client from '@/helpers/client';
+import { drugs,locations } from 'drugwars';
 
 export default {
   data() {
@@ -72,12 +78,15 @@ export default {
       textlabels: [],
       targets: [],
       username: this.$store.state.auth.username,
-      showTargets: true,
+      showTargets: false,
       selectedTerritory: null,
       nickname:null,
       actionBase:null,
       actionTerritory:null,
-      showAction:false
+      showAction:false,
+      showSpots:true,
+      drugs:drugs,
+      locations:locations,
     };
   },
   beforeDestroy() {
@@ -432,6 +441,39 @@ export default {
                             if (self.camera && search_territories.children[element.territory - 1]) {
                                 const to = createVector(position, self.camera);
                                 const b = document.getElementById(`bubble${element.nickname}`);
+                                b.style.top = `${to.y-10}px`;
+                                b.style.left = `${to.x -50 }px`;
+                                if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.86) {
+                                    b.style.opacity = 0;
+                                    b.style.display = 'none';
+                                } else {
+                                    b.style.opacity = 1;
+                                    b.style.display = 'block';
+                                }
+                                b.style.webkitTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.mozTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.msTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.oTransform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                                b.style.transform = `translate3d('${to.x}px,${to.y}px,${to.z * 60}px)`;
+                            }
+                        }
+
+                    });
+                }
+                if (self.scene && self.scene.getObjectByName('territories') && self.locations.length > 0 && self.showSpots) {
+                    self.locations.forEach(element => {
+                        let search_territories = self.scene.getObjectByName('territories')
+                        if (search_territories.children[element.id - 1] && document.getElementById(`spot${element.id}`)) {
+                            const mapbg = document.getElementById('mapbg');
+                            const boundingBox = search_territories.children[element.id - 1].geometry.boundingBox;
+                            const position = new THREE.Vector3();
+                            position.subVectors(boundingBox.max, boundingBox.min);
+                            position.multiplyScalar(0.5);
+                            position.add(boundingBox.min);
+                            position.applyMatrix4(search_territories.children[element.id - 1].matrixWorld);
+                            if (self.camera && search_territories.children[element.id - 1]) {
+                                const to = createVector(position, self.camera);
+                                const b = document.getElementById(`spot${element.id}`);
                                 b.style.top = `${to.y-10}px`;
                                 b.style.left = `${to.x -50 }px`;
                                 if (to.x > mapbg.offsetWidth || to.x < 0 || to.y < 50 || to.y > mapbg.offsetHeight || to.z > 0.86) {
@@ -823,6 +865,20 @@ export default {
     width: 100px;
 }
 
+.spot{
+    font-family: 'Bebas Neue';
+    position: absolute;
+    font-weight: 700;
+    padding: 0px 5px;
+    color:#ffc508;
+    max-width: 160px;
+    font-size: 16px;
+    pointer-events: none;
+    background: black;
+    border-radius: 5px;
+    border: 1px solid  #ffc508c4;
+}
+
 // #mapaction{
 //     display:none;
 // }
@@ -891,6 +947,12 @@ img {
 .btnmapl {
     position: absolute;
     left: 20%;
+    top: 10px;
+}
+
+.btnmapc {
+    position: absolute;
+    left: 50%;
     top: 10px;
 }
 

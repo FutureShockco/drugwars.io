@@ -2,7 +2,7 @@
     <div>
         <LeaderboardsTabs/>
         <div >
-            <Player class="leaders" v-for="(user, key) in users" :player="user" :key="user.username"  :rank="key + currentRank + 1">
+            <Player class="leaders" v-for="(user, key) in users" :player="user" :key="user.username"  :rank="key + currentRank + 1" :reward="50">
             </Player>
             <p v-if="!users || !users.length">
                 <Loading/>

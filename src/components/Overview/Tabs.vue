@@ -2,6 +2,7 @@
   <Header>
     <UiTabs>
       <UiTab to="/overview">Overview</UiTab>
+            <UiTab to="/overview/news">News</UiTab>
       <UiTab to="/overview/tutorial">Tutorial</UiTab>
             <UiTab to="/overview/base">Base</UiTab>
     </UiTabs>

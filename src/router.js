@@ -8,9 +8,11 @@ const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
 const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue');
 const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/GangJobs.vue');
+
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Overview/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
 const Base = () => import(/* webpackChunkName: "base" */ '@/views/Overview/Base.vue');
+const News = () => import(/* webpackChunkName: "news" */ '@/views/Overview/News.vue');
 
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
@@ -51,7 +53,9 @@ const NewContract = () =>
 const Contracts = () =>
   import(/* webpackChunkName: "contracts" */ '@/views/Contracts/Contracts.vue');
 
-const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Market/Shop.vue');
+const Shop = () => import(/* webpackChunkName: "shop" */ '@/views/Shop/Shop.vue');
+const Tokens = () => import(/* webpackChunkName: "tokens" */ '@/views/Shop/Tokens.vue');
+
 const Market = () => import(/* webpackChunkName: "market" */ '@/views/Market/Market.vue');
 const Withdraw = () => import(/* webpackChunkName: "withdraw" */ '@/views/Market/Withdraw.vue');
 const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
@@ -151,6 +155,12 @@ export default new Router({
       name: 'overview',
       beforeEnter: requireAuth,
       component: Overview,
+    },
+    {
+      path: '/overview/news',
+      name: 'news',
+      beforeEnter: requireAuth,
+      component: News,
     },
     {
       path: '/overview/tutorial',
@@ -322,10 +332,16 @@ export default new Router({
     },
 
     {
-      path: '/market/shop',
+      path: '/shop',
       name: 'shop',
       beforeEnter: requireAuth,
       component: Shop,
+    },
+    {
+      path: '/shop/tokens',
+      name: 'tokens',
+      beforeEnter: requireAuth,
+      component: Tokens,
     },
     {
       path: '/market',

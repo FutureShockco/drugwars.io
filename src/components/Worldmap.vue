@@ -2,7 +2,7 @@
     <div class="text-center py-1">
         <button v-if="!showTargets && !showAction" @click="switchTargets" class="button button-green btnmapl">Show Targets</button>
         <button v-else-if="!showAction" @click.prevent="switchTargets" class="button button-red btnmapl">Hide Targets</button>
-        <button v-if="!showAction" @click.prevent="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
+        <button v-if="!showAction && showTargets" @click.prevent="refreshTargets()" class="button button-green btnmapr">Refresh Targets</button>
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
             <button class="button button-blue top text-center mt-5" :disabled="!selected">
                   <span v-if="main">VISIT</span>

@@ -305,8 +305,6 @@ export default {
     padding: 0px;
     margin-top: 5px;
     margin-left: 5px;
-    border-left: 1px rgb(10, 10, 10) solid;
-    border-right: 1px rgb(10, 10, 10) solid;
     .balance {
       float: right;
       text-align: right;
@@ -348,16 +346,19 @@ export default {
   .balances {
     display: flex;
     font-size: 16px !important;
-    margin-top: 6px !important;
+    margin-top: 0px !important;
     line-height: 10px !important;
     li {
-      padding: 0px;
-      padding-top: 0px;
-      border-left: 1px rgb(10, 10, 10) solid;
-      border-right: 1px rgb(10, 10, 10) solid;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 8px;
+      margin-left: 0px;
+      margin-right: 0px;
+  
       .balance {
         float: right;
         text-align: left;
+        margin-left: 5px;
       }
       span {
         float: right;
@@ -401,8 +402,6 @@ export default {
       padding: 0px;
       margin-top: 15px;
       margin-left: 5px;
-      border-left: 1px rgb(10, 10, 10) solid;
-      border-right: 1px rgb(10, 10, 10) solid;
       .balance {
         float: right;
         text-align: left;

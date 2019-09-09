@@ -219,7 +219,7 @@ h5 {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .columns {
@@ -230,7 +230,7 @@ h4 {
 }
 
 p {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 h3 {

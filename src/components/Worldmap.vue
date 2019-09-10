@@ -861,10 +861,6 @@ export default {
    let raycaster = new THREE.Raycaster(),
     INTERSECTED;
    const mouse = new THREE.Vector2();
-   mapbg.addEventListener('click', onclick, false);
-   mapbg.addEventListener('touchend', onclick, false);
-   mapbg.addEventListener('touchstart', onclick, false);
-
    function createVector(obj, camera) {
     const p = new THREE.Vector3(obj.x, obj.y, obj.z);
     const vector = p.project(camera);
@@ -941,6 +937,12 @@ export default {
      crosshairy.style.opacity = 0;
      rotating = true;
     }
+   }
+  if(mapbg)
+   {
+   mapbg.addEventListener('click', onclick, false);
+   mapbg.addEventListener('touchend', onclick, false);
+   mapbg.addEventListener('touchstart', onclick, false);
    }
   },
  },

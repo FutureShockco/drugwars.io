@@ -8,7 +8,7 @@
                 </div>
                 <BuildingProductionCompact v-for="building in drug_buildings" :building="building" :key="building.id" />
                 <h4 class="columns">
-                    <span class="column col-4">
+                    <div class="column col-6">
                     Capacity: {{ drugStorage | amount }}
                     <p>
                       Full in:
@@ -18,8 +18,8 @@
                       >{{ (drugStorage - drugBalance) / drugProductionRate * 1000 | ms}}</span>
                     <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4">
+                    </div>
+                    <div class="column col-6  text-right">
                     Safe:
                     <span class="text-green">{{ drugStorage /100*20 | amount }}</span>
                     <p>
@@ -27,11 +27,15 @@
                         <span v-if="((drugStorage/100*20)  - drugBalance) / drugProductionRate * 1000 > 0" class="text-green">{{ ((drugStorage/100*20) - drugBalance) / drugProductionRate * 1000 | ms}}</span>
                         <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4 text-right">
-                    PRODUCTION: {{ drugProductionRate * 60 * 60 * 24 | amount }}/Day
+                    </div>
+                    <div class="column col-6">
+                    PRODUCTION:<span class="text-orange"> {{ drugProductionRate * 60 * 60 * 24 | amount }}</span>/Day
                     <p>{{ drugProductionRate * 60 * 60 | amount }}/Hour</p>
-                  </span>
+                  </div>
+                  <div class="column col-6 text-right">
+                     BONUS: <span class="text-orange">{{ drugBonus | amount }}</span>/Day
+                    <p>OP. CENTER: <span class="text-orange">{{ (drugProductionRate * 60 * 60 * 24 )* ownOc * 0.005 | amount }}</span> - SC. LAB: <span class="text-orange">{{ (drugProductionRate * 60 * 60 * 24 )* ownLab * 0.0025 | amount }}</span></p>
+                  </div>
                 </h4>
             </div>
             <div class="item">
@@ -40,7 +44,7 @@
                 </div>
                 <BuildingProductionCompact v-for="building in weapon_buildings" :building="building" :key="building.id" />
                 <h4 class="columns">
-                    <span class="column col-4">
+                    <div class="column col-6">
                     Capacity: {{ weaponStorage | amount }}
                     <p>
                       Full in:
@@ -50,8 +54,8 @@
                       >{{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
                     <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4">
+                    </div>
+                    <div class="column col-6 text-right">
                     Safe:
                     <span class="text-green">{{ weaponStorage /100*20 | amount }}</span>
                     <p>
@@ -59,11 +63,15 @@
                         <span v-if="((weaponStorage/100*20)  - weaponBalance) / weaponProductionRate * 1000 > 0" class="text-green">{{ ((weaponStorage/100*20) - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
                         <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4 text-right">
+                    </div>
+                    <div class="column col-6">
                     PRODUCTION: {{ weaponProductionRate * 60 * 60 * 24 | amount }}/Day
                     <p>{{ weaponProductionRate * 60 * 60 | amount }}/Hour</p>
-                  </span>
+                  </div>
+                  <div class="column col-6 text-right">
+                     BONUS: <span class="text-orange">{{ weaponBonus | amount }}</span>/Day
+                    <p>OP. CENTER: <span class="text-orange">{{ (weaponProductionRate * 60 * 60 * 24 )* ownOc * 0.005 | amount }}</span> - WEAP. CENTER: <span class="text-orange">{{ (weaponProductionRate * 60 * 60 * 24 )* ownWC * 0.005 | amount }}</span></p>
+                  </div>
                 </h4>
             </div>
             <div class="item">
@@ -72,7 +80,7 @@
                 </div>
                 <BuildingProductionCompact v-for="building in alcohol_buildings" :building="building" :key="building.id" />
                 <h4 class="columns">
-                    <span class="column col-4">
+                    <div class="column col-6">
                     Capacity: {{ alcoholStorage | amount }}
                     <p>
                       Full in:
@@ -82,8 +90,8 @@
                       >{{ (alcoholStorage - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</span>
                     <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4">
+                    </div>
+                    <div class="column col-6 text-right">
                     Safe:
                     <span class="text-green">{{ alcoholStorage /100*20 | amount }}</span>
                     <p>
@@ -91,11 +99,15 @@
                         <span v-if="((alcoholStorage/100*20)  - alcoholBalance) / alcoholProductionRate * 1000 > 0" class="text-green">{{ ((alcoholStorage/100*20) - alcoholBalance) / alcoholProductionRate * 1000 | ms}}</span>
                         <span v-else class="text-red">Now</span>
                     </p>
-                    </span>
-                    <span class="column col-4 text-right">
+                    </div>
+                    <div class="column col-6 ">
                     PRODUCTION: {{ alcoholProductionRate * 60 * 60 * 24 | amount }}/Day
                     <p>{{ alcoholProductionRate * 60 * 60 | amount }}/Hour</p>
-                  </span>
+                  </div>
+                  <div class="column col-6 text-right">
+                     BONUS: <span class="text-orange">{{ alcoholBonus | amount }}</span>/Day
+                    <p>OP. CENTER: <span class="text-orange">{{ (alcoholProductionRate * 60 * 60 * 24 )* ownOc * 0.005 | amount }}</span> - DIST. SCHOOL: <span class="text-orange">{{ (alcoholProductionRate * 60 * 60 * 24 )* ownDS * 0.005 | amount }}</span></p>
+                  </div>
                 </h4>
             </div>
         </div>
@@ -208,6 +220,86 @@ export default {
         distilleryLvl,
         this.$store.state.ui.timestamp,
       );
+    },
+    ownOc(){
+        let oc = 0;
+        oc = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl || 0;
+        return oc;
+    },
+    ownLab(){
+        let lab = 0;
+        lab = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl || 0;
+        return lab;
+    },
+        ownWC(){
+        let wc = 0;
+        wc = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl || 0;
+        return wc;
+    },
+            ownDS(){
+        let ds = 0;
+        ds = this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school')
+          .lvl || 0;
+        return ds;
+    },
+      drugBonus() {
+      let oc = 0;
+        oc = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl || 0;
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl || 0;
+      return parseFloat(
+        ((this.drugProductionRate * 60 * 60 * 24) * oc * 0.005) +
+         ((this.drugProductionRate * 60 * 60 * 24) * labLvl * 0.0025)
+      ).toFixed(2);
+    },
+    weaponBonus() {
+      let oc = 0;
+        oc = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl || 0;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl || 0;
+      return parseFloat(
+        ((this.weaponProductionRate * 60 * 60 * 24) * oc * 0.005) +
+          ((this.weaponProductionRate * 60 * 60 * 24) * weaponLvl * 0.005)
+      ).toFixed(2);
+    },
+    alcoholBonus() {
+      let oc = 0;
+        oc = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl || 0;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl || 0;
+      return parseFloat(
+        this.alcoholProductionRate * 60 * 60 * 24 * oc * 0.005 +
+          this.alcoholProductionRate * 60 * 60 * 24 * distilleryLvl * 0.005,
+      ).toFixed(2);
     },
   },
 };

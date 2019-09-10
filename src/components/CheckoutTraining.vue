@@ -108,7 +108,7 @@ export default {
     upgradeLabel() {
       let label = 'Upgrade';
       if (this.notEnough) label = 'Miss resources';
-      if (this.requireUpdate) label = 'Require RS upgrade';
+      if (this.requireUpdate) label = 'Require RC upgrade';
       if (this.inProgress) label = 'Upgrading';
       return label;
     },

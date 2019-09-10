@@ -1,32 +1,32 @@
 <template>
     <div>
-        <UiCenter class="vue-ui-modal pt-2 pb-4 home">
+        <UiCenter class="vue-ui-modal p-4 home">
             <Icon name="logo" class="logo-large mt-4" />
             <div class="title mb-2">
                 <h4>GET PAID TO RULE YOUR WORLD</h4>
             </div>
-            <div class="mb-2 columns">
-                <div class="column col-4">
+            <div class="columns rel">
+                <div class="column det col-4">
                     <h5>Build your own empire</h5>
-                    <img width="140px" class="rounded-2" :src="`/img/home/home1.jpg`">
+                    <img width="100%" class="rounded-2" :src="`/img/home/home1.jpg`">
                 </div>
-                <div class="column col-4">
+                <div class="column det col-4">
                     <h5>Collect exclusive cards</h5>
-                    <img width="140px" class="rounded-2" :src="`/img/home/home2.jpg`">
+                    <img width="100%" class="rounded-2" :src="`/img/home/home2.jpg`">
     
                 </div>
-                <div class="column col-4">
+                <div class="column det col-4">
                     <h5>Fight with your opponents</h5>
-                    <img width="140px" class="rounded-2" :src="`/img/home/home3.jpg`">
+                    <img width="100%" class="rounded-2" :src="`/img/home/home3.jpg`">
     
                 </div>
             </div>
-            <h4 class="ui white header big px-6">{{ 'message.login_message' | translate}}</h4>
+            <h4 class="ui white header ">{{ 'message.login_message' | translate}}</h4>
     
             <div class="d-inline-grid">
                 <!-- <div class="ui blue header big">Join the early access now for Free. </div> -->
     
-                <div class="button button-green button-large mb-4" @click="socialLogin">
+                <div class="button button-green button-large mt-2 mb-4" @click="socialLogin">
                     {{ 'message.login' | translate}}
                 </div>
     
@@ -90,6 +90,10 @@ export default {
   p {
     font-size: 24px;
   }
+  // background-image: url('/img/home/homecards.png')!important;
+  // background-size: contain!important;
+  // background-repeat: no-repeat!important;
+  // background-position-y: 40px!important;
 }
 
 .bottomt {
@@ -104,30 +108,32 @@ export default {
   color: white !important;
 }
 
+.rel{
+  position: relative;
+  // margin-top: 22%!important;
+}
+
 h4 {
   color: #fbbd08;
   font-size: 20px;
-  text-shadow: 0px 0px 5px #0f1365, 0px 0px 5px #0f1365;
-  font-family: Bebas Neue, Helvetica, Arial, sans-serif;
+  text-shadow: 0px 0px 5px black, 0px 0px 5px black, 0px 0px 5px black, 0px 0px 5px black, 3px 3px 5px black, -3px -3px 5px black;
+  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
 }
 
 h5 {
-  color: #fbbd08;
-  font-size: 16px;
-  border-radius: 4px;
-  top: 90px;
-  text-shadow: 0px 0px 5px black, 0px 0px 5px black, 3px 3px 5px black, -3px -3px 5px black;
-  height: 0px;
-  font-family: Bebas Neue, Helvetica, Arial, sans-serif;
+  color: #000000;
+  font-size: 18px;
+  top: 5px;
+  text-shadow: 0px 0px 5px #fbbd08, 0px 0px 5px #fbbd08, 0px 0px 5px #fbbd08, 0px 0px 5px #fbbd08, 3px 3px 5px #fbbd08, -3px -3px 5px #fbbd08;
+  font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
   font-weight: 900;
-  position: relative;
+  position: absolute;
   text-align: center;
   text-rendering: optimizeLegibility;
   text-transform: uppercase;
-  -webkit-transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
-  transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
-  width: 128px;
-  left: 95px;
+      overflow-wrap: break-word;
+    white-space: pre-line;
+    max-width: 27%;
 }
 
 .vue-ui-modal {

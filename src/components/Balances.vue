@@ -7,10 +7,10 @@
                     {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
                 </div>
                 <div class="detail">
-                    {{ HQ.drug_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus | round}}</span>/DAY
+                    {{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus | amount}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.drug_storage/100*20 | round}}</span>/SAFE
+                    <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span>/SAFE
                 </div>
             </div>
         </li>
@@ -21,10 +21,10 @@
                     {{ balances.weapons | amount }} <span class="mini"> {{'message.weapons' | translate}}</span>
                 </div>
                 <div class="detail ">
-                    {{ HQ.weapon_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus | round}}</span>/DAY
+                    {{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus | amount}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.weapon_storage/100*20 | round}}</span>/SAFE
+                    <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span>/SAFE
                 </div>
             </div>
         </li>
@@ -35,10 +35,10 @@
                     {{ balances.alcohols | amount }}<span class="mini"> {{'message.alcohol' | translate}}</span>
                 </div>
                 <div class="detail">
-                    {{ HQ.alcohol_production_rate * 60 * 60 * 24 | round}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus | round}}</span>/DAY
+                    {{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus | amount}}</span>/DAY
                 </div>
                 <div class="detail">
-                    <span class="text-green">{{HQ.alcohol_storage/100*20 | round}}</span>/SAFE
+                    <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span>/SAFE
                 </div>
             </div>
         </li>

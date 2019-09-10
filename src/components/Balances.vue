@@ -130,12 +130,20 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      ocLvl = this.$store.state.game.user.buildings.find(
+      if(ocLvl = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === 'operation_center' &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      ))
+      {
+              ocLvl = this.$store.state.game.user.buildings.find(
         b =>
           b.building === 'operation_center' &&
           b.territory === this.base.territory &&
           b.base === this.base.base,
       ).lvl || 0;
+      }
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
         labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')

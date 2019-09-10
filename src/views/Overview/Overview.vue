@@ -234,28 +234,27 @@ export default {
   },
   balances() {
    let ocLvl = 0;
-   if (
-    this.$store.state.game.user.buildings.find(
-     b =>
+   if (this.$store.state.game.user.buildings && this.$store.state.game.user.buildings.find(b =>
       b.building === 'operation_center' &&
       b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   )
+      b.base === this.base.base))
+      {
     ocLvl = this.$store.state.game.user.buildings.find(
      b =>
       b.building === 'operation_center' &&
       b.territory === this.base.territory &&
       b.base === this.base.base,
     ).lvl;
+      }
+
    let labLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+   if (this.$store.state.game.gang_buildings&& this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
     labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab').lvl;
    let weaponLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+   if (this.$store.state.game.gang_buildings&& this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
     weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center').lvl;
    let distilleryLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+   if (this.$store.state.game.gang_buildings&& this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
     distilleryLvl = this.$store.state.game.gang_buildings.find(
      b => b.building === 'distillery_school',
     ).lvl;
@@ -281,25 +280,32 @@ export default {
   },
   ownLab() {
    let lab = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+   if (this.$store.state.game.gang_buildings&&this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
     lab = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab').lvl || 0;
    return lab;
   },
   ownWC() {
    let wc = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+   if (this.$store.state.game.gang_buildings&&this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
     wc = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center').lvl || 0;
    return wc;
   },
   ownDS() {
    let ds = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+   if (this.$store.state.game.gang_buildings&&this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
     ds =
      this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school').lvl || 0;
    return ds;
   },
   drugBonus() {
    let oc = 0;
+   if(this.$store.state.game.user.buildings.find(
+     b =>
+      b.building === 'operation_center' &&
+      b.territory === this.base.territory &&
+      b.base === this.base.base,
+    ).lvl)
+    {
    oc =
     this.$store.state.game.user.buildings.find(
      b =>
@@ -307,6 +313,8 @@ export default {
       b.territory === this.base.territory &&
       b.base === this.base.base,
     ).lvl || 0;
+    }
+
    let labLvl = 0;
    if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
     labLvl =
@@ -318,6 +326,13 @@ export default {
   },
   weaponBonus() {
    let oc = 0;
+   if(this.$store.state.game.user.buildings.find(
+     b =>
+      b.building === 'operation_center' &&
+      b.territory === this.base.territory &&
+      b.base === this.base.base,
+    ).lvl)
+    {
    oc =
     this.$store.state.game.user.buildings.find(
      b =>
@@ -325,6 +340,7 @@ export default {
       b.territory === this.base.territory &&
       b.base === this.base.base,
     ).lvl || 0;
+    }
    let weaponLvl = 0;
    if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
     weaponLvl =
@@ -336,6 +352,13 @@ export default {
   },
   alcoholBonus() {
    let oc = 0;
+   if(this.$store.state.game.user.buildings.find(
+     b =>
+      b.building === 'operation_center' &&
+      b.territory === this.base.territory &&
+      b.base === this.base.base,
+    ).lvl)
+    {
    oc =
     this.$store.state.game.user.buildings.find(
      b =>
@@ -343,6 +366,7 @@ export default {
       b.territory === this.base.territory &&
       b.base === this.base.base,
     ).lvl || 0;
+    }
    let distilleryLvl = 0;
    if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
     distilleryLvl =

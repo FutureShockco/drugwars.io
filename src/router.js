@@ -22,6 +22,9 @@ const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Building
 const BuildingDetail = () =>
   import(/* webpackChunkName: "buildingdetail" */ '@/components/BuildingDetail.vue');
 
+const DrugDetail = () =>
+  import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
+
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
@@ -220,6 +223,12 @@ export default new Router({
       name: 'buildingdetail',
       beforeEnter: requireAuth,
       component: BuildingDetail,
+    },
+    {
+      path: '/drugs/detail',
+      name: 'drugdetail',
+      beforeEnter: requireAuth,
+      component: DrugDetail,
     },
     {
       path: '/units',

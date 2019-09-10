@@ -1,7 +1,6 @@
 <template>
   <div>
     <ContractsTabs/>
-
     <div v-for="(contract, index) in contracts" :key="contract.id" class="item width-full  text-center border-bottom">
     		 <Avatar 
           class="mx-2"

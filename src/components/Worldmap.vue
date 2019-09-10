@@ -61,7 +61,9 @@
           v-if="selected && selected.total_player"
         >TOTAL BASES : {{selected.total_player}}</h5>
         <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
-        <h5 class="mt-0" v-if="selected && selected.resources">RESOURCES : {{selected.resources}}</h5>
+        <router-link  v-if="selected && selected.resources" :to="`/drugs/detail?name=${selected.resources}`">
+        <h5 class="mt-0">RESOURCES : {{selected.resources}}</h5>
+        </router-link>
         <h5 class="mt-0" v-if="selected && selected.continent">CONTINENT : {{selected.continent}}</h5>
       </h3>
       <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
@@ -95,7 +97,7 @@ import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
 import client from '@/helpers/client';
-import { drugs, locations } from 'drugwars';
+import { continents, drugs, locations } from 'drugwars';
 
 export default {
  data() {
@@ -545,7 +547,9 @@ export default {
          to.x < 0 ||
          to.y < 50 ||
          to.y > mapbg.offsetHeight ||
-         to.z > 0.86
+         to.z > 0.90
+         ||
+         to.z < 0.70
         ) {
          b.style.opacity = 0;
          b.style.display = 'none';
@@ -755,8 +759,23 @@ export default {
          material.userData.total_player = playercount;
          material.userData.count = count;
          material.userData.risk = 'inexistant';
-           material.userData.continent = 'coming soon';
-           material.userData.resources = 'coming soon';
+         material.userData.continent = 'Asia';
+         material.userData.resources = 'coming soon';
+         if (count % 2 == 0) {
+            material.userData.resources = 'coming soon';
+         } else {
+            material.userData.resources = 'coming soon';
+         }
+         continents.forEach(element => {
+          if (element.locations.includes(count)) {
+           material.userData.continent = element.name;
+           if (count % 2 == 0) {
+            material.userData.resources = 'coming soon';
+           } else {
+            material.userData.resources = 'coming soon';
+           }
+          }
+         });
 
          if (playercount / 25 > 0.15) {
           material.userData.risk = 'low';
@@ -979,7 +998,6 @@ img {
  left: 50%;
  top: 20%;
  text-shadow: 5px 5px 5px black;
- pointer-events: none;
  background: rgba(0, 0, 0, 0.6);
  padding: 20px;
  border-radius: 5px;

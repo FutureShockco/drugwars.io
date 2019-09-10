@@ -48,27 +48,29 @@
       </div>
     </div>
     <div id="mapbg" class="mapbg">
-      <h3 class="title" id="title" style="opacity:0;">
-        <div v-if="selected">{{selected.name}} {{selected.count}}</div>
-        <h5 class="mt-0">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
-        <div>INFORMATIONS</div>
+      <h3 class="title" id="title" style="opacity:0;pointer-events: default!important;">
+        <div v-if="selected" style=" pointer-events: none!important;">{{selected.name}} {{selected.count}}</div>
+        <h5 class="mt-0" style=" pointer-events: none!important;">UNDER THE CONTROL OF : THE GOVERNMENT</h5>
+        <div style=" pointer-events: none!important;">INFORMATIONS</div>
         <h5
-          class="mt-0"
+          class="mt-0" style=" pointer-events: none!important;"
           v-if="selected && selected.total_player"
-        >FREE LOCATIONS : {{225 - selected.total_player}}</h5>
+        >FREE LOCATIONS: {{225 - selected.total_player}}</h5>
         <h5
-          class="mt-0"
+          class="mt-0" style=" pointer-events: none!important;"
           v-if="selected && selected.total_player"
-        >TOTAL BASES : {{selected.total_player}}</h5>
-        <h5 class="mt-0" v-if="selected && selected.dangerosity">RISK : {{selected.dangerosity}}</h5>
-        <router-link  v-if="selected && selected.resources" :to="`/drugs/detail?name=${selected.resources}`">
-        <h5 class="mt-0">RESOURCES : {{selected.resources}}</h5>
+        >TOTAL BASES: {{selected.total_player}}</h5>
+        <h5  style=" pointer-events: none!important;"  class="mt-0" v-if="selected && selected.dangerosity">RISK: {{selected.dangerosity}}</h5>
+        <router-link style=" pointer-events: default!important;" 
+          v-if="selected && selected.resources"
+          :to="`/drugs/detail?name=${selected.resources}`"
+        >
+          <h5 class="mt-0">RESOURCES: <span class="text-orange">{{selected.resources}}</span></h5>
         </router-link>
-        <h5 class="mt-0" v-if="selected && selected.continent">CONTINENT : {{selected.continent}}</h5>
+        <h5 class="mt-0" v-if="selected && selected.continent" style=" pointer-events: none!important;">CONTINENT: {{selected.continent}}</h5>
       </h3>
       <div class="crosshair" id="crosshairx" style="opacity:0;"></div>
       <div class="crosshairy" id="crosshairy" style="opacity:0;"></div>
-
       <div class="map-title" id="visit" style="opacity:0;">
         <router-link v-if="selected" :to="`/map/territory?location=${selected.count}`">
           <button class="button button-blue" :disabled="!selected">
@@ -100,96 +102,96 @@ import client from '@/helpers/client';
 import { continents, drugs, locations } from 'drugwars';
 
 export default {
-  data() {
-    return {
-      main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
-      all_players: this.$store.state.game.prizeProps.users[0].total || null,
-      camera: null,
-      isLoading: true,
-      scene: null,
-      renderer: null,
-      mesh: null,
-      showLoading: true,
-      selected: null,
-      maxcount: 0,
-      currentTerritory: null,
-      territories: null,
-      oldcolor: null,
-      animation: null,
-      player_territories: null,
-      controls: null,
-      textlabels: [],
-      targets: [],
-      username: this.$store.state.auth.username,
-      showTargets: false,
-      selectedTerritory: null,
-      nickname: null,
-      actionBase: null,
-      actionTerritory: null,
-      showAction: false,
-      showSpots: true,
-      drugs,
-      locations,
-    };
+ data() {
+  return {
+   main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
+   all_players: this.$store.state.game.prizeProps.users[0].total || null,
+   camera: null,
+   isLoading: true,
+   scene: null,
+   renderer: null,
+   mesh: null,
+   showLoading: true,
+   selected: null,
+   maxcount: 0,
+   currentTerritory: null,
+   territories: null,
+   oldcolor: null,
+   animation: null,
+   player_territories: null,
+   controls: null,
+   textlabels: [],
+   targets: [],
+   username: this.$store.state.auth.username,
+   showTargets: false,
+   selectedTerritory: null,
+   nickname: null,
+   actionBase: null,
+   actionTerritory: null,
+   showAction: false,
+   showSpots: true,
+   drugs,
+   locations,
+  };
+ },
+ beforeDestroy() {
+  this.clearScene(this.scene);
+ },
+ computed: {
+  ownBase() {
+   return this.$store.state.game.mainbase;
   },
-  beforeDestroy() {
-    this.clearScene(this.scene);
+  ownUnits() {
+   let units = [];
+   units = this.$store.state.game.user.units.map(
+    unit =>
+     unit.base === this.ownBase.base &&
+     unit.territory === this.ownBase.territory && {
+      key: unit.unit,
+      amount: unit.amount,
+     },
+   );
+   return units;
   },
-  computed: {
-    ownBase() {
-      return this.$store.state.game.mainbase;
-    },
-    ownUnits() {
-      let units = [];
-      units = this.$store.state.game.user.units.map(
-        unit =>
-          unit.base === this.ownBase.base &&
-          unit.territory === this.ownBase.territory && {
-            key: unit.unit,
-            amount: unit.amount,
-          },
-      );
-      return units;
-    },
+ },
+ methods: {
+  prevent(e) {
+   e.preventDefault();
+   // else continue to route
   },
-  methods: {
-    prevent(e) {
-      e.preventDefault();
-      // else continue to route
-    },
-    chooseTarget(player) {
-      this.actionBase = player.base;
-      this.actionTerritory = player.territory;
-      this.nickname = player.nickname;
-      this.showAction = true;
-      const visitTitle = document.getElementById('title');
-      const visitButton = document.getElementById('visit');
-      const crosshairx = document.getElementById('crosshairx');
-      const crosshairy = document.getElementById('crosshairy');
-      crosshairx.style.opacity = 0;
-      crosshairy.style.opacity = 0;
-      visitTitle.style.opacity = 0;
-      visitButton.style.opacity = 0;
-    },
-    switchTargets() {
-      this.showTargets = !this.showTargets;
-    },
-    refreshTargets() {
-      const self = this;
-      self.targets = [];
-      client
-        .requestAsync('get_users', null)
-        .then(users => {
-          self.targets = users;
-          self.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed to get users', e);
-          this.isLoading = false;
-        });
-    },
-    initPlanet() {
-      /* eslint-disable */
+  chooseTarget(player) {
+   this.actionBase = player.base;
+   this.actionTerritory = player.territory;
+   this.nickname = player.nickname;
+   this.showAction = true;
+   const visitTitle = document.getElementById('title');
+   const visitButton = document.getElementById('visit');
+   const crosshairx = document.getElementById('crosshairx');
+   const crosshairy = document.getElementById('crosshairy');
+   crosshairx.style.opacity = 0;
+   crosshairy.style.opacity = 0;
+   visitTitle.style.opacity = 0;
+   visitButton.style.opacity = 0;
+  },
+  switchTargets() {
+   this.showTargets = !this.showTargets;
+  },
+  refreshTargets() {
+   const self = this;
+   self.targets = [];
+   client
+    .requestAsync('get_users', null)
+    .then(users => {
+     self.targets = users;
+     self.isLoading = false;
+    })
+    .catch(e => {
+     console.error('Failed to get users', e);
+     this.isLoading = false;
+    });
+  },
+  initPlanet() {
+   /* eslint-disable */
    const self = this;
    this.showLoading = true;
    this.renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -547,9 +549,8 @@ export default {
          to.x < 0 ||
          to.y < 50 ||
          to.y > mapbg.offsetHeight ||
-         to.z > 0.90
-         ||
-         to.z < 0.70
+         to.z > 0.9 ||
+         to.z < 0.7
         ) {
          b.style.opacity = 0;
          b.style.display = 'none';
@@ -760,19 +761,45 @@ export default {
          material.userData.count = count;
          material.userData.risk = 'inexistant';
          material.userData.continent = 'Asia';
-         material.userData.resources = 'coming soon';
-         if (count % 2 == 0) {
-            material.userData.resources = 'coming soon';
-         } else {
-            material.userData.resources = 'coming soon';
-         }
+         material.userData.resources = 'weed';
          continents.forEach(element => {
           if (element.locations.includes(count)) {
            material.userData.continent = element.name;
            if (count % 2 == 0) {
-            material.userData.resources = 'coming soon';
+               if(prob=== 0)
+               {
+                   prob = 10
+               }
+               let prob = count.toString().substring(count.toString().length-1,count.toString().length)
+               if(drugs[prob]&&drugs[prob].location.includes(element.id))
+               material.userData.resources = drugs[prob].id;
            } else {
-            material.userData.resources = 'coming soon';
+               let prob = count.toString().substring(count.toString().length-1,count.toString().length)
+               if(prob=== 0)
+               {
+                   prob = 11
+               }
+               if(drugs[prob]&&drugs[prob].location.includes(element.id))
+               material.userData.resources = drugs[prob].id;
+           }
+          }
+          else{
+            if (count % 2 == 0) {
+               if(prob=== 0)
+               {
+                   prob = 10
+               }
+               let prob = count.toString().substring(count.toString().length-1,count.toString().length)
+               if(drugs[prob]&&drugs[prob].location.includes('as'))
+               material.userData.resources = drugs[prob].id;
+           } else {
+               let prob = count.toString().substring(count.toString().length-1,count.toString().length)
+               if(prob=== 0)
+               {
+                   prob = 11
+               }
+               if(drugs[prob]&&drugs[prob].location.includes('as'))
+               material.userData.resources = drugs[prob].id;
            }
           }
          });

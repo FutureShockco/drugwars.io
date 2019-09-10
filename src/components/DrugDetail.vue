@@ -2,7 +2,7 @@
     <div>
         <div class="d-flex flex-lg-row text-center text-lg-left item">
             <div class="mr-3">
-                <img class="preview" :src="`/img/icons/${drug.icon}`">
+                <img class="preview" :src="`/img/icons/drugs/${drug.icon}`">
             </div> 
             <div class="item-content width-full">
                 <h5>{{ drug.name }}</h5>

@@ -19,47 +19,53 @@
 import { buildings } from 'drugwars';
 
 export default {
-    props: ['items'],
-    data() {
-        return {
-            placeholder_buildings: buildings,
-        };
-    },
-    computed: {
-        total_drugs() {
-            let total_drugs = 0;
-            this.items.forEach(element => {
-                if (this.placeholder_buildings[element.building]) {
-                    const b = this.placeholder_buildings[element.building]
-                    if (element.lvl && b.production_rate && b.production_type === 'drugs')
-                        total_drugs += (b.production_rate * Number(element.lvl) * b.coeff) + (b.production_rate * Number(element.lvl) * b.coeff) / 100 * Number(element.lvl);
-                }
-            })
-            return total_drugs;
-        },
-        total_weapons() {
-            let total_weapons = 0;
-            this.items.forEach(element => {
-                if (this.placeholder_buildings[element.building]) {
-                    const b = this.placeholder_buildings[element.building]
-                    console.log(b)
-                    if (element.lvl && b.production_rate && b.production_type === 'weapons')
-                        total_weapons += (b.production_rate * Number(element.lvl) * b.coeff) + (b.production_rate * Number(element.lvl) * b.coeff) / 100 * Number(element.lvl);
-                }
-            })
-            return total_weapons;
-        },
-        total_alcohol() {
-            let total_drugs = 0;
-            this.items.forEach(element => {
-                if (this.placeholder_buildings[element.building]) {
-                    const b = this.placeholder_buildings[element.building]
-                    if (element.lvl && b.production_rate && b.production_type === 'alcohol')
-                        total_drugs += (b.production_rate * Number(element.lvl) * b.coeff) + (b.production_rate * Number(element.lvl) * b.coeff) / 100 * Number(element.lvl);
-                }
-            })
-            return total_drugs;
+  props: ['items'],
+  data() {
+    return {
+      placeholder_buildings: buildings,
+    };
+  },
+  computed: {
+    total_drugs() {
+      let total_drugs = 0;
+      this.items.forEach(element => {
+        if (this.placeholder_buildings[element.building]) {
+          const b = this.placeholder_buildings[element.building];
+          if (element.lvl && b.production_rate && b.production_type === 'drugs')
+            total_drugs +=
+              b.production_rate * Number(element.lvl) * b.coeff +
+              ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
         }
-    }
+      });
+      return total_drugs;
+    },
+    total_weapons() {
+      let total_weapons = 0;
+      this.items.forEach(element => {
+        if (this.placeholder_buildings[element.building]) {
+          const b = this.placeholder_buildings[element.building];
+          console.log(b);
+          if (element.lvl && b.production_rate && b.production_type === 'weapons')
+            total_weapons +=
+              b.production_rate * Number(element.lvl) * b.coeff +
+              ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
+        }
+      });
+      return total_weapons;
+    },
+    total_alcohol() {
+      let total_drugs = 0;
+      this.items.forEach(element => {
+        if (this.placeholder_buildings[element.building]) {
+          const b = this.placeholder_buildings[element.building];
+          if (element.lvl && b.production_rate && b.production_type === 'alcohol')
+            total_drugs +=
+              b.production_rate * Number(element.lvl) * b.coeff +
+              ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
+        }
+      });
+      return total_drugs;
+    },
+  },
 };
 </script>

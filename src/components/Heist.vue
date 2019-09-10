@@ -168,19 +168,19 @@ h4 {
   white-space: nowrap;
 }
 
-.heist{
+.heist {
   position: relative;
 }
 
-.heist-text{
+.heist-text {
   text-align: center;
   color: white;
   text-transform: uppercase;
   font-weight: 700;
   font-size: 11px;
   position: absolute;
-  left:32px;
-  top:26px;
-  display: block!important;
+  left: 32px;
+  top: 26px;
+  display: block !important;
 }
 </style>

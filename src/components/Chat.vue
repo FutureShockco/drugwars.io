@@ -117,7 +117,7 @@ export default {
       showUsers: false,
       gangChat: false,
       privateChat: false,
-      receiver:null,
+      receiver: null,
       message: null,
       user: this.$store.state.game.user.user,
       applies: null,
@@ -125,7 +125,7 @@ export default {
       autoscroll: false,
       responses: [],
       gangresponses: [],
-      privateresponses: []
+      privateresponses: [],
     };
   },
   created() {
@@ -140,7 +140,7 @@ export default {
         picture: message.picture,
         date: message.date,
       });
-        self.scrollToEnd();
+      self.scrollToEnd();
     });
     socket.on('read-msg', message => {
       self.responses.push({
@@ -150,7 +150,7 @@ export default {
         picture: message.picture,
         date: message.date,
       });
-        self.scrollToEnd();
+      self.scrollToEnd();
     });
     socket.on('user-connected', userId => {
       self.members.push(userId);
@@ -159,17 +159,17 @@ export default {
       self.responses = messages;
     });
     socket.on('update-chat', messages => {
-         this.$parent.$data.newmessage = true;
+      this.$parent.$data.newmessage = true;
       self.responses = messages;
     });
 
     socket.on('update-private-chat', messages => {
-         this.$parent.$data.newprivatemessage = true;
+      this.$parent.$data.newprivatemessage = true;
       self.privateresponses = messages;
     });
 
     socket.on('update-gang-chat', messages => {
-         this.$parent.$data.newgangmessage = true;
+      this.$parent.$data.newgangmessage = true;
       self.gangresponses = messages;
     });
 
@@ -192,24 +192,19 @@ export default {
   },
   updated() {
     this.scrollToEnd();
-      if (this.isAtBottom()) this.scrollToEnd();
+    if (this.isAtBottom()) this.scrollToEnd();
   },
   methods: {
     ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
     handleSubmit() {
       if (this.message.length > 0) {
-        let channel ="";
+        let channel = '';
         const self = this;
-        if(self.showChat)
-        {
-        channel ="public";
-        }
-        else if(self.gangChat)
-        {
-        channel = self.user.gang;
-        }
-        else if(self.privateChat)
-        {
+        if (self.showChat) {
+          channel = 'public';
+        } else if (self.gangChat) {
+          channel = self.user.gang;
+        } else if (self.privateChat) {
           channel = receiver;
         }
         this.isLoading = true;
@@ -218,7 +213,7 @@ export default {
         socket.emit('send-msg', {
           token,
           message,
-          channel
+          channel,
         });
         this.message = null;
         setTimeout(() => {
@@ -259,13 +254,13 @@ export default {
     },
     scrollToEnd() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
-              container.scrollTop = container.scrollHeight;
+      container.scrollTop = container.scrollHeight;
     },
     isAtBottom() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
-          if (container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
-          else this.autoscroll = false;
-          return container.scrollTop + 650 > container.scrollHeight;
+      if (container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
+      else this.autoscroll = false;
+      return container.scrollTop + 650 > container.scrollHeight;
     },
     checkUrl(url) {
       try {
@@ -290,7 +285,7 @@ export default {
   font-size: 13px;
 }
 
-.sender{
+.sender {
   font-size: 10px;
 }
 

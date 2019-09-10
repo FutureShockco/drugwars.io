@@ -126,7 +126,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-  props: ['player', 'rank','reputation','reward'],
+  props: ['player', 'rank', 'reputation', 'reward'],
   data() {
     return {
       isLoading: false,
@@ -168,24 +168,25 @@ export default {
     total() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        (parseFloat(prizePops.balance) * prizePops.steemprice)  / 100*
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100 * prizePops.daily_percent) /
+        (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
         0.005
       );
     },
     totalRewards() {
       const daily = parseFloat(
-        (this.player.drug_production_rate / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
+        (this.player.drug_production_rate / this.prizeProps.drug_production_rate) *
+          this.totalDailyDWD,
       ).toFixed(3);
       return { daily };
     },
-        totalHeistDWD() {
+    totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
         (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *

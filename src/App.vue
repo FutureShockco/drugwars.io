@@ -48,14 +48,14 @@ export default {
   data() {
     return {
       modalIsOpen: localStorage.firstime || false,
-      attempt:1,
-      connected:false
+      attempt: 1,
+      connected: false,
     };
   },
-  watch:{
-    connected(){
+  watch: {
+    connected() {
       this.connected = this.$store.state.game.isconnected;
-    }
+    },
   },
   computed: {
     username() {
@@ -71,8 +71,7 @@ export default {
       return this.$store.state.ui.showLoading;
     },
     isConnected() {
-      if (store.state.auth.username) 
-      {
+      if (store.state.auth.username) {
         return this.$store.state.game.isconnected;
       }
       return true;
@@ -90,7 +89,6 @@ export default {
       store.dispatch('login').then(() => {
         if (store.state.auth.username) {
           store.dispatch('init').then(() => {
-       
             self.attempt = 1;
           });
         } else {

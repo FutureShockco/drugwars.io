@@ -137,7 +137,7 @@ import { units } from 'drugwars';
 import Promise from 'bluebird';
 
 export default {
-  props: ['base','territory','targetNickname','show'],
+  props: ['base', 'territory', 'targetNickname', 'show'],
   data() {
     return {
       isLoading: false,
@@ -164,7 +164,7 @@ export default {
     }
   },
   computed: {
-    parentData: function() {
+    parentData() {
       return this.$parent.$data; // or whatever you want to access
     },
     ownBase() {
@@ -181,21 +181,23 @@ export default {
       if (this.action_type !== 'occupy') {
         units = this.$store.state.game.user.units.map(
           unit =>
-            unit.base === this.ownBase.base &&
-            unit.territory === this.ownBase.territory && {
-              key: unit.unit,
-              amount: unit.amount,
-            } || []
+            (unit.base === this.ownBase.base &&
+              unit.territory === this.ownBase.territory && {
+                key: unit.unit,
+                amount: unit.amount,
+              }) ||
+            [],
         );
       } else
         units = this.$store.state.game.user.units.map(
           unit =>
-            unit.base === this.ownBase.base &&
-            unit.unit === 'occupation_troop' &&
-            unit.territory === this.ownBase.territory && {
-              key: unit.unit,
-              amount: unit.amount,
-            } || []
+            (unit.base === this.ownBase.base &&
+              unit.unit === 'occupation_troop' &&
+              unit.territory === this.ownBase.territory && {
+                key: unit.unit,
+                amount: unit.amount,
+              }) ||
+            [],
         );
       return units;
     },
@@ -443,7 +445,7 @@ export default {
       }
       return !this.errorMessage;
     },
-    closeAction(){
+    closeAction() {
       this.$parent.$data.showAction = false;
     },
     addUnit(payload) {
@@ -564,10 +566,8 @@ export default {
   }
 }
 
-.mapaction{
-    position:absolute;
-    background:linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)), url(/img/fake-brick.png)
-    
+.mapaction {
+  position: absolute;
+  background: linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)), url(/img/fake-brick.png);
 }
-
 </style>

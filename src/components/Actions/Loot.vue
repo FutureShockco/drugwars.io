@@ -52,6 +52,6 @@
 
 <script>
 export default {
-  props: ['stolenResources', 'result','number'],
+  props: ['stolenResources', 'result', 'number'],
 };
 </script>

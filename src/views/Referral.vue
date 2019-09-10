@@ -84,13 +84,11 @@ export default {
   background: #0d0d0d7a;
 }
 
-
 @media screen and (min-width: 200px) and (max-width: 669px) {
-  a{
-     max-width: 100%;
+  a {
+    max-width: 100%;
     word-break: break-word;
     font-size: 20px;
-   }
+  }
 }
-
 </style>

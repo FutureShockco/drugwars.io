@@ -16,89 +16,91 @@
 import { mapActions } from 'vuex';
 
 export default {
- props: ['item'],
- data() {
-  return {
-   isLoading: false,
-  };
- },
- computed: {
-  priceInSteem() {
-   return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+  props: ['item'],
+  data() {
+    return {
+      isLoading: false,
+    };
   },
-  amountOfDWD() {
-   return (((this.item.price / this.$store.state.game.prizeProps.steemprice) * 3) / 100).toFixed(3);
+  computed: {
+    priceInSteem() {
+      return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+    },
+    amountOfDWD() {
+      return (((this.item.price / this.$store.state.game.prizeProps.steemprice) * 3) / 100).toFixed(
+        3,
+      );
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return false;
+    },
+    username() {
+      return this.$store.state.auth.username;
+    },
+    notEnoughDWD() {
+      return this.amountOfDWD > this.$store.state.game.user.user.dwd;
+    },
   },
-  steemAccount() {
-   if (this.$store.state.auth.account) return this.$store.state.auth.account;
-   return false;
+  methods: {
+    ...mapActions(['send', 'init']),
+    handleSubmit() {
+      this.isLoading = true;
+      const payload = {
+        amount: 1,
+        type: 'dw-pack',
+      };
+      this.send(payload)
+        .then(() => {
+          Promise.delay(3000).then(() => {
+            this.init();
+            this.isLoading = false;
+            this.amount = 0;
+          });
+        })
+        .catch(e => {
+          console.error('Failed to buy pack', e);
+          this.isLoading = false;
+        });
+    },
   },
-  username() {
-   return this.$store.state.auth.username;
-  },
-  notEnoughDWD() {
-   return this.amountOfDWD > this.$store.state.game.user.user.dwd;
-  },
- },
- methods: {
-  ...mapActions(['send', 'init']),
-  handleSubmit() {
-   this.isLoading = true;
-   const payload = {
-    amount: 1,
-    type: 'dw-pack',
-   };
-   this.send(payload)
-    .then(() => {
-     Promise.delay(3000).then(() => {
-      this.init();
-      this.isLoading = false;
-      this.amount = 0;
-     });
-    })
-    .catch(e => {
-     console.error('Failed to buy pack', e);
-     this.isLoading = false;
-    });
-  },
- },
 };
 </script>
 
 <style scoped lang="less">
 @import '../vars.less';
 .icon {
- top: -10px;
- position: relative;
+  top: -10px;
+  position: relative;
 }
 
 .production {
- display: inline-grid;
- color: #fbbd08;
+  display: inline-grid;
+  color: #fbbd08;
 }
 
 .title {
- color: #fbbd08;
- top: 0px;
- font-family: @heading-font;
- font-size: 26px;
- text-transform: uppercase;
- transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
- width: 200px;
- left: 50%;
- text-align: center;
- margin: 0;
- line-height: 20px;
- position: relative;
- text-rendering: optimizeLegibility;
- font-weight: 900;
- text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
- white-space: nowrap;
+  color: #fbbd08;
+  top: 0px;
+  font-family: @heading-font;
+  font-size: 26px;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%) skew(-24deg) rotate(-10deg);
+  width: 200px;
+  left: 50%;
+  text-align: center;
+  margin: 0;
+  line-height: 20px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  white-space: nowrap;
 }
 
 .type {
- color: #fbbd08;
- top: 5px !important;
- font-size: 16px;
+  color: #fbbd08;
+  top: 5px !important;
+  font-size: 16px;
 }
 </style>

@@ -78,14 +78,14 @@ export default {
     total() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        (parseFloat(prizePops.balance) * prizePops.steemprice)  / 100*
+        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100 * prizePops.daily_percent) /
+        (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
         0.005
       );
     },
@@ -130,19 +130,21 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      if(ocLvl = this.$store.state.game.user.buildings.find(
-        b =>
-          b.building === 'operation_center' &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
-      ))
-      {
-              ocLvl = this.$store.state.game.user.buildings.find(
-        b =>
-          b.building === 'operation_center' &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
-      ).lvl || 0;
+      if (
+        (ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ))
+      ) {
+        ocLvl =
+          this.$store.state.game.user.buildings.find(
+            b =>
+              b.building === 'operation_center' &&
+              b.territory === this.base.territory &&
+              b.base === this.base.base,
+          ).lvl || 0;
       }
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
@@ -298,8 +300,8 @@ export default {
   margin-top: -8px !important;
   font-size: 12px;
 }
-.steembalance{
-    display: initial;
+.steembalance {
+  display: initial;
 }
 .balances {
   color: white;
@@ -348,9 +350,9 @@ export default {
 }
 
 @media screen and (min-width: 200px) and (max-width: 669px) {
-  .steembalance{
-     display: none;
-   }
+  .steembalance {
+    display: none;
+  }
   .balances {
     display: flex;
     font-size: 16px !important;
@@ -362,7 +364,7 @@ export default {
       padding-top: 8px;
       margin-left: 0px;
       margin-right: 0px;
-  
+
       .balance {
         float: right;
         text-align: left;
@@ -398,7 +400,7 @@ export default {
 }
 
 @media screen and (min-width: 670px) and (max-width: 1119px) {
-  .steembalance{
+  .steembalance {
     display: none;
   }
   .balances {

@@ -56,7 +56,7 @@
 
 <script>
 export default {
-  props: ['username', 'size', 'xp', 'rank', 'picture','reputation'],
+  props: ['username', 'size', 'xp', 'rank', 'picture', 'reputation'],
   data() {
     return {
       config: {
@@ -99,7 +99,7 @@ export default {
     background-position: 50% 50%;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.4);
-        background: rgb(15, 15, 15);
+    background: rgb(15, 15, 15);
   }
   .level {
     display: inline-block;

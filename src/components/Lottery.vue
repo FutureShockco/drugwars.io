@@ -51,7 +51,7 @@ export default {
     },
     dwdPrice() {
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
-      return (price * this.priceInDWD) * this.$store.state.game.prizeProps.steemprice;
+      return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
       return this.priceInDWD > this.$store.state.game.user.user.dwd;
@@ -60,16 +60,14 @@ export default {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
       return false;
     },
-    myTickets(){
-      if(this.$store.state.game.user.lottery && this.$store.state.game.user.lottery[0])
-      {
-       return this.$store.state.game.user.lottery[0].ticket;
-
+    myTickets() {
+      if (this.$store.state.game.user.lottery && this.$store.state.game.user.lottery[0]) {
+        return this.$store.state.game.user.lottery[0].ticket;
       }
-      else return 0
+      return 0;
     },
-    lastWinner(){
-      return  this.$store.state.game.prizeProps.lotterywinner[0]
+    lastWinner() {
+      return this.$store.state.game.prizeProps.lotterywinner[0];
     },
     balances() {
       let ocLvl = 0;
@@ -119,13 +117,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['send','init']),
+    ...mapActions(['send', 'init']),
     handleSubmit() {
       if (Number(this.amount) > 0) {
         this.isLoading = true;
         const payload = {
           amount: Math.round(Number(this.amount)),
-          type:'dw-lottery'
+          type: 'dw-lottery',
         };
         this.send(payload)
           .then(() => {
@@ -163,19 +161,19 @@ h4 {
   white-space: nowrap;
 }
 
-.lottery{
+.lottery {
   position: relative;
 }
 
-.lottery-text{
+.lottery-text {
   color: white;
   text-transform: uppercase;
   font-weight: 700;
   padding: 3px 25px;
   font-size: 11px;
   position: absolute;
-  top:15px;
-  display: block!important;
+  top: 15px;
+  display: block !important;
 }
 
 .checkout {

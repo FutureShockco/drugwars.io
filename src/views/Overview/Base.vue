@@ -10,7 +10,7 @@
                 <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
                     <h6>Location </h6>
                 <input class="input input-primary mb-2" v-model="target_base" type="number"/>
-            <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnough || !base ||!target_base || !target_territory"
+            <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnough || !ownBase ||!target_base || !target_territory"
              type="submit" class="button btn-block button-green mb-2">
             <template v-if="isLoading || waitingConfirmation">
                       <SmallLoading/>
@@ -21,7 +21,7 @@
               </template>
               </button>
             <button
-              :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !base ||!target_base || !target_territory"
+              :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !ownBase ||!target_base || !target_territory"
               class="button btn-block button-yellow mb-2">
             <img class="dwdicon" src="/img/icons/dwd.png"/>
             <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
@@ -37,15 +37,16 @@
 import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
+
 export default {
-  props: [ 'inProgress'],
+  props: ['inProgress'],
   data() {
     return {
       isLoading: false,
       waitingConfirmation: false,
-      target_territory:null,
-      target_base:null,
-      errorMessage:null,
+      target_territory: null,
+      target_base: null,
+      errorMessage: null,
     };
   },
   watch: {
@@ -56,23 +57,19 @@ export default {
     },
   },
   computed: {
-    base() {
-      return this.$store.state.game.mainbase;
-    },
     ownBase() {
       return this.$store.state.game.mainbase;
     },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
     },
-    price()
-    {
-      return 100
+    price() {
+      return 100;
     },
 
     dwdPrice() {
-      const price = this.$store.state.game.prizeProps.seProps.lastPrice ;
-      return (price * this.price) * this.$store.state.game.prizeProps.steemprice;
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice;
+      return price * this.price * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
       return this.price > this.$store.state.game.user.user.dwd;
@@ -85,8 +82,8 @@ export default {
       const building = this.$store.state.game.user.buildings.find(
         b =>
           b.building === this.id &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
+          b.territory === this.ownBase.territory &&
+          b.base === this.ownBase.base,
       );
       if (building) {
         if (building.pending_update) {
@@ -108,7 +105,8 @@ export default {
     },
     upgradeLabel() {
       let label = 'Move';
-      if(this.target_territory && this.target_base)  label = 'Move to ' + this.target_territory +':'+ this.target_base;
+      if (this.target_territory && this.target_base)
+        label = `Move to ${this.target_territory}:${this.target_base}`;
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;
@@ -118,38 +116,38 @@ export default {
     },
     HQ() {
       if (
-        this.base &&
+        this.ownBase &&
         this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.territory === this.ownBase.territory &&
+            b.base === this.ownBase.base,
         )
       ) {
         return this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.territory === this.ownBase.territory &&
+            b.base === this.ownBase.base,
         );
       }
       return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
     },
-        balances() {
+    balances() {
       let ocLvl = 0;
       if (
         this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.territory === this.ownBase.territory &&
+            b.base === this.ownBase.base,
         )
       )
         ocLvl = this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
+            b.territory === this.ownBase.territory &&
+            b.base === this.ownBase.base,
         ).lvl;
       let labLvl = 0;
       if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
@@ -175,7 +173,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['send','init']),
+    ...mapActions(['send', 'init']),
     handleSubmit() {
       const self = this;
       this.errorMessage = null;
@@ -184,31 +182,33 @@ export default {
       }
       if (this.target_base > 225) {
         this.errorMessage = `Please choose a shorter name for your base`;
-      } 
-      if(!this.errorMessage)
-      {
-        this.isLoading = true;
-        const payload = { 
-        type: 'move-base',
-        from_territory: Number(self.ownBase.territory),
-        from_base: Number(self.ownBase.base),
-        territory: Number(self.target_territory),
-        base: Number(self.target_base),
-        };
-      this.send(payload)
-        .then(() => {
-          this.isLoading = false;
-          this.init();
-        })
-        .catch(e => {
-          this.notify({ type: 'error', message: 'Failed to move base please check that the location is empty and you dont have any fight going from or coming to your base' });
-          console.error('Failed to move base', e);
-          this.isLoading = false;
-        });
       }
-     
+      if (!this.errorMessage) {
+        this.isLoading = true;
+        const payload = {
+          type: 'move-base',
+          from_territory: Number(self.ownBase.territory),
+          from_base: Number(self.ownBase.base),
+          territory: Number(self.target_territory),
+          base: Number(self.target_base),
+        };
+        this.send(payload)
+          .then(() => {
+            this.isLoading = false;
+            this.init();
+          })
+          .catch(e => {
+            this.notify({
+              type: 'error',
+              message:
+                'Failed to move base please check that the location is empty and you dont have any fight going from or coming to your base',
+            });
+            console.error('Failed to move base', e);
+            this.isLoading = false;
+          });
+      }
     },
-  }
+  },
 };
 </script>
 

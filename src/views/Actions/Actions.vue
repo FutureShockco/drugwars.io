@@ -178,21 +178,23 @@ export default {
       if (this.action_type !== 'occupy') {
         units = this.$store.state.game.user.units.map(
           unit =>
-            unit.base === this.ownBase.base &&
-            unit.territory === this.ownBase.territory && {
-              key: unit.unit,
-              amount: unit.amount,
-            } || []
+            (unit.base === this.ownBase.base &&
+              unit.territory === this.ownBase.territory && {
+                key: unit.unit,
+                amount: unit.amount,
+              }) ||
+            [],
         );
       } else
         units = this.$store.state.game.user.units.map(
           unit =>
-            unit.base === this.ownBase.base &&
-            unit.unit === 'occupation_troop' &&
-            unit.territory === this.ownBase.territory && {
-              key: unit.unit,
-              amount: unit.amount,
-            } || []
+            (unit.base === this.ownBase.base &&
+              unit.unit === 'occupation_troop' &&
+              unit.territory === this.ownBase.territory && {
+                key: unit.unit,
+                amount: unit.amount,
+              }) ||
+            [],
         );
       return units;
     },
@@ -464,7 +466,7 @@ export default {
     },
     openInNewTab() {
       const url = 'https://simulator.drugwars.io/';
-      const myarmy = this.ownUnits.map(unit => 
+      const myarmy = this.ownUnits.map(unit =>
         this.serialize({
           p: 1,
           key: unit.key,

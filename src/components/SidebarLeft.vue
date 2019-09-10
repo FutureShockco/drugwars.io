@@ -178,18 +178,18 @@ export default {
     },
     jobs() {
       let jobs = 0;
-      if(this.$store.state.game.user.jobs)
-      this.$store.state.game.user.jobs.forEach(element => {
-        const pendingUpdate = new Date(element.date).getTime();
-        const now = new Date().getTime();
-        if (pendingUpdate >= now) jobs++;
-      });
-      if(this.$store.state.game.user.gangjobs)
-      this.$store.state.game.user.gangjobs.forEach(element => {
-        const pendingUpdate = new Date(element.date).getTime();
-        const now = new Date().getTime();
-        if (pendingUpdate >= now) jobs++;
-      });
+      if (this.$store.state.game.user.jobs)
+        this.$store.state.game.user.jobs.forEach(element => {
+          const pendingUpdate = new Date(element.date).getTime();
+          const now = new Date().getTime();
+          if (pendingUpdate >= now) jobs++;
+        });
+      if (this.$store.state.game.user.gangjobs)
+        this.$store.state.game.user.gangjobs.forEach(element => {
+          const pendingUpdate = new Date(element.date).getTime();
+          const now = new Date().getTime();
+          if (pendingUpdate >= now) jobs++;
+        });
       return jobs;
     },
     activeIncFightsCount() {

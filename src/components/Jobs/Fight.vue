@@ -144,7 +144,7 @@ export default {
     result() {
       let result;
       let isAuthor;
-			isAuthor = true;
+      isAuthor = true;
       if (this.fight.result === 1) {
         result = 'win';
       } else if (this.fight.result === 3) {

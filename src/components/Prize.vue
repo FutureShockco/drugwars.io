@@ -76,8 +76,10 @@ export default {
       );
     },
     totalUSD() {
-       const { prizeProps } = this.$store.state.game;
-      return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice * prizeProps.steemprice).toFixed(2)
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        (this.total / this.$store.state.game.prizeProps.seProps.lastPrice) * prizeProps.steemprice,
+      ).toFixed(2);
     },
     lastDayDWD() {
       const { prizeProps } = this.$store.state.game;
@@ -94,11 +96,13 @@ export default {
       );
     },
     totalSteem() {
-        return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice).toFixed(2)
+      return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice).toFixed(
+        2,
+      );
     },
     totalLottery() {
       const { prizeProps } = this.$store.state.game;
-      return 5 + (prizeProps.all_tickets/1000)
+      return 5 + prizeProps.all_tickets / 1000;
     },
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
@@ -196,7 +200,12 @@ export default {
   }
   .prizes {
     background: #ffc508;
-    background-image: radial-gradient(ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%) !important;
+    background-image: radial-gradient(
+      ellipse farthest-corner at center 0px,
+      #ffc400 -150%,
+      #ffc400 45%,
+      #ff8800 85%
+    ) !important;
     -webkit-text-fill-color: #000000;
     margin-top: 0px;
     display: -webkit-box;
@@ -222,7 +231,6 @@ export default {
     background-position: 100% 50%;
   }
 }
-
 @keyframes aitf {
   0% {
     background-position: 0% 50%;

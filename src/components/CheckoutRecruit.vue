@@ -100,7 +100,9 @@ export default {
       return 0;
     },
     priceInSteem() {
-      return parseFloat((this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+      return parseFloat(
+        (this.price * this.quantity) / this.$store.state.game.prizeProps.steemprice,
+      ).toFixed(3);
     },
     priceInDWD() {
       return this.priceInSteem * 2;

@@ -143,317 +143,317 @@
   </div>
 </template>
 <script>
-	import { mapActions } from 'vuex';
-	import VueApexCharts from 'vue-apexcharts';
-	import SSC from 'sscjs';
+import { mapActions } from 'vuex';
+import VueApexCharts from 'vue-apexcharts';
+import SSC from 'sscjs';
 
-	export default {
-		components: {
-			VueApexCharts,
-		},
-		data() {
-			return {
-				isLoading: false,
-				nickname: null,
-				picked: 'steem',
-				amount: 0,
-				cat: [],
-				tradehistory: [],
-				maxBuy: [],
-				maxSell: [],
-				buyBook: [],
-				sellBook: [],
-				limitMin: 0,
-				limitMax: 0,
-				loading: false,
-				errored: false,
-				options: {
-					tooltip: {
-								enabled: false
-					},
-					chart: {
-						height: 350,
-						type: 'line',
-						stacked: false,
-						toolbar: false,
-					},
-					dataLabels: {
-						enabled: false,
-					},
-					colors: ['#28a745', '#FF1654'],
-					stroke: {
-						width: [4, 4],
-						curve: 'smooth',
-					},
-					plotOptions: {
-						bar: {
-							columnWidth: '25%',
-						},
-					},
-					xaxis: {
-						categories: this.cat,
-						labels: {
-							show: false,
-						},
-					},
-					yaxis: [
-						{
-							axisTicks: {
-								show: false,
-							},
-							axisBorder: {
-								show: false,
-								color: '#28a745',
-							},
-							labels: {
-								style: {
-									color: '#fff',
-								},
-							},
-						},
-						{
-							opposite: true,
-							axisTicks: {
-								show: false,
-							},
-							axisBorder: {
-								show: true,
-								color: '#FF1654',
-							},
-							labels: {
-								show: false,
-								style: {
-									color: '#FF1654',
-								},
-							},
-						},
-					],
-					legend: {
-						horizontalAlign: 'center',
-						offsetX: 0,
-						offsetY: -5,
-					},
-				},
-				series: [
-					{
-						name: 'Bid',
-						data: [],
-						type: 'area',
-					},
-					{
-						name: 'Ask',
-						data: [],
-						type: 'area',
-					},
-				],
-				yaxis: [
-					{
-						title: {
-							text: 'Bid',
-						},
-					},
-					{
-						opposite: true,
-						title: {
-							text: 'Ask',
-						},
-					},
-				],
-			};
-		},
-		created() {
-			const self = this;
-			const ssc = new SSC('https://api.steem-engine.com/rpc/');
-			ssc
-				.find(
-					'market',
-					'tradesHistory',
-					{
-						symbol: `DWD`,
-					},
-					20,
-					0,
-					[{ index: 'timestamp', descending: false }],
-					false,
-				)
-				.then(async tradehistory => {
-					self.tradehistory = tradehistory;
-					ssc
-						.find(
-							'market',
-							'buyBook',
-							{
-								symbol: `DWD`,
-							},
-							30,
-							0,
-							[{ index: 'timestamp', descending: false }],
-							false,
-						)
-						.then(async buyBook => {
-							self.buyBook = buyBook;
-							self.buyBook.forEach(element => {
-								if (element.price > self.maxBuy) self.maxBuy = element.price;
-								self.series[0].data.push(element.price);
-							});
-							self.buyBook.forEach(element => {
-								self.series[0].data.push(0);
-							});
-							ssc
-								.find(
-									'market',
-									'sellBook',
-									{
-										symbol: `DWD`,
-									},
-									30,
-									0,
-									[{ index: 'price', descending: false }],
-									false,
-								)
-								.then(async sellBook => {
-									self.sellBook = sellBook;
-									sellBook.forEach(element => {
-										self.series[1].data.push(0);
-									});
-									sellBook.forEach(element => {
-										if (element.price < self.limitMax) self.limitMax = element.price;
-										self.series[1].data.push(element.price);
-									});
-									self.cat = [self.maxBuy, self.limitMax];
-									ssc
-										.find(
-											'market',
-											'sellBook',
-											{
-												symbol: `DWD`,
-												account: 'ongame',
-											},
-											100,
-											0,
-											[{ index: 'timestamp', descending: true }],
-											false,
-										)
-										.then(async personalSellBook => {
-											console.log(personalSellBook);
+export default {
+  components: {
+    VueApexCharts,
+  },
+  data() {
+    return {
+      isLoading: false,
+      nickname: null,
+      picked: 'steem',
+      amount: 0,
+      cat: [],
+      tradehistory: [],
+      maxBuy: [],
+      maxSell: [],
+      buyBook: [],
+      sellBook: [],
+      limitMin: 0,
+      limitMax: 0,
+      loading: false,
+      errored: false,
+      options: {
+        tooltip: {
+          enabled: false,
+        },
+        chart: {
+          height: 350,
+          type: 'line',
+          stacked: false,
+          toolbar: false,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        colors: ['#28a745', '#FF1654'],
+        stroke: {
+          width: [4, 4],
+          curve: 'smooth',
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '25%',
+          },
+        },
+        xaxis: {
+          categories: this.cat,
+          labels: {
+            show: false,
+          },
+        },
+        yaxis: [
+          {
+            axisTicks: {
+              show: false,
+            },
+            axisBorder: {
+              show: false,
+              color: '#28a745',
+            },
+            labels: {
+              style: {
+                color: '#fff',
+              },
+            },
+          },
+          {
+            opposite: true,
+            axisTicks: {
+              show: false,
+            },
+            axisBorder: {
+              show: true,
+              color: '#FF1654',
+            },
+            labels: {
+              show: false,
+              style: {
+                color: '#FF1654',
+              },
+            },
+          },
+        ],
+        legend: {
+          horizontalAlign: 'center',
+          offsetX: 0,
+          offsetY: -5,
+        },
+      },
+      series: [
+        {
+          name: 'Bid',
+          data: [],
+          type: 'area',
+        },
+        {
+          name: 'Ask',
+          data: [],
+          type: 'area',
+        },
+      ],
+      yaxis: [
+        {
+          title: {
+            text: 'Bid',
+          },
+        },
+        {
+          opposite: true,
+          title: {
+            text: 'Ask',
+          },
+        },
+      ],
+    };
+  },
+  created() {
+    const self = this;
+    const ssc = new SSC('https://api.steem-engine.com/rpc/');
+    ssc
+      .find(
+        'market',
+        'tradesHistory',
+        {
+          symbol: `DWD`,
+        },
+        20,
+        0,
+        [{ index: 'timestamp', descending: false }],
+        false,
+      )
+      .then(async tradehistory => {
+        self.tradehistory = tradehistory;
+        ssc
+          .find(
+            'market',
+            'buyBook',
+            {
+              symbol: `DWD`,
+            },
+            30,
+            0,
+            [{ index: 'timestamp', descending: false }],
+            false,
+          )
+          .then(async buyBook => {
+            self.buyBook = buyBook;
+            self.buyBook.forEach(element => {
+              if (element.price > self.maxBuy) self.maxBuy = element.price;
+              self.series[0].data.push(element.price);
+            });
+            self.buyBook.forEach(element => {
+              self.series[0].data.push(0);
+            });
+            ssc
+              .find(
+                'market',
+                'sellBook',
+                {
+                  symbol: `DWD`,
+                },
+                30,
+                0,
+                [{ index: 'price', descending: false }],
+                false,
+              )
+              .then(async sellBook => {
+                self.sellBook = sellBook;
+                sellBook.forEach(element => {
+                  self.series[1].data.push(0);
+                });
+                sellBook.forEach(element => {
+                  if (element.price < self.limitMax) self.limitMax = element.price;
+                  self.series[1].data.push(element.price);
+                });
+                self.cat = [self.maxBuy, self.limitMax];
+                ssc
+                  .find(
+                    'market',
+                    'sellBook',
+                    {
+                      symbol: `DWD`,
+                      account: 'ongame',
+                    },
+                    100,
+                    0,
+                    [{ index: 'timestamp', descending: true }],
+                    false,
+                  )
+                  .then(async personalSellBook => {
+                    console.log(personalSellBook);
 
-											ssc
-												.find(
-													'market',
-													'buyBook',
-													{
-														symbol: `DWD`,
-														account: 'ongame',
-													},
-													100,
-													0,
-													[{ index: 'timestamp', descending: true }],
-													false,
-												)
-												.then(async personalBuyBook => {
-													console.log(personalBuyBook);
-												});
-										});
-								});
-						});
-				});
-		},
-		computed: {
-			user() {
-				return this.$store.state.game.user.user;
-			},
-			steemengine() {
-				return this.$store.state.game.prizeProps.seProps;
-			},
-			prizeProps() {
-				const { prizeProps } = this.$store.state.game;
-				return prizeProps;
-			},
-			lastUpdate() {
-				return new Date(
-					Date.parse(this.$store.state.game.user.user.last_profile_update),
-				).toLocaleString();
-			},
-			steemAccount() {
-				if (this.$store.state.auth.account) return this.$store.state.auth.account;
-				return 0;
-			},
-			dwdToSteem() {
-				const { prizeProps } = this.$store.state.game;
-				return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
-			},
-			totalDWD() {
-				const { prizeProps } = this.$store.state.game;
-				return parseFloat(this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance))).toFixed(
-					3,
-				);
-			},
-			endDate() {
-				const { prizeProps } = this.$store.state.game;
-				const end = parseFloat(
-					(this.steemengine.maxSupply -
-						this.steemengine.nullBalance -
-						(parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
-						this.prizeProps.yesterday_rewards,
-				).toFixed(0);
-				const date = new Date();
-				date.setDate(date.getDay() + end);
-				return date.toLocaleString();
-			},
-			endSupply() {
-				const { prizeProps } = this.$store.state.game;
-				const end = parseFloat(
-					(this.steemengine.maxSupply -
-						this.steemengine.nullBalance -
-						(parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
-						(this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards),
-				);
-				const date = new Date();
-				date.setDate(date.getDay() + end);
-				return date.toLocaleString();
-			},
-		},
-		methods: {
-			...mapActions(['send', 'notify']),
-			handleSubmit() {
-				const payload = {
-					currency: this.picked,
-					amount: parseInt(this.amount),
-					type: 'widthraw',
-				};
-				this.isLoading = true;
-				this.send(payload)
-					.then(result => {
-						if (result) {
-							this.isLoading = false;
-						}
-					})
-					.catch(e => {
-						this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
-						console.error(`Failed to withdraw ${payload.amount} DWD`, e);
-						this.isLoading = false;
-					});
-			},
-		},
-	};
+                    ssc
+                      .find(
+                        'market',
+                        'buyBook',
+                        {
+                          symbol: `DWD`,
+                          account: 'ongame',
+                        },
+                        100,
+                        0,
+                        [{ index: 'timestamp', descending: true }],
+                        false,
+                      )
+                      .then(async personalBuyBook => {
+                        console.log(personalBuyBook);
+                      });
+                  });
+              });
+          });
+      });
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    steemengine() {
+      return this.$store.state.game.prizeProps.seProps;
+    },
+    prizeProps() {
+      const { prizeProps } = this.$store.state.game;
+      return prizeProps;
+    },
+    lastUpdate() {
+      return new Date(
+        Date.parse(this.$store.state.game.user.user.last_profile_update),
+      ).toLocaleString();
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
+    dwdToSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
+    },
+    totalDWD() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
+      ).toFixed(3);
+    },
+    endDate() {
+      const { prizeProps } = this.$store.state.game;
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          this.prizeProps.yesterday_rewards,
+      ).toFixed(0);
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+    endSupply() {
+      const { prizeProps } = this.$store.state.game;
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          (this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards),
+      );
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    handleSubmit() {
+      const payload = {
+        currency: this.picked,
+        amount: parseInt(this.amount),
+        type: 'widthraw',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
+          console.error(`Failed to withdraw ${payload.amount} DWD`, e);
+          this.isLoading = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped lang="less">
-	.icons {
-		margin-bottom: -3px;
-	}
+.icons {
+  margin-bottom: -3px;
+}
 
-	.text-yellow {
-		color: #ffc508;
-	}
+.text-yellow {
+  color: #ffc508;
+}
 
-	.detail {
-		font-size: 10px;
-		color: burlywood;
-		margin-bottom: 5px;
-	}
+.detail {
+  font-size: 10px;
+  color: burlywood;
+  margin-bottom: 5px;
+}
 
-	.datarow:nth-child(odd) {
+.datarow:nth-child(odd) {
   background: rgb(6, 20, 4);
 }
 
@@ -461,7 +461,7 @@
   background: rgb(0, 63, 28);
 }
 
-	.datarow2:nth-child(odd) {
+.datarow2:nth-child(odd) {
   background: rgb(53, 8, 8);
 }
 
@@ -469,4 +469,3 @@
   background: rgb(65, 2, 2);
 }
 </style>
-  

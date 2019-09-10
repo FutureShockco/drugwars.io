@@ -90,9 +90,9 @@ export default {
       concise: this.initiallyConcise,
       closed: false,
       showChat: false,
-      newmessage:false,
-      newgangmessage:false,
-      newprivatemessage:false
+      newmessage: false,
+      newgangmessage: false,
+      newprivatemessage: false,
     };
   },
 

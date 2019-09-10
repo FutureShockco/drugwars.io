@@ -100,96 +100,96 @@ import client from '@/helpers/client';
 import { continents, drugs, locations } from 'drugwars';
 
 export default {
- data() {
-  return {
-   main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
-   all_players: this.$store.state.game.prizeProps.users[0].total || null,
-   camera: null,
-   isLoading: true,
-   scene: null,
-   renderer: null,
-   mesh: null,
-   showLoading: true,
-   selected: null,
-   maxcount: 0,
-   currentTerritory: null,
-   territories: null,
-   oldcolor: null,
-   animation: null,
-   player_territories: null,
-   controls: null,
-   textlabels: [],
-   targets: [],
-   username: this.$store.state.auth.username,
-   showTargets: false,
-   selectedTerritory: null,
-   nickname: null,
-   actionBase: null,
-   actionTerritory: null,
-   showAction: false,
-   showSpots: true,
-   drugs: drugs,
-   locations: locations,
-  };
- },
- beforeDestroy() {
-  this.clearScene(this.scene);
- },
- computed: {
-  ownBase() {
-   return this.$store.state.game.mainbase;
+  data() {
+    return {
+      main: this.$store.state.game.user.buildings.find(b => b.main === 1) || null,
+      all_players: this.$store.state.game.prizeProps.users[0].total || null,
+      camera: null,
+      isLoading: true,
+      scene: null,
+      renderer: null,
+      mesh: null,
+      showLoading: true,
+      selected: null,
+      maxcount: 0,
+      currentTerritory: null,
+      territories: null,
+      oldcolor: null,
+      animation: null,
+      player_territories: null,
+      controls: null,
+      textlabels: [],
+      targets: [],
+      username: this.$store.state.auth.username,
+      showTargets: false,
+      selectedTerritory: null,
+      nickname: null,
+      actionBase: null,
+      actionTerritory: null,
+      showAction: false,
+      showSpots: true,
+      drugs,
+      locations,
+    };
   },
-  ownUnits() {
-   let units = [];
-   units = this.$store.state.game.user.units.map(
-    unit =>
-     unit.base === this.ownBase.base &&
-     unit.territory === this.ownBase.territory && {
-      key: unit.unit,
-      amount: unit.amount,
-     },
-   );
-   return units;
+  beforeDestroy() {
+    this.clearScene(this.scene);
   },
- },
- methods: {
-  prevent(e) {
-   e.preventDefault();
-   // else continue to route
+  computed: {
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
+    ownUnits() {
+      let units = [];
+      units = this.$store.state.game.user.units.map(
+        unit =>
+          unit.base === this.ownBase.base &&
+          unit.territory === this.ownBase.territory && {
+            key: unit.unit,
+            amount: unit.amount,
+          },
+      );
+      return units;
+    },
   },
-  chooseTarget(player) {
-   this.actionBase = player.base;
-   this.actionTerritory = player.territory;
-   this.nickname = player.nickname;
-   this.showAction = true;
-   const visitTitle = document.getElementById('title');
-   const visitButton = document.getElementById('visit');
-   const crosshairx = document.getElementById('crosshairx');
-   const crosshairy = document.getElementById('crosshairy');
-   crosshairx.style.opacity = 0;
-   crosshairy.style.opacity = 0;
-   visitTitle.style.opacity = 0;
-   visitButton.style.opacity = 0;
-  },
-  switchTargets() {
-   this.showTargets = !this.showTargets;
-  },
-  refreshTargets() {
-   const self = this;
-   self.targets = [];
-   client
-    .requestAsync('get_users', null)
-    .then(users => {
-     self.targets = users;
-     self.isLoading = false;
-    })
-    .catch(e => {
-     console.error('Failed to get users', e);
-     this.isLoading = false;
-    });
-  },
-  initPlanet() {
-   /* eslint-disable */
+  methods: {
+    prevent(e) {
+      e.preventDefault();
+      // else continue to route
+    },
+    chooseTarget(player) {
+      this.actionBase = player.base;
+      this.actionTerritory = player.territory;
+      this.nickname = player.nickname;
+      this.showAction = true;
+      const visitTitle = document.getElementById('title');
+      const visitButton = document.getElementById('visit');
+      const crosshairx = document.getElementById('crosshairx');
+      const crosshairy = document.getElementById('crosshairy');
+      crosshairx.style.opacity = 0;
+      crosshairy.style.opacity = 0;
+      visitTitle.style.opacity = 0;
+      visitButton.style.opacity = 0;
+    },
+    switchTargets() {
+      this.showTargets = !this.showTargets;
+    },
+    refreshTargets() {
+      const self = this;
+      self.targets = [];
+      client
+        .requestAsync('get_users', null)
+        .then(users => {
+          self.targets = users;
+          self.isLoading = false;
+        })
+        .catch(e => {
+          console.error('Failed to get users', e);
+          this.isLoading = false;
+        });
+    },
+    initPlanet() {
+      /* eslint-disable */
    const self = this;
    this.showLoading = true;
    this.renderer = new THREE.WebGLRenderer({ antialias: true });

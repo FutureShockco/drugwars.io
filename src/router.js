@@ -22,8 +22,7 @@ const Defense = () => import(/* webpackChunkName: "defense" */ '@/views/Building
 const BuildingDetail = () =>
   import(/* webpackChunkName: "buildingdetail" */ '@/components/BuildingDetail.vue');
 
-const DrugDetail = () =>
-  import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
+const DrugDetail = () => import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
@@ -63,7 +62,8 @@ const Market = () => import(/* webpackChunkName: "market" */ '@/views/Market/Mar
 const Withdraw = () => import(/* webpackChunkName: "withdraw" */ '@/views/Market/Withdraw.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
-const MyCollection = () => import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');
+const MyCollection = () =>
+  import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');
 const CardsMarket = () => import(/* webpackChunkName: "cardsmarket" */ '@/views/Cards/Market.vue');
 
 const AllCards = () => import(/* webpackChunkName: "allcards" */ '@/views/Cards/AllCards.vue');
@@ -78,7 +78,7 @@ const Fightboard = () =>
   import(/* webpackChunkName: "fightboard" */ '@/views/Leaderboards/Fightboard.vue');
 const Jobboard = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Leaderboards/Jobboard.vue');
-  const LotteryBoard = () =>
+const LotteryBoard = () =>
   import(/* webpackChunkName: "lotteryboard" */ '@/views/Leaderboards/LotteryBoard.vue');
 
 const DeleteBuilding = () =>

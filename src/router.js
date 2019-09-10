@@ -58,7 +58,6 @@ const Tokens = () => import(/* webpackChunkName: "tokens" */ '@/views/Shop/Token
 
 const Market = () => import(/* webpackChunkName: "market" */ '@/views/Market/Market.vue');
 const Withdraw = () => import(/* webpackChunkName: "withdraw" */ '@/views/Market/Withdraw.vue');
-const Claim = () => import(/* webpackChunkName: "claim-token" */ '@/views/Market/Claim.vue');
 const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
 const MyCollection = () => import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');
@@ -348,12 +347,6 @@ export default new Router({
       name: 'market',
       beforeEnter: requireAuth,
       component: Market,
-    },
-    {
-      path: '/market/dwd',
-      name: 'dwd',
-      beforeEnter: requireAuth,
-      component: Claim,
     },
     {
       path: '/market/withdraw',

@@ -4,8 +4,8 @@
         <img width="150px" :src="`/img/lottery.jpg`">
         <div class="lottery-text text-center">
         <div class="pt-2">TICKETS: {{myTickets}}</div>
-        <div class="text-green">Last winner : {{ lastWinner.nickname || 'government'}}</div>
-        <div class="text-yellow">Amount : {{ lastWinner.amount }} </div>
+        <div class="text-green">Last winner: {{ lastWinner.nickname || 'government'}}</div>
+        <div class="text-yellow">Amount: {{ lastWinner.amount }} </div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">
                <input class="input form-control input-block mb-2" v-model="amount" type="number" min="1">
@@ -166,13 +166,15 @@ h4 {
 }
 
 .lottery-text {
+  text-align: center;
   color: white;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 3px 25px;
   font-size: 11px;
   position: absolute;
-  top: 15px;
+  width: 140px;
+  left: calc(50% - 70px);
+  top: 26px;
   display: block !important;
 }
 

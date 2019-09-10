@@ -4,7 +4,7 @@
         <img width="150px" :src="`/img/heist.jpg`">
         <div class="heist-text text-center">
              <div class="pt-2">Total {{ prizeProps.heist_pool | amount }}</div>
-        <div class="text-green">Vest: {{ totalVest | amount }} DRUGS</div>
+        <div class="text-green">Vest: {{ totalVest | amount }} </div>
         <div class="text-yellow">+{{ ownHeistReward.amount }} ({{ownHeistReward.percent | amount}}%)</div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">
@@ -179,7 +179,8 @@ h4 {
   font-weight: 700;
   font-size: 11px;
   position: absolute;
-  left: 32px;
+  width: 100px;
+  left: calc(50% - 50px);
   top: 26px;
   display: block !important;
 }

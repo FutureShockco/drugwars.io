@@ -1,6 +1,6 @@
 <template>
     <div>
-        <OverviewTabs/>
+        <NewsTabs/>
         <div class="p-4 anim-fade-in">
             <Quickstart/>
         </div>

@@ -68,6 +68,9 @@ const mutations = {
   saveGangEvents(_state, payload) {
     Vue.set(_state, 'gang_events', payload);
   },
+  saveUserRewardHistory(_state, payload) {
+    Vue.set(_state, 'user_reward_history', payload);
+  },
   saveConnected(_state, payload) {
     Vue.set(_state, 'isconnected', payload);
   },
@@ -513,6 +516,21 @@ const actions = {
         .catch(err => {
           console.log(err);
           handleError(dispatch, err, 'Loading gang buildings failed');
+          return reject(err);
+        });
+    }),
+  refresh_reward_history: ({ commit, dispatch }) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_user_reward_history', { token })
+        .then(result => {
+          commit('saveUserRewardHistory', result);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading user history failed');
           return reject(err);
         });
     }),

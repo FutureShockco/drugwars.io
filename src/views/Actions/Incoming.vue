@@ -27,14 +27,13 @@ export default {
   created() {
     this.load_fights(1);
   },
-  data() {
-    return {
-      inc: this.$store.state.game.user.total_received[0].total_received || 0,
-    };
-  },
   computed: {
     fights() {
       return orderBy(this.$store.state.game.inc_fights, 'end_date', 'desc');
+    },
+    inc() {
+      if (this.$store.state.game.inc_fights) return this.$store.state.game.inc_fights.length;
+      return 0;
     },
   },
   methods: {

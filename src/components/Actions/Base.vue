@@ -7,9 +7,9 @@
         </div>
         <h5>
             <div>PRODUCTION PER DAY</div>
-            {{total_drugs * 60 * 60 * 24 | amount}}
-            <Icon name="drug" size="20" /> {{total_weapons * 60 * 60 * 24 | amount}}
-            <Icon name="weapon" size="20" /> {{total_alcohol * 60 * 60 * 24 | amount}}
+            {{totalDrugs * 60 * 60 * 24 | amount}}
+            <Icon name="drug" size="20" /> {{totalWeapons * 60 * 60 * 24 | amount}}
+            <Icon name="weapon" size="20" /> {{totalAlcohol * 60 * 60 * 24 | amount}}
             <Icon name="alcohol" size="20" />
         </h5>
     </div>
@@ -26,45 +26,45 @@ export default {
     };
   },
   computed: {
-    total_drugs() {
-      let total_drugs = 0;
+    totalDrugs() {
+      let totalDrugs = 0;
       this.items.forEach(element => {
         if (this.placeholder_buildings[element.building]) {
           const b = this.placeholder_buildings[element.building];
           if (element.lvl && b.production_rate && b.production_type === 'drugs')
-            total_drugs +=
+            totalDrugs +=
               b.production_rate * Number(element.lvl) * b.coeff +
               ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
         }
       });
-      return total_drugs;
+      return totalDrugs;
     },
-    total_weapons() {
-      let total_weapons = 0;
+    totalWeapons() {
+      let totalWeapons = 0;
       this.items.forEach(element => {
         if (this.placeholder_buildings[element.building]) {
           const b = this.placeholder_buildings[element.building];
           console.log(b);
           if (element.lvl && b.production_rate && b.production_type === 'weapons')
-            total_weapons +=
+            totalWeapons +=
               b.production_rate * Number(element.lvl) * b.coeff +
               ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
         }
       });
-      return total_weapons;
+      return totalWeapons;
     },
-    total_alcohol() {
-      let total_drugs = 0;
+    totalAlcohol() {
+      let totalDrugs = 0;
       this.items.forEach(element => {
         if (this.placeholder_buildings[element.building]) {
           const b = this.placeholder_buildings[element.building];
           if (element.lvl && b.production_rate && b.production_type === 'alcohol')
-            total_drugs +=
+            totalDrugs +=
               b.production_rate * Number(element.lvl) * b.coeff +
               ((b.production_rate * Number(element.lvl) * b.coeff) / 100) * Number(element.lvl);
         }
       });
-      return total_drugs;
+      return totalDrugs;
     },
   },
 };

@@ -493,7 +493,6 @@ export default {
       win.focus();
     },
     serialize(obj) {
-      /* eslint-disable */
             const str = [];
             for (const p in obj)
                 if (obj.hasOwnProperty(p)) {
@@ -536,6 +535,7 @@ export default {
             this.selectedUnits = combinationtoload;
         },
         deleteCombination(combination) {
+        /* eslint-disable */
             let favs = [];
             if (localStorage.getItem('fav_combi')) {
                 favs = JSON.parse(localStorage.getItem('fav_combi'));
@@ -548,7 +548,7 @@ export default {
             }
             localStorage.setItem('fav_combi', JSON.stringify(favs));
             this.favoriteCombinations = favs;
-            /* eslint-enable */
+        /* eslint-enable */
     },
   },
 };

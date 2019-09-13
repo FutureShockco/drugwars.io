@@ -328,4 +328,21 @@ img {
 .white {
   color: white;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: black !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(124, 124, 124);
+  border-radius: 0;
+
+  &:hover {
+    background: white;
+  }
+}
 </style>

@@ -20,7 +20,6 @@
 
 
 <script>
-import { mapActions } from 'vuex';
 import { shop } from 'drugwars';
 
 export default {

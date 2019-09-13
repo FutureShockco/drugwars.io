@@ -2,20 +2,16 @@
     <div>
         <div class="text-center mb-6 item border-bottom">
 				<div class="text-center p-4">
-					<h5 class="columns">DW-{{drug.name.substring(0,4)}} Token Informations</h5>
-					<h6 class="column col-3 m-0">
+					<h5 class="columns">  <img class="tokenimg" :src="`/img/icons/${drug.id}_icon.png`" width="36" height="36" />DW-{{drug.name.substring(0,4)}} Token Informations</h5>
+					<h6 class="column col-4 m-0">
 						Max Supply
 						<p class="text-yellow"> 0</p>
 					</h6>
-					<h6 class="column col-3 m-0 border-left">
-						Burn pending
-						<p class="text-yellow"> 0</p>
-					</h6>
-					<h6 class="column col-3 m-0 border-left">
+					<h6 class="column col-4 m-0 border-left">
 						Burnt
 						<p class="text-yellow">0</p>
 					</h6>
-          <h6 class="column col-3 m-0 border-left">
+          <h6 class="column col-4 m-0 border-left">
 						Staking
 						<p class="text-yellow">None</p>
 					</h6>
@@ -80,6 +76,13 @@ export default {
     return {
       drug: drugs.find(b => b.id === this.$route.query.name),
     };
-  }
+  },
 };
 </script>
+
+<style lang="less" scoped>
+.tokenimg {
+  margin-bottom: -10px;
+  margin-right: 10px;
+}
+</style>

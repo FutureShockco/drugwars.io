@@ -8,7 +8,7 @@
             </div>
             <div class="level">{{ ownItem.amount }}</div>
             <h5 class="mt-0 mb-0">{{ unit.name }} <span class="unit-type">{{ unit.type }}</span></h5>
-            <Cost :drugsCost="unit.drugs_cost" :weaponsCost="unit.weapons_cost" :alcoholsCost="unit.alcohols_cost" :quantity="quantity" />Supply : {{unit.supply}} - Cluster : {{unit.group}}
+            <Cost :drugsCost="unit.drugs_cost" :weaponsCost="unit.weapons_cost" :alcoholsCost="unit.alcohols_cost" :quantity="quantity" :special="unit.special_cost" />Supply : {{unit.supply}} - Cluster : {{unit.group}}
             <div class="mb-1 mt-1" v-html="unit.desc"></div>
             <div class="mb-1 item-skill" v-if="unit.feature">
                 <span class="text-orange">

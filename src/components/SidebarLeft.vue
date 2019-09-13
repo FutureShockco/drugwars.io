@@ -2,7 +2,7 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3 pb-3">
-              <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5>
+              <!-- <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5> -->
                 <Avatar :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}
@@ -18,6 +18,11 @@
                     </li>
                 </ul>
                 <ul class="pt-1 pb-2 border-bottom">
+                                     <li>
+                        <router-link to="/news" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                            {{'sidebar.news' | translate}}
+                        </router-link>
+                    </li>
                     <li>
                         <router-link to="/overview" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                             {{'sidebar.overview' | translate}}

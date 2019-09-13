@@ -1,6 +1,6 @@
 <template>
     <div>
-        <OverviewTabs/>
+        <NewsTabs/>
         <div class="p-4 text-center anim-fade-in">
             <h2>DAILY NEWSPAPER</h2>
          <div v-html="news"></div>
@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import dsteem from '@/helpers/dsteem';
 import steemMarkdown from 'steem-markdown-only';
 

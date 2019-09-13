@@ -215,7 +215,6 @@ export default {
       canvas_element.onclick = function(e) {
         event = e;
         const elementClickedId = checkClick(event);
-        console.log(elementClickedId);
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
           tiles_array[self.selectedTile - 1].fillColor = 'green';
           clearCanvas();
@@ -425,7 +424,7 @@ export default {
           .then(() => {
             Promise.delay(2000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
-                self.bases = result[0];
+                [self.bases] = result;
                 self.setMainBase(self.bases);
                 self.init();
                 self.isLoading = false;
@@ -502,7 +501,7 @@ export default {
     self.bases = null;
     self.currentLocation = self.location;
     client.requestAsync('get_bases', this.location).then(result => {
-      self.bases = result[0];
+      [self.bases] = result;
       result[1].forEach(element => {
         self.bases.push(element);
       });
@@ -516,7 +515,7 @@ export default {
     if (self.currentLocation !== self.location) {
       self.currentLocation = self.location;
       client.requestAsync('get_bases', this.location).then(result => {
-        self.bases = result[0];
+        [self.bases] = result;
         result[1].forEach(element => {
           self.bases.push(element);
         });

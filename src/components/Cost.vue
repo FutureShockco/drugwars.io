@@ -15,6 +15,13 @@
           <Icon :size="18" name="alcohol"/>
           {{ alcoholsCost * this.quantity | amount}}
         </span>
+        <div v-if="special.length>0 && quantity" v-for="cost in special" :key="cost.name">
+         <span class="mr-2">
+          <Icon :size="18" :name="`${cost.name}_icon`"/>
+             {{ cost.cost * quantity | amount}}
+        </span>
+        </div>
+
     </div>
 </template>
 
@@ -22,7 +29,7 @@
 import { getBalances } from '@/helpers/utils';
 
 export default {
-  props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost'],
+  props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost', 'special'],
   computed: {
     base() {
       return this.$store.state.game.mainbase;

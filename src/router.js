@@ -9,10 +9,14 @@ const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callba
 const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue');
 const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/GangJobs.vue');
 
-const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/Overview/Tutorial.vue');
+const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/News/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
+const Resources = () => import(/* webpackChunkName: "resources" */ '@/views/Overview/Resources.vue');
+const History = () => import(/* webpackChunkName: "history" */ '@/views/Overview/History.vue');
+
+const News = () => import(/* webpackChunkName: "news" */ '@/views/News/News.vue');
+
 const Base = () => import(/* webpackChunkName: "base" */ '@/views/Overview/Base.vue');
-const News = () => import(/* webpackChunkName: "news" */ '@/views/Overview/News.vue');
 
 const Buildings = () => import(/* webpackChunkName: "buildings" */ '@/views/Buildings/Office.vue');
 const Drugs = () => import(/* webpackChunkName: "drugs" */ '@/views/Buildings/Drugs.vue');
@@ -148,9 +152,21 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'overview',
+      name: 'news',
       beforeEnter: requireAuth,
-      component: Overview,
+      component: News,
+    },
+    {
+      path: '/news',
+      name: 'news',
+      beforeEnter: requireAuth,
+      component: News,
+    },
+    {
+      path: '/news/tutorial',
+      name: 'tutorial',
+      beforeEnter: requireAuth,
+      component: Tutorial,
     },
     {
       path: '/overview',
@@ -159,22 +175,22 @@ export default new Router({
       component: Overview,
     },
     {
-      path: '/overview/news',
-      name: 'news',
+      path: '/overview/resources',
+      name: 'resources',
       beforeEnter: requireAuth,
-      component: News,
-    },
-    {
-      path: '/overview/tutorial',
-      name: 'tutorial',
-      beforeEnter: requireAuth,
-      component: Tutorial,
+      component: Resources,
     },
     {
       path: '/overview/base',
       name: 'base',
       beforeEnter: requireAuth,
       component: Base,
+    },
+    {
+      path: '/overview/history',
+      name: 'history',
+      beforeEnter: requireAuth,
+      component: History,
     },
     {
       path: '/jobs',

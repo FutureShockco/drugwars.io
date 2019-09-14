@@ -53,6 +53,9 @@
               </button>
                     </form>
                     <h3>Members</h3>
+                  <strong> Active: </strong> <span>Today<i :class="'iconfont icon-check text-green'"></i> </span>                     <span>This month<i :class="'iconfont icon-check text-orange'"></i> </span>
+                     <span>Unactive<i :class="'iconfont icon-check text-red'"></i> </span>
+
                     <div class="mb-4">
                         <GangMember :key="member.nickname" v-for="member in members" :member="member" :id="id" class="py-3 border-bottom text-left" />
                     </div>

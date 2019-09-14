@@ -1,7 +1,7 @@
 <template>
     <div>
-        <router-link :to="`/actions?target=${member.nickname}`">
-            <GangImage :image="member.picture" size="40" class="mr-2" /> {{ member.nickname }} {{ member.role }}
+        <router-link :to="`/actions?type=transport&nickname==${member.nickname}`">
+            <GangImage :image="member.picture" size="40" class="mr-2" /> {{ member.nickname }} {{ member.role }} <span><i :class="'iconfont icon-check '+isActive(member.active)"></i> </span>
         </router-link>
         <button @click="handleKick(member.nickname)" class="button button-red float-right" :disabled="isLoading || member.nickname === user.nickname && isBoss" v-if="isBoss">
     			<span v-if="!isLoading">Kick {{member.role}}</span>
@@ -52,9 +52,20 @@ export default {
     resetForm() {
       this.message = null;
     },
+    isActive(activedate){
+        const now = new Date()
+        const day = now.getUTCDate();
+        const month = now.getUTCMonth() + 1;
+        const year = now.getUTCFullYear();
+        const date = `${day}-${month}-${year}`;
+        if(date=== activedate)
+        return 'text-green'
+        else if (month === Number(activedate.split('-')[1]) && year === (Number(activedate.split('-')[2])))
+        return 'text-orange'
+        else return 'text-red'
+    },
     handleKick(soldier) {
       this.isLoading = true;
-
       const payload = {
         gang: this.id,
         soldier,

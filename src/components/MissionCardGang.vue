@@ -10,6 +10,9 @@
       <div v-if="isLoading && !ownJob">
         <Loading />
       </div>
+              <div v-if="item.type ==='gang'">
+        Full reward requirements : Minimum 5 active members
+      </div>
       <h5>Enemies</h5>
       <div class="text-green" v-if="ownJob && json && json.length < 1">MISSION ACCOMPLISHED</div>
       <div v-if="!timeToWait">

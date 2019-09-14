@@ -7,9 +7,6 @@
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ item.name }}</h5>
       <div class="mb-2" v-html="item.detail"></div>
-      <div>
-        Full reward requirements : Minimum 5 active members
-      </div>
       <div v-if="isLoading && !ownJob">
         <Loading />
       </div>
@@ -43,6 +40,9 @@
 
           <div class="unitname">{{unit.key}}</div>
         </div>
+      </div>
+        <div v-if="item.type ==='gang'">
+        Full reward requirements : Minimum 5 active members
       </div>
     </div>
 

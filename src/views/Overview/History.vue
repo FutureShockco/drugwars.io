@@ -1,9 +1,20 @@
 <template>
     <div>
         <OverviewTabs />
+        <h5 class="py-3  px-0 m-1 columns text-center border-bottom">
+                    <div class="column col-4 px-0">
+                        Amount
+                    </div>
+                     <div class="column col-4 px-0">
+                      From
+                    </div>
+                    <div class="column col-4 px-0">
+                     Date
+                    </div>
+                 </h5>
         <div class="anim-fade-in" v-for="item in history" :key="item.id">
           
-               <div class="py-3  px-0 m-1 columns text-center border-bottom">
+               <div class="py-3  m-0 columns text-center border-bottom">
                     <div class="column col-4 px-0">
                         {{item.amount}}
                     </div>

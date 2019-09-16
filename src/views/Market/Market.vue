@@ -9,7 +9,7 @@
             <div>Volume (24h)</div>
             <div
               class="text-yellow"
-            >${{this.steemengine.volume *this.steemengine.lastPrice | amount}} <div class="text-blue">{{this.steemengine.volume *this.steemengine.lastPrice / prizeProps.steemprice | amount}}STEEM</div></div>
+            >${{this.steemengine.volume *this.steemengine.lastPrice/ prizeProps.steemprice | amount}} <div class="text-blue">{{this.steemengine.volume *this.steemengine.lastPrice/ prizeProps.steemprice / prizeProps.steemprice | amount}}STEEM</div></div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Price Change</div>

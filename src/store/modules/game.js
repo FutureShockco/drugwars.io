@@ -98,7 +98,7 @@ const actions = {
     new Promise((resolve, reject) => {
       const token = authToken();
       let totalbases = 0;
-      if (state.user && state.user.buildings) {
+      if (state.user && state.user.buildings && state.user.buildings.find(b => b.building === 'headquarters')) {
         totalbases = state.user.buildings.find(b => b.building === 'headquarters').length;
       }
       if (token) {

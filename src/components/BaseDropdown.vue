@@ -8,7 +8,7 @@
                 <span class="text text-orange" v-else>
                {{config.prefix.custom}}
             </span>
-                <span class="text">
+                <span class="text" v-if="config.prefix.territory&& config.prefix.base">
               {{config.prefix.territory}} : {{config.prefix.base}}
             </span>
                 <i class="iconfont icon-arrow-down" :class="{ toggled: isExpanded }"></i>
@@ -166,6 +166,8 @@ export default {
   },
   updated() {
     if (!this.config.prefix) {
+      if(this.$store.state.game.mainbase)
+      {
       this.config = {};
       this.config.prefix = this.$store.state.game.mainbase;
       const territory = this.config.prefix.territory;
@@ -173,6 +175,7 @@ export default {
       const custom = this.config.prefix.custom;
       const main = this.config.prefix.main;
       this.setMainBase({ territory, base, custom, main });
+      }
     }
   },
   mounted() {},

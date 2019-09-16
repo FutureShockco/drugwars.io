@@ -422,10 +422,9 @@ export default {
         };
         this.send(payload)
           .then(() => {
-            Promise.delay(2000).then(() => {
+            Promise.delay(3000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
                 [self.bases] = result;
-                self.setMainBase(self.bases);
                 self.init();
                 self.isLoading = false;
               });

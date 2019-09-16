@@ -3,7 +3,9 @@
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3 pb-3">
               <!-- <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5> -->
-                <Avatar :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
+                <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
+                <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture" />
+
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}
                     <div class="gang-label" v-if="user.ticker">
@@ -176,6 +178,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     rank() {
+      if(this.$store.state.game.user.rank && this.$store.state.game.user.rank[0] && this.$store.state.game.user.rank[0].rank)
       return this.$store.state.game.user.rank[0].rank;
     },
     xp() {

@@ -4,7 +4,7 @@
         <img width="150px" :src="`/img/lottery.jpg`">
         <div class="lottery-text text-center">
         <div class="pt-2">TICKETS: {{myTickets}}</div>
-        <div class="text-green">Last winner: {{ lastWinner.nickname || 'government'}}</div>
+        <div class="text-green">Last winner: <br/>{{ lastWinner.nickname || 'government'}}</div>
         <div class="text-yellow">Amount: {{ lastWinner.amount }} </div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">

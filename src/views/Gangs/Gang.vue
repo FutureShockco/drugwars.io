@@ -52,9 +52,12 @@
                 <SmallLoading v-else />
               </button>
                     </form>
-                    <h3>Members</h3>
-                  <strong> Active: </strong> <span>Today<i :class="'iconfont icon-check text-green'"></i> </span>                     <span>This month<i :class="'iconfont icon-check text-orange'"></i> </span>
+                    <h3>Members</h3> 
+                    <div v-if="isBoss || isCapo">
+                    <strong> Active: </strong> <span>Today<i :class="'iconfont icon-check text-green'"></i> </span>                     <span>This month<i :class="'iconfont icon-check text-orange'"></i> </span>
                      <span>Unactive<i :class="'iconfont icon-check text-red'"></i> </span>
+                    </div>
+
 
                     <div class="mb-4">
                         <GangMember :key="member.nickname" v-for="member in members" :member="member" :id="id" class="py-3 border-bottom text-left" />
@@ -86,6 +89,9 @@ export default {
   computed: {
     isBoss() {
       return this.user.role === 'boss' && this.user.gang === this.id;
+    },
+    isCapo() {
+      return this.user.role === 'capo' && this.user.gang === this.id;
     },
   },
   created() {

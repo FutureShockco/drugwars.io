@@ -58,10 +58,15 @@
           v-if="selected"
           style=" pointer-events: none!important;"
         >{{selected.name}} {{selected.count}}</div>
-        <h5
+        <router-link 	v-if="selected&&selected.gang" :to="`/gangs/gang/${selected.gang}`">
+        <h5 v-if="selected&&selected.gang"
           class="mt-0"
           style=" pointer-events: none!important;"
-        >UNDER THE CONTROL OF : THE GOVERNMENT</h5>
+        >UNDER THE CONTROL OF :  {{selected.gang}}</h5></router-link>
+                <h5 v-else
+          class="mt-0"
+          style=" pointer-events: none!important;"
+        >UNDER THE CONTROL OF : goverment</h5>
         <div style=" pointer-events: none!important;">INFORMATIONS</div>
         <h5
           class="mt-0"
@@ -885,18 +890,14 @@ export default {
               let material;
               if (isLand(latLon.lat, latLon.lon)) {
                 if (self.player_territories.find(t => t.territory === count)) {
-                  let playercount = 0;
-                  self.player_territories.forEach(element => {
-                    if (element.territory === count) {
-                      playercount += 1;
-                    }
-                  });
-
+                  let element = self.player_territories.find(t => t.territory === count)
+                  let playercount = element.count;                  
                   const riskcolor = redYellowGreen(playercount / 25);
 
                   material = new THREE.MeshBasicMaterial({ color: riskcolor });
                   material.name = `territory`;
                   material.count = count;
+                  material.userData.gang = element.gang;
                   material.userData.total_player = playercount;
                   material.userData.count = count;
                   material.userData.risk = 'inexistant';
@@ -934,6 +935,7 @@ export default {
                 } else {
                   material = meshMaterials[0];
                   material.name = `empty territory`;
+                  material.userData.gang = 'goverment';
                   material.opacity = 0.8;
                   material.userData.total_player = 0;
                   material.count = count;
@@ -1027,6 +1029,7 @@ export default {
           self.selected.dangerosity = self.selectedTerritory.object.material.userData.risk;
           self.selected.resources = self.selectedTerritory.object.material.userData.resources;
           self.selected.continent = self.selectedTerritory.object.material.userData.continent;
+          self.selected.gang = self.selectedTerritory.object.material.userData.gang;
 
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;

@@ -62,7 +62,7 @@
         <h5 v-if="selected&&selected.gang"
           class="mt-0"
           style=" pointer-events: none!important;"
-        >UNDER THE CONTROL OF :  {{selected.gang}}</h5></router-link>
+        >UNDER THE CONTROL OF : <span class="text-red">{{selected.gang}}</span> </h5></router-link>
                 <h5 v-else
           class="mt-0"
           style=" pointer-events: none!important;"

@@ -23,7 +23,7 @@
             <div
               class="text-yellow"
             >${{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
-						<div class="text-blue"> {{parseFloat(1 *this.steemengine.lastPrice ).toFixed(5)}} STEEM</div>
+						<div class="text-blue"> {{this.steemengine.lastPrice | decimal }} STEEM</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Bid/Ask</div>
@@ -31,7 +31,7 @@
               class="text-yellow"
             >
 						${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
-         <div class="text-blue">						{{this.steemengine.highestBid | decimal}} / {{ this.steemengine.lowestAsk| decimal}}
+         <div class="text-blue">						{{this.steemengine.highestBid | decimal}} / {{ this.steemengine.lowestAsk| decimal}} STEEM
 </div>
 				  </h5>
         </div>
@@ -41,29 +41,29 @@
       <VueApexCharts width="100%" :options="options" :series="series" class="mb-6"></VueApexCharts>
     </div>
 
-    <div class="px-3 columns text-left">
-      <div class="column col-6 border-right p-0 m-0">
+    <div class="px-3 columns text-left ">
+      <div class="column col-6 border-right p-0 m-0 border-bottom pb-3">
         <h4 class="mb-0 p-1">Buy DWD</h4>
-          <div class="border-right"><input class="input form-control" v-model="quantity"> Price </div>
-          <div class="border-right"> <input class="input form-control mt-1" v-model="quantity"> Quantity</div>
-          <div class=""><input class="input form-control mt-1" v-model="quantity"> Total : </div>
+          <div class="border-right"><input class="input form-control" v-model="buyprice"> Price </div>
+          <div class="border-right"> <input class="input form-control mt-1" v-model="buyquantity"> Quantity</div>
+          <div class=""><input class="input form-control mt-1" :placeholder="buyprice*buyquantity | decimal" > Total </div>
 					<div class="columns  p-0 m-0">
 							<div class="column col-6 p-0 m-0">
-								Balance :
+							Balance :
 						 </div>
 						 <div class="column col-6 p-0 m-0">
 							<button disabled class="button button-green">Buy DWD</button>
 						 </div>
 					</div>
       </div>
-      <div class="column col-6 p-0 m-0 text-right">
+      <div class="column col-6 p-0 m-0 text-right border-bottom  pb-3">
         <h4 class="mb-0 p-1">Sell DWD</h4>
-          <div class="border-right"> Price <input class="input form-control" v-model="quantity"></div>
-          <div class="border-right">  Quantity <input class="input form-control mt-1" v-model="quantity"></div>
-          <div class="">Total <input class="input form-control mt-1" v-model="quantity"></div>
+          <div class="border-right"> Price <input class="input form-control" v-model="sellprice"></div>
+          <div class="border-right">  Quantity <input class="input form-control mt-1" v-model="sellquantity"></div>
+          <div class="">Total <input class="input form-control mt-1" :placeholder="sellprice*sellquantity | decimal"></div>
 						<div class="columns  p-0 m-0">
 							<div class="column col-6 p-0 m-0">
-								Balance :
+							Balance : 
 						 </div>
 						 <div class="column col-6 p-0 m-0">
 							<button disabled class="button button-red">Sell DWD</button>
@@ -72,44 +72,59 @@
       </div>
     </div>
 
-    <div class="px-3 columns text-center">
+    <div class="px-3 columns text-center pt-3">
+      <div class="row">
+        <button v-if="steemOn" class="button button-blue" @click="switchCurrency()">Switch to USD</button>
+        <button v-else class="button button-blue" @click="switchCurrency()">Switch to Steem</button>
+      </div>
       <div class="column col-6 border-right p-0 m-0">
         <h4 class="mb-0 p-1">Buy Orders</h4>
         <h5 class="columns p-0 m-0 border-bottom ">
+          <div class="column col-3 border-right">SUM</div>
           <div class="column col-3 border-right">Total</div>
-          <div class="column col-3 border-right">STEEM</div>
           <div class="column col-3 border-right">Quantity</div>
-          <div class="column col-3">USD Price</div>
+          <div class="column col-3">Price</div>
         </h5>
         <div v-for="item in buyBook" :key="item.timestamp" class="datarow">
-          <div class="columns p-0 m-0 border-bottom text-center">
-            <div
-              class="column col-3 border-right"
-            >${{item.tokensLocked * prizeProps.steemprice | decimal}}</div>
+          <div v-if="steemOn" class="columns p-0 m-0 border-bottom text-center" @click="setSell(item.price,item.quantity)">
+            <div class="column col-3 border-right">{{item.tokensTotal | decimal}}</div>
             <div class="column col-3 border-right">{{item.tokensLocked | decimal}}</div>
             <div class="column col-3 border-right">{{item.quantity | decimal}}</div>
-            <div class="column col-3">${{item.price | decimal}}</div>
+            <div class="column col-3">{{item.price | decimal}}</div>
+          </div>
+          <div v-else class="columns p-0 m-0 border-bottom text-center" @click="setSell(item.price,item.quantity)">
+            <div class="column col-3 border-right">${{item.tokensTotal * prizeProps.steemprice | decimal}}</div>
+            <div class="column col-3 border-right">${{item.tokensLocked * prizeProps.steemprice | decimal}}</div>
+            <div class="column col-3 border-right">{{item.quantity | decimal}}</div>
+            <div class="column col-3">${{item.price * prizeProps.steemprice | decimal}}</div>
           </div>
         </div>
+          Buy volume ${{totalBuy* prizeProps.steemprice | amount}} - {{totalBuy | amount}} STEEM
       </div>
       <div class="column col-6 p-0 m-0 text-center">
         <h4 class="mb-0 p-1">Sell Orders</h4>
         <h5 class="columns p-0 m-0 border-bottom">
-          <div class="column col-3 border-right">USD Price</div>
+          <div class="column col-3 border-right">Price</div>
           <div class="column col-3 border-right">Quantity</div>
-          <div class="column col-3 border-right">STEEM</div>
-          <div class="column col-3">Total</div>
+          <div class="column col-3 border-right">Total</div>
+          <div class="column col-3">SUM</div>
         </h5>
         <div v-for="item in sellBook" :key="item.timestamp" class="datarow2">
-          <div class="columns p-0 m-0 border-bottom text-center">
-            <div
-              class="column  col-3 border-right"
-            >${{item.quantity*item.price * prizeProps.steemprice | decimal}}</div>
+          <div v-if="steemOn" class="columns p-0 m-0 border-bottom text-center" @click="setBuy(item.price,item.quantity)">
+            <div class="column  col-3 border-right">{{item.price  | decimal}}</div>
             <div class="column col-3 border-right">{{item.quantity | decimal}}</div>
-            <div class="column col-3 border-right">{{item.quantity*item.price | decimal}}</div>
-            <div class="column col-3">${{item.price | decimal}}</div>
+            <div class="column col-3 border-right">{{item.price *item.quantity | decimal}}</div>
+            <div class="column col-3">{{item.tokensTotal * item.price | decimal}}</div>
+          </div>
+          <div v-else class="columns p-0 m-0 border-bottom text-center" @click="setBuy(item.price,item.quantity)">
+            <div class="column  col-3 border-right">${{item.price * prizeProps.steemprice | decimal}}</div>
+            <div class="column col-3 border-right">{{item.quantity | decimal}}</div>
+            <div class="column col-3 border-right">${{item.price *item.quantity* prizeProps.steemprice| decimal}}</div>
+            <div class="column col-3">${{item.tokensTotal * item.price * prizeProps.steemprice| decimal}}</div>
           </div>
         </div>
+                        Sell volume ${{totalSell* prizeProps.steemprice | amount}} - {{totalSell | amount}} STEEM
+
       </div>
     </div>
 
@@ -133,7 +148,6 @@
             class="column col-2 pt-2 text-uppercase text-red border-right"
             :class="{'text-green':item.type==='buy'}"
           >{{item.type}}</div>
-
           <div class="column col-2 pt-2 border-right">{{item.price}}</div>
           <div class="column col-2 pt-2 border-right">{{item.quantity}}</div>
           <div class="column col-2 pt-2">${{item.quantity * item.price | decimal}}</div>
@@ -156,13 +170,20 @@ export default {
       isLoading: false,
       nickname: null,
       picked: 'steem',
+      steemOn:false,
       amount: 0,
       cat: [],
       tradehistory: [],
       maxBuy: [],
       maxSell: [],
       buyBook: [],
+      totalBuy:0,
       sellBook: [],
+      totalSell:0,
+      sellprice:null,
+      sellquantity:null,
+      buyprice:null,
+      buyquantity:null,
       limitMin: 0,
       limitMax: 0,
       loading: false,
@@ -287,18 +308,23 @@ export default {
             },
             30,
             0,
-            [{ index: 'timestamp', descending: false }],
+            [{ index: 'price', descending: true }],
             false,
           )
           .then(async buyBook => {
             self.buyBook = buyBook;
+            let totalBuy =0;
+         
             self.buyBook.forEach(element => {
+              totalBuy=totalBuy+Number(element.tokensLocked);
+              element.tokensTotal = totalBuy;
               if (element.price > self.maxBuy) self.maxBuy = element.price;
               self.series[0].data.push(element.price);
             });
             self.buyBook.forEach(element => {
               self.series[0].data.push(0);
             });
+            self.totalBuy = totalBuy;
             ssc
               .find(
                 'market',
@@ -312,14 +338,20 @@ export default {
                 false,
               )
               .then(async sellBook => {
+                let totalSell =0;
                 self.sellBook = sellBook;
                 sellBook.forEach(element => {
                   self.series[1].data.push(0);
                 });
                 sellBook.forEach(element => {
+                  console.log(element)
+                  totalSell=totalSell+Number(element.quantity);
+                  element.tokensTotal = totalSell;
                   if (element.price < self.limitMax) self.limitMax = element.price;
                   self.series[1].data.push(element.price);
                 });
+                self.sellBook = sellBook;
+                 self.totalSell = totalSell;
                 self.cat = [self.maxBuy, self.limitMax];
                 ssc
                   .find(
@@ -327,7 +359,7 @@ export default {
                     'sellBook',
                     {
                       symbol: `DWD`,
-                      account: 'ongame',
+                      account: this.user.username,
                     },
                     100,
                     0,
@@ -336,14 +368,13 @@ export default {
                   )
                   .then(async personalSellBook => {
                     console.log(personalSellBook);
-
                     ssc
                       .find(
                         'market',
                         'buyBook',
                         {
                           symbol: `DWD`,
-                          account: 'ongame',
+                          account: this.user.username,
                         },
                         100,
                         0,
@@ -434,6 +465,17 @@ export default {
           this.isLoading = false;
         });
     },
+    setBuy(price,qt){
+      this.buyprice = price*this.prizeProps.steemprice;
+      this.buyquantity = qt;
+    },
+    setSell(price,qt){
+      this.sellprice = price*this.prizeProps.steemprice;
+      this.sellquantity = qt;
+    },
+    switchCurrency(){
+      this.steemOn = !this.steemOn
+    }
   },
 };
 </script>
@@ -453,19 +495,36 @@ export default {
   margin-bottom: 5px;
 }
 
+
 .datarow:nth-child(odd) {
   background: rgb(6, 20, 4);
 }
 
+.datarow:nth-child(odd):hover {
+  background: rgb(17, 58, 12);
+}
+
 .datarow:nth-child(even) {
-  background: rgb(0, 63, 28);
+  background: rgb(0, 29, 13);
+}
+
+.datarow:nth-child(even):hover {
+  background: rgb(0, 51, 23);
 }
 
 .datarow2:nth-child(odd) {
   background: rgb(53, 8, 8);
 }
 
+.datarow2:nth-child(odd):hover {
+  background: rgb(32, 4, 4);
+}
+
 .datarow2:nth-child(even) {
   background: rgb(65, 2, 2);
+}
+
+.datarow2:nth-child(even):hover {
+  background: rgb(36, 0, 0);
 }
 </style>

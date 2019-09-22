@@ -12,7 +12,7 @@ const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/G
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/News/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
 const Resources = () => import(/* webpackChunkName: "resources" */ '@/views/Overview/Resources.vue');
-const History = () => import(/* webpackChunkName: "history" */ '@/views/Overview/History.vue');
+const PaymentHistory = () => import(/* webpackChunkName: "history" */ '@/views/Overview/History.vue');
 
 const News = () => import(/* webpackChunkName: "news" */ '@/views/News/News.vue');
 
@@ -187,10 +187,10 @@ export default new Router({
       component: Base,
     },
     {
-      path: '/overview/history',
+      path: '/overview/payment',
       name: 'history',
       beforeEnter: requireAuth,
-      component: History,
+      component: PaymentHistory,
     },
     {
       path: '/jobs',

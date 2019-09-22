@@ -32,7 +32,7 @@
             >
 						${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
          <div class="text-blue">						{{this.steemengine.highestBid | decimal}} / {{ this.steemengine.lowestAsk| decimal}} STEEM
-</div>
+          </div>
 				  </h5>
         </div>
       </div>
@@ -44,12 +44,15 @@
     <div class="px-3 columns text-left ">
       <div class="column col-6 border-right p-0 m-0 border-bottom pb-3">
         <h4 class="mb-0 p-1">Buy DWD</h4>
-          <div class="border-right"><input class="input form-control" v-model="buyprice"> Price </div>
+          <div class="border-right"><input class="input form-control" v-model="buyprice"> STEEM <small class="small text-blue" v-if="buyprice"> ${{buyprice*prizeProps.steemprice | decimal}}</small></div>
           <div class="border-right"> <input class="input form-control mt-1" v-model="buyquantity"> Quantity</div>
-          <div class=""><input class="input form-control mt-1" :placeholder="buyprice*buyquantity | decimal" > Total </div>
+          <div class=""><input class="input form-control mt-1" :placeholder="buyprice*buyquantity | decimal" > Total <small class="small text-blue" v-if="buyprice"> ${{buyprice*buyquantity*prizeProps.steemprice | decimal}}</small></div>
 					<div class="columns  p-0 m-0">
 							<div class="column col-6 p-0 m-0">
-							Balance :
+							Balance :  
+              <br/><span class="text-blue">{{steemBalance}} STEEM</span>
+                <br/>
+               <span class="text-blue">${{steemBalance*prizeProps.steemprice | decimal}} </span>
 						 </div>
 						 <div class="column col-6 p-0 m-0">
 							<button disabled class="button button-green">Buy DWD</button>
@@ -58,12 +61,16 @@
       </div>
       <div class="column col-6 p-0 m-0 text-right border-bottom  pb-3">
         <h4 class="mb-0 p-1">Sell DWD</h4>
-          <div class="border-right"> Price <input class="input form-control" v-model="sellprice"></div>
+          <div class="border-right">  <small class="small text-blue" v-if="sellprice"> ${{sellprice*prizeProps.steemprice | decimal}} </small> STEEM <input class="input form-control" v-model="sellprice"></div>
           <div class="border-right">  Quantity <input class="input form-control mt-1" v-model="sellquantity"></div>
-          <div class="">Total <input class="input form-control mt-1" :placeholder="sellprice*sellquantity | decimal"></div>
+          <div class=""><small class="small text-blue" v-if="sellprice"> ${{sellprice*sellquantity*prizeProps.steemprice | decimal}}</small> Total <input class="input form-control mt-1" :placeholder="sellprice*sellquantity | decimal"></div>
 						<div class="columns  p-0 m-0">
-							<div class="column col-6 p-0 m-0">
-							Balance : 
+							<div class="column col-6 p-0 m-0 ">
+						  Balance :  
+              <br/>
+               <span class="text-yellow">{{myDWDBalance | decimal}} DWD</span>
+               <br/>
+               <span class="text-yellow">${{myDWDBalance*this.steemengine.lastPrice * prizeProps.steemprice | decimal}} </span>
 						 </div>
 						 <div class="column col-6 p-0 m-0">
 							<button disabled class="button button-red">Sell DWD</button>
@@ -123,14 +130,12 @@
             <div class="column col-3">${{item.tokensTotal * item.price * prizeProps.steemprice| decimal}}</div>
           </div>
         </div>
-                        Sell volume ${{totalSell* prizeProps.steemprice | amount}} - {{totalSell | amount}} STEEM
-
+        Sell volume ${{totalSell* prizeProps.steemprice | amount}} - {{totalSell | amount}} STEEM
       </div>
     </div>
 
     <div class="text-center">
-			        <h4 class="mb-0 p-3 ">Trade History</h4>
-
+			<h4 class="mb-0 p-3 ">Trade History</h4>
       <h5 class="columns p-0 m-0 border-bottom text-center">
         <div class="column col-4">Date</div>
         <div class="column col-2">Type</div>
@@ -180,6 +185,8 @@ export default {
       totalBuy:0,
       sellBook: [],
       totalSell:0,
+      mySteemBalance:0,
+      myDWDBalance:0,
       sellprice:null,
       sellquantity:null,
       buyprice:null,
@@ -344,7 +351,6 @@ export default {
                   self.series[1].data.push(0);
                 });
                 sellBook.forEach(element => {
-                  console.log(element)
                   totalSell=totalSell+Number(element.quantity);
                   element.tokensTotal = totalSell;
                   if (element.price < self.limitMax) self.limitMax = element.price;
@@ -383,6 +389,15 @@ export default {
                       )
                       .then(async personalBuyBook => {
                         console.log(personalBuyBook);
+                          ssc.findOne(
+                                'tokens',
+                                'balances', {
+                                  account: this.user.username,
+                                  symbol: `DWD`
+                                }).then(async mybalance => {
+                                  if(mybalance)
+                                    this.myDWDBalance = Number(this.dwdBalance)+Number(mybalance.balance);
+                                })
                       });
                   });
               });
@@ -443,6 +458,14 @@ export default {
       date.setDate(date.getDay() + end);
       return date.toLocaleString();
     },
+    steemBalance() {
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
+      return 0;
+    },
+    dwdBalance() {
+      return parseFloat(this.user.dwd).toFixed(3);
+    },
   },
   methods: {
     ...mapActions(['send', 'notify']),
@@ -466,11 +489,11 @@ export default {
         });
     },
     setBuy(price,qt){
-      this.buyprice = price*this.prizeProps.steemprice;
+      this.buyprice = price;
       this.buyquantity = qt;
     },
     setSell(price,qt){
-      this.sellprice = price*this.prizeProps.steemprice;
+      this.sellprice = price;
       this.sellquantity = qt;
     },
     switchCurrency(){

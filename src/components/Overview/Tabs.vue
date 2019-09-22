@@ -3,7 +3,7 @@
     <UiTabs>
       <UiTab to="/overview">Production</UiTab>
       <UiTab to="/overview/resources">Resources</UiTab>
-                  <UiTab to="/overview/history">History</UiTab>
+                  <UiTab to="/overview/payment">Payment</UiTab>
             <UiTab to="/overview/base">Base</UiTab>
     </UiTabs>
         <div class="coordbase text-right" v-if="base">

@@ -33,6 +33,10 @@
 						<p class="text-yellow"> {{ this.steemengine.maxSupply - this.steemengine.nullBalance | million }}</p>
 					</h6>
 					<h6 class="column col-3 m-0 border-left">
+						Market Cap
+						<p class="text-yellow">${{(Number(this.steemengine.supply) + this.prizeProps.total_dwd) * Number(this.steemengine.lastPrice) * Number(this.prizeProps.steemprice) | amount}}</p>
+					</h6>
+					<h6 class="column col-3 m-0 border-left">
 						Burn pending
 						<p class="text-yellow"> {{ (this.prizeProps.total_burn - this.steemengine.nullBalance) | amount }}</p>
 					</h6>
@@ -40,15 +44,15 @@
 						Burnt
 						<p class="text-yellow"> {{ this.steemengine.nullBalance | amount }}</p>
 					</h6>
-					<h6 class="column col-3 m-0 border-left">
-						Staking activated
-						<p class="text-yellow">False</p>
-					</h6>
-					<h6 class="column col-6 m-0">
+					<h6 class="column col-4 m-0">
 						Estimated end of issuance (Unissued tokens / yesterday reward)
 						<p class="text-yellow"> {{ endDate }} </p>
 					</h6>
-					<h6 class="column col-6 m-0">
+					<h6 class="column col-4 m-0 border-left">
+						Staking activated
+						<p class="text-yellow">False</p>
+					</h6>
+					<h6 class="column col-4 m-0">
 						Estimated end of combustion (Unissued tokens / yesterday burn)
 						<p class="text-yellow"> {{ endSupply }} </p>
 					</h6>

@@ -110,15 +110,24 @@
 					Start : {{start}} - End : {{end}}
 				</div>
 				<div v-if="fight.fight_key">
-					Tx : {{fight.fight_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+					<a target="_blank" :href="'http://localhost:3000/fight/'+token+'/'+fight.fight_key">Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
 				</div>
 				<div v-else-if="fight.transport_key">
 					Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
 				</div>
 			</div>
 			<div v-if="fight.is_done!=0">
+				  <UiCenter class="vue-ui-modal pt-2 pb-7" v-if="popupOn">
+    <div class="wrapper">
+		<div>
+		Choose a custom name to remember this opponent or his place.
+		</div>
+		                    <input type="string" v-model="farm_name" placeholder="Snollygoster" class="mt-2 input">
+	  <button class="button button-red" @click="listPopup()">Cancel</button> <button class="button button-green ml-1" @click="saveFarm()">Save</button>
+    </div>
+  </UiCenter>
 				<div v-if="!details" class="text-center">
-					<button class="button button-blue" @click="showDetails()">Show details</button>
+					<button class="button button-blue" @click="showDetails()">Show details</button> <button v-if="!alreadylisted" class="button button-red ml-1" @click="listPopup()">Add to list</button> <span class="ml-1" v-else> In the list</span>
 				</div>
 				<div v-else class="text-center">
 					<button class="button button-blue" @click="hideDetails()">Hide details</button>
@@ -136,7 +145,10 @@ export default {
   data() {
     return {
       share: false,
-      details: false,
+	  details: false,
+	  token: localStorage.getItem('access_token'),
+	  farm_name:'Snollygoster',
+	  popupOn:false,
     };
   },
   computed: {
@@ -151,7 +163,16 @@ export default {
     end() {
       const end = new Date(this.fight.end_date).toLocaleString();
       return end;
-    },
+	},
+	alreadylisted(){
+   		let favs = [];
+		if (localStorage.getItem('farmlist')) {
+			favs = JSON.parse(localStorage.getItem('farmlist'));
+		}
+		if(favs.find(f=> f.set.territory === this.fight.target_territory && f.set.location === this.fight.target_base))
+		return true
+		else return false
+	},
     result() {
       let result;
       let isAuthor;
@@ -183,7 +204,22 @@ export default {
     },
     hideDetails() {
       this.details = false;
-    },
+	},
+	listPopup(name){
+		this.popupOn = !this.popupOn;
+	},
+	saveFarm() {
+   		let favs = [];
+		if (localStorage.getItem('farmlist')) {
+			favs = JSON.parse(localStorage.getItem('farmlist'));
+		}
+		const farm = {};
+		farm.name = this.farm_name;
+		farm.set = { territory:this.fight.target_territory, location :this.fight.target_base};
+		favs.push(farm);
+		localStorage.setItem('farmlist', JSON.stringify(favs));
+		this.popupOn = !this.popupOn;
+	},
   },
 };
 </script>
@@ -232,4 +268,9 @@ img {
   word-wrap: break-word;
   hyphens: auto;
 }
+
+.vue-ui-modal{
+	background: rgba(0, 0, 0, 0.70);
+}
+
 </style>

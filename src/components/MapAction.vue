@@ -1,5 +1,25 @@
 <template>
     <div>
+      <UiCenter class="vue-ui-modal pt-2 pb-7" v-if="farmOn">
+      <div class="wrapper">
+        <div class="columns" v-if="farmlist">
+          <div class="column farm col-6"  v-for="player in farmlist" :key="player.key">
+            <div class="border-bottom border-top border-left  text-right">
+              <h5 class="mb-0">{{player.name}}          <span class="text-yellow mx-1">     {{player.set.territory}} : {{player.set.location}}   </span>          
+            <button class="button button-red"   @click="deleteFarm(player.name)">
+              <div class="iconfont icon-trashcan text-white"></div>
+            </button>
+            <button class="button button-green ml-3"  @click="loadFarm(player.set)">
+              <div class="iconfont icon-check text-white"></div>
+            </button>
+              </h5>
+            </div>
+          </div>
+        </div>
+         <h3 v-else>You should first add a place to your list by visiting it.</h3>
+        <button class="button button-red mt-5" @click="openFarmList()">Cancel</button>
+      </div>
+    </UiCenter>
         <div v-if="show" class="p-4 width-full container-lg clearfix anim-fade-in mapaction">
             <div v-if="ownUnits.length > 0" class="column col-12 col-sm-6 flex-md-items-start mt-0">
                 <h3 class="mb-0 mt-0">Select your action type</h3>
@@ -78,6 +98,9 @@
                     <div>
                         <input class="input form-control mb-1" type="string" placeholder="Nickname" v-model="targetNickname">
                         <button class="button button-green" @click="getUserBase()"><div class="iconfont icon-search"></div></button>
+                                    <button class="button button-blue" @click="openFarmList()">
+              <div class="iconfont icon-book"></div>
+            </button>
                         <h5 v-if="bases" class="mt-1">
                             <span v-if="bases[0]">{{bases[0].role}} OF </span> <span v-if="bases[0]">{{bases[0].name}}</span> <span v-if="bases[0]"> [{{bases[0].ticker}}]</span>
                         </h5>
@@ -149,7 +172,9 @@ export default {
       username: this.$store.state.auth.username,
       errorMessage: null,
       baseName: null,
+      farmOn: false,
       favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
+      farmlist: JSON.parse(localStorage.getItem('farmlist')) || null,
       combination_name: null,
       units: [],
       bases: [],
@@ -302,6 +327,10 @@ export default {
         self.bases = result;
         self.isLoading = false;
       });
+    },
+    openFarmList() {
+   const self = this;
+   self.farmOn = !self.farmOn;
     },
     progressPercent(total, cost) {
       let progress;
@@ -550,7 +579,26 @@ export default {
             this.favoriteCombinations = favs;
         /* eslint-enable */
     },
+      loadFarm(farm) {
+   this.territory = farm.territory;
+   this.base = farm.location;
+   this.farmOn = !this.farmOn;
+   this.targetNickname = null;
+   this.bases = [];
   },
+  deleteFarm(combination) {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   for (let i = 0; i < favs.length; i += 1) {
+    if (favs[i].name === combination) {
+     favs.splice(i, 1);
+     i -= 1;
+    }
+   }
+  }
+  }
 };
 </script>
 
@@ -558,6 +606,14 @@ export default {
 <style scoped lang="less">
 .width-full {
   max-width: 100%;
+}
+.vue-ui-modal {
+ background: rgba(0, 0, 0, 0.7);
+}
+
+.farm{
+   background: rgba(0, 0, 0, 0.9);
+
 }
 
 @media screen and (min-width: 399px) and (max-width: 1119px) {

@@ -95,7 +95,7 @@
         </router-link>
         <h5
           class="mt-0"
-          v-if="selected && selected.continent"
+          v-if="selected"
           style=" pointer-events: none!important;"
         >CONTINENT: {{selected.continent}}</h5>
       </h3>
@@ -220,54 +220,33 @@ export default {
       this.showResources = !this.showResources;
     },
     chooseContinentDrug(territory) {
+      let prob = Math.ceil(territory.toString().substring(territory.toString().length - 1, territory.toString().length));
       const data = {};
       continents.forEach(element => {
         if (element.locations.includes(territory)) {
-          data.name = element.name;
-          if (territory % 2 == 0) {
-            if (prob === 0) {
-              prob = 10;
+            data.name = element.name;
+            while(!drugs[prob] || !drugs[prob].location.includes(element.id))
+            {
+              prob--;
             }
-            let prob = territory
-              .toString()
-              .substring(territory.toString().length - 1, territory.toString().length);
-            if (drugs[prob] && drugs[prob].location.includes(element.id))
+            if(drugs[prob] && drugs[prob].location.includes(element.id))
+            {
               data.resources = drugs[prob].id;
-            data.icon = drugs[prob].icon;
-          } else {
-            let prob = territory
-              .toString()
-              .substring(territory.toString().length - 1, territory.toString().length);
-            if (prob === 0) {
-              prob = 11;
+              data.icon = drugs[prob].icon;
             }
-            if (drugs[prob] && drugs[prob].location.includes(element.id))
-              data.resources = drugs[prob].id;
-            data.icon = drugs[prob].icon;
-          }
-        } else if (territory % 2 == 0) {
-          if (prob === 0) {
-            prob = 10;
-          }
-          let prob = territory
-            .toString()
-            .substring(territory.toString().length - 1, territory.toString().length);
-          if (drugs[prob] && drugs[prob].location.includes('as')) data.resources = drugs[prob].id;
-          data.icon = drugs[prob].icon;
-        } else {
-          let prob = territory
-            .toString()
-            .substring(territory.toString().length - 1, territory.toString().length);
-          if (prob === 0) {
-            prob = 11;
-          }
-          if (drugs[prob] && drugs[prob].location.includes('as')) data.resources = drugs[prob].id;
-          data.icon = drugs[prob].icon;
         }
       });
-      if (!data.resources) {
+      if (!data.name) {
         data.name = 'Asia';
-        data.resources = 'weed';
+        while(!drugs[prob] || !drugs[prob].location.includes('as'))
+            {
+              prob--;
+            }
+            if(drugs[prob] && drugs[prob].location.includes('as'))
+            {
+              data.resources = drugs[prob].id;
+              data.icon = drugs[prob].icon;
+            }
       }
       return data;
     },
@@ -285,6 +264,25 @@ export default {
           this.isLoading = false;
         });
     },
+     loadFarm(farm) {
+   this.target = farm.territory;
+   this.base = farm.location;
+   this.farmOn = !this.farmOn;
+  },
+  deleteFarm(combination) {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   for (let i = 0; i < favs.length; i += 1) {
+    if (favs[i].name === combination) {
+     favs.splice(i, 1);
+     i -= 1;
+    }
+   }
+   localStorage.setItem('farmlist', JSON.stringify(favs));
+   this.farmlist = favs;
+  },
     initPlanet() {
       const self = this;
       this.showLoading = true;
@@ -893,8 +891,7 @@ export default {
                   let element = self.player_territories.find(t => t.territory === count)
                   let playercount = element.count;                  
                   const riskcolor = redYellowGreen(playercount / 25);
-
-                  material = new THREE.MeshBasicMaterial({ color: riskcolor });
+                  material = new THREE.MeshBasicMaterial({ color: riskcolor });                  
                   material.name = `territory`;
                   material.count = count;
                   material.userData.gang = element.gang;
@@ -904,7 +901,6 @@ export default {
                   const territory_data = self.chooseContinentDrug(count);
                   material.userData.continent = territory_data.name;
                   material.userData.resources = territory_data.resources;
-
                   self.resources.push({
                     name: material.userData.continent,
                     drug: material.userData.resources,

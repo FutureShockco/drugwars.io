@@ -17,8 +17,8 @@
         </span>
         <!-- <div v-if="special.length>0 && quantity" v-for="cost in special" :key="cost.name">
          <span class="mr-2">
-          <Icon :size="18" :name="`${cost.name}_icon`"/>
-             {{ cost.cost * quantity | amount}}
+          <Icon :size="18" :name="`${cost.name || cost.type}_icon`"/>
+             {{ cost.cost || cost.amount * quantity | amount}}
         </span>
         </div> -->
 

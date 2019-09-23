@@ -2,7 +2,7 @@
     <div class="checkout mb-4">
         <button :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || notEnough" @click="handleSubmit()" class="button btn-block button-green mb-2">
     			<i class="iconfont icon-zap"/>
-    			SEND RESOURCES
+    		<span>	SEND RESOURCES</span>
     		</button>
         <div class="mb-2">Upgrade (Only the Boss)</div>
         <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnoughForUpgrade || requireUpdate || !isBoss" @click="handleUpgrade()" class="button btn-block button-green mb-2">
@@ -12,7 +12,7 @@
 
 <template v-else>
     <i class="iconfont icon-tools" />
-    {{ upgradeLabel }}
+    <span>{{ upgradeLabel }}</span>
 </template>
 		</button>
 		<button

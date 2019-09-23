@@ -1,7 +1,8 @@
 <template>
     <div class="checkout mb-4">
         <div class="mb-2">
-            <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
+            <span v-if="inProgress"><i class="iconfont icon-clock mr-2"  > </i>End: {{ timeToWaitString }}</span>
+            <span v-else><i class="iconfont icon-clock mr-2"> </i>Require: {{ updateTime | ms }}</span>
         </div>
     
         <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate" @click="handleSubmit()" class="button btn-block button-green mb-2">
@@ -10,8 +11,9 @@
 </template>
 
 <template v-else>
+    <div class="progression" :style="'margin-right:'+(100-percentage)+'%'"></div>
     <i class="iconfont icon-tools" />
-    {{ upgradeLabel }}
+     <span>{{ upgradeLabel }}</span>
 </template>
     </button>
 
@@ -22,17 +24,17 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }} =
-      {{ priceInSteem }} STEEM
+      <span>${{ price | amount }} =
+      {{ priceInSteem }} STEEM</span>
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !base"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD  || !base"
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2"
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-     <span v-if="dwdPrice"> ${{ dwdPrice | amount }} =</span>
-      {{ priceInDWD }} DWD
+     <span v-if="dwdPrice"> ${{ dwdPrice | amount }} =
+      {{ priceInDWD }} DWD</span>
     </button>
   </div>
 </template>
@@ -79,7 +81,7 @@ export default {
     },
     notEnoughDWD() {
       return (
-        (this.priceInSteem * 2 * this.quantity).toFixed(3) > this.$store.state.game.user.user.dwd
+        (this.priceInSteem * 2 ).toFixed(3) > this.$store.state.game.user.user.dwd
       );
     },
     timeToWait() {
@@ -98,6 +100,17 @@ export default {
         return timeToWait > 0 ? timeToWait : 0;
       }
       return 0;
+    },      
+    timeToWaitString() {
+           const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
+      if (training) {
+        const nextUpdate = new Date(training.next_update).toLocaleString();
+        return nextUpdate.replace('/2019','');
+      }
+      return 0;
+    },
+    percentage(){
+        return parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2)
     },
     base() {
       return this.$store.state.game.mainbase;
@@ -109,7 +122,7 @@ export default {
       let label = 'Upgrade';
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require RC upgrade';
-      if (this.inProgress) label = 'Upgrading';
+      if (this.inProgress) label = 'Upgrading [' + parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2) + '%]';
       return label;
     },
   },
@@ -127,6 +140,12 @@ export default {
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
+
+   const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
+      if (training) {
+      training.pending_update = new Date().getTime() + 3000;
+      }
+
       } else {
         payload = {
           training: this.id,

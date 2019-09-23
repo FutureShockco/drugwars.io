@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress, 'not-enough': hasNotEnough }">
+   <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress, 'not-enough': hasNotEnough }">
         <div class="mr-3">
             <img class="preview" :src="`/img/buildings/${building.id}.jpg`">
         </div>
@@ -12,11 +12,13 @@
             <div class="mb-2" v-html="building.desc"></div>
             <div v-if="building.feature" class="mb-2">
                 UNIQUE:
-                <span class="text-orange">{{ building.feature }}</span>
+                <span class="text-orange">{{ building.feature }}</span>                     
             </div>
+ 
             <div v-if="building.production_type" class="mb-2">
                 <BuildingProduction :compactview="0" :production_type="building.production_type" :level="ownItem.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
             </div>
+            
             <div v-if="['drug_storage', 'weapon_storage', 'alcohol_storage'].includes(building.id)" class="mb-2">
                 <div v-if="ownItem.lvl"><b>Current capacity:</b> {{ 10000+ (35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl) / 100)) * ownItem.lvl | amount }}</div>
                 <div v-if="ownItem.lvl"><b>Next capacity:</b> {{ 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250- (ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) | amount }}</div>
@@ -25,22 +27,34 @@
                 <div v-if="ownItem.lvl"><b>Next Safe:</b> {{ ( 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250-(ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) ) /100*20 | amount }}</div>
                 <div v-else><b>Safe:</b> {{ 10000 /100*15 | amount }}</div>
             </div>
+              <!-- <div  v-if="buildingupgrades" v-for="item in buildingupgrades" :key="item.id">
+                <BuildingUpgrade class="column col-6 p-0" :upgrade="item"/>
+            </div> -->
         </div>
         <div class="mx-auto">
             <Checkout :id="building.id" :level="ownItem.lvl + 1" :coeff="building.coeff" :hqLevel="ownHq.lvl" :inProgress="inProgress" :price="drugsCost / 80000" :notEnough="hasNotEnough" />
         </div>
     </div>
+
+ 
 </template>
 
 <script>
-import { utils } from 'drugwars';
+import { utils, upgrades } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
+import { pickBy } from 'lodash';
 
 export default {
   props: ['building'],
   computed: {
     base() {
       return this.$store.state.game.mainbase;
+    },
+    buildingupgrades(){
+        let upgrade = []
+        if(upgrades[this.building.id])
+        upgrade = upgrades[this.building.id].upgrades
+        return upgrade;
     },
     HQ() {
       if (

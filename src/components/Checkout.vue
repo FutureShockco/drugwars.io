@@ -1,7 +1,8 @@
 <template>
     <div class="checkout mb-4">
         <div class="mb-2">
-            <i class="iconfont icon-clock mr-2" /> {{ inProgress ? timeToWait : updateTime | ms }}
+            <span v-if="inProgress"><i class="iconfont icon-clock mr-2"  > </i>End: {{ timeToWaitString }}</span>
+            <span v-else><i class="iconfont icon-clock mr-2"> </i>Require: {{ updateTime | ms }}</span>
         </div>
         <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate || !base" @click="handleSubmit()" class="button btn-block button-green mb-2">
         <template v-if="isLoading || waitingConfirmation">
@@ -9,8 +10,10 @@
 </template>
 
 <template v-else>
+    <div class="progression" :style="'margin-right:'+(100-percentage)+'%'"></div>
     <i class="iconfont icon-tools" />
-    {{ upgradeLabel }}
+    <span>{{ upgradeLabel }}</span>
+
 </template>
     </button>
     <div class="mb-2">Instant upgrade</div>
@@ -19,16 +22,16 @@
       @click="handleRequestPayment()" v-if="steemAccount"
       class="button btn-block button-blue mb-2">
       <i class="iconfont icon-zap"/>
-      ${{ price | amount }} =
-      {{ priceInSteem }} STEEM
+     <span> ${{ price | amount }} =
+      {{ priceInSteem }} STEEM</span>
     </button>
     <button
-      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !base"
+      :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || !base"
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2">
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-     <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
-      {{ priceInDWD  }} DWD
+     <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = 
+      {{ priceInDWD  }} DWD</span>
     </button>
   </div>
 </template>
@@ -98,6 +101,22 @@ export default {
       }
       return 0;
     },
+    timeToWaitString() {
+      const building = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === this.id &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      );
+      if (building) {
+        const nextUpdate = new Date(building.next_update).toLocaleString();
+        return nextUpdate.replace('/2019','');
+      }
+      return 0;
+    },
+    percentage(){
+      return parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2)
+    },
     requireUpdate() {
       return this.level > this.hqLevel && this.id !== 'headquarters';
     },
@@ -105,7 +124,10 @@ export default {
       let label = 'Upgrade';
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require HQ upgrade';
-      if (this.inProgress) label = 'Upgrading';
+      if (this.inProgress) {
+        label = 'Upgrading [' + parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2) + '%]';
+        
+      }
       if (!this.base) label = 'Choose a location';
       return label;
     },
@@ -116,6 +138,7 @@ export default {
       this.isLoading = true;
       let payload = {};
       if (use === 'dwd')
+      {
         payload = {
           building: this.id,
           level: this.level,
@@ -123,6 +146,17 @@ export default {
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
+              const building = this.$store.state.game.user.buildings.find(
+        b =>
+          b.building === this.id &&
+          b.territory === this.base.territory &&
+          b.base === this.base.base,
+      );
+      if (building) {
+        building.next_update = new Date().getTime() + 3000;
+      }
+      }
+
       else {
         payload = {
           building: this.id,

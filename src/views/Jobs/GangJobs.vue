@@ -37,7 +37,11 @@ export default {
     this.isLoading = true;
     this.load_jobs();
   },
-  computed: {},
+  computed: {
+          ownBase() {
+   return this.$store.state.game.mainbase;
+  },
+  },
   methods: {
     load_jobs() {
       client.requestAsync('get_sent_gang_fights_npc', this.user.gang).then(result => {

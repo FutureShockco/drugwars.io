@@ -6,7 +6,10 @@
                 <Training v-for="training in trainings" :training="training" :key="training.id" />
             </div>
             <div v-else class="p-2 text-center">
-                <h2> You must build a research center first.</h2>
+               <div v-if="!ownBase" class="p-2 text-center">
+                <h2> You must choose a location on the map first.</h2>
+              </div>
+                <h2 v-else> You must build a research center first.</h2>
             </div>
         </div>
     </div>
@@ -22,6 +25,9 @@ export default {
     };
   },
   computed: {
+      ownBase() {
+   return this.$store.state.game.mainbase;
+  },
     researchCenter() {
       return (
         this.$store.state.game.user.buildings.find(

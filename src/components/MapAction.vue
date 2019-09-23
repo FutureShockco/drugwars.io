@@ -609,6 +609,7 @@ export default {
 }
 .vue-ui-modal {
  background: rgba(0, 0, 0, 0.7);
+   overflow-y: scroll;
 }
 
 .farm{

@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<JobsTabs />
+	<div v-if="ownBase">
+    <JobsTabs />
 		<div class="text-center anim-fade-in">
 			<div class="columns m-0" v-for="item in items" :key="item.id">
 				<MissionCard :item="item" />
@@ -16,6 +16,9 @@
 			</div>
 		</div>
 	</div>
+       <div v-else class="p-2 text-center">
+                <h2> You must choose a location on the map first.</h2>
+            </div>
 </template>
 
 <script>
@@ -40,6 +43,9 @@ export default {
     ownJobs() {
       return this.$store.state.game.user.jobs;
     },
+          ownBase() {
+   return this.$store.state.game.mainbase;
+  },
   },
   methods: {
     load_jobs() {

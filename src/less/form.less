@@ -23,6 +23,8 @@
   }
 }
 
+
+
 .button {
   font-family: @heading-font;
   font-weight: 500;
@@ -61,16 +63,18 @@
   }
 
   &.progress {
+    position: relative;
     background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.2) 8px,
+      -45deg, #1f1f1f,
+      #222222 8px,
       transparent 8px,
       transparent 16px
     ) !important;
     background-repeat: round;
     animation: move 3s linear infinite;
+    overflow: hidden;
   }
+ 
 
   i {
     float: left;

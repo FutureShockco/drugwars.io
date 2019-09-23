@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="ownBase">
     <ActionsTabs />
     <UiCenter class="vue-ui-modal pt-2 pb-7" v-if="farmOn">
       <div class="wrapper">
@@ -254,6 +254,9 @@
       </h2>
     </div>
   </div>
+ <div v-else class="p-2 text-center">
+                <h2> You must choose a location on the map first.</h2>
+            </div>
 </template>
 
 <script>
@@ -695,6 +698,7 @@ export default {
 
 .vue-ui-modal {
  background: rgba(0, 0, 0, 0.7);
+   overflow-y: scroll;
 }
 
 .farm{

@@ -1,7 +1,8 @@
 <template>
     <div class="checkout mb-4">
         <div class="mb-2">
-            <i class="iconfont icon-clock mr-2" /> {{ pendingAmount ? timeToWait : (updateTime) | ms }}
+            <span v-if="pendingAmount"><i class="iconfont icon-clock mr-2"  > </i>End: {{ timeToWaitString }}</span>
+            <span v-else><i class="iconfont icon-clock mr-2"> </i>Require: {{ updateTime | ms }}</span>
         </div>
         <button :class="{ progress: pendingAmount }" :disabled="isLoading || pendingAmount || notEnough || inProgress || !base" @click="handleSubmit()" class="button btn-block button-green mb-2">
             <template v-if="isLoading || waitingConfirmation">
@@ -9,10 +10,11 @@
 </template>
 
 <template v-else>
+      <div class="progression" :style="'margin-right:'+(100-percentage)+'%'"></div>
     <i class="iconfont icon-person" />
     <span v-if="!isLoading && pendingAmount === 0">
                     {{ notEnough ? 'Miss resources' : 'Recruit' }}  </span>
-    <span v-if="pendingAmount >0">Recruiting {{pendingAmount}}</span>
+    <span v-if="pendingAmount >0">Recruiting {{pendingAmount}} [{{percentage}}%]</span>
     <div v-else-if="isLoading">
         <div class="pt-2">
             <SmallLoading/>
@@ -28,17 +30,17 @@
       class="button btn-block button-blue mb-2"
     >
       <i class="iconfont icon-zap"/>
-      ${{ price * quantity | amount }} =
-      {{ this.priceInSteem  }} STEEM
+     <span> ${{ price * quantity | amount }} =
+      {{ this.priceInSteem  }} STEEM</span>
     </button> 
     <button
-      :disabled="isLoading || notEnoughDWD ||pendingAmount >0 || !base"
+      :disabled="isLoading || notEnoughDWD  || !base"
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2"
     >
     <img class="dwdicon" src="/img/icons/dwd.png"/>
-     <span> ${{ dwdPrice | amount }} =</span>
-      {{ this.priceInDWD }} DWD
+    <span> ${{ dwdPrice | amount }} =
+      {{ this.priceInDWD }} DWD</span>
     </button>
   </div>
 </template>
@@ -132,6 +134,19 @@ export default {
       }
       return 0;
     },
+    timeToWaitString() {
+      const unit = this.$store.state.game.user.units.find(
+        b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
+      );
+      if (unit) {
+        const nextUpdate = new Date(unit.next_update).toLocaleString();
+        return  nextUpdate.replace('/2019','');
+      }
+      return 0;
+    },
+    percentage(){
+      return parseFloat(100-this.timeToWait/(this.updateTime*this.pendingAmount)*100).toFixed(2)
+    }
   },
   methods: {
     ...mapActions(['recruitUnit', 'requestPayment']),
@@ -140,6 +155,7 @@ export default {
       if (this.quantity > 0) {
         let payload = {};
         if (use === 'dwd')
+        {
           payload = {
             unit: this.id,
             unit_amount: Number(this.quantity),
@@ -147,6 +163,7 @@ export default {
             territory: Number(this.base.territory),
             base: Number(this.base.base),
           };
+        }
         else {
           payload = {
             unit: this.id,
@@ -159,6 +176,15 @@ export default {
         this.recruitUnit(payload)
           .then(() => {
             this.isLoading = false;
+            if(use === 'dwd')
+            {
+                      const unit = this.$store.state.game.user.units.find(
+              b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
+            );
+              if (unit) {
+                unit.pending_update = new Date().getTime() + 3000;
+          }
+            }
           })
           .catch(e => {
             console.error('Failed', e);

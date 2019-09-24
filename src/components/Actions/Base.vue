@@ -2,7 +2,7 @@
     <div v-if="items">
         <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-block text-left">
             <div v-for="building in placeholder_buildings" :key="building.id">
-                <BuildingProductionCompact v-if="building.id === item.building" :building="building" />
+                <BuildingProductionCompact v-if="building.id === item.building" :item="item" :building="building" />
             </div>
         </div>
         <h5>

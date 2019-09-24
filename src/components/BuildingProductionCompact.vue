@@ -1,5 +1,14 @@
 <template>
-    <div class="d-flex flex-row border-bottom itemcompact">
+    <div v-if="item" class="d-flex flex-row border-bottom itemcompact">
+        <img class="mini preview mt-2" :src="`/img/buildings/${building.id}.jpg`">
+        <div class="width-full">
+            <h5 class="ml-2">{{ building.name }} ({{ item.lvl }})</h5>
+        </div>
+        <div v-if="building.production_type" class="right-floated">
+            <BuildingProduction :compactview="1" :type="building.production_type" :level="item.lvl" :coeff="building.coeff" :production_rate="building.production_rate" />
+        </div>
+    </div>
+    <div v-else class="d-flex flex-row border-bottom itemcompact">
         <img class="mini preview mt-2" :src="`/img/buildings/${building.id}.jpg`">
         <div class="width-full">
             <h5 class="ml-2">{{ building.name }} ({{ ownBuilding.lvl }})</h5>
@@ -12,7 +21,7 @@
 
 <script>
 export default {
-  props: ['building'],
+  props: ['building','item'],
   computed: {
     base() {
       return this.$store.state.game.mainbase;

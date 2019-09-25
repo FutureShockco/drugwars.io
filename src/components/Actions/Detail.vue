@@ -78,7 +78,7 @@ export default {
           lvl: training.lvl,
         }),
       );
-       if(mytraining)
+      if(mytraining && mytraining.length>0)
       toOpen += `,${mytraining}`;
       if (this.detail.units.length > 0) {
         const enemyarmy = this.detail.units.map(unit =>
@@ -88,7 +88,7 @@ export default {
             n: unit.amount,
           }),
         );
-         if(enemyarmy)
+         if(enemyarmy && enemyarmy.length>0)
         toOpen += `,${enemyarmy}`;
       }
 
@@ -100,7 +100,7 @@ export default {
             lvl: training.lvl,
           }),
         );
-        if(enemytraining)
+        if(enemytraining && enemytraining.length>0)
         toOpen += `,${enemytraining}`;
       }
       const win = window.open(`${url}?${toOpen}`, '_blank');

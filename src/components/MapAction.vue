@@ -518,7 +518,7 @@ export default {
       );
 
       let toOpen = `${myarmy}`;
-      if(mytraining)
+      if(mytraining && mytraining.length>0)
       toOpen+=`,${mytraining}`
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();

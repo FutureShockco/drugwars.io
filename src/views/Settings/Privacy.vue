@@ -17,7 +17,7 @@
             <form class="form container-xxs" @submit.prevent="handleSubmit">
                 <p>Write the new Steem username :</p>
                 <input class="input input-primary mb-2" v-model="newaccountname" maxlength="32" :placeholder="user.username" v-lowercase />
-                <p>Write or copy paste your actuel username : {{user.username}}</p>
+                <p>Write or copy paste your actual username : {{user.username}}</p>
                  <input class="input input-primary mb-2" v-model="confirmnickname" maxlength="32" :placeholder="user.username" v-lowercase />
                 <button class="button input-block button-large button-red mb-2" @click="handleAccountTransfer" :disabled="isLoading || confirmnickname !== user.username || newaccountname.length < 3"   >
                             <SmallLoading v-if="isLoading"/>    

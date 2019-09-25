@@ -517,7 +517,9 @@ export default {
         }),
       );
 
-      const toOpen = `${myarmy},${mytraining}`;
+      let toOpen = `${myarmy}`;
+      if(mytraining)
+      toOpen+=`,${mytraining}`
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();
     },

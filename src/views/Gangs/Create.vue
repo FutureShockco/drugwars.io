@@ -6,9 +6,9 @@
             <Cost class="mx-auto" :drugsCost="gangCreationFee.drugs" :weaponsCost="gangCreationFee.weapons" :alcoholsCost="gangCreationFee.alcohols" :quantity="1" />
             <form v-if="hasEnough" class="form container-xxs" @submit.prevent="handleSubmit">
                 <p>Id</p>
-                <input class="input input-primary mb-2" v-model="gang" maxlength="16" placeholder="The id of your gang, example: 'frenchconnection'" v-lowercase />
+                <input class="input input-primary mb-2" v-model="gang" maxlength="16" placeholder="The id of your gang, example: 'frenchconnection'" />
                 <p>Tag</p>
-                <input class="input input-primary mb-4" v-model="ticker" maxlength="6" placeholder="The ticker of you gang, example: 'FRCON'" v-uppercase />
+                <input class="input input-primary mb-4" v-model="ticker" maxlength="6" placeholder="The ticker of you gang, example: 'FRCON'"  />
                 <button class="button input-block button-large button-green mb-2" type="submit" :disabled="isLoading">
                         <SmallLoading v-if="isLoading"/>
                         <span v-else>Create</span>

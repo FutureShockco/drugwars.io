@@ -270,6 +270,39 @@
       "logout": "로그 아웃"
     }
   },
+  "pt": {
+    "message": {
+      "login_message": "DrugWars é um jogo de estratégia e simulação multijogador massivo baseado na blockchain da Steem que paga seus jogadores em criptomoedas.",
+      "login": "Conexão",
+      "drugs": "Drogas",
+      "weapons": "Armas",
+      "alcohol": "Álcool",
+      "day": "dia",
+      "hour": "hora",
+      "per": "por",
+      "force_logout": "Desconectar"
+    },
+    "sidebar": {
+      "overview": "Visão global",
+      "buildings": "Edifícios",
+      "bootcamp": "Acampamento",
+      "actions": "Acões",
+      "map": "Mapa",
+      "leaderboards": "Classificação",
+      "gangs": "Gangues",
+      "jobs": "Trabalho",
+      "heist": "Roubo",
+      "exchange": "Troca",
+      "cards": "Cartas",
+      "referral": "Indicar",
+      "settings": "Preferências",
+      "help": "Ajuda",
+      "forum": "Fórum",
+      "vote_for": "VOTE EM NOSSO JOGO E APOIE DRUGWARS.",
+      "made_by": "Feito por",
+      "logout": "Sair"
+    }
+  },
   "cn": {
     "message": {
       "login_message": "DrugWars是一款免費玩大型多人戰略和模擬遊戲，使用Steem Blockchain獎勵玩家使用加密貨幣。",

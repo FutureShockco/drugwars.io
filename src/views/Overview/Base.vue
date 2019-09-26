@@ -10,7 +10,7 @@
                 <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
                     <h6>Location </h6>
                 <input class="input input-primary mb-2" v-model="target_base" type="number"/>
-            <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnough || !ownBase ||!target_base || !target_territory"
+            <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnoughDWD || !ownBase ||!target_base || !target_territory"
              type="submit" class="button btn-block button-green mb-2">
             <template v-if="isLoading || waitingConfirmation">
                       <SmallLoading/>

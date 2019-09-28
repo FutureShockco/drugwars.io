@@ -47,7 +47,7 @@
         >
           <PlayerBubble :player="target" />
           <button class="button button-red abs" @click="chooseTarget(target)">
-            <span class="iconfont icon-target"></span>
+            <div class="iconfont icon-target"></div>
           </button>
         </div>
       </div>

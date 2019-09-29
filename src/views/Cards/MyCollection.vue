@@ -82,23 +82,24 @@ export default {
         const border = new Image();
         const flag = new Image();
         const effect = new Image();
-        const path = 'http://teelkee.com/dw';
-        background.src = `../img/cards/background/1.png`;
+        const path = '//img.drugwars.io';
+        const random_pic =  Math.floor(Math.random() * Math.floor(3)) +1;
+        background.src = `${path}/cards/background/1.png`;
 
         background.onload = () => {
-          frame.src = `${path}/frames/1.png`;
+          frame.src = `${path}/cards/background/classic_unit${random_pic}.png`;
           ctx.imageSmoothingEnabled = true;
-          ctx.drawImage(background, 2, 2, canvas.width - 4, canvas.height - 4);
+          ctx.drawImage(background, 0, 0, canvas.width , canvas.height );
         };
 
         frame.onload = () => {
           if (card.ctype === 'buildings') {
             console.log(card.id);
-            character.src = `../img/cards/buildings/${card.id}.png`;
+            character.src = `${path}/cards/buildings/${card.id}.png`;
           } else if (card.ctype === 'units') {
-            character.src = `../img/cards/units/${card.id}.png`;
+            character.src = `${path}/cards/units/${card.id}.png`;
           } else if (card.ctype === 'training') {
-            character.src = `../img/trainings/${card.id}.jpg`;
+            character.src = `${path}/trainings/${card.id}.jpg`;
           } else {
             character.src = `${path}/heroes/${card.pic}.png`;
           }
@@ -107,7 +108,7 @@ export default {
         };
 
         character.onload = () => {
-          effect.src = `../img/cards/fx/1.png`;
+          effect.src = `${path}/cards/fx/1.png`;
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(character, 0, 0, canvas.width, canvas.height);
         };
@@ -115,9 +116,9 @@ export default {
         effect.onload = () => {
           // border.src = `${path}/borders/${card.quality}.png`;
           if (card.owned && card.ctype === 'units') {
-            attack_type.src = `${path}/icons/${card.dmg_type}.png`;
+            attack_type.src = `${path}/type/${card.dmg_type}.png`;
           } else {
-            attack_type.src = `${path}/icons/weapon.png`;
+            attack_type.src = `${path}/type/weapon.png`;
           }
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(effect, 0, 0, canvas.width, canvas.height);

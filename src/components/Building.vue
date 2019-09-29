@@ -1,7 +1,7 @@
 <template>
    <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress, 'not-enough': hasNotEnough }">
         <div class="mr-3">
-            <img class="preview" :src="`/img/buildings/${building.id}.jpg`">
+            <img class="preview" :src="`//img.drugwars.io/buildings/${building.id}.jpg`">
         </div>
         <div class="level">{{ ownItem.lvl }}</div>
         <div class="item-content width-full mr-3 mb-4">

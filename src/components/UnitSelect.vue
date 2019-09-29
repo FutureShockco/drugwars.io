@@ -3,7 +3,7 @@
         <div class="sunit" @click="handleClick">
             <div class="smalltitle">{{unit.name}}</div>
     
-            <img class="preview unit small" :src="`/img/units/${unit.id}.png`" />
+            <img class="preview unit small" :src="`//img.drugwars.io/units/${unit.id}.png`" />
             <i class="iconfont icon-plus"></i>
         </div>
         <input class="input" type="number" min="1" :max="item.amount" v-model="amount">

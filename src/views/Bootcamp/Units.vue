@@ -2,7 +2,7 @@
     <div>
         <BootcampTabs/>
         <div class="anim-fade-in">
-            <div v-if="trainingFacility.lvl > 0">
+            <div class="units" v-if="trainingFacility.lvl > 0">
                 <Unit v-if="!unit.disabled && !unit.npc" v-for="unit in units" :unit="unit" :key="unit.id" />
             </div>
             <div v-else class="p-2 text-center">

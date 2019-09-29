@@ -29,7 +29,7 @@
       :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || !base"
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2">
-    <img class="dwdicon" src="/img/icons/dwd.png"/>
+    <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
      <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = 
       {{ priceInDWD  }} DWD</span>
     </button>

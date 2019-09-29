@@ -2,7 +2,7 @@
     <div>
         <div class="text-center mb-6 item border-bottom">
 				<div class="text-center p-4">
-					<h5 class="columns">  <img class="tokenimg" :src="`/img/icons/${drug.id}_icon.png`" width="36" height="36" />DW-{{drug.name.substring(0,4)}} Token Informations</h5>
+					<h5 class="columns">  <img class="tokenimg" :src="`//img.drugwars.io/icons/${drug.id}_icon.png`" width="36" height="36" />DW{{drug.name.substring(0,4)}} Token Informations</h5>
 					<h6 class="column col-4 m-0">
 						Max Supply
 						<p class="text-yellow"> 0</p>
@@ -49,20 +49,20 @@
 					</h6>
 				</div>
           <div class="mt-6">
-                <img class="preview" :src="`/img/icons/drugs/${drug.icon}`">
+                <img class="preview" :src="`//img.drugwars.io/icons/drugs/${drug.icon}`">
             </div> 
             <div class="item-content width-full">
                 <h5>{{ drug.name }}</h5>
                 <div class="mb-2" v-html="drug.description"></div>
-                <button disabled
+               <router-link :to="'/market?token=dw'+drug.name.substring(0,4).toLowerCase()"> <button
                   class="button btn-block button-blue mb-2">
                   <i class="iconfont icon-zap"/>
                 TRADE ON MARKET
-                </button>
+                </button></router-link>
             </div> 
           </div> 
           <div class="px-4">
-            DRUGWARS DOLLARS (DWD) OR DRUGWARS {{drug.name.toUpperCase()}} (DW-{{drug.name.substring(0,4).toUpperCase()}}) TOKENS ARE VIRTUAL CURRENCIES. 
+            DRUGWARS DOLLARS (DWD) OR DRUGWARS {{drug.name.toUpperCase()}} (DW{{drug.name.substring(0,4).toUpperCase()}}) TOKENS ARE VIRTUAL CURRENCIES. 
           </div>
     </div>
 </template>

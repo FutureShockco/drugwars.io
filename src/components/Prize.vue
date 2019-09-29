@@ -18,7 +18,7 @@
             <div class="detail">Today's prize</div>
             <div class="mb-0">
                 {{ totalDWD | amount }}
-                <img class="dwd_logo" width="44" src="/img/icons/dwd.png">
+                <img class="dwd_logo" width="44" src="//img.drugwars.io/icons/dwd.png">
                  <div class="sub">
                 ${{totalUSD}} - {{totalSteem}} STEEM
                 </div>

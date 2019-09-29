@@ -122,7 +122,7 @@ export default {
   width: auto;
   height: auto;
   z-index: -100;
-  background: url(/img/bg.jpg) no-repeat;
+  background: url(//img.drugwars.io/bg.jpg) no-repeat;
   background-size: cover;
 }
 

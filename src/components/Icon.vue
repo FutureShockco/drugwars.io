@@ -1,5 +1,5 @@
 <template>
-    <img :class="'icon'" :src="`/img/icons/${name}.png`" :width="size" :height="size" />
+    <img :class="'icon'" :src="`//img.drugwars.io/icons/${name}.png`" :width="size" :height="size" />
 </template>
 
 <script>

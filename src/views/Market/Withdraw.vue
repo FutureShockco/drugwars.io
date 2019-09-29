@@ -42,7 +42,6 @@
 			<div>
 				You must first set your paypal account.
 			</div>
-			<h3 v-if="!steemAccount">Get started on SteemEngine with using your <router-link :to="`/settings/steem`">Steem account</router-link></h3>
 			<div v-if="!picked">
 				<p class="mb-4">You must choose your currency.</p>
 			</div>

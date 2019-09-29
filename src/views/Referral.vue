@@ -25,7 +25,7 @@
             <div v-if="!referrals.length" >
                 <p>You have not referred anyone yet.</p>
             </div>
-            <img class="refferalimg" :src="'/img/referral.png'">
+            <img class="refferalimg" :src="'//img.drugwars.io/referral.png'">
         </div>
     </div>
 </template>

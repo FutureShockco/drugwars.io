@@ -8,15 +8,15 @@
       <div class="columns rel">
         <div class="column det col-4">
           <h5>Build your own virtual empire</h5>
-          <img width="100%" class="rounded-2" :src="`/img/home/home1.jpg`" />
+          <img width="100%" class="rounded-2" :src="`//img.drugwars.io/home/home1.jpg`" />
         </div>
         <div class="column det col-4">
           <h5>Collect exclusive cards</h5>
-          <img width="100%" class="rounded-2" :src="`/img/home/home2.jpg`" />
+          <img width="100%" class="rounded-2" :src="`//img.drugwars.io/home/home2.jpg`" />
         </div>
         <div class="column det col-4">
           <h5>Fight with your opponents</h5>
-          <img width="100%" class="rounded-2" :src="`/img/home/home3.jpg`" />
+          <img width="100%" class="rounded-2" :src="`//img.drugwars.io/home/home3.jpg`" />
         </div>
       </div>
       <h4 class="ui white header">{{ 'message.login_message' | translate}}</h4>
@@ -84,7 +84,7 @@ export default {
   p {
     font-size: 24px;
   }
-  // background-image: url('/img/home/homecards.png')!important;
+  // background-image: url('//img.drugwars.io/home/homecards.png')!important;
   // background-size: contain!important;
   // background-repeat: no-repeat!important;
   // background-position-y: 40px!important;

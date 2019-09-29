@@ -23,7 +23,7 @@
             <button
               :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !ownBase ||!target_base || !target_territory"
               class="button btn-block button-yellow mb-2">
-            <img class="dwdicon" src="/img/icons/dwd.png"/>
+            <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
             <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
               {{ price  }} DWD
             </button>

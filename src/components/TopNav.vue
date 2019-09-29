@@ -4,7 +4,7 @@
             <div class="topnav-content d-flex mx-auto">
                 <div class="topnav-logo hide-sm hide-md hide-lg text-center">
                     <router-link to="/">
-                        <img src="/img/drugwars.png" class="logo" name="logo" />
+                        <img src="//img.drugwars.io/drugwars.png" class="logo" name="logo" />
                     </router-link>
                 </div>
                 <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">

@@ -9,7 +9,7 @@
             <div>Volume (24h)</div>
             <div
               class="text-yellow"
-            >${{this.marketDepth.volume *this.marketDepth.lastPrice/ prizeProps.steemprice | amount}} <div class="text-blue mini">{{this.marketDepth.volume *this.marketDepth.lastPrice/ prizeProps.steemprice / prizeProps.steemprice | amount}}STEEM</div></div>
+            >${{this.marketDepth.volume* prizeProps.steemprice | amount}} <div class="text-blue mini">{{this.marketDepth.volume | amount}}STEEM</div></div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Price Change</div>
@@ -38,9 +38,12 @@
         <div class="col-md-12 stats mb-0 pb-0">
           <h5 class="column col-3 m-0">
             <div>Max supply</div>
-            <div
+            <div v-if="this.marketDepth.nullBalance"
               class="text-yellow"
             >{{ this.marketDepth.maxSupply - this.marketDepth.nullBalance | million }} </div>
+                        <div v-else
+              class="text-yellow"
+            >{{ this.marketDepth.maxSupply | amount }} </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Circulating</div>
@@ -326,6 +329,7 @@ export default {
   created() {
     const self = this;
     const ssc = new SSC('https://api.steem-engine.com/rpc/');
+    console.log(self.prizeProps.seProps)
     console.log(self.token)
     if(self.token === "DWD")
     {
@@ -333,6 +337,8 @@ export default {
     }
     else
     ssc.find('tokens', 'tokens', { symbol: self.token }, 1000, 0, [], (err, result) => {
+          console.log(result[0].maxSupply)
+
         self.marketDepth.supply = result[0].circulatingSupply;
         self.marketDepth.maxSupply = result[0].maxSupply;
         ssc

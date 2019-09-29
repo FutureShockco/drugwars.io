@@ -9,7 +9,7 @@
             </p>
             <p>Version: {{ pkg.version }}</p>
             <p>
-                <a href="/img/drugwars.svg" target="_blank">
+                <a href="//img.drugwars.io/drugwars.svg" target="_blank">
               Download DrugWars logo 
             </a>
             </p>

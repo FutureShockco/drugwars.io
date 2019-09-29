@@ -86,7 +86,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border-black.png');
+    background-image: url('//img.drugwars.io/avatar-border-black.png');
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -97,7 +97,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border-gold.png');
+    background-image: url('//img.drugwars.io/avatar-border-gold.png');
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -108,7 +108,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border-silver.png');
+    background-image: url('//img.drugwars.io/avatar-border-silver.png');
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -119,7 +119,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border-copper.png');
+    background-image: url('//img.drugwars.io/avatar-border-copper.png');
     background-size: contain;
     background-repeat: no-repeat;
   }

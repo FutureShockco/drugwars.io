@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-lg-row flex-column text-center text-lg-left item">
     <div class="mr-3">
-      <img class="preview" :src="`/img/missions/${item.img}.jpg`" />
+      <img class="preview" :src="`//img.drugwars.io/missions/${item.img}.jpg`" />
     </div>
     <div class="level" v-if="item.type">{{ item.type }} - Difficulty : {{item.difficulty}}</div>
     <div class="item-content width-full mr-3 mb-4">
@@ -24,7 +24,7 @@
         >
           <div class="unitamount">{{unit.amount.mini}} - {{unit.amount.max}}</div>
 
-          <img class="preview unit width-full" width="50" :src="`/img/units/${unit.id}.png`" />
+          <img class="preview unit width-full" width="50" :src="`//img.drugwars.io/units/${unit.id}.png`" />
 
           <div class="unitname">{{unit.id}}</div>
         </div>
@@ -39,7 +39,7 @@
         >
           <div class="unitamount">{{unit.amount}}</div>
 
-          <img class="preview unit width-full" width="50" :src="`/img/units/${unit.key}.png`" />
+          <img class="preview unit width-full" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`" />
 
           <div class="unitname">{{unit.key}}</div>
         </div>
@@ -244,8 +244,8 @@ export default {
 @import '../vars.less';
 .shopcard {
   background: -webkit-gradient(linear, left top, left bottom, from(#0e111496), to(#000000cc)),
-    url(/img/fake-brick.png);
-  background: linear-gradient(#0e111496, #000000cc), url(/img/fake-brick.png);
+    url(//img.drugwars.io/fake-brick.png);
+  background: linear-gradient(#0e111496, #000000cc), url(//img.drugwars.io/fake-brick.png);
 }
 
 .icon {

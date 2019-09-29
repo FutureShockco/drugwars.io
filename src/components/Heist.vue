@@ -1,7 +1,7 @@
 <template>
     <div class="pt-2 heist">
         <h4>Heist</h4>
-        <img width="150px" :src="`/img/heist.jpg`">
+        <img width="150px" :src="`//img.drugwars.io/heist.jpg`">
         <div class="heist-text text-center">
              <div class="pt-2">Total {{ prizeProps.heist_pool | amount }}</div>
         <div class="text-green">Vest: {{ totalVest | amount }} </div>

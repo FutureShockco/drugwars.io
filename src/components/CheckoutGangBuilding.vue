@@ -21,7 +21,7 @@
 			@click="handleSubmit('dwd')"
 			class="button btn-block button-green mb-2"
 		>
-			<img class="dwdicon" src="/img/icons/dwd.png">
+			<img class="dwdicon" src="//img.drugwars.io/icons/dwd.png">
 			CLAIM 6 DWD
 		</button>
 	</div>

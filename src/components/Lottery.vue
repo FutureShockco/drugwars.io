@@ -1,7 +1,7 @@
 <template>
     <div class="pt-2 my-4 lottery">
         <h4>Lottery</h4>
-        <img width="150px" :src="`/img/lottery.jpg`">
+        <img width="150px" :src="`//img.drugwars.io/lottery.jpg`">
         <div class="lottery-text text-center">
         <div class="pt-2">TICKETS: {{myTickets}}</div>
         <div class="text-green">Last winner: <br/>{{ lastWinner.nickname || 'government'}}</div>
@@ -13,7 +13,7 @@
                 :disabled="isLoading  || notEnoughDWD || !base"
                 type="submit" 
                 class="button btn-block button-yellow mb-2">
-              <img class="dwdicon" src="/img/icons/dwd.png"/>
+              <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
               <span> ${{ dwdPrice | amount }} = </span>
                 {{ priceInDWD  }} DWD
               </button>

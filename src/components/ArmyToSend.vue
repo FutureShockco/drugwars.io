@@ -1,7 +1,7 @@
 <template>
     <div v-if="units">
         <div v-for="unit in units" v-if="unit.amount !== 0" :key="unit.key" class="d-inline-block mx-1 my-1 text-center">
-            <img class="preview unit mini" width="50" :src="`/img/units/${unit.key}.png`">
+            <img class="preview unit mini" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`">
             <div>
                 <span v-if="withDead && unit.dead">
               <span :class="{ 'text-red' : unit.dead }">

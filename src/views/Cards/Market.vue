@@ -80,7 +80,7 @@ export default {
         const border = new Image();
         const flag = new Image();
         const effect = new Image();
-        const path = 'http://teelkee.com/dw';
+        const path = '//img.drugwars.io/';
         background.src = `${path}/backgrounds/weapon/1.png`;
 
         background.onload = () => {
@@ -97,11 +97,11 @@ export default {
 
         effect.onload = () => {
           if (card.ctype === 'building') {
-            character.src = `../img/buildings/${card.id}.jpg`;
+            character.src = `//img.drugwars.io/buildings/${card.id}.jpg`;
           } else if (card.ctype === 'unit') {
-            character.src = `../img/cards/units/${card.id}.png`;
+            character.src = `//img.drugwars.io/cards/units/${card.id}.png`;
           } else if (card.ctype === 'training') {
-            character.src = `../img/trainings/${card.id}.jpg`;
+            character.src = `//img.drugwars.io/trainings/${card.id}.jpg`;
           } else {
             character.src = `${path}/heroes/${card.pic}.png`;
           }

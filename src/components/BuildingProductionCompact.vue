@@ -1,6 +1,6 @@
 <template>
     <div v-if="item" class="d-flex flex-row border-bottom itemcompact">
-        <img class="mini preview mt-2" :src="`/img/buildings/${building.id}.jpg`">
+        <img class="mini preview mt-2" :src="`//img.drugwars.io/buildings/${building.id}.jpg`">
         <div class="width-full">
             <h5 class="ml-2">{{ building.name }} ({{ item.lvl }})</h5>
         </div>
@@ -9,7 +9,7 @@
         </div>
     </div>
     <div v-else class="d-flex flex-row border-bottom itemcompact">
-        <img class="mini preview mt-2" :src="`/img/buildings/${building.id}.jpg`">
+        <img class="mini preview mt-2" :src="`//img.drugwars.io/buildings/${building.id}.jpg`">
         <div class="width-full">
             <h5 class="ml-2">{{ building.name }} ({{ ownBuilding.lvl }})</h5>
         </div>

@@ -52,7 +52,7 @@
 				<h4 v-if="share">JOIN US!</h4>
 			</div>
 			<div class="column col-5">
-				<Avatar :size="60" :username="user.nickname" :picture="`/img/missions/${job.img}.jpg`"/>
+				<Avatar :size="60" :username="user.nickname" :picture="`//img.drugwars.io/missions/${job.img}.jpg`"/>
 				<div class="username mb-4">DRUGWARS NPC</div>
 				<div >
 					<div v-if="details && json && json.target && json.target.start_value">

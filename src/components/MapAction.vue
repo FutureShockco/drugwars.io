@@ -627,6 +627,6 @@ export default {
 
 .mapaction {
   position: absolute;
-  background: linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)), url(/img/fake-brick.png);
+  background: linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)), url(//img.drugwars.io/fake-brick.png);
 }
 </style>

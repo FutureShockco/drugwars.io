@@ -124,7 +124,7 @@
         :key="resource.id"
         v-for="resource in resources"
       >
-        <img :src="`/img/icons/${resource.icon}`" width="36" height="36" />
+        <img :src="`//img.drugwars.io/icons/${resource.icon}`" width="36" height="36" />
         {{resource.locationname}}
       </div>
       <div class="first-line"></div>

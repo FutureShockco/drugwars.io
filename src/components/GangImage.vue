@@ -55,7 +55,7 @@ export default {
     left: -12%;
     bottom: -18%;
     right: -10%;
-    background-image: url('/img/avatar-border.png');
+    background-image: url('//img.drugwars.io/avatar-border.png');
     background-size: contain;
     background-repeat: no-repeat;
   }

@@ -384,7 +384,7 @@ export default {
 
       function drawTiles() {
         const background = new Image();
-        background.src = `../img/map/map.jpg`;
+        background.src = `//img.drugwars.io/map/map.jpg`;
         background.onload = () => {
           context.imageSmoothingEnabled = true;
           context.drawImage(background, 0, 0, canvas.width, canvas.height);

@@ -7,7 +7,7 @@
              <h2>Resource inventory</h2>
         </div>
         <div class="column p-3 col-4 text-center" v-for="drug in drugs" :key="drug.id">
-          <img :src="`/img/icons/${drug.icon}`" width="36" height="36" />
+          <img :src="`//img.drugwars.io/icons/${drug.icon}`" width="36" height="36" />
           <div>
             <router-link v-if="drug.id" :to="`/market?token=DW${drug.name.substring(0,4).toUpperCase()}`">
           <h5 class="mt-0 mb-0"><span class="text-orange">{{drug.name}} </span></h5>
@@ -286,8 +286,8 @@ h4 {
 
 .columns {
   background: -webkit-gradient(linear, left top, left bottom, from(#0e111496), to(#000000cc)),
-    url(/img/fake-brick.png);
-  background: linear-gradient(#0e111496, #000000cc), url(/img/fake-brick.png);
+    url(//img.drugwars.io/fake-brick.png);
+  background: linear-gradient(#0e111496, #000000cc), url(//img.drugwars.io/fake-brick.png);
   min-height: 86vh;
 }
 

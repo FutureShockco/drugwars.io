@@ -6,9 +6,7 @@
 				You have
 				<b>{{ user.dwd }} DWD</b> token(s) in-game
 			</h3>
-			<div class="m2-4">
-				<h4>Withdraw DWD token(s) to SteemEngine</h4>
-			</div>
+			<h4 class="mt-2 mb-0">Withdraw DWD token(s) to SteemEngine</h4>
 		</div>
 		<div class="text-center">
 			<form v-if="user.dwd > 0" class="form mx-auto" @submit.prevent="handleSubmit">
@@ -17,6 +15,7 @@
 						<span v-if="!isLoading">Withdraw</span>
 						<SmallLoading v-else />
 					</button>
+					<div class="mt-1">Min : 1 DWD</div>
 			</form>
 			<h3 v-if="!steemAccount">Get started on SteemEngine with using your <router-link :to="`/settings/steem`">Steem account</router-link></h3>
 			<div v-if="!picked">
@@ -25,6 +24,33 @@
 			<div v-else-if="picked && user.dwd === 0">
 				<p class="mb-4">You don't have any token to claim.</p>
 			</div>
+		</div>
+		<div class="p-4 text-center anim-fade-in">
+			<div class="m2-4">
+				<h4>Cashout DWD token(s) to Paypal</h4>
+			</div>
+		</div>
+		<div class="text-center">
+			<form v-if="user.dwd > 0 && user.paypal" class="form mx-auto" @submit.prevent="handleSubmit">
+				<input class="input input-primary mb-2" type="number" v-model="amount" :disabled="isLoading" maxlength="10" placeholder="Amount to change" />
+					<button disabled class="mt-3 button input-block button-large button-green">
+						<span v-if="!isLoading">Cashout</span>
+						<SmallLoading v-else />
+					</button>
+					<div>Min : 50 DWD</div>
+			</form>
+			<div>
+				You must first set your paypal account.
+			</div>
+			<h3 v-if="!steemAccount">Get started on SteemEngine with using your <router-link :to="`/settings/steem`">Steem account</router-link></h3>
+			<div v-if="!picked">
+				<p class="mb-4">You must choose your currency.</p>
+			</div>
+			<div v-else-if="picked && user.dwd === 0">
+				<p class="mb-4">You don't have any token to claim.</p>
+			</div>
+		</div>
+		<div class="text-center">	
 			<div>
 				<div class="p-4 text-center mt-6 mb-6 border-top">
 					<h5 class="columns">DWD Token Informations</h5>

@@ -536,15 +536,15 @@ const actions = {
     }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
-    if (window.steem_keychain != null) {
+    if (window.steem_keychain && window.steem_keychain.current_id) {
       window.steem_keychain.requestTransfer(
         username,
         dealerSteemUsername,
-        amount,
-        memo,
+        amount.split(' ')[0],
+        JSON.stringify(memo),
         'STEEM',
         response => {
-          if (response.success) {
+          if (response.success || response.error === "user_cancel") {
             console.log('success');
             Promise.delay(1000).then(() => {
               dispatch('init');

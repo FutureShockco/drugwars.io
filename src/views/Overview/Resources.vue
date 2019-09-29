@@ -13,7 +13,7 @@
           <h5 class="mt-0 mb-0"><span class="text-orange">{{drug.name}} </span></h5>
         </router-link>
           </div>
-          <div>DW-{{drug.name.substring(0,4).toUpperCase()}} : 0</div>
+          <div>DW{{drug.name.substring(0,4).toUpperCase()}} : 0</div>
         </div>
       </div>
     </div>

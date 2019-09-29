@@ -1,79 +1,109 @@
 <template>
   <div>
     <MarketTabs />
-    <div class="p-4 text-center anim-fade-in">
-      <div class="row">
-        <div class="col-md-12 stats">
-          <h3 class="mb-3">DWD Market Depth</h3>
+    <div class="p-4 text-center anim-fade-in mb-4 pb-0">
+      <div class="row mb-0 pb-0">
+        <div class="col-md-12 stats mb-0 pb-0">
+          <h3 class="mb-3">{{token}} Market Depth</h3>
           <h5 class="column col-3 m-0">
             <div>Volume (24h)</div>
             <div
               class="text-yellow"
-            >${{this.steemengine.volume *this.steemengine.lastPrice/ prizeProps.steemprice | amount}} <div class="text-blue">{{this.steemengine.volume *this.steemengine.lastPrice/ prizeProps.steemprice / prizeProps.steemprice | amount}}STEEM</div></div>
+            >${{this.marketDepth.volume *this.marketDepth.lastPrice/ prizeProps.steemprice | amount}} <div class="text-blue mini">{{this.marketDepth.volume *this.marketDepth.lastPrice/ prizeProps.steemprice / prizeProps.steemprice | amount}}STEEM</div></div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Price Change</div>
             <div
               class="text-red"
-              :class="{ 'text-green' : this.steemengine.priceChangePercent > 0 }"
-            >{{ this.steemengine.priceChangePercent }}% <i class="iconfont icon-arrow-down" :class="{ 'icon-arrow-up' : this.steemengine.priceChangePercent > 0 }"></i> </div>
+              :class="{ 'text-green' : this.marketDepth.priceChangePercent > 0 }"
+            >{{ this.marketDepth.priceChangePercent }}% <i class="iconfont icon-arrow-down" :class="{ 'icon-arrow-up' : this.marketDepth.priceChangePercent > 0 }"></i> </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Last Price</div>
             <div
               class="text-yellow"
-            >${{parseFloat(1 *this.steemengine.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
-						<div class="text-blue"> {{this.steemengine.lastPrice | decimal }} STEEM</div>
+            >${{parseFloat(1 *this.marketDepth.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
+						<div class="text-blue mini"> {{this.marketDepth.lastPrice | decimal }} STEEM</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Bid/Ask</div>
             <div
               class="text-yellow"
             >
-						${{ parseFloat(this.steemengine.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.steemengine.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
-         <div class="text-blue">						{{this.steemengine.highestBid | decimal}} / {{ this.steemengine.lowestAsk| decimal}} STEEM
+						${{ parseFloat(this.marketDepth.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.marketDepth.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
+         <div class="text-blue mini">						{{this.marketDepth.highestBid | decimal}} / {{ this.marketDepth.lowestAsk| decimal}} STEEM
+          </div>
+				  </h5>
+        </div>
+        <div class="col-md-12 stats mb-0 pb-0">
+          <h5 class="column col-3 m-0">
+            <div>Max supply</div>
+            <div
+              class="text-yellow"
+            >{{ this.marketDepth.maxSupply - this.marketDepth.nullBalance | million }} </div>
+          </h5>
+          <h5 class="column col-3 m-0 border-left">
+            <div>Circulating</div>
+            <div
+              class="text-yellow"
+            >{{ (this.prizeProps.total_dwd + parseInt(this.marketDepth.supply)) / parseInt(this.marketDepth.maxSupply- this.marketDepth.nullBalance) *100 | amount }} %  </div>
+          </h5>
+          <h5 class="column col-3 m-0 border-left">
+            <div>Market cap</div>
+            <div
+              class="text-yellow"
+            >${{(Number(this.marketDepth.supply) + this.prizeProps.total_dwd) * Number(this.marketDepth.lastPrice) * Number(this.prizeProps.steemprice) | amount}}</div>
+          </h5>
+          <h5 class="column col-3 m-0 border-left">
+            <div>Burnt</div>
+            <div class="text-yellow"> {{ this.marketDepth.nullBalance | amount }}
           </div>
 				  </h5>
         </div>
       </div>
     </div>
     <div>
-      <VueApexCharts width="100%" :options="options" :series="series" class="mb-6"></VueApexCharts>
+      <VueApexCharts width="100%" height="350px" :options="options" :series="series" class="mt-0 mb-6"></VueApexCharts>
     </div>
 
-    <div class="px-3 columns text-left ">
-      <div class="column col-6 border-right p-0 m-0 border-bottom pb-3">
-        <h4 class="mb-0 p-1">Buy DWD</h4>
-          <div class="border-right"><input class="input form-control" v-model="buyprice"> STEEM <small class="small text-blue" v-if="buyprice"> ${{buyprice*prizeProps.steemprice | decimal}}</small></div>
+    <div class="px-3 columns text-left">
+      <div class="column col-6 border-right p-0 m-0 border-bottom pb-3  mt-2">
+        <h4 class="mb-0 p-1">Buy {{token}}</h4>
+          <div class="border-right"><input class="input form-control" v-model="buyprice"> <small class="small text-blue" v-if="buyprice"> ${{buyprice*prizeProps.steemprice | decimal}}</small></div>
           <div class="border-right"> <input class="input form-control mt-1" v-model="buyquantity"> Quantity</div>
           <div class=""><input class="input form-control mt-1" :placeholder="buyprice*buyquantity | decimal" > Total <small class="small text-blue" v-if="buyprice"> ${{buyprice*buyquantity*prizeProps.steemprice | decimal}}</small></div>
-					<div class="columns  p-0 m-0">
+					<div class="columns  p-0 m-0 mt-2">
 							<div class="column col-6 p-0 m-0">
 							Balance :  
-              <br/><span class="text-blue">{{steemBalance}} STEEM</span>
+              <span class="text-blue" v-if="steemOn"><br/>{{steemBalance}} STEEM</span>
                 <br/>
-               <span class="text-blue">${{steemBalance*prizeProps.steemprice | decimal}} </span>
+               <span class="text-blue" :class="{ 'mini' : steemOn }">${{steemBalance*prizeProps.steemprice | decimal}} </span>
+               <span class="text-blue mini" v-if="!steemOn"><br/>{{steemBalance}} STEEM</span>
 						 </div>
-						 <div class="column col-6 p-0 m-0">
-							<button disabled class="button button-green">Buy DWD</button>
+						 <div class="column col-6 p-0 m-0" v-if="steemOn">
+							<button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance) " @click="buySteem()">Buy with STEEM</button>
+						 </div>
+             	<div class="column col-6 p-0 m-0" v-else>
+							<button disabled class="button button-green" @click="buyPaypal()">Buy with Paypal</button>
+                <div>Min order : $3</div>
 						 </div>
 					</div>
       </div>
-      <div class="column col-6 p-0 m-0 text-right border-bottom  pb-3">
-        <h4 class="mb-0 p-1">Sell DWD</h4>
+      <div class="column col-6 p-0 m-0 text-right border-bottom  pb-3  mt-2">
+        <h4 class="mb-0 p-1">Sell {{token}}</h4>
           <div class="border-right">  <small class="small text-blue" v-if="sellprice"> ${{sellprice*prizeProps.steemprice | decimal}} </small> STEEM <input class="input form-control" v-model="sellprice"></div>
           <div class="border-right">  Quantity <input class="input form-control mt-1" v-model="sellquantity"></div>
           <div class=""><small class="small text-blue" v-if="sellprice"> ${{sellprice*sellquantity*prizeProps.steemprice | decimal}}</small> Total <input class="input form-control mt-1" :placeholder="sellprice*sellquantity | decimal"></div>
-						<div class="columns  p-0 m-0">
+						<div class="columns  p-0 m-0 mt-2">
 							<div class="column col-6 p-0 m-0 ">
 						  Balance :  
               <br/>
-               <span class="text-yellow">{{myDWDBalance | decimal}} DWD</span>
+               <span class="text-yellow">{{dwdBalance | decimal}} {{token}}</span>
                <br/>
-               <span class="text-yellow">${{myDWDBalance*this.steemengine.lastPrice * prizeProps.steemprice | decimal}} </span>
+               <span class="text-yellow mini">${{dwdBalance*this.marketDepth.lastPrice * prizeProps.steemprice | decimal}} </span>
 						 </div>
 						 <div class="column col-6 p-0 m-0">
-							<button disabled class="button button-red">Sell DWD</button>
+							<button class="button button-red" @click="sell">Sell {{token}}</button>
 						 </div>
 					</div>
       </div>
@@ -177,6 +207,7 @@ export default {
       picked: 'steem',
       steemOn:false,
       amount: 0,
+      token: this.$route.query.token.toUpperCase() || 'DWD',
       cat: [],
       tradehistory: [],
       maxBuy: [],
@@ -186,6 +217,7 @@ export default {
       sellBook: [],
       totalSell:0,
       mySteemBalance:0,
+      marketDepth: {},
       myDWDBalance:0,
       sellprice:null,
       sellquantity:null,
@@ -200,7 +232,7 @@ export default {
           enabled: false,
         },
         chart: {
-          height: 350,
+          height: 200,
           type: 'line',
           stacked: false,
           toolbar: false,
@@ -292,12 +324,39 @@ export default {
   created() {
     const self = this;
     const ssc = new SSC('https://api.steem-engine.com/rpc/');
+    console.log(self.token)
+    if(self.token === "DWD")
+    {
+          self.marketDepth = this.$store.state.game.prizeProps.seProps;
+    }
+    else
+    ssc.find('tokens', 'tokens', { symbol: self.token }, 1000, 0, [], (err, result) => {
+        self.marketDepth.supply = result[0].circulatingSupply;
+        self.marketDepth.maxSupply = result[0].maxSupply;
+        ssc
+          .find('market', 'metrics', { symbol: self.token }, 1000, 0, '', false)
+          .then(async metrics => {
+            const [stat] = metrics;
+            console.log(stat)
+            if(stat)
+            {
+            if(stat.volume)
+            self.marketDepth.volume = stat.volume;
+            self.marketDepth.priceChangePercent = stat.priceChangePercent.split('%')[0];
+            self.marketDepth.priceChangeSteem = stat.priceChangeSteem;
+            self.marketDepth.lastDayPrice = stat.lastDayPrice;
+            self.marketDepth.lastPrice = stat.lastPrice;
+            self.marketDepth.highestBid = stat.highestBid;
+            self.marketDepth.lowestAsk = stat.lowestAsk;
+            }
+          })
+    })
     ssc
       .find(
         'market',
         'tradesHistory',
         {
-          symbol: `DWD`,
+          symbol: `${self.token}`,
         },
         20,
         0,
@@ -311,7 +370,7 @@ export default {
             'market',
             'buyBook',
             {
-              symbol: `DWD`,
+              symbol: `${self.token}`,
             },
             30,
             0,
@@ -337,7 +396,7 @@ export default {
                 'market',
                 'sellBook',
                 {
-                  symbol: `DWD`,
+                  symbol: `${self.token}`,
                 },
                 30,
                 0,
@@ -364,7 +423,7 @@ export default {
                     'market',
                     'sellBook',
                     {
-                      symbol: `DWD`,
+                      symbol: `${self.token}`,
                       account: this.user.username,
                     },
                     100,
@@ -379,7 +438,7 @@ export default {
                         'market',
                         'buyBook',
                         {
-                          symbol: `DWD`,
+                          symbol: `${self.token}`,
                           account: this.user.username,
                         },
                         100,
@@ -393,7 +452,7 @@ export default {
                                 'tokens',
                                 'balances', {
                                   account: this.user.username,
-                                  symbol: `DWD`
+                                  symbol: `${self.token}`
                                 }).then(async mybalance => {
                                   if(mybalance)
                                     this.myDWDBalance = Number(this.dwdBalance)+Number(mybalance.balance);
@@ -401,7 +460,7 @@ export default {
                       });
                   });
               });
-          });
+            });
       });
   },
   computed: {
@@ -409,7 +468,10 @@ export default {
       return this.$store.state.game.user.user;
     },
     steemengine() {
-      return this.$store.state.game.prizeProps.seProps;
+      if(this.token === "dwd")
+      {
+         return this.$store.state.game.prizeProps.seProps;
+      }
     },
     prizeProps() {
       const { prizeProps } = this.$store.state.game;
@@ -470,6 +532,7 @@ export default {
   methods: {
     ...mapActions(['send', 'notify']),
     handleSubmit() {
+      const self = this;
       const payload = {
         currency: this.picked,
         amount: parseInt(this.amount),
@@ -483,8 +546,8 @@ export default {
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
-          console.error(`Failed to withdraw ${payload.amount} DWD`, e);
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} ${self.token}` });
+          console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
           this.isLoading = false;
         });
     },
@@ -498,6 +561,33 @@ export default {
     },
     switchCurrency(){
       this.steemOn = !this.steemOn
+    },
+    buySteem(){
+      const self = this;
+      const payload = {
+        currency: self.picked,
+        price: self.buyprice,
+        amount: self.sellquantity,
+        type: 'buytokensteem',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} ${self.token}` });
+          console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
+          this.isLoading = false;
+        });
+    },
+    buyPaypal(){
+
+    },
+    sell(){
+
     }
   },
 };
@@ -550,4 +640,9 @@ export default {
 .datarow2:nth-child(even):hover {
   background: rgb(36, 0, 0);
 }
+
+.mini{
+  font-size: 0.8em;
+}
+
 </style>

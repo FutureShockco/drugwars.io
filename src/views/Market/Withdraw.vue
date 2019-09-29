@@ -54,7 +54,7 @@
 			<div>
 				<div class="p-4 text-center mt-6 mb-6 border-top">
 					<h5 class="columns">DWD Token Informations</h5>
-					<h6 class="column col-3 m-0">
+					<!-- <h6 class="column col-3 m-0">
 						Max Supply
 						<p class="text-yellow"> {{ this.steemengine.maxSupply - this.steemengine.nullBalance | million }}</p>
 					</h6>
@@ -69,7 +69,7 @@
 					<h6 class="column col-3 m-0 border-left">
 						Burnt
 						<p class="text-yellow"> {{ this.steemengine.nullBalance | amount }}</p>
-					</h6>
+					</h6> -->
 					<h6 class="column col-4 m-0">
 						Estimated end of issuance (Unissued tokens / yesterday reward)
 						<p class="text-yellow"> {{ endDate }} </p>

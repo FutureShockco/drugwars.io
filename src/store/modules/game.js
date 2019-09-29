@@ -576,6 +576,90 @@ const actions = {
       });
     }
   },
+  requestBuyBot: ({ rootState, dispatch }, { memo, amount }) => {
+    const { username } = rootState.auth;
+    if (window.steem_keychain && window.steem_keychain.current_id) {
+      window.steem_keychain.requestTransfer(
+        username,
+        'drugwars',
+        amount.split(' ')[0],
+        JSON.stringify(memo),
+        'STEEM',
+        response => {
+          if (response.success || response.error === "user_cancel") {
+            console.log('success');
+            Promise.delay(1000).then(() => {
+              dispatch('init');
+            });
+          } else {
+            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+            const win = window.open(
+              url.split('+').join('_'),
+              '_blank',
+              'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+            );
+            win.focus();
+            Promise.delay(15000).then(() => {
+              dispatch('init');
+            });
+          }
+        },
+      );
+    } else {
+      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+      const win = window.open(
+        url.split('+').join('_'),
+        '_blank',
+        'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+      );
+      win.focus();
+      Promise.delay(15000).then(() => {
+        dispatch('init');
+      });
+    }
+  },
+  requestSellBot: ({ rootState, dispatch }, { memo, amount }) => {
+    const { username } = rootState.auth;
+    if (window.steem_keychain && window.steem_keychain.current_id) {
+      window.steem_keychain.requestTransfer(
+        username,
+        'drugwars',
+        amount.split(' ')[0],
+        JSON.stringify(memo),
+        'STEEM',
+        response => {
+          if (response.success || response.error === "user_cancel") {
+            console.log('success');
+            Promise.delay(1000).then(() => {
+              dispatch('init');
+            });
+          } else {
+            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+            const win = window.open(
+              url.split('+').join('_'),
+              '_blank',
+              'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+            );
+            win.focus();
+            Promise.delay(15000).then(() => {
+              dispatch('init');
+            });
+          }
+        },
+      );
+    } else {
+      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+      const win = window.open(
+        url.split('+').join('_'),
+        '_blank',
+        'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+      );
+      win.focus();
+      Promise.delay(15000).then(() => {
+        dispatch('init');
+      });
+    }
+  },
   get_se_props: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const ssc = new SSC('https://api.steem-engine.com/rpc/');

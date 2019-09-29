@@ -81,8 +81,9 @@
                <span class="text-blue mini" v-if="!steemOn"><br/>{{steemBalance}} STEEM</span>
 						 </div>
 						 <div class="column col-6 p-0 m-0" v-if="steemOn">
-							<button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance) " @click="buySteem()">Buy with STEEM</button>
-						 </div>
+							<!-- <button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button> -->
+						 	<button class="button button-green" disabled>Buy with STEEM</button>
+             </div>
              	<div class="column col-6 p-0 m-0" v-else>
 							<button disabled class="button button-green" @click="buyPaypal()">Buy with Paypal</button>
                 <div>Min order : $3</div>
@@ -103,8 +104,9 @@
                <span class="text-yellow mini">${{dwdBalance*this.marketDepth.lastPrice * prizeProps.steemprice | decimal}} </span>
 						 </div>
 						 <div class="column col-6 p-0 m-0">
-							<button class="button button-red" @click="sell">Sell {{token}}</button>
-						 </div>
+							<!-- <button class="button button-red" :disabled="!sellquantity || !sellprice || sellquantity <=0 || sellprice <=0 || (sellprice*sellquantity> dwdBalance)"  @click="sell">Sell {{token}}</button> -->
+								<button class="button button-red" disabled >Sell {{token}}</button>
+             </div>
 					</div>
       </div>
     </div>
@@ -205,7 +207,7 @@ export default {
       isLoading: false,
       nickname: null,
       picked: 'steem',
-      steemOn:false,
+      steemOn:this.$store.state.auth.account,
       amount: 0,
       token: this.$route.query.token.toUpperCase() || 'DWD',
       cat: [],
@@ -530,7 +532,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['send', 'notify']),
+    ...mapActions(['send', 'notify','requestBuyBot','requestSellBot']),
     handleSubmit() {
       const self = this;
       const payload = {
@@ -552,11 +554,17 @@ export default {
         });
     },
     setBuy(price,qt){
+      if(this.steemOn)
       this.buyprice = price;
+      else
+      this.buyprice = price*this.prizeProps.steemprice;
       this.buyquantity = qt;
     },
     setSell(price,qt){
+      if(this.steemOn)
       this.sellprice = price;
+      else
+      this.sellprice = price*this.prizeProps.steemprice;
       this.sellquantity = qt;
     },
     switchCurrency(){
@@ -564,30 +572,24 @@ export default {
     },
     buySteem(){
       const self = this;
-      const payload = {
-        currency: self.picked,
-        price: self.buyprice,
-        amount: self.sellquantity,
-        type: 'buytokensteem',
-      };
-      this.isLoading = true;
-      this.send(payload)
-        .then(result => {
-          if (result) {
-            this.isLoading = false;
-          }
-        })
-        .catch(e => {
-          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} ${self.token}` });
-          console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
-          this.isLoading = false;
-        });
+      const steemprice = 
+      self.isLoading = true;
+      self.requestBuyBot({
+        memo: `token:${self.token},amount:${self.buyquantity},price:${self.buyprice}`,
+        amount: `${parseFloat(self.buyprice*self.buyquantity).toFixed(3)} STEEM`,
+      });
     },
     buyPaypal(){
 
     },
     sell(){
-
+      const self = this;
+      const steemprice = 
+      self.isLoading = true;
+      self.requestSellBot({
+        memo: `token:${self.token},amount:${self.sellquantity},price:${self.sellprice}`,
+        amount: `${parseFloat(self.sellprice*self.sellquantity).toFixed(3)} STEEM`,
+      });
     }
   },
 };

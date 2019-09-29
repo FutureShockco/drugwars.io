@@ -16,15 +16,15 @@
           {{ priceInSteem | amount }} STEEM
         </button>
             <h3 class="mt-0 mb-0" v-else> ${{ item.price | amount }}</h3>
-            <PayPal :amount="item.price.toString()" currency="USD" :client="credentials" :items="myItems" env="production" :invoice-number="uniqueId+username" v-on:payment-authorized="paymentAuthorized" v-on:payment-completed="paymentCompleted" v-on:payment-cancelled="paymentCancelled">
-            </PayPal>
+            <!-- <PayPal :amount="item.price.toString()" currency="USD" :client="credentials" :items="myItems" env="production" :invoice-number="uniqueId+username" v-on:payment-authorized="paymentAuthorized" v-on:payment-completed="paymentCompleted" v-on:payment-cancelled="paymentCancelled">
+            </PayPal> -->
         </div>
     </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import PayPal from 'vue-paypal-checkout';
+// import PayPal from 'vue-paypal-checkout';
 
 export default {
   props: ['item'],

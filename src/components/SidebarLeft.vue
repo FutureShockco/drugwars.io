@@ -178,8 +178,12 @@ export default {
       return this.$store.state.game.user.user;
     },
     rank() {
-      if(this.$store.state.game.user.rank && this.$store.state.game.user.rank[0] && this.$store.state.game.user.rank[0].rank)
-      return this.$store.state.game.user.rank[0].rank;
+      if (
+        this.$store.state.game.user.rank &&
+        this.$store.state.game.user.rank[0] &&
+        this.$store.state.game.user.rank[0].rank
+      )
+        return this.$store.state.game.user.rank[0].rank;
     },
     xp() {
       return this.$store.state.game.user.user.xp;

@@ -266,451 +266,449 @@ import { units } from 'drugwars';
 import Promise from 'bluebird';
 
 export default {
- data() {
-  return {
-   isLoading: false,
-   action_type: this.$route.query.type || 'attack',
-   target: this.$route.query.target || null,
-   target_type: this.$route.query.target_type || null,
-   base: this.$route.query.base || null,
-   selectedUnits: [],
-   message: null,
-   targetNickname: this.$route.query.nickname || null,
-   username: this.$store.state.auth.username,
-   errorMessage: null,
-   baseName: null,
-   farmOn: false,
-   favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
-   farmlist: JSON.parse(localStorage.getItem('farmlist')) || null,
-   combination_name: null,
-   units: [],
-   bases: [],
-   drugs_amount: 0,
-   weapons_amount: 0,
-   alcohol_amount: 0,
-  };
- },
- created() {
-  if (this.targetNickname) {
-   this.getUserBase();
-  }
- },
- computed: {
-  ownBase() {
-   return this.$store.state.game.mainbase;
+  data() {
+    return {
+      isLoading: false,
+      action_type: this.$route.query.type || 'attack',
+      target: this.$route.query.target || null,
+      target_type: this.$route.query.target_type || null,
+      base: this.$route.query.base || null,
+      selectedUnits: [],
+      message: null,
+      targetNickname: this.$route.query.nickname || null,
+      username: this.$store.state.auth.username,
+      errorMessage: null,
+      baseName: null,
+      farmOn: false,
+      favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
+      farmlist: JSON.parse(localStorage.getItem('farmlist')) || null,
+      combination_name: null,
+      units: [],
+      bases: [],
+      drugs_amount: 0,
+      weapons_amount: 0,
+      alcohol_amount: 0,
+    };
   },
-  sent_fights() {
-   return this.$store.state.game.sent_fights;
-  },
-  nickname() {
-   return this.$store.state.game.user.user.nickname;
-  },
-  ownUnits() {
-   const units = [];
-   this.$store.state.game.user.units.forEach(element => {
-    if (
-     element.territory === this.ownBase.territory &&
-     element.base === this.ownBase.base &&
-     element.amount > 0
-    )
-     units.push({
-      key: element.unit,
-      amount: element.amount,
-     });
-   });
-   return units;
-  },
-  selectedTotal() {
-   let selected = 0;
-   const drugs = parseInt(this.drugs_amount) || 0;
-   const weapons = parseInt(this.weapons_amount) || 0;
-   const alcohol = parseInt(this.alcohol_amount) || 0;
-   selected = drugs + weapons + alcohol;
-   return selected;
-  },
-  carry() {
-   let carry = 0;
-   this.selectedUnits.forEach(unit => {
-    carry += units[unit.key].capacity * unit.amount;
-   });
-   return carry;
-  },
-  defensivePower() {
-   let supply = 0;
-   this.$store.state.game.user.units.forEach(unit => {
-    supply += units[unit.unit].supply;
-   });
-   const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
-   if (power >= 60) return power;
-   return 60;
-  },
-  offensivePower() {
-   let supply = 0;
-   this.selectedUnits.forEach(unit => {
-    supply += units[unit.key].supply * unit.amount;
-   });
-   const power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
-   if (power >= 60) return power;
-   return 60;
-  },
-  hasNotEnough() {
-   return (
-    parseInt(this.drugs_amount) > this.user.drugs_balance ||
-    parseInt(this.weapons_amount) > this.user.weapons_balance ||
-    parseInt(this.alcohol_amount) > this.user.alcohols_balance
-   );
-  },
-  timer() {
-   const self = this;
-   let timer = 0;
-   let distance = 0;
-   let reduce = 0;
-   this.selectedUnits.forEach(unit => {
-    if (units[unit.key].speed && units[unit.key].speed * 60 > timer) {
-     timer += units[unit.key].speed * 60;
+  created() {
+    if (this.targetNickname) {
+      this.getUserBase();
     }
-   });
-   if (this.selectedUnits && self.target)
-    distance =
-     Number(self.ownBase.territory) > Number(self.target)
-      ? Number(self.ownBase.territory) - Number(self.target)
-      : Number(self.target) - Number(self.ownBase.territory);
-   const training = this.$store.state.game.user.trainings.find(b => b.training === 'routing');
-   if (training) {
-    reduce = training.lvl;
-   }
-   if (
-    this.selectedUnits &&
-    this.selectedUnits.length === 1 &&
-    this.selectedUnits[0].key === 'spy' &&
-    self.target
-   ) {
-    timer += distance;
-   } else {
-    timer += distance * 2;
-   }
-   return (timer = (timer - (timer / 200) * reduce) * 1000);
   },
- },
- methods: {
-  ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
-  resetForm() {
-   this.target = null;
-   this.base = null;
-   this.selectedUnits = [];
-   this.message = null;
-   this.target_type = null;
-  },
-  chooseBase(territory, location) {
-   this.target = territory;
-   this.base = location;
-  },
-  chooseActionType(value) {
-   this.action_type = value;
-   if (this.action_type === 'occupy') {
-    this.selectedUnits = [];
-   }
-   if (this.target_type === 'npc') {
-    this.resetForm();
-   }
-  },
-  getUserBase() {
-   const self = this;
-   self.bases = null;
-   client.requestAsync('get_user_bases', self.targetNickname).then(result => {
-    self.bases = result;
-    self.isLoading = false;
-   });
-  },
-  openFarmList() {
-   const self = this;
-   self.farmOn = !self.farmOn;
-  },
-  progressPercent(total, cost) {
-   let progress;
-   if (total && cost) {
-    this.up = false;
-    progress = parseFloat((total * 100) / cost).toFixed(2);
-    return progress;
-   }
-   this.up = false;
-   return 0;
-  },
-  removeUnits() {
-   this.selectedUnits = [];
-  },
-  async handleSubmit() {
-   this.isLoading = true;
-   const self = this;
-   let payload = {};
-   switch (self.action_type) {
-    case 'attack':
-     if (self.target_type === 'npc')
-      payload = {
-       from_territory: Number(self.ownBase.territory),
-       from_base: Number(self.ownBase.base),
-       territory: Number(self.target),
-       base: Number(self.base),
-       units: self.selectedUnits,
-       type: 'fight-npc',
-      };
-     else
-      payload = {
-       from_territory: Number(self.ownBase.territory),
-       from_base: Number(self.ownBase.base),
-       territory: Number(self.target),
-       base: Number(self.base),
-       units: self.selectedUnits,
-       type: 'fight',
-       message: self.message || '',
-      };
-     break;
-    case 'transport':
-     const drugs = parseInt(this.drugs_amount) || 0;
-     const weapons = parseInt(this.weapons_amount) || 0;
-     const alcohol = parseInt(this.alcohol_amount) || 0;
-     if (drugs >= 0 && weapons >= 0 && alcohol >= 0) {
-      payload = {
-       from_territory: Number(self.ownBase.territory),
-       from_base: Number(self.ownBase.base),
-       territory: Number(self.target),
-       base: Number(self.base),
-       units: self.selectedUnits,
-       type: 'transport',
-       resources: { drugs, weapons, alcohol },
-       message: self.message || '',
-      };
-     }
-     break;
-    case 'station':
-     payload = {
-      from_territory: Number(self.ownBase.territory),
-      from_base: Number(self.ownBase.base),
-      territory: Number(self.target),
-      base: Number(self.base),
-      units: self.selectedUnits,
-      type: 'station',
-      message: self.message || '',
-     };
-     break;
-    case 'occupy':
-     payload = {
-      from_territory: Number(self.ownBase.territory),
-      from_base: Number(self.ownBase.base),
-      territory: Number(self.target),
-      base: Number(self.base),
-      name: self.baseName,
-      units: self.selectedUnits,
-      type: 'dw-base',
-     };
-     break;
-    default:
-     break;
-   }
-
-   const isValid = await this.validateForm(self.action_type);
-
-   if (isValid) {
-    this.resetForm();
-    this.missions(payload)
-     .then(() => {
-      if (self.action_type === 'occupy') {
-       Promise.delay(3000).then(() => {
-        self.init();
-       });
+  computed: {
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
+    sent_fights() {
+      return this.$store.state.game.sent_fights;
+    },
+    nickname() {
+      return this.$store.state.game.user.user.nickname;
+    },
+    ownUnits() {
+      const units = [];
+      this.$store.state.game.user.units.forEach(element => {
+        if (
+          element.territory === this.ownBase.territory &&
+          element.base === this.ownBase.base &&
+          element.amount > 0
+        )
+          units.push({
+            key: element.unit,
+            amount: element.amount,
+          });
+      });
+      return units;
+    },
+    selectedTotal() {
+      let selected = 0;
+      const drugs = parseInt(this.drugs_amount) || 0;
+      const weapons = parseInt(this.weapons_amount) || 0;
+      const alcohol = parseInt(this.alcohol_amount) || 0;
+      selected = drugs + weapons + alcohol;
+      return selected;
+    },
+    carry() {
+      let carry = 0;
+      this.selectedUnits.forEach(unit => {
+        carry += units[unit.key].capacity * unit.amount;
+      });
+      return carry;
+    },
+    defensivePower() {
+      let supply = 0;
+      this.$store.state.game.user.units.forEach(unit => {
+        supply += units[unit.unit].supply;
+      });
+      const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      if (power >= 60) return power;
+      return 60;
+    },
+    offensivePower() {
+      let supply = 0;
+      this.selectedUnits.forEach(unit => {
+        supply += units[unit.key].supply * unit.amount;
+      });
+      const power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
+      if (power >= 60) return power;
+      return 60;
+    },
+    hasNotEnough() {
+      return (
+        parseInt(this.drugs_amount) > this.user.drugs_balance ||
+        parseInt(this.weapons_amount) > this.user.weapons_balance ||
+        parseInt(this.alcohol_amount) > this.user.alcohols_balance
+      );
+    },
+    timer() {
+      const self = this;
+      let timer = 0;
+      let distance = 0;
+      let reduce = 0;
+      this.selectedUnits.forEach(unit => {
+        if (units[unit.key].speed && units[unit.key].speed * 60 > timer) {
+          timer += units[unit.key].speed * 60;
+        }
+      });
+      if (this.selectedUnits && self.target)
+        distance =
+          Number(self.ownBase.territory) > Number(self.target)
+            ? Number(self.ownBase.territory) - Number(self.target)
+            : Number(self.target) - Number(self.ownBase.territory);
+      const training = this.$store.state.game.user.trainings.find(b => b.training === 'routing');
+      if (training) {
+        reduce = training.lvl;
       }
-      this.isLoading = false;
-     })
-     .catch(e => {
-      console.error('Failed to start a fight=', e);
-      this.isLoading = false;
-     });
-   } else {
-    this.isLoading = false;
-   }
+      if (
+        this.selectedUnits &&
+        this.selectedUnits.length === 1 &&
+        this.selectedUnits[0].key === 'spy' &&
+        self.target
+      ) {
+        timer += distance;
+      } else {
+        timer += distance * 2;
+      }
+      return (timer = (timer - (timer / 200) * reduce) * 1000);
+    },
   },
-  async validateForm(type) {
-   this.errorMessage = null;
-   let target;
-   if (this.targetNickname) target = this.targetNickname.toLowerCase();
+  methods: {
+    ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
+    resetForm() {
+      this.target = null;
+      this.base = null;
+      this.selectedUnits = [];
+      this.message = null;
+      this.target_type = null;
+    },
+    chooseBase(territory, location) {
+      this.target = territory;
+      this.base = location;
+    },
+    chooseActionType(value) {
+      this.action_type = value;
+      if (this.action_type === 'occupy') {
+        this.selectedUnits = [];
+      }
+      if (this.target_type === 'npc') {
+        this.resetForm();
+      }
+    },
+    getUserBase() {
+      const self = this;
+      self.bases = null;
+      client.requestAsync('get_user_bases', self.targetNickname).then(result => {
+        self.bases = result;
+        self.isLoading = false;
+      });
+    },
+    openFarmList() {
+      const self = this;
+      self.farmOn = !self.farmOn;
+    },
+    progressPercent(total, cost) {
+      let progress;
+      if (total && cost) {
+        this.up = false;
+        progress = parseFloat((total * 100) / cost).toFixed(2);
+        return progress;
+      }
+      this.up = false;
+      return 0;
+    },
+    removeUnits() {
+      this.selectedUnits = [];
+    },
+    async handleSubmit() {
+      this.isLoading = true;
+      const self = this;
+      let payload = {};
+      switch (self.action_type) {
+        case 'attack':
+          if (self.target_type === 'npc')
+            payload = {
+              from_territory: Number(self.ownBase.territory),
+              from_base: Number(self.ownBase.base),
+              territory: Number(self.target),
+              base: Number(self.base),
+              units: self.selectedUnits,
+              type: 'fight-npc',
+            };
+          else
+            payload = {
+              from_territory: Number(self.ownBase.territory),
+              from_base: Number(self.ownBase.base),
+              territory: Number(self.target),
+              base: Number(self.base),
+              units: self.selectedUnits,
+              type: 'fight',
+              message: self.message || '',
+            };
+          break;
+        case 'transport':
+          const drugs = parseInt(this.drugs_amount) || 0;
+          const weapons = parseInt(this.weapons_amount) || 0;
+          const alcohol = parseInt(this.alcohol_amount) || 0;
+          if (drugs >= 0 && weapons >= 0 && alcohol >= 0) {
+            payload = {
+              from_territory: Number(self.ownBase.territory),
+              from_base: Number(self.ownBase.base),
+              territory: Number(self.target),
+              base: Number(self.base),
+              units: self.selectedUnits,
+              type: 'transport',
+              resources: { drugs, weapons, alcohol },
+              message: self.message || '',
+            };
+          }
+          break;
+        case 'station':
+          payload = {
+            from_territory: Number(self.ownBase.territory),
+            from_base: Number(self.ownBase.base),
+            territory: Number(self.target),
+            base: Number(self.base),
+            units: self.selectedUnits,
+            type: 'station',
+            message: self.message || '',
+          };
+          break;
+        case 'occupy':
+          payload = {
+            from_territory: Number(self.ownBase.territory),
+            from_base: Number(self.ownBase.base),
+            territory: Number(self.target),
+            base: Number(self.base),
+            name: self.baseName,
+            units: self.selectedUnits,
+            type: 'dw-base',
+          };
+          break;
+        default:
+          break;
+      }
 
-   if (type === 'attack' && target === this.nickname) {
-    this.errorMessage = 'Attack yourself? Are you serious?';
-   }
-   const now = new Date();
-   const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
-   if (isPunished > now) {
-    this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
-   }
+      const isValid = await this.validateForm(self.action_type);
 
-   if (!this.baseName && this.action_type === 'occupy') {
-    this.errorMessage = `Please choose a name for your base`;
-   } else if (this.action_type === 'occupy' && this.baseName.length > 25) {
-    this.errorMessage = `Please choose a shorter name for your base`;
-   } else if (this.action_type === 'occupy' && this.baseName.length < 4) {
-    this.errorMessage = `Please choose a longer name for your base`;
-   }
-   if (!this.errorMessage && target)
-    try {
-     const user = await client.requestAsync('check_user', target);
-     if (!user || !user[0].nickname) {
-      this.errorMessage = `Player '${target}' does not exist`;
-     }
-     return !this.errorMessage;
-    } catch (e) {
-     this.errorMessage = `Player with nickname '${target}' doesn't exist`;
-     console.error(`Player with nickname '${target}' doesn't exist`, e);
-     return false;
-    }
-   if (this.errorMessage) {
-    return false;
-   }
-   return !this.errorMessage;
-  },
-  addUnit(payload) {
-   const amount = parseInt(payload.amount);
-   const selectedUnitsObj = {};
-   const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
+      if (isValid) {
+        this.resetForm();
+        this.missions(payload)
+          .then(() => {
+            if (self.action_type === 'occupy') {
+              Promise.delay(3000).then(() => {
+                self.init();
+              });
+            }
+            this.isLoading = false;
+          })
+          .catch(e => {
+            console.error('Failed to start a fight=', e);
+            this.isLoading = false;
+          });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    async validateForm(type) {
+      this.errorMessage = null;
+      let target;
+      if (this.targetNickname) target = this.targetNickname.toLowerCase();
 
-   this.selectedUnits.forEach(unit => {
-    selectedUnitsObj[unit.key] = unit.amount;
-   });
-   selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
-    ? amount
-    : amount + parseInt(selectedUnitsObj[payload.key]);
-   if (selectedUnitsObj[payload.key] > ownUnit.amount) {
-    selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
-   }
-   if (selectedUnitsObj[payload.key] < 0) {
-    selectedUnitsObj[payload.key] = 0;
-   }
+      if (type === 'attack' && target === this.nickname) {
+        this.errorMessage = 'Attack yourself? Are you serious?';
+      }
+      const now = new Date();
+      const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+      if (isPunished > now) {
+        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+      }
 
-   this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
-    key,
-    amount: selectedUnitsObj[key],
-   }));
-  },
-  openInNewTab() {
-   const url = 'https://simulator.drugwars.io/';
-   const myarmy = this.ownUnits.map(unit =>
-    this.serialize({
-     p: 1,
-     key: unit.key,
-     n: unit.amount,
-    }),
-   );
-   const mytraining = this.$store.state.game.user.trainings.map(training =>
-    this.serialize({
-     p: 1,
-     key: training.training,
-     lvl: training.lvl,
-    }),
-   );
+      if (!this.baseName && this.action_type === 'occupy') {
+        this.errorMessage = `Please choose a name for your base`;
+      } else if (this.action_type === 'occupy' && this.baseName.length > 25) {
+        this.errorMessage = `Please choose a shorter name for your base`;
+      } else if (this.action_type === 'occupy' && this.baseName.length < 4) {
+        this.errorMessage = `Please choose a longer name for your base`;
+      }
+      if (!this.errorMessage && target)
+        try {
+          const user = await client.requestAsync('check_user', target);
+          if (!user || !user[0].nickname) {
+            this.errorMessage = `Player '${target}' does not exist`;
+          }
+          return !this.errorMessage;
+        } catch (e) {
+          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+          console.error(`Player with nickname '${target}' doesn't exist`, e);
+          return false;
+        }
+      if (this.errorMessage) {
+        return false;
+      }
+      return !this.errorMessage;
+    },
+    addUnit(payload) {
+      const amount = parseInt(payload.amount);
+      const selectedUnitsObj = {};
+      const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
+
+      this.selectedUnits.forEach(unit => {
+        selectedUnitsObj[unit.key] = unit.amount;
+      });
+      selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
+        ? amount
+        : amount + parseInt(selectedUnitsObj[payload.key]);
+      if (selectedUnitsObj[payload.key] > ownUnit.amount) {
+        selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
+      }
+      if (selectedUnitsObj[payload.key] < 0) {
+        selectedUnitsObj[payload.key] = 0;
+      }
+
+      this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
+        key,
+        amount: selectedUnitsObj[key],
+      }));
+    },
+    openInNewTab() {
+      const url = 'https://simulator.drugwars.io/';
+      const myarmy = this.ownUnits.map(unit =>
+        this.serialize({
+          p: 1,
+          key: unit.key,
+          n: unit.amount,
+        }),
+      );
+      const mytraining = this.$store.state.game.user.trainings.map(training =>
+        this.serialize({
+          p: 1,
+          key: training.training,
+          lvl: training.lvl,
+        }),
+      );
 
       let toOpen = `${myarmy}`;
-      if(mytraining && mytraining.length>0)
-      toOpen+=`,${mytraining}`
-   const win = window.open(`${url}?${toOpen}`, '_blank');
-   win.focus();
-  },
-  serialize(obj) {
-   const str = [];
-   for (const p in obj)
-    if (obj.hasOwnProperty(p)) {
-     str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
-    }
-   return str.join('&');
-  },
-  saveCombination() {
-   let favs = [];
-   if (localStorage.getItem('fav_combi')) {
-    favs = JSON.parse(localStorage.getItem('fav_combi'));
-   }
-   const myarmy = this.selectedUnits.map(unit => ({
-    key: unit.key,
-    amount: unit.amount,
-   }));
+      if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
+      const win = window.open(`${url}?${toOpen}`, '_blank');
+      win.focus();
+    },
+    serialize(obj) {
+      const str = [];
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+        }
+      return str.join('&');
+    },
+    saveCombination() {
+      let favs = [];
+      if (localStorage.getItem('fav_combi')) {
+        favs = JSON.parse(localStorage.getItem('fav_combi'));
+      }
+      const myarmy = this.selectedUnits.map(unit => ({
+        key: unit.key,
+        amount: unit.amount,
+      }));
 
-   const combi = {};
-   combi.name = this.combination_name;
-   combi.set = myarmy;
-   favs.push(combi);
-   this.favoriteCombinations = favs;
-   this.combination_name = null;
-   localStorage.setItem('fav_combi', JSON.stringify(favs));
+      const combi = {};
+      combi.name = this.combination_name;
+      combi.set = myarmy;
+      favs.push(combi);
+      this.favoriteCombinations = favs;
+      this.combination_name = null;
+      localStorage.setItem('fav_combi', JSON.stringify(favs));
+    },
+    loadCombination(combination) {
+      const combinationtoload = [];
+      combination.forEach(unit => {
+        if (
+          this.ownUnits.find(lunit => lunit.key === unit.key) &&
+          unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
+        ) {
+          combinationtoload.push(unit);
+        } else {
+          if (this.ownUnits.find(lunit => lunit.key === unit.key))
+            unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
+          combinationtoload.push(unit);
+        }
+      });
+      this.selectedUnits = combinationtoload;
+    },
+    deleteCombination(combination) {
+      let favs = [];
+      if (localStorage.getItem('fav_combi')) {
+        favs = JSON.parse(localStorage.getItem('fav_combi'));
+      }
+      for (let i = 0; i < favs.length; i += 1) {
+        if (favs[i].name === combination) {
+          favs.splice(i, 1);
+          i -= 1;
+        }
+      }
+      localStorage.setItem('fav_combi', JSON.stringify(favs));
+      this.favoriteCombinations = favs;
+    },
+    loadFarm(farm) {
+      this.target = farm.territory;
+      this.base = farm.location;
+      this.farmOn = !this.farmOn;
+    },
+    deleteFarm(combination) {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      for (let i = 0; i < favs.length; i += 1) {
+        if (favs[i].name === combination) {
+          favs.splice(i, 1);
+          i -= 1;
+        }
+      }
+      localStorage.setItem('farmlist', JSON.stringify(favs));
+      this.farmlist = favs;
+    },
   },
-  loadCombination(combination) {
-   const combinationtoload = [];
-   combination.forEach(unit => {
-    if (
-     this.ownUnits.find(lunit => lunit.key === unit.key) &&
-     unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
-    ) {
-     combinationtoload.push(unit);
-    } else {
-     if (this.ownUnits.find(lunit => lunit.key === unit.key))
-      unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
-     combinationtoload.push(unit);
-    }
-   });
-   this.selectedUnits = combinationtoload;
-  },
-  deleteCombination(combination) {
-   let favs = [];
-   if (localStorage.getItem('fav_combi')) {
-    favs = JSON.parse(localStorage.getItem('fav_combi'));
-   }
-   for (let i = 0; i < favs.length; i += 1) {
-    if (favs[i].name === combination) {
-     favs.splice(i, 1);
-     i -= 1;
-    }
-   }
-   localStorage.setItem('fav_combi', JSON.stringify(favs));
-   this.favoriteCombinations = favs;
-  },
-  loadFarm(farm) {
-   this.target = farm.territory;
-   this.base = farm.location;
-   this.farmOn = !this.farmOn;
-  },
-  deleteFarm(combination) {
-   let favs = [];
-   if (localStorage.getItem('farmlist')) {
-    favs = JSON.parse(localStorage.getItem('farmlist'));
-   }
-   for (let i = 0; i < favs.length; i += 1) {
-    if (favs[i].name === combination) {
-     favs.splice(i, 1);
-     i -= 1;
-    }
-   }
-   localStorage.setItem('farmlist', JSON.stringify(favs));
-   this.farmlist = favs;
-  },
- },
 };
 </script>
 
 
 <style scoped lang="less">
 .width-full {
- max-width: 100%;
+  max-width: 100%;
 }
 
 .vue-ui-modal {
- background: rgba(0, 0, 0, 0.7);
-   overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.7);
+  overflow-y: scroll;
 }
 
-.farm{
-   background: rgba(0, 0, 0, 0.9);
-
+.farm {
+  background: rgba(0, 0, 0, 0.9);
 }
 
 @media screen and (min-width: 399px) and (max-width: 1119px) {
- .column.b {
-  width: 100% !important;
- }
+  .column.b {
+    width: 100% !important;
+  }
 }
 </style>

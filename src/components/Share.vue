@@ -69,7 +69,8 @@ export default {
                   window.open(
                     `http://www.facebook.com/dialog/feed?app_id=404488530371221&link=${ref}&picture=${pic}&name=DrugWars&description=Dialogs%20provide%20a%20simple,%20consistent%20interface%20for%20applications%20to%20interact%20with%20users&message=Yoyooy!&display=popup&quote=${mes} Check my latest fight ! ${
                       self.fight.attacker_nickname
-                    } vs ${self.fight.target_nickname || ' The Goverment'}, ${imgurl.toLowerCase()}`,
+                    } vs ${self.fight.target_nickname ||
+                      ' The Goverment'}, ${imgurl.toLowerCase()}`,
                     'myWindow',
                     'width=800,height=600',
                   );
@@ -79,7 +80,8 @@ export default {
                   window.open(
                     `https://twitter.com/intent/tweet?url=${ref}&hashtags=drugwars%2Cgaming%2Cdwd%2Csteem&original_referer=${ref}&text=Check my latest fight ! ${
                       self.fight.attacker_nickname
-                    } vs ${self.fight.target_nickname || ' The Goverment'}, ${imgurl.toLowerCase()}`,
+                    } vs ${self.fight.target_nickname ||
+                      ' The Goverment'}, ${imgurl.toLowerCase()}`,
                     'myWindow',
                     'width=800,height=600',
                   );
@@ -89,7 +91,8 @@ export default {
                   window.open(
                     `https://drugwars.tokenbb.io/new?category=all-fights&title=Check my latest fight ! ${
                       self.fight.attacker_nickname
-                    } vs ${self.fight.target_nickname || ' The Goverment'}&content=![dw](${imgurl.toLowerCase()})`,
+                    } vs ${self.fight.target_nickname ||
+                      ' The Goverment'}&content=![dw](${imgurl.toLowerCase()})`,
                     'myWindow',
                     'width=800,height=600',
                   );
@@ -107,9 +110,8 @@ export default {
                           permlink:
                             self.$store.state.auth.username.slice(0, 3) +
                             self.fight.fight_key.slice(0, 10),
-                          title: `Check my latest fight ! ${self.fight.attacker_nickname} vs ${
-                            self.fight.target_nickname || ' The Goverment'
-                          }`,
+                          title: `Check my latest fight ! ${self.fight.attacker_nickname} vs ${self
+                            .fight.target_nickname || ' The Goverment'}`,
                           body: `<a href="https://drugwars.io/i/${
                             self.$store.state.auth.username
                           }"><img src="${imgurl.toLowerCase()}"></a>`,
@@ -161,7 +163,8 @@ export default {
                   window.open(
                     `https://telegram.me/share/url?url=${ref}&text=Check my latest fight ! ${
                       self.fight.attacker_nickname
-                    } vs ${self.fight.target_nickname || ' The Goverment'}&content=![dw](${imgurl.toLowerCase()})`,
+                    } vs ${self.fight.target_nickname ||
+                      ' The Goverment'}&content=![dw](${imgurl.toLowerCase()})`,
                     'myWindow',
                     'width=800,height=600',
                   );

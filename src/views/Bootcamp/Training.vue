@@ -25,9 +25,9 @@ export default {
     };
   },
   computed: {
-      ownBase() {
-   return this.$store.state.game.mainbase;
-  },
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
     researchCenter() {
       return (
         this.$store.state.game.user.buildings.find(

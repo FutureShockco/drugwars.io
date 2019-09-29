@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { buildings, CardPack, units, trainings } from 'drugwars';
+import { units } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
 
@@ -43,25 +43,13 @@ export default {
     self.cards = [];
     // self.handleSubmit()
     self.loading = true;
-    const b = filter(pickBy(buildings));
     const u = filter(pickBy(units));
-    const t = filter(pickBy(trainings));
-    // b.forEach(element => {
-    //     element.ctype = 'buildings';
-    //     element.owned = true;
-    //     self.cards.push(element)
-    // });
     u.forEach(element => {
-      element.ctype = 'units';
-      element.owned = true;
-      if (!element.npc) self.cards.push(element);
+      const unit = element;
+      unit.ctype = 'units';
+      unit.owned = true;
+      if (!unit.npc) self.cards.push(unit);
     });
-    // t.forEach(element => {
-    //     element.ctype = 'training';
-    //     element.owned = true;
-    //     self.cards.push(element)
-    // });
-    // const generator = new CardPack(5);
     setTimeout(() => {
       self.handleSubmit();
     }, 3000);
@@ -73,23 +61,23 @@ export default {
 
       this.cards.forEach(card => {
         const c = document.getElementById(`${card.id}-card`);
-        let canvas = document.getElementById(`${card.id}-card-front`),
-          ctx = canvas.getContext('2d');
+        const canvas = document.getElementById(`${card.id}-card-front`);
+        const ctx = canvas.getContext('2d');
         const background = new Image();
-        const attack_type = new Image();
+        const attackType = new Image();
         const frame = new Image();
         const character = new Image();
         const border = new Image();
         const flag = new Image();
         const effect = new Image();
         const path = '//img.drugwars.io';
-        const random_pic =  Math.floor(Math.random() * Math.floor(3)) +1;
+        const randomPic = Math.floor(Math.random() * Math.floor(3)) + 1;
         background.src = `${path}/cards/background/1.png`;
 
         background.onload = () => {
-          frame.src = `${path}/cards/background/classic_unit${random_pic}.png`;
+          frame.src = `${path}/cards/background/classic_unit${randomPic}.png`;
           ctx.imageSmoothingEnabled = true;
-          ctx.drawImage(background, 0, 0, canvas.width , canvas.height );
+          ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         };
 
         frame.onload = () => {
@@ -114,29 +102,29 @@ export default {
         };
 
         effect.onload = () => {
-          // border.src = `${path}/borders/${card.quality}.png`;
+          border.src = `${path}/borders/${card.quality}.png`;
           if (card.owned && card.ctype === 'units') {
-            attack_type.src = `${path}/type/${card.dmg_type}.png`;
+            attackType.src = `${path}/type/${card.dmg_type}.png`;
           } else {
-            attack_type.src = `${path}/type/weapon.png`;
+            attackType.src = `${path}/type/weapon.png`;
           }
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(effect, 0, 0, canvas.width, canvas.height);
         };
-        attack_type.onload = () => {
+        attackType.onload = () => {
           flag.src = `${path}/flags/fr.png`;
           ctx.imageSmoothingEnabled = true;
-          if (card.owned && card.ctype === 'unit') ctx.drawImage(attack_type, 38, 225, 40, 40);
+          if (card.owned && card.ctype === 'unit') ctx.drawImage(attackType, 38, 225, 40, 40);
         };
 
         // border.onload = () => {
-        //   attack_type.src = `${path}/icons/${card.attack_type}.png`;
+        //   attackType.src = `${path}/icons/${card.attackType}.png`;
         //   ctx.imageSmoothingEnabled = true;
         //   ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
         // };
 
         flag.onload = () => {
-          // attack_type.src = `${path}/icons/${card.attack_type}.png`;
+          // attackType.src = `${path}/icons/${card.attackType}.png`;
           const yellowgradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
           yellowgradient.addColorStop('0', '#e6ac00');
           yellowgradient.addColorStop('0.5', '#ffca31');
@@ -174,7 +162,7 @@ export default {
               ctx.font = '7px Helvetica';
               ctx.fillStyle = '#fff';
               ctx.shadowBlur = 3;
-              const text_height = this.wrapText(
+              const textHeight = this.wrapText(
                 ctx,
                 card.feature.toString().toUpperCase(),
                 20,
@@ -188,12 +176,12 @@ export default {
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = '2';
                 ctx.fillStyle = '#000';
-                ctx.fillRect(20, text_height + 5, 60, 14);
+                ctx.fillRect(20, textHeight + 5, 60, 14);
                 ctx.stroke();
                 ctx.fillStyle = '#ffc508';
                 ctx.shadowBlur = 0;
 
-                ctx.fillText('DESCRIPTION', 24, text_height + 15);
+                ctx.fillText('DESCRIPTION', 24, textHeight + 15);
                 ctx.textAlign = 'left';
                 ctx.font = '7px Helvetica';
                 ctx.fillStyle = '#fff';
@@ -202,7 +190,7 @@ export default {
                   ctx,
                   card.desc.toString().toUpperCase(),
                   20,
-                  30 + text_height,
+                  30 + textHeight,
                   canvas.width - 60,
                   11,
                 );
@@ -306,19 +294,20 @@ export default {
     wrapText(context, text, x, y, maxWidth, lineHeight) {
       const words = text.split(' ');
       let line = '';
-      for (let n = 0; n < words.length; n++) {
-        const testLine = `${line + words[n]} `;
+      let ly = y;
+      words.forEach(word => {
+        const testLine = `${line + word} `;
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth) {
           context.fillText(line, x, y);
-          line = `${words[n]} `;
-          y += lineHeight;
+          line = `${word} `;
+          ly = y + lineHeight;
         } else {
           line = testLine;
         }
-      }
-      context.fillText(line, x, y);
+      });
+      context.fillText(line, x, ly);
       return y;
     },
     chooseCardType(value) {
@@ -338,9 +327,10 @@ export default {
       if (self.card_type === 'all' || self.card_type === 'units') {
         const u = filter(pickBy(units));
         u.forEach(element => {
-          element.ctype = 'units';
-          element.owned = true;
-          if (!element.npc) self.cards.push(element);
+          const unit = element;
+          unit.ctype = 'units';
+          unit.owned = true;
+          if (!unit.npc) self.cards.push(unit);
         });
       }
       // if (self.card_type === 'all' || self.card_type === 'training') {

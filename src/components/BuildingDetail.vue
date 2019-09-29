@@ -60,7 +60,7 @@ export default {
       let item = this.ownItem.lvl;
       if (!item) item = 1;
       levels.push(item);
-      for (let index = item; index < item + 20; index++) {
+      for (let index = item; index < item + 20; index += 1) {
         levels.push(index + 1);
       }
       return levels;

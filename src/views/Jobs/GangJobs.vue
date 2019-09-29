@@ -38,9 +38,9 @@ export default {
     this.load_jobs();
   },
   computed: {
-          ownBase() {
-   return this.$store.state.game.mainbase;
-  },
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
   },
   methods: {
     load_jobs() {

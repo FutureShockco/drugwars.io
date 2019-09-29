@@ -18,13 +18,13 @@
 </template>
 
 <script>
-const DEFAULT_WIDTH = 150,
-  DEFAULT_BOLD = 0,
-  DEFAULT_FONT_SIZE = 64,
-  DEFAULT_BORDER_COLOR = '#bdc3c7',
-  DEFAULT_TEXT_COLOR = '#bdc3c7',
-  DEFAULT_FILL_COLOR = '#2ecc71',
-  DEFAUTL_BG_COLOR = '#f9f9f9';
+const DEFAULT_WIDTH = 150;
+const DEFAULT_BOLD = 0;
+const DEFAULT_FONT_SIZE = 64;
+const DEFAULT_BORDER_COLOR = '#bdc3c7';
+const DEFAULT_TEXT_COLOR = '#bdc3c7';
+const DEFAULT_FILL_COLOR = '#2ecc71';
+const DEFAUTL_BG_COLOR = '#f9f9f9';
 export default {
   methods: {
     setClip(t, r, b, l) {
@@ -49,6 +49,7 @@ export default {
         this[`${type}Style`] = {
           transform: this.setTransformStyle(this.pv, type),
         };
+        return 0;
       });
     },
   },
@@ -69,7 +70,7 @@ export default {
     'selected',
   ],
   watch: {
-    pv(val, oldVal) {
+    pv(val) {
       if (val < 50) {
         this.setPv(this.pv);
       } else {

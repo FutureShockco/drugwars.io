@@ -10,7 +10,6 @@ import prettyMs from 'pretty-ms';
 import urlParse from 'url-parse';
 import moment from 'moment';
 import numeral from 'numeral';
-import VueAnalytics from 'vue-analytics';
 import client from '@/helpers/client';
 import App from '@/App.vue';
 import router from '@/router';
@@ -19,11 +18,6 @@ import messages from '@/translation.json';
 import numberFormats from '@/number.json';
 import AuthPlugin from './helpers/auth_plugin';
 import Vue2TouchEvents from 'vue2-touch-events';
-import VueApexCharts from 'vue-apexcharts';
-
-Vue.use(VueAnalytics, {
-  id: 'UA-135445665-1',
-});
 
 const requireComponent = require.context('./components', true, /[\w-]+\.vue$/);
 requireComponent.keys().forEach(fileName => {

@@ -21,7 +21,7 @@
 			@click="handleSubmit('dwd')"
 			class="button btn-block button-green mb-2"
 		>
-			<img class="dwdicon" src="//img.drugwars.io/icons/dwd.png">
+			<img class="dwdicon" src="/img/icons/dwd.png">
 			CLAIM 6 DWD
 		</button>
 	</div>
@@ -125,6 +125,7 @@ export default {
   methods: {
     ...mapActions(['upgradeGangBuilding', 'depositGangBuilding', 'requestPayment']),
     handleSubmit() {
+      const self = this;
       this.isLoading = true;
       let payload = {};
       const drugs = this.drugs || 0;
@@ -161,14 +162,12 @@ export default {
       let payload = {};
       if (use === 'dwd') payload = { building: this.id, level: this.level, use: 'dwd' };
       else {
-        const drugs = this.drugs;
-        const weapons = this.weapons;
-        const alcohol = this.alcohol;
+        const allresources = { drugs: this.drugs, weapons: this.weapons, alcohol: this.alcohol };
         payload = {
           building: this.id,
           level: this.level,
           use: 'resources',
-          resources: { drugs, weapons, alcohol },
+          resources: allresources,
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };

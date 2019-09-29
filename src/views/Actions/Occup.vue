@@ -53,10 +53,11 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
-
 export default {
   data() {
     return {

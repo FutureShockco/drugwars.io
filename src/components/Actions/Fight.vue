@@ -145,10 +145,10 @@ export default {
   data() {
     return {
       share: false,
-	  details: false,
-	  token: localStorage.getItem('access_token'),
-	  farm_name:'Snollygoster',
-	  popupOn:false,
+      details: false,
+      token: localStorage.getItem('access_token'),
+      farm_name: 'Snollygoster',
+      popupOn: false,
     };
   },
   computed: {
@@ -163,16 +163,22 @@ export default {
     end() {
       const end = new Date(this.fight.end_date).toLocaleString();
       return end;
-	},
-	alreadylisted(){
-   		let favs = [];
-		if (localStorage.getItem('farmlist')) {
-			favs = JSON.parse(localStorage.getItem('farmlist'));
-		}
-		if(favs.find(f=> f.set.territory === this.fight.target_territory && f.set.location === this.fight.target_base))
-		return true
-		else return false
-	},
+    },
+    alreadylisted() {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      if (
+        favs.find(
+          f =>
+            f.set.territory === this.fight.target_territory &&
+            f.set.location === this.fight.target_base,
+        )
+      )
+        return true;
+      return false;
+    },
     result() {
       let result;
       let isAuthor;
@@ -204,27 +210,27 @@ export default {
     },
     hideDetails() {
       this.details = false;
-	},
-	listPopup(name){
-		this.popupOn = !this.popupOn;
-	},
-	saveFarm() {
-   		let favs = [];
-		if (localStorage.getItem('farmlist')) {
-			favs = JSON.parse(localStorage.getItem('farmlist'));
-		}
-		const farm = {};
-		farm.name = this.farm_name;
-		farm.set = { territory:this.fight.target_territory, location :this.fight.target_base};
-		favs.push(farm);
-		localStorage.setItem('farmlist', JSON.stringify(favs));
-		this.popupOn = !this.popupOn;
-	},
-	openBattle(id){
-		var dwbc = "https://battle.drugwars.io";
-		var drugwars_battleclient = window.open(dwbc);
-		drugwars_battleclient.postMessage(id);
-	}
+    },
+    listPopup(name) {
+      this.popupOn = !this.popupOn;
+    },
+    saveFarm() {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      const farm = {};
+      farm.name = this.farm_name;
+      farm.set = { territory: this.fight.target_territory, location: this.fight.target_base };
+      favs.push(farm);
+      localStorage.setItem('farmlist', JSON.stringify(favs));
+      this.popupOn = !this.popupOn;
+    },
+    openBattle(id) {
+      const dwbc = 'https://battle.drugwars.io';
+      const drugwars_battleclient = window.open(dwbc);
+      drugwars_battleclient.postMessage(id);
+    },
   },
 };
 </script>
@@ -274,8 +280,7 @@ img {
   hyphens: auto;
 }
 
-.vue-ui-modal{
-	background: rgba(0, 0, 0, 0.70);
+.vue-ui-modal {
+  background: rgba(0, 0, 0, 0.7);
 }
-
 </style>

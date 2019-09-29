@@ -59,7 +59,7 @@ input {
 
 .icon-plus {
   text-shadow: 3px 3px 5px black;
-  position: relative!important;
+  position: relative !important;
   font-size: 28px;
   top: -56px;
   color: #fbbd07;

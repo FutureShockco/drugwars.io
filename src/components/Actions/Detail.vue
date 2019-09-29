@@ -78,8 +78,7 @@ export default {
           lvl: training.lvl,
         }),
       );
-      if(mytraining && mytraining.length>0)
-      toOpen += `,${mytraining}`;
+      if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       if (this.detail.units.length > 0) {
         const enemyarmy = this.detail.units.map(unit =>
           this.serialize({
@@ -88,8 +87,7 @@ export default {
             n: unit.amount,
           }),
         );
-         if(enemyarmy && enemyarmy.length>0)
-        toOpen += `,${enemyarmy}`;
+        if (enemyarmy && enemyarmy.length > 0) toOpen += `,${enemyarmy}`;
       }
 
       if (this.detail.trainings.length > 0) {
@@ -100,18 +98,18 @@ export default {
             lvl: training.lvl,
           }),
         );
-        if(enemytraining && enemytraining.length>0)
-        toOpen += `,${enemytraining}`;
+        if (enemytraining && enemytraining.length > 0) toOpen += `,${enemytraining}`;
       }
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();
     },
     serialize(obj) {
       const str = [];
-      for (const p in obj)
-        if (obj.hasOwnProperty(p)) {
+      obj.forEach(p => {
+        if (obj && obj.prototype.hasOwnProperty.call(p)) {
           str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
         }
+      });
       return str.join('&');
     },
   },

@@ -217,6 +217,7 @@ export default {
   methods: {
     ...mapActions(['init', 'send']),
     handleSubmit() {
+      const self = this;
       this.isLoading = true;
       this.waitingConfirmation = true;
       let payload = {};

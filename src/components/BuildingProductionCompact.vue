@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  props: ['building','item'],
+  props: ['building', 'item'],
   computed: {
     base() {
       return this.$store.state.game.mainbase;

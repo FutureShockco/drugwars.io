@@ -210,7 +210,7 @@ export default {
       isLoading: false,
       nickname: null,
       picked: 'steem',
-      steemOn:this.$store.state.auth.account,
+      steemOn: this.$store.state.auth.account,
       amount: 0,
       token: this.$route.query.token.toUpperCase() || 'DWD',
       cat: [],
@@ -218,16 +218,16 @@ export default {
       maxBuy: [],
       maxSell: [],
       buyBook: [],
-      totalBuy:0,
+      totalBuy: 0,
       sellBook: [],
-      totalSell:0,
-      mySteemBalance:0,
+      totalSell: 0,
+      mySteemBalance: 0,
       marketDepth: {},
-      myDWDBalance:0,
-      sellprice:null,
-      sellquantity:null,
-      buyprice:null,
-      buyquantity:null,
+      myDWDBalance: 0,
+      sellprice: null,
+      sellquantity: null,
+      buyprice: null,
+      buyquantity: null,
       limitMin: 0,
       limitMax: 0,
       loading: false,
@@ -329,15 +329,13 @@ export default {
   created() {
     const self = this;
     const ssc = new SSC('https://api.steem-engine.com/rpc/');
-    console.log(self.prizeProps.seProps)
-    console.log(self.token)
-    if(self.token === "DWD")
-    {
-          self.marketDepth = this.$store.state.game.prizeProps.seProps;
-    }
-    else
-    ssc.find('tokens', 'tokens', { symbol: self.token }, 1000, 0, [], (err, result) => {
-          console.log(result[0].maxSupply)
+    console.log(self.prizeProps.seProps);
+    console.log(self.token);
+    if (self.token === 'DWD') {
+      self.marketDepth = this.$store.state.game.prizeProps.seProps;
+    } else
+      ssc.find('tokens', 'tokens', { symbol: self.token }, 1000, 0, [], (err, result) => {
+        console.log(result[0].maxSupply);
 
         self.marketDepth.supply = result[0].circulatingSupply;
         self.marketDepth.maxSupply = result[0].maxSupply;
@@ -345,20 +343,12 @@ export default {
           .find('market', 'metrics', { symbol: self.token }, 1000, 0, '', false)
           .then(async metrics => {
             const [stat] = metrics;
-            console.log(stat)
-            if(stat)
-            {
-            if(stat.volume)
-            self.marketDepth.volume = stat.volume;
-            self.marketDepth.priceChangePercent = stat.priceChangePercent.split('%')[0];
-            self.marketDepth.priceChangeSteem = stat.priceChangeSteem;
-            self.marketDepth.lastDayPrice = stat.lastDayPrice;
-            self.marketDepth.lastPrice = stat.lastPrice;
-            self.marketDepth.highestBid = stat.highestBid;
-            self.marketDepth.lowestAsk = stat.lowestAsk;
+            console.log(stat);
+            if (stat) {
+              self.marketDepth = stat;
             }
-          })
-    })
+          });
+      });
     ssc
       .find(
         'market',
@@ -387,17 +377,18 @@ export default {
           )
           .then(async buyBook => {
             self.buyBook = buyBook;
-            let totalBuy =0;
-         
+            let totalBuy = 0;
+
             self.buyBook.forEach(element => {
-              totalBuy=totalBuy+Number(element.tokensLocked);
-              element.tokensTotal = totalBuy;
-              if (element.price > self.maxBuy) self.maxBuy = element.price;
-              self.series[0].data.push(element.price);
+              const buy = element;
+              totalBuy += Number(buy.tokensLocked);
+              buy.tokensTotal = totalBuy;
+              if (buy.price > self.maxBuy) self.maxBuy = buy.price;
+              self.series[0].data.push(buy.price);
             });
-            self.buyBook.forEach(element => {
-              self.series[0].data.push(0);
-            });
+            // self.buyBook.forEach(element => {
+            //   self.series[0].data.push(0);
+            // });
             self.totalBuy = totalBuy;
             ssc
               .find(
@@ -412,19 +403,20 @@ export default {
                 false,
               )
               .then(async sellBook => {
-                let totalSell =0;
+                let totalSell = 0;
                 self.sellBook = sellBook;
+                // sellBook.forEach(element => {
+                //   self.series[1].data.push(0);
+                // });
                 sellBook.forEach(element => {
-                  self.series[1].data.push(0);
-                });
-                sellBook.forEach(element => {
-                  totalSell=totalSell+Number(element.quantity);
-                  element.tokensTotal = totalSell;
-                  if (element.price < self.limitMax) self.limitMax = element.price;
-                  self.series[1].data.push(element.price);
+                  const sell = element;
+                  totalSell += Number(sell.quantity);
+                  sell.tokensTotal = totalSell;
+                  if (sell.price < self.limitMax) self.limitMax = sell.price;
+                  self.series[1].data.push(sell.price);
                 });
                 self.sellBook = sellBook;
-                 self.totalSell = totalSell;
+                self.totalSell = totalSell;
                 self.cat = [self.maxBuy, self.limitMax];
                 ssc
                   .find(
@@ -456,19 +448,20 @@ export default {
                       )
                       .then(async personalBuyBook => {
                         console.log(personalBuyBook);
-                          ssc.findOne(
-                                'tokens',
-                                'balances', {
-                                  account: this.user.username,
-                                  symbol: `${self.token}`
-                                }).then(async mybalance => {
-                                  if(mybalance)
-                                    this.myDWDBalance = Number(this.dwdBalance)+Number(mybalance.balance);
-                                })
+                        ssc
+                          .findOne('tokens', 'balances', {
+                            account: this.user.username,
+                            symbol: `${self.token}`,
+                          })
+                          .then(async mybalance => {
+                            if (mybalance)
+                              this.myDWDBalance =
+                                Number(this.dwdBalance) + Number(mybalance.balance);
+                          });
                       });
                   });
               });
-            });
+          });
       });
   },
   computed: {
@@ -476,10 +469,10 @@ export default {
       return this.$store.state.game.user.user;
     },
     steemengine() {
-      if(this.token === "dwd")
-      {
-         return this.$store.state.game.prizeProps.seProps;
+      if (this.token === 'dwd') {
+        return this.$store.state.game.prizeProps.seProps;
       }
+      return {};
     },
     prizeProps() {
       const { prizeProps } = this.$store.state.game;
@@ -505,7 +498,6 @@ export default {
       ).toFixed(3);
     },
     endDate() {
-      const { prizeProps } = this.$store.state.game;
       const end = parseFloat(
         (this.steemengine.maxSupply -
           this.steemengine.nullBalance -
@@ -517,7 +509,6 @@ export default {
       return date.toLocaleString();
     },
     endSupply() {
-      const { prizeProps } = this.$store.state.game;
       const end = parseFloat(
         (this.steemengine.maxSupply -
           this.steemengine.nullBalance -
@@ -538,7 +529,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['send', 'notify','requestBuyBot','requestSellBot']),
+    ...mapActions(['send', 'notify', 'requestBuyBot', 'requestSellBot']),
     handleSubmit() {
       const self = this;
       const payload = {
@@ -554,49 +545,42 @@ export default {
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} ${self.token}` });
+          this.notify({
+            type: 'error',
+            message: `Failed to withdraw ${payload.amount} ${self.token}`,
+          });
           console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
           this.isLoading = false;
         });
     },
-    setBuy(price,qt){
-      if(this.steemOn)
-      this.buyprice = price;
-      else
-      this.buyprice = price*this.prizeProps.steemprice;
+    setBuy(price, qt) {
+      if (this.steemOn) this.buyprice = price;
+      else this.buyprice = price * this.prizeProps.steemprice;
       this.buyquantity = qt;
     },
-    setSell(price,qt){
-      if(this.steemOn)
-      this.sellprice = price;
-      else
-      this.sellprice = price*this.prizeProps.steemprice;
+    setSell(price, qt) {
+      if (this.steemOn) this.sellprice = price;
+      else this.sellprice = price * this.prizeProps.steemprice;
       this.sellquantity = qt;
     },
-    switchCurrency(){
-      this.steemOn = !this.steemOn
+    switchCurrency() {
+      this.steemOn = !this.steemOn;
     },
-    buySteem(){
+    buySteem() {
       const self = this;
-      const steemprice = 
-      self.isLoading = true;
       self.requestBuyBot({
         memo: `token:${self.token},amount:${self.buyquantity},price:${self.buyprice}`,
-        amount: `${parseFloat(self.buyprice*self.buyquantity).toFixed(3)} STEEM`,
+        amount: `${parseFloat(self.buyprice * self.buyquantity).toFixed(3)} STEEM`,
       });
     },
-    buyPaypal(){
-
-    },
-    sell(){
+    buyPaypal() {},
+    sell() {
       const self = this;
-      const steemprice = 
-      self.isLoading = true;
       self.requestSellBot({
         memo: `token:${self.token},amount:${self.sellquantity},price:${self.sellprice}`,
-        amount: `${parseFloat(self.sellprice*self.sellquantity).toFixed(3)} STEEM`,
+        amount: `${parseFloat(self.sellprice * self.sellquantity).toFixed(3)} STEEM`,
       });
-    }
+    },
   },
 };
 </script>
@@ -615,7 +599,6 @@ export default {
   color: burlywood;
   margin-bottom: 5px;
 }
-
 
 .datarow:nth-child(odd) {
   background: rgb(6, 20, 4);
@@ -649,8 +632,7 @@ export default {
   background: rgb(36, 0, 0);
 }
 
-.mini{
+.mini {
   font-size: 0.8em;
 }
-
 </style>

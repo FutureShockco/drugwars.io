@@ -97,7 +97,7 @@ export default {
   },
 
   watch: {
-    'balloonState.maximized': function(n, o) {
+    'balloonState.maximized': (n, o) => {
       // if maximized balloon changed from this one trigger a minimize event
       if (o === this.balloon && n !== this.balloon) {
         this.$emit('minimize', this);

@@ -43,9 +43,9 @@ export default {
     ownJobs() {
       return this.$store.state.game.user.jobs;
     },
-          ownBase() {
-   return this.$store.state.game.mainbase;
-  },
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
   },
   methods: {
     load_jobs() {

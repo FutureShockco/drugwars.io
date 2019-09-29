@@ -52,17 +52,19 @@ export default {
     resetForm() {
       this.message = null;
     },
-    isActive(activedate){
-        const now = new Date()
-        const day = now.getUTCDate();
-        const month = now.getUTCMonth() + 1;
-        const year = now.getUTCFullYear();
-        const date = `${day}-${month}-${year}`;
-        if(date=== activedate)
-        return 'text-green'
-        else if (month === Number(activedate.split('-')[1]) && year === (Number(activedate.split('-')[2])))
-        return 'text-orange'
-        else return 'text-red'
+    isActive(activedate) {
+      const now = new Date();
+      const day = now.getUTCDate();
+      const month = now.getUTCMonth() + 1;
+      const year = now.getUTCFullYear();
+      const date = `${day}-${month}-${year}`;
+      if (date === activedate) return 'text-green';
+      else if (
+        month === Number(activedate.split('-')[1]) &&
+        year === Number(activedate.split('-')[2])
+      )
+        return 'text-orange';
+      return 'text-red';
     },
     handleKick(soldier) {
       this.isLoading = true;

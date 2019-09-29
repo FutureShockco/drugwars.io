@@ -4,7 +4,6 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
-import SSC from 'sscjs';
 
 // import * as util from 'util';
 // import { inspect } from 'util';
@@ -85,7 +84,7 @@ const mutations = {
   },
 };
 
-const authToken = function() {
+const authToken = () => {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('access_token');
@@ -98,7 +97,11 @@ const actions = {
     new Promise((resolve, reject) => {
       const token = authToken();
       let totalbases = 0;
-      if (state.user && state.user.buildings && state.user.buildings.find(b => b.building === 'headquarters')) {
+      if (
+        state.user &&
+        state.user.buildings &&
+        state.user.buildings.find(b => b.building === 'headquarters')
+      ) {
         totalbases = state.user.buildings.find(b => b.building === 'headquarters').length;
       }
       if (token) {
@@ -112,19 +115,20 @@ const actions = {
                 commit('saveConnected', true);
                 commit(
                   'saveBase',
-                  state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                  state.user.buildings.find(b => b.main === 1 && b.territory !== 0 && b.base !== 0),
                 );
                 if (
                   !state.base ||
-                  totalbases != state.user.buildings.find(b => b.building === 'headquarters').length
+                  totalbases !==
+                    state.user.buildings.find(b => b.building === 'headquarters').length
                 )
                   commit(
                     'saveMainBase',
                     state.user.buildings.find(
                       b =>
                         b.main === 1 &&
-                        b.territory != 0 &&
-                        b.base != 0 &&
+                        b.territory !== 0 &&
+                        b.base !== 0 &&
                         b.building === 'headquarters',
                     ),
                   );
@@ -157,8 +161,7 @@ const actions = {
       let start = 0;
       let end = 50;
       if (limit) {
-        start = limit.start;
-        end = limit.end;
+        [start, end] = limit;
       }
       client
         .requestAsync('get_inc_fights', { token, start, end })
@@ -172,7 +175,7 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_inc_fights_count: ({ commit, dispatch }, limit) =>
+  refresh_inc_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -193,8 +196,7 @@ const actions = {
       let start = 0;
       let end = 50;
       if (limit) {
-        start = limit.start;
-        end = limit.end;
+        [start, end] = limit;
       }
       client
         .requestAsync('get_sent_fights', { token, start, end })
@@ -544,7 +546,7 @@ const actions = {
         JSON.stringify(memo),
         'STEEM',
         response => {
-          if (response.success || response.error === "user_cancel") {
+          if (response.success || response.error === 'user_cancel') {
             console.log('success');
             Promise.delay(1000).then(() => {
               dispatch('init');
@@ -586,7 +588,7 @@ const actions = {
         JSON.stringify(memo),
         'STEEM',
         response => {
-          if (response.success || response.error === "user_cancel") {
+          if (response.success || response.error === 'user_cancel') {
             console.log('success');
             Promise.delay(1000).then(() => {
               dispatch('init');
@@ -628,7 +630,7 @@ const actions = {
         JSON.stringify(memo),
         'STEEM',
         response => {
-          if (response.success || response.error === "user_cancel") {
+          if (response.success || response.error === 'user_cancel') {
             console.log('success');
             Promise.delay(1000).then(() => {
               dispatch('init');
@@ -660,41 +662,6 @@ const actions = {
       });
     }
   },
-  get_se_props: ({ commit, dispatch }) =>
-    new Promise((resolve, reject) => {
-      const ssc = new SSC('https://api.steem-engine.com/rpc/');
-      ssc.find('tokens', 'tokens', { symbol: 'DWD' }, 1000, 0, [], (err, result) => {
-        if (result) {
-          const self = {};
-          self.supply = result[0].circulatingSupply;
-          self.maxSupply = result[0].maxSupply;
-          ssc
-            .find('market', 'metrics', { symbol: 'DWD' }, 1000, 0, '', false)
-            .then(async metrics => {
-              const [stat] = metrics;
-              self.volume = stat.volume;
-              self.priceChangePercent = stat.priceChangePercent.split('%')[0];
-              self.priceChangeSteem = stat.priceChangeSteem;
-              self.lastDayPrice = stat.lastDayPrice;
-              self.lastPrice = stat.lastPrice;
-              self.highestBid = stat.highestBid;
-              self.lowestAsk = stat.lowestAsk;
-              ssc.findOne(
-                'tokens',
-                'balances',
-                {
-                  account: `null`,
-                  symbol: `DWD`,
-                },
-                (err, result) => {
-                  self.nullBalance = result.balance;
-                  commit('saveSE', self);
-                },
-              );
-            });
-        }
-      });
-    }),
   setBase: ({ commit }, payload) => {
     // console.log(payload);
     commit('saveBase', payload);

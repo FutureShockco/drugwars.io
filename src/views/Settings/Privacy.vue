@@ -37,8 +37,8 @@ export default {
     return {
       isLoading: false,
       nickname: null,
-      newaccountname:null,
-      confirmnickname:null,
+      newaccountname: null,
+      confirmnickname: null,
       picture: null,
       alerts: [
         {
@@ -61,12 +61,15 @@ export default {
   },
   methods: {
     ...mapActions(['send', 'notify']),
-   handleAccountTransfer() {
+    handleAccountTransfer() {
       this.isLoading = true;
-      if (this.confirmnickname === this.user.username && this.newaccountname !== this.user.username) {
+      if (
+        this.confirmnickname === this.user.username &&
+        this.newaccountname !== this.user.username
+      ) {
         const payload = {
           type: 'transfer-account',
-          newusername:this.newaccountname
+          newusername: this.newaccountname,
         };
         this.send(payload)
           .then(() => {
@@ -81,7 +84,7 @@ export default {
           });
       }
     },
-     handleSubmit(){
+    handleSubmit() {
       this.isLoading = true;
       if (this.nickname === this.user.username) {
         const payload = {
@@ -99,7 +102,7 @@ export default {
             this.isLoading = false;
           });
       }
-    }
+    },
   },
 };
 </script>

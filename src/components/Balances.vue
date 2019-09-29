@@ -97,11 +97,11 @@ export default {
       return this.$store.state.game.user.user;
     },
     user_production() {
-      const all_hq = this.$store.state.game.user.buildings.filter(
+      const allHQ = this.$store.state.game.user.buildings.filter(
         b => b.building === 'headquarters',
       );
       let production = 0;
-      all_hq.forEach(element => {
+      allHQ.forEach(element => {
         if (element.drug_production_rate) production += element.drug_production_rate;
       });
       return production;
@@ -131,12 +131,12 @@ export default {
     balances() {
       let ocLvl = 0;
       if (
-        (ocLvl = this.$store.state.game.user.buildings.find(
+        this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
-        ))
+        )
       ) {
         ocLvl =
           this.$store.state.game.user.buildings.find(

@@ -140,13 +140,15 @@ export default {
       );
       if (unit) {
         const nextUpdate = new Date(unit.next_update).toLocaleString();
-        return  nextUpdate.replace('/2019','');
+        return nextUpdate.replace('/2019', '');
       }
       return 0;
     },
-    percentage(){
-      return parseFloat(100-this.timeToWait/(this.updateTime*this.pendingAmount)*100).toFixed(2)
-    }
+    percentage() {
+      return parseFloat(
+        100 - (this.timeToWait / (this.updateTime * this.pendingAmount)) * 100,
+      ).toFixed(2);
+    },
   },
   methods: {
     ...mapActions(['recruitUnit', 'requestPayment']),
@@ -154,8 +156,7 @@ export default {
       this.isLoading = true;
       if (this.quantity > 0) {
         let payload = {};
-        if (use === 'dwd')
-        {
+        if (use === 'dwd') {
           payload = {
             unit: this.id,
             unit_amount: Number(this.quantity),
@@ -163,8 +164,7 @@ export default {
             territory: Number(this.base.territory),
             base: Number(this.base.base),
           };
-        }
-        else {
+        } else {
           payload = {
             unit: this.id,
             unit_amount: Number(this.quantity),
@@ -176,14 +176,16 @@ export default {
         this.recruitUnit(payload)
           .then(() => {
             this.isLoading = false;
-            if(use === 'dwd')
-            {
-                      const unit = this.$store.state.game.user.units.find(
-              b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
-            );
+            if (use === 'dwd') {
+              const unit = this.$store.state.game.user.units.find(
+                b =>
+                  b.unit === this.id &&
+                  b.territory === this.base.territory &&
+                  b.base === this.base.base,
+              );
               if (unit) {
                 unit.pending_update = new Date().getTime() + 3000;
-          }
+              }
             }
           })
           .catch(e => {

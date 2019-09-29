@@ -19,6 +19,8 @@
 </template>
 
 <script>
+/* eslint-disable */
+
 import { buildings, CardPack, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
@@ -71,7 +73,7 @@ export default {
 
       this.cards.forEach(card => {
         const c = document.getElementById(`${card.id}-card`);
-        let canvas = document.getElementById(`${card.id}-card-front`),
+        const canvas = document.getElementById(`${card.id}-card-front`),
           ctx = canvas.getContext('2d');
         const background = new Image();
         const attack_type = new Image();
@@ -277,20 +279,20 @@ export default {
     wrapText(context, text, x, y, maxWidth, lineHeight) {
       const words = text.split(' ');
       let line = '';
-      for (let n = 0; n < words.length; n++) {
-        const testLine = `${line + words[n]} `;
+      let ly = y;
+      words.forEach(word => {
+        const testLine = `${line + word} `;
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth) {
           context.fillText(line, x, y);
-          line = `${words[n]} `;
-
-          y += lineHeight;
+          line = `${word} `;
+          ly = y + lineHeight;
         } else {
           line = testLine;
         }
-      }
-      context.fillText(line, x, y);
+      });
+      context.fillText(line, x, ly);
     },
     showDetails() {
       this.details = true;

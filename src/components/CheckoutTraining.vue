@@ -80,9 +80,7 @@ export default {
       return (this.priceInSteem * 2).toFixed(3);
     },
     notEnoughDWD() {
-      return (
-        (this.priceInSteem * 2 ).toFixed(3) > this.$store.state.game.user.user.dwd
-      );
+      return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     timeToWait() {
       const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
@@ -100,20 +98,17 @@ export default {
         return timeToWait > 0 ? timeToWait : 0;
       }
       return 0;
-    },      
+    },
     timeToWaitString() {
-           const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
+      const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
       if (training) {
         const nextUpdate = new Date(training.next_update).toLocaleString();
-        return nextUpdate.replace('/2019','');
+        return nextUpdate.replace('/2019', '');
       }
       return 0;
     },
-    percentage(){
-        return parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2)
-    },
-    base() {
-      return this.$store.state.game.mainbase;
+    percentage() {
+      return parseFloat(100 - (this.timeToWait / this.updateTime) * 100).toFixed(2);
     },
     requireUpdate() {
       return this.level > this.researchCenterLvl && this.id !== 'research_center';
@@ -122,7 +117,10 @@ export default {
       let label = 'Upgrade';
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require RC upgrade';
-      if (this.inProgress) label = 'Upgrading [' + parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2) + '%]';
+      if (this.inProgress)
+        label = `Upgrading [${parseFloat(100 - (this.timeToWait / this.updateTime) * 100).toFixed(
+          2,
+        )}%]`;
       return label;
     },
   },
@@ -141,11 +139,10 @@ export default {
           base: Number(this.base.base),
         };
 
-   const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
-      if (training) {
-      training.pending_update = new Date().getTime() + 3000;
-      }
-
+        const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
+        if (training) {
+          training.pending_update = new Date().getTime() + 3000;
+        }
       } else {
         payload = {
           training: this.id,

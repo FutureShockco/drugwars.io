@@ -20,10 +20,10 @@ export default {
       items: pickBy(buildings, b => b.type === 'main'),
     };
   },
-    computed: {
-      ownBase() {
-   return this.$store.state.game.mainbase;
+  computed: {
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
   },
-    }
 };
 </script>

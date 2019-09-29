@@ -36,6 +36,7 @@ export default {
       if (this.$store.state.game.inc_fights)
         this.$store.state.game.inc_fights.forEach(element => {
           if (fights.find(item => item.fight_key === element.fight_key)) {
+            console.log(element);
           } else fights.push(element);
         });
       return orderBy(fights, 'end_date', 'desc');
@@ -49,11 +50,7 @@ export default {
     this.refresh_count();
   },
   methods: {
-    ...mapActions([
-      'refresh_sent_fights',
-      'refresh_inc_fights',
-      'refresh_sent_station_count',
-    ]),
+    ...mapActions(['refresh_sent_fights', 'refresh_inc_fights', 'refresh_sent_station_count']),
     load_fights(start) {
       let end = 13;
       end = start * 13;

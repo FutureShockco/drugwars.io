@@ -165,13 +165,11 @@ export default {
       );
     },
     random_pic() {
-      const rnd =  Math.floor(Math.random() * Math.floor(3)) +1;
-       return rnd;
+      const rnd = Math.floor(Math.random() * Math.floor(3)) + 1;
+      return rnd;
     },
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 

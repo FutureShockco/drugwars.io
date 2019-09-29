@@ -11,8 +11,10 @@ const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/G
 
 const Tutorial = () => import(/* webpackChunkName: "tutorial" */ '@/views/News/Tutorial.vue');
 const Overview = () => import(/* webpackChunkName: "overview" */ '@/views/Overview/Overview.vue');
-const Resources = () => import(/* webpackChunkName: "resources" */ '@/views/Overview/Resources.vue');
-const PaymentHistory = () => import(/* webpackChunkName: "history" */ '@/views/Overview/History.vue');
+const Resources = () =>
+  import(/* webpackChunkName: "resources" */ '@/views/Overview/Resources.vue');
+const PaymentHistory = () =>
+  import(/* webpackChunkName: "history" */ '@/views/Overview/History.vue');
 
 const News = () => import(/* webpackChunkName: "news" */ '@/views/News/News.vue');
 
@@ -64,7 +66,6 @@ const Tokens = () => import(/* webpackChunkName: "tokens" */ '@/views/Shop/Token
 
 const Market = () => import(/* webpackChunkName: "market" */ '@/views/Market/Market.vue');
 const Withdraw = () => import(/* webpackChunkName: "withdraw" */ '@/views/Market/Withdraw.vue');
-const Deposit = () => import(/* webpackChunkName: "deposit" */ '@/views/Market/Deposit.vue');
 
 const MyCollection = () =>
   import(/* webpackChunkName: "mycollection" */ '@/views/Cards/MyCollection.vue');

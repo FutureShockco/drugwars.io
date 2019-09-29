@@ -93,6 +93,7 @@ export default {
     mission7() {
       if (this.$store.state.game.sent_fights)
         return this.$store.state.game.sent_fights.find(f => f.attacker_nickname === this.nickname);
+      return false;
     },
   },
 };

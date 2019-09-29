@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { buildings, CardPack, units, trainings } from 'drugwars';
+import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
 
@@ -45,19 +45,22 @@ export default {
     const u = filter(pickBy(units));
     const t = filter(pickBy(trainings));
     b.forEach(element => {
-      element.ctype = 'building';
-      element.owned = true;
-      self.cards.push(element);
+      const building = element;
+      building.ctype = 'building';
+      building.owned = true;
+      self.cards.push(building);
     });
     u.forEach(element => {
-      element.ctype = 'unit';
-      element.owned = true;
-      self.cards.push(element);
+      const unit = element;
+      unit.ctype = 'unit';
+      unit.owned = true;
+      self.cards.push(unit);
     });
     t.forEach(element => {
-      element.ctype = 'training';
-      element.owned = true;
-      self.cards.push(element);
+      const training = element;
+      training.ctype = 'training';
+      training.owned = true;
+      self.cards.push(training);
     });
     // const generator = new CardPack(5);
     self.loading = false;
@@ -71,10 +74,10 @@ export default {
 
       this.cards.forEach(card => {
         const c = document.getElementById(`${card.id}-card`);
-        let canvas = document.getElementById(`${card.id}-card-front`),
-          ctx = canvas.getContext('2d');
+        const canvas = document.getElementById(`${card.id}-card-front`);
+        const ctx = canvas.getContext('2d');
         const background = new Image();
-        const attack_type = new Image();
+        const attackType = new Image();
         const frame = new Image();
         const character = new Image();
         const border = new Image();
@@ -110,29 +113,29 @@ export default {
         };
 
         character.onload = () => {
-          // border.src = `${path}/borders/${card.quality}.png`;
+          border.src = `${path}/borders/${card.quality}.png`;
           if (card.owned && card.ctype === 'unit') {
-            attack_type.src = `${path}/icons/${card.dmg_type}.png`;
+            attackType.src = `${path}/icons/${card.dmg_type}.png`;
           } else {
-            attack_type.src = `${path}/icons/weapon.png`;
+            attackType.src = `${path}/icons/weapon.png`;
           }
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(character, 0, 0, canvas.width, canvas.height);
         };
-        attack_type.onload = () => {
+        attackType.onload = () => {
           flag.src = `${path}/flags/fr.png`;
           ctx.imageSmoothingEnabled = true;
-          if (card.owned && card.ctype === 'unit') ctx.drawImage(attack_type, 38, 225, 40, 40);
+          if (card.owned && card.ctype === 'unit') ctx.drawImage(attackType, 38, 225, 40, 40);
         };
 
         // border.onload = () => {
-        //   attack_type.src = `${path}/icons/${card.attack_type}.png`;
+        //   attackType.src = `${path}/icons/${card.attackType}.png`;
         //   ctx.imageSmoothingEnabled = true;
         //   ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
         // };
 
         flag.onload = () => {
-          // attack_type.src = `${path}/icons/${card.attack_type}.png`;
+          // attackType.src = `${path}/icons/${card.attackType}.png`;
           const yellowgradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
           yellowgradient.addColorStop('0', '#e6ac00');
           yellowgradient.addColorStop('0.5', '#ffca31');
@@ -268,7 +271,6 @@ export default {
           ctx.fillStyle = '#fff';
           ctx.fillText('X1'.toUpperCase(), 40, 280);
 
-          b.style.transform = 'rotateY(0deg)';
           c.style.transform = 'rotateY(0deg)';
           this.card = card;
         };
@@ -277,20 +279,20 @@ export default {
     wrapText(context, text, x, y, maxWidth, lineHeight) {
       const words = text.split(' ');
       let line = '';
-      for (let n = 0; n < words.length; n++) {
-        const testLine = `${line + words[n]} `;
+      let ly = y;
+      words.forEach(word => {
+        const testLine = `${line + word} `;
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth) {
           context.fillText(line, x, y);
-          line = `${words[n]} `;
-
-          y += lineHeight;
+          line = `${word} `;
+          ly = y + lineHeight;
         } else {
           line = testLine;
         }
-      }
-      context.fillText(line, x, y);
+      });
+      context.fillText(line, x, ly);
     },
     showDetails() {
       this.details = true;

@@ -41,17 +41,22 @@ export default {
     };
   },
   created() {
-     const self = this;
-     const accessToken = localStorage.getItem('access_token');
-    const promises = [client.requestAsync('get_user_reward_history', { token: accessToken})];
+    const self = this;
+    const accessToken = localStorage.getItem('access_token');
+    const promises = [client.requestAsync('get_user_reward_history', { token: accessToken })];
     Promise.all(promises).then(result => {
-        const [history] = result
-        history.forEach(element => {
-            element.dateb = parseInt(element.date.split('-')[1]+element.date.split('-')[0]+element.date.split('-')[2].replace('-',''))
-             self.history.push(element)
-        });
-     
-      self.history = self.history.sort(function(a, b){return b.dateb-a.dateb});
+      const [history] = result;
+      history.forEach(element => {
+        const entry = element;
+        entry.dateb = parseInt(
+          entry.date.split('-')[1] +
+            entry.date.split('-')[0] +
+            entry.date.split('-')[2].replace('-', ''),
+        );
+        self.history.push(entry);
+      });
+
+      self.history = self.history.sort((a, b) => b.dateb - a.dateb);
       this.isLoading = false;
     });
   },

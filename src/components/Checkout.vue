@@ -110,12 +110,12 @@ export default {
       );
       if (building) {
         const nextUpdate = new Date(building.next_update).toLocaleString();
-        return nextUpdate.replace('/2019','');
+        return nextUpdate.replace('/2019', '');
       }
       return 0;
     },
-    percentage(){
-      return parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2)
+    percentage() {
+      return parseFloat(100 - (this.timeToWait / this.updateTime) * 100).toFixed(2);
     },
     requireUpdate() {
       return this.level > this.hqLevel && this.id !== 'headquarters';
@@ -125,8 +125,9 @@ export default {
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.inProgress) {
-        label = 'Upgrading [' + parseFloat(100-this.timeToWait/this.updateTime*100).toFixed(2) + '%]';
-        
+        label = `Upgrading [${parseFloat(100 - (this.timeToWait / this.updateTime) * 100).toFixed(
+          2,
+        )}%]`;
       }
       if (!this.base) label = 'Choose a location';
       return label;
@@ -137,8 +138,7 @@ export default {
     handleSubmit(use) {
       this.isLoading = true;
       let payload = {};
-      if (use === 'dwd')
-      {
+      if (use === 'dwd') {
         payload = {
           building: this.id,
           level: this.level,
@@ -146,18 +146,16 @@ export default {
           territory: Number(this.base.territory),
           base: Number(this.base.base),
         };
-              const building = this.$store.state.game.user.buildings.find(
-        b =>
-          b.building === this.id &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
-      );
-      if (building) {
-        building.next_update = new Date().getTime() + 3000;
-      }
-      }
-
-      else {
+        const building = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === this.id &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+        if (building) {
+          building.next_update = new Date().getTime() + 3000;
+        }
+      } else {
         payload = {
           building: this.id,
           level: this.level,

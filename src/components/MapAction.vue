@@ -329,8 +329,8 @@ export default {
       });
     },
     openFarmList() {
-   const self = this;
-   self.farmOn = !self.farmOn;
+      const self = this;
+      self.farmOn = !self.farmOn;
     },
     progressPercent(total, cost) {
       let progress;
@@ -518,55 +518,54 @@ export default {
       );
 
       let toOpen = `${myarmy}`;
-      if(mytraining && mytraining.length>0)
-      toOpen+=`,${mytraining}`
+      if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();
     },
     serialize(obj) {
-            const str = [];
-            for (const p in obj)
-                if (obj.hasOwnProperty(p)) {
-                    str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
-                }
-            return str.join('&');
-        },
-        saveCombination() {
-            let favs = [];
-            if (localStorage.getItem('fav_combi')) {
-                favs = JSON.parse(localStorage.getItem('fav_combi'));
-            }
-            const myarmy = this.selectedUnits.map(unit => ({
-                key: unit.key,
-                amount: unit.amount,
-            }));
+      const str = [];
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+        }
+      return str.join('&');
+    },
+    saveCombination() {
+      let favs = [];
+      if (localStorage.getItem('fav_combi')) {
+        favs = JSON.parse(localStorage.getItem('fav_combi'));
+      }
+      const myarmy = this.selectedUnits.map(unit => ({
+        key: unit.key,
+        amount: unit.amount,
+      }));
 
-            const combi = {};
-            combi.name = this.combination_name;
-            combi.set = myarmy;
-            favs.push(combi);
-            this.favoriteCombinations = favs;
-            this.combination_name = null;
-            localStorage.setItem('fav_combi', JSON.stringify(favs));
-        },
-        loadCombination(combination) {
-            const combinationtoload = [];
-            combination.forEach(unit => {
-                if (
-                    this.ownUnits.find(lunit => lunit.key === unit.key) &&
-                    unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
-                ) {
-                    combinationtoload.push(unit);
-                } else {
-                    if (this.ownUnits.find(lunit => lunit.key === unit.key))
-                        unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
-                    combinationtoload.push(unit);
-                }
-            });
-            this.selectedUnits = combinationtoload;
-        },
-        deleteCombination(combination) {
-        /* eslint-disable */
+      const combi = {};
+      combi.name = this.combination_name;
+      combi.set = myarmy;
+      favs.push(combi);
+      this.favoriteCombinations = favs;
+      this.combination_name = null;
+      localStorage.setItem('fav_combi', JSON.stringify(favs));
+    },
+    loadCombination(combination) {
+      const combinationtoload = [];
+      combination.forEach(unit => {
+        if (
+          this.ownUnits.find(lunit => lunit.key === unit.key) &&
+          unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
+        ) {
+          combinationtoload.push(unit);
+        } else {
+          if (this.ownUnits.find(lunit => lunit.key === unit.key))
+            unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
+          combinationtoload.push(unit);
+        }
+      });
+      this.selectedUnits = combinationtoload;
+    },
+    deleteCombination(combination) {
+      /* eslint-disable */
             let favs = [];
             if (localStorage.getItem('fav_combi')) {
                 favs = JSON.parse(localStorage.getItem('fav_combi'));
@@ -581,26 +580,26 @@ export default {
             this.favoriteCombinations = favs;
         /* eslint-enable */
     },
-      loadFarm(farm) {
-   this.territory = farm.territory;
-   this.base = farm.location;
-   this.farmOn = !this.farmOn;
-   this.targetNickname = null;
-   this.bases = [];
+    loadFarm(farm) {
+      this.territory = farm.territory;
+      this.base = farm.location;
+      this.farmOn = !this.farmOn;
+      this.targetNickname = null;
+      this.bases = [];
+    },
+    deleteFarm(combination) {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      for (let i = 0; i < favs.length; i += 1) {
+        if (favs[i].name === combination) {
+          favs.splice(i, 1);
+          i -= 1;
+        }
+      }
+    },
   },
-  deleteFarm(combination) {
-   let favs = [];
-   if (localStorage.getItem('farmlist')) {
-    favs = JSON.parse(localStorage.getItem('farmlist'));
-   }
-   for (let i = 0; i < favs.length; i += 1) {
-    if (favs[i].name === combination) {
-     favs.splice(i, 1);
-     i -= 1;
-    }
-   }
-  }
-  }
 };
 </script>
 
@@ -610,13 +609,12 @@ export default {
   max-width: 100%;
 }
 .vue-ui-modal {
- background: rgba(0, 0, 0, 0.7);
-   overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.7);
+  overflow-y: scroll;
 }
 
-.farm{
-   background: rgba(0, 0, 0, 0.9);
-
+.farm {
+  background: rgba(0, 0, 0, 0.9);
 }
 
 @media screen and (min-width: 399px) and (max-width: 1119px) {
@@ -627,6 +625,7 @@ export default {
 
 .mapaction {
   position: absolute;
-  background: linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)), url(//img.drugwars.io/fake-brick.png);
+  background: linear-gradient(rgba(0, 0, 0, 0.89), rgba(0, 0, 0, 0.95)),
+    url(//img.drugwars.io/fake-brick.png);
 }
 </style>

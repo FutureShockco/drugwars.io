@@ -50,11 +50,10 @@ export default {
     base() {
       return this.$store.state.game.mainbase;
     },
-    buildingupgrades(){
-        let upgrade = []
-        if(upgrades[this.building.id])
-        upgrade = upgrades[this.building.id].upgrades
-        return upgrade;
+    buildingupgrades() {
+      let upgrade = [];
+      if (upgrades[this.building.id]) upgrade = upgrades[this.building.id].upgrades;
+      return upgrade;
     },
     HQ() {
       if (

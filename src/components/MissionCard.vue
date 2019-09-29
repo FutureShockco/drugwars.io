@@ -212,14 +212,15 @@ export default {
       if (this.json) return this.json.length || [];
       return 0;
     },
-        random_pic() {
-      const rnd =  Math.floor(Math.random() * Math.floor(3)) +1;
-       return rnd;
+    random_pic() {
+      const rnd = Math.floor(Math.random() * Math.floor(3)) + 1;
+      return rnd;
     },
   },
   methods: {
     ...mapActions(['init', 'send']),
     handleSubmit() {
+      const self = this;
       this.isLoading = true;
       this.waitingConfirmation = true;
       let payload = {};

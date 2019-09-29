@@ -20,21 +20,25 @@ export default {
   computed: {
     perhour() {
       const perhour = Number(
-        parseFloat(this.upgrade.production_rate * this.level * this.upgrade.coeff * 60 * 60).toFixed(2),
+        parseFloat(
+          this.upgrade.production_rate * this.level * this.upgrade.coeff * 60 * 60,
+        ).toFixed(2),
       );
       return perhour + (perhour / 100) * this.level;
     },
     current() {
       const current = Number(
-        parseFloat(this.upgrade.production_rate * this.level * this.upgrade.coeff * 60 * 60 ).toFixed(2),
+        parseFloat(
+          this.upgrade.production_rate * this.level * this.upgrade.coeff * 60 * 60,
+        ).toFixed(2),
       );
       return current + (current / 100) * this.level;
     },
     next() {
       const next = Number(
-        parseFloat(this.upgrade.production_rate * ( 1) * this.upgrade.coeff * 60 * 60 ).toFixed(2),
+        parseFloat(this.upgrade.production_rate * 1 * this.upgrade.coeff * 60 * 60).toFixed(2),
       );
-      return next + (next / 100) * ( 1);
+      return next + (next / 100) * 1;
     },
   },
 };

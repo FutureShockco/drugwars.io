@@ -178,7 +178,6 @@ export default {
       ).toFixed(3);
     },
     endDate() {
-      const { prizeProps } = this.$store.state.game;
       const end = parseFloat(
         (this.steemengine.maxSupply -
           this.steemengine.nullBalance -
@@ -190,7 +189,6 @@ export default {
       return date.toLocaleString();
     },
     endSupply() {
-      const { prizeProps } = this.$store.state.game;
       const end = parseFloat(
         (this.steemengine.maxSupply -
           this.steemengine.nullBalance -

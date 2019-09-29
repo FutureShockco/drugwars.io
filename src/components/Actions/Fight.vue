@@ -110,7 +110,7 @@
 					Start : {{start}} - End : {{end}}
 				</div>
 				<div v-if="fight.fight_key">
-					<a target="_blank" :href="'https://dwtheapi.herokuapp.com/fight/'+token+'/'+fight.fight_key">Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+					<a target="_blank" @click="openBattle(token+'/'+fight.fight_key)" >Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
 				</div>
 				<div v-else-if="fight.transport_key">
 					Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
@@ -220,6 +220,11 @@ export default {
 		localStorage.setItem('farmlist', JSON.stringify(favs));
 		this.popupOn = !this.popupOn;
 	},
+	openBattle(id){
+		var dwbc = "https://battle.drugwars.io";
+		var drugwars_battleclient = window.open(dwbc);
+		drugwars_battleclient.postMessage(id);
+	}
   },
 };
 </script>

@@ -49,6 +49,7 @@
     "vue-analytics": "^5.16.2",
     "vue-apexcharts": "^1.4.0",
     "vue-i18n": "^8.0.0",
+    "vue-paypal-checkout": "^3.2.0",
     "vue-router": "^3.0.1",
     "vue2-touch-events": "^2.0.0",
     "vuejs-paginate": "^2.1.0",

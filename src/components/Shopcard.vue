@@ -24,7 +24,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-// import PayPal from 'vue-paypal-checkout';
+import PayPal from 'vue-paypal-checkout';
 
 export default {
   props: ['item'],

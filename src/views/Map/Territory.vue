@@ -53,7 +53,7 @@
 import client from '@/helpers/client';
 import { mapActions } from 'vuex';
 import Promise from 'bluebird';
-/* eslint-disable */
+
 export default {
   data() {
     return {
@@ -133,7 +133,7 @@ export default {
         this.y = event.clientY;
         const bg = document.getElementById('territorybg');
         const tb = document.getElementById('table');
-        const canvasElement = document.getElementById('canvas');
+        const canvas_element = document.getElementById('canvas');
         const limit = document.body.clientWidth - bg.offsetWidth;
         tb.style.left = `${limit + 50 - this.x * 1.66}px`;
         tb.style.top = `${document.body.clientHeight / 5 - this.y / 2.25 - 100}px`;
@@ -142,25 +142,28 @@ export default {
     start() {
       const self = this;
       const bg = document.getElementById('territorybg');
-      const canvasElement = document.getElementById('canvas');
-      const context = canvasElement.getContext('2d');
-      let tilesArray = [];
+      const canvas_element = document.getElementById('canvas');
+      const tb = document.getElementById('table');
+
+      const context = canvas_element.getContext('2d');
+      let tiles_array = [];
+
       let width = 0;
       let height = 0;
       if (self.iso) {
         width = bg.offsetWidth * 2;
         height = (bg.offsetHeight - 150) * 2;
-        canvasElement.width = width * 2;
-        canvasElement.height = height * 2;
+        canvas_element.width = width * 2;
+        canvas_element.height = height * 2;
       } else {
         width = bg.offsetWidth;
         height = bg.offsetHeight - 150;
-        canvasElement.width = width;
-        canvasElement.height = height;
+        canvas_element.width = width;
+        canvas_element.height = height;
       }
 
       function clearCanvas() {
-        const ctx = canvasElement.getContext('2d');
+        const ctx = canvas_element.getContext('2d');
         ctx.clearRect(0, 0, width, height);
       }
       const TILE_TYPES = {
@@ -176,8 +179,8 @@ export default {
         height,
         id,
         nickname,
-        lvl,
-        custom,
+        level,
+        custom_name,
         main,
         gang,
         job,
@@ -186,10 +189,10 @@ export default {
       ) {
         this.id = id;
         this.nickname = nickname || null;
-        this.lvl = lvl || null;
+        this.level = level || null;
         this.gang = gang || null;
         this.job = job || null;
-        this.custom = custom || null;
+        this.custom_name = custom_name || null;
         this.main = main || null;
         this.x = x;
         this.y = y;
@@ -206,13 +209,186 @@ export default {
         this.fillColor = fillColor;
         this.strokeStyle = 'black';
       }
+
+      const visitTitle = document.getElementById('title');
+      const visitButton = document.getElementById('visit');
+      canvas_element.onclick = function(e) {
+        event = e;
+        const elementClickedId = checkClick(event);
+        if (self.selectedTile != null && self.nickname === self.currentNickname) {
+          tiles_array[self.selectedTile - 1].fillColor = 'green';
+          clearCanvas();
+        } else if (
+          self.selectedTile != null &&
+          self.currentNickname &&
+          self.nickname !== self.currentNickname
+        ) {
+          tiles_array[self.selectedTile - 1].fillColor = 'red';
+          clearCanvas();
+        } else if (self.selectedTile != null && !self.currentNickname && self.job) {
+          tiles_array[self.selectedTile - 1].fillColor = '#ffc508';
+        } else if (self.selectedTile != null) {
+          tiles_array[self.selectedTile - 1].fillColor = null;
+        }
+        if (elementClickedId.id === 225) {
+          if (elementClickedId.job === self.job) {
+            tiles_array[224].fillColor = '#ffc508';
+          } else if (elementClickedId.nickname === self.nickname) {
+            tiles_array[224].fillColor = 'green';
+          } else if (elementClickedId.nickname !== self.nickname) {
+            tiles_array[224].fillColor = 'blue';
+          } else {
+            tiles_array[224].fillColor = 'gray';
+          }
+        }
+        self.selectedTile = elementClickedId.id;
+        self.currentNickname = elementClickedId.nickname;
+        self.currentHq = elementClickedId.hq;
+        self.customName = elementClickedId.custom_name;
+        self.isMain = elementClickedId.main;
+        self.currentGang = elementClickedId.gang;
+        self.job = elementClickedId.job;
+        if (elementClickedId.job && !elementClickedId.nickname) {
+          tiles_array[elementClickedId.id - 1].fillColor = '#ffc508';
+        } else if (elementClickedId.nickname === self.nickname) {
+          tiles_array[elementClickedId.id - 1].fillColor = 'green';
+        } else if (elementClickedId.nickname !== self.nickname) {
+          tiles_array[elementClickedId.id - 1].fillColor = 'blue';
+        } else {
+          tiles_array[elementClickedId.id - 1].fillColor = 'gray';
+        }
+
+        if (tiles_array[elementClickedId.id] && !elementClickedId.job) {
+          visitTitle.style.display = 'block';
+          visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
+          visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
+        } else if (elementClickedId.job) {
+          visitTitle.style.display = 'none';
+        }
+        drawTiles();
+      };
+
+      // canvas_element.onmousemove = function(e) {
+      //   const elementUnder = checkClick(event);
+      //   if (elementUnder == 1) {
+      //     changeCursor('hand');
+      //   } else {
+      //     changeCursor('default');
+      //   }
+      // };
+
+      // canvas_element.onmouseout = function(e) {
+      //   changeCursor('default');
+      // };
+
+      // function changeCursor(value){
+      //   canvas_element.style.cursor = value;
+      // }
+
+      function checkClick(event) {
+        const clickX = event.layerX;
+        const clickY = event.layerY;
+
+        let element;
+
+        tiles_array.forEach(tile => {
+          if (
+            clickX > tile.workWidth.start &&
+            clickX < tile.workWidth.end &&
+            clickY > tile.workHeight.start &&
+            clickY < tile.workHeight.end
+          ) {
+            element = {
+              id: tile.id,
+              nickname: tile.nickname,
+              hq: tile.level,
+              custom_name: tile.custom_name,
+              main: tile.main,
+              gang: tile.gang,
+              job: tile.job,
+            };
+          }
+        });
+        return element;
+      }
+
+      function createTiles(quantityX, quantityY) {
+        tiles_array = [];
+        const quantityAll = quantityX * quantityY + 1;
+        const tileWidth = canvas_element.width / quantityX;
+        const tileHeight = canvas_element.height / quantityY;
+
+        const drawPosition = {
+          x: 0,
+          y: 0,
+        };
+        let i = 1;
+        for (i = 1; i < quantityAll; i++) {
+          let fillColor = TILE_TYPES.land.color;
+          let nickname = '';
+          let level = '';
+          let custom_name = '';
+          let main = '';
+          let gang = {};
+          let job = '';
+          self.bases.forEach(element => {
+            if (element.base === i && element.job != undefined) {
+              fillColor = '#ffc508';
+              nickname = element.nickname;
+              level = element.lvl;
+              custom_name = element.custom;
+              main = element.main;
+              job = element.job;
+            } else if (element.base === i && element.nickname === self.nickname) {
+              fillColor = 'green';
+              nickname = element.nickname;
+              gang = { role: element.role, gang: element.name, ticker: element.ticker };
+              level = element.lvl;
+              custom_name = element.custom;
+              main = element.main;
+            } else if (element.base === i && element.nickname !== self.nickname) {
+              fillColor = 'red';
+              nickname = element.nickname;
+              gang = { role: element.role, gang: element.name, ticker: element.ticker };
+              level = element.lvl;
+              custom_name = element.custom;
+              main = element.main;
+            }
+          });
+          const tile = new Tile(
+            drawPosition.x,
+            drawPosition.y,
+            tileWidth,
+            tileHeight,
+            i,
+            nickname,
+            level,
+            custom_name,
+            main,
+            gang,
+            job,
+            fillColor,
+          );
+
+          tiles_array.push(tile);
+
+          drawPosition.x += tileWidth;
+          if (drawPosition.x >= canvas_element.width) {
+            drawPosition.x = 0;
+            drawPosition.y += tileHeight;
+          }
+        }
+      }
+
+      createTiles(15, 15);
+
       function drawTiles() {
         const background = new Image();
         background.src = `//img.drugwars.io/map/map.jpg`;
         background.onload = () => {
           context.imageSmoothingEnabled = true;
-          context.drawImage(background, 0, 0, canvasElement.width, canvasElement.height);
-          tilesArray.forEach(tile => {
+          context.drawImage(background, 0, 0, canvas.width, canvas.height);
+          tiles_array.forEach(tile => {
             context.beginPath();
             if (tile.fillColor) context.fillStyle = tile.fillColor;
             else context.fillStyle = 'rgba(255, 255, 255, 0.0)';
@@ -229,152 +405,6 @@ export default {
           });
         };
       }
-
-      function checkClick(event) {
-        const clickX = event.layerX;
-        const clickY = event.layerY;
-
-        let element;
-
-        tilesArray.forEach(tile => {
-          if (
-            clickX > tile.workWidth.start &&
-            clickX < tile.workWidth.end &&
-            clickY > tile.workHeight.start &&
-            clickY < tile.workHeight.end
-          ) {
-            element = {
-              id: tile.id,
-              nickname: tile.nickname,
-              hq: tile.lvl,
-              custom: tile.custom,
-              main: tile.main,
-              gang: tile.gang,
-              job: tile.job,
-            };
-          }
-        });
-        return element;
-      }
-
-      const visitTitle = document.getElementById('title');
-      const visitButton = document.getElementById('visit');
-      canvasElement.onclick = function(e) {
-        event = e;
-        const elementClickedId = checkClick(event);
-        if (self.selectedTile != null && self.nickname === self.currentNickname) {
-          tilesArray[self.selectedTile - 1].fillColor = 'green';
-          clearCanvas();
-        } else if (
-          self.selectedTile != null &&
-          self.currentNickname &&
-          self.nickname !== self.currentNickname
-        ) {
-          tilesArray[self.selectedTile - 1].fillColor = 'red';
-          clearCanvas();
-        } else if (self.selectedTile != null && !self.currentNickname && self.job) {
-          tilesArray[self.selectedTile - 1].fillColor = '#ffc508';
-        } else if (self.selectedTile != null) {
-          tilesArray[self.selectedTile - 1].fillColor = null;
-        }
-        if (elementClickedId.id === 225) {
-          if (elementClickedId.job === self.job) {
-            tilesArray[224].fillColor = '#ffc508';
-          } else if (elementClickedId.nickname === self.nickname) {
-            tilesArray[224].fillColor = 'green';
-          } else if (elementClickedId.nickname !== self.nickname) {
-            tilesArray[224].fillColor = 'blue';
-          } else {
-            tilesArray[224].fillColor = 'gray';
-          }
-        }
-        self.selectedTile = elementClickedId.id;
-        self.currentNickname = elementClickedId.nickname;
-        self.currentHq = elementClickedId.hq;
-        self.customName = elementClickedId.custom;
-        self.isMain = elementClickedId.main;
-        self.currentGang = elementClickedId.gang;
-        self.job = elementClickedId.job;
-        if (elementClickedId.job && !elementClickedId.nickname) {
-          tilesArray[elementClickedId.id - 1].fillColor = '#ffc508';
-        } else if (elementClickedId.nickname === self.nickname) {
-          tilesArray[elementClickedId.id - 1].fillColor = 'green';
-        } else if (elementClickedId.nickname !== self.nickname) {
-          tilesArray[elementClickedId.id - 1].fillColor = 'blue';
-        } else {
-          tilesArray[elementClickedId.id - 1].fillColor = 'gray';
-        }
-
-        if (tilesArray[elementClickedId.id] && !elementClickedId.job) {
-          visitTitle.style.display = 'block';
-          visitTitle.style.top = `${tilesArray[elementClickedId.id].y + 30}px`;
-          visitTitle.style.left = `${tilesArray[elementClickedId.id].x - 35}px`;
-        } else if (elementClickedId.job) {
-          visitTitle.style.display = 'none';
-        }
-        drawTiles();
-      };
-
-      function createTiles(quantityX, quantityY) {
-        tilesArray = [];
-        const quantityAll = quantityX * quantityY + 1;
-        const tileWidth = canvasElement.width / quantityX;
-        const tileHeight = canvasElement.height / quantityY;
-
-        const drawPosition = {
-          x: 0,
-          y: 0,
-        };
-        let i = 1;
-        for (i = 1; i < quantityAll; i++) {
-          let fillColor = TILE_TYPES.land.color;
-          let nickname = '';
-          let lvl = '';
-          let custom = '';
-          let main = '';
-          let gang = {};
-          let job = '';
-          self.bases.forEach(element => {
-            if (element.base === i && element.job !== undefined) {
-              fillColor = '#ffc508';
-              [nickname, lvl, custom, main, job] = element;
-            } else if (element.base === i && element.nickname === self.nickname) {
-              fillColor = 'green';
-              gang = { role: element.role, gang: element.name, ticker: element.ticker };
-              [nickname, lvl, custom, main] = element;
-            } else if (element.base === i && element.nickname !== self.nickname) {
-              fillColor = 'red';
-              gang = { role: element.role, gang: element.name, ticker: element.ticker };
-              [nickname, lvl, custom, main] = element;
-            }
-          });
-          const tile = new Tile(
-            drawPosition.x,
-            drawPosition.y,
-            tileWidth,
-            tileHeight,
-            i,
-            nickname,
-            lvl,
-            custom,
-            main,
-            gang,
-            job,
-            fillColor,
-          );
-
-          tilesArray.push(tile);
-
-          drawPosition.x += tileWidth;
-          if (drawPosition.x >= canvasElement.width) {
-            drawPosition.x = 0;
-            drawPosition.y += tileHeight;
-          }
-        }
-      }
-
-      createTiles(15, 15);
-
       drawTiles();
       // const limit = (document.body.clientWidth)-bg.offsetWidth;
       // tb.style.left = (limit+50) +'px';
@@ -429,8 +459,8 @@ export default {
 
       if (!this.errorMessage)
         try {
-          const userbase = await client.requestAsync('check_base', params);
-          if (userbase) {
+          const base = await client.requestAsync('check_base', params);
+          if (base) {
             this.errorMessage = `Base number '${base}' is already taken`;
           }
           return !this.errorMessage;
@@ -452,13 +482,14 @@ export default {
       this.setMainBase({ territory, base, custom, main });
     },
     handleZoom() {
+      const self = this;
       const bg = document.getElementById('territorybg');
-      const canvasElement = document.getElementById('canvas');
+      const canvas_element = document.getElementById('canvas');
       const width = bg.offsetWidth;
       const height = bg.offsetHeight - 300;
-      canvasElement.width = width;
-      canvasElement.height = height;
-      const context = canvasElement.getContext('2d');
+      canvas_element.width = width;
+      canvas_element.height = height;
+      const context = canvas_element.getContext('2d');
       context.scale(1, 0.5);
       context.translate(0, 500);
       context.rotate((-45 * Math.PI) / 180);

@@ -386,9 +386,9 @@ export default {
               if (buy.price > self.maxBuy) self.maxBuy = buy.price;
               self.series[0].data.push(buy.price);
             });
-            // self.buyBook.forEach(element => {
-            //   self.series[0].data.push(0);
-            // });
+            self.buyBook.forEach(element => {
+              self.series[0].data.push(0);
+            });
             self.totalBuy = totalBuy;
             ssc
               .find(
@@ -405,9 +405,9 @@ export default {
               .then(async sellBook => {
                 let totalSell = 0;
                 self.sellBook = sellBook;
-                // sellBook.forEach(element => {
-                //   self.series[1].data.push(0);
-                // });
+                sellBook.forEach(element => {
+                  self.series[1].data.push(0);
+                });
                 sellBook.forEach(element => {
                   const sell = element;
                   totalSell += Number(sell.quantity);

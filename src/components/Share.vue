@@ -47,7 +47,15 @@ export default {
       setTimeout(() => {
         const node = document.getElementById(this.fight_key.slice(0, 10));
         const sharenode = node;
-         sharenode.removeChild(sharenode.childNodes[1])
+        const chills = sharenode.childNodes[1].childNodes[0]
+        if(chills.childNodes[0])
+         chills.removeChild(chills.childNodes[0])
+                 if(chills.childNodes[0])
+         chills.removeChild(chills.childNodes[0])
+                 if(chills.childNodes[0])
+         chills.removeChild(chills.childNodes[0])
+                 if(chills.childNodes[0])
+         chills.removeChild(chills.childNodes[0])
         domtoimage.toJpeg(sharenode, { quality: 1 }).then(dataUrl => {
           const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
           const fd = new FormData();

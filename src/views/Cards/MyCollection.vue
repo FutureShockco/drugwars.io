@@ -24,6 +24,7 @@
 import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
+/* eslint-disable */
 
 export default {
   data() {
@@ -83,11 +84,11 @@ export default {
         const flag = new Image();
         const effect = new Image();
         const path = '//img.drugwars.io';
-        const random_pic = Math.floor(Math.random() * Math.floor(3)) + 1;
+        const randomPickBkg = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
         background.src = `${path}/cards/background/1.png`;
 
         background.onload = () => {
-          frame.src = `${path}/cards/background/classic_unit${random_pic}.png`;
+          frame.src = `${path}/cards/background/classic_unit${randomPickBkg}.png`;
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         };
@@ -338,9 +339,10 @@ export default {
       if (self.card_type === 'all' || self.card_type === 'units') {
         const u = filter(pickBy(units));
         u.forEach(element => {
-          element.ctype = 'units';
-          element.owned = true;
-          if (!element.npc) self.cards.push(element);
+          const unit = element;
+          unit.ctype = 'units';
+          unit.owned = true;
+          if (!unit.npc) self.cards.push(unit);
         });
       }
       // if (self.card_type === 'all' || self.card_type === 'training') {

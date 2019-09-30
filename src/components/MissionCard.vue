@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-lg-row flex-column text-center text-lg-left item">
     <div class="mr-3">
-      <img class="preview" :src="`//img.drugwars.io/missions/${item.img}.jpg`" />
+      <img class="preview" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/missions/${item.img}.jpg`" />
     </div>
     <div class="level" v-if="item.type">{{ item.type }} - Difficulty : {{item.difficulty}}</div>
     <div class="item-content width-full mr-3 mb-4">
@@ -21,7 +21,7 @@
         >
           <div class="unitamount">{{unit.amount.mini}} - {{unit.amount.max}}</div>
 
-          <img class="preview unit width-full"  width="50" :src="`//img.drugwars.io/units/${unit.id}.png`" />
+          <img class="preview unit width-full"  width="50" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`" />
 
           <div class="unitname">{{unit.id}}</div>
         </div>
@@ -172,6 +172,10 @@ export default {
     };
   },
   computed: {
+    randomPickBkg() {
+      const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
+      return rnd;
+    },
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
@@ -212,8 +216,8 @@ export default {
       if (this.json) return this.json.length || [];
       return 0;
     },
-    random_pic() {
-      const rnd = Math.floor(Math.random() * Math.floor(3)) + 1;
+    randomPickBkg() {
+      const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
       return rnd;
     },
   },

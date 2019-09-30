@@ -2,7 +2,7 @@
     <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress }">
         <div class="item-content width-full mr-3 mb-4">
             <div class="mr-2 left-floated">
-                <img class="preview unit" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${random_pic}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`">
+                <img class="preview unit" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`">
                 <div class="skill-icons text-center">
                 </div>
             </div>
@@ -164,8 +164,8 @@ export default {
         }
       );
     },
-    random_pic() {
-      const rnd = Math.floor(Math.random() * Math.floor(3)) + 1;
+    randomPickBkg() {
+      const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
       return rnd;
     },
   },

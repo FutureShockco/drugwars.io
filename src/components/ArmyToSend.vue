@@ -1,7 +1,7 @@
 <template>
     <div v-if="units">
         <div v-for="unit in units" v-if="unit.amount !== 0" :key="unit.key" class="d-inline-block mx-1 my-1 text-center">
-            <img class="preview unit mini" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`">
+            <img class="preview unit mini" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`">
             <div>
                 <span v-if="withDead && unit.dead">
               <span :class="{ 'text-red' : unit.dead }">
@@ -17,5 +17,11 @@
 <script>
 export default {
   props: ['units', 'withDead'],
+  computed: {
+    randomPickBkg() {
+      const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
+      return rnd;
+    },
+  },
 };
 </script>

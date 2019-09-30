@@ -124,7 +124,7 @@
         :key="resource.id"
         v-for="resource in resources"
       >
-        <img :src="`//img.drugwars.io/icons/${resource.icon}`" width="36" height="36" />
+        <img :src="`/img/icons/${resource.icon}`" width="36" height="36" />
         {{resource.locationname}}
       </div>
       <div class="first-line"></div>
@@ -134,7 +134,6 @@
 </template>
 
 <script>
-/* eslint-disable */
 import * as THREE from 'three';
 import Hexasphere from 'hexasphere.js';
 import OrbitControls from 'three-orbitcontrols';
@@ -221,33 +220,33 @@ export default {
       this.showResources = !this.showResources;
     },
     chooseContinentDrug(territory) {
-      let prob = Math.ceil(
-        territory
-          .toString()
-          .substring(territory.toString().length - 1, territory.toString().length),
-      );
+      let prob = Math.ceil(territory.toString().substring(territory.toString().length - 1, territory.toString().length));
       const data = {};
       continents.forEach(element => {
         if (element.locations.includes(territory)) {
-          data.name = element.name;
-          while (!drugs[prob] || !drugs[prob].location.includes(element.id)) {
-            prob--;
-          }
-          if (drugs[prob] && drugs[prob].location.includes(element.id)) {
-            data.resources = drugs[prob].id;
-            data.icon = drugs[prob].icon;
-          }
+            data.name = element.name;
+            while(!drugs[prob] || !drugs[prob].location.includes(element.id))
+            {
+              prob--;
+            }
+            if(drugs[prob] && drugs[prob].location.includes(element.id))
+            {
+              data.resources = drugs[prob].id;
+              data.icon = drugs[prob].icon;
+            }
         }
       });
       if (!data.name) {
         data.name = 'Asia';
-        while (!drugs[prob] || !drugs[prob].location.includes('as')) {
-          prob--;
-        }
-        if (drugs[prob] && drugs[prob].location.includes('as')) {
-          data.resources = drugs[prob].id;
-          data.icon = drugs[prob].icon;
-        }
+        while(!drugs[prob] || !drugs[prob].location.includes('as'))
+            {
+              prob--;
+            }
+            if(drugs[prob] && drugs[prob].location.includes('as'))
+            {
+              data.resources = drugs[prob].id;
+              data.icon = drugs[prob].icon;
+            }
       }
       return data;
     },
@@ -265,25 +264,25 @@ export default {
           this.isLoading = false;
         });
     },
-    loadFarm(farm) {
-      this.target = farm.territory;
-      this.base = farm.location;
-      this.farmOn = !this.farmOn;
-    },
-    deleteFarm(combination) {
-      let favs = [];
-      if (localStorage.getItem('farmlist')) {
-        favs = JSON.parse(localStorage.getItem('farmlist'));
-      }
-      for (let i = 0; i < favs.length; i += 1) {
-        if (favs[i].name === combination) {
-          favs.splice(i, 1);
-          i -= 1;
-        }
-      }
-      localStorage.setItem('farmlist', JSON.stringify(favs));
-      this.farmlist = favs;
-    },
+     loadFarm(farm) {
+   this.target = farm.territory;
+   this.base = farm.location;
+   this.farmOn = !this.farmOn;
+  },
+  deleteFarm(combination) {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   for (let i = 0; i < favs.length; i += 1) {
+    if (favs[i].name === combination) {
+     favs.splice(i, 1);
+     i -= 1;
+    }
+   }
+   localStorage.setItem('farmlist', JSON.stringify(favs));
+   this.farmlist = favs;
+  },
     initPlanet() {
       const self = this;
       this.showLoading = true;
@@ -295,7 +294,7 @@ export default {
       const aspect = mapbg.width / mapbg.height;
       this.scene.updateMatrixWorld(true);
       this.camera = new THREE.PerspectiveCamera(40, aspect, 0.1, 300);
-      self.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);// eslint-disable-line
+      self.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
       const rotating = true;
       self.controls.keys = {
         LEFT: null, // left arrow
@@ -537,9 +536,9 @@ export default {
       const crosshairx = document.getElementById('crosshairx');
       const crosshairy = document.getElementById('crosshairy');
       const render = function() {
-        self.textlabels.forEach(element => {
-           element.updatePosition();
-        }); 
+        for (let i = 0; i < self.textlabels.length; i++) {
+          self.textlabels[i].updatePosition();
+        }
         if (
           self.scene &&
           self.scene.getObjectByName('territories') &&
@@ -576,20 +575,20 @@ export default {
           self.showTargets
         ) {
           self.targets.forEach(element => {
-            const searchTerritories = self.scene.getObjectByName('territories');
+            const search_territories = self.scene.getObjectByName('territories');
             if (
-              searchTerritories.children[element.territory - 1] &&
+              search_territories.children[element.territory - 1] &&
               document.getElementById(`bubble${element.nickname}`)
             ) {
               const mapbg = document.getElementById('mapbg');
               const boundingBox =
-                searchTerritories.children[element.territory - 1].geometry.boundingBox;
+                search_territories.children[element.territory - 1].geometry.boundingBox;
               const position = new THREE.Vector3();
               position.subVectors(boundingBox.max, boundingBox.min);
               position.multiplyScalar(0.5);
               position.add(boundingBox.min);
-              position.applyMatrix4(searchTerritories.children[element.territory - 1].matrixWorld);
-              if (self.camera && searchTerritories.children[element.territory - 1]) {
+              position.applyMatrix4(search_territories.children[element.territory - 1].matrixWorld);
+              if (self.camera && search_territories.children[element.territory - 1]) {
                 const to = createVector(position, self.camera);
                 const b = document.getElementById(`bubble${element.nickname}`);
                 b.style.top = `${to.y - 10}px`;
@@ -624,19 +623,19 @@ export default {
           !self.showTargets
         ) {
           self.locations.forEach(element => {
-            const searchTerritories = self.scene.getObjectByName('territories');
+            const search_territories = self.scene.getObjectByName('territories');
             if (
-              searchTerritories.children[element.id - 1] &&
+              search_territories.children[element.id - 1] &&
               document.getElementById(`spot${element.id}`)
             ) {
               const mapbg = document.getElementById('mapbg');
-              const boundingBox = searchTerritories.children[element.id - 1].geometry.boundingBox;
+              const boundingBox = search_territories.children[element.id - 1].geometry.boundingBox;
               const position = new THREE.Vector3();
               position.subVectors(boundingBox.max, boundingBox.min);
               position.multiplyScalar(0.5);
               position.add(boundingBox.min);
-              position.applyMatrix4(searchTerritories.children[element.id - 1].matrixWorld);
-              if (self.camera && searchTerritories.children[element.id - 1]) {
+              position.applyMatrix4(search_territories.children[element.id - 1].matrixWorld);
+              if (self.camera && search_territories.children[element.id - 1]) {
                 const to = createVector(position, self.camera);
                 const b = document.getElementById(`spot${element.id}`);
                 b.style.top = `${to.y - 10}px`;
@@ -670,20 +669,20 @@ export default {
           self.resources.length
         ) {
           self.resources.forEach(element => {
-            const searchTerritories = self.scene.getObjectByName('territories');
+            const search_territories = self.scene.getObjectByName('territories');
             if (
-              searchTerritories.children[element.territory] &&
+              search_territories.children[element.territory] &&
               document.getElementById(`drug${element.territory}`)
             ) {
               const mapbg = document.getElementById('mapbg');
               const boundingBox =
-                searchTerritories.children[element.territory].geometry.boundingBox;
+                search_territories.children[element.territory].geometry.boundingBox;
               const position = new THREE.Vector3();
               position.subVectors(boundingBox.max, boundingBox.min);
               position.multiplyScalar(0.5);
               position.add(boundingBox.min);
-              position.applyMatrix4(searchTerritories.children[element.territory].matrixWorld);
-              if (self.camera && searchTerritories.children[element.territory]) {
+              position.applyMatrix4(search_territories.children[element.territory].matrixWorld);
+              if (self.camera && search_territories.children[element.territory]) {
                 const to = createVector(position, self.camera);
                 const b = document.getElementById(`drug${element.territory}`);
                 b.style.top = `${to.y - 15}px`;
@@ -721,7 +720,7 @@ export default {
         }
       };
 
-      const createVector = (obj, camera) => {
+      function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
         const vector = p.project(camera);
 
@@ -806,7 +805,7 @@ export default {
       self.isLoading = true;
       const onClickPosition = new THREE.Vector2();
       const territories = new THREE.Object3D();
-      const createTerritories = (cb) => {
+      const createTerritories = function(cb) {
         const img = document.getElementById('projection');
         const loaderImg = new Image();
         loaderImg.src = img.src;
@@ -820,7 +819,7 @@ export default {
 
           let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
 
-          const isLand = (lat, lon) => {
+          const isLand = function(lat, lon) {
             const x = parseInt((img.width * (lon + 180)) / 360);
             const y = parseInt((img.height * (lat + 90)) / 180);
 
@@ -889,24 +888,24 @@ export default {
               let material;
               if (isLand(latLon.lat, latLon.lon)) {
                 if (self.player_territories.find(t => t.territory === count)) {
-                  const element = self.player_territories.find(t => t.territory === count);
-                  const playercount = element.count;
+                  let element = self.player_territories.find(t => t.territory === count)
+                  let playercount = element.count;                  
                   const riskcolor = redYellowGreen(playercount / 25);
-                  material = new THREE.MeshBasicMaterial({ color: riskcolor });
+                  material = new THREE.MeshBasicMaterial({ color: riskcolor });                  
                   material.name = `territory`;
                   material.count = count;
                   material.userData.gang = element.gang;
                   material.userData.total_player = playercount;
                   material.userData.count = count;
                   material.userData.risk = 'inexistant';
-                  const territoryData = self.chooseContinentDrug(count);
-                  material.userData.continent = territoryData.name;
-                  material.userData.resources = territoryData.resources;
+                  const territory_data = self.chooseContinentDrug(count);
+                  material.userData.continent = territory_data.name;
+                  material.userData.resources = territory_data.resources;
                   self.resources.push({
                     name: material.userData.continent,
                     drug: material.userData.resources,
                     territory: count,
-                    icon: territoryData.icon,
+                    icon: territory_data.icon,
                   });
 
                   if (playercount / 25 > 0.15) {
@@ -944,7 +943,7 @@ export default {
                 mesh.geometry.computeBoundingBox();
                 territories.add(mesh);
                 hexasphere.tiles[i].mesh = mesh;
-                count = count+1;
+                count++;
               }
             }
           }
@@ -964,9 +963,10 @@ export default {
       createTerritories(allterritories => {
         self.scene.add(allterritories);
       });
-      let raycaster = new THREE.Raycaster();
+      let raycaster = new THREE.Raycaster(),
+        INTERSECTED;
       const mouse = new THREE.Vector2();
-      const createVector = (obj, camera) => {
+      function createVector(obj, camera) {
         const p = new THREE.Vector3(obj.x, obj.y, obj.z);
         const vector = p.project(camera);
 
@@ -985,15 +985,18 @@ export default {
         return [(x - rect.left) / rect.width, (y - rect.top) / rect.height];
       }
 
-      const getIntersects = (point, objects) => {
+      const getIntersects = function(point, objects) {
         raycaster = new THREE.Raycaster();
         mouse.set(point.x * 2 - 1, -(point.y * 2) + 1);
         raycaster.setFromCamera(mouse, self.camera);
         return raycaster.intersectObjects(objects);
       };
 
+      let rotating = true;
+
       function onclick(event) {
         if (self.selectedTerritory) self.selectedTerritory.object.material.color.set(self.oldcolor);
+
         let array = [];
         if (event.changedTouches) {
           array = getMousePosition(
@@ -1008,8 +1011,8 @@ export default {
         const intersects = getIntersects(onClickPosition, territories.children);
         if (
           intersects.length > 0 &&
-          intersects[0].object.name !== 'void' &&
-          intersects[0].object.material.name !== 'void'
+          intersects[0].object.name != 'void' &&
+          intersects[0].object.material.name != 'void'
         ) {
           self.selectedTerritory = intersects[0];
           self.oldcolor = self.selectedTerritory.object.material.color.getHex();
@@ -1038,9 +1041,9 @@ export default {
           visitTitle.style.opacity = 0;
           crosshairx.style.opacity = 0;
           crosshairy.style.opacity = 0;
+          rotating = true;
         }
       }
-      const mapbg = document.getElementById('mapbg');
       if (mapbg) {
         mapbg.addEventListener('click', onclick, false);
         mapbg.addEventListener('touchend', onclick, false);
@@ -1059,6 +1062,7 @@ export default {
         .then(users => {
           self.targets = null;
           const allusers = [];
+          const time = 0;
           users.forEach(element => {
             if (
               !allusers.find(

@@ -22,6 +22,7 @@
 import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
+/* eslint-disable */
 
 export default {
   data() {

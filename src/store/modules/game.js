@@ -4,6 +4,7 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemconnect';
 import dwsocial from '@/helpers/dwsocial';
+import SSC from 'sscjs';
 
 // import * as util from 'util';
 // import { inspect } from 'util';
@@ -84,7 +85,7 @@ const mutations = {
   },
 };
 
-const authToken = () => {
+const authToken = function() {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('access_token');
@@ -115,20 +116,19 @@ const actions = {
                 commit('saveConnected', true);
                 commit(
                   'saveBase',
-                  state.user.buildings.find(b => b.main === 1 && b.territory !== 0 && b.base !== 0),
+                  state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
                 );
                 if (
                   !state.base ||
-                  totalbases !==
-                    state.user.buildings.find(b => b.building === 'headquarters').length
+                  totalbases != state.user.buildings.find(b => b.building === 'headquarters').length
                 )
                   commit(
                     'saveMainBase',
                     state.user.buildings.find(
                       b =>
                         b.main === 1 &&
-                        b.territory !== 0 &&
-                        b.base !== 0 &&
+                        b.territory != 0 &&
+                        b.base != 0 &&
                         b.building === 'headquarters',
                     ),
                   );
@@ -161,7 +161,8 @@ const actions = {
       let start = 0;
       let end = 50;
       if (limit) {
-        [start, end] = limit;
+        start = limit.start;
+        end = limit.end;
       }
       client
         .requestAsync('get_inc_fights', { token, start, end })
@@ -175,7 +176,7 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_inc_fights_count: ({ commit, dispatch }) =>
+  refresh_inc_fights_count: ({ commit, dispatch }, limit) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -196,7 +197,8 @@ const actions = {
       let start = 0;
       let end = 50;
       if (limit) {
-        [start, end] = limit;
+        start = limit.start;
+        end = limit.end;
       }
       client
         .requestAsync('get_sent_fights', { token, start, end })
@@ -662,6 +664,7 @@ const actions = {
       });
     }
   },
+
   setBase: ({ commit }, payload) => {
     // console.log(payload);
     commit('saveBase', payload);

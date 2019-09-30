@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { units } from 'drugwars';
+import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
 
@@ -43,13 +43,25 @@ export default {
     self.cards = [];
     // self.handleSubmit()
     self.loading = true;
+    const b = filter(pickBy(buildings));
     const u = filter(pickBy(units));
+    const t = filter(pickBy(trainings));
+    // b.forEach(element => {
+    //     element.ctype = 'buildings';
+    //     element.owned = true;
+    //     self.cards.push(element)
+    // });
     u.forEach(element => {
-      const unit = element;
-      unit.ctype = 'units';
-      unit.owned = true;
-      if (!unit.npc) self.cards.push(unit);
+      element.ctype = 'units';
+      element.owned = true;
+      if (!element.npc) self.cards.push(element);
     });
+    // t.forEach(element => {
+    //     element.ctype = 'training';
+    //     element.owned = true;
+    //     self.cards.push(element)
+    // });
+    // const generator = new CardPack(5);
     setTimeout(() => {
       self.handleSubmit();
     }, 3000);
@@ -61,8 +73,8 @@ export default {
 
       this.cards.forEach(card => {
         const c = document.getElementById(`${card.id}-card`);
-        const canvas = document.getElementById(`${card.id}-card-front`);
-        const ctx = canvas.getContext('2d');
+        let canvas = document.getElementById(`${card.id}-card-front`),
+          ctx = canvas.getContext('2d');
         const background = new Image();
         const attackType = new Image();
         const frame = new Image();
@@ -71,11 +83,11 @@ export default {
         const flag = new Image();
         const effect = new Image();
         const path = '//img.drugwars.io';
-        const randomPic = Math.floor(Math.random() * Math.floor(3)) + 1;
+        const random_pic = Math.floor(Math.random() * Math.floor(3)) + 1;
         background.src = `${path}/cards/background/1.png`;
 
         background.onload = () => {
-          frame.src = `${path}/cards/background/classic_unit${randomPic}.png`;
+          frame.src = `${path}/cards/background/classic_unit${random_pic}.png`;
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         };
@@ -102,7 +114,7 @@ export default {
         };
 
         effect.onload = () => {
-          border.src = `${path}/borders/${card.quality}.png`;
+          // border.src = `${path}/borders/${card.quality}.png`;
           if (card.owned && card.ctype === 'units') {
             attackType.src = `${path}/type/${card.dmg_type}.png`;
           } else {
@@ -162,7 +174,7 @@ export default {
               ctx.font = '7px Helvetica';
               ctx.fillStyle = '#fff';
               ctx.shadowBlur = 3;
-              const textHeight = this.wrapText(
+              const text_height = this.wrapText(
                 ctx,
                 card.feature.toString().toUpperCase(),
                 20,
@@ -176,12 +188,12 @@ export default {
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = '2';
                 ctx.fillStyle = '#000';
-                ctx.fillRect(20, textHeight + 5, 60, 14);
+                ctx.fillRect(20, text_height + 5, 60, 14);
                 ctx.stroke();
                 ctx.fillStyle = '#ffc508';
                 ctx.shadowBlur = 0;
 
-                ctx.fillText('DESCRIPTION', 24, textHeight + 15);
+                ctx.fillText('DESCRIPTION', 24, text_height + 15);
                 ctx.textAlign = 'left';
                 ctx.font = '7px Helvetica';
                 ctx.fillStyle = '#fff';
@@ -190,7 +202,7 @@ export default {
                   ctx,
                   card.desc.toString().toUpperCase(),
                   20,
-                  30 + textHeight,
+                  30 + text_height,
                   canvas.width - 60,
                   11,
                 );
@@ -294,20 +306,19 @@ export default {
     wrapText(context, text, x, y, maxWidth, lineHeight) {
       const words = text.split(' ');
       let line = '';
-      let ly = y;
-      words.forEach(word => {
-        const testLine = `${line + word} `;
+      for (let n = 0; n < words.length; n++) {
+        const testLine = `${line + words[n]} `;
         const metrics = context.measureText(testLine);
         const testWidth = metrics.width;
         if (testWidth > maxWidth) {
           context.fillText(line, x, y);
-          line = `${word} `;
-          ly = y + lineHeight;
+          line = `${words[n]} `;
+          y += lineHeight;
         } else {
           line = testLine;
         }
-      });
-      context.fillText(line, x, ly);
+      }
+      context.fillText(line, x, y);
       return y;
     },
     chooseCardType(value) {
@@ -327,10 +338,9 @@ export default {
       if (self.card_type === 'all' || self.card_type === 'units') {
         const u = filter(pickBy(units));
         u.forEach(element => {
-          const unit = element;
-          unit.ctype = 'units';
-          unit.owned = true;
-          if (!unit.npc) self.cards.push(unit);
+          element.ctype = 'units';
+          element.owned = true;
+          if (!element.npc) self.cards.push(element);
         });
       }
       // if (self.card_type === 'all' || self.card_type === 'training') {

@@ -84,10 +84,10 @@
                <span class="text-blue mini" v-if="!steemOn"><br/>{{steemBalance}} STEEM</span>
 						 </div>
 						 <div class="column col-6 p-0 m-0" v-if="steemOn">
-							<button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button>
-						 	<!-- <button class="button button-green" disabled>Buy with STEEM</button> -->
+							<!-- <button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button> -->
+						 	<button class="button button-green" disabled>Buy with STEEM</button>
              </div>
-             	<div class="column col-6 p-0 m-0" v-else>
+             	<div class="column col-6 p-0 m-0" v-else> 
 							<button disabled class="button button-green" @click="buyPaypal()">Buy with Paypal</button>
                 <div>Min order : $3</div>
 						 </div>

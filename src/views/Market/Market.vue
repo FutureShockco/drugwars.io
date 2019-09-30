@@ -468,6 +468,7 @@ export default {
     },
     loadMarketDepth(){
       const ssc = new SSC('https://api.steem-engine.com/rpc/');
+      const self = this;
       ssc
       .find(
         'market',

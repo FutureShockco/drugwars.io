@@ -9,57 +9,57 @@
             <div>Volume (24h)</div>
             <div
               class="text-yellow"
-            >${{this.marketDepth.volume* prizeProps.steemprice | amount}} <div class="text-blue mini">{{this.marketDepth.volume | amount}}STEEM</div></div>
+            >${{marketDepth.volume* prizeProps.steemprice | amount}} <div class="text-blue mini">{{marketDepth.volume | amount}}STEEM</div></div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Price Change</div>
             <div
               class="text-red"
-              :class="{ 'text-green' : this.marketDepth.priceChangePercent > 0 }"
-            >{{ this.marketDepth.priceChangePercent }}% <i class="iconfont icon-arrow-down" :class="{ 'icon-arrow-up' : this.marketDepth.priceChangePercent > 0 }"></i> </div>
+              :class="{ 'text-green' : marketDepth.priceChangePercent > 0 }"
+            >{{ marketDepth.priceChangePercent }}% <i class="iconfont icon-arrow-down" :class="{ 'icon-arrow-up' : marketDepth.priceChangePercent > 0 }"></i> </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Last Price</div>
             <div
               class="text-yellow"
-            >${{parseFloat(1 *this.marketDepth.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
-						<div class="text-blue mini"> {{this.marketDepth.lastPrice | decimal }} STEEM</div>
+            >${{parseFloat(1 *marketDepth.lastPrice * prizeProps.steemprice).toFixed(3)  }} </div>
+						<div class="text-blue mini"> {{marketDepth.lastPrice | decimal }} STEEM</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Bid/Ask</div>
             <div
               class="text-yellow"
             >
-						${{ parseFloat(this.marketDepth.highestBid * this.prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(this.marketDepth.lowestAsk * this.prizeProps.steemprice).toFixed(3)}}</div>
-         <div class="text-blue mini">						{{this.marketDepth.highestBid | decimal}} / {{ this.marketDepth.lowestAsk| decimal}} STEEM
+						${{ parseFloat(marketDepth.highestBid * prizeProps.steemprice).toFixed(3)}} / ${{ parseFloat(marketDepth.lowestAsk * prizeProps.steemprice).toFixed(3)}}</div>
+         <div class="text-blue mini">						{{marketDepth.highestBid | decimal}} / {{ marketDepth.lowestAsk| decimal}} STEEM
           </div>
 				  </h5>
         </div>
         <div class="col-md-12 stats mb-0 pb-0">
           <h5 class="column col-3 m-0">
             <div>Max supply</div>
-            <div v-if="this.marketDepth.nullBalance"
+            <div v-if="marketDepth.nullBalance && marketDepth.maxSupply"
               class="text-yellow"
-            >{{ this.marketDepth.maxSupply - this.marketDepth.nullBalance | million }} </div>
+            >{{ marketDepth.maxSupply - marketDepth.nullBalance | million }} </div>
                         <div v-else
               class="text-yellow"
-            >{{ this.marketDepth.maxSupply | amount }} </div>
+            >{{ marketDepth.maxSupply | amount }} </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Circulating</div>
             <div
               class="text-yellow"
-            >{{ (this.prizeProps.total_dwd + parseInt(this.marketDepth.supply)) / parseInt(this.marketDepth.maxSupply- this.marketDepth.nullBalance) *100 | amount }} %  </div>
+            >{{ (prizeProps.total_dwd + parseInt(marketDepth.supply)) / parseInt(marketDepth.maxSupply- marketDepth.nullBalance) *100 | amount }} %  </div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Market cap</div>
             <div
               class="text-yellow"
-            >${{(Number(this.marketDepth.supply) + this.prizeProps.total_dwd) * Number(this.marketDepth.lastPrice) * Number(this.prizeProps.steemprice) | amount}}</div>
+            >${{(Number(marketDepth.supply)) * Number(marketDepth.lastPrice) * Number(prizeProps.steemprice) | amount}}</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Burnt</div>
-            <div class="text-yellow"> {{ this.marketDepth.nullBalance | amount }}
+            <div class="text-yellow"> {{ marketDepth.nullBalance | amount }}
           </div>
 				  </h5>
         </div>
@@ -84,8 +84,8 @@
                <span class="text-blue mini" v-if="!steemOn"><br/>{{steemBalance}} STEEM</span>
 						 </div>
 						 <div class="column col-6 p-0 m-0" v-if="steemOn">
-							<!-- <button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button> -->
-						 	<button class="button button-green" disabled>Buy with STEEM</button>
+							<button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button>
+						 	<!-- <button class="button button-green" disabled>Buy with STEEM</button> -->
              </div>
              	<div class="column col-6 p-0 m-0" v-else>
 							<button disabled class="button button-green" @click="buyPaypal()">Buy with Paypal</button>
@@ -102,12 +102,12 @@
 							<div class="column col-6 p-0 m-0 ">
 						  Balance :  
               <br/>
-               <span class="text-yellow">{{dwdBalance | decimal}} {{token}}</span>
+               <span class="text-yellow">{{myBalance | decimal}} {{token}}</span>
                <br/>
-               <span class="text-yellow mini">${{dwdBalance*this.marketDepth.lastPrice * prizeProps.steemprice | decimal}} </span>
+               <span class="text-yellow mini">${{myBalance*this.marketDepth.lastPrice * prizeProps.steemprice | decimal}} </span>
 						 </div>
 						 <div class="column col-6 p-0 m-0">
-							<!-- <button class="button button-red" :disabled="!sellquantity || !sellprice || sellquantity <=0 || sellprice <=0 || (sellprice*sellquantity> dwdBalance)"  @click="sell">Sell {{token}}</button> -->
+							<!-- <button class="button button-red" :disabled="!sellquantity || !sellprice || sellquantity <=0 || sellprice <=0 || (sellprice*sellquantity> myBalance)"  @click="sell">Sell {{token}}</button> -->
 								<button class="button button-red" disabled >Sell {{token}}</button>
              </div>
 					</div>
@@ -329,27 +329,146 @@ export default {
   created() {
     const self = this;
     const ssc = new SSC('https://api.steem-engine.com/rpc/');
-    console.log(self.prizeProps.seProps);
-    console.log(self.token);
+
     if (self.token === 'DWD') {
       self.marketDepth = this.$store.state.game.prizeProps.seProps;
+      self.loadMarketDepth();
     } else
       ssc.find('tokens', 'tokens', { symbol: self.token }, 1000, 0, [], (err, result) => {
-        console.log(result[0].maxSupply);
-
-        self.marketDepth.supply = result[0].circulatingSupply;
-        self.marketDepth.maxSupply = result[0].maxSupply;
         ssc
           .find('market', 'metrics', { symbol: self.token }, 1000, 0, '', false)
           .then(async metrics => {
             const [stat] = metrics;
-            console.log(stat);
             if (stat) {
               self.marketDepth = stat;
+              self.marketDepth.supply = result[0].circulatingSupply;
+              self.marketDepth.maxSupply = Number(result[0].maxSupply);
+              self.loadMarketDepth();
             }
           });
       });
-    ssc
+    
+  },
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    steemengine() {
+      if (this.token === 'dwd') {
+        return this.$store.state.game.prizeProps.seProps;
+      }
+      return {};
+    },
+    prizeProps() {
+      const { prizeProps } = this.$store.state.game;
+      return prizeProps;
+    },
+    lastUpdate() {
+      return new Date(
+        Date.parse(this.$store.state.game.user.user.last_profile_update),
+      ).toLocaleString();
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
+    dwdToSteem() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
+    },
+    totalDWD() {
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(
+        this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
+      ).toFixed(3);
+    },
+    endDate() {
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          this.prizeProps.yesterday_rewards,
+      ).toFixed(0);
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+    endSupply() {
+      const end = parseFloat(
+        (this.steemengine.maxSupply -
+          this.steemengine.nullBalance -
+          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
+          (this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards),
+      );
+      const date = new Date();
+      date.setDate(date.getDay() + end);
+      return date.toLocaleString();
+    },
+    steemBalance() {
+      if (this.$store.state.auth.account)
+        return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
+      return 0;
+    },
+    myBalance() {
+      return parseFloat(this.user[this.token.toLowerCase()]).toFixed(3);
+    },
+  },
+  methods: {
+    ...mapActions(['send', 'notify', 'requestBuyBot', 'requestSellBot']),
+    handleSubmit() {
+      const self = this;
+      const payload = {
+        currency: this.picked,
+        amount: parseInt(this.amount),
+        type: 'widthraw',
+      };
+      this.isLoading = true;
+      this.send(payload)
+        .then(result => {
+          if (result) {
+            this.isLoading = false;
+          }
+        })
+        .catch(e => {
+          this.notify({
+            type: 'error',
+            message: `Failed to withdraw ${payload.amount} ${self.token}`,
+          });
+          console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
+          this.isLoading = false;
+        });
+    },
+    setBuy(price, qt) {
+      if (this.steemOn) this.buyprice = price;
+      else this.buyprice = price * this.prizeProps.steemprice;
+      this.buyquantity = qt;
+    },
+    setSell(price, qt) {
+      if (this.steemOn) this.sellprice = price;
+      else this.sellprice = price * this.prizeProps.steemprice;
+      this.sellquantity = qt;
+    },
+    switchCurrency() {
+      this.steemOn = !this.steemOn;
+    },
+    buySteem() {
+      const self = this;
+      self.requestBuyBot({
+        memo: `token:${self.token},amount:${self.buyquantity},price:${self.buyprice}`,
+        amount: `${parseFloat(self.buyprice * self.buyquantity).toFixed(3)} STEEM`,
+      });
+    },
+    buyPaypal() {},
+    sell() {
+      const self = this;
+      self.requestSellBot({
+        memo: `token:${self.token},amount:${self.sellquantity},price:${self.sellprice}`,
+        amount: `${Math.floor(parseFloat(self.sellprice * self.sellquantity).toFixed(3))} STEEM`,
+      });
+    },
+    loadMarketDepth(){
+      const ssc = new SSC('https://api.steem-engine.com/rpc/');
+      ssc
       .find(
         'market',
         'tradesHistory',
@@ -432,7 +551,6 @@ export default {
                     false,
                   )
                   .then(async personalSellBook => {
-                    console.log(personalSellBook);
                     ssc
                       .find(
                         'market',
@@ -447,7 +565,6 @@ export default {
                         false,
                       )
                       .then(async personalBuyBook => {
-                        console.log(personalBuyBook);
                         ssc
                           .findOne('tokens', 'balances', {
                             account: this.user.username,
@@ -456,131 +573,14 @@ export default {
                           .then(async mybalance => {
                             if (mybalance)
                               this.myDWDBalance =
-                                Number(this.dwdBalance) + Number(mybalance.balance);
+                                Number(this.myBalance) + Number(mybalance.balance);
                           });
                       });
                   });
               });
           });
       });
-  },
-  computed: {
-    user() {
-      return this.$store.state.game.user.user;
-    },
-    steemengine() {
-      if (this.token === 'dwd') {
-        return this.$store.state.game.prizeProps.seProps;
-      }
-      return {};
-    },
-    prizeProps() {
-      const { prizeProps } = this.$store.state.game;
-      return prizeProps;
-    },
-    lastUpdate() {
-      return new Date(
-        Date.parse(this.$store.state.game.user.user.last_profile_update),
-      ).toLocaleString();
-    },
-    steemAccount() {
-      if (this.$store.state.auth.account) return this.$store.state.auth.account;
-      return 0;
-    },
-    dwdToSteem() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat(prizeProps.total_dwd / parseFloat(prizeProps.balance)).toFixed(0);
-    },
-    totalDWD() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat(
-        this.amount / (prizeProps.total_dwd / parseFloat(prizeProps.balance)),
-      ).toFixed(3);
-    },
-    endDate() {
-      const end = parseFloat(
-        (this.steemengine.maxSupply -
-          this.steemengine.nullBalance -
-          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
-          this.prizeProps.yesterday_rewards,
-      ).toFixed(0);
-      const date = new Date();
-      date.setDate(date.getDay() + end);
-      return date.toLocaleString();
-    },
-    endSupply() {
-      const end = parseFloat(
-        (this.steemengine.maxSupply -
-          this.steemengine.nullBalance -
-          (parseInt(this.steemengine.supply) + parseInt(this.prizeProps.total_dwd))) /
-          (this.prizeProps.yesterday_purchase - this.prizeProps.yesterday_rewards),
-      );
-      const date = new Date();
-      date.setDate(date.getDay() + end);
-      return date.toLocaleString();
-    },
-    steemBalance() {
-      if (this.$store.state.auth.account)
-        return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
-      return 0;
-    },
-    dwdBalance() {
-      return parseFloat(this.user.dwd).toFixed(3);
-    },
-  },
-  methods: {
-    ...mapActions(['send', 'notify', 'requestBuyBot', 'requestSellBot']),
-    handleSubmit() {
-      const self = this;
-      const payload = {
-        currency: this.picked,
-        amount: parseInt(this.amount),
-        type: 'widthraw',
-      };
-      this.isLoading = true;
-      this.send(payload)
-        .then(result => {
-          if (result) {
-            this.isLoading = false;
-          }
-        })
-        .catch(e => {
-          this.notify({
-            type: 'error',
-            message: `Failed to withdraw ${payload.amount} ${self.token}`,
-          });
-          console.error(`Failed to withdraw ${payload.amount} ${self.token}`, e);
-          this.isLoading = false;
-        });
-    },
-    setBuy(price, qt) {
-      if (this.steemOn) this.buyprice = price;
-      else this.buyprice = price * this.prizeProps.steemprice;
-      this.buyquantity = qt;
-    },
-    setSell(price, qt) {
-      if (this.steemOn) this.sellprice = price;
-      else this.sellprice = price * this.prizeProps.steemprice;
-      this.sellquantity = qt;
-    },
-    switchCurrency() {
-      this.steemOn = !this.steemOn;
-    },
-    buySteem() {
-      const self = this;
-      self.requestBuyBot({
-        memo: `token:${self.token},amount:${self.buyquantity},price:${self.buyprice}`,
-        amount: `${parseFloat(self.buyprice * self.buyquantity).toFixed(3)} STEEM`,
-      });
-    },
-    buyPaypal() {},
-    sell() {
-      const self = this;
-      self.requestSellBot({
-        memo: `token:${self.token},amount:${self.sellquantity},price:${self.sellprice}`,
-        amount: `${parseFloat(self.sellprice * self.sellquantity).toFixed(3)} STEEM`,
-      });
-    },
+    }
   },
 };
 </script>

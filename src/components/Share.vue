@@ -46,7 +46,8 @@ export default {
       const xhr = new XMLHttpRequest();
       setTimeout(() => {
         const node = document.getElementById(this.fight_key.slice(0, 10));
-        domtoimage.toJpeg(node, { quality: 1 }).then(dataUrl => {
+        const sharenode = node.removeChild(node.childNodes[1])
+        domtoimage.toJpeg(sharenode, { quality: 1 }).then(dataUrl => {
           const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
           const fd = new FormData();
           xhr.open('POST', url, true);

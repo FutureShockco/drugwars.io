@@ -39,12 +39,11 @@ export default {
       });
       return totalDrugs;
     },
-    totalWeapons() {
+    totalWeapons() { 
       let totalWeapons = 0;
       this.items.forEach(element => {
         if (this.placeholder_buildings[element.building]) {
           const b = this.placeholder_buildings[element.building];
-          console.log(b);
           if (element.lvl && b.production_rate && b.production_type === 'weapons')
             totalWeapons +=
               b.production_rate * Number(element.lvl) * b.coeff +

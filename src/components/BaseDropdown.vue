@@ -91,7 +91,6 @@ export default {
   },
   directives: {
     expand: {
-      /* eslint-disable */
       inserted(el, binding) {
         if (binding.value !== null) {
           function calcHeight() {
@@ -118,7 +117,6 @@ export default {
         }
       },
     },
-    /* eslint-enable */
   },
   methods: {
     ...mapActions(['setMainBase']),
@@ -127,7 +125,10 @@ export default {
     },
     setCurrentSelectedOption(building) {
       this.config.prefix = building;
-      const [territory, base, custom, main] = this.config.prefix;
+      const territory = this.config.prefix.territory;
+      const base = this.config.prefix.base;
+      const custom = this.config.prefix.custom;
+      const main = this.config.prefix.main;
       this.setMainBase({ territory, base, custom, main });
       // this.$emit("setSelectedOption", building);
     },
@@ -168,7 +169,10 @@ export default {
       if (this.$store.state.game.mainbase) {
         this.config = {};
         this.config.prefix = this.$store.state.game.mainbase;
-        const [territory, base, custom, main] = this.config.prefix;
+        const territory = this.config.prefix.territory;
+        const base = this.config.prefix.base;
+        const custom = this.config.prefix.custom;
+        const main = this.config.prefix.main;
         this.setMainBase({ territory, base, custom, main });
       }
     }

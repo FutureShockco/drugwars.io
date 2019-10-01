@@ -105,7 +105,7 @@ import io from 'socket.io-client';
 
 if (socket) socket.disconnect();
 
-const socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+let socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 
 export default {
   data() {
@@ -133,6 +133,7 @@ export default {
     };
   },
   created() {
+    socket = new io.connect('https://drugwars-chat.herokuapp.com/');
     const token = localStorage.getItem('access_token');
     const self = this;
     socket.emit('add-user', { token });
@@ -209,6 +210,9 @@ export default {
     this.scrollToEnd();
     if (this.isAtBottom()) this.scrollToEnd();
   },
+  destroyed(){
+    socket.disconnect()
+  },
   methods: {
     ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
     handleSubmit() {
@@ -271,12 +275,12 @@ export default {
       this.scrollToEnd();
     },
     scrollToEnd() {
-      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
+      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat')|| this.$el.querySelector('.privatechat');
       if(container)
       container.scrollTop = container.scrollHeight;
     },
     isAtBottom() {
-      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
+      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat')|| this.$el.querySelector('.privatechat');
       if (container && container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
       else this.autoscroll = false;
       if(container)

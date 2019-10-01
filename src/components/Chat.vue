@@ -5,7 +5,7 @@
             <button v-if="user.gang" class="button white" @click="displayGangChat()">
     				Gang
     			</button>
-            <button class="button black" >
+            <button class="button white" @click="displayPrivateChat()">
     				Private
     			</button>
             <button @click="displayUsers()" class="button white">
@@ -20,11 +20,12 @@
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
                                 <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                 <i class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
                             <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -39,11 +40,12 @@
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
                                 <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                 <i class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
                             <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -58,11 +60,12 @@
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
                                 <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                <i v-if="!receiver" class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
                             <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -74,6 +77,7 @@
             <div :key="member.id" v-for="member in members" class="border-bottom text-center">
                 <Avatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" :reputation="'none'"/>
                 <h5 class="mt-1 sender">{{member.name}} {{member.gang}}</h5>
+                  <i v-if="member.name != user.nickname" class="iconfont icon-comment-discussion" @click="sendPm(member.name)"></i>
             </div>
         </div>
         <div v-else class="px-4 pt-2 reply text-center">
@@ -152,6 +156,16 @@ export default {
       });
       self.scrollToEnd();
     });
+    socket.on('read-private-msg', message => {
+      self.privateresponses.push({
+        text: message.text,
+        sender: message.sender,
+        gang: message.gang,
+        picture: message.picture,
+        date: message.date,
+      });
+      self.scrollToEnd();
+    });
     socket.on('user-connected', userId => {
       self.members.push(userId);
     });
@@ -165,6 +179,7 @@ export default {
 
     socket.on('update-private-chat', messages => {
       this.$parent.$data.newprivatemessage = true;
+      self.privateresponses = [];
       self.privateresponses = messages;
     });
 
@@ -202,10 +217,11 @@ export default {
         const self = this;
         if (self.showChat) {
           channel = 'public';
-        } else if (self.gangChat) {
+        } 
+        else if (self.gangChat) {
           channel = self.user.gang;
         } else if (self.privateChat) {
-          channel = receiver;
+          channel = self.receiver;
         }
         this.isLoading = true;
         const message = this.message;
@@ -245,6 +261,8 @@ export default {
       this.scrollToEnd();
     },
     displayPrivateChat() {
+      this.receiver = null;
+      this.privateresponses =[];
       this.showChat = false;
       this.gangChat = false;
       this.privateChat = true;
@@ -254,13 +272,16 @@ export default {
     },
     scrollToEnd() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
+      if(container)
       container.scrollTop = container.scrollHeight;
     },
     isAtBottom() {
       const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat');
-      if (container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
+      if (container && container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
       else this.autoscroll = false;
+      if(container)
       return container.scrollTop + 650 > container.scrollHeight;
+      else return 
     },
     checkUrl(url) {
       try {
@@ -272,6 +293,17 @@ export default {
       } catch (e) {
         return url;
       }
+    },
+    sendPm(name){
+      const self = this;
+      const token = localStorage.getItem('access_token');
+      self.displayPrivateChat();
+      self.receiver = name;
+      const channel = name;
+      socket.emit('private-msg', {
+          token,
+          channel,
+      });
     },
   },
 };
@@ -301,6 +333,13 @@ img {
 }
 
 .gangchat {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: calc(100vh - 360px);
+  width: 100%;
+}
+
+.privatechat {
   overflow-y: scroll;
   overflow-x: hidden;
   height: calc(100vh - 360px);

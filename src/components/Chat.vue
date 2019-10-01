@@ -3,10 +3,10 @@
         <div class="black p-0">
             <button class="button white" @click="displayChat()">Public</button>
             <button v-if="user.gang" class="button white" @click="displayGangChat()">
-    				Gang
+    				Gang 	<span class="text-red">{{gangresponses.length}}</span>
     			</button>
             <button class="button white" @click="displayPrivateChat()">
-    				Private
+    				Private 		<span class="text-red">{{privateresponses.length}}</span>
     			</button>
             <button @click="displayUsers()" class="button white">
     				Users
@@ -249,6 +249,7 @@ export default {
       this.showUsers = true;
     },
     displayChat() {
+      this.privateresponses = [];
       this.showChat = true;
       this.gangChat = false;
       this.privateChat = false;
@@ -257,6 +258,7 @@ export default {
       this.scrollToEnd();
     },
     displayGangChat() {
+      this.privateresponses = [];
       this.showChat = false;
       this.gangChat = true;
       this.privateChat = false;
@@ -266,7 +268,6 @@ export default {
     },
     displayPrivateChat() {
       this.receiver = null;
-      this.privateresponses =[];
       this.showChat = false;
       this.gangChat = false;
       this.privateChat = true;

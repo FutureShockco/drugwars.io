@@ -83,7 +83,7 @@
         <div v-else class="px-4 pt-2 reply text-center">
             <Loading v-if="isLoading" />
             <div v-else>
-                <div class="columns" v-if="showChat || showGangChat || receiver">
+                <div class="columns" v-if="showChat || gangChat || receiver">
                     <h5 class="pt-0 mt-0">your message</h5>
                     <div class="column pl-0 col-10">
                         <textarea type="text" class="input input-block mb-2" placeholder="Write here." v-model="message" v-on:keyup.13="handleSubmit" maxlength="280"></textarea>

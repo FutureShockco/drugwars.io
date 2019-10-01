@@ -54,6 +54,7 @@
             </div>
         </div>
         <div v-if="privateChat" class="privatechat">
+           <div class="text-center" v-if="receiver"> TO {{receiver}} </div>
             <div :key="response.id" v-for="response in privateresponses" class="border-bottom">
                 <div  class="text-left item width-full p-2">
                                      <div class="columns">

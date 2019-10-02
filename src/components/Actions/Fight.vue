@@ -227,9 +227,17 @@ export default {
       this.popupOn = !this.popupOn;
     },
     openBattle(id) {
-      const dwbc = 'https://battle.drugwars.io';
-      const drugwars_battleclient = window.open(dwbc);
-      drugwars_battleclient.postMessage(id);
+	let drugwars_battleclient;
+	window.addEventListener('message', messageListener, false);
+
+	function messageListener(event) {
+		if(event.data == 'ready') {
+			drugwars_battleclient.postMessage(id, '*');
+		}
+	}
+
+	  const dwbc = 'https://battle.drugwars.io/';
+	  drugwars_battleclient = window.open(dwbc);
     },
   },
 };

@@ -109,7 +109,7 @@ export default {
         };
 
         character.onload = () => {
-          effect.src = `${path}/cards/fx/1.png`;
+          effect.src = `${path}/cards/fx/5.png`;
           ctx.imageSmoothingEnabled = true;
           ctx.drawImage(character, 0, 0, canvas.width, canvas.height);
         };

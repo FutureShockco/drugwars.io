@@ -105,11 +105,10 @@ export default {
     },
     serialize(obj) {
       const str = [];
-      obj.forEach(p => {
-        if (obj && obj.prototype.hasOwnProperty.call(p)) {
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
           str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
         }
-      });
       return str.join('&');
     },
   },

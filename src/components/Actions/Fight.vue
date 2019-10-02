@@ -236,7 +236,7 @@ export default {
 		}
 	}
 
-	  const dwbc = 'https://battle.drugwars.io/';
+	  const dwbc = 'https://dwbattle.herokuapp.com/';
 	  drugwars_battleclient = window.open(dwbc);
     },
   },

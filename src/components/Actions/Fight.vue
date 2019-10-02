@@ -234,9 +234,8 @@ export default {
 		if(event.data == 'ready') {
 			drugwars_battleclient.postMessage(id, '*');
 		}
-	}
-
-	  const dwbc = 'https://dwbattle.herokuapp.com/';
+	  }
+	  const dwbc = 'https://battle.drugwars.io/';
 	  drugwars_battleclient = window.open(dwbc);
     },
   },

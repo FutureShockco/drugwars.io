@@ -110,7 +110,7 @@
 					Start : {{start}} - End : {{end}}
 				</div>
 				<div v-if="fight.fight_key">
-					<a target="_blank" @click="openBattle(token+'/'+fight.fight_key)" >Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+					<a target="_blank" @click="openBattle(fight.fight_key)" >Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
 				</div>
 				<div v-else-if="fight.transport_key">
 					Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
@@ -229,10 +229,10 @@ export default {
     openBattle(id) {
 	let drugwars_battleclient;
 	window.addEventListener('message', messageListener, false);
-
+	let token = this.token;
 	function messageListener(event) {
 		if(event.data == 'ready') {
-			drugwars_battleclient.postMessage(id, '*');
+			drugwars_battleclient.postMessage({token,id}, '*');
 		}
 	  }
 	  const dwbc = 'https://battle.drugwars.io/';

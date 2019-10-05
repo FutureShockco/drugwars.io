@@ -1,7 +1,7 @@
 <template>
     <div>
         <ActionsTabs/>
-       <div class="p-4 pb-0">Troops stationned in the same another base will all come back at the first cancel.</div>
+       <div class="p-4 pb-0">Troops stationned in the same another base will all come back at the first cancel. Depending from where you cancelled them.</div>
         <Paginate class="ml-6 mt-4 text-center width-full" :page-count="Math.ceil(sent/26)" :page-range="3" :margin-pages="2" :click-handler="load_fights" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'fight'"></Paginate>
         <div class="p-4">
             <div class="fight" v-for="fight in fights" :key="fight.fight_key">

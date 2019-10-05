@@ -67,8 +67,7 @@ export default {
   computed: {
     updateTime() {
       return (
-        (this.coeff * 200 - (this.coeff * 240 * (this.level + this.militaryAcademy)) / 100) *
-        (this.quantity * 1000)
+        (this.coeff * 1500 /(this.level + this.militaryAcademy)) * (this.quantity * 1000)
       );
     },
     base() {

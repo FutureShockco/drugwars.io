@@ -552,7 +552,7 @@ const actions = {
         username,
         dealerSteemUsername,
         amount.split(' ')[0],
-        JSON.stringify(memo),
+        memo,
         'STEEM',
         response => {
           if (response.success || response.error === 'user_cancel') {

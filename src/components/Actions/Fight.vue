@@ -242,7 +242,7 @@ export default {
 			drugwars_battleclient.postMessage({token,id}, '*');
 		}
 	  }
-	  const dwbc = 'https://battle.drugwars.io/';
+	  const dwbc = 'https://battle.drugwars.io/debug.html';
 	  drugwars_battleclient = window.open(dwbc);
     },
   },

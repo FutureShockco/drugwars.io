@@ -43,18 +43,18 @@
                         <router-link to="/actions" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                         {{'sidebar.actions' | translate}}
                             <span class="text-red" v-if="activeIncFightsCount > 0">
-                  ({{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>)
+                  {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>
                 </span> <span class="text-green" v-if="activeFightsCount > 0">
-                  ({{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>)
+                  {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
                             <span class="text-blue" v-if="activeIncTransportsCount > 0">
-                  ({{ activeIncTransportsCount }}<i class="iconfont icon-arrow-down"></i>)
+                  {{ activeIncTransportsCount }}<i class="iconfont icon-arrow-down"></i>
                 </span>
                             <span class="text-blue" v-if="activeTransportsCount > 0">
-                  ({{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>)
+                  {{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
                             <span class="text-orange" v-if="activeStationsCount > 0">
-                  ({{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>)
+                  {{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
                         </router-link>
                     </li>

@@ -88,7 +88,6 @@ function Sub(rawClient) {
       store.dispatch('refresh_inc_fights_count');
       store.dispatch('refresh_inc_transport_count');
       store.dispatch('refresh_inc_station_count');
-
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'error',
@@ -100,6 +99,11 @@ function Sub(rawClient) {
     }
 
     if (message[1].body === 'end_attack') {
+      if(store.state.game.force_sent_fights_refresh)
+      {
+        store.dispatch('refresh_sent_fights');
+
+      }
       store.dispatch('refresh_sent_fights_count');
       store.dispatch('refresh_sent_transport_count');
       store.dispatch('refresh_sent_station_count');

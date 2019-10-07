@@ -1,17 +1,16 @@
 <template>
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
-            <div class="text-center pt-3 pb-3">
+            <div class="text-center pt-3">
               <!-- <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5> -->
                 <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" />
                 <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture" />
-
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}
-                    <div class="gang-label" v-if="user.ticker">
-                        [{{ user.ticker }}]
-                    </div>
                 </div>
+                 <div class="gang-label" v-if="user.ticker">
+                   [{{ user.ticker }}]
+                 </div>
             </div>
             <div class="height-full">
                 <ul class="pt-1 border-bottom">
@@ -309,4 +308,10 @@ export default {
 .referral {
   background-image: linear-gradient(180deg, #b40000 0%, #7a0000 74%);
 }
+
+.button span,i{
+  position: inherit!important;
+  text-shadow: 0px 0px 0px #5a5a5a;
+}
+
 </style>

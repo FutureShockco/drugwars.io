@@ -6,8 +6,8 @@
                     <Avatar :size="60" :username="fight.transporter_nickname" :picture="fight.transporter_picture" />
                 </div>
                 <Avatar v-else :size="60" :username="fight.transporter_nickname" :picture="fight.transporter_picture" />
-                <div class="username mb-4">{{ fight.transporter_nickname }}</div>
-                <div v-if="fight.transporter_gang" class="username gang mt-4">{{fight.transporter_role}} OF {{ fight.transporter_gang }} [{{ fight.transporter_ticker}}]</div>
+                <div class="username">{{ fight.transporter_nickname }}</div>
+                <div v-if="fight.transporter_gang" class="gang-label mb-4 mt-1">{{fight.transporter_role}} OF {{ fight.transporter_gang }} [{{ fight.transporter_ticker}}]</div>
                 <div v-if="json && json.transporter && json.transporter.value" v-html="json.transporter.value"></div>
             </div>
             <div class="column col-2">
@@ -15,7 +15,7 @@
                 <h5 class="mt-0" v-if="timeToWait">Delivery in
                     <div>{{ timeToWait | ms }}</div>
                 </h5>
-                <h5 class="mt-0" v-else-if="fight.is_done">Ended</h5>
+                <h5 class="mt-2" v-else-if="fight.is_done">Ended</h5>
                 <h5 class="mt-0" v-else>Preparation</h5>
             </div>
             <div class="column col-5">
@@ -23,8 +23,8 @@
                     <Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture" />
                 </div>
                 <Avatar v-else :size="60" :username="user.nickname" :picture="user.picture" />
-                <div class="username mb-4">{{ fight.target_nickname }}</div>
-                <div v-if="fight.target_ticker" class="username gang mt-4">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
+                <div class="username">{{ fight.target_nickname }}</div>
+                <div v-if="fight.target_ticker" class="gang-label mb-4 mt-1">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
                 <div v-if="details && json && json.target &&json.target.value" v-html="json.target.value"></div>
             </div>
         </div>
@@ -156,7 +156,7 @@ p {
 
 .result {
   font-size: 24px;
-  padding: 5px;
+  padding: 3px;
   height: 40px;
   background-size: cover !important;
 }

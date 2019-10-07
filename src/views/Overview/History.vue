@@ -32,6 +32,7 @@
 <script>
 import Promise from 'bluebird';
 import client from '@/helpers/client';
+import { orderBy } from 'lodash';
 
 export default {
   data() {
@@ -45,18 +46,17 @@ export default {
     const accessToken = localStorage.getItem('access_token');
     const promises = [client.requestAsync('get_user_reward_history', { token: accessToken })];
     Promise.all(promises).then(result => {
+      const new_h = []
       const [history] = result;
       history.forEach(element => {
-        const entry = element;
-        entry.dateb = parseInt(
-          entry.date.split('-')[1] +
-            entry.date.split('-')[0] +
-            entry.date.split('-')[2].replace('-', ''),
-        );
-        self.history.push(entry);
+       let entry = element;
+       let parts = element.date.split('-');
+       entry.ddate = new Date(parts[2], parts[1] - 1, parts[0]).getTime(); 
+       entry.date = new Date(parts[2], parts[1] - 1, parts[0]).toLocaleString(); 
+       new_h.push(entry);
       });
 
-      self.history = self.history.sort((a, b) => b.dateb - a.dateb);
+      self.history =  orderBy(new_h, 'ddate', 'desc');
       this.isLoading = false;
     });
   },

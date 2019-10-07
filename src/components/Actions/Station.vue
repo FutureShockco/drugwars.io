@@ -6,8 +6,8 @@
 					<Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
 				</div>
 				<Avatar v-else :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
-				<div class="username mb-4">{{ fight.attacker_nickname }}</div>
-				<div v-if="fight.attacker_gang" class="username gang mt-4">{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
+				<div class="username">{{ fight.attacker_nickname }}</div>
+				<div v-if="fight.attacker_gang" class="gang-label mb-4 mt-1">{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
 				<div v-if="json && json.attacker && json.attacker.value" v-html="json.attacker.value"></div>
 				<!-- <Troops
 						:units="json.attacker.units"
@@ -24,7 +24,7 @@
 				<h5 class="mt-0 mb-0" v-if="timeToWait">Ready in
 					<div>{{ timeToWait | ms }}</div>
 				</h5>
-				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
+				<h5 class="mt-2" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else-if="fight.type !== 'station'">Preparation</h5>
 				<h5 class="mt-0" v-else-if="fight.target_nickname !== user.nickname">Units are defending</h5>
 				<h5 class="mt-0" v-else-if="fight.target_nickname === user.nickname && fight.attacker_territory === fight.target_territory && fight.attacker_base === fight.target_base">Units are back</h5>
@@ -35,8 +35,8 @@
 					<Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture" />
 				</div>
 				<Avatar v-else :size="60" :username="user.nickname" :picture="user.picture" />
-				<div class="username mb-4">{{ fight.target_nickname }}</div>
-				<div v-if="fight.target_ticker" class="username gang mt-4">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
+				<div class="username">{{ fight.target_nickname }}</div>
+				<div v-if="fight.target_ticker" class="gang-label mb-4 mt-1">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
 				<div v-if="json && json.target &&json.target.value" v-html="json.target.value"></div>
 			</div>
 		</div>
@@ -184,7 +184,7 @@ p {
 
 .result {
   font-size: 24px;
-  padding: 5px;
+  padding: 3px;
   height: 40px;
   background-size: cover !important;
 }

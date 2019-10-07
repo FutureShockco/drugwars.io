@@ -182,9 +182,6 @@ export default {
                   b.territory === this.base.territory &&
                   b.base === this.base.base,
               );
-              if (unit) {
-                unit.pending_update = new Date().getTime() + 3000;
-              }
             }
           })
           .catch(e => {

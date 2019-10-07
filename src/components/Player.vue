@@ -4,13 +4,13 @@
             <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
             <div v-if="player.gang" class="username" :class="{ 'text-blue' : player.gang === user.gang }" >
                 {{ player.nickname }}
-                <div class="gang-label" v-if="player.ticker">
-                    [{{ player.ticker }}]
-                </div>
             </div>
             <div v-else class="username text-purple">
                 {{ player.nickname }}
             </div>
+             <div class="gang-label" v-if="player.ticker">
+                    [{{ player.ticker }}]
+             </div>
         </div>
         <div class="column px-0 col-2">
             <h5 class="production mt-0">

@@ -9,7 +9,7 @@
 				<div class="username mb-4">{{ fight.attacker_nickname }}</div>
 				<div
 					v-if="job.type === 'gang'"
-					class="username gang mt-4 mb-4"
+					class="gang-label mb-4 mt-1"
 				>{{ user.gang }} [{{ user.ticker}}]</div>
 				<div >
 					<div v-if="details && json && json.attacker && json.attacker.start_value">
@@ -47,7 +47,7 @@
 				</div>
 				<h1 class="mt-0 mb-0" v-else>VS</h1>
 				<h5 class="mt-0 mb-0" v-if="timeToWait">Start in <div>{{ timeToWait | ms }}</div></h5>
-				<h5 class="mt-0" v-else>Ended</h5>
+				<h5 class="mt-2" v-else>Ended</h5>
 				<Icon v-if="share" class="logo" name="logo"/>
 				<h4 v-if="share">JOIN US!</h4>
 			</div>
@@ -189,7 +189,7 @@ p {
 
 .result {
   font-size: 24px;
-  padding: 5px;
+  padding: 3px;
   height: 40px;
   background-size: cover !important;
 }

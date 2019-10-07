@@ -34,24 +34,21 @@
       id="mapaction"
     />
     <div v-if="showTargets && !isLoading">
-      <div
-        v-if="target.territory > 0 && !showAction"
+
+        <div    v-if="target.territory > 0 && !showAction"
         :key="target.nickname+target.base+target.territory"
         :player="target"
         v-for="target in targets"
-      >
-        <div
           :id="'bubble'+target.nickname"
           :class="target.nickname"
-          class="plbubble bubble px-0 m-1 text-center anim-scale-in"
+          class="plbubble bubble  m-1 text-center anim-scale-in"
         >
           <PlayerBubble :player="target" />
-          <button class="button button-red abs" @click="chooseTarget(target)">
+                    <button class="button button-red abs" @click="chooseTarget(target)">
             <div class="iconfont icon-target"></div>
           </button>
         </div>
       </div>
-    </div>
     <div id="mapbg" class="mapbg">
       <h3 class="title" id="title" style="opacity:0;pointer-events: default!important;">
         <div
@@ -109,14 +106,14 @@
           </button>
         </router-link>
       </div>
-      <div
+      <!-- <div
         class="anim-scale-in"
         v-if="!isLoading && location.id !== 0 && !showTargets && !showAction && location.name === 'airport'"
         :key="location.id"
         v-for="location in locations"
       >
         <div :id="'spot'+location.id" class="spot">{{location.locationname}}</div>
-      </div>
+      </div> -->
       <div
         :id="'drug'+resource.territory"
         class="drug"
@@ -713,9 +710,13 @@ export default {
         }
         if (self.scene && self.camera) {
           if (self.scene.getObjectByName('territories'))
-            self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
-          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
-          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
+          //   self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
+          // self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
+          // self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
+
+                      self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.0;
+          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.0;
+          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.0;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }
@@ -1023,7 +1024,7 @@ export default {
           self.selected.resources = self.selectedTerritory.object.material.userData.resources;
           self.selected.continent = self.selectedTerritory.object.material.userData.continent;
           self.selected.gang = self.selectedTerritory.object.material.userData.gang;
-
+          visitTitle.style.display = 'initial';
           visitButton.style.top = `${event.clientY}px`;
           visitButton.style.left = `${event.clientX + 20}px`;
           visitButton.style.opacity = 1;
@@ -1036,6 +1037,7 @@ export default {
           self.selected = null;
           visitButton.style.opacity = 0;
           visitTitle.style.opacity = 0;
+          visitTitle.style.display = 'none';
           crosshairx.style.opacity = 0;
           crosshairy.style.opacity = 0;
         }
@@ -1085,7 +1087,10 @@ export default {
 
 .bubble {
   position: absolute;
-  width: 100px;
+}
+
+.rank{
+  left:-80px!important;
 }
 
 .spot {
@@ -1128,9 +1133,25 @@ export default {
   position: absolute;
 }
 
-.plbubble {
+.plbubble,.plbubble .button  {
   opacity: 0;
+  text-align: center;
+  z-index: 0;
+  display: none;
 }
+.plbubble:hover {
+  opacity: 1;
+  display: initial;
+  z-index: 99999;
+      height: auto;
+  overflow: visible;
+  .button{
+      opacity: 1;
+  display: initial;
+  z-index: 99999;
+  }
+}
+
 
 .mapbg {
   height: calc(100vh - 98px);
@@ -1142,6 +1163,7 @@ img {
 
 .title {
   position: absolute;
+  display: none;
   z-index: 10;
   left: 50%;
   top: 20%;

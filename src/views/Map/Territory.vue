@@ -260,8 +260,24 @@ export default {
 
         if (tiles_array[elementClickedId.id] && !elementClickedId.job) {
           visitTitle.style.display = 'block';
-          visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 30}px`;
-          visitTitle.style.left = `${tiles_array[elementClickedId.id].x - 35}px`;
+          if(tiles_array[elementClickedId.id].x===0 )
+          {
+            visitTitle.style.top = `${tiles_array[elementClickedId.id].y +4}px`;
+            visitTitle.style.left = `initial`;
+            visitTitle.style.right = `${48}px`;
+          }
+          else if(tiles_array[elementClickedId.id].x > canvas_element.width/2 || tiles_array[elementClickedId.id].x > canvas_element.width)
+          {
+            visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 54}px`;
+            visitTitle.style.left = `initial`;
+            visitTitle.style.right = `${canvas_element.width-tiles_array[elementClickedId.id].x+48}px`;
+          }
+          else
+          {
+          visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 54}px`;
+          visitTitle.style.right = `initial`;
+          visitTitle.style.left = `${tiles_array[elementClickedId.id].x}px`;
+          }
         } else if (elementClickedId.job) {
           visitTitle.style.display = 'none';
         }

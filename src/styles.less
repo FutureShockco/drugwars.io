@@ -55,19 +55,37 @@ a.iconfont:hover {
   text-transform: uppercase;
   transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
   top: 0px;
-  width: 200px;
+  width: 160px;
   left:50%;
   text-align: center;
   margin: 0;
-  line-height: 0px;
+  line-height: 20px;
   position: relative;
   text-rendering: optimizeLegibility;
   font-weight: 900;
   color: #db2828;
   text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  pointer-events: none;
   white-space: nowrap;
 }
-
+.gang-label{
+  font-family: @heading-font;
+  text-transform: uppercase;
+  transform: translate(-50%,-50%) skew(-24deg) rotate(-10deg);
+  width: 160px;
+  left:50%;
+  text-align: center;
+  margin: 0;
+  line-height: 15px;
+  position: relative;
+  text-rendering: optimizeLegibility;
+  font-weight: 900;
+  color: #db2828;
+  text-shadow: 1px 4px 6px #000, 0 0 0 #0b0b0b, 1px 4px 6px #101010;
+  top:-5px;
+}
 .preview.unit {
   background-image: url('//img.drugwars.io/cards/background/2.png');
   background-size: contain;
@@ -293,7 +311,7 @@ a.iconfont:hover {
 }
 
 .gang-label {
-  top: 20px;
+  top: 2px;
   position: relative;
   font-size: 15px;
   text-shadow: 0 0 3px black;

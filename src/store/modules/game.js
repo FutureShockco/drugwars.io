@@ -29,6 +29,7 @@ const state = {
   base: null,
   mainbase: null,
   steemengine: null,
+  force_sent_fights_refresh:true
 };
 
 const mutations = {
@@ -43,6 +44,9 @@ const mutations = {
   },
   saveSentFights(_state, payload) {
     Vue.set(_state, 'sent_fights', payload);
+  },
+  saveSentFightsRefresh(_state, payload) {
+    Vue.set(_state, 'force_sent_fights_refresh', payload);
   },
   saveFightsCount(_state, payload) {
     Vue.set(_state, 'inc_fights_count', payload);
@@ -195,7 +199,7 @@ const actions = {
     new Promise((resolve, reject) => {
       const token = authToken();
       let start = 0;
-      let end = 50;
+      let end = 25;
       if (limit) {
         start = limit.start;
         end = limit.end;
@@ -212,7 +216,10 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_sent_fights_count: ({ commit, dispatch }) =>
+    force_sent_fights_refresh:({commit, dispatch},value)=>{
+      commit('saveSentFightsRefresh', value);
+    },
+    refresh_sent_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -432,7 +439,7 @@ const actions = {
             message: result,
           });
           store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_sent_fights');
+          store.dispatch('refresh_sent_fights',{start:0,end:25});
           return resolve(result);
         }
 

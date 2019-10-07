@@ -37,12 +37,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['init', 'notify', 'refresh_sent_fights']),
+    ...mapActions(['init', 'notify', 'refresh_sent_fights','force_sent_fights_refresh']),
     load_fights(start) {
       let end = 25;
       end = start * 25;
       start = end - 25; // eslint-disable-line no-param-reassign
-      this.refresh_sent_fights({ start, end })
+      if(start===0){
+        this.force_sent_fights_refresh(true);
+      }
+      else{
+         this.force_sent_fights_refresh(false);
+      }
+      this.refresh_sent_fights({ start, end})
         .then(() => {
           this.isLoading = false;
         })

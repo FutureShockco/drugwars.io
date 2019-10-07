@@ -6,8 +6,8 @@
 					<Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
 				</div>
 				<Avatar v-else :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
-				<div class="username mb-4">{{ fight.attacker_nickname }}</div>
-				<div v-if="fight.attacker_gang" class="username gang mt-4 mb-4">{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
+				<div class="username">{{ fight.attacker_nickname }}</div>
+				<div v-if="fight.attacker_gang" class="gang-label mb-4 mt-1">{{fight.attacker_role}} OF {{ fight.attacker_gang }} [{{ fight.attacker_ticker}}]</div>
 				<div>
 					<div v-if="details && json && json.attacker && json.attacker.start_value">
 						<b>Attacker Start:</b>
@@ -34,7 +34,7 @@
 				<h5 class="mt-0 mb-0" v-if="timeToWait && fight.is_stable">Start in
 					<div>{{ timeToWait | ms }}</div>
 				</h5>
-				<h5 class="mt-0" v-else-if="fight.is_stable">Ended</h5>
+				<h5 class="mt-2" v-else-if="fight.is_stable">Ended</h5>
 				<h5 class="mt-0" v-else>Preparation</h5>
 				<Icon v-if="share" class="logo" name="logo" />
 				<h4 v-if="share">JOIN US!</h4>
@@ -44,8 +44,8 @@
 					<Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture" />
 				</div>
 				<Avatar v-else :size="60" :username="user.nickname" :picture="user.picture" />
-				<div class="username mb-4">{{ fight.target_nickname }}</div>
-				<div v-if="fight.target_ticker" class="username gang mt-4 mb-4">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
+				<div class="username">{{ fight.target_nickname }}</div>
+				<div v-if="fight.target_ticker" class="gang-label mb-4 mt-1">{{fight.target_role}} of {{fight.target_gang}}[{{ fight.target_ticker }}]</div>
 				<div>
 					<div v-if="details && json && json.target && json.target.start_value">
 						<b>Defender Start:</b>
@@ -71,6 +71,9 @@
 			</div>
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
+			</div>
+			<div v-if=" fight.is_done === 0 && !timeToBattle" class="text-center">
+				<button class="button button-red" @click="openBattle(fight.fight_key)" >Start the Battle (Simulation only)</button>
 			</div>
 			<div class="text-center mb-3 mt-3">
 				<span>FROM</span>
@@ -110,7 +113,7 @@
 					Start : {{start}} - End : {{end}}
 				</div>
 				<div v-if="fight.fight_key">
-					<a target="_blank" @click="openBattle(fight.fight_key)" >Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+					<a target="_blank">Tx : {{fight.fight_key}}</a> <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
 				</div>
 				<div v-else-if="fight.transport_key">
 					Tx: {{fight.transport_key}} <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
@@ -154,6 +157,10 @@ export default {
   computed: {
     timeToWait() {
       const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
+      return timeToWait > 0 ? timeToWait : 0;
+	},
+	timeToBattle() {
+      const timeToWait = new Date(this.fight.end_date).getTime() - 45000 - this.$store.state.ui.timestamp;
       return timeToWait > 0 ? timeToWait : 0;
     },
     start() {
@@ -256,7 +263,7 @@ p {
 
 .result {
   font-size: 24px;
-  padding: 5px;
+  padding: 3px;
   height: 40px;
   background-size: cover !important;
 }

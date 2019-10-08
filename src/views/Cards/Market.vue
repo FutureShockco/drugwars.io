@@ -4,17 +4,11 @@
         <div>
             <Loading v-if="loading" />
             <div v-else class="card-box">
-    
                 <div v-for="card in cards" class="card" :key="card.id" :id="card.id+'-card'">
-    
                     <canvas width="200" height="270" :id="card.id+'-card-front'" class="card-front"></canvas>
-    
                 </div>
-    
             </div>
-    
         </div>
-    
     </div>
 </template>
 

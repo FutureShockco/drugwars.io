@@ -49,8 +49,8 @@ export default {
       return this.$store.state.game.user.user;
     },
     modifiedValues() {
-      const trainings = [];
-      if(this.$store.state.game.user.trainings)
+      let trainings = [];
+      if(this.user && this.$store.state.game.user.trainings)
       trainings = this.$store.state.game.user.trainings;
       if (trainings.length > 0) {
         return unitValues(this.unit, trainings);

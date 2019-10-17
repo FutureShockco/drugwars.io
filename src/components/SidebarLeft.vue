@@ -127,7 +127,7 @@
                         </router-link>
                     </li>
                     <li>
-                        <a href="https://drugwars.tokenbb.io/" target="_blank" class="py-1 px-4 d-block">
+                        <a href="https://forum.drugwars.io/" target="_blank" class="py-1 px-4 d-block">
                    {{'sidebar.forum' | translate}}
                 </a>
                     </li>

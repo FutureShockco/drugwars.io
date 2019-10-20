@@ -3,8 +3,8 @@
         <UiTabs>
             <UiTab to="/cards/mycollection">My Collection</UiTab>
             <!-- <UiTab to="/cards/market">Market
-                </UiTab>
-                <UiTab to="/cards/allcards">View All</UiTab> -->
+                </UiTab>-->
+                <UiTab to="/cards/allcards">View All</UiTab> 
         </UiTabs>
         <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

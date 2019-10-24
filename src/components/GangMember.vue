@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="`/actions?type=transport&nickname=${member.nickname}`">
+        <router-link :to="`/actions?type=attack&nickname=${member.nickname}`">
             <GangImage :image="member.picture" size="40" class="mr-2" /> {{ member.nickname }} {{ member.role }} <span v-if="member.role === 'capo' && isBoss"><i :class="'iconfont icon-check '+isActive(member.active)"></i> </span>
         </router-link>
         <button @click="handleKick(member.nickname)" class="button button-red float-right" :disabled="isLoading || member.nickname === user.nickname && isBoss" v-if="isBoss">

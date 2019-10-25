@@ -490,12 +490,12 @@ export default {
             {
               symbol: `${self.token}`,
             },
-            30,
+            200,
             0,
-            [{ index: 'price', descending: true }],
+            [{ index: 'priceDec', descending: true }],
             false,
           )
-          .then(async buyBook => {
+          .then(buyBook => {
             self.buyBook = buyBook;
             ssc
               .find(
@@ -504,12 +504,12 @@ export default {
                 {
                   symbol: `${self.token}`,
                 },
-                30,
+                200,
                 0,
-                [{ index: 'price', descending: false }],
+                [{ index: 'priceDec', descending: false }],
                 false,
               )
-              .then(async sellBook => {
+              .then(sellBook => {
 
               let totalBuy = 0;
               self.sellBook = sellBook;
@@ -528,7 +528,6 @@ export default {
 
 
                 let totalSell = 0;
-
                 self.buyBook.forEach(element => {
                   self.series[1].data.push(0);
                 });

@@ -47,7 +47,7 @@
         <div v-if="item.type ==='gang'">
         Full reward requirements : Minimum 5 active members
       </div>
-                     <div class="column m-0 mr-2 p-0 col-12 text-center">
+                     <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
             <a @click="openInNewTab()">Open in the simulator</a>
         </div>
     </div>

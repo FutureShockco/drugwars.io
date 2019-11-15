@@ -59,7 +59,7 @@ export default {
   methods: {
     openInNewTab() {
       const url = 'https://simulator.drugwars.io/';
-      let toOpen = '';
+      let toOpen = 'player,';
       let myarmy = this.$store.state.game.user.units.filter(
         unit => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
       );

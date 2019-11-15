@@ -517,7 +517,7 @@ export default {
         }),
       );
 
-      let toOpen = `${myarmy}`;
+      let toOpen = `player,${myarmy}`;
       if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();

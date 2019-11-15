@@ -32,12 +32,12 @@
           <button
             class="button"
             @click="chooseActionType('attack')"
-            :class="{ 'button-green' : action_type ==='attack' || target_type === 'npc' }"
+            :class="{ 'button-red' : action_type ==='attack' || target_type === 'npc' }"
           >ATTACK</button>
           <button
             class="button ml-1"
             @click="chooseActionType('transport')"
-            :class="{ 'button-green' : action_type ==='transport' }"
+            :class="{ 'button-blue' : action_type ==='transport' }"
           >TRANSPORT</button>
           <button
             class="button ml-1"
@@ -47,7 +47,7 @@
           <button
             class="button ml-1"
             @click="chooseActionType('station')"
-            :class="{ 'button-green' : action_type ==='station' }"
+            :class="{ 'button-orange' : action_type ==='station' }"
           >STATION</button>
         </div>
         <h3>Select your army composition</h3>
@@ -233,9 +233,30 @@
             maxlength="280"
           />
         </div>
-        <button
+        <button v-if="action_type === 'attack'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           class="button button-large button-red mb-4"
+          @click="handleSubmit"
+        >    <SmallLoading v-if="isLoading" />
+          <span v-else>{{action_type}}</span>
+        </button>
+                <button v-if="action_type === 'transport'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-blue mb-4"
+          @click="handleSubmit"
+        >    <SmallLoading v-if="isLoading" />
+          <span v-else>{{action_type}}</span>
+        </button>
+                <button v-if="action_type === 'occupy'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-green mb-4"
+          @click="handleSubmit"
+        >    <SmallLoading v-if="isLoading" />
+          <span v-else>{{action_type}}</span>
+        </button>
+                <button v-if="action_type === 'station'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-orange mb-4"
           @click="handleSubmit"
         >
           <SmallLoading v-if="isLoading" />
@@ -607,7 +628,7 @@ export default {
         }),
       );
 
-      let toOpen = `${myarmy}`;
+      let toOpen = `player,${myarmy}`;
       if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();

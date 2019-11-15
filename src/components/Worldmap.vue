@@ -460,7 +460,7 @@ export default {
           },
         },
         atmosphere: {
-          size: 0.1,
+          size: 0.12,
           material: {
             opacity: 0.8,
           },
@@ -710,13 +710,9 @@ export default {
         }
         if (self.scene && self.camera) {
           if (self.scene.getObjectByName('territories'))
-          //   self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.005;
-          // self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.001;
-          // self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.005;
-
-                      self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.0;
-          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.0;
-          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.0;
+           self.scene.getObjectByName('territories').rotation.y += (1 / 16) * 0.001;
+          self.earth.getObjectByName('atmosphere').rotation.y += (1 / 16) * 0.002;
+          self.earth.getObjectByName('surface').rotation.y += (1 / 16) * 0.001;
           self.animation = requestAnimationFrame(render);
           self.renderer.render(self.scene, self.camera);
         }

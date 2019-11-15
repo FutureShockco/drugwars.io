@@ -12,6 +12,7 @@
       </div>
       <h5>Enemies</h5>
       <div class="text-green" v-if="ownJob && json && json.length < 1">MISSION ACCOMPLISHED</div>
+      
       <div v-if="!timeToWait">
         <div
           class="column m-0 mr-2 p-0 col-2 text-center"
@@ -25,6 +26,7 @@
 
           <div class="unitname">{{unit.id}}</div>
         </div>
+
       </div>
 
       <div v-else>
@@ -41,9 +43,13 @@
           <div class="unitname">{{unit.key}}</div>
         </div>
       </div>
+      
         <div v-if="item.type ==='gang'">
         Full reward requirements : Minimum 5 active members
       </div>
+                     <div class="column m-0 mr-2 p-0 col-12 text-center">
+            <a @click="openInNewTab()">Open in the simulator</a>
+        </div>
     </div>
 
     <div class="mx-auto" v-if="item.rewards && !ownJob">
@@ -154,6 +160,7 @@
 
         Waiting
       </button>
+
     </div>
   </div>
 </template>
@@ -220,6 +227,9 @@ export default {
       const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
       return rnd;
     },
+    ownBase() {
+      return this.$store.state.game.mainbase;
+    },
   },
   methods: {
     ...mapActions(['init', 'send']),
@@ -243,6 +253,50 @@ export default {
           self.isLoading = false;
           self.waitingConfirmation = false;
         });
+    },
+    openInNewTab() {
+      const self = this;
+      const url = 'https://simulator.drugwars.io/';
+      let toOpen = 'npc,';
+      let myarmy = this.$store.state.game.user.units.filter(
+        unit => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
+      );
+      myarmy = myarmy.map(unit =>
+        this.serialize({
+          p: 1,
+          key: unit.unit,
+          n: unit.amount,
+        }),
+      );
+      toOpen += myarmy;
+      const mytraining = this.$store.state.game.user.trainings.map(training =>
+        this.serialize({
+          p: 1,
+          key: training.training,
+          lvl: training.lvl,
+        }),
+      );
+      if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
+      if (this.json.length > 0) {
+        const enemyarmy = this.json.map(unit =>
+          this.serialize({
+            p: 2,
+            key: unit.key,
+            n: unit.amount,
+          }),
+        );
+        if (enemyarmy && enemyarmy.length > 0) toOpen += `,${enemyarmy}`;
+      }
+      const win = window.open(`${url}?${toOpen}`, '_blank');
+      win.focus();
+    },
+    serialize(obj) {
+      const str = [];
+      for (const p in obj)
+        if (obj.hasOwnProperty(p)) {
+          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+        }
+      return str.join('&');
     },
   },
 };

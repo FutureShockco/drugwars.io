@@ -226,164 +226,166 @@ import { getBalances } from '@/helpers/utils';
 import { pickBy } from 'lodash';
 
 export default {
- data() {
-  return {
-   building: pickBy(buildings, b => b.id === this.$route.query.name)[this.$route.query.name],
-  };
- },
- computed: {
-  base() {
-   return this.$store.state.game.mainbase;
+  data() {
+    return {
+      building: pickBy(buildings, b => b.id === this.$route.query.name)[this.$route.query.name],
+    };
   },
-  nextLevels() {
-   const levels = [];
-   let item = this.ownItem.lvl;
-   if (!item) item = 1;
-   levels.push(item);
-   for (let index = item; index < item + 20; index += 1) {
-    levels.push(index + 1);
-   }
-   return levels;
+  computed: {
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    nextLevels() {
+      const levels = [];
+      let item = this.ownItem.lvl;
+      if (!item) item = 1;
+      levels.push(item);
+      for (let index = item; index < item + 20; index += 1) {
+        levels.push(index + 1);
+      }
+      return levels;
+    },
+    training_facility() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'training_facility' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        ) || {
+          lvl: 0,
+        }
+      );
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+    },
+    balances() {
+      let ocLvl = 0;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
+      return getBalances(
+        this.HQ,
+        ocLvl,
+        labLvl,
+        weaponLvl,
+        distilleryLvl,
+        this.$store.state.ui.timestamp,
+      );
+    },
+    hasNotEnough() {
+      return (
+        this.drugsCost > this.balances.drugs ||
+        this.weaponsCost > this.balances.weapons ||
+        this.alcoholsCost > this.balances.alcohols
+      );
+    },
+    ownItem() {
+      if (this.base)
+        return (
+          this.$store.state.game.user.buildings.find(
+            b =>
+              b.building === this.building.id &&
+              b.base === this.$store.state.game.mainbase.base &&
+              b.territory === this.$store.state.game.mainbase.territory,
+          ) || {
+            lvl: 0,
+          }
+        );
+      return { lvl: 0 };
+    },
+    ownHq() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.base === this.$store.state.game.mainbase.base &&
+            b.territory === this.$store.state.game.mainbase.territory,
+        );
+      }
+      return (
+        this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || { lvl: 0 }
+      );
+    },
   },
-  training_facility() {
-   return (
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'training_facility' &&
-      b.base === this.$store.state.game.mainbase.base &&
-      b.territory === this.$store.state.game.mainbase.territory,
-    ) || {
-     lvl: 0,
-    }
-   );
+  methods: {
+    drugsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.drugs_cost, lvl);
+    },
+    weaponsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.weapons_cost, lvl);
+    },
+    alcoholsCost(lvl) {
+      return utils.calculateCostToUpgrade(this.building.alcohols_cost, lvl);
+    },
+    updateTime(id, level, blevel) {
+      return utils.calculateTimeToBuild(id, buildings[id].coeff, blevel, level);
+    },
+    updateTimeTrainings(id, level, blevel) {
+      return utils.calculateTimeToBuild(id, trainings[id].coeff, blevel, level);
+    },
+    drugBonus(lvl) {
+      const oc = lvl;
+      const labLvl = 0;
+      return parseFloat(this.HQ.drug_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
+    },
+    weaponBonus(lvl) {
+      const oc = lvl;
+      return parseFloat(this.HQ.weapon_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
+    },
+    alcoholBonus(lvl) {
+      const oc = lvl;
+      return parseFloat(this.HQ.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
+    },
   },
-  HQ() {
-   if (
-    this.base &&
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   ) {
-    return this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    );
-   }
-   return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
-  },
-  balances() {
-   let ocLvl = 0;
-   if (
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'operation_center' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   )
-    ocLvl = this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'operation_center' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    ).lvl;
-   let labLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-    labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab').lvl;
-   let weaponLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-    weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center').lvl;
-   let distilleryLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
-    distilleryLvl = this.$store.state.game.gang_buildings.find(
-     b => b.building === 'distillery_school',
-    ).lvl;
-   return getBalances(
-    this.HQ,
-    ocLvl,
-    labLvl,
-    weaponLvl,
-    distilleryLvl,
-    this.$store.state.ui.timestamp,
-   );
-  },
-  hasNotEnough() {
-   return (
-    this.drugsCost > this.balances.drugs ||
-    this.weaponsCost > this.balances.weapons ||
-    this.alcoholsCost > this.balances.alcohols
-   );
-  },
-  ownItem() {
-   if (this.base)
-    return (
-     this.$store.state.game.user.buildings.find(
-      b =>
-       b.building === this.building.id &&
-       b.base === this.$store.state.game.mainbase.base &&
-       b.territory === this.$store.state.game.mainbase.territory,
-     ) || {
-      lvl: 0,
-     }
-    );
-   return { lvl: 0 };
-  },
-  ownHq() {
-   if (
-    this.base &&
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   ) {
-    return this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.base === this.$store.state.game.mainbase.base &&
-      b.territory === this.$store.state.game.mainbase.territory,
-    );
-   }
-   return (
-    this.$store.state.game.user.buildings.find(b => b.building === 'headquarters') || { lvl: 0 }
-   );
-  },
- },
- methods: {
-  drugsCost(lvl) {
-   return utils.calculateCostToUpgrade(this.building.drugs_cost, lvl);
-  },
-  weaponsCost(lvl) {
-   return utils.calculateCostToUpgrade(this.building.weapons_cost, lvl);
-  },
-  alcoholsCost(lvl) {
-   return utils.calculateCostToUpgrade(this.building.alcohols_cost, lvl);
-  },
-  updateTime(id, level, blevel) {
-   return utils.calculateTimeToBuild(id, buildings[id].coeff, blevel, level);
-  },
-  updateTimeTrainings(id, level, blevel) {
-   return utils.calculateTimeToBuild(id, trainings[id].coeff, blevel, level);
-  },
-  drugBonus(lvl) {
-   let oc = lvl;
-   let labLvl = 0;
-   return parseFloat(this.HQ.drug_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
-  },
-  weaponBonus(lvl) {
-   let oc = lvl;
-   return parseFloat(this.HQ.weapon_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
-  },
-  alcoholBonus(lvl) {
-   let oc = lvl;
-   return parseFloat(this.HQ.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005).toFixed(2);
-  },
- },
 };
 </script>

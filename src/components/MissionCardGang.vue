@@ -243,7 +243,7 @@ export default {
           self.waitingConfirmation = false;
         });
     },
-        openInNewTab() {
+    openInNewTab() {
       const self = this;
       const url = 'https://simulator.drugwars.io/';
       let toOpen = 'npc,';

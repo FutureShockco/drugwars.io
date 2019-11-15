@@ -24,7 +24,7 @@
 import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
-import  heroes  from '@/heroes.json';
+import heroes from '@/heroes.json';
 /* eslint-disable */
 
 export default {

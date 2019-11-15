@@ -309,9 +309,9 @@ export default {
   background-image: linear-gradient(180deg, #b40000 0%, #7a0000 74%);
 }
 
-.button span,i{
-  position: inherit!important;
+.button span,
+i {
+  position: inherit !important;
   text-shadow: 0px 0px 0px #5a5a5a;
 }
-
 </style>

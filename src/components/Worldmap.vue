@@ -49,6 +49,7 @@
           </button>
         </div>
       </div>
+
     <div id="mapbg" class="mapbg">
       <h3 class="title" id="title" style="opacity:0;pointer-events: default!important;">
         <div
@@ -127,6 +128,7 @@
       <div class="first-line"></div>
       <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>
+    <div class="glow" ></div>
   </div>
 </template>
 
@@ -1239,4 +1241,15 @@ img {
     display: none;
   }
 }
+
+.glow{
+    position: absolute;
+    pointer-events: none;
+    width: 50%;
+    top: calc(50% - 34px);
+    background-size: 89%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 </style>

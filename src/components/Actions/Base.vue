@@ -39,7 +39,7 @@ export default {
       });
       return totalDrugs;
     },
-    totalWeapons() { 
+    totalWeapons() {
       let totalWeapons = 0;
       this.items.forEach(element => {
         if (this.placeholder_buildings[element.building]) {

@@ -158,9 +158,10 @@ export default {
     timeToWait() {
       const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
       return timeToWait > 0 ? timeToWait : 0;
-	},
-	timeToBattle() {
-      const timeToWait = new Date(this.fight.end_date).getTime() - 45000 - this.$store.state.ui.timestamp;
+    },
+    timeToBattle() {
+      const timeToWait =
+        new Date(this.fight.end_date).getTime() - 45000 - this.$store.state.ui.timestamp;
       return timeToWait > 0 ? timeToWait : 0;
     },
     start() {
@@ -234,16 +235,16 @@ export default {
       this.popupOn = !this.popupOn;
     },
     openBattle(id) {
-	let drugwars_battleclient;
-	window.addEventListener('message', messageListener, false);
-	let token = this.token;
-	function messageListener(event) {
-		if(event.data == 'ready') {
-			drugwars_battleclient.postMessage({token,id}, '*');
-		}
-	  }
-	  const dwbc = 'https://battle.drugwars.io/debug.html';
-	  drugwars_battleclient = window.open(dwbc);
+      let drugwars_battleclient;
+      window.addEventListener('message', messageListener, false);
+      const token = this.token;
+      function messageListener(event) {
+        if (event.data == 'ready') {
+          drugwars_battleclient.postMessage({ token, id }, '*');
+        }
+      }
+      const dwbc = 'https://battle.drugwars.io/debug.html';
+      drugwars_battleclient = window.open(dwbc);
     },
   },
 };

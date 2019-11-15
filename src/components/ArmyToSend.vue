@@ -26,15 +26,14 @@ export default {
   },
   methods: {
     handleClick(key) {
-      this.$parent.$data.selectedUnits = this.units.filter(function(unit) { return unit.key != key; }); 
+      this.$parent.$data.selectedUnits = this.units.filter(unit => unit.key != key);
     },
   },
 };
 </script>
 
 <style scoped lang="less">
-
-.all{
+.all {
   position: relative;
 }
 .icon-diff-removed {
@@ -42,8 +41,8 @@ export default {
   position: absolute !important;
   font-size: 28px;
   top: 14px;
-    color: #fbbd07;
-    left: 6px;
+  color: #fbbd07;
+  left: 6px;
 }
 
 .smalltitle {
@@ -51,4 +50,3 @@ export default {
   color: #fbbd07;
 }
 </style>
-

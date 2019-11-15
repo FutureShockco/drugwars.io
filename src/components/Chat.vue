@@ -211,8 +211,8 @@ export default {
     this.scrollToEnd();
     if (this.isAtBottom()) this.scrollToEnd();
   },
-  destroyed(){
-    socket.disconnect()
+  destroyed() {
+    socket.disconnect();
   },
   methods: {
     ...mapActions(['init', 'notify', 'refresh_gang_buildings']),
@@ -222,8 +222,7 @@ export default {
         const self = this;
         if (self.showChat) {
           channel = 'public';
-        } 
-        else if (self.gangChat) {
+        } else if (self.gangChat) {
           channel = self.user.gang;
         } else if (self.privateChat) {
           channel = self.receiver;
@@ -277,17 +276,20 @@ export default {
       this.scrollToEnd();
     },
     scrollToEnd() {
-      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat')|| this.$el.querySelector('.privatechat');
-      if(container)
-      container.scrollTop = container.scrollHeight;
+      const container =
+        this.$el.querySelector('.gangchat') ||
+        this.$el.querySelector('.chat') ||
+        this.$el.querySelector('.privatechat');
+      if (container) container.scrollTop = container.scrollHeight;
     },
     isAtBottom() {
-      const container = this.$el.querySelector('.gangchat') || this.$el.querySelector('.chat')|| this.$el.querySelector('.privatechat');
+      const container =
+        this.$el.querySelector('.gangchat') ||
+        this.$el.querySelector('.chat') ||
+        this.$el.querySelector('.privatechat');
       if (container && container.scrollTop + 650 > container.scrollHeight) this.autoscroll = true;
       else this.autoscroll = false;
-      if(container)
-      return container.scrollTop + 650 > container.scrollHeight;
-      else return 
+      if (container) return container.scrollTop + 650 > container.scrollHeight;
     },
     checkUrl(url) {
       try {
@@ -300,15 +302,15 @@ export default {
         return url;
       }
     },
-    sendPm(name){
+    sendPm(name) {
       const self = this;
       const token = localStorage.getItem('access_token');
       self.displayPrivateChat();
       self.receiver = name;
       const channel = name;
       socket.emit('private-msg', {
-          token,
-          channel,
+        token,
+        channel,
       });
     },
   },

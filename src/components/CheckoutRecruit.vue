@@ -66,9 +66,7 @@ export default {
   },
   computed: {
     updateTime() {
-      return (
-        (this.coeff * 1500 /(this.level + this.militaryAcademy)) * (this.quantity * 1000)
-      );
+      return ((this.coeff * 1500) / (this.level + this.militaryAcademy)) * (this.quantity * 1000);
     },
     base() {
       return this.$store.state.game.mainbase;

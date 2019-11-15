@@ -29,7 +29,7 @@ const state = {
   base: null,
   mainbase: null,
   steemengine: null,
-  force_sent_fights_refresh:true
+  force_sent_fights_refresh: true,
 };
 
 const mutations = {
@@ -216,10 +216,10 @@ const actions = {
           return reject(err);
         });
     }),
-    force_sent_fights_refresh:({commit, dispatch},value)=>{
-      commit('saveSentFightsRefresh', value);
-    },
-    refresh_sent_fights_count: ({ commit, dispatch }) =>
+  force_sent_fights_refresh: ({ commit, dispatch }, value) => {
+    commit('saveSentFightsRefresh', value);
+  },
+  refresh_sent_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
@@ -439,7 +439,7 @@ const actions = {
             message: result,
           });
           store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_sent_fights',{start:0,end:25});
+          store.dispatch('refresh_sent_fights', { start: 0, end: 25 });
           return resolve(result);
         }
 
@@ -644,21 +644,17 @@ const actions = {
             Promise.delay(1000).then(() => {
               dispatch('init');
             });
-          } else {
-            if(response.error)
-            {
-              const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
-              const win = window.open(
-                url.split('+').join('_'),
-                '_blank',
-                'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
-              );
-              win.focus();
-              Promise.delay(15000).then(() => {
-                dispatch('init');
-              });
-            }
-
+          } else if (response.error) {
+            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+            const win = window.open(
+              url.split('+').join('_'),
+              '_blank',
+              'toolbar=yes,scrollbars=yes,resizable=yes,top=300,left=500,width=600,height=600',
+            );
+            win.focus();
+            Promise.delay(15000).then(() => {
+              dispatch('init');
+            });
           }
         },
       );

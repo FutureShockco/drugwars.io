@@ -6,8 +6,8 @@
                 <button class="button ml-1" @click="chooseCardType('units')" :class="{ 'button-yellow' : card_type ==='units' }">UNITS</button>
                 <button disabled class="button ml-1" @click="chooseCardType('buildings')" :class="{ 'button-yellow' : card_type ==='buildings' }">BUILDINGS</button>
                 <button disabled class="button ml-1" @click="chooseCardType('training')" :class="{ 'button-yellow' : card_type ==='training' }">TRAINING</button>
-                <button class="button ml-1" @click="chooseCardType('heroes')" :class="{ 'button-yellow' : card_type ==='heroes' }">HEROES</button>
-                <button disabled class="button ml-1" @click="chooseCardType('consumables')" :class="{ 'button-yellow' : card_type ==='consumables' }">CONSUMABLES</button>
+                <!-- <button class="button ml-1" @click="chooseCardType('heroes')" :class="{ 'button-yellow' : card_type ==='heroes' }">HEROES</button> -->
+                <!-- <button disabled class="button ml-1" @click="chooseCardType('consumables')" :class="{ 'button-yellow' : card_type ==='consumables' }">CONSUMABLES</button> -->
             </div>
             <Loading v-if="loading" />
                 <div class="card-box">
@@ -24,7 +24,7 @@
 import { buildings, units, trainings } from 'drugwars';
 import { filter, pickBy } from 'lodash';
 import { setTimeout } from 'timers';
-import  heroes  from '@/heroes.json';
+import heroes from '@/heroes.json';
 /* eslint-disable */
 
 export default {

@@ -46,17 +46,17 @@ export default {
     const accessToken = localStorage.getItem('access_token');
     const promises = [client.requestAsync('get_user_reward_history', { token: accessToken })];
     Promise.all(promises).then(result => {
-      const new_h = [];
+      const newHistory = [];
       const [history] = result;
       history.forEach(element => {
         const entry = element;
         const parts = element.date.split('-');
         entry.ddate = new Date(parts[2], parts[1] - 1, parts[0]).getTime();
         entry.date = new Date(parts[2], parts[1] - 1, parts[0]).toLocaleString();
-        new_h.push(entry);
+        newHistory.push(entry);
       });
 
-      self.history = orderBy(new_h, 'ddate', 'desc');
+      self.history = orderBy(newHistory, 'ddate', 'desc');
       this.isLoading = false;
     });
   },

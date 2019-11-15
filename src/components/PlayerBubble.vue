@@ -107,7 +107,8 @@ export default {
         reduce = training.lvl;
       }
       timer += distance;
-      return (timer = (timer - (timer / 200) * reduce) * 1000);
+      timer = (timer - (timer / 200) * reduce) * 1000;
+      return timer;
     },
   },
   methods: {

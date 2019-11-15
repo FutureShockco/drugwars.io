@@ -498,7 +498,6 @@ export default {
       this.setMainBase({ territory, base, custom, main });
     },
     handleZoom() {
-      const self = this;
       const bg = document.getElementById('territorybg');
       const canvas_element = document.getElementById('canvas');
       const width = bg.offsetWidth;

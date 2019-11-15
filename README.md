@@ -9,10 +9,6 @@
 
 The drugs are virtual, but the money is real
 
-## Obtain Access
-
-You have to contact the devs on discord : https://discord.me/drugwars to be able to connect to our servers from your local machine.
-
 ## Installation
 
 Clone the repo & install dependencies.

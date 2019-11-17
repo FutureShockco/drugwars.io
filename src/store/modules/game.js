@@ -45,6 +45,9 @@ const mutations = {
   saveSentFights(_state, payload) {
     Vue.set(_state, 'sent_fights', payload);
   },
+  saveSentGangFights(_state, payload) {
+    Vue.set(_state, 'sent_gangfights', payload);
+  },
   saveSentFightsRefresh(_state, payload) {
     Vue.set(_state, 'force_sent_fights_refresh', payload);
   },
@@ -219,6 +222,31 @@ const actions = {
   force_sent_fights_refresh: ({ commit, dispatch }, value) => {
     commit('saveSentFightsRefresh', value);
   },
+  refresh_sent_gangfights: ({ commit, dispatch }, limit) =>
+  new Promise((resolve, reject) => {
+    const token = authToken();
+    let id =limit.id;
+    let start = 0;
+    let end = 25;
+    if (limit) {
+      start = limit.start;
+      end = limit.end;
+    }
+    client
+      .requestAsync('get_sent_gangfights', { token,id, start, end })
+      .then(gangfights => {
+        commit('saveSentGangFights', gangfights);
+        return resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        handleError(dispatch, err, 'Loading sent gangfights failed');
+        return reject(err);
+      });
+  }),
+force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
+  commit('saveSentGangFights', value);
+},
   refresh_sent_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();

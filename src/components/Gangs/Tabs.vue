@@ -17,6 +17,9 @@
            <UiTab :to="`/gangs/gang/${user.gang}/deposit`" v-if="user.gang">
         Deposit
       </UiTab>
+       <UiTab :to="`/gangs/gang/${user.gang}/fights`" v-if="user.gang">
+        Fights
+      </UiTab>
     </UiTabs>
             <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

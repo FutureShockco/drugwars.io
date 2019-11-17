@@ -54,6 +54,8 @@ const Diplomacy = () =>
   import(/* webpackChunkName: "gang-diplomacy" */ '@/views/Gangs/Diplomacy.vue');
 const GangDeposits = () =>
   import(/* webpackChunkName: "gang-deposits" */ '@/views/Gangs/Deposits.vue');
+const GangFights = () =>
+  import(/* webpackChunkName: "gang-fights" */ '@/views/Gangs/Fights.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
 const NewContract = () =>
@@ -355,7 +357,12 @@ export default new Router({
       beforeEnter: requireAuth,
       component: GangDeposits,
     },
-
+    {
+      path: '/gangs/gang/:id/fights',
+      name: 'gang-fights',
+      beforeEnter: requireAuth,
+      component: GangFights,
+    },
     {
       path: '/shop',
       name: 'shop',

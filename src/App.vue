@@ -52,11 +52,6 @@ export default {
       connected: false,
     };
   },
-  watch: {
-    connected() {
-      this.connected = this.$store.state.game.isconnected;
-    },
-  },
   computed: {
     username() {
       return this.$store.state.auth.username;
@@ -70,31 +65,12 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
-    isConnected() {
-      if (store.state.auth.username) {
-        return this.$store.state.game.isconnected;
-      }
-      return true;
-    },
   },
 
   methods: {
     closeModal() {
       localStorage.setItem('firstime', true);
       this.modalIsOpen = true;
-    },
-    forceReconnect() {
-      const self = this;
-      client.restart();
-      store.dispatch('login').then(() => {
-        if (store.state.auth.username) {
-          store.dispatch('init').then(() => {
-            self.attempt = 1;
-          });
-        } else {
-          this.$router.push({ path: '/login' });
-        }
-      });
     },
   },
 };

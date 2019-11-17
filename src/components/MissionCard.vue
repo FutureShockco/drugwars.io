@@ -34,20 +34,16 @@
           class="column m-0 mr-2 p-0 col-2 text-center"
           v-for="unit in json"
           :unit="unit"
-          :key="unit.key"
-        >
+          :key="unit.key">
           <div class="unitamount">{{unit.amount}}</div>
-
           <img class="preview unit width-full" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`" />
-
           <div class="unitname">{{unit.key}}</div>
         </div>
       </div>
-      
         <div v-if="item.type ==='gang'">
         Full reward requirements : Minimum 5 active members
       </div>
-                     <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
+        <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
             <a @click="openInNewTab()">Open in the simulator</a>
         </div>
     </div>
@@ -55,28 +51,20 @@
     <div class="mx-auto" v-if="item.rewards && !ownJob">
       <div class="columns m-2 p-2 text-center" v-for="reward in item.rewards" :key="reward.id">
         <h5>Rewards</h5>
-
         <div v-if="reward.drugs" class="column m-0 p-0 col-6 reward">
           <Icon name="drug" size="32" />
-
           <div>?</div>
         </div>
-
         <div v-if="reward.weapons" class="column m-0 p-0 col-6 reward">
           <Icon name="weapon" size="32" />
-
           <div>?</div>
         </div>
-
         <div v-if="reward.alcohol" class="column m-0 p-0 col-6 reward">
           <Icon name="alcohol" size="32" />
-
           <div>?</div>
         </div>
-
         <div v-if="reward.dwd" class="column mb-2 p-0 col-6 reward">
           <Icon name="dwd" size="32" />
-
           <div>?</div>
         </div>
       </div>
@@ -84,10 +72,8 @@
       <button
         :disabled="isLoading || inProgress || (item.type === 'gang' && !isBoss)"
         @click="handleSubmit"
-        class="button btn-block button-green mb-2"
-      >
+        class="button btn-block button-green mb-2">
         <i class="iconfont icon-target" />
-
         Start Job
       </button>
     </div>
@@ -96,44 +82,32 @@
       <div class="columns m-2 p-2 text-center">
         <div class="mb-2">
           <i class="iconfont icon-clock mr-2" />
-
           End in {{ timeToWait | ms }}
         </div>
-
         <h5>Rewards</h5>
-
         <div v-if="rewards.randomDrugs" class="column mb-3 p-0 col-6 reward">
           <Icon name="drug" size="32" />
-
           <div>{{rewards.randomDrugs | amount}}</div>
         </div>
-
         <div v-if="rewards.randomWeapons" class="column mb-3 p-0 col-6 reward">
           <Icon name="weapon" size="32" />
-
           <div>{{rewards.randomWeapons | amount}}</div>
         </div>
-
         <div v-if="rewards.randomAlcohol" class="column m-0 p-0 col-6 reward">
           <Icon name="alcohol" size="32" />
-
           <div>{{rewards.randomAlcohol | amount}}</div>
         </div>
-
         <div v-if="rewards.randomDWD" class="column mb-2 p-0 col-6 reward">
           <Icon name="dwd" size="32" />
-
           <div>{{rewards.randomDWD}}</div>
         </div>
       </div>
 
       <router-link
         v-if="timeToWait && restUnits > 0"
-        :to="`/actions?type=attack&target=${ownJob.territory}&base=${ownJob.base}&target_type=npc`"
-      >
+        :to="`/actions?type=attack&target=${ownJob.territory}&base=${ownJob.base}&target_type=npc`">
         <button class="button btn-block button-red mb-2">
           <i class="iconfont icon-target" />
-
           Attack
         </button>
       </router-link>
@@ -143,10 +117,8 @@
         :disabled="(item.type === 'gang' && !isBoss)"
         @click="handleSubmit"
         :class="{ progress: waitingConfirmation }"
-        class="button btn-block button-green mb-2"
-      >
+        class="button btn-block button-green mb-2">
         <i class="iconfont icon-target" />
-
         Start Job
       </button>
 
@@ -154,10 +126,8 @@
         v-else
         disabled
         :class="{ progress: waitingConfirmation }"
-        class="button button-blue btn-block mb-2"
-      >
+        class="button button-blue btn-block mb-2">
         <i class="iconfont icon-clock" />
-
         Waiting
       </button>
 

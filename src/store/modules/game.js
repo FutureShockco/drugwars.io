@@ -359,8 +359,8 @@ const actions = {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-gang-deposit'; // eslint-disable-line no-param-reassign
-      payload.territory =  this.$store.state.game.mainbase.territory;
-      payload.base =  this.$store.state.game.mainbase.base;
+      payload.territory =  state.mainbase.territory;
+      payload.base =  state.mainbase.base;
       return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);

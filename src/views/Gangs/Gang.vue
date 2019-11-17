@@ -53,8 +53,10 @@
               </button>
                     </form>
                     <h3>Members</h3> 
+                    
                     <div v-if="isBoss || isCapo">
-                    <strong> Active: </strong> <span>Today<i :class="'iconfont icon-check text-green'"></i> </span>                     <span>This month<i :class="'iconfont icon-check text-orange'"></i> </span>
+                    <strong> Active: </strong> <span>Today<i :class="'iconfont icon-check text-green'"></i> </span>                     
+                    <span>This month<i :class="'iconfont icon-check text-orange'"></i> </span>
                      <span>Unactive<i :class="'iconfont icon-check text-red'"></i> </span>
                     </div>
 

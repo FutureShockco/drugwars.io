@@ -1,5 +1,5 @@
 <template>
-    <div id="territorybg" class="territorybg" @mousedown="startDrag" @mousemove="doDrag">
+    <div id="territorybg" class="territorybg anim-scale-in" @mousedown="startDrag" @mousemove="doDrag">
         <!-- <div>X: {{x}}, Y: {{y}}</div> -->
         <h3 class="title" id="title" style="display:none;">
             <div v-if="selectedTile">BASE {{selectedTile}}</div>

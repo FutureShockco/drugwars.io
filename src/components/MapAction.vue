@@ -36,10 +36,10 @@
                     Take a new base (need 1 occupation troop)
                 </div>
                 <div class="mt-1">
-                    <button class="button" @click="chooseActionType('attack')" :class="{ 'button-green' : action_type ==='attack' || target_type === 'npc' }">ATTACK</button>
-                    <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-green' : action_type ==='transport' }">TRANSPORT</button>
+                    <button class="button" @click="chooseActionType('attack')" :class="{ 'button-red' : action_type ==='attack' || target_type === 'npc' }">ATTACK</button>
+                    <button class="button ml-1" @click="chooseActionType('transport')" :class="{ 'button-blue' : action_type ==='transport' }">TRANSPORT</button>
                     <button class="button ml-1" @click="chooseActionType('occupy')" :class="{ 'button-green' : action_type ==='occupy' }">OCCUPY</button>
-                    <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-green' : action_type ==='station' }">STATION</button>
+                    <button class="button ml-1" @click="chooseActionType('station')" :class="{ 'button-orange' : action_type ==='station' }">STATION</button>
                 </div>
                 <h3>Select your army composition</h3>
                 <div v-if="ownUnits.length > 0">
@@ -125,11 +125,22 @@
                     <h3>Choose Base Name (max 5 bases)</h3>
                     <input class="input form-control btn-block mb-4" placeholder="Eg : Saint Street" v-model="baseName" maxlength="280">
                 </div>
-                <button :disabled="selectedUnits.length === 0 || !territory || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
+                <button v-if="action_type === 'attack'" :disabled="selectedUnits.length === 0 || !territory || isLoading" class="button button-large button-red mb-4" @click="handleSubmit">
                           <SmallLoading v-if="isLoading"/>
                         <span v-else>{{action_type}}</span>
                       </button>
-    
+                    <button v-if="action_type === 'transport'" :disabled="selectedUnits.length === 0 || !territory || isLoading" class="button button-large button-blue mb-4" @click="handleSubmit">
+                          <SmallLoading v-if="isLoading"/>
+                        <span v-else>{{action_type}}</span>
+                      </button>
+                                      <button v-if="action_type === 'occupy'" :disabled="selectedUnits.length === 0 || !territory || isLoading" class="button button-large button-green mb-4" @click="handleSubmit">
+                          <SmallLoading v-if="isLoading"/>
+                        <span v-else>{{action_type}}</span>
+                      </button>
+                                      <button v-if="action_type === 'station'" :disabled="selectedUnits.length === 0 || !territory || isLoading" class="button button-large button-orange mb-4" @click="handleSubmit">
+                          <SmallLoading v-if="isLoading"/>
+                        <span v-else>{{action_type}}</span>
+                      </button>
                 <p class="text-red text-left" v-if="errorMessage">
                     {{ errorMessage }}
                 </p>

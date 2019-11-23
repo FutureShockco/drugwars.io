@@ -388,7 +388,7 @@ export default {
       let reduce = 0;
       this.selectedUnits.forEach(unit => {
         if (units[unit.key].speed && units[unit.key].speed * 60 > timer) {
-          timer += units[unit.key].speed * 60;
+          timer = units[unit.key].speed * 60;
         }
       });
       if (this.selectedUnits && self.target)

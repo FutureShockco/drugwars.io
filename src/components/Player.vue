@@ -44,7 +44,7 @@
             </span>
             </h5>
         </div>
-        <div v-else-if="player.drugs" class="column col-3">
+        <div v-else-if="player.drugs && !prestige" class="column col-3">
             <h5 class="production">
                 <span class="mr-3">
               DEPOSIT : 
@@ -55,6 +55,7 @@
             </span>
             </h5>
         </div>
+
         <div v-else-if="player && player.amount" class="column  col-5">
             <h5 class="production">
                 <span class="mr-3">
@@ -76,6 +77,11 @@
             </span>
             </h5>
         </div>
+        <div v-if="prestige" class="column col-3">
+            <h5 class="production">
+            
+            </h5>
+        </div>
         <div v-if="player.drug_production_rate && totalRewards" class="column px-0  col-2">
             <h5 class="production">
                 <span class="mr-3">
@@ -87,7 +93,7 @@
             </span>
             </h5>
         </div>
-         <div v-if="player.drugs" class="column  px-0  col-2">
+         <div v-if="player.drugs && !prestige" class="column  px-0  col-2">
             <h5 class="production">
               <span class="mr-3">
               REWARDS : 
@@ -98,8 +104,13 @@
             </span>
             </h5>
         </div>
+        <div v-if="prestige" class="column  px-0  col-2">
+            <h5 class="production">
+            
+            </h5>
+        </div>
         <div class="column  col-2">
-            <h5 v-if="reward" class="production">
+            <h5 v-if="reward && !prestige" class="production">
                 <span class="mr-3" v-if="player && rank && rank <26">
                BONUS :
               <div>
@@ -108,7 +119,16 @@
               </div>
             </span>
             </h5>
-            <h5 v-else class="production">
+            <h5 v-else-if="prestige" class="production">
+                <span class="mr-3" v-if="player && rank && rank <4">
+               BONUS :
+              <div>
+              {{ Math.round(150000/rank) | amount}}
+              <Icon name="dwd" size="22"/>
+              </div>
+            </span>
+            </h5>
+            <h5 v-else-if="!prestige" class="production">
                 <span class="mr-3" v-if="player && rank && rank <26">
                BONUS :
               <div>
@@ -126,7 +146,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-  props: ['player', 'rank', 'reputation', 'reward'],
+  props: ['player', 'rank', 'reputation', 'reward', 'prestige'],
   data() {
     return {
       isLoading: false,

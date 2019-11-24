@@ -5,7 +5,7 @@
             <Loading v-if="isInit" />
             <div v-else>
                 <h1 class="mb-4">
-                    <GangImage class="mr-3" size="120" v-if="gang.image" :image="gang.image" /> {{ gang.name || gang.gang }}
+                    <GangImage class="mr-3" size="120" v-if="gang && gang.image" :image="gang.image" /><div v-if="gang & gang.name"> {{ gang.name || gang.gang }}</div>
                     <span>[{{ gang.ticker }}]</span>
                 </h1>
     

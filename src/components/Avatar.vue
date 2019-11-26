@@ -14,9 +14,9 @@
       <span class="rank py-1 px-2" v-if="rank">Rank: {{ rank }}</span>
       <span
         class="prestige py-1 px-2"
-        v-if="reputation && reputation!='none'"
+        v-if="reputation && reputation!=='none'"
       >Prestige: {{ reputation }}</span>
-      <span class="prestige py-1 px-2" v-else-if="!reputation || reputation!='none'">Prestige: 1000</span>
+      <span class="prestige py-1 px-2" v-else-if="!reputation || reputation!=='none'">Prestige: 1000</span>
     </router-link>
   </div>
 </template>

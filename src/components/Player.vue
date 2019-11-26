@@ -15,10 +15,10 @@
         <div class="column px-0 col-2">
             <h5 class="production mt-0">
                 <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
-                    <span>
-              {{player.gang}}'s {{player.role}}
-              <div>[{{ player.ticker }}]</div>
-            </span>
+                  <span>
+                    {{player.gang}}'s {{player.role}}
+                    <div>[{{ player.ticker }}]</div>
+                  </span>
                 </router-link>
                 <div class="text-green"> Wins :{{ player.wins }}</div>
                 <div class="text-red"> Loses :{{ player.loses }}</div>

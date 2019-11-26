@@ -105,8 +105,8 @@
             </h5>
         </div>
         <div v-if="prestige" class="column  px-0  col-2">
-            <h5 class="production">
-            
+            <h5 class="production"  v-if="player && rank && rank <11">
+            SEASON 1 PRIZE END JUNE 2020
             </h5>
         </div>
         <div class="column  col-2">
@@ -120,10 +120,10 @@
             </span>
             </h5>
             <h5 v-else-if="prestige" class="production">
-                <span class="mr-3" v-if="player && rank && rank <4">
+                <span class="mr-3" v-if="player && rank && rank <11">
                BONUS :
               <div>
-              {{ Math.round(150000/rank) | amount}}
+              {{ Math.round(100000/rank) | amount}}
               <Icon name="dwd" size="22"/>
               </div>
             </span>

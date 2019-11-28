@@ -81,7 +81,7 @@
           class="mt-0"
           v-if="selected && selected.dangerosity"
         >RISK: {{selected.dangerosity}}</h5>
-        <router-link
+        <!-- <router-link
           style=" pointer-events: default!important;"
           v-if="selected && selected.resources"
           :to="`/drugs/detail?name=${selected.resources}`"
@@ -90,7 +90,7 @@
             RESOURCES:
             <span class="text-orange">{{selected.resources}}</span>
           </h5>
-        </router-link>
+        </router-link> -->
         <h5
           class="mt-0"
           v-if="selected"
@@ -115,7 +115,7 @@
       >
         <div :id="'spot'+location.id" class="spot">{{location.locationname}}</div>
       </div> -->
-      <div
+      <!-- <div
         :id="'drug'+resource.territory"
         class="drug"
         v-if="!isLoading  && !showAction && !showTargets && showResources"
@@ -124,7 +124,7 @@
       >
         <img :src="`//img.drugwars.io/icons/${resource.icon}`" width="36" height="36" />
         {{resource.locationname}}
-      </div>
+      </div> -->
       <div class="first-line"></div>
       <img id="projection" src="/img/map/equirectangle_projection.png" />
     </div>

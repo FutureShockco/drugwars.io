@@ -2,9 +2,8 @@
   <Header>
     <UiTabs>
       <UiTab to="/overview">Production</UiTab>
-      <UiTab to="/overview/resources">Resources</UiTab>
-                  <UiTab to="/overview/payment">Payment</UiTab>
-            <UiTab to="/overview/base">Base</UiTab>
+      <UiTab to="/overview/payment">Payment</UiTab>
+      <UiTab to="/overview/base">Base</UiTab>
     </UiTabs>
         <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

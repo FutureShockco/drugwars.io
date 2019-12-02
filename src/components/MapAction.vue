@@ -30,7 +30,7 @@
                     Transport resources to another base
                 </div>
                 <div v-if="action_type === 'station'">
-                    Station units in another base/on the map
+                    Station units in your other bases
                 </div>
                 <div v-if="action_type === 'occupy'">
                     Take a new base (need 1 occupation troop)

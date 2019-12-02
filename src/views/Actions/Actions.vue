@@ -26,7 +26,7 @@
         <h3 class="mb-0 mt-0">Select your action type</h3>
         <div v-if="action_type === 'attack' || target_type === 'npc'">Attack another player</div>
         <div v-if="action_type === 'transport'">Transport resources to another base</div>
-        <div v-if="action_type === 'station'">Station units in another base/on the map</div>
+        <div v-if="action_type === 'station'">Station units in your other bases</div>
         <div v-if="action_type === 'occupy'">Take a new base (need 1 occupation troop)</div>
         <div class="mt-1">
           <button

@@ -331,7 +331,9 @@ export default {
           cost += units[unit.key].move_cost * unit.amount;
         }
       })
+      if(self.action_type === "attack")
       return cost + (cost * distance/100);
+      else return cost + (cost * distance/200);
     },
   },
   methods: {

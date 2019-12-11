@@ -92,7 +92,7 @@
             <p>You need to select at least 1 unit.</p>
           </div>
           <div v-else>
-            <h5>Power : {{offensivePower}}% - Timer : {{ timer|ms}} - Cost : None</h5>
+            <h5>Power : {{offensivePower}}% - Timer : {{ timer|ms}} - Cost : {{cost |amount}}</h5>
             <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
             <div v-if="action_type === 'transport'">
               <div class="columns mt-4">
@@ -358,19 +358,29 @@ export default {
     },
     defensivePower() {
       let supply = 0;
+      let power = 0;
       this.$store.state.game.user.units.forEach(unit => {
         supply += units[unit.unit].supply;
       });
-      const power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
+      if (coordination)
+      power = power + parseInt(coordination.lvl) / 10
+      if (power >= 100) return 100;
       if (power >= 60) return power;
       return 60;
     },
     offensivePower() {
       let supply = 0;
+      let power = 0;
       this.selectedUnits.forEach(unit => {
         supply += units[unit.key].supply * unit.amount;
       });
-      const power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
+      power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
+      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
+      if (coordination)
+      power = power + parseInt(coordination.lvl) / 10
+      if (power >= 100) return 100;
       if (power >= 60) return power;
       return 60;
     },
@@ -411,6 +421,21 @@ export default {
         timer += distance * 2;
       }
       return (timer = (timer - (timer / 200) * reduce) * 1000);
+    },
+    cost() {
+      const self = this;
+      let cost = 0;
+      let distance = 0;
+      distance =
+          Number(self.ownBase.territory) > Number(self.target)
+            ? Number(self.ownBase.territory) - Number(self.target)
+            : Number(self.target) - Number(self.ownBase.territory);
+      this.selectedUnits.forEach(unit => {
+        if (units[unit.key].move_cost ) {
+          cost += units[unit.key].move_cost * unit.amount;
+        }
+      })
+      return cost + (cost * distance/100);
     },
   },
   methods: {

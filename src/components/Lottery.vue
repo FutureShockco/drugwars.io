@@ -3,14 +3,15 @@
         <h4>Lottery</h4>
         <img width="150px" :src="`//img.drugwars.io/lottery.jpg`">
         <div class="lottery-text text-center">
-        <div class="pt-2">TICKETS: {{myTickets}}</div>
+        <div>TICKETS:{{myTickets}}</div>
+          <div>(Max 10k)</div>
         <div class="text-green">Last winner: <br/>{{ lastWinner.nickname || 'government'}}</div>
         <div class="text-yellow">Amount: {{ lastWinner.amount }} </div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">
                <input class="input form-control input-block mb-2" v-model="amount" type="number" min="1">
               <button
-                :disabled="isLoading  || notEnoughDWD || !base"
+                :disabled="isLoading  || notEnoughDWD || !base || overlimit"
                 type="submit" 
                 class="button btn-block button-yellow mb-2">
               <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
@@ -68,6 +69,12 @@ export default {
     },
     lastWinner() {
       return this.$store.state.game.prizeProps.lotterywinner[0];
+    },
+    overlimit(){
+      if(!Number(this.amount) || Number(this.amount) === 0)
+      return (this.myTickets > 10000)
+      else
+      return ((this.myTickets + Number(this.amount)) > 10000)
     },
     balances() {
       let ocLvl = 0;

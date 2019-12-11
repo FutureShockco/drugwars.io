@@ -16,7 +16,6 @@
             </span>
             </div>
             <UnitValues :unit="unit" :modifiedValues="modifiedValues" :speed="speed" />
-    
         </div>
         <div class="mx-auto">
             <input class="input form-control input-block mb-2" type="number" v-model="quantity" min="1">

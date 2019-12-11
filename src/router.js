@@ -98,6 +98,8 @@ const SteemAccount = () =>
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
 const Privacy = () => import(/* webpackChunkName: "privacy" */ '@/views/Settings/Privacy.vue');
+const History = () =>import(/* webpackChunkName: "userhistory" */ '@/views/Settings/History.vue');
+
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');
 const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
@@ -484,6 +486,12 @@ export default new Router({
       name: 'privacy',
       beforeEnter: requireAuth,
       component: Privacy,
+    },
+    {
+      path: '/settings/history',
+      name: 'history',
+      beforeEnter: requireAuth,
+      component: History,
     },
     {
       path: '/settings/building',

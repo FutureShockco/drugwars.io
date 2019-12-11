@@ -1,42 +1,36 @@
 <template>
 	<div class="columns width-full mt-3">
 	
-		<div class="column col-6">
+		<div class="column">
 			<h5 class="ml-2">OFFENSIVE</h5>
 			<div class="column  item-skill text-center">
 				<Icon :name="'skills/'+unit.dmg_type" size="32" />
 				<h5>ATTACK </h5>
 				<h5 class="mt-0 mb-0 skill-detail">{{modifiedValues.attack}}</h5>
 			</div>
-	
-			<div class="column  item-skill text-center">
-				<Icon name="skills/health" size="32" />
-				<h5>HEALTH </h5>
-				<h5 class="mt-0 mb-0 skill-detail">{{modifiedValues.health}}</h5>
-			</div>
-	
+
 			<div class="column  item-skill text-center">
 				<Icon name="skills/carry" size="32" />
 				<h5>CARRY </h5>
 				<h5 class="mt-0 mb-0 skill-detail">{{unit.capacity }}</h5>
 			</div>
-	
-			<div class="column  item-skill text-center">
-				<Icon name="skills/speed" size="32" />
-				<h5>SPEED </h5>
-				<h5 class="mt-0 mb-0 skill-detail">{{speed | ms }}</h5>
 			</div>
-	
-		</div>
-		<div class="column col-6">
-			<h5 class="ml-2">RESISTANCE</h5>
+				<div class="column">
+			<h5 class="ml-2">DEFENSIVE</h5>
+				
+			<div class="column  item-skill text-center">
+				<Icon name="skills/health" size="32" />
+				<h5>HEALTH </h5>
+				<h5 class="mt-0 mb-0 skill-detail">{{modifiedValues.health}}</h5>
+			</div>
+
 			<div class="column  item-skill text-center">
 				<Icon name="skills/physical" size="32" />
-				<h5>PHYSICAL </h5>
+				<h5>RESISTANCE </h5>
 				<h5 class="skill-detail">{{modifiedValues.defense}}</h5>
 			</div>
 	
-			<div class="column  item-skill text-center">
+			<!-- <div class="column  item-skill text-center">
 				<Icon name="skills/weapon" size="32" />
 				<h5>BULLET </h5>
 				<h5 class="skill-detail">{{unit.weapon_defense}}</h5>
@@ -52,9 +46,24 @@
 				<Icon name="skills/chemical" size="32" />
 				<h5>CHEMICAL </h5>
 				<h5 class="skill-detail">{{unit.chemical_defense}}</h5>
-			</div>
+			</div> -->
 	
 		</div>
+		<div class="column">
+			<h5 class="ml-2">EXTRA</h5>
+			<div class="column  item-skill text-center">
+				<Icon name="skills/speed" size="32" />
+				<h5>SPEED </h5>
+				<h5 class="mt-0 mb-0 skill-detail">{{speed | ms }}</h5>
+			</div>
+	
+			<div class="column  item-skill text-center">
+				<Icon name="drug" size="32" />
+				<h5>MOVE COST </h5>
+				<h5 class="mt-0 mb-0 skill-detail">{{unit.move_cost }}</h5>
+			</div>
+		</div>
+	
 	</div>
 </template>
 

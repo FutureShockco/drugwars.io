@@ -583,6 +583,9 @@ export default {
       if (type === 'attack' && target === this.nickname) {
         this.errorMessage = 'Attack yourself? Are you serious?';
       }
+      if (this.cost > this.ownBase.drug_balance) {
+        this.errorMessage = 'You dont have enough drugs for this!';
+      }
       const now = new Date();
       const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
       if (isPunished > now) {

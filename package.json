@@ -52,6 +52,7 @@
     "vue-paypal-checkout": "^3.2.0",
     "vue-router": "^3.0.1",
     "vue2-touch-events": "^2.0.0",
+    "vuedraggable": "^2.23.2",
     "vuejs-paginate": "^2.1.0",
     "vuex": "^3.0.1"
   },

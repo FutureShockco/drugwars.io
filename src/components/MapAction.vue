@@ -53,10 +53,18 @@
                 <div v-if="action_type !=='occupy'" class="column pl-0 mt-6 col-6 text-left width-full">
                     <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name" v-model="combination_name" maxlength="24">
                     <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name" @click="saveCombination()">Save squad</button>
-                    <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
-                        <button class="button button-red" @click="deleteCombination(combination.name)">delete squad</button>
-                        <button class="button button-blue ml-2" @click="loadCombination(combination.set)">load {{combination.name}}</button>
-                    </div>
+              <draggable @start="drag=true" v-model="favoriteCombinations" @end="onEnd">
+                <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
+                <button
+                  class="button button-red"
+                  @click="deleteCombination(combination.name)"
+                >delete squad</button>
+                <button
+                  class="button button-blue ml-2"
+                  @click="loadCombination(combination.set)"
+                >load {{combination.name}}</button>
+                </div>
+              </draggable>
                 </div>
             </div>
             <div v-if="ownUnits.length > 0" class="column col-12 col-sm-6">
@@ -169,6 +177,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
 import Promise from 'bluebird';
+import draggable from 'vuedraggable'
 
 export default {
   props: ['base', 'territory', 'targetNickname', 'show'],
@@ -198,6 +207,9 @@ export default {
     if (this.targetNickname) {
       this.getUserBase();
     }
+  },
+  components: {
+          draggable,
   },
   computed: {
     parentData() {
@@ -570,6 +582,9 @@ export default {
           str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
         }
       return str.join('&');
+    },
+    onEnd(){
+      localStorage.setItem('fav_combi', JSON.stringify(this.favoriteCombinations));
     },
     saveCombination() {
       let favs = [];

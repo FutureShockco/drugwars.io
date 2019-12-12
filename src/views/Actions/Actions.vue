@@ -70,7 +70,8 @@
             :disabled="selectedUnits.length === 0 || !combination_name"
             @click="saveCombination()"
           >Save squad</button>
-          <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
+          <draggable @start="drag=true" v-model="favoriteCombinations" @end="onEnd">
+            <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
             <button
               class="button button-red"
               @click="deleteCombination(combination.name)"
@@ -79,7 +80,8 @@
               class="button button-blue ml-2"
               @click="loadCombination(combination.set)"
             >load {{combination.name}}</button>
-          </div>
+            </div>
+          </draggable>
         </div>
       </div>
       <div v-if="ownUnits.length > 0" class="column col-12 col-sm-6">
@@ -285,6 +287,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
 import Promise from 'bluebird';
+import draggable from 'vuedraggable'
 
 export default {
   data() {
@@ -310,6 +313,9 @@ export default {
       weapons_amount: 0,
       alcohol_amount: 0,
     };
+  },
+  components: {
+          draggable,
   },
   created() {
     if (this.targetNickname) {
@@ -670,6 +676,9 @@ export default {
           str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
         }
       return str.join('&');
+    },
+    onEnd(){
+      localStorage.setItem('fav_combi', JSON.stringify(this.favoriteCombinations));
     },
     saveCombination() {
       let favs = [];

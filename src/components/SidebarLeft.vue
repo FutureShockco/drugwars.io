@@ -99,11 +99,11 @@
                             {{'sidebar.market' | translate}}
                         </router-link>
                     </li>
-                    <!-- <li>
-                        <router-link to="/shop/tokens" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                    <li>
+                        <router-link to="/shop" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                             {{'sidebar.shop' | translate}}
                         </router-link>
-                    </li> -->
+                    </li>
                     <li>
                         <router-link to="/cards/mycollection" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                             {{'sidebar.cards' | translate}}

@@ -2,7 +2,7 @@
   <Header>
     <UiTabs>
       <!-- <UiTab to="/shop/tokens">Shop</UiTab> -->
-      <UiTab to="/shop/tokens">Tokens</UiTab>
+      <UiTab to="/shop">Shop</UiTab>
     </UiTabs>
   </Header>
 </template>

@@ -3,9 +3,8 @@
         <div class="columns m-2 shopcard">
             <Icon class="mr-2" size="44" :name="item.img" />
             <div class="title">
-                {{ this.amountOfDWD }}
+                {{ item.name }}
             </div>
-    
             <div class="title type">
                 {{ item.type }}
             </div>
@@ -15,9 +14,12 @@
           ${{ item.price | amount }} -
           {{ priceInSteem | amount }} STEEM
         </button>
-            <h3 class="mt-0 mb-0" v-else> ${{ item.price | amount }}</h3>
-            <!-- <PayPal :amount="item.price.toString()" currency="USD" :client="credentials" :items="myItems" env="production" :invoice-number="uniqueId+username" v-on:payment-authorized="paymentAuthorized" v-on:payment-completed="paymentCompleted" v-on:payment-cancelled="paymentCancelled">
-            </PayPal> -->
+        <button  @click="handleSubmit()" class="button btn-block button-yellow mb-2 mt-2">
+          <i class="iconfont icon-zap"/>
+          ${{ item.price | amountOfDWD }} -
+          {{ priceInSteem | amount }} STEEM
+        </button>
+
         </div>
     </div>
 </template>

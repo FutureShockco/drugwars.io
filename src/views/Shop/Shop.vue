@@ -3,16 +3,8 @@
         <ShopTabs/>
         <div class="p-2 text-center anim-fade-in">
             <h2>DEALER SHOP</h2>
-            <p class="mb-4 text-green">We always recommend you to use <a target="_blank" href="https://steem-engine.com/?p=market&t=DWD">SteemEngine</a> to get DWD tokens at a fair price decided by players.</p>
             <div class="columns">
-                <ShopItem v-for="item in shop" :item="item" :key="item.name" />
-            </div>
-        </div>
-        <div class="text-center">
-            <p class="mb-4">When you buy DWD tokens in the official shop, we automatically burn the same amount of tokens you have bought.</p>
-            <p class="mb-4">Where can I buy DWD tokens outside of the shop?</p>
-            <div>
-                <a href="https://steem-engine.com/?p=market&t=DWD">Buy on SteemEngine</a>.
+                <ShopItem v-for="item in items" :item="item" :key="item.name" :price="item.price" />
             </div>
         </div>
     </div>
@@ -25,7 +17,16 @@ import { shop } from 'drugwars';
 export default {
   data() {
     return {
-      shop,
+      items:[{icon:"shield",name:"shield",type:"48 hours",price:100,desc:"The shield will protect you from any attacks."},
+      // {icon:"shield",name:"booster",type:"48 hours",price:100,desc:"This will double your overall production."},
+      // {icon:"shield",name:"free jobs",type:"48 hours",price:100,desc:"This will double the limit of your daily jobs."},
+      // {icon:"shield",name:"defense pass",type:"48 hours",price:100,desc:"With this pass, you will only lose 50% of your units when attacked."},
+      // {icon:"shield",name:"small army surgery",type:"1 time use",price:100,desc:"With this pass, you will only lose 50% of your units when attacking (up to 5000 units)."},
+      // {icon:"shield",name:"middle army surgery",type:"1 time use",price:100,desc:"With this pass, you will only lose 50% of your units when attacking (up to 10000 units)."},
+      // {icon:"shield",name:"large army surgery",type:"1 time use",price:100,desc:"With this pass, you will only lose 50% of your units when attacking (up to 20000 units)."},
+      //  {icon:"shield",name:"prestigitator",type:"48 hours",price:100,desc:"With this pass, you will double your prestige gain."},
+      //  {icon:"shield",name:"crazy fighter",type:"48 hours",price:100,desc:"With this pass, you will pay twice less your actions."}
+       ],
     };
   },
 };

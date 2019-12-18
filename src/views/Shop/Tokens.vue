@@ -5,7 +5,7 @@
             <h2>GOVERNMENT SHOP</h2>
             <p class="mb-4 text-green">We always recommend you to use <a target="_blank" href="https://steem-engine.com/?p=market&t=DWD">SteemEngine</a> to get DWD tokens at a fair price decided by players.</p>
             <div class="columns">
-                <Shopcard v-for="item in shop" :item="item" :key="item.name" />
+                <Shopcard :item="item" :key="item.name" />
             </div>
         </div>
         <div class="text-center"> 
@@ -26,7 +26,7 @@ import { shop } from 'drugwars';
 export default {
   data() {
     return {
-      shop,
+      item:{name:"shield",cost:100},
     };
   },
   methods: {

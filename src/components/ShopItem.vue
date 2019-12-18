@@ -1,13 +1,17 @@
 <template>
-  <div class="column col-6 text-center p-2">
+  <div class="column col-4 text-center p-2">
     <div class="columns m-2 shopcard">
-      <Icon class="mr-2" size="44" :name="'card'" />
-      <div class="title">{{ Math.round(this.amountOfDWD) }}</div>
+      <Icon class="mr-2" size="44" :name="item.icon" />
+      <div class="title">{{ item.name }}</div>
       <div class="title type">{{ item.type }}</div>
-      Buy {{ Math.round(this.amountOfDWD/36) }} Pack of 5 Card
-      <button @click="handleSubmit()" class="button btn-block button-blue mb-2 mt-2" :disabled="isLoading  || notEnoughDWD">
-        <i class="iconfont icon-zap" />${{ item.price | amount }} - {{ priceInSteem | amount }} STEEM
-      </button>
+          <div >{{ item.desc }}</div>
+        <button
+          :disabled="isLoading || notEnoughDWD "
+          @click="handleSubmit('dwd')"
+          class="button btn-block button-yellow mb-2 mt-2">
+        <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
+        <span v-if="dwdPrice"> {{ priceInDWD  }} DWD</span>
+        </button>
     </div>
   </div>
 </template>
@@ -16,7 +20,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  props: ['item'],
+  props: ['item','price'],
   data() {
     return {
       isLoading: false,
@@ -24,12 +28,17 @@ export default {
   },
   computed: {
     priceInSteem() {
-      return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
+      return parseFloat(this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
-    amountOfDWD() {
-      return (((this.item.price / this.$store.state.game.prizeProps.steemprice) * 3) / 100).toFixed(
-        3,
-      );
+    priceInDWD() {
+      return this.price;
+    },
+    dwdPrice() {
+      const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
+      return price * this.priceInDWD;
+    },
+    notEnoughDWD() {
+      return this.priceInDWD > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -38,8 +47,9 @@ export default {
     username() {
       return this.$store.state.auth.username;
     },
-    notEnoughDWD() {
-      return this.amountOfDWD > this.$store.state.game.user.user.dwd;
+    shieldEnd() {
+      const diff = this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+      return diff > 0 ? diff : 0;
     },
   },
   methods: {
@@ -48,7 +58,7 @@ export default {
       this.isLoading = true;
       const payload = {
         amount: 1,
-        type: 'dw-pack',
+        type: 'dw-shield',
       };
       this.send(payload)
         .then(() => {
@@ -102,5 +112,13 @@ export default {
   color: #fbbd08;
   top: 5px !important;
   font-size: 16px;
+}
+
+.dwdicon {
+  width: 22px;
+  left: 0px;
+  position: relative;
+  float: left;
+  top: 5px;
 }
 </style>

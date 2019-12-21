@@ -70,7 +70,7 @@
       </div>
 
       <button
-        :disabled="isLoading || inProgress || (item.type === 'gang' && !isBoss)"
+        :disabled="isLoading || inProgress || (item.type === 'gang' && !isBoss) || jobleft <1"
         @click="handleSubmit"
         class="button btn-block button-green mb-2">
         <i class="iconfont icon-target" />
@@ -199,6 +199,15 @@ export default {
     },
     ownBase() {
       return this.$store.state.game.mainbase;
+    },
+    jobleft() {
+      const now = new Date();
+      const day = now.getUTCDate();
+      const month = now.getUTCMonth() + 1;
+      const year = now.getUTCFullYear();
+      const date = `${day}-${month}-${year}`;
+      if (this.$store.state.game.user.user.active === date) return this.$store.state.game.user.user.tutorial;
+      return 10;
     },
   },
   methods: {

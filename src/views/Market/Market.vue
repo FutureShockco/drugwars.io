@@ -489,7 +489,7 @@ export default {
               {
                 symbol: `${self.token}`,
               },
-              200,
+              20,
               0,
               [{ index: 'priceDec', descending: true }],
               false,
@@ -503,7 +503,7 @@ export default {
                   {
                     symbol: `${self.token}`,
                   },
-                  200,
+                  20,
                   0,
                   [{ index: 'priceDec', descending: false }],
                   false,

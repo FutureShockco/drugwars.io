@@ -10,7 +10,7 @@
                 <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
                     <h6>Location </h6>
                 <input class="input input-primary mb-2" v-model="target_base" type="number"/>
-            <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnoughDWD || !ownBase ||!target_base || !target_territory"
+            <!-- <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnoughDWD || !ownBase ||!target_base || !target_territory"
              type="submit" class="button btn-block button-green mb-2">
             <template v-if="isLoading || waitingConfirmation">
                       <SmallLoading/>
@@ -19,7 +19,8 @@
                   <i class="iconfont icon-tools" />
                   {{ upgradeLabel }}
               </template>
-              </button>
+              </button> -->
+              <h5>   {{ upgradeLabel }}</h5>
             <button
               :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !ownBase ||!target_base || !target_territory"
               class="button btn-block button-yellow mb-2">
@@ -104,9 +105,9 @@ export default {
       return this.level > this.hqLevel && this.id !== 'headquarters';
     },
     upgradeLabel() {
-      let label = 'Move';
+      let label = '';
       if (this.target_territory && this.target_base)
-        label = `Move to ${this.target_territory}:${this.target_base}`;
+        label = `You will be moving to ${this.target_territory}:${this.target_base}`;
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;

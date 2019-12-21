@@ -2,6 +2,7 @@
 	<div v-if="ownBase">
     <JobsTabs />
 		<div class="text-center anim-fade-in">
+      <h5 class="mt-2">  You can still do {{jobleft}} job(s) today.</h5>
 			<div class="columns m-0" v-for="item in items" :key="item.id">
 				<MissionCard :item="item" />
 				<div class="columns m-0" v-for="job in ownJobs" :key="job.job+job.base">
@@ -45,6 +46,15 @@ export default {
     },
     ownBase() {
       return this.$store.state.game.mainbase;
+    },
+    jobleft() {
+      const now = new Date();
+      const day = now.getUTCDate();
+      const month = now.getUTCMonth() + 1;
+      const year = now.getUTCFullYear();
+      const date = `${day}-${month}-${year}`;
+      if (this.$store.state.game.user.user.active === date) return this.$store.state.game.user.user.tutorial;
+      return 10;
     },
   },
   methods: {

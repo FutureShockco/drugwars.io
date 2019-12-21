@@ -522,12 +522,14 @@ export default {
                   self.sellBook.forEach(element => {
                     self.series[0].data.push(0);
                   });
+                  self.series[0].data.push(0);
                   self.totalBuy = totalBuy;
 
                   let totalSell = 0;
                   self.buyBook.forEach(element => {
                     self.series[1].data.push(0);
                   });
+                  self.series[1].data.push(0);
                   sellBook.forEach(element => {
                     const sell = element;
                     totalSell += Number(sell.quantity);

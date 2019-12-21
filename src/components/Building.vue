@@ -164,7 +164,12 @@ export default {
     weaponLvl,
     distilleryLvl,
     this.$store.state.ui.timestamp,
+    this.booster
    );
+  },
+  booster(){
+      let date = new Date().getTime() /1000
+      return Number(this.$store.state.game.user.user.booster) > date;
   },
   hasNotEnough() {
    return (

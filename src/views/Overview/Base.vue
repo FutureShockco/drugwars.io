@@ -3,23 +3,13 @@
         <OverviewTabs/>
         <div class="p-4 text-center anim-fade-in">
             <h2>MOVE YOUR BASE TO ANOTHER SPOT</h2>
-            <h5>Be carefull, nobody can recover your old location if you decide to move your base. You will keep all your buildings and your units. You can not move if you have any not ended fights.</h5>
+            <h5>Be carefull, everybody can recover your old location on the map. You will keep all your buildings and your units. You can not move if you have any fights which are still ongoing.</h5>
            <h4>Current coordinates <div class="text-yellow">{{ownBase.territory}} : {{ownBase.base}}</div></h4>
             <form class="form container-xxs" @submit.prevent="handleSubmit">
               <h6>Territory </h6>
                 <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
                     <h6>Location </h6>
                 <input class="input input-primary mb-2" v-model="target_base" type="number"/>
-            <!-- <button :class="{ progress: inProgress }" :disabled="isLoading || inProgress || notEnoughDWD || !ownBase ||!target_base || !target_territory"
-             type="submit" class="button btn-block button-green mb-2">
-            <template v-if="isLoading || waitingConfirmation">
-                      <SmallLoading/>
-              </template>
-              <template v-else>
-                  <i class="iconfont icon-tools" />
-                  {{ upgradeLabel }}
-              </template>
-              </button> -->
               <h5>   {{ upgradeLabel }}</h5>
             <button
               :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !ownBase ||!target_base || !target_territory"
@@ -107,7 +97,7 @@ export default {
     upgradeLabel() {
       let label = '';
       if (this.target_territory && this.target_base)
-        label = `You will be moving to ${this.target_territory}:${this.target_base}`;
+        label = `You are moving your base from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;

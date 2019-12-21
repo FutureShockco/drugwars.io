@@ -15,6 +15,8 @@
                 <div class="shield text-center hide-sm hide-md hide-lg mt-2">
                     <Icon v-if="shieldEnd" name="shield" size="26" class="text-gray" />
                     <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
+                      <Icon v-if="booster" name="machine_gun" size="26" class="text-gray" />
+                    <div v-if="booster" class="text-gray">{{ boosterEnd | ms }}</div>
                 </div>
             </div>
         </div>
@@ -46,6 +48,15 @@ export default {
     },
     prizeProps() {
       return this.$store.state.game.prizeProps;
+    },
+    booster(){
+      let date = new Date().getTime() /1000
+      return Number(this.$store.state.game.user.user.booster) > date;
+    },
+    boosterEnd() {
+      const diff =
+        this.$store.state.game.user.user.booster * 1000 - this.$store.state.ui.timestamp;
+      return diff > 0 ? diff : 0;
     },
     user() {
       return this.$store.state.game.user.user;

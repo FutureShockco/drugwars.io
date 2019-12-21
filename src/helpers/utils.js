@@ -10,14 +10,26 @@ function jsonParse(input) {
   }
 }
 
-const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
+const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl,booster) => {
   const now = new Date();
   let drugs = 0;
   let weapons = 0;
   let alcohols = 0;
   if (building) {
     const time = (now.getTime() - new Date(Date.parse(building.last_update)).getTime()) / 1000;
-    drugs =
+    if(booster)
+    {
+      drugs =
+      building.drug_balance + Number(parseFloat(time * (building.drug_production_rate*2)).toFixed(2));
+    weapons =
+      building.weapon_balance +
+      Number(parseFloat(time * (building.weapon_production_rate*2)).toFixed(2));
+    alcohols =
+      building.alcohol_balance +
+      Number(parseFloat(time * (building.alcohol_production_rate*2)).toFixed(2));
+    }
+    else{
+      drugs =
       building.drug_balance + Number(parseFloat(time * building.drug_production_rate).toFixed(2));
     weapons =
       building.weapon_balance +
@@ -25,6 +37,8 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
     alcohols =
       building.alcohol_balance +
       Number(parseFloat(time * building.alcohol_production_rate).toFixed(2));
+    }
+
     if (ocLvl > 0) {
       drugs += Number(
         parseFloat(time * building.drug_production_rate).toFixed(2) * (ocLvl * 0.005),
@@ -66,6 +80,7 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
           : parseFloat(alcohols).toFixed(3),
     };
   }
+
   return {
     drugs: drugs > 10000 ? 10000 : parseFloat(drugs).toFixed(2),
     weapons: weapons > 10000 ? 10000 : parseFloat(weapons).toFixed(2),

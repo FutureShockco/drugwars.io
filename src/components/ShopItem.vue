@@ -7,7 +7,7 @@
           <div >{{ item.desc }}</div>
         <button
           :disabled="isLoading || notEnoughDWD "
-          @click="handleSubmit('dwd')"
+          @click="handleSubmit(item.name)"
           class="button btn-block button-yellow mb-2 mt-2">
         <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
         <span v-if="dwdPrice"> {{ priceInDWD  }} DWD</span>
@@ -54,11 +54,11 @@ export default {
   },
   methods: {
     ...mapActions(['send', 'init']),
-    handleSubmit() {
+    handleSubmit(type) {
       this.isLoading = true;
       const payload = {
         amount: 1,
-        type: 'dw-shield',
+        type: 'dw-'+type,
       };
       this.send(payload)
         .then(() => {

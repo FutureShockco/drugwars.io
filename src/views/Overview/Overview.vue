@@ -37,12 +37,12 @@
           </div>
           <div class="column col-6">
             PRODUCTION:
-            <span class="text-orange">{{ drugProductionRate * 60 * 60 * 24 | amount }}</span>/Day
+            <span class="text-orange">{{ drugProductionRate * 60 * 60 * 24 | amount }}</span>/Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>{{ drugProductionRate * 60 * 60 | amount }}/Hour</p>
           </div>
           <div class="column col-6 text-right">
             BONUS:
-            <span class="text-orange">{{ drugBonus | amount }}</span>/Day
+            <span class="text-orange">{{ drugBonus | amount }}</span>/Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>
               OP. CENTER:
               <span
@@ -72,7 +72,7 @@
               <span
                 v-if="(weaponStorage - weaponBalance) / weaponProductionRate * 1000 > 0"
                 class="text-green"
-              >{{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
+              >{{ (weaponStorage - weaponBalance) / weaponProductionRate * 1000 | ms}}</span> 
               <span v-else class="text-red">Now</span>
             </p>
           </div>
@@ -84,17 +84,17 @@
               <span
                 v-if="((weaponStorage/100*20)  - weaponBalance) / weaponProductionRate * 1000 > 0"
                 class="text-green"
-              >{{ ((weaponStorage/100*20) - weaponBalance) / weaponProductionRate * 1000 | ms}}</span>
+              >{{ ((weaponStorage/100*20) - weaponBalance) / weaponProductionRate * 1000 | ms}}</span> 
               <span v-else class="text-red">Now</span>
             </p>
           </div>
           <div class="column col-6">
-            PRODUCTION: {{ weaponProductionRate * 60 * 60 * 24 | amount }}/Day
+             PRODUCTION:<span class="text-orange"> {{ weaponProductionRate * 60 * 60 * 24 | amount }}</span> /Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>{{ weaponProductionRate * 60 * 60 | amount }}/Hour</p>
           </div>
           <div class="column col-6 text-right">
             BONUS:
-            <span class="text-orange">{{ weaponBonus | amount }}</span>/Day
+            <span class="text-orange">{{ weaponBonus | amount }}</span>/Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>
               OP. CENTER:
               <span
@@ -141,12 +141,12 @@
             </p>
           </div>
           <div class="column col-6">
-            PRODUCTION: {{ alcoholProductionRate * 60 * 60 * 24 | amount }}/Day
+            PRODUCTION:  <span class="text-orange">{{ alcoholProductionRate * 60 * 60 * 24 | amount }}</span> /Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>{{ alcoholProductionRate * 60 * 60 | amount }}/Hour</p>
           </div>
           <div class="column col-6 text-right">
             BONUS:
-            <span class="text-orange">{{ alcoholBonus | amount }}</span>/Day
+            <span class="text-orange">{{ alcoholBonus | amount }}</span>/Day <span class="text-yellow" v-if="booster">booster x2</span>
             <p>
               OP. CENTER:
               <span
@@ -205,6 +205,10 @@ export default {
         );
       }
       return { drug_balance: 0 };
+    },
+    booster(){
+      let date = new Date().getTime() /1000
+      return Number(this.$store.state.game.user.user.booster) > date;
     },
     drugStorage() {
       return this.HQ.drug_storage || 0;

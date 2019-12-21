@@ -1,8 +1,22 @@
 <template>
     <ul class="balances list-style-none">
-        <li>
+        <li v-if="booster" class="text-yellow">
             <Icon name="drug" size="36" />
-            <div class="balance">
+            <div class="balance" >
+                <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
+                    {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
+                </div>
+                <div class="detail">
+                    {{ (HQ.drug_production_rate * 60 * 60 * 24) *2 | amount}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus *2 | amount}}</span>/DAY
+                </div>
+                <div class="detail">
+                    <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span>/SAFE
+                </div>
+            </div>
+        </li>
+        <li v-else>
+            <Icon name="drug" size="36" />
+            <div class="balance" >
                 <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
                     {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
                 </div>
@@ -14,7 +28,21 @@
                 </div>
             </div>
         </li>
-        <li>
+          <li v-if="booster" class="text-yellow">
+            <Icon name="weapon" size="36" />
+            <div class="balance">
+                <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
+                    {{ balances.weapons | amount }} <span class="mini"> {{'message.weapons' | translate}}</span>
+                </div>
+                <div class="detail ">
+                    {{ (HQ.weapon_production_rate * 60 * 60 * 24)*2 | amount}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus*2 | amount}}</span>/DAY
+                </div>
+                <div class="detail">
+                    <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span>/SAFE
+                </div>
+            </div>
+        </li>
+        <li v-else>
             <Icon name="weapon" size="36" />
             <div class="balance">
                 <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
@@ -28,7 +56,21 @@
                 </div>
             </div>
         </li>
-        <li>
+        <li v-if="booster" class="text-yellow">
+            <Icon name="alcohol" size="36" />
+            <div class="balance">
+                <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
+                    {{ balances.alcohols | amount }}<span class="mini"> {{'message.alcohol' | translate}}</span>
+                </div>
+                <div class="detail">
+                    {{ (HQ.alcohol_production_rate * 60 * 60 * 24)*2 | amount}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus *2 | amount}}</span>/DAY
+                </div>
+                <div class="detail">
+                    <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span>/SAFE
+                </div>
+            </div>
+        </li>
+          <li v-else>
             <Icon name="alcohol" size="36" />
             <div class="balance">
                 <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
@@ -109,6 +151,10 @@ export default {
     base() {
       return this.$store.state.game.mainbase;
     },
+    booster(){
+      let date = new Date().getTime() /1000
+      return Number(this.$store.state.game.user.user.booster) > date;
+    },
     HQ() {
       if (
         this.base &&
@@ -166,6 +212,7 @@ export default {
         weaponLvl,
         distilleryLvl,
         this.$store.state.ui.timestamp,
+        this.booster
       );
     },
     dailyRewards() {

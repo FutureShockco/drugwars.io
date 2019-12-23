@@ -1,5 +1,5 @@
 const isElectron = () => navigator.userAgent.toLowerCase().indexOf('electron') > -1;
-
+import store from '@/store';
 const isWeb = () => !isElectron();
 
 function jsonParse(input) {
@@ -10,11 +10,13 @@ function jsonParse(input) {
   }
 }
 
-const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl,booster) => {
+const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl,useless) => {
   const now = new Date();
   let drugs = 0;
   let weapons = 0;
   let alcohols = 0;
+  let date = new Date().getTime() /1000
+  let booster = Number(store.state.game.user.user.booster) > date;
   if (building) {
     const time = (now.getTime() - new Date(Date.parse(building.last_update)).getTime()) / 1000;
     if(booster)

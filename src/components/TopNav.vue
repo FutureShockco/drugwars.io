@@ -12,7 +12,7 @@
           </button>
     
                 <Balances class="width-full text-center" />
-                <div class="shield text-center hide-sm hide-md hide-lg mt-2">
+                <div class="shield text-center hide-sm hide-md hide-lg mt-2 d-flex">
                     <Icon v-if="shieldEnd" name="shield" size="26" class="text-gray" />
                     <div v-if="shieldEnd" class="text-gray">{{ shieldEnd | ms }}</div>
                       <Icon v-if="booster" name="machine_gun" size="26" class="text-gray" />

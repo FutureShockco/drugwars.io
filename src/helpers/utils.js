@@ -10,13 +10,15 @@ function jsonParse(input) {
   }
 }
 
-const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl,useless) => {
+const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
   const now = new Date();
   let drugs = 0;
   let weapons = 0;
   let alcohols = 0;
   let date = new Date().getTime() /1000
-  let booster = Number(store.state.game.user.user.booster) > date;
+  let booster = false;
+  if(store.state.game.user.user.booster>0)
+  booster = Number(store.state.game.user.user.booster) > Number(date);
   if (building) {
     const time = (now.getTime() - new Date(Date.parse(building.last_update)).getTime()) / 1000;
     if(booster)

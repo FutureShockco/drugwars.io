@@ -65,16 +65,11 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp,
-        this.booster
-      );
+        this.$store.state.ui.timestamp
+              );
     },
     base() {
       return this.$store.state.game.mainbase;
-    },
-    booster(){
-      let date = new Date().getTime() /1000
-      return Number(this.$store.state.game.user.user.booster) > date;
     },
     HQ() {
       if (

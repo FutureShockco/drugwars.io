@@ -53,10 +53,6 @@ export default {
       }
       return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
     },
-    booster(){
-      let date = new Date().getTime() /1000
-      return Number(this.$store.state.game.user.user.booster) > date;
-    },
     balances() {
       let ocLvl = 0;
       if (
@@ -92,8 +88,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp,
-        this.booster
+        this.$store.state.ui.timestamp
       );
     },
   },

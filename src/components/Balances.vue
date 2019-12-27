@@ -211,8 +211,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp,
-        this.booster
+        this.$store.state.ui.timestamp
       );
     },
     dailyRewards() {

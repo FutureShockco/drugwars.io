@@ -1,10 +1,7 @@
 <template>
   <div>
     <UiCenter class="vue-ui-modal p-4 home">
-      <Icon name="logo" class="logo-large mt-4" />
-      <div class="title mb-2">
-        <h4>GET PAID TO RULE YOUR WORLD</h4>
-      </div>
+      <Icon name="logo" class="logo-large mt-4 mb-3" />
       <div class="columns rel">
         <div class="column det col-4">
           <h5>Build your own virtual empire</h5>

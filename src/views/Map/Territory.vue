@@ -438,10 +438,13 @@ export default {
         };
         this.send(payload)
           .then(() => {
-            Promise.delay(3000).then(() => {
+            setTimeout(() => {
+              self.init();
+            }, 5000);
+            Promise.delay(6000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
                 [self.bases] = result;
-                self.init();
+     
                 self.isLoading = false;
               });
             });

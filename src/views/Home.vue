@@ -30,12 +30,6 @@
 
       <img src="https://s3.amazonaws.com/steem-engine/images/steem_engine_logo_32.png" />
     </UiCenter>
-    <div class="mb-4 text-center bottomt">
-      Want to buy a steem account to obtain more advantage?
-      <a
-        href="https://account.steem.ninja/?ref=drugwars"
-      >Click here</a>
-    </div>
   </div>
 </template>
 

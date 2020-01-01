@@ -104,11 +104,11 @@
                             {{'sidebar.shop' | translate}}
                         </router-link>
                     </li>
-                    <li>
+                    <!-- <li>
                         <router-link to="/cards/mycollection" class="py-1 px-4 d-block" @click.native="toggleSidebar">
                             {{'sidebar.cards' | translate}}
                         </router-link>
-                    </li>
+                    </li> -->
                 </ul>
                 <ul class="pt-1 pb-2 border-bottom">
                     <li>

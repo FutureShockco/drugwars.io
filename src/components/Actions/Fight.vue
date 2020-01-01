@@ -72,9 +72,6 @@
 			<div v-if="details || fight.is_done === 0" class="text-center">
 				<span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
 			</div>
-			<div v-if=" fight.is_done === 0 && !timeToBattle" class="text-center">
-				<button class="button button-red" @click="openBattle(fight.fight_key)" >Start the Battle (Simulation only)</button>
-			</div>
 			<div class="text-center mb-3 mt-3">
 				<span>FROM</span>
 				<span v-if="fight.attacker_base">

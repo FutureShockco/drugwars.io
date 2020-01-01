@@ -34,8 +34,13 @@
               'content--nav-open': sidebarVisible,
             }"
     			/>
-</template>
+    </template>
 		<Notifications/>
+    <cookie-law style="z-index:99999">
+      <div slot="message">
+        <h3 class="text-center text-red">IMPORTANT NOTE: DRUGWARS v0.6 IS GOING TO BE RELEASED, THE GAME WILL NOT BE AVAILABLE FROM 2PM TO 8PM UTC TIME THE 06/01/2020. THANK YOU FOR YOUR UNDERSTANDING</h3>
+      </div>
+    </cookie-law>
 	</div>
 </template>
 
@@ -43,15 +48,18 @@
 import store from '@/store';
 import client from '@/helpers/client';
 import { setTimeout } from 'timers';
+import CookieLaw from 'vue-cookie-law'
 
 export default {
   data() {
     return {
       modalIsOpen: localStorage.firstime || false,
+      messageIsOpen: localStorage.message || false,
       attempt: 1,
       connected: false,
     };
   },
+  components: { CookieLaw },
   computed: {
     username() {
       return this.$store.state.auth.username;

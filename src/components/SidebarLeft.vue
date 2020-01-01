@@ -2,7 +2,6 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3">
-              <!-- <h5 class="text-center label text-red">CLUSTERS ARE NOW SMALLER BE CAREFULL AND USE THE SIMULATOR BEFORE LAUNCHING FIGHTS</h5> -->
                 <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" :reputation="reputation"/>
                 <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture"  :reputation="reputation"/>
                 <div class="username" @click.native="toggleSidebar">

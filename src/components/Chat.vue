@@ -19,13 +19,13 @@
                     <div class="columns">
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                <ChatAvatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                                  <i class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
-                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
+                            <ChatAvatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}"><span @click="sendMessage(response.sender)">{{response.sender}}</span> <router-link v-if="response.gang" :to="`/gangs/gang/${response.gang}`"><span class="gang">[{{response.gang}}]</span></router-link></h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -39,13 +39,13 @@
                                      <div class="columns">
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                <ChatAvatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                                  <i class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
-                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
+                            <ChatAvatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}"><span @click="sendMessage(response.sender)">{{response.sender}}</span>  <router-link v-if="response.gang" :to="`/gangs/gang/${response.gang}`"><span class="gang">[{{response.gang}}]</span></router-link></h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -60,13 +60,13 @@
                                      <div class="columns">
                         <div class="column pl-3 pr-0 col-2">
                             <div v-if="response.sender != user.nickname" :to="`/actions?target=${response.sender}`">
-                                <Avatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
+                                <ChatAvatar :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'" />
                                 <i v-if="!receiver" class="iconfont icon-comment-discussion" @click="sendPm(response.sender)"></i>
                             </div>
-                            <Avatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
+                            <ChatAvatar v-else :size="30" :username="response.sender" :picture="response.picture" :reputation="'none'"/>
                         </div>
                         <div class="column col-8 mt-0 px-0 message text-left">
-                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}">{{response.sender}} {{response.gang}}</h5>
+                        <h5 class="my-0 py-0 sender" :class="{'text-blue' : response.sender === user.nickname}"><span @click="sendMessage(response.sender)">{{response.sender}}</span><router-link v-if="response.gang" :to="`/gangs/gang/${response.gang}`"><span class="gang">[{{response.gang}}]</span></router-link></h5>
                       <div  v-if="response.text" v-html="checkUrl(response.text)"></div>
                         </div>
                         <div class="column date pr-0 col-1">{{response.date}}</div>
@@ -76,7 +76,7 @@
         </div>
         <div v-if="showUsers" class="users text-center">
             <div :key="member.id" v-for="member in members" class="border-bottom text-center">
-                <Avatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" :reputation="'none'"/>
+                <ChatAvatar class="pt-3" :size="40" :username="member.name" :picture="member.picture" :reputation="'none'"/>
                 <h5 class="mt-1 sender">{{member.name}} {{member.gang}}</h5>
                   <i v-if="member.name != user.nickname" class="iconfont icon-comment-discussion" @click="sendPm(member.name)"></i>
             </div>
@@ -208,7 +208,6 @@ export default {
     }, 500);
   },
   updated() {
-    this.scrollToEnd();
     if (this.isAtBottom()) this.scrollToEnd();
   },
   destroyed() {
@@ -237,7 +236,7 @@ export default {
         });
         this.message = null;
         setTimeout(() => {
-          this.scrollToEnd();
+          self.scrollToEnd();
         }, 1500);
         this.isLoading = false;
       }
@@ -255,7 +254,9 @@ export default {
       this.privateChat = false;
       this.showUsers = false;
       this.$parent.$data.newmessage = false;
+          setTimeout(() => {
       this.scrollToEnd();
+    }, 500);
     },
     displayGangChat() {
       this.privateresponses = [];
@@ -264,7 +265,9 @@ export default {
       this.privateChat = false;
       this.showUsers = false;
       this.$parent.$data.newgangmessage = false;
+          setTimeout(() => {
       this.scrollToEnd();
+    }, 500);
     },
     displayPrivateChat() {
       this.receiver = null;
@@ -273,7 +276,9 @@ export default {
       this.privateChat = true;
       this.showUsers = false;
       this.$parent.$data.newprivatemessage = false;
+          setTimeout(() => {
       this.scrollToEnd();
+    }, 500);
     },
     scrollToEnd() {
       const container =
@@ -312,6 +317,13 @@ export default {
         token,
         channel,
       });
+    },
+    sendMessage(name) {
+      const self = this;
+      if(this.message)
+      this.message = this.message + ' @' + name;
+      else
+      this.message = ' @' + name;
     },
   },
 };
@@ -361,6 +373,12 @@ img {
   width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.gang{
+  color:#fd0000;
+  font-size: 12px;
+  margin-left:4px;
 }
 
 .reply {

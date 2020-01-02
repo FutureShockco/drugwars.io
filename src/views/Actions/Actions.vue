@@ -4,20 +4,24 @@
     <UiCenter class="vue-ui-modal pt-2 pb-7" v-if="farmOn">
       <div class="wrapper">
         <div class="columns" v-if="farmlist">
-          <div class="column farm col-6"  v-for="player in farmlist" :key="player.key">
-            <div class="border-bottom border-top border-left  text-right">
-              <h5 class="mb-0">{{player.name}}          <span class="text-yellow mx-1">     {{player.set.territory}} : {{player.set.location}}   </span>          
-            <button class="button button-red"   @click="deleteFarm(player.name)">
-              <div class="iconfont icon-trashcan text-white"></div>
-            </button>
-            <button class="button button-green ml-3"  @click="loadFarm(player.set)">
-              <div class="iconfont icon-check text-white"></div>
-            </button>
+          <div class="column farm col-6" v-for="player in farmlist" :key="player.key">
+            <div class="border-bottom border-top border-left text-right">
+              <h5 class="mb-0">
+                {{player.name}}
+                <span
+                  class="text-yellow mx-1"
+                >{{player.set.territory}} : {{player.set.location}}</span>
+                <button class="button button-red" @click="deleteFarm(player.name)">
+                  <div class="iconfont icon-trashcan text-white"></div>
+                </button>
+                <button class="button button-green ml-3" @click="loadFarm(player.set)">
+                  <div class="iconfont icon-check text-white"></div>
+                </button>
               </h5>
             </div>
           </div>
         </div>
-         <h3 v-else>You should first add a place to your list by visiting it.</h3>
+        <h3 v-else>You should first add a place to your list by visiting it.</h3>
         <button class="button button-red mt-5" @click="openFarmList()">Cancel</button>
       </div>
     </UiCenter>
@@ -72,16 +76,18 @@
           >Save squad</button>
           <draggable @start="drag=true" v-model="favoriteCombinations" @end="onEnd">
             <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
-            <button
-              class="button button-red"
-              @click="deleteCombination(combination.name)"
-            >delete squad</button>
-            <button
-              class="button button-blue ml-2"
-              @click="loadCombination(combination.set)"
-            >load {{combination.name}}</button>
+              <button
+                class="button button-red"
+                @click="deleteCombination(combination.name)"
+              >delete squad</button>
+              <button
+                class="button button-blue ml-2"
+                @click="loadCombination(combination.set)"
+              >load {{combination.name}}</button>
             </div>
           </draggable>
+              <h3>Defensive Power : {{defensivePower}}%</h3>
+        <a @click="openInNewTab()" target="_blank">Access to the Fight simulator</a>
         </div>
       </div>
       <div v-if="ownUnits.length > 0" class="column col-12 col-sm-6">
@@ -197,7 +203,7 @@
             <div v-for="base in bases" :key="base.id">
               <button
                 class="button button-yellow"
-                @click="chooseBase(base.territory,base.base)"
+                @click="chooseBase(base.territory,base.base, base.custom)"
               >{{base.territory}}:{{base.base}} - {{base.custom}} - HQ:{{base.lvl}}</button>
             </div>
           </div>
@@ -235,28 +241,40 @@
             maxlength="280"
           />
         </div>
-        <button v-if="action_type === 'attack'"
+        <button
+          v-if="action_type === 'attack'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           class="button button-large button-red mb-4"
           @click="handleSubmit"
-        >    <SmallLoading v-if="isLoading" />
+        >
+          <SmallLoading v-if="isLoading" />
           <span v-else>{{action_type}}</span>
         </button>
-                <button v-if="action_type === 'transport'"
+          <button
+            class="button button-red"
+            :disabled="selectedUnits.length === 0 || !target || isLoading"
+            @click="listPopup()"
+          >Add to list</button>
+        <button
+          v-if="action_type === 'transport'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           class="button button-large button-blue mb-4"
           @click="handleSubmit"
-        >    <SmallLoading v-if="isLoading" />
+        >
+          <SmallLoading v-if="isLoading" />
           <span v-else>{{action_type}}</span>
         </button>
-                <button v-if="action_type === 'occupy'"
+        <button
+          v-if="action_type === 'occupy'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           class="button button-large button-green mb-4"
           @click="handleSubmit"
-        >    <SmallLoading v-if="isLoading" />
+        >
+          <SmallLoading v-if="isLoading" />
           <span v-else>{{action_type}}</span>
         </button>
-                <button v-if="action_type === 'station'"
+        <button
+          v-if="action_type === 'station'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           class="button button-large button-orange mb-4"
           @click="handleSubmit"
@@ -266,8 +284,6 @@
         </button>
 
         <p class="text-red text-left" v-if="errorMessage">{{ errorMessage }}</p>
-        <h3>Defensive Power : {{defensivePower}}%</h3>
-        <a @click="openInNewTab()" target="_blank">Access to the Fight simulator</a>
       </div>
       <h2 class="text-center" v-else>
         You don't have any unit.
@@ -276,10 +292,19 @@
         </div>
       </h2>
     </div>
+    <UiCenter class="vue-ui-modal pt-2 pb-7" v-if="popupOn">
+      <div class="wrapper">
+        <div>Choose a custom name to remember this opponent or his place.</div>
+        <input type="string" v-model="farm_name" placeholder="Snollygoster" class="mt-2 input" />
+        <button class="button button-red" @click="listPopup()">Cancel</button>
+        <button class="button button-green ml-1" @click="saveFarm()">Save</button>
+      </div>
+    </UiCenter>
   </div>
- <div v-else class="p-2 text-center">
-                <h2> You must choose a location on the map first.</h2>
-            </div>
+
+  <div v-else class="p-2 text-center">
+    <h2>You must choose a location on the map first.</h2>
+  </div>
 </template>
 
 <script>
@@ -287,488 +312,525 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
 import Promise from 'bluebird';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 
 export default {
-  data() {
-    return {
-      isLoading: false,
-      action_type: this.$route.query.type || 'attack',
-      target: this.$route.query.target || null,
-      target_type: this.$route.query.target_type || null,
-      base: this.$route.query.base || null,
-      selectedUnits: [],
-      message: null,
-      targetNickname: this.$route.query.nickname || null,
-      username: this.$store.state.auth.username,
-      errorMessage: null,
-      baseName: null,
-      farmOn: false,
-      favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
-      farmlist: JSON.parse(localStorage.getItem('farmlist')) || null,
-      combination_name: null,
-      units: [],
-      bases: [],
-      drugs_amount: 0,
-      weapons_amount: 0,
-      alcohol_amount: 0,
-    };
+ data() {
+  return {
+   isLoading: false,
+   action_type: this.$route.query.type || 'attack',
+   target: this.$route.query.target || null,
+   target_type: this.$route.query.target_type || null,
+   base: this.$route.query.base || null,
+   selectedUnits: [],
+   message: null,
+   targetNickname: this.$route.query.nickname || null,
+   username: this.$store.state.auth.username,
+   errorMessage: null,
+   baseName: null,
+   farmOn: false,
+   favoriteCombinations: JSON.parse(localStorage.getItem('fav_combi')) || null,
+   farmlist: JSON.parse(localStorage.getItem('farmlist')) || null,
+   combination_name: null,
+   units: [],
+   bases: [],
+   drugs_amount: 0,
+   weapons_amount: 0,
+   alcohol_amount: 0,
+   farm_name: this.$route.query.nickname || null,
+   popupOn: false,
+  };
+ },
+ components: {
+  draggable,
+ },
+ created() {
+  if (this.targetNickname) {
+   this.getUserBase();
+  }
+ },
+ computed: {
+  ownBase() {
+   return this.$store.state.game.mainbase;
   },
-  components: {
-          draggable,
+  sent_fights() {
+   return this.$store.state.game.sent_fights;
   },
-  created() {
-    if (this.targetNickname) {
-      this.getUserBase();
+  nickname() {
+   return this.$store.state.game.user.user.nickname;
+  },
+  ownUnits() {
+   const units = [];
+   this.$store.state.game.user.units.forEach(element => {
+    if (
+     element.territory === this.ownBase.territory &&
+     element.base === this.ownBase.base &&
+     element.amount > 0
+    )
+     units.push({
+      key: element.unit,
+      amount: element.amount,
+     });
+   });
+   return units;
+  },
+  alreadylisted() {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   if (favs.find(f => f.set.territory === this.target && f.set.location === this.base)) return true;
+   return false;
+  },
+  selectedTotal() {
+   let selected = 0;
+   const drugs = parseInt(this.drugs_amount) || 0;
+   const weapons = parseInt(this.weapons_amount) || 0;
+   const alcohol = parseInt(this.alcohol_amount) || 0;
+   selected = drugs + weapons + alcohol;
+   return selected;
+  },
+  carry() {
+   let carry = 0;
+   this.selectedUnits.forEach(unit => {
+    carry += units[unit.key].capacity * unit.amount;
+   });
+   return carry;
+  },
+  defensivePower() {
+   let supply = 0;
+   let power = 0;
+   this.$store.state.game.user.units.forEach(unit => {
+    supply += units[unit.unit].supply;
+   });
+   power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
+   const coordination = this.$store.state.game.user.trainings.find(
+    b => b.key === 'coordination' || b.training === 'coordination',
+   );
+   if (coordination) power = power + parseInt(coordination.lvl) / 10;
+   if (power >= 100) return 100;
+   if (power >= 60) return power;
+   return 60;
+  },
+  offensivePower() {
+   let supply = 0;
+   let power = 0;
+   this.selectedUnits.forEach(unit => {
+    supply += units[unit.key].supply * unit.amount;
+   });
+   power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
+   const coordination = this.$store.state.game.user.trainings.find(
+    b => b.key === 'coordination' || b.training === 'coordination',
+   );
+   if (coordination) power = power + parseInt(coordination.lvl) / 10;
+   if (power >= 100) return 100;
+   if (power >= 60) return power;
+   return 60;
+  },
+  hasNotEnough() {
+   return (
+    parseInt(this.drugs_amount) > this.user.drugs_balance ||
+    parseInt(this.weapons_amount) > this.user.weapons_balance ||
+    parseInt(this.alcohol_amount) > this.user.alcohols_balance
+   );
+  },
+  timer() {
+   const self = this;
+   let timer = 0;
+   let distance = 0;
+   let reduce = 0;
+   this.selectedUnits.forEach(unit => {
+    if (units[unit.key].speed && units[unit.key].speed * 60 > timer) {
+     timer = units[unit.key].speed * 60;
     }
+   });
+   if (this.selectedUnits && self.target)
+    distance =
+     Number(self.ownBase.territory) > Number(self.target)
+      ? Number(self.ownBase.territory) - Number(self.target)
+      : Number(self.target) - Number(self.ownBase.territory);
+   const training = this.$store.state.game.user.trainings.find(b => b.training === 'routing');
+   if (training) {
+    reduce = training.lvl;
+   }
+   if (
+    this.selectedUnits &&
+    this.selectedUnits.length === 1 &&
+    this.selectedUnits[0].key === 'spy' &&
+    self.target
+   ) {
+    timer += distance;
+   } else {
+    timer += distance * 2;
+   }
+   return (timer = (timer - (timer / 200) * reduce) * 1000);
   },
-  computed: {
-    ownBase() {
-      return this.$store.state.game.mainbase;
-    },
-    sent_fights() {
-      return this.$store.state.game.sent_fights;
-    },
-    nickname() {
-      return this.$store.state.game.user.user.nickname;
-    },
-    ownUnits() {
-      const units = [];
-      this.$store.state.game.user.units.forEach(element => {
-        if (
-          element.territory === this.ownBase.territory &&
-          element.base === this.ownBase.base &&
-          element.amount > 0
-        )
-          units.push({
-            key: element.unit,
-            amount: element.amount,
-          });
-      });
-      return units;
-    },
-    selectedTotal() {
-      let selected = 0;
-      const drugs = parseInt(this.drugs_amount) || 0;
-      const weapons = parseInt(this.weapons_amount) || 0;
-      const alcohol = parseInt(this.alcohol_amount) || 0;
-      selected = drugs + weapons + alcohol;
-      return selected;
-    },
-    carry() {
-      let carry = 0;
-      this.selectedUnits.forEach(unit => {
-        carry += units[unit.key].capacity * unit.amount;
-      });
-      return carry;
-    },
-    defensivePower() {
-      let supply = 0;
-      let power = 0;
-      this.$store.state.game.user.units.forEach(unit => {
-        supply += units[unit.unit].supply;
-      });
-      power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
-      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
-      if (coordination)
-      power = power + parseInt(coordination.lvl) / 10
-      if (power >= 100) return 100;
-      if (power >= 60) return power;
-      return 60;
-    },
-    offensivePower() {
-      let supply = 0;
-      let power = 0;
-      this.selectedUnits.forEach(unit => {
-        supply += units[unit.key].supply * unit.amount;
-      });
-      power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
-      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
-      if (coordination)
-      power = power + parseInt(coordination.lvl) / 10
-      if (power >= 100) return 100;
-      if (power >= 60) return power;
-      return 60;
-    },
-    hasNotEnough() {
-      return (
-        parseInt(this.drugs_amount) > this.user.drugs_balance ||
-        parseInt(this.weapons_amount) > this.user.weapons_balance ||
-        parseInt(this.alcohol_amount) > this.user.alcohols_balance
-      );
-    },
-    timer() {
-      const self = this;
-      let timer = 0;
-      let distance = 0;
-      let reduce = 0;
-      this.selectedUnits.forEach(unit => {
-        if (units[unit.key].speed && units[unit.key].speed * 60 > timer) {
-          timer = units[unit.key].speed * 60;
-        }
-      });
-      if (this.selectedUnits && self.target)
-        distance =
-          Number(self.ownBase.territory) > Number(self.target)
-            ? Number(self.ownBase.territory) - Number(self.target)
-            : Number(self.target) - Number(self.ownBase.territory);
-      const training = this.$store.state.game.user.trainings.find(b => b.training === 'routing');
-      if (training) {
-        reduce = training.lvl;
-      }
-      if (
-        this.selectedUnits &&
-        this.selectedUnits.length === 1 &&
-        this.selectedUnits[0].key === 'spy' &&
-        self.target
-      ) {
-        timer += distance;
-      } else {
-        timer += distance * 2;
-      }
-      return (timer = (timer - (timer / 200) * reduce) * 1000);
-    },
-    cost() {
-      const self = this;
-      let cost = 0;
-      let distance = 0;
-      distance =
-          Number(self.ownBase.territory) > Number(self.target)
-            ? Number(self.ownBase.territory) - Number(self.target)
-            : Number(self.target) - Number(self.ownBase.territory);
-      this.selectedUnits.forEach(unit => {
-        if (units[unit.key].move_cost ) {
-          cost += units[unit.key].move_cost * unit.amount;
-        }
-      })
-      if(self.action_type === "attack")
-      return cost + (cost * distance/100);
-      else return cost + (cost * distance/200);
-    },
+  cost() {
+   const self = this;
+   let cost = 0;
+   let distance = 0;
+   distance =
+    Number(self.ownBase.territory) > Number(self.target)
+     ? Number(self.ownBase.territory) - Number(self.target)
+     : Number(self.target) - Number(self.ownBase.territory);
+   this.selectedUnits.forEach(unit => {
+    if (units[unit.key].move_cost) {
+     cost += units[unit.key].move_cost * unit.amount;
+    }
+   });
+   if (self.action_type === 'attack') return cost + (cost * distance) / 100;
+   else return cost + (cost * distance) / 200;
   },
-  methods: {
-    ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
-    resetForm() {
-      this.target = null;
-      this.base = null;
-      this.selectedUnits = [];
-      this.message = null;
-      this.target_type = null;
-    },
-    chooseBase(territory, location) {
-      this.target = territory;
-      this.base = location;
-    },
-    chooseActionType(value) {
-      this.action_type = value;
-      if (this.action_type === 'occupy') {
-        this.selectedUnits = [];
-      }
-      if (this.target_type === 'npc') {
-        this.resetForm();
-      }
-    },
-    getUserBase() {
-      const self = this;
-      self.bases = null;
-      client.requestAsync('get_user_bases', self.targetNickname).then(result => {
-        self.bases = result;
-        self.isLoading = false;
-      });
-    },
-    openFarmList() {
-      const self = this;
-      self.farmOn = !self.farmOn;
-    },
-    progressPercent(total, cost) {
-      let progress;
-      if (total && cost) {
-        this.up = false;
-        progress = parseFloat((total * 100) / cost).toFixed(2);
-        return progress;
-      }
-      this.up = false;
-      return 0;
-    },
-    removeUnits() {
-      this.selectedUnits = [];
-    },
-    async handleSubmit() {
-      this.isLoading = true;
-      const self = this;
-      let payload = {};
-      switch (self.action_type) {
-        case 'attack':
-          if (self.target_type === 'npc')
-            payload = {
-              from_territory: Number(self.ownBase.territory),
-              from_base: Number(self.ownBase.base),
-              territory: Number(self.target),
-              base: Number(self.base),
-              units: self.selectedUnits,
-              type: 'fight-npc',
-            };
-          else
-            payload = {
-              from_territory: Number(self.ownBase.territory),
-              from_base: Number(self.ownBase.base),
-              territory: Number(self.target),
-              base: Number(self.base),
-              units: self.selectedUnits,
-              type: 'fight',
-              message: self.message || '',
-            };
-          break;
-        case 'transport':
-          const drugs = parseInt(this.drugs_amount) || 0;
-          const weapons = parseInt(this.weapons_amount) || 0;
-          const alcohol = parseInt(this.alcohol_amount) || 0;
-          if (drugs >= 0 && weapons >= 0 && alcohol >= 0) {
-            payload = {
-              from_territory: Number(self.ownBase.territory),
-              from_base: Number(self.ownBase.base),
-              territory: Number(self.target),
-              base: Number(self.base),
-              units: self.selectedUnits,
-              type: 'transport',
-              resources: { drugs, weapons, alcohol },
-              message: self.message || '',
-            };
-          }
-          break;
-        case 'station':
-          payload = {
-            from_territory: Number(self.ownBase.territory),
-            from_base: Number(self.ownBase.base),
-            territory: Number(self.target),
-            base: Number(self.base),
-            units: self.selectedUnits,
-            type: 'station',
-            message: self.message || '',
-          };
-          break;
-        case 'occupy':
-          payload = {
-            from_territory: Number(self.ownBase.territory),
-            from_base: Number(self.ownBase.base),
-            territory: Number(self.target),
-            base: Number(self.base),
-            name: self.baseName,
-            units: self.selectedUnits,
-            type: 'dw-base',
-          };
-          break;
-        default:
-          break;
-      }
-
-      const isValid = await this.validateForm(self.action_type);
-
-      if (isValid) {
-        this.resetForm();
-        this.missions(payload)
-          .then(() => {
-            if (self.action_type === 'occupy') {
-              Promise.delay(3000).then(() => {
-                self.init();
-              });
-            }
-            this.isLoading = false;
-          })
-          .catch(e => {
-            console.error('Failed to start a fight=', e);
-            this.isLoading = false;
-          });
-      } else {
-        this.isLoading = false;
-      }
-    },
-    async validateForm(type) {
-      this.errorMessage = null;
-      let target;
-      if (this.targetNickname) target = this.targetNickname.toLowerCase();
-
-      if (type === 'attack' && target === this.nickname) {
-        this.errorMessage = 'Attack yourself? Are you serious?';
-      }
-      // if (this.cost > this.ownBase.drug_balance) {
-      //   this.errorMessage = 'You dont have enough drugs for this!';
-      // }
-      const now = new Date();
-      const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
-      if (isPunished > now) {
-        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
-      }
-
-      if (!this.baseName && this.action_type === 'occupy') {
-        this.errorMessage = `Please choose a name for your base`;
-      } else if (this.action_type === 'occupy' && this.baseName.length > 25) {
-        this.errorMessage = `Please choose a shorter name for your base`;
-      } else if (this.action_type === 'occupy' && this.baseName.length < 4) {
-        this.errorMessage = `Please choose a longer name for your base`;
-      }
-      if (!this.errorMessage && target)
-        try {
-          const user = await client.requestAsync('check_user', target);
-          if (!user || !user[0].nickname) {
-            this.errorMessage = `Player '${target}' does not exist`;
-          }
-          return !this.errorMessage;
-        } catch (e) {
-          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
-          console.error(`Player with nickname '${target}' doesn't exist`, e);
-          return false;
-        }
-      if (this.errorMessage) {
-        return false;
-      }
-      return !this.errorMessage;
-    },
-    addUnit(payload) {
-      const amount = parseInt(payload.amount);
-      const selectedUnitsObj = {};
-      const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
-
-      this.selectedUnits.forEach(unit => {
-        selectedUnitsObj[unit.key] = unit.amount;
-      });
-      selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
-        ? amount
-        : amount + parseInt(selectedUnitsObj[payload.key]);
-      if (selectedUnitsObj[payload.key] > ownUnit.amount) {
-        selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
-      }
-      if (selectedUnitsObj[payload.key] < 0) {
-        selectedUnitsObj[payload.key] = 0;
-      }
-
-      this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
-        key,
-        amount: selectedUnitsObj[key],
-      }));
-    },
-    openInNewTab() {
-      const url = 'https://simulator.drugwars.io/';
-      const myarmy = this.ownUnits.map(unit =>
-        this.serialize({
-          p: 1,
-          key: unit.key,
-          n: unit.amount,
-        }),
-      );
-      const mytraining = this.$store.state.game.user.trainings.map(training =>
-        this.serialize({
-          p: 1,
-          key: training.training,
-          lvl: training.lvl,
-        }),
-      );
-
-      let toOpen = `player,${myarmy}`;
-      if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
-      const win = window.open(`${url}?${toOpen}`, '_blank');
-      win.focus();
-    },
-    serialize(obj) {
-      const str = [];
-      for (const p in obj)
-        if (obj.hasOwnProperty(p)) {
-          str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
-        }
-      return str.join('&');
-    },
-    onEnd(){
-      localStorage.setItem('fav_combi', JSON.stringify(this.favoriteCombinations));
-    },
-    saveCombination() {
-      let favs = [];
-      if (localStorage.getItem('fav_combi')) {
-        favs = JSON.parse(localStorage.getItem('fav_combi'));
-      }
-      const myarmy = this.selectedUnits.map(unit => ({
-        key: unit.key,
-        amount: unit.amount,
-      }));
-
-      const combi = {};
-      combi.name = this.combination_name;
-      combi.set = myarmy;
-      favs.push(combi);
-      this.favoriteCombinations = favs;
-      this.combination_name = null;
-      localStorage.setItem('fav_combi', JSON.stringify(favs));
-    },
-    loadCombination(combination) {
-      const combinationtoload = [];
-      combination.forEach(unit => {
-        if (
-          this.ownUnits.find(lunit => lunit.key === unit.key) &&
-          unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
-        ) {
-          combinationtoload.push(unit);
-        } else {
-          if (this.ownUnits.find(lunit => lunit.key === unit.key))
-            unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
-          combinationtoload.push(unit);
-        }
-      });
-      this.selectedUnits = combinationtoload;
-    },
-    deleteCombination(combination) {
-      let favs = [];
-      if (localStorage.getItem('fav_combi')) {
-        favs = JSON.parse(localStorage.getItem('fav_combi'));
-      }
-      for (let i = 0; i < favs.length; i += 1) {
-        if (favs[i].name === combination) {
-          favs.splice(i, 1);
-          i -= 1;
-        }
-      }
-      localStorage.setItem('fav_combi', JSON.stringify(favs));
-      this.favoriteCombinations = favs;
-    },
-    loadFarm(farm) {
-      this.target = farm.territory;
-      this.base = farm.location;
-      this.farmOn = !this.farmOn;
-    },
-    deleteFarm(combination) {
-      let favs = [];
-      if (localStorage.getItem('farmlist')) {
-        favs = JSON.parse(localStorage.getItem('farmlist'));
-      }
-      for (let i = 0; i < favs.length; i += 1) {
-        if (favs[i].name === combination) {
-          favs.splice(i, 1);
-          i -= 1;
-        }
-      }
-      localStorage.setItem('farmlist', JSON.stringify(favs));
-      this.farmlist = favs;
-    },
+ },
+ methods: {
+  ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
+  resetForm() {
+   this.target = null;
+   this.base = null;
+   this.selectedUnits = [];
+   this.message = null;
+   this.target_type = null;
   },
+  chooseBase(territory, location, custom) {
+   this.target = territory;
+   this.base = location;
+   this.farm_name = this.targetNickname + ' ' + custom;
+  },
+  chooseActionType(value) {
+   this.action_type = value;
+   if (this.action_type === 'occupy') {
+    this.selectedUnits = [];
+   }
+   if (this.target_type === 'npc') {
+    this.resetForm();
+   }
+  },
+  getUserBase() {
+   const self = this;
+   self.bases = null;
+   client.requestAsync('get_user_bases', self.targetNickname).then(result => {
+    self.bases = result;
+    self.isLoading = false;
+   });
+  },
+  openFarmList() {
+   const self = this;
+   self.farmOn = !self.farmOn;
+  },
+  listPopup(name) {
+   this.popupOn = !this.popupOn;
+  },
+  saveFarm() {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   const farm = {};
+   if (this.targetNickname) {
+    farm.name =
+     this.targetNickname +
+     ' ' +
+     this.bases.find(b => b.territory === this.target && b.base === this.base).custom;
+    this.farm_name = farm.name;
+   } else {
+    farm.name = 'Snollygoster';
+   }
+   farm.set = { territory: this.target, location: this.base };
+   favs.push(farm);
+   localStorage.setItem('farmlist', JSON.stringify(favs));
+   this.popupOn = !this.popupOn;
+  },
+  progressPercent(total, cost) {
+   let progress;
+   if (total && cost) {
+    this.up = false;
+    progress = parseFloat((total * 100) / cost).toFixed(2);
+    return progress;
+   }
+   this.up = false;
+   return 0;
+  },
+  removeUnits() {
+   this.selectedUnits = [];
+  },
+  async handleSubmit() {
+   this.isLoading = true;
+   const self = this;
+   let payload = {};
+   switch (self.action_type) {
+    case 'attack':
+     if (self.target_type === 'npc')
+      payload = {
+       from_territory: Number(self.ownBase.territory),
+       from_base: Number(self.ownBase.base),
+       territory: Number(self.target),
+       base: Number(self.base),
+       units: self.selectedUnits,
+       type: 'fight-npc',
+      };
+     else
+      payload = {
+       from_territory: Number(self.ownBase.territory),
+       from_base: Number(self.ownBase.base),
+       territory: Number(self.target),
+       base: Number(self.base),
+       units: self.selectedUnits,
+       type: 'fight',
+       message: self.message || '',
+      };
+     break;
+    case 'transport':
+     const drugs = parseInt(this.drugs_amount) || 0;
+     const weapons = parseInt(this.weapons_amount) || 0;
+     const alcohol = parseInt(this.alcohol_amount) || 0;
+     if (drugs >= 0 && weapons >= 0 && alcohol >= 0) {
+      payload = {
+       from_territory: Number(self.ownBase.territory),
+       from_base: Number(self.ownBase.base),
+       territory: Number(self.target),
+       base: Number(self.base),
+       units: self.selectedUnits,
+       type: 'transport',
+       resources: { drugs, weapons, alcohol },
+       message: self.message || '',
+      };
+     }
+     break;
+    case 'station':
+     payload = {
+      from_territory: Number(self.ownBase.territory),
+      from_base: Number(self.ownBase.base),
+      territory: Number(self.target),
+      base: Number(self.base),
+      units: self.selectedUnits,
+      type: 'station',
+      message: self.message || '',
+     };
+     break;
+    case 'occupy':
+     payload = {
+      from_territory: Number(self.ownBase.territory),
+      from_base: Number(self.ownBase.base),
+      territory: Number(self.target),
+      base: Number(self.base),
+      name: self.baseName,
+      units: self.selectedUnits,
+      type: 'dw-base',
+     };
+     break;
+    default:
+     break;
+   }
+
+   const isValid = await this.validateForm(self.action_type);
+
+   if (isValid) {
+    //this.resetForm();
+    this.isLoading = false;
+
+    this.missions(payload)
+     .then(() => {
+      if (self.action_type === 'occupy') {
+       Promise.delay(3000).then(() => {
+        self.init();
+       });
+      }
+      this.isLoading = false;
+     })
+     .catch(e => {
+      console.error('Failed to start a fight=', e);
+      this.isLoading = false;
+     });
+   } else {
+    this.isLoading = false;
+   }
+  },
+  async validateForm(type) {
+   this.errorMessage = null;
+   let target;
+   if (this.targetNickname) target = this.targetNickname.toLowerCase();
+
+   if (type === 'attack' && target === this.nickname) {
+    this.errorMessage = 'Attack yourself? Are you serious?';
+   }
+   // if (this.cost > this.ownBase.drug_balance) {
+   //   this.errorMessage = 'You dont have enough drugs for this!';
+   // }
+   const now = new Date();
+   const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+   if (isPunished > now) {
+    this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+   }
+
+   if (!this.baseName && this.action_type === 'occupy') {
+    this.errorMessage = `Please choose a name for your base`;
+   } else if (this.action_type === 'occupy' && this.baseName.length > 25) {
+    this.errorMessage = `Please choose a shorter name for your base`;
+   } else if (this.action_type === 'occupy' && this.baseName.length < 4) {
+    this.errorMessage = `Please choose a longer name for your base`;
+   }
+   if (!this.errorMessage && target)
+    try {
+     const user = await client.requestAsync('check_user', target);
+     if (!user || !user[0].nickname) {
+      this.errorMessage = `Player '${target}' does not exist`;
+     }
+     return !this.errorMessage;
+    } catch (e) {
+     this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+     console.error(`Player with nickname '${target}' doesn't exist`, e);
+     return false;
+    }
+   if (this.errorMessage) {
+    return false;
+   }
+   return !this.errorMessage;
+  },
+  addUnit(payload) {
+   const amount = parseInt(payload.amount);
+   const selectedUnitsObj = {};
+   const ownUnit = this.ownUnits.find(unit => unit.key === payload.key);
+
+   this.selectedUnits.forEach(unit => {
+    selectedUnitsObj[unit.key] = unit.amount;
+   });
+   selectedUnitsObj[payload.key] = !selectedUnitsObj[payload.key]
+    ? amount
+    : amount + parseInt(selectedUnitsObj[payload.key]);
+   if (selectedUnitsObj[payload.key] > ownUnit.amount) {
+    selectedUnitsObj[payload.key] = parseInt(ownUnit.amount);
+   }
+   if (selectedUnitsObj[payload.key] < 0) {
+    selectedUnitsObj[payload.key] = 0;
+   }
+
+   this.selectedUnits = Object.keys(selectedUnitsObj).map(key => ({
+    key,
+    amount: selectedUnitsObj[key],
+   }));
+  },
+  openInNewTab() {
+   const url = 'https://simulator.drugwars.io/';
+   const myarmy = this.ownUnits.map(unit =>
+    this.serialize({
+     p: 1,
+     key: unit.key,
+     n: unit.amount,
+    }),
+   );
+   const mytraining = this.$store.state.game.user.trainings.map(training =>
+    this.serialize({
+     p: 1,
+     key: training.training,
+     lvl: training.lvl,
+    }),
+   );
+
+   let toOpen = `player,${myarmy}`;
+   if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
+   const win = window.open(`${url}?${toOpen}`, '_blank');
+   win.focus();
+  },
+  serialize(obj) {
+   const str = [];
+   for (const p in obj)
+    if (obj.hasOwnProperty(p)) {
+     str.push(`${encodeURIComponent(p)}=${encodeURIComponent(obj[p])}`);
+    }
+   return str.join('&');
+  },
+  onEnd() {
+   localStorage.setItem('fav_combi', JSON.stringify(this.favoriteCombinations));
+  },
+  saveCombination() {
+   let favs = [];
+   if (localStorage.getItem('fav_combi')) {
+    favs = JSON.parse(localStorage.getItem('fav_combi'));
+   }
+   const myarmy = this.selectedUnits.map(unit => ({
+    key: unit.key,
+    amount: unit.amount,
+   }));
+
+   const combi = {};
+   combi.name = this.combination_name;
+   combi.set = myarmy;
+   favs.push(combi);
+   this.favoriteCombinations = favs;
+   this.combination_name = null;
+   localStorage.setItem('fav_combi', JSON.stringify(favs));
+  },
+  loadCombination(combination) {
+   const combinationtoload = [];
+   combination.forEach(unit => {
+    if (
+     this.ownUnits.find(lunit => lunit.key === unit.key) &&
+     unit.amount <= this.ownUnits.find(lunit => lunit.key === unit.key).amount
+    ) {
+     combinationtoload.push(unit);
+    } else {
+     if (this.ownUnits.find(lunit => lunit.key === unit.key))
+      unit.amount = this.ownUnits.find(lunit => lunit.key === unit.key).amount;
+     combinationtoload.push(unit);
+    }
+   });
+   this.selectedUnits = combinationtoload;
+  },
+  deleteCombination(combination) {
+   let favs = [];
+   if (localStorage.getItem('fav_combi')) {
+    favs = JSON.parse(localStorage.getItem('fav_combi'));
+   }
+   for (let i = 0; i < favs.length; i += 1) {
+    if (favs[i].name === combination) {
+     favs.splice(i, 1);
+     i -= 1;
+    }
+   }
+   localStorage.setItem('fav_combi', JSON.stringify(favs));
+   this.favoriteCombinations = favs;
+  },
+  loadFarm(farm) {
+   this.target = farm.territory;
+   this.base = farm.location;
+   this.farmOn = !this.farmOn;
+  },
+  deleteFarm(combination) {
+   let favs = [];
+   if (localStorage.getItem('farmlist')) {
+    favs = JSON.parse(localStorage.getItem('farmlist'));
+   }
+   for (let i = 0; i < favs.length; i += 1) {
+    if (favs[i].name === combination) {
+     favs.splice(i, 1);
+     i -= 1;
+    }
+   }
+   localStorage.setItem('farmlist', JSON.stringify(favs));
+   this.farmlist = favs;
+  },
+ },
 };
 </script>
 
 
 <style scoped lang="less">
 .width-full {
-  max-width: 100%;
+ max-width: 100%;
 }
 
 .vue-ui-modal {
-  background: rgba(0, 0, 0, 0.7);
-  overflow-y: scroll;
+ background: rgba(0, 0, 0, 0.7);
+ overflow-y: scroll;
 }
 
 .farm {
-  background: rgba(0, 0, 0, 0.9);
+ background: rgba(0, 0, 0, 0.9);
 }
 
 @media screen and (min-width: 399px) and (max-width: 1119px) {
-  .column.b {
-    width: 100% !important;
-  }
+ .column.b {
+  width: 100% !important;
+ }
 }
 </style>

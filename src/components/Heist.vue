@@ -134,7 +134,7 @@ export default {
           .then(() => {
             Promise.delay(3000).then(() => {
               this.isLoading = false;
-              this.amount = this.balances.drugs;
+              this.amount = Math.round(this.balances.drugs);
             });
           })
           .catch(e => {

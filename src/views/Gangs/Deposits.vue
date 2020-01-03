@@ -27,7 +27,7 @@
           >
             <div v-if="deposit.building === item.id" class="deposit columns">
               <h5 class="name column col-1 p-0 m-0 text-blue text-left">{{index+1}}</h5>
-              <h5 class="name column col-2 p-0 m-0 text-left" >{{deposit.nickname}}</h5>
+              <h5 class="name column col-2 p-0 m-0 text-left">{{deposit.nickname}}</h5>
               <h5
                 :class="{ 'text-green': Number(averageDrugsPerBuilding(item.id)) < deposit.drugs, 'text-red': Number(averageDrugsPerBuilding(item.id)) > deposit.drugs }"
                 class="name column col-2 p-0 m-0 text-left"
@@ -44,9 +44,7 @@
                 :class="{ 'text-green': Number(averagePerBuilding(item.id)) < deposit.total, 'text-red': Number(averagePerBuilding(item.id)) > deposit.total }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.total | amount}} ({{averageTotal(item.id,deposit.total)}}%)</h5>
-              <h5
-                class="name column col-1 p-0 m-0 text-left"
-              >{{deposit.average | amount}}</h5>
+              <h5 class="name column col-1 p-0 m-0 text-left">{{deposit.average | amount}}</h5>
             </div>
           </div>
         </div>
@@ -82,7 +80,7 @@ export default {
    depositers.forEach(user => {
     const total = user.drugs + user.weapons + user.alcohol;
     user.total = total; // eslint-disable-line no-param-reassign
-    user.average = total/3
+    user.average = total / 3;
     this.alldeposits.push(user);
     if (this.buildingDeposits[user.building]) {
      this.buildingDeposits[user.building].drugs += user.drugs;
@@ -163,6 +161,8 @@ export default {
 <style lang="less" scoped>
 .name {
  font-size: 14px !important;
+ max-height: 20px;
+ overflow: hidden;
 }
 
 .special {

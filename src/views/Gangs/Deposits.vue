@@ -11,13 +11,13 @@
       <div class="item mt-0 pt-0">
         <div class="row width-full">
           <div class="row columns text-center">
-            <h5 class="name column col-1 p-0 m-0">Rank</h5>
+            <h5 class="name column col-1 p-0 m-0 text-left">Rank</h5>
             <h5 class="name column col-2 p-0 m-0 text-left">Players</h5>
-            <h5 class="name column col-2 p-0 m-0">Drugs</h5>
-            <h5 class="name column col-2 p-0 m-0">Weapons</h5>
-            <h5 class="name column col-2 p-0 m-0">Alcohol</h5>
-            <h5 class="name column col-2 p-0 m-0">Total</h5>
-            <h5 class="name column col-1 p-0 m-0">Average</h5>
+            <h5 class="name column col-2 p-0 m-0 text-left">Drugs</h5>
+            <h5 class="name column col-2 p-0 m-0 text-left">Weapons</h5>
+            <h5 class="name column col-2 p-0 m-0 text-left">Alcohol</h5>
+            <h5 class="name column col-2 p-0 m-0 text-left">Total</h5>
+            <h5 class="name column col-1 p-0 m-0 text-left">Average</h5>
           </div>
 
           <div
@@ -26,26 +26,26 @@
             class="text-center"
           >
             <div v-if="deposit.building === item.id" class="deposit columns">
-              <h5 class="name column col-1 p-0 m-0 text-blue">{{index+1}}</h5>
+              <h5 class="name column col-1 p-0 m-0 text-blue text-left">{{index+1}}</h5>
               <h5 class="name column col-2 p-0 m-0 text-left" >{{deposit.nickname}}</h5>
               <h5
                 :class="{ 'text-green': Number(averageDrugsPerBuilding(item.id)) < deposit.drugs }"
-                class="name column col-2 p-0 m-0"
+                class="name column col-2 p-0 m-0 text-left"
               >{{deposit.drugs | amount}} ({{averageDrugs(item.id,deposit.drugs)}}%)</h5>
               <h5
                 :class="{ 'text-green': Number(averageWeaponsPerBuilding(item.id)) < deposit.weapons }"
-                class="name column col-2 p-0 m-0"
+                class="name column col-2 p-0 m-0 text-left"
               >{{deposit.weapons | amount}} ({{averageWeapons(item.id,deposit.weapons)}}%)</h5>
               <h5
                 :class="{ 'text-green': Number(averageAlcoholPerBuilding(item.id)) < deposit.alcohol }"
-                class="name column col-2 p-0 m-0"
+                class="name column col-2 p-0 m-0 text-left"
               >{{deposit.alcohol | amount}} ({{averageAlcohol(item.id,deposit.alcohol)}}%)</h5>
               <h5
                 :class="{ 'text-green': Number(averagePerBuilding(item.id)) < deposit.total }"
-                class="name column col-2 p-0 m-0"
+                class="name column col-2 p-0 m-0 text-left"
               >{{deposit.total | amount}} ({{averageTotal(item.id,deposit.total)}}%)</h5>
               <h5
-                class="name column col-1 p-0 m-0"
+                class="name column col-1 p-0 m-0 text-left"
               >{{deposit.average | amount}}</h5>
             </div>
           </div>

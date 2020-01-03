@@ -29,19 +29,19 @@
               <h5 class="name column col-1 p-0 m-0 text-blue text-left">{{index+1}}</h5>
               <h5 class="name column col-2 p-0 m-0 text-left" >{{deposit.nickname}}</h5>
               <h5
-                :class="{ 'text-green': Number(averageDrugsPerBuilding(item.id)) < deposit.drugs }"
+                :class="{ 'text-green': Number(averageDrugsPerBuilding(item.id)) < deposit.drugs, 'text-red': Number(averageDrugsPerBuilding(item.id)) > deposit.drugs }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.drugs | amount}} ({{averageDrugs(item.id,deposit.drugs)}}%)</h5>
               <h5
-                :class="{ 'text-green': Number(averageWeaponsPerBuilding(item.id)) < deposit.weapons }"
+                :class="{ 'text-green': Number(averageWeaponsPerBuilding(item.id)) < deposit.weapons, 'text-red': Number(averageWeaponsPerBuilding(item.id)) > deposit.weapons }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.weapons | amount}} ({{averageWeapons(item.id,deposit.weapons)}}%)</h5>
               <h5
-                :class="{ 'text-green': Number(averageAlcoholPerBuilding(item.id)) < deposit.alcohol }"
+                :class="{ 'text-green': Number(averageAlcoholPerBuilding(item.id)) < deposit.alcohol, 'text-red': Number(averageAlcoholPerBuilding(item.id)) > deposit.alcohol }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.alcohol | amount}} ({{averageAlcohol(item.id,deposit.alcohol)}}%)</h5>
               <h5
-                :class="{ 'text-green': Number(averagePerBuilding(item.id)) < deposit.total }"
+                :class="{ 'text-green': Number(averagePerBuilding(item.id)) < deposit.total, 'text-red': Number(averagePerBuilding(item.id)) > deposit.total }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.total | amount}} ({{averageTotal(item.id,deposit.total)}}%)</h5>
               <h5
@@ -134,19 +134,19 @@ export default {
   },
   averageDrugsPerBuilding(id) {
    if (this.buildingDeposits[id] && this.buildingDeposits[id].total)
-    return this.buildingDeposits[id].total / this.alldeposits.length;
+    return this.buildingDeposits[id].drugs / this.buildingDeposits[id].member;
   },
   averageWeaponsPerBuilding(id) {
    if (this.buildingDeposits[id] && this.buildingDeposits[id].total)
-    return this.buildingDeposits[id].total / this.alldeposits.length;
+    return this.buildingDeposits[id].weapons / this.buildingDeposits[id].member;
   },
   averageAlcoholPerBuilding(id) {
    if (this.buildingDeposits[id] && this.buildingDeposits[id].total)
-    return this.buildingDeposits[id].total / this.alldeposits.length;
+    return this.buildingDeposits[id].alcohol / this.buildingDeposits[id].member;
   },
   averagePerBuilding(id) {
    if (this.buildingDeposits[id] && this.buildingDeposits[id].total)
-    return this.buildingDeposits[id].total / this.alldeposits.length;
+    return this.buildingDeposits[id].total / this.buildingDeposits[id].member;
   },
   totalPerBuilding(id) {
    if (this.buildingDeposits[id] && this.buildingDeposits[id].total)

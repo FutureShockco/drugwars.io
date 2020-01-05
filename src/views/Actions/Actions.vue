@@ -251,7 +251,7 @@
           <span v-else>{{action_type}}</span>
         </button>
           <button
-            class="button button-red"
+            class="button button-red" v-if="target_type !== 'npc'"
             :disabled="selectedUnits.length === 0 || !target || isLoading"
             @click="listPopup()"
           >Add to list</button>
@@ -626,8 +626,6 @@ export default {
 
    if (isValid) {
     //this.resetForm();
-    this.isLoading = false;
-
     this.missions(payload)
      .then(() => {
       if (self.action_type === 'occupy') {

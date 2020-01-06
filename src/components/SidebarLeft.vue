@@ -2,6 +2,7 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3">
+                 <h5 class="text-green label small">THE UPDATE OF THE 0.6V (2020/01/06) IS POSTPONED TO TOMORROW (2020/01/07) THANKS FOR YOUR UNDERSTANDING!</h5>
                 <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" :reputation="reputation"/>
                 <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture"  :reputation="reputation"/>
                 <div class="username" @click.native="toggleSidebar">

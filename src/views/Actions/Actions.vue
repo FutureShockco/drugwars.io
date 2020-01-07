@@ -386,7 +386,7 @@ export default {
    popupOn: false,
   isOpen: false,
   active: false,
-  privateAttack: false
+  privateAttack: true
   };
  },
  components: {
@@ -677,7 +677,7 @@ export default {
    const isValid = await this.validateForm(self.action_type);
 
    if (isValid) {
-    //this.resetForm();
+    this.resetForm();
     this.missions(payload)
      .then(() => {
       if (self.action_type === 'occupy') {
@@ -761,7 +761,6 @@ export default {
   },
   makePrivate(){
     this.privateAttack = !this.privateAttack;
-    sessionStorage.setItem('private_attack',this.privateAttack);
   },
   setRallyPointCoordinates(territory, base) {
     console.log(territory)

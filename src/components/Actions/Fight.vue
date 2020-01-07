@@ -86,8 +86,8 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.target.start_value" :lose="json.target.end_value" />
           </div>
-          <h5 v-if="fight.defender_reward">REWARDS :</h5>
-          <div v-if="fight.defender_reward">{{fight.defender_reward}} DWD</div>
+          <h5 v-if="fight.result === 3 && fight.defender_reward">REWARDS :</h5>
+          <div v-if="fight.result === 3 && fight.defender_reward">{{fight.defender_reward}} DWD</div>
           <h5 v-if="fight.defender_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.defender_elo">{{fight.defender_elo}}</div>
         </div>

@@ -216,7 +216,12 @@ export default {
     },
     activeTransportsCount() {
       if (this.$store.state.game.transports_count) {
-        return this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc;
+        if(this.$store.state.game.transports_count.sent === this.$store.state.game.transports_count.inc)
+        return this.$store.state.game.transports_count.sent
+        else
+        return (
+        this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
+        );
       }
       return 0;
     },

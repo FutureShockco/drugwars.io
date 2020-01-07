@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       population: null,
-      dwd_price: 0.005,
+      dwd_price: this.$store.state.game.prizeProps.seProps.lastPrice,
     };
   },
   computed: {
@@ -71,32 +71,23 @@ export default {
     total() {
       const { prizeProps } = this.$store.state.game;
       return (
-        ((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-        (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)
+        prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent
       );
     },
     totalUSD() {
       const { prizeProps } = this.$store.state.game;
-      return parseFloat(
-        (this.total / this.$store.state.game.prizeProps.seProps.lastPrice) * prizeProps.steemprice,
-      ).toFixed(2);
-    },
-    lastDayDWD() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat(prizeProps.daily_purchase);
+      return parseFloat(this.total * (this.dwd_price * prizeProps.steemprice)).toFixed(2);
     },
     totalDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          (prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent)) /
-          this.dwd_price +
-        prizeProps.free_dwd -
-        prizeProps.daily_rewards
+        (
+          prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent) 
       );
     },
     totalSteem() {
-      return parseFloat(this.total / this.$store.state.game.prizeProps.seProps.lastPrice).toFixed(
+      const { prizeProps } = this.$store.state.game;
+      return parseFloat(this.totalUSD / prizeProps.steemprice).toFixed(
         2,
       );
     },
@@ -107,25 +98,19 @@ export default {
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.daily_percent) /
-        this.dwd_price
+          prizeProps.daily_percent
       );
     },
     totalFight() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.fight_percent) /
-        this.dwd_price
+        prizeProps.fight_percent
       );
     },
     totalHeist() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
-        this.dwd_price
+          prizeProps.heist_percent
       );
     },
     user() {

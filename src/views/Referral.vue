@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ReferralTabs/>
+        <SettingsTabs/>
         <div class="p-4 anim-fade-in text-center">
             <h1>DrugWars Referral Program</h1>
             <h3>1.Invite your friends with this link!      <a :href="url" target="_blank">
@@ -47,19 +47,11 @@ export default {
     },
   },
   methods: {
-    getReferralRewards(drugProductionRate) {
-      const totalDailySteem =
-        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
-      const referralRewards =
-        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) *
-        15;
-      return referralRewards.toFixed(3);
-    },
     getReferralRewardsDWD(drugProductionRate) {
       const totalDailySteem =
-        (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.daily_percent;
+        this.prizeProps.daily_percent;
       const referralRewards =
-        (((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem) / 100) *
+        ((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem / 100) *
         15;
       return parseFloat(referralRewards / 0.005).toFixed(3);
     },

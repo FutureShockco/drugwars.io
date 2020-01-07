@@ -18,7 +18,7 @@
       </div>
       <h4 class="ui white header">{{ 'message.login_message' | translate}}</h4>
       <div class="d-inline-grid">
-        <div class="ui blue header big">Join the early access now for Free. </div>
+        <div class="ui blue header big">CURRENT SERVER {{server_num}} : {{server}} </div>
         <div
           class="button button-green button-large mt-2 mb-4"
           @click="socialLogin"
@@ -42,6 +42,8 @@ export default {
       loginURL: sc.getLoginURL(),
       isAuthenticated: false,
       profile: {},
+      server_num:process.env.VUE_APP_SERVER,
+      server : process.env.VUE_APP_SERVER_NAME
     };
   },
   created() {

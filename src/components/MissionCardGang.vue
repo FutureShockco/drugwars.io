@@ -10,8 +10,9 @@
       <div v-if="isLoading && !ownJob">
         <Loading />
       </div>
-              <div v-if="item.type ==='gang'">
-        Full reward requirements : Minimum 5 active members
+      <div v-if="item.type ==='gang'">
+                Full reward requirements : Minimum 5 active members under 5 active members the rewards are divided by 10
+        <!-- <span class="text-orange">Requirements: Minimum {{item.difficulty * 2}} active members, under {{item.difficulty * 2}} active members the rewards are divided by 10.</span>  -->
       </div>
       <h5>Enemies</h5>
       <div class="text-green" v-if="ownJob && json && json.length < 1">MISSION ACCOMPLISHED</div>
@@ -22,9 +23,9 @@
           :unit="unit"
           :key="unit.id"
         >
-          <div class="unitamount">{{unit.amount.mini}} - {{unit.amount.max}}</div>
+          <div class="unitamount">{{unit.amount.mini+production/3+30 | round}} - {{unit.amount.max+production/3+30 | round}}</div>
 
-          <img class="preview unit width-full" width="50" :src="`//img.drugwars.io/units/${unit.id}.png`" />
+          <img class="preview unit" :src="`//img.drugwars.io/units/${unit.id}.png`" />
 
           <div class="unitname">{{unit.id}}</div>
         </div>
@@ -44,6 +45,7 @@
           <div class="unitname">{{unit.key}}</div>
         </div>
       </div>
+        <div class="column m-0 p-0 col-12 text-center" v-if="item.type ==='gang'">+2.5% bonus rewards per daily active member</div>
         <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
             <a @click="openInNewTab()">Open in the simulator</a>
         </div>
@@ -122,9 +124,7 @@
 
           <div>{{rewards.randomDWD}}</div>
         </div>
-        <div v-if="item.type ==='gang'">+2.5% per daily active member</div>
       </div>
-
       <router-link
         v-if="timeToWait && restUnits > 0"
         :to="`/actions?type=attack&target=${ownJob.territory}&base=${ownJob.base}&target_type=npc`"
@@ -173,6 +173,7 @@ export default {
       isLoading: false,
       waitingConfirmation: false,
       user: this.$store.state.game.user.user,
+      production: this.$store.state.game.user.total_production,
     };
   },
   computed: {
@@ -349,7 +350,7 @@ export default {
 
 .unitamount {
   width: 100%;
-  background: #000000;
+  background: transparent;
   color: #fbbd07;
   font-size: 9px;
 }

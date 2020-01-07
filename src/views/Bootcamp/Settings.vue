@@ -1,34 +1,44 @@
 <template>
     <div>
-        <OverviewTabs/>
+        <BootcampTabs/>
         <div class="p-4 text-center anim-fade-in">
-          <h2>RENAME YOUR BASE</h2>
-           <h4>Current name <div class="text-yellow">{{ownBase.custom}}</div></h4>
-            <h5  v-if="ownBase.custom ==='primary'" class="text-red">You can not rename your primary base</h5>
-            <form v-else class="form container-xxs" @submit.prevent="handleRename">
-              <h6>New name </h6>
-                <input class="input input-primary mb-2" v-model="base_name" type="text"/>
-            <button
-              :disabled="isLoading || waitingConfirmation || requireUpdate || inProgress || ownBase.custom ==='primary' ||!base_name"
-              class="button btn-block button-green mb-2">
-            Change name
-            </button>
-            </form>
-            <h2>MOVE YOUR BASE TO ANOTHER SPOT</h2>
-            <h5>Be carefull, everybody can recover your old location on the map. You will keep all your buildings and your units. You can not move if you have any fights which are still ongoing.</h5>
-           <h4>Current coordinates <div class="text-yellow">{{ownBase.territory}} : {{ownBase.base}}</div></h4>
+          <h2>SET RALLY POINT</h2>
+           <h6>Define a rally point so all your fresh recruited units will automatically join this base.</h6>
+           <h4>Current rally point <div class="text-yellow">{{ownBase.territory}} : {{ownBase.base}}</div></h4>
+
+          <h5
+            class="text-yellow ddrop mt-0 mb-0"
+            @click="isOpen = !isOpen, active = !active"
+            :class="{ active }"
+          >
+            CHOOSE FROM YOUR BASES
+            <svg viewBox="0 0 451.847 451.847" width="12">
+              <path
+                d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
+		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
+		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"
+                fill="#fff"
+              />
+            </svg>
+          </h5>
+        <div :class="{ isOpen }" class="dropdown">
+          <button
+            class="btn btn-yellow btn-sm rp mr-2"
+            v-for="base in allbase"  @click="setRallyPointCoordinates(base.territory,base.base)"
+            v-if=" base.building ==='headquarters' && (ownBase.territory+''+ownBase.base !== base.territory+''+base.base)"
+            :key="(base.territory+''+base.base)"
+          > 
+            {{base.custom }}</button>
+          </div>
             <form class="form container-xxs" @submit.prevent="handleSubmit">
-              <h6>Territory </h6>
-                <input class="input input-primary mb-2" v-model="target_territory" type="number"/>
-                    <h6>Location </h6>
-                <input class="input input-primary mb-2" v-model="target_base" type="number"/>
+             
+                
               <h5>   {{ upgradeLabel }}</h5>
+
             <button
               :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD || inProgress || !ownBase ||!target_base || !target_territory"
               class="button btn-block button-yellow mb-2">
-            <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
-            <span v-if="dwdPrice"> ${{ dwdPrice | amount }} = </span>
-              {{ price  }} DWD
+            COMING SOON
             </button>
             </form>
             <h4 v-if="errorMessage" class="text-red">Please select a valid territory</h4>
@@ -51,7 +61,9 @@ export default {
       target_base: null,
       base_name: null,
       errorMessage: null,
-    };
+      isOpen: false,
+      active: false
+    }
   },
   watch: {
     inProgress(val) {
@@ -63,6 +75,9 @@ export default {
   computed: {
     ownBase() {
       return this.$store.state.game.mainbase;
+    },
+    allbase(){
+      return this.$store.state.game.user.buildings || null;
     },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
@@ -110,7 +125,7 @@ export default {
     upgradeLabel() {
       let label = '';
       if (this.target_territory && this.target_base)
-        label = `You are moving your base from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
+        label = `You are settings your rally point from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;
@@ -212,36 +227,12 @@ export default {
           });
       }
     },
-    handleRename() {
-      const self = this;
-      this.errorMessage = null;
-      if (this.base_name.length > 44) {
-        this.errorMessage = `Please choose a name a shorter name for your base`;
-      }
-      if (!this.errorMessage) {
-        this.isLoading = true;
-        const payload = {
-          type: 'rename-base',
-          from_territory: Number(self.ownBase.territory),
-          from_base: Number(self.ownBase.base),
-          name: self.base_name,
-        };
-        this.send(payload)
-          .then(() => {
-            this.isLoading = false;
-            this.init();
-          })
-          .catch(e => {
-            this.notify({
-              type: 'error',
-              message:
-                'Failed to rename base please',
-            });
-            console.error('Failed to move base', e);
-            this.isLoading = false;
-          });
-      }
-    },
+    setRallyPointCoordinates(territory,base)
+    {
+        this.target_territory = territory;
+        this.target_base = base;
+        this.isOpen = !this.isOpen;
+    }
   },
 };
 </script>
@@ -258,5 +249,37 @@ export default {
   position: relative;
   float: left;
   top: 5px;
+}
+
+
+.dropdown {
+ left: 50%;
+ transform: translatey(-30%) rotatex(90deg) scale(0);
+ margin-top: 0.55em;
+ transform-origin: 0 0;
+ border-radius: 0.35em;
+ display: none;
+ opacity: 0;
+ transition: all 200ms linear;
+
+ &.isOpen {
+  transform: translatey(0%);
+  display: block;
+  opacity: 1;
+ }
+}
+
+.rp {
+ padding: 5px;
+ background: black;
+ color: #ffc508;
+ z-index: 999999;
+ text-transform: uppercase;
+}
+
+.rp:hover {
+ background: #ffc508;
+ color: black;
+ font-weight: bold;
 }
 </style>

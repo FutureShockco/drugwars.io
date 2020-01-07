@@ -1,7 +1,7 @@
 {
   "author": "FutureShock",
   "name": "drugwars.io",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "homepage": "https://drugwars.io",
   "description": "The drugs are virtual, but the money is real",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "bluebird": "^3.5.3",
     "cacache": "^13.0.0",
     "dom-to-image": "^2.6.0",
-    "drugwars": "^0.1.45",
+    "drugwars": "^0.1.47",
     "dsteem": "^0.10.1",
     "express": "^4.16.3",
     "hexasphere.js": "^0.2.2",

@@ -6,13 +6,13 @@
           v-if="fight.attacker_nickname != user.nickname"
           :to="`/actions?type=attack&target=${fight.attacker_territory}&base=${fight.attacker_base}`"
         >
-          <Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" />
+          <Avatar :size="60" :username="fight.attacker_nickname" :picture="fight.attacker_picture" :reputation="fight.attacker_reputation"/>
         </div>
         <Avatar
           v-else
           :size="60"
           :username="fight.attacker_nickname"
-          :picture="fight.attacker_picture"
+          :picture="fight.attacker_picture" :reputation="fight.attacker_reputation"
         />
         <div class="username">{{ fight.attacker_nickname }}</div>
         <div
@@ -30,6 +30,10 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value" />
           </div>
+          <h5 v-if="fight.attacker_reward">REWARDS :</h5>
+          <div v-if="fight.attacker_reward">{{fight.attacker_reward}} DWD</div>
+          <h5 v-if="fight.attacker_elo">PRESTIGE CHANGE :</h5>
+          <div v-if="fight.attacker_elo">{{fight.attacker_elo}}</div>
           <div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
           <p class="message mb-4">{{ fight.message }}</p>
         </div>
@@ -62,9 +66,9 @@
           v-if="fight.target_nickname != user.nickname"
           :to="`/actions?type=attack&target=${fight.attacker_territory}&base=${fight.attacker_base}`"
         >
-          <Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture" />
+          <Avatar :size="60" :username="fight.target_nickname" :picture="fight.target_picture" :reputation="fight.target_reputation" />
         </div>
-        <Avatar v-else :size="60" :username="user.nickname" :picture="user.picture" />
+        <Avatar v-else :size="60" :username="user.nickname" :picture="user.picture" :reputation="fight.target_reputation"/>
         <div class="username">{{ fight.target_nickname }}</div>
         <div
           v-if="fight.target_ticker"
@@ -81,13 +85,15 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.target.start_value" :lose="json.target.end_value" />
           </div>
+          <h5 v-if="fight.defender_reward">REWARDS :</h5>
+          <div v-if="fight.defender_reward">{{fight.defender_reward}} DWD</div>
+          <h5 v-if="fight.defender_elo">PRESTIGE CHANGE :</h5>
+          <div v-if="fight.defender_elo">{{fight.defender_elo}}</div>
         </div>
       </div>
     </div>
     <div>
       <div v-if="details" class="text-center">
-        <h5 v-if="fight.attacker_reward">REWARDS :</h5>
-        <div v-if="fight.attacker_reward">{{fight.attacker_reward}} DWD</div>
         <Troops
           v-if="json.target.detail && json.target.detail.units"
           :units="json.target.detail.units"
@@ -106,7 +112,7 @@
         <span v-if="!fight.is_stable" class="mr-2">(Waiting for confirmation)</span>
       </div>
       <div class="text-center mb-3 mt-3">
-        <span> FROM </span>
+        <span>FROM </span>
         <span v-if="fight.attacker_base">
           <router-link
             v-if="fight.target_nickname === user.nickname"
@@ -138,11 +144,13 @@
         <div>Start : {{start}} - End : {{end}}</div>
         <div v-if="fight.fight_key">
           <a target="_blank">Tx : {{fight.fight_key}}</a>
-          <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+          <span v-if="fight.steem_block"> Steem block : {{fight.steem_block}}</span>
         </div>
         <div v-else-if="fight.transport_key">
           Tx: {{fight.transport_key}}
-          <span v-if="fight.steem_block">Steem block : {{fight.steem_block}}</span>
+          <span
+            v-if="fight.steem_block"
+          > Steem block : {{fight.steem_block}}</span>
         </div>
       </div>
       <div v-if="fight.is_done!=0">
@@ -161,7 +169,6 @@
             class="button button-red ml-1"
             @click="listPopup()"
           >Add to list</button>
-          <span class="ml-1" v-else>In the list</span>
         </div>
         <div v-else class="text-center">
           <button class="button button-blue" @click="hideDetails()">Hide details</button>

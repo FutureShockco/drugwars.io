@@ -4,7 +4,7 @@
             <div class="topnav-content d-flex mx-auto">
                 <div class="topnav-logo hide-sm hide-md hide-lg text-center">
                     <router-link to="/">
-                        <img src="//img.drugwars.io/drugwars.png" class="logo" name="logo" />
+                          <Icon class="logo" name="logo" />
                     </router-link>
                 </div>
                 <button class="float-left px-3 py-3 border-right" @click="toggleSidebarVisibility">
@@ -41,9 +41,7 @@ export default {
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.daily_percent) /
-        0.005
+          prizeProps.daily_percent
       );
     },
     prizeProps() {
@@ -114,8 +112,8 @@ export default {
     height: @topnav-height;
   }
   .logo {
-    margin-top: 5px;
-    height: 45px;
+    margin-top: 0px;
+    height: 60px;
   }
   .topnav-logo {
     width: 100%;

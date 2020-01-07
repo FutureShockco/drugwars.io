@@ -120,15 +120,13 @@ export default {
     total() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        ((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) *
         (prizePops.daily_percent + prizePops.heist_percent)
       );
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return (
-        (((parseFloat(prizePops.balance) * prizePops.steemprice) / 100) * prizePops.daily_percent) /
-        0.005
+        prizePops.daily_percent
       );
     },
     dwdToSteem() {
@@ -221,9 +219,6 @@ export default {
     totalVest() {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
-    totalReward() {
-      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
-    },
     totalRewards() {
       const daily = parseFloat(
         (this.user_production / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
@@ -233,9 +228,7 @@ export default {
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
-        0.005
+          prizeProps.heist_percent
       );
     },
     ownHeistReward() {

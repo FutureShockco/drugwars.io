@@ -32,7 +32,7 @@ export default {
       return orderBy(this.$store.state.game.inc_fights, 'end_date', 'desc');
     },
     inc() {
-      if (this.$store.state.game.inc_fights) return this.$store.state.game.inc_fights.length;
+      if (this.$store.state.game.fights_count) return this.$store.state.game.fights_count.all;
       return 0;
     },
   },

@@ -12,7 +12,7 @@
       </div>
       <h5>Enemies</h5>
       <div class="text-green" v-if="ownJob && json && json.length < 1">MISSION ACCOMPLISHED</div>
-      
+
       <div v-if="!timeToWait">
         <div
           class="column m-0 mr-2 p-0 col-2 text-center"
@@ -20,9 +20,8 @@
           :unit="unit"
           :key="unit.id"
         >
-          <div class="unitamount">{{unit.amount.mini}} - {{unit.amount.max}}</div>
-
-          <img class="preview unit width-full"  width="50" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`" />
+          <div class="unitamount">{{unit.amount.mini+production/3 | round}} - {{unit.amount.max+production/3 | round}}</div>
+          <img class="preview unit" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`" />
 
           <div class="unitname">{{unit.id}}</div>
         </div>
@@ -130,7 +129,6 @@
         <i class="iconfont icon-clock" />
         Waiting
       </button>
-
     </div>
   </div>
 </template>
@@ -146,6 +144,7 @@ export default {
       isLoading: false,
       waitingConfirmation: false,
       user: this.$store.state.game.user.user,
+      production: this.$store.state.game.user.total_production,
     };
   },
   computed: {
@@ -232,6 +231,11 @@ export default {
           self.isLoading = false;
           self.waitingConfirmation = false;
         });
+    },
+    getRandomIntMinMax(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 0.001)) + min;
     },
     openInNewTab() {
       const self = this;
@@ -339,7 +343,7 @@ export default {
 
 .unitamount {
   width: 100%;
-  background: #000000;
+  background: transparent;
   color: #fbbd07;
   font-size: 9px;
 }

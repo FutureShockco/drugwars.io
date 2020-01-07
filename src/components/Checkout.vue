@@ -10,8 +10,8 @@
 </template>
 
 <template v-else>
-    <div class="progression" :style="'margin-right:'+(100-percentage)+'%'"></div>
-    <i class="iconfont icon-tools" />
+    <div class="progression" v-if="inProgress" :style="'margin-right:'+(100-percentage)+'%'"></div>
+    <i class="iconfont icon-arrow-up" />
     <span>{{ upgradeLabel }}</span>
 
 </template>
@@ -70,7 +70,7 @@ export default {
     },
     dwdPrice() {
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
-      return price * this.priceInDWD;
+      return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
       return parseFloat(this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;

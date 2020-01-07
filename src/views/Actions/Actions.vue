@@ -86,8 +86,8 @@
               >load {{combination.name}}</button>
             </div>
           </draggable>
-              <h3>Defensive Power : {{defensivePower}}%</h3>
-        <a @click="openInNewTab()" target="_blank">Access to the Fight simulator</a>
+          <h3>Defensive Power : {{defensivePower}}%</h3>
+          <a @click="openInNewTab()" target="_blank">Access to the Fight simulator</a>
         </div>
       </div>
       <div v-if="ownUnits.length > 0" class="column col-12 col-sm-6">
@@ -208,7 +208,32 @@
             </div>
           </div>
         </div>
-        <h3>Select your target coordinates</h3>
+          <h5
+            class="text-yellow ddrop mt-0 mb-0"
+            v-if="action_type === 'transport' || action_type === 'station'"
+            @click="isOpen = !isOpen, active = !active"
+            :class="{ active }"
+          >
+            CHOOSE FROM YOUR BASES
+            <svg viewBox="0 0 451.847 451.847" width="12">
+              <path
+                d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
+		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
+		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"
+                fill="#fff"
+              />
+            </svg>
+          </h5>
+        <div :class="{ isOpen }" class="dropdown" v-if="action_type === 'transport' || action_type === 'station'">
+          <button
+            class="btn btn-yellow btn-sm rp mr-2"
+            v-for="base in allbase"  @click="setRallyPointCoordinates(base.territory,base.base)"
+            v-if=" base.building ==='headquarters' && (ownBase.territory+''+ownBase.base !== base.territory+''+base.base)"
+            :key="(base.territory+''+base.base)"
+          >
+            {{base.custom }}</button>
+          </div>
+        <h3 class="mt-1">Select your target coordinates</h3>
         <div>
           <input
             class="input form-control mb-4"
@@ -244,21 +269,17 @@
         <button
           v-if="action_type === 'attack'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-red mb-4"
+          class="button button-large button-red mb-2 d-block"
           @click="handleSubmit"
         >
           <SmallLoading v-if="isLoading" />
           <span v-else>{{action_type}}</span>
         </button>
-          <button
-            class="button button-red" v-if="target_type !== 'npc'"
-            :disabled="selectedUnits.length === 0 || !target || isLoading"
-            @click="listPopup()"
-          >Add to list</button>
+     
         <button
           v-if="action_type === 'transport'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-blue mb-4"
+          class="button button-large button-blue mb-2 d-block"
           @click="handleSubmit"
         >
           <SmallLoading v-if="isLoading" />
@@ -267,7 +288,7 @@
         <button
           v-if="action_type === 'occupy'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-green mb-4"
+          class="button button-large button-green mb-2 d-block"
           @click="handleSubmit"
         >
           <SmallLoading v-if="isLoading" />
@@ -276,13 +297,37 @@
         <button
           v-if="action_type === 'station'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-orange mb-4"
+          class="button button-large button-orange mb-2 d-block"
           @click="handleSubmit"
         >
+        
           <SmallLoading v-if="isLoading" />
           <span v-else>{{action_type}}</span>
         </button>
+   <button
+          class="button button-red d-inline-block"
+          v-if="target_type !== 'npc'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          @click="listPopup()"
+        >Add to list</button>
 
+           <h5 class="ml-2 d-inline-block" v-if="action_type === 'attack'">Visible for gang</h5>     
+           <button
+          class="ml-2 button button-red"
+          v-if="action_type === 'attack' && privateAttack"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          @click="makePrivate()"
+        >
+        No
+        </button>
+           <button
+          class="ml-2 button button-green"
+          v-if="action_type === 'attack' && !privateAttack"
+          :disabled="selectedUnits.length === 0 || !target || isLoading"
+          @click="makePrivate()"
+        >
+        Yes
+        </button>
         <p class="text-red text-left" v-if="errorMessage">{{ errorMessage }}</p>
       </div>
       <h2 class="text-center" v-else>
@@ -339,6 +384,9 @@ export default {
    alcohol_amount: 0,
    farm_name: this.$route.query.nickname || null,
    popupOn: false,
+  isOpen: false,
+  active: false,
+  privateAttack: false
   };
  },
  components: {
@@ -355,6 +403,9 @@ export default {
   },
   sent_fights() {
    return this.$store.state.game.sent_fights;
+  },
+  allbase() {
+   return this.$store.state.game.user.buildings || null;
   },
   nickname() {
    return this.$store.state.game.user.user.nickname;
@@ -577,6 +628,7 @@ export default {
        units: self.selectedUnits,
        type: 'fight',
        message: self.message || '',
+       private: self.privateAttack
       };
      break;
     case 'transport':
@@ -707,6 +759,16 @@ export default {
     amount: selectedUnitsObj[key],
    }));
   },
+  makePrivate(){
+    this.privateAttack = !this.privateAttack;
+    sessionStorage.setItem('private_attack',this.privateAttack);
+  },
+  setRallyPointCoordinates(territory, base) {
+    console.log(territory)
+   this.target = territory;
+   this.base = base;
+  this.isOpen = !this.isOpen;
+  },
   openInNewTab() {
    const url = 'https://simulator.drugwars.io/';
    const myarmy = this.ownUnits.map(unit =>
@@ -830,5 +892,36 @@ export default {
  .column.b {
   width: 100% !important;
  }
+}
+
+.dropdown {
+ left: 50%;
+ transform: translatey(-30%) rotatex(90deg) scale(0);
+ margin-top: 0.55em;
+ transform-origin: 0 0;
+ border-radius: 0.35em;
+ display: none;
+ opacity: 0;
+ transition: all 200ms linear;
+
+ &.isOpen {
+  transform: translatey(0%);
+  display: block;
+  opacity: 1;
+ }
+}
+
+.rp {
+ padding: 5px;
+ background: black;
+ color: #ffc508;
+ z-index: 999999;
+ text-transform: uppercase;
+}
+
+.rp:hover {
+ background: #ffc508;
+ color: black;
+ font-weight: bold;
 }
 </style>

@@ -54,7 +54,7 @@ export default {
       contracts: [],
     };
   },
-  created() {
+  mounted() {
     this.isLoading = true;
     client.requestAsync('get_contracts', null).then(result => {
       this.contracts = result;

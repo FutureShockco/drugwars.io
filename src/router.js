@@ -31,16 +31,19 @@ const BuildingDetail = () =>
 const DrugDetail = () => import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
+const UnitsSettings = () => import(/* webpackChunkName: "unitssettings" */ '@/views/Bootcamp/Settings.vue');
+
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Actions/Actions.vue');
-const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
 const Occup = () => import(/* webpackChunkName: "occupy" */ '@/views/Actions/Occup.vue');
 
 const Outgoing = () => import(/* webpackChunkName: "outgoing" */ '@/views/Actions/Outgoing.vue');
 const Incoming = () => import(/* webpackChunkName: "incoming" */ '@/views/Actions/Incoming.vue');
 const Targets = () => import(/* webpackChunkName: "targets" */ '@/views/Actions/Targets.vue');
 const Station = () => import(/* webpackChunkName: "station" */ '@/views/Actions/Station.vue');
+const Transport = () => import(/* webpackChunkName: "transport" */ '@/views/Actions/Transport.vue');
+
 const HallOfFame = () => import(/* webpackChunkName: "hall-of-fame" */ '@/views/HallOfFame.vue');
 
 const Gangs = () => import(/* webpackChunkName: "gangs" */ '@/views/Gangs/Gangs.vue');
@@ -266,6 +269,12 @@ export default new Router({
       component: Training,
     },
     {
+      path: '/units/settings',
+      name: 'unitsettings',
+      beforeEnter: requireAuth,
+      component: UnitsSettings,
+    },
+    {
       path: '/actions',
       name: 'missions',
       beforeEnter: requireAuth,
@@ -300,6 +309,12 @@ export default new Router({
       name: 'targets',
       beforeEnter: requireAuth,
       component: Targets,
+    },
+    {
+      path: '/actions/transport',
+      name: 'transport',
+      beforeEnter: requireAuth,
+      component: Transport,
     },
     {
       path: '/actions/station',
@@ -476,7 +491,7 @@ export default new Router({
       component: Settings,
     },
     {
-      path: '/referral',
+      path: '/settings/referral',
       name: 'referral',
       beforeEnter: requireAuth,
       component: Referral,
@@ -538,7 +553,7 @@ export default new Router({
       component: Guides,
     },
     {
-      path: '/earlyaccess',
+      path: '/help/earlyaccess',
       name: 'earlyaccess',
       beforeEnter: requireAuth,
       component: EarlyAccess,

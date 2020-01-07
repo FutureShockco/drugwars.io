@@ -71,7 +71,7 @@
         </div>-->
       </div>
       <div class="mx-auto">
-        <Checkout v-if="building.type !== 'defense'"
+        <Checkout
           :id="building.id"
           :level="ownItem.lvl + 1"
           :coeff="building.coeff"

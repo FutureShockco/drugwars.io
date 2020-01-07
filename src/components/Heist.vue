@@ -38,7 +38,7 @@ export default {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
     totalReward() {
-      return (parseFloat(this.prizeProps.balance) / 100) * this.prizeProps.heist_percent;
+      return this.prizeProps.heist_percent;
     },
     user() {
       return this.$store.state.game.user.user;
@@ -68,9 +68,7 @@ export default {
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
       return (
-        (((parseFloat(prizeProps.balance) * prizeProps.steemprice) / 100) *
-          prizeProps.heist_percent) /
-        0.005
+          prizeProps.heist_percent
       );
     },
     balances() {

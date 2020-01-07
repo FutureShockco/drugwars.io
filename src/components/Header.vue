@@ -24,7 +24,8 @@ export default {
   color: @white-darker;
   font-size: 20px;
   z-index: 100;
-  top: 60px;
+  top: 63px;
+  margin-left: 1px;
   width: 100%;
   height: @header-height;
   line-height: @header-height;

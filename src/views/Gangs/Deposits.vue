@@ -17,7 +17,7 @@
             <h5 class="name column col-2 p-0 m-0 text-left">Weapons</h5>
             <h5 class="name column col-2 p-0 m-0 text-left">Alcohol</h5>
             <h5 class="name column col-2 p-0 m-0 text-left">Total</h5>
-            <h5 class="name column col-1 p-0 m-0 text-left">Average</h5>
+            <h5 class="name column col-1 p-0 m-0 text-left">Week AVR.</h5>
           </div>
 
           <div
@@ -44,7 +44,7 @@
                 :class="{ 'text-green': Number(averagePerBuilding(item.id)) < deposit.total, 'text-red': Number(averagePerBuilding(item.id)) > deposit.total }"
                 class="name column col-2 p-0 m-0 text-left"
               >{{deposit.total | amount}} ({{averageTotal(item.id,deposit.total)}}%)</h5>
-              <h5 class="name column col-1 p-0 m-0 text-left">{{deposit.average | amount}}</h5>
+              <h5 class="name column col-1 p-0 m-0 text-left">{{deposit.week_average | amount}}</h5>
             </div>
           </div>
         </div>
@@ -81,6 +81,14 @@ export default {
     const total = user.drugs + user.weapons + user.alcohol;
     user.total = total; // eslint-disable-line no-param-reassign
     user.average = total / 3;
+    let joined = new Date(user.created * 1000);
+    let now = new Date();
+    let weeks = Math.round((now-joined));
+    user.week = Math.round(weeks/1000/60/60/24/7)
+    if(user.week)
+    user.week_average = user.total/user.week
+    else
+    user.week_average = 0
     this.alldeposits.push(user);
     if (this.buildingDeposits[user.building]) {
      this.buildingDeposits[user.building].drugs += user.drugs;

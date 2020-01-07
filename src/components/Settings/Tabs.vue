@@ -3,7 +3,7 @@
     <UiTabs>
       <UiTab to="/settings">Settings</UiTab>
       <UiTab v-if="!steemAccount" to="/settings/steem">Steem</UiTab>
-      <!-- <UiTab to="/settings/building">Delete building</UiTab> -->
+      <UiTab to="/settings/referral">Referral</UiTab>
       <UiTab to="/settings/privacy">Privacy</UiTab>
       <UiTab to="/settings/history">History</UiTab>
     </UiTabs>

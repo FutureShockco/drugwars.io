@@ -10,7 +10,7 @@
 </template>
 
 <template v-else>
-      <div class="progression" :style="'margin-right:'+(100-percentage)+'%'"></div>
+      <div class="progression" v-if="inProgress"  :style="'margin-right:'+(100-percentage)+'%'"></div>
     <i class="iconfont icon-person" />
     <span v-if="!isLoading && pendingAmount === 0">
                     {{ notEnough ? 'Miss resources' : 'Recruit' }}  </span>
@@ -108,7 +108,7 @@ export default {
     },
     dwdPrice() {
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
-      return price * this.priceInDWD;
+      return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
       return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;

@@ -143,8 +143,8 @@ export default {
       return this.$store.state.game.user.user.xp;
     },
     activeIncFightsCount() {
-      if (this.$store.state.game.inc_fights_count) {
-        return this.$store.state.game.inc_fights_count;
+      if (this.$store.state.game.fights_count) {
+        return this.$store.state.game.fights_count;
       }
       return 0;
     },

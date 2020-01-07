@@ -197,7 +197,7 @@ export default {
         sender: 'DrugWars',
         gang: 'government',
         picture: message.picture,
-        date: new Date().toString(),
+        date: new Date(),
       });
     });
     socket.on('update-users', users => {

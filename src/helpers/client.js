@@ -38,19 +38,17 @@ function Sub(rawClient) {
   };
   rawClient.notifications = () => {};
   rawClient.subscribe((data, message) => {
-    if (
-      message[1].body &&
-      message[1].body.type !== undefined &&
-      message[1].body.type === 'start_attack'
-    ) {
+    if (message[1].body && message[1].body.type === 'start_attack') {
+      store.dispatch('refresh_fights_count');
       store.dispatch('refresh_sent_fights');
-      store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_sent_station_count');
+      store.dispatch('refresh_transport_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
-        message: `Your troops are on their way to attack ${message[1].body.target}!`,
+        icon:'target',
+        message: `${message[1].body.message}`,
       });
+      return;
     }
 
     if (message[1].body === 'update') {
@@ -77,17 +75,9 @@ function Sub(rawClient) {
         message: 'You received your DWD Tokens!',
       });
     }
-    if (message[1].body === 'fight') {
-      store.dispatch('refresh_sent_fights_count');
-      store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_sent_station_count');
-      store.dispatch('init');
-    }
 
     if (message[1].body === 'receiveattack') {
-      store.dispatch('refresh_inc_fights_count');
-      store.dispatch('refresh_inc_transport_count');
-      store.dispatch('refresh_inc_station_count');
+      store.dispatch('refresh_fights_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'error',
@@ -102,9 +92,7 @@ function Sub(rawClient) {
       if (store.state.game.force_sent_fights_refresh) {
         store.dispatch('refresh_sent_fights');
       }
-      store.dispatch('refresh_sent_fights_count');
-      store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_sent_station_count');
+      store.dispatch('refresh_fights_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
@@ -113,9 +101,7 @@ function Sub(rawClient) {
     }
 
     if (message[1].body === 'end_transport') {
-      store.dispatch('refresh_sent_fights_count');
-      store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_sent_station_count');
+      store.dispatch('refresh_transport_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
@@ -124,9 +110,7 @@ function Sub(rawClient) {
     }
 
     if (message[1].body === 'end_station') {
-      store.dispatch('refresh_sent_fights_count');
-      store.dispatch('refresh_sent_transport_count');
-      store.dispatch('refresh_sent_station_count');
+      store.dispatch('refresh_station_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
@@ -135,7 +119,7 @@ function Sub(rawClient) {
     }
 
     if (message[1].body === 'end_inc_attack') {
-      store.dispatch('refresh_inc_fights_count');
+      store.dispatch('refresh_fights_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'error',
@@ -144,8 +128,8 @@ function Sub(rawClient) {
     }
 
     if (message[1].body === 'end_inc_transport') {
-      store.dispatch('refresh_inc_fights_count');
-      store.dispatch('refresh_inc_transport_count');
+      store.dispatch('refresh_fights_count');
+      store.dispatch('refresh_transport_count');
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',

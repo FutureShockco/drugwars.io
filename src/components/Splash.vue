@@ -1,7 +1,8 @@
 <template>
   <UiCenter class="vue-ui-modal pt-2 pb-7">
+    <h5 class="text-center mb-0">Server ({{server}}) : {{name}}</h5>
     <Icon class="logo-large" name="logo" />
-    <div class="wrapper">
+    <div class="wrapper mt-2">
       <div class="left"></div>
       <div class="right"></div>
     </div>
@@ -16,12 +17,21 @@
 
 <script>
 export default {
+
   methods: {
     logout() {
       this.$auth.logOut();
       this.$router.push({ path: '/' });
     },
   },
+    computed: {
+    server() {
+      return process.env.VUE_APP_SERVER;
+    },
+    name() {
+      return process.env.VUE_APP_SERVER_NAME;
+    },
+    }
 };
 </script>
 

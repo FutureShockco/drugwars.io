@@ -2,7 +2,6 @@
     <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
         <div class="d-flex flex-column height-full">
             <div class="text-center pt-3">
-                 <h5 class="text-green label small">THE UPDATE OF THE 0.6V (2020/01/06) IS POSTPONED TO TOMORROW (2020/01/07) THANKS FOR YOUR UNDERSTANDING!</h5>
                 <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" :reputation="reputation"/>
                 <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture"  :reputation="reputation"/>
                 <div class="username" @click.native="toggleSidebar">
@@ -15,130 +14,127 @@
             <div class="height-full">
                 <ul class="pt-1 border-bottom">
                     <li>
-                        <BaseDropdown class="pb-2 px-4 d-block" :config="config" />
+                        <BaseDropdown class="pb-2 px-3 d-block" :config="config" />
                     </li>
                 </ul>
                 <ul class="pt-1 pb-2 border-bottom">
                                      <li>
-                        <router-link to="/news" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/news" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.news' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/overview" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/overview" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.overview' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/buildings" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/buildings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                           {{'sidebar.buildings' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/units" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/units" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                       {{'sidebar.bootcamp' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/actions" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/actions" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                         {{'sidebar.actions' | translate}}
-                            <span class="text-red" v-if="activeIncFightsCount > 0">
+                            <span class="text-red label p-0" v-if="activeIncFightsCount > 0">
                   {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>
-                </span> <span class="text-green" v-if="activeFightsCount > 0">
+                </span> <span class="text-green label p-0" v-if="activeFightsCount > 0">
                   {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
-                            <span class="text-blue" v-if="activeIncTransportsCount > 0">
-                  {{ activeIncTransportsCount }}<i class="iconfont icon-arrow-down"></i>
-                </span>
-                            <span class="text-blue" v-if="activeTransportsCount > 0">
+                <span class="text-blue label p-0" v-if="activeTransportsCount > 0">
                   {{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
-                            <span class="text-orange" v-if="activeStationsCount > 0">
+                            <span class="text-orange label p-0" v-if="activeStationsCount > 0">
                   {{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>
                 </span>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/map" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/map" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                                                     {{'sidebar.map' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/leaderboards" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/leaderboards" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                         {{'sidebar.leaderboards' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/gangs" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/gangs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                         {{'sidebar.gangs' | translate}}
                         </router-link>
                     </li>
                     <!-- <li>
                 <router-link
                   to="/contracts"
-                  class="py-1 px-4 d-block"
+                  class="py-1 px-3 d-block"
                   @click.native="toggleSidebar"
                 >
                   Contracts
                 </router-link>
               </li> -->
                     <li>
-                        <router-link to="/jobs" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/jobs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.jobs' | translate}} <span class="text-red" v-if="jobs > 0">
                   ({{ jobs }})
                 </span>
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/rewards" class="py-1 px-4 d-block sidebar-rewards" @click.native="toggleSidebar">
+                        <router-link to="/rewards" class="py-1 px-3 d-block sidebar-rewards" @click.native="toggleSidebar">
                             {{'sidebar.heist' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/market?token=dwd" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/market?token=dwd" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.market' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/shop" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/shop" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.shop' | translate}}
                         </router-link>
                     </li>
                     <!-- <li>
-                        <router-link to="/cards/mycollection" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/cards/mycollection" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.cards' | translate}}
                         </router-link>
                     </li> -->
                 </ul>
-                <ul class="pt-1 pb-2 border-bottom">
-                    <li>
-                        <router-link to="/referral" class="py-1 px-4 d-block " @click.native="toggleSidebar">
+                <ul class="pt-1 pb-2">
+                    <!-- <li>
+                        <router-link to="/referral" class="py-1 px-3 d-block " @click.native="toggleSidebar">
                             {{'sidebar.referral' | translate}}
                         </router-link>
-                    </li>
+                    </li> -->
                     <li>
-                        <router-link to="/settings" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/settings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.settings' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <router-link to="/help" class="py-1 px-4 d-block" @click.native="toggleSidebar">
+                        <router-link to="/help" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                              {{'sidebar.help' | translate}}
                         </router-link>
                     </li>
                     <li>
-                        <a href="https://forum.drugwars.io/" target="_blank" class="py-1 px-4 d-block">
+                        <a href="https://forum.drugwars.io/" target="_blank" class="py-1 px-3 d-block">
                    {{'sidebar.forum' | translate}}
                 </a>
                     </li>
                 </ul>
-                <ul class="pt-1 pb-2 border-bottom">
+                <!-- <ul class="pt-1 pb-2 border-bottom">
                     <li>
-                        <a @click.prevent="logout" class="py-1 px-4 text-gray d-block">
+                        <a @click.prevent="logout" class="py-1 px-3 text-gray d-block">
                     {{'sidebar.logout' | translate}}
                 </a>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <Footer/>
         </div>
@@ -209,38 +205,24 @@ export default {
       return jobs;
     },
     activeIncFightsCount() {
-      if (this.$store.state.game.inc_fights_count) {
-        return this.$store.state.game.inc_fights_count;
-      }
+      if (this.$store.state.game.fights_count) return this.$store.state.game.fights_count.inc;
       return 0;
     },
     activeFightsCount() {
-      if (this.$store.state.game.sent_fights_count) {
-        return this.$store.state.game.sent_fights_count;
-      }
-      return 0;
-    },
-    activeIncTransportsCount() {
-      if (this.$store.state.game.inc_transports_count) {
-        return this.$store.state.game.inc_transports_count;
+      if (this.$store.state.game.fights_count) {
+        return this.$store.state.game.fights_count.sent;
       }
       return 0;
     },
     activeTransportsCount() {
-      if (this.$store.state.game.sent_transports_count) {
-        return this.$store.state.game.sent_transports_count;
-      }
-      return 0;
-    },
-    activeIncStationsCount() {
-      if (this.$store.state.game.inc_stations_count) {
-        return this.$store.state.game.inc_stations_count;
+      if (this.$store.state.game.transports_count) {
+        return this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc;
       }
       return 0;
     },
     activeStationsCount() {
-      if (this.$store.state.game.sent_stations_count) {
-        return this.$store.state.game.sent_stations_count;
+      if (this.$store.state.game.stations_count) {
+        return this.$store.state.game.stations_count.sent;
       }
       return 0;
     },

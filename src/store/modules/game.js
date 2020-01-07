@@ -23,6 +23,8 @@ const state = {
   prizeProps: null,
   user: null,
   fights: [],
+  stations: [],
+  transports: [],
   gang_buildings: [],
   chat: false,
   isconnected: null,
@@ -52,22 +54,19 @@ const mutations = {
     Vue.set(_state, 'force_sent_fights_refresh', payload);
   },
   saveFightsCount(_state, payload) {
-    Vue.set(_state, 'inc_fights_count', payload);
+    Vue.set(_state, 'fights_count', payload);
   },
-  saveSentFightsCount(_state, payload) {
-    Vue.set(_state, 'sent_fights_count', payload);
+  saveTransports(_state, payload) {
+    Vue.set(_state, 'transports', payload);
   },
-  saveIncTransportsCount(_state, payload) {
-    Vue.set(_state, 'inc_transports_count', payload);
+  saveTransportsCount(_state, payload) {
+    Vue.set(_state, 'transports_count', payload);
   },
-  saveSentTransportsCount(_state, payload) {
-    Vue.set(_state, 'sent_transports_count', payload);
+  saveStationsCount(_state, payload) {
+    Vue.set(_state, 'stations_count', payload);
   },
-  saveIncStationsCount(_state, payload) {
-    Vue.set(_state, 'inc_stations_count', payload);
-  },
-  saveSentStationsCount(_state, payload) {
-    Vue.set(_state, 'sent_stations_count', payload);
+  saveStations(_state, payload) {
+    Vue.set(_state, 'stations', payload);
   },
   saveGangBuildings(_state, payload) {
     Vue.set(_state, 'gang_buildings', payload);
@@ -139,12 +138,9 @@ const actions = {
                         b.building === 'headquarters',
                     ),
                   );
-                dispatch('refresh_inc_fights_count');
-                dispatch('refresh_sent_fights_count');
-                dispatch('refresh_sent_transport_count');
-                dispatch('refresh_inc_transport_count');
-                dispatch('refresh_sent_station_count');
-                dispatch('refresh_inc_station_count');
+                dispatch('refresh_fights_count');
+                dispatch('refresh_transport_count');
+                dispatch('refresh_station_count');
                 resolve();
               });
             } else {
@@ -166,7 +162,7 @@ const actions = {
     new Promise((resolve, reject) => {
       const token = authToken();
       let start = 0;
-      let end = 50;
+      let end = 25;
       if (limit) {
         start = limit.start;
         end = limit.end;
@@ -183,11 +179,11 @@ const actions = {
           return reject(err);
         });
     }),
-  refresh_inc_fights_count: ({ commit, dispatch }, limit) =>
+  refresh_fights_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
-        .requestAsync('get_inc_fights_count', { token })
+        .requestAsync('get_fights_count', { token })
         .then(fights => {
           commit('saveFightsCount', fights);
           return resolve(fights);
@@ -222,6 +218,45 @@ const actions = {
   force_sent_fights_refresh: ({ commit, dispatch }, value) => {
     commit('saveSentFightsRefresh', value);
   },
+  refresh_transport_count: ({ commit, dispatch }) =>
+  new Promise((resolve, reject) => {
+    const token = authToken();
+    client
+      .requestAsync('get_transport_count', { token })
+      .then(fights => {
+        commit('saveTransportsCount', fights);
+        return resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        handleError(dispatch, err, 'Loading transport count failed');
+        return reject(err);
+      });
+  }),
+refresh_transports: ({ commit, dispatch }, limit) =>
+  new Promise((resolve, reject) => {
+    const token = authToken();
+    let start = 0;
+    let end = 25;
+    if (limit) {
+      start = limit.start;
+      end = limit.end;
+    }
+    client
+      .requestAsync('get_transports', { token, start, end })
+      .then(fights => {
+        commit('saveTransports', fights);
+        return resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        handleError(dispatch, err, 'Loading sent fights failed');
+        return reject(err);
+      });
+  }),
+force_transports_refresh: ({ commit, dispatch }, value) => {
+  commit('saveSentTransportsRefresh', value);
+},
   refresh_sent_gangfights: ({ commit, dispatch }, limit) =>
   new Promise((resolve, reject) => {
     const token = authToken();
@@ -247,58 +282,14 @@ const actions = {
 force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
   commit('saveSentGangFights', value);
 },
-  refresh_sent_fights_count: ({ commit, dispatch }) =>
+
+  refresh_station_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
       const token = authToken();
       client
-        .requestAsync('get_sent_fights_count', { token })
-        .then(fights => {
-          commit('saveSentFightsCount', fights);
-          return resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading sent fights count failed');
-          return reject(err);
-        });
-    }),
-  refresh_inc_transport_count: ({ commit, dispatch }) =>
-    new Promise((resolve, reject) => {
-      const token = authToken();
-      client
-        .requestAsync('get_inc_transport_count', { token })
-        .then(transports => {
-          commit('saveIncTransportsCount', transports);
-          return resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading inc transports count failed');
-          return reject(err);
-        });
-    }),
-  refresh_sent_transport_count: ({ commit, dispatch }) =>
-    new Promise((resolve, reject) => {
-      const token = authToken();
-      client
-        .requestAsync('get_sent_transport_count', { token })
-        .then(transports => {
-          commit('saveSentTransportsCount', transports);
-          return resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading sent transports count failed');
-          return reject(err);
-        });
-    }),
-  refresh_inc_station_count: ({ commit, dispatch }) =>
-    new Promise((resolve, reject) => {
-      const token = authToken();
-      client
-        .requestAsync('get_inc_station_count', { token })
+        .requestAsync('get_station_count', { token })
         .then(stations => {
-          commit('saveIncStationsCount', stations);
+          commit('saveStationsCount', stations);
           return resolve();
         })
         .catch(err => {
@@ -307,21 +298,27 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
           return reject(err);
         });
     }),
-  refresh_sent_station_count: ({ commit, dispatch }) =>
-    new Promise((resolve, reject) => {
-      const token = authToken();
-      client
-        .requestAsync('get_sent_station_count', { token })
-        .then(stations => {
-          commit('saveSentStationsCount', stations);
-          return resolve();
-        })
-        .catch(err => {
-          console.log(err);
-          handleError(dispatch, err, 'Loading sent stations count failed');
-          return reject(err);
-        });
-    }),
+    refresh_stations: ({ commit, dispatch }, limit) =>
+  new Promise((resolve, reject) => {
+    const token = authToken();
+    let start = 0;
+    let end = 25;
+    if (limit) {
+      start = limit.start;
+      end = limit.end;
+    }
+    client
+      .requestAsync('get_stations', { token, start, end })
+      .then(fights => {
+        commit('saveStations', fights);
+        return resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        handleError(dispatch, err, 'Loading sent fights failed');
+        return reject(err);
+      });
+  }),
   signup: ({ rootState }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
@@ -463,16 +460,8 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       payload.username = username; // eslint-disable-line no-param-reassign
       return dwsocial(username, payload, result => {
         if (result) {
-          console.log(result);
-          store.dispatch('notify', {
-            type: 'success',
-            message: result,
-          });
-          store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_sent_fights', { start: 0, end: 25 });
-          return resolve(result);
+          return resolve();
         }
-
         return reject();
       });
     }),
@@ -486,7 +475,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
           console.log(result);
           store.dispatch('init');
           store.dispatch('refresh_sent_fights');
-          store.dispatch('refresh_sent_transport_count');
+          store.dispatch('refresh_transport_count');
           store.dispatch('notify', {
             type: 'success',
             message: result,
@@ -532,14 +521,13 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       const { username } = rootState.auth;
       return dwsocial(username, payload, result => {
         if (result) {
-          store.dispatch('init');
+          if(result.type ==='error')
           store.dispatch('notify', {
-            type: 'success',
-            message: result,
+            type: 'error',
+            message: result.message,
+            icon:'stop'
           });
-          store.dispatch('refresh_sent_fights_count');
-          store.dispatch('refresh_sent_fights');
-          store.dispatch('refresh_sent_transport_count');
+
           return resolve(result);
         }
         return reject();

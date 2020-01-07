@@ -15,6 +15,10 @@
     			<span v-if="!isLoadingCapo">Promote to capo</span>
     			<SmallLoading v-else/>
     		</button>
+        <button @click="handleDemoteCapo(member.nickname)" class="button button-orange float-right mr-2" :disabled="isLoadingCapo " v-if="member.role === 'capo' && isBoss">
+    			<span v-if="!isLoadingDemoteCapo">Demote to soldier</span>
+    			<SmallLoading v-else/>
+    		</button>
         <button @click="handleLeave()" class="button button-red float-right mr-2" :disabled="isLoading || isBoss" v-if="member.nickname === user.nickname && !isBoss">
     			<span v-if="!isLoading">Leave gang</span>
     			<SmallLoading v-else/>
@@ -38,6 +42,7 @@ export default {
     return {
       isLoading: false,
       isLoadingCapo: false,
+      isLoadingDemoteCapo: false,
       gang: null,
       user: this.$store.state.game.user.user,
     };
@@ -102,6 +107,24 @@ export default {
           this.notify({ type: 'error', message: 'Failed to add capo' });
           console.error('Failed to add capo', e);
           this.isLoadingCapo = false;
+        });
+    },
+    handleDemoteCapo(capo) {
+      this.isLoadingDemoteCapo = true;
+      const payload = {
+        gang: this.id,
+        capo,
+        type: 'gang-demote-capo',
+      };
+
+      this.send(payload)
+        .then(() => {
+          this.isLoadingDemoteCapo = false;
+        })
+        .catch(e => {
+          this.notify({ type: 'error', message: 'Failed to add capo' });
+          console.error('Failed to add capo', e);
+          this.isLoadingDemoteCapo = false;
         });
     },
     handleSetBoss(capo) {

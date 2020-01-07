@@ -56,6 +56,8 @@
     
             </div>
             <span v-if="fight.transporter_base">
+                      <span>FROM </span>
+
     						<router-link 	v-if="fight.target_nickname === user.nickname" :to="`/actions?type=attack&target=${fight.transporter_territory}&base=${fight.transporter_base}`">
     													Territory {{fight.transporter_territory}} : Location {{fight.attacker_base}}
     						</router-link>

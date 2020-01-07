@@ -35,6 +35,7 @@
           <h5 v-if="fight.attacker_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.attacker_elo">{{fight.attacker_elo}}</div>
           <div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
+          <div v-if="fight.json.list">{{fight.json.list}}</div>
           <p class="message mb-4">{{ fight.message }}</p>
         </div>
       </div>

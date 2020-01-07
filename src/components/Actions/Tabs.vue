@@ -61,6 +61,9 @@ export default {
   },
   activeTransportsCount() {
    if (this.$store.state.game.transports_count) {
+    if(this.$store.state.game.transports_count.sent === this.$store.state.game.transports_count.inc)
+    return this.$store.state.game.transports_count.sent
+    else
     return (
      this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
     );

@@ -30,8 +30,8 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value" />
           </div>
-          <h5 v-if="fight.attacker_reward">REWARDS :</h5>
-          <div v-if="fight.attacker_reward">{{fight.attacker_reward}} DWD</div>
+          <h5 v-if="fight.attacker_reward && Number(fight.attacker_reward)>0.005">REWARDS :</h5>
+          <div v-if="fight.attacker_reward  && Number(fight.attacker_reward)>0.005">{{fight.attacker_reward}} DWD</div>
           <h5 v-if="fight.attacker_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.attacker_elo">{{fight.attacker_elo}}</div>
           <div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>
@@ -86,8 +86,8 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.target.start_value" :lose="json.target.end_value" />
           </div>
-          <h5 v-if="fight.result === 3 && fight.defender_reward">REWARDS :</h5>
-          <div v-if="fight.result === 3 && fight.defender_reward">{{fight.defender_reward}} DWD</div>
+          <h5 v-if="fight.result === 3 && fight.defender_reward  && Number(fight.defender_reward)>0.005">REWARDS :</h5>
+          <div v-if="fight.result === 3 && fight.defender_reward && Number(fight.defender_reward)>0.005">{{fight.defender_reward}} DWD</div>
           <h5 v-if="fight.defender_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.defender_elo">{{fight.defender_elo}}</div>
         </div>

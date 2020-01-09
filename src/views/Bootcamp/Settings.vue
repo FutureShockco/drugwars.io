@@ -125,9 +125,7 @@ export default {
     upgradeLabel() {
       let label = '';
       if (this.target_territory && this.target_base)
-        label = `You are settings your rally point from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
-      if (this.notEnough) label = 'Miss resources';
-      if (this.inProgress) label = 'Upgrading';
+        label = `You are setting your rally point from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
       return label;
     },
     base() {

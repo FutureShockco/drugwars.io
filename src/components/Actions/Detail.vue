@@ -24,9 +24,11 @@
                 </div>
             </li>
         </ul>
-        <h5 v-if="detail && detail.buildings">BUILDINGS :</h5>
+        <h5 v-if="detail && detail.buildings">OFFICE AND STORAGE</h5>
         <ActionsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
-        <h5 v-if="detail && detail.trainings">TRAINING :</h5>
+        <h5 v-if="detail && detail.buildings">DEFENSE</h5>
+        <ActionsDefense class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
+        <h5 v-if="detail && detail.trainings">TRAINING</h5>
         <ActionsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings" />
         <div >
             <a @click="openInNewTab()">Open in the simulator</a>
@@ -35,7 +37,14 @@
 </template>
 
 <script>
+import { buildings } from 'drugwars';
+
 export default {
+    data() {
+    return {
+      placeholder_buildings: buildings,
+    };
+  },
   props: ['detail'],
   computed: {
     balances() {
@@ -58,6 +67,7 @@ export default {
   },
   methods: {
     openInNewTab() {
+      const self = this;
       const url = 'https://simulator.drugwars.io/';
       let toOpen = 'player,';
       let myarmy = this.$store.state.game.user.units.filter(
@@ -99,6 +109,21 @@ export default {
           }),
         );
         if (enemytraining && enemytraining.length > 0) toOpen += `,${enemytraining}`;
+      }
+      let enemybuildings = []
+      this.detail.buildings.forEach(element => {
+        if(element && this.placeholder_buildings[element.building] && this.placeholder_buildings[element.building].type ==='defense' )
+        enemybuildings.push(element)
+      });
+      if (enemybuildings.length > 0) {
+        const allenemybuildings = enemybuildings.map(building =>
+          this.serialize({
+            p: 'def',
+            key: building.building,
+            lvl: building.lvl,
+          }),
+        );
+        if (allenemybuildings && allenemybuildings.length > 0) toOpen += `,${allenemybuildings}`;
       }
       const win = window.open(`${url}?${toOpen}`, '_blank');
       win.focus();

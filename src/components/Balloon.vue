@@ -13,7 +13,6 @@
                 </div>
                 <div class="vb-content">
                     <div class="vb-content-slot">
-                        <Chat v-if="showChat"  />
                     </div>
                 </div>
             </div>

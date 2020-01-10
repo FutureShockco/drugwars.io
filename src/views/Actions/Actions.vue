@@ -314,7 +314,7 @@
            <h5 class="ml-2 d-inline-block" v-if="action_type === 'attack' && target_type !=='npc'">Visible for gang</h5>     
            <button
           class="ml-2 button button-red"
-          v-if="action_type === 'attack' && privateAttack"
+          v-if="action_type === 'attack' && privateAttack && target_type !=='npc'"
           :disabled="selectedUnits.length === 0 || !target || isLoading"
           @click="makePrivate()"
         >

@@ -127,7 +127,7 @@ function Sub(rawClient) {
       });
     }
 
-    if (message[1].body === 'end_inc_transport') {
+    else if (message[1].body === 'end_inc_transport') {
       store.dispatch('refresh_fights_count');
       store.dispatch('refresh_transport_count');
       store.dispatch('init');
@@ -136,19 +136,20 @@ function Sub(rawClient) {
         message: 'You received some resources!',
       });
     }
-    if (message[1].body === 'unit') {
+    else if (message[1].body && message[1].body.type === 'unit') {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
-        message: 'Your troops are now available in the bootcamp!',
+        icon:'person',
+        message: `New troops ${message[1].body.message.unit} x${message[1].body.message.amount} are now available in ${message[1].body.message.territory}:${message[1].body.message.base}!`,
       });
     }
-    if (message[1].body && message[1].body.includes('started the job')) {
+    else if (message[1].body && message[1].body.includes('started the job')) {
       setTimeout(() => {
         store.dispatch('init');
       },1000);
     }
-    if (message[1].body === 'gang_job_start') {
+    else if (message[1].body === 'gang_job_start') {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',

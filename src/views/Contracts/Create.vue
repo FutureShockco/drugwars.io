@@ -242,9 +242,11 @@ export default {
    const weapons = this.weapons_amount || 0;
    const alcohol = this.alcohol_amount || 0;
    const dwd = this.dwd_amount || 0;
-   const supply = this.supply;
+   const supply = parseInt(this.supply);
    if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
     const payload = {
+    territory: Number(this.base.territory),
+    base: Number(this.base.base),
      target: this.target.trim().toLowerCase(),
      resources: { drugs, weapons, alcohol, dwd },
      supply: supply,
@@ -272,9 +274,11 @@ export default {
    const weapons = this.weapons_amount || 0;
    const alcohol = this.alcohol_amount || 0;
    const dwd = this.dwd_amount || 0;
-   const supply = this.supply;
+   const supply = parseInt(this.supply);
    if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
     const payload = {
+     territory: Number(this.base.territory),
+     base: Number(this.base.base),
      target: this.target.trim().toLowerCase(),
      resources: { drugs, weapons, alcohol, dwd },
      type: 'dw-contracts',

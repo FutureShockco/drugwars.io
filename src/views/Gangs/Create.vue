@@ -125,7 +125,9 @@ export default {
 
       this.send(payload)
         .then(() => {
-          this.$router.push('/gangs');
+          Promise.delay(3000).then(() => {
+            this.$router.push('/gangs');
+          });
         })
         .catch(e => {
           this.notify({ type: 'error', message: 'Failed to create gang' });

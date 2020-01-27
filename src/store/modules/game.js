@@ -506,11 +506,19 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       // console.log(payload);
       return dwsocial(username, payload, result => {
         if (result) {
-          store.dispatch('notify', {
-            type: 'success',
-            message: result,
-          });
-          store.dispatch('init');
+          if(result && result.type && result.type === 'error')
+          {
+            console.log('error')
+          }
+          else{
+            store.dispatch('notify', {
+              type: 'success',
+              message: result,
+            });
+            Promise.delay(3000).then(() => {
+            store.dispatch('init');
+            })
+          }
           return resolve(result);
         }
         return reject();

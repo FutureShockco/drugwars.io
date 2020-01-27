@@ -38,6 +38,16 @@ function Sub(rawClient) {
   };
   rawClient.notifications = () => {};
   rawClient.subscribe((data, message) => {
+    if(message[1].body && message[1].body.type === 'error')
+    {
+      store.dispatch('notify', {
+        type: 'error',
+        icon:'stop',
+        message: `${message[1].body.message}`,
+      });
+      return;
+    }
+
     if (message[1].body && message[1].body.type === 'start_attack') {
       store.dispatch('refresh_fights_count');
       store.dispatch('refresh_sent_fights');

@@ -29,7 +29,7 @@ export default {
       this.isLoading = true;
       this.refresh_gang_buildings()
         .then(() => {
-          this.isLoading = false;
+            this.isLoading = false;
         })
         .catch(e => {
           console.error('Failed', e);

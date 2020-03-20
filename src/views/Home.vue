@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import sc from '@/helpers/steemconnect';
+import sc from '@/helpers/steemlogin';
 
 export default {
   data() {

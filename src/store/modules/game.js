@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
 import store from '@/store';
-import sc from '@/helpers/steemconnect';
+import sc from '@/helpers/steemlogin';
 import dwsocial from '@/helpers/dwsocial';
 import SSC from 'sscjs';
 
@@ -587,7 +587,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
               dispatch('init');
             });
           } else {
-            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
+            const url = `https://steemlogin.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
             const win = window.open(
               url.split('+').join('_'),
               '_blank',
@@ -601,7 +601,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
         },
       );
     } else {
-      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
+      const url = `https://steemlogin.com/sign/transfer?from=${username}&to=${dealerSteemUsername}&amount=${amount}&memo=${memo}`;
       const win = window.open(
         url.split('+').join('_'),
         '_blank',
@@ -629,7 +629,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
               dispatch('init');
             });
           } else {
-            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+            const url = `https://steemlogin.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
             const win = window.open(
               url.split('+').join('_'),
               '_blank',
@@ -643,7 +643,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
         },
       );
     } else {
-      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+      const url = `https://steemlogin.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
       const win = window.open(
         url.split('+').join('_'),
         '_blank',
@@ -671,7 +671,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
               dispatch('init');
             });
           } else if (response.error) {
-            const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+            const url = `https://steemlogin.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
             const win = window.open(
               url.split('+').join('_'),
               '_blank',
@@ -685,7 +685,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
         },
       );
     } else {
-      const url = `https://steemconnect.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
+      const url = `https://steemlogin.com/sign/transfer?from=${username}&to=drugwars&amount=${amount}&memo=${memo}`;
       const win = window.open(
         url.split('+').join('_'),
         '_blank',

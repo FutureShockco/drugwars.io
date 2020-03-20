@@ -201,13 +201,13 @@
   },
   {
     "cat": "misc",
-    "q": "Why do I have to put my key on SteemConnect?",
-    "a": "You are required to use SteemConnect to accept instant transactions."
+    "q": "Why do I have to put my key on SteemLogin?",
+    "a": "You are required to use SteemLogin to accept instant transactions."
   },
   {
     "cat": "misc",
-    "q": "Why do I have to allow all the permissions to SteemConnect?",
-    "a": "Steemconnect is a trusted app that is recognized on the Steem blockchain you must accept all permissions to have all the features of the app."
+    "q": "Why do I have to allow all the permissions to SteemLogin?",
+    "a": "SteemLogin is a trusted app that is recognized on the Steem blockchain you must accept all permissions to have all the features of the app."
   },
   {
     "cat": "misc",

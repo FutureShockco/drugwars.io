@@ -177,7 +177,7 @@ export default {
       this.requestPayment({
         memo: `upgrade:${this.id},territory:${Number(this.base.territory)},base:${Number(
           this.base.base,
-        )}`,
+        )},server:${process.env.VUE_APP_SERVER}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

@@ -83,7 +83,7 @@ export default {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `shop:${this.item.ref},amount:${this.amountOfDWD}`,
+        memo: `server:${process.env.VUE_APP_SERVER},shop:${this.item.ref},amount:${this.amountOfDWD}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

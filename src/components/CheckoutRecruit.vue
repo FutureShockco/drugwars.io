@@ -192,7 +192,7 @@ export default {
       this.requestPayment({
         memo: `unit:${this.id},territory:${Number(this.base.territory)},base:${Number(
           this.base.base,
-        )},amount:${this.quantity}`,
+        )},amount:${this.quantity},server:${process.env.VUE_APP_SERVER}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

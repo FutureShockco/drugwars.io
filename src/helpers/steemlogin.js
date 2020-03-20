@@ -1,4 +1,4 @@
-import { Client } from 'steemconnect';
+import { Client } from 'steemlogin';
 
 const customId = process.env.VUE_APP_CUSTOM_ID;
 

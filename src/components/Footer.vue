@@ -1,7 +1,7 @@
 <template>
     <footer class="footer">
         <div class="px-2 mb-2">
-            <a class="vote" target="_blank" href="https://app.steemconnect.com/sign/account-witness-vote?witness=future.witness&approve=1"></a>
+            <a class="vote" target="_blank" href="https://steemlogin.com/sign/account-witness-vote?witness=future.witness&approve=1"></a>
         </div>
         <ul class="columns mx-2 pb-2 list-style-none">
             <li class="column col-3">

@@ -12,8 +12,8 @@
             <div class="referral"> 
                 <div :key="key" v-for="(referral, key) in referrals">
                     <p>
-                        {{ referral.username }}
-                        <span class="text-green" v-if="getReferralRewardsDWD(referral.drug_production_rate) > 0">
+                        {{ referral.nickname }}
+                        <span class="text-green" v-if="getReferralRewardsDWD(referral.drug_production_rate) > 0.001">
                   +{{ getReferralRewardsDWD(referral.drug_production_rate) }} DWD
                 </span>
                         <span class="text-red" v-else>
@@ -53,7 +53,7 @@ export default {
       const referralRewards =
         ((drugProductionRate / this.prizeProps.drug_production_rate) * totalDailySteem / 100) *
         15;
-      return parseFloat(referralRewards / 0.005).toFixed(3);
+      return parseFloat(referralRewards).toFixed(3);
     },
   },
 };

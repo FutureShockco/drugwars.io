@@ -49,12 +49,12 @@ export default {
 
 .sunit {
   height: 95px;
-  width: 60px;
+  width: 66px;
   margin-right: 10px;
 }
 
 input {
-  width: 60px;
+  width: 72px;
 }
 
 .icon-plus {

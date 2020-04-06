@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="black p-0">
-            <button class="button white" @click="displayChat()">Public</button>
+            <!-- <button class="button white" @click="displayChat()">Public</button> -->
             <button v-if="user.gang" class="button white" @click="displayGangChat()">
     				Gang 	<span class="text-red">{{gangresponses.length}}</span>
     			</button>
@@ -13,7 +13,7 @@
     				<span class="text-red">{{members.length}}</span>
     			</button>
         </div>
-        <div v-if="showChat" class="chat">
+        <!-- <div v-if="showChat" class="chat">
             <div :key="response.id" v-for="response in responses" class="border-bottom">
                 <div class="text-left item width-full p-2">
                     <div class="columns">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div v-if="gangChat" class="gangchat">
             <div :key="response.id" v-for="response in gangresponses" class="border-bottom">
                 <div  class="text-left item width-full p-2">
@@ -104,9 +104,8 @@ import Promise from 'bluebird';
 import client from '@/helpers/client';
 import io from 'socket.io-client';
 
-if (socket) socket.disconnect();
-
-let socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+// if (socket) socket.disconnect();
+// let socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 
 export default {
   data() {
@@ -134,78 +133,78 @@ export default {
     };
   },
   created() {
-    socket = new io.connect('https://drugwars-chat.herokuapp.com/');
-    const token = localStorage.getItem('access_token');
-    const self = this;
-    socket.emit('add-user', { token });
-    socket.on('read-gang-msg', message => {
-      self.gangresponses.push({
-        text: message.text,
-        sender: message.sender,
-        gang: message.gang,
-        picture: message.picture,
-        date: message.date,
-      });
-      self.scrollToEnd();
-    });
-    socket.on('read-msg', message => {
-      self.responses.push({
-        text: message.text,
-        sender: message.sender,
-        gang: message.gang,
-        picture: message.picture,
-        date: message.date,
-      });
-      self.scrollToEnd();
-    });
-    socket.on('read-private-msg', message => {
-      self.privateresponses.push({
-        text: message.text,
-        sender: message.sender,
-        gang: message.gang,
-        picture: message.picture,
-        date: message.date,
-      });
-      self.scrollToEnd();
-    });
-    socket.on('user-connected', userId => {
-      self.members.push(userId);
-    });
-    socket.on('init-chat', messages => {
-      self.responses = messages;
-    });
-    socket.on('update-chat', messages => {
-      this.$parent.$data.newmessage = true;
-      self.responses = messages;
-    });
+    // socket = new io.connect('https://drugwars-chat.herokuapp.com/');
+    // const token = localStorage.getItem('access_token');
+    // const self = this;
+    // socket.emit('add-user', { token });
+    // socket.on('read-gang-msg', message => {
+    //   self.gangresponses.push({
+    //     text: message.text,
+    //     sender: message.sender,
+    //     gang: message.gang,
+    //     picture: message.picture,
+    //     date: message.date,
+    //   });
+    //   self.scrollToEnd();
+    // });
+    // socket.on('read-msg', message => {
+    //   self.responses.push({
+    //     text: message.text,
+    //     sender: message.sender,
+    //     gang: message.gang,
+    //     picture: message.picture,
+    //     date: message.date,
+    //   });
+    //   self.scrollToEnd();
+    // });
+    // socket.on('read-private-msg', message => {
+    //   self.privateresponses.push({
+    //     text: message.text,
+    //     sender: message.sender,
+    //     gang: message.gang,
+    //     picture: message.picture,
+    //     date: message.date,
+    //   });
+    //   self.scrollToEnd();
+    // });
+    // socket.on('user-connected', userId => {
+    //   self.members.push(userId);
+    // });
+    // socket.on('init-chat', messages => {
+    //   self.responses = messages;
+    // });
+    // socket.on('update-chat', messages => {
+    //   this.$parent.$data.newmessage = true;
+    //   self.responses = messages;
+    // });
 
-    socket.on('update-private-chat', messages => {
-      this.$parent.$data.newprivatemessage = true;
-      self.privateresponses = [];
-      self.privateresponses = messages;
-    });
+    // socket.on('update-private-chat', messages => {
+    //   this.$parent.$data.newprivatemessage = true;
+    //   self.privateresponses = [];
+    //   self.privateresponses = messages;
+    // });
 
-    socket.on('update-gang-chat', messages => {
-      this.$parent.$data.newgangmessage = true;
-      self.gangresponses = messages;
-    });
+    // socket.on('update-gang-chat', messages => {
+    //   this.$parent.$data.newgangmessage = true;
+    //   self.gangresponses = messages;
+    // });
 
-    socket.on('blocked', messages => {
-      self.responses = messages;
-      self.responses.push({
-        text: 'Please wait before sending another message',
-        sender: 'DrugWars',
-        gang: 'government',
-        picture: message.picture,
-        date: new Date(),
-      });
-    });
-    socket.on('update-users', users => {
-      self.members = users;
-    });
-    setTimeout(() => {
-      this.scrollToEnd();
-    }, 500);
+    // socket.on('blocked', messages => {
+    //   self.responses = messages;
+    //   self.responses.push({
+    //     text: 'Please wait before sending another message',
+    //     sender: 'DrugWars',
+    //     gang: 'government',
+    //     picture: message.picture,
+    //     date: new Date(),
+    //   });
+    // });
+    // socket.on('update-users', users => {
+    //   self.members = users;
+    // });
+    // setTimeout(() => {
+    //   this.scrollToEnd();
+    // }, 500);
   },
   updated() {
     if (this.isAtBottom()) this.scrollToEnd();

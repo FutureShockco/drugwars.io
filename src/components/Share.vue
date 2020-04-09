@@ -1,7 +1,7 @@
 <template>
     <div class="m-2 columns" v-if="!share">
-        <span @click="handleShareFight('forum')">
-          <Icon :size="32" class="mr-1 icon" name="dw" />
+        <span @click="handleShareFight('steemit')">
+          <Icon :size="32" class="mr-1 icon" name="steemit" />
         </span>
         <span @click="handleShareFight('facebook')">
         <Icon :size="32" class="mr-1 icon" name="facebook"/>
@@ -111,7 +111,7 @@ export default {
                         'comment',
                         {
                           parent_author: '',
-                          parent_permlink: 'drugwars-fight',
+                          parent_permlink: 'hive-131812',
                           author: self.$store.state.auth.username,
                           permlink:
                             self.$store.state.auth.username.slice(0, 3) +

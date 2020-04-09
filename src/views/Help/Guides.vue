@@ -4,6 +4,12 @@
         <div class="p-4">
             <h3>Community guides</h3>
             <p>
+                <a href="https://docs.google.com/document/d/1UMq4cYMDCGiQCbEiBgGavzvJ-isqLRdYORgOr4xD6cE" target="_blank">
+              Drug Wars on Steem - The complete guide (still in works)
+            </a> by
+                <router-link to="/@drugwars">drugwars</router-link>
+            </p>
+            <p>
                 <a href="https://steemit.com/drugwars/@timcliff/drug-wars-on-steem-ultimate-beginners-game-guide" target="_blank">
               Drug Wars on Steem - Ultimate Beginners Game Guide (Outdated)
             </a> by

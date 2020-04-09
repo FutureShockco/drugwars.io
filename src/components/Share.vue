@@ -1,7 +1,7 @@
 <template>
     <div class="m-2 columns" v-if="!share">
         <span @click="handleShareFight('steemit')">
-          <Icon :size="32" class="mr-1 icon" name="steemit" />
+          <Icon :size="32" class="mr-1 icon" name="steem" />
         </span>
         <span @click="handleShareFight('facebook')">
         <Icon :size="32" class="mr-1 icon" name="facebook"/>

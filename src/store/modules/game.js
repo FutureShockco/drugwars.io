@@ -495,7 +495,7 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
         }
         dispatch('notify', {
           type: 'success',
-          message: 'You have successfully shared your fight on Steemit',
+          message: 'You have successfully shared your fight on Steem',
         });
         return resolve(result);
       }).catch(e => reject(e));

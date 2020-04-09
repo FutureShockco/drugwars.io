@@ -122,11 +122,11 @@
                              {{'sidebar.help' | translate}}
                         </router-link>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="https://forum.drugwars.io/" target="_blank" class="py-1 px-3 d-block">
                    {{'sidebar.forum' | translate}}
                 </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- <ul class="pt-1 pb-2 border-bottom">
                     <li>

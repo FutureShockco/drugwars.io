@@ -70,9 +70,7 @@ export default {
     },
     total() {
       const { prizeProps } = this.$store.state.game;
-      return (
-        prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent
-      );
+      return prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent;
     },
     totalUSD() {
       const { prizeProps } = this.$store.state.game;
@@ -80,16 +78,11 @@ export default {
     },
     totalDWD() {
       const { prizeProps } = this.$store.state.game;
-      return (
-        (
-          prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent) 
-      );
+      return prizeProps.fight_percent + prizeProps.daily_percent + prizeProps.heist_percent;
     },
     totalSteem() {
       const { prizeProps } = this.$store.state.game;
-      return parseFloat(this.totalUSD / prizeProps.steemprice).toFixed(
-        2,
-      );
+      return parseFloat(this.totalUSD / prizeProps.steemprice).toFixed(2);
     },
     totalLottery() {
       const { prizeProps } = this.$store.state.game;
@@ -97,21 +90,15 @@ export default {
     },
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.daily_percent
-      );
+      return prizeProps.daily_percent;
     },
     totalFight() {
       const { prizeProps } = this.$store.state.game;
-      return (
-        prizeProps.fight_percent
-      );
+      return prizeProps.fight_percent;
     },
     totalHeist() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.heist_percent
-      );
+      return prizeProps.heist_percent;
     },
     user() {
       return this.$store.state.game.user.user;

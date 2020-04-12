@@ -38,52 +38,54 @@
 
 <script>
 export default {
- computed: {
-  base() {
-   return this.$store.state.game.mainbase;
+  computed: {
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    main() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
+        ) || null
+      );
+    },
+    activeIncFightsCount() {
+      if (this.$store.state.game.fights_count) return this.$store.state.game.fights_count.inc;
+      return 0;
+    },
+    activeFightsCount() {
+      if (this.$store.state.game.fights_count) {
+        return this.$store.state.game.fights_count.sent;
+      }
+      return 0;
+    },
+    activeTransportsCount() {
+      if (this.$store.state.game.transports_count) {
+        if (
+          this.$store.state.game.transports_count.sent ===
+          this.$store.state.game.transports_count.inc
+        )
+          return this.$store.state.game.transports_count.sent;
+        return (
+          this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
+        );
+      }
+      return 0;
+    },
+    activeStationsCount() {
+      if (this.$store.state.game.stations_count) {
+        return this.$store.state.game.stations_count.sent;
+      }
+      return 0;
+    },
   },
-  main() {
-   return (
-    this.$store.state.game.user.buildings.find(
-     b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
-    ) || null
-   );
-  },
-  activeIncFightsCount() {
-   if (this.$store.state.game.fights_count) return this.$store.state.game.fights_count.inc;
-   return 0;
-  },
-  activeFightsCount() {
-   if (this.$store.state.game.fights_count) {
-    return this.$store.state.game.fights_count.sent;
-   }
-   return 0;
-  },
-  activeTransportsCount() {
-   if (this.$store.state.game.transports_count) {
-    if(this.$store.state.game.transports_count.sent === this.$store.state.game.transports_count.inc)
-    return this.$store.state.game.transports_count.sent
-    else
-    return (
-     this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
-    );
-   }
-   return 0;
-  },
-  activeStationsCount() {
-   if (this.$store.state.game.stations_count) {
-    return this.$store.state.game.stations_count.sent;
-   }
-   return 0;
-  },
- },
 };
 </script>
 
 
 <style lang="less" scoped>
 .coordbase {
- position: absolute;
- right: 10px;
+  position: absolute;
+  right: 10px;
 }
 </style>

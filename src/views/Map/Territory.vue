@@ -444,7 +444,7 @@ export default {
             Promise.delay(6000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
                 [self.bases] = result;
-     
+
                 self.isLoading = false;
               });
             });

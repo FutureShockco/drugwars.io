@@ -22,48 +22,46 @@ import client from '@/helpers/client';
 import { orderBy } from 'lodash';
 
 export default {
- data() {
-  return {
-   isLoading: false,
-   history: [],
-  };
- },
- created() {
-  const self = this;
-  const accessToken = localStorage.getItem('access_token');
-  const promises = [client.requestAsync('get_user_history', { token: accessToken })];
-  Promise.all(promises).then(result => {
-   const [history] = result;
-    history.forEach(element => {
+  data() {
+    return {
+      isLoading: false,
+      history: [],
+    };
+  },
+  created() {
+    const self = this;
+    const accessToken = localStorage.getItem('access_token');
+    const promises = [client.requestAsync('get_user_history', { token: accessToken })];
+    Promise.all(promises).then(result => {
+      const [history] = result;
+      history.forEach(element => {
         try {
-        element.payload = JSON.parse(element.payload);
-        element.type = element.payload.type
-        delete element.payload.username;
-        delete element.payload.type;
-        } catch (error) {
-            
-        }
-         self.history.push(element);
+          element.payload = JSON.parse(element.payload);
+          element.type = element.payload.type;
+          delete element.payload.username;
+          delete element.payload.type;
+        } catch (error) {}
+        self.history.push(element);
       });
-   this.isLoading = false;
-  });
- },
- computed: {},
+      this.isLoading = false;
+    });
+  },
+  computed: {},
 };
 </script>
 
 <style lang="less" scoped>
 .name {
- font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 .special {
- color: rgb(0, 173, 0);
- font-weight: 700;
+  color: rgb(0, 173, 0);
+  font-weight: 700;
 }
 
 .deposit {
- background: rgba(0, 0, 0, 0.699);
- border-radius: 5px;
+  background: rgba(0, 0, 0, 0.699);
+  border-radius: 5px;
 }
 </style>

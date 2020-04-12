@@ -41,7 +41,8 @@ export default {
       return orderBy(this.$store.state.game.sent_gangfights, 'end_date', 'desc');
     },
     sent() {
-      if (this.$store.state.game.sent_gangfights) return this.$store.state.game.sent_gangfights.length;
+      if (this.$store.state.game.sent_gangfights)
+        return this.$store.state.game.sent_gangfights.length;
       return 0;
     },
   },
@@ -57,7 +58,7 @@ export default {
       } else {
         this.force_sent_gangfights_refresh(false);
       }
-      this.refresh_sent_gangfights({id, start, end })
+      this.refresh_sent_gangfights({ id, start, end })
         .then(() => {
           this.isLoading = false;
         })

@@ -173,9 +173,13 @@ export default {
       return this.$store.state.game.user.user;
     },
     reputation() {
-      if(this.$store.state.game.user.reputation && this.$store.state.game.user.reputation[0] && this.$store.state.game.user.reputation[0].reputation)
-      return this.$store.state.game.user.reputation[0].reputation;
-      return 1000
+      if (
+        this.$store.state.game.user.reputation &&
+        this.$store.state.game.user.reputation[0] &&
+        this.$store.state.game.user.reputation[0].reputation
+      )
+        return this.$store.state.game.user.reputation[0].reputation;
+      return 1000;
     },
     rank() {
       if (
@@ -216,11 +220,13 @@ export default {
     },
     activeTransportsCount() {
       if (this.$store.state.game.transports_count) {
-        if(this.$store.state.game.transports_count.sent === this.$store.state.game.transports_count.inc)
-        return this.$store.state.game.transports_count.sent
-        else
+        if (
+          this.$store.state.game.transports_count.sent ===
+          this.$store.state.game.transports_count.inc
+        )
+          return this.$store.state.game.transports_count.sent;
         return (
-        this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
+          this.$store.state.game.transports_count.sent + this.$store.state.game.transports_count.inc
         );
       }
       return 0;

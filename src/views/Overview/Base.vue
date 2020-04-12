@@ -110,7 +110,9 @@ export default {
     upgradeLabel() {
       let label = '';
       if (this.target_territory && this.target_base)
-        label = `You are moving your base from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
+        label = `You are moving your base from ${this.ownBase.territory}:${this.ownBase.base} to ${
+          this.target_territory
+        }:${this.target_base}`;
       if (this.notEnough) label = 'Miss resources';
       if (this.inProgress) label = 'Upgrading';
       return label;
@@ -172,7 +174,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
   },
@@ -234,8 +236,7 @@ export default {
           .catch(e => {
             this.notify({
               type: 'error',
-              message:
-                'Failed to rename base please',
+              message: 'Failed to rename base please',
             });
             console.error('Failed to move base', e);
             this.isLoading = false;

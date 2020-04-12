@@ -15,13 +15,13 @@
 
 <script>
 export default {
- computed: {
-  items() {
-   return this.$store.state.ui.notifications;
+  computed: {
+    items() {
+      return this.$store.state.ui.notifications;
+    },
+    timestamp() {
+      return parseInt(this.$store.state.ui.timestamp / 1000);
+    },
   },
-  timestamp() {
-   return parseInt(this.$store.state.ui.timestamp / 1000);
-  },
- },
 };
 </script>

@@ -69,8 +69,8 @@ export default {
       base_name: null,
       errorMessage: null,
       isOpen: false,
-      active: false
-    }
+      active: false,
+    };
   },
   watch: {
     inProgress(val) {
@@ -84,15 +84,22 @@ export default {
       return this.$store.state.game.mainbase;
     },
     rallyPoint() {
-      return this.$store.state.game.user.buildings.find(b => b.base === this.ownBase.base && b.territory === this.ownBase.territory && b.building ==="headquarters");
+      return this.$store.state.game.user.buildings.find(
+        b =>
+          b.base === this.ownBase.base &&
+          b.territory === this.ownBase.territory &&
+          b.building === 'headquarters',
+      );
     },
-    allbase(){
+    allbase() {
       return this.$store.state.game.user.buildings || null;
     },
     upgradeLabel() {
       let label = '';
       if (this.target_territory && this.target_base)
-        label = `You are setting your rally point from ${this.ownBase.territory}:${this.ownBase.base} to ${this.target_territory}:${this.target_base}`;
+        label = `You are setting your rally point from ${this.ownBase.territory}:${
+          this.ownBase.base
+        } to ${this.target_territory}:${this.target_base}`;
       return label;
     },
     base() {
@@ -149,20 +156,18 @@ export default {
           .catch(e => {
             this.notify({
               type: 'error',
-              message:
-                'Failed to set rally point',
+              message: 'Failed to set rally point',
             });
             console.error('Failed to move base', e);
             this.isLoading = false;
           });
       }
     },
-    setRallyPointCoordinates(territory,base)
-    {
-        this.target_territory = territory;
-        this.target_base = base;
-        this.isOpen = !this.isOpen;
-    }
+    setRallyPointCoordinates(territory, base) {
+      this.target_territory = territory;
+      this.target_base = base;
+      this.isOpen = !this.isOpen;
+    },
   },
 };
 </script>
@@ -181,35 +186,34 @@ export default {
   top: 5px;
 }
 
-
 .dropdown {
- left: 50%;
- transform: translatey(-30%) rotatex(90deg) scale(0);
- margin-top: 0.55em;
- transform-origin: 0 0;
- border-radius: 0.35em;
- display: none;
- opacity: 0;
- transition: all 200ms linear;
+  left: 50%;
+  transform: translatey(-30%) rotatex(90deg) scale(0);
+  margin-top: 0.55em;
+  transform-origin: 0 0;
+  border-radius: 0.35em;
+  display: none;
+  opacity: 0;
+  transition: all 200ms linear;
 
- &.isOpen {
-  transform: translatey(0%);
-  display: block;
-  opacity: 1;
- }
+  &.isOpen {
+    transform: translatey(0%);
+    display: block;
+    opacity: 1;
+  }
 }
 
 .rp {
- padding: 5px;
- background: black;
- color: #ffc508;
- z-index: 999999;
- text-transform: uppercase;
+  padding: 5px;
+  background: black;
+  color: #ffc508;
+  z-index: 999999;
+  text-transform: uppercase;
 }
 
 .rp:hover {
- background: #ffc508;
- color: black;
- font-weight: bold;
+  background: #ffc508;
+  color: black;
+  font-weight: bold;
 }
 </style>

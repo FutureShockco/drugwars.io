@@ -38,11 +38,10 @@ function Sub(rawClient) {
   };
   rawClient.notifications = () => {};
   rawClient.subscribe((data, message) => {
-    if(message[1].body && message[1].body.type === 'error')
-    {
+    if (message[1].body && message[1].body.type === 'error') {
       store.dispatch('notify', {
         type: 'error',
-        icon:'stop',
+        icon: 'stop',
         message: `${message[1].body.message}`,
       });
       return;
@@ -55,7 +54,7 @@ function Sub(rawClient) {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
-        icon:'target',
+        icon: 'target',
         message: `${message[1].body.message}`,
       });
       return;
@@ -135,9 +134,7 @@ function Sub(rawClient) {
         type: 'error',
         message: 'You are under attack!',
       });
-    }
-
-    else if (message[1].body === 'end_inc_transport') {
+    } else if (message[1].body === 'end_inc_transport') {
       store.dispatch('refresh_fights_count');
       store.dispatch('refresh_transport_count');
       store.dispatch('init');
@@ -145,21 +142,22 @@ function Sub(rawClient) {
         type: 'success',
         message: 'You received some resources!',
       });
-    }
-    else if (message[1].body && message[1].body.type === 'unit') {
+    } else if (message[1].body && message[1].body.type === 'unit') {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',
-        icon:'person',
-        message: `New troops ${message[1].body.message.unit} x${message[1].body.message.amount} are now available in ${message[1].body.message.territory}:${message[1].body.message.base}!`,
+        icon: 'person',
+        message: `New troops ${message[1].body.message.unit} x${
+          message[1].body.message.amount
+        } are now available in ${message[1].body.message.territory}:${
+          message[1].body.message.base
+        }!`,
       });
-    }
-    else if (message[1].body && message[1].body.includes('started the job')) {
+    } else if (message[1].body && message[1].body.includes('started the job')) {
       setTimeout(() => {
         store.dispatch('init');
-      },1000);
-    }
-    else if (message[1].body === 'gang_job_start') {
+      }, 1000);
+    } else if (message[1].body === 'gang_job_start') {
       store.dispatch('init');
       store.dispatch('notify', {
         type: 'success',

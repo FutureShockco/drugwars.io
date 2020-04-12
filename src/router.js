@@ -31,7 +31,8 @@ const BuildingDetail = () =>
 const DrugDetail = () => import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
-const UnitsSettings = () => import(/* webpackChunkName: "unitssettings" */ '@/views/Bootcamp/Settings.vue');
+const UnitsSettings = () =>
+  import(/* webpackChunkName: "unitssettings" */ '@/views/Bootcamp/Settings.vue');
 
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
@@ -57,8 +58,7 @@ const Diplomacy = () =>
   import(/* webpackChunkName: "gang-diplomacy" */ '@/views/Gangs/Diplomacy.vue');
 const GangDeposits = () =>
   import(/* webpackChunkName: "gang-deposits" */ '@/views/Gangs/Deposits.vue');
-const GangFights = () =>
-  import(/* webpackChunkName: "gang-fights" */ '@/views/Gangs/Fights.vue');
+const GangFights = () => import(/* webpackChunkName: "gang-fights" */ '@/views/Gangs/Fights.vue');
 const Rewards = () => import(/* webpackChunkName: "rewards" */ '@/views/Rewards.vue');
 
 const NewContract = () =>
@@ -101,7 +101,7 @@ const SteemAccount = () =>
 const EarlyAccess = () => import(/* webpackChunkName: "earlyaccess" */ '@/views/EarlyAccess.vue');
 const Settings = () => import(/* webpackChunkName: "settings" */ '@/views/Settings/Settings.vue');
 const Privacy = () => import(/* webpackChunkName: "privacy" */ '@/views/Settings/Privacy.vue');
-const History = () =>import(/* webpackChunkName: "userhistory" */ '@/views/Settings/History.vue');
+const History = () => import(/* webpackChunkName: "userhistory" */ '@/views/Settings/History.vue');
 
 const Referral = () => import(/* webpackChunkName: "referral" */ '@/views/Referral.vue');
 const Invite = () => import(/* webpackChunkName: "invite" */ '@/views/Invite.vue');

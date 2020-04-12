@@ -40,7 +40,7 @@
 import { buildings } from 'drugwars';
 
 export default {
-    data() {
+  data() {
     return {
       placeholder_buildings: buildings,
     };
@@ -110,10 +110,14 @@ export default {
         );
         if (enemytraining && enemytraining.length > 0) toOpen += `,${enemytraining}`;
       }
-      let enemybuildings = []
+      const enemybuildings = [];
       this.detail.buildings.forEach(element => {
-        if(element && this.placeholder_buildings[element.building] && this.placeholder_buildings[element.building].type ==='defense' )
-        enemybuildings.push(element)
+        if (
+          element &&
+          this.placeholder_buildings[element.building] &&
+          this.placeholder_buildings[element.building].type === 'defense'
+        )
+          enemybuildings.push(element);
       });
       if (enemybuildings.length > 0) {
         const allenemybuildings = enemybuildings.map(building =>

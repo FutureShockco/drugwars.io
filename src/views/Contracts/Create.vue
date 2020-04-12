@@ -148,199 +148,201 @@ import { getBalances } from '@/helpers/utils';
 import client from '@/helpers/client';
 
 export default {
- data() {
-  return {
-   isLoading: false,
-   target: this.$route.query.target || null,
-   errorMessage: null,
-   drugs_amount: 0,
-   weapons_amount: 0,
-   alcohol_amount: 0,
-   dwd_amount: 0,
-   supply: null,
-  };
- },
- computed: {
-  user() {
-   return this.$store.state.game.user.user;
-  },
-  nickname() {
-   return this.$store.state.game.user.user.nickname;
-  },
-  base() {
-   return this.$store.state.game.mainbase;
-  },
-  HQ() {
-   if (
-    this.base &&
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   ) {
-    return this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'headquarters' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    );
-   }
-   return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
-  },
-  balances() {
-   let ocLvl = 0;
-   if (
-    this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'operation_center' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    )
-   )
-    ocLvl = this.$store.state.game.user.buildings.find(
-     b =>
-      b.building === 'operation_center' &&
-      b.territory === this.base.territory &&
-      b.base === this.base.base,
-    ).lvl;
-   let labLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-    labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab').lvl;
-   let weaponLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-    weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center').lvl;
-   let distilleryLvl = 0;
-   if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
-    distilleryLvl = this.$store.state.game.gang_buildings.find(
-     b => b.building === 'distillery_school',
-    ).lvl;
-   return getBalances(
-    this.HQ,
-    ocLvl,
-    labLvl,
-    weaponLvl,
-    distilleryLvl,
-    this.$store.state.ui.timestamp,
-   );
-  },
-  hasEnough() {
-   return (
-    this.balances.drugs > this.gangCreationFee.drugs &&
-    this.balances.weapons > this.gangCreationFee.weapons &&
-    this.balances.alcohols > this.gangCreationFee.alcohols
-   );
-  },
- },
- methods: {
-  ...mapActions(['send', 'notify']),
-  async handleSubmit() {
-   const isValid = await this.validateForm();
-   this.isLoading = true;
-   const drugs = this.drugs_amount || 0;
-   const weapons = this.weapons_amount || 0;
-   const alcohol = this.alcohol_amount || 0;
-   const dwd = this.dwd_amount || 0;
-   const supply = parseInt(this.supply);
-   if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
-    const payload = {
-    territory: Number(this.base.territory),
-    base: Number(this.base.base),
-     target: this.target.trim().toLowerCase(),
-     resources: { drugs, weapons, alcohol, dwd },
-     supply: supply,
-     type: 'dw-contracts',
-     anonymous: false,
+  data() {
+    return {
+      isLoading: false,
+      target: this.$route.query.target || null,
+      errorMessage: null,
+      drugs_amount: 0,
+      weapons_amount: 0,
+      alcohol_amount: 0,
+      dwd_amount: 0,
+      supply: null,
     };
-    this.send(payload)
-     .then(() => {
-      this.$router.push('/contracts');
-      this.isLoading = false;
-     })
-     .catch(e => {
-      this.notify({ type: 'error', message: 'Failed to create gang' });
-      console.error('Failed to create gang', e);
-      this.isLoading = false;
-     });
-   } else {
-    this.isLoading = false;
-   }
   },
-  async handleSubmitAnonymous() {
-   const isValid = await this.validateForm();
-   this.isLoading = true;
-   const drugs = this.drugs_amount || 0;
-   const weapons = this.weapons_amount || 0;
-   const alcohol = this.alcohol_amount || 0;
-   const dwd = this.dwd_amount || 0;
-   const supply = parseInt(this.supply);
-   if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
-    const payload = {
-     territory: Number(this.base.territory),
-     base: Number(this.base.base),
-     target: this.target.trim().toLowerCase(),
-     resources: { drugs, weapons, alcohol, dwd },
-     type: 'dw-contracts',
-     supply: supply,
-     anonymous: true,
-    };
+  computed: {
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    nickname() {
+      return this.$store.state.game.user.user.nickname;
+    },
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    HQ() {
+      if (
+        this.base &&
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      ) {
+        return this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'headquarters' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        );
+      }
+      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+    },
+    balances() {
+      let ocLvl = 0;
+      if (
+        this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        )
+      )
+        ocLvl = this.$store.state.game.user.buildings.find(
+          b =>
+            b.building === 'operation_center' &&
+            b.territory === this.base.territory &&
+            b.base === this.base.base,
+        ).lvl;
+      let labLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+          .lvl;
+      let weaponLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
+          .lvl;
+      let distilleryLvl = 0;
+      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+        distilleryLvl = this.$store.state.game.gang_buildings.find(
+          b => b.building === 'distillery_school',
+        ).lvl;
+      return getBalances(
+        this.HQ,
+        ocLvl,
+        labLvl,
+        weaponLvl,
+        distilleryLvl,
+        this.$store.state.ui.timestamp,
+      );
+    },
+    hasEnough() {
+      return (
+        this.balances.drugs > this.gangCreationFee.drugs &&
+        this.balances.weapons > this.gangCreationFee.weapons &&
+        this.balances.alcohols > this.gangCreationFee.alcohols
+      );
+    },
+  },
+  methods: {
+    ...mapActions(['send', 'notify']),
+    async handleSubmit() {
+      const isValid = await this.validateForm();
+      this.isLoading = true;
+      const drugs = this.drugs_amount || 0;
+      const weapons = this.weapons_amount || 0;
+      const alcohol = this.alcohol_amount || 0;
+      const dwd = this.dwd_amount || 0;
+      const supply = parseInt(this.supply);
+      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
+        const payload = {
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+          target: this.target.trim().toLowerCase(),
+          resources: { drugs, weapons, alcohol, dwd },
+          supply,
+          type: 'dw-contracts',
+          anonymous: false,
+        };
+        this.send(payload)
+          .then(() => {
+            this.$router.push('/contracts');
+            this.isLoading = false;
+          })
+          .catch(e => {
+            this.notify({ type: 'error', message: 'Failed to create gang' });
+            console.error('Failed to create gang', e);
+            this.isLoading = false;
+          });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    async handleSubmitAnonymous() {
+      const isValid = await this.validateForm();
+      this.isLoading = true;
+      const drugs = this.drugs_amount || 0;
+      const weapons = this.weapons_amount || 0;
+      const alcohol = this.alcohol_amount || 0;
+      const dwd = this.dwd_amount || 0;
+      const supply = parseInt(this.supply);
+      if ((isValid && this.target) || drugs > 0 || weapons > 0 || alcohol > 0 || dwd > 0) {
+        const payload = {
+          territory: Number(this.base.territory),
+          base: Number(this.base.base),
+          target: this.target.trim().toLowerCase(),
+          resources: { drugs, weapons, alcohol, dwd },
+          type: 'dw-contracts',
+          supply,
+          anonymous: true,
+        };
 
-    this.send(payload)
-     .then(() => {
-      this.$router.push('/contracts');
-      this.isLoading = false;
-     })
-     .catch(e => {
-      this.notify({ type: 'error', message: 'Failed to create gang' });
-      console.error('Failed to create gang', e);
-      this.isLoading = false;
-     });
-   } else {
-    this.isLoading = false;
-   }
-  },
-  async validateForm() {
-   this.errorMessage = null;
-   const target = this.target.toLowerCase();
+        this.send(payload)
+          .then(() => {
+            this.$router.push('/contracts');
+            this.isLoading = false;
+          })
+          .catch(e => {
+            this.notify({ type: 'error', message: 'Failed to create gang' });
+            console.error('Failed to create gang', e);
+            this.isLoading = false;
+          });
+      } else {
+        this.isLoading = false;
+      }
+    },
+    async validateForm() {
+      this.errorMessage = null;
+      const target = this.target.toLowerCase();
 
-   if (target === this.nickname) {
-    this.errorMessage = 'Attack yourself? Are you serious?';
-   }
-   const now = new Date();
-   const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
-   if (isPunished > now) {
-    this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
-   }
+      if (target === this.nickname) {
+        this.errorMessage = 'Attack yourself? Are you serious?';
+      }
+      const now = new Date();
+      const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
+      if (isPunished > now) {
+        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+      }
 
-   if (!this.errorMessage)
-    try {
-     const user = await client.requestAsync('check_user', target);
-     if (!user || !user[0].nickname) {
-      this.errorMessage = `Player '${target}' does not exist`;
-     }
-     return !this.errorMessage;
-    } catch (e) {
-     this.errorMessage = `Player with nickname '${target}' doesn't exist`;
-     console.error(`Player with nickname '${target}' doesn't exist`, e);
-     return false;
-    }
-   if (this.errorMessage) {
-    return false;
-   }
-   return !this.errorMessage;
+      if (!this.errorMessage)
+        try {
+          const user = await client.requestAsync('check_user', target);
+          if (!user || !user[0].nickname) {
+            this.errorMessage = `Player '${target}' does not exist`;
+          }
+          return !this.errorMessage;
+        } catch (e) {
+          this.errorMessage = `Player with nickname '${target}' doesn't exist`;
+          console.error(`Player with nickname '${target}' doesn't exist`, e);
+          return false;
+        }
+      if (this.errorMessage) {
+        return false;
+      }
+      return !this.errorMessage;
+    },
+    progressPercent(total, cost) {
+      let progress;
+      if (total && cost) {
+        this.up = false;
+        progress = parseFloat((total * 100) / cost).toFixed(2);
+        return progress;
+      }
+      this.up = false;
+      return 0;
+    },
   },
-  progressPercent(total, cost) {
-   let progress;
-   if (total && cost) {
-    this.up = false;
-    progress = parseFloat((total * 100) / cost).toFixed(2);
-    return progress;
-   }
-   this.up = false;
-   return 0;
-  },
- },
 };
 </script>
 

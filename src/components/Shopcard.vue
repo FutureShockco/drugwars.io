@@ -1,27 +1,33 @@
 <template>
-    <div class="column col-6 text-center p-2">
-        <div class="columns m-2 shopcard">
-            <Icon class="mr-2" size="44" :name="item.img" />
-            <div class="title">
-                {{ item.name }}
-            </div>
-            <div class="title type">
-                {{ item.type }}
-            </div>
-            {{item.detail}}
-            <button v-if="steemAccount" @click="handleRequestPayment()" class="button btn-block button-blue mb-2 mt-2">
-          <i class="iconfont icon-zap"/>
-          ${{ item.price | amount }} -
-          {{ priceInSteem | amount }} STEEM
-        </button>
-        <button  @click="handleSubmit()" class="button btn-block button-yellow mb-2 mt-2">
-          <i class="iconfont icon-zap"/>
-          ${{ item.price | amountOfDWD }} -
-          {{ priceInSteem | amount }} STEEM
-        </button>
-
-        </div>
+  <div class="column col-6 text-center p-2">
+    <div class="columns m-2 shopcard">
+      <Icon class="mr-2" size="44" :name="item.img" />
+      <div class="title">{{ amountOfDWD }} Tokens</div>
+      <!-- <div class="title type">{{ amountOfDWD(item.quantity) }}</div> -->
+      {{item.detail}}
+      <button
+        v-if="steemAccount"
+        @click="handleRequestPayment()"
+        class="button btn-block button-blue mb-2 mt-2"
+      >
+        <i class="iconfont icon-zap" />
+        ${{ item.price | amount }} -
+        {{ priceInSteem | amount }} STEEM
+      </button>
+      <h3 class="mt-0 mb-0" v-else>${{ item.price | amount }}</h3>
+      <PayPal
+        :amount="amountOfDWD.toString()"
+        currency="USD"
+        :client="credentials"
+        :items="myItems"
+        env="sandbox"
+        :invoice-number="uniqueId+username"
+        v-on:payment-authorized="paymentAuthorized"
+        v-on:payment-completed="paymentCompleted"
+        v-on:payment-cancelled="paymentCancelled"
+      ></PayPal>
     </div>
+  </div>
 </template>
 
 <script>
@@ -41,23 +47,14 @@ export default {
           no_shipping: 1,
         },
       },
-      myItems: [
-        {
-          name: 'DW Shop',
-          description: 'DWDTokens.',
-          quantity: 1,
-          price: this.item.price,
-          currency: 'USD',
-        },
-      ],
     };
   },
   computed: {
+    amountOfDWD() {
+      return (this.item.price / Number(this.$store.state.game.prizeProps.seProps.lastPrice)) / 2;
+    },
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
-    },
-    amountOfDWD() {
-      return ((this.item.price / this.$store.state.game.prizeProps.steemprice) * 3).toFixed(3);
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -68,12 +65,12 @@ export default {
     },
     uniqueId() {
       /* eslint-disable */
-            return 'xxxxxxxxxxx'.replace(/[xy]/g, c => {
-                const r = (Math.random() * 16) | 0,
-                    v = c == 'x' ? r : (r & 0x3) | 0x8;
-                return v.toString(16);
-            });
-            /* eslint-enable */
+      return 'xxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+      /* eslint-enable */
     },
   },
   components: {
@@ -83,10 +80,13 @@ export default {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `server:${process.env.VUE_APP_SERVER},shop:${this.item.ref},amount:${this.amountOfDWD}`,
+        memo: `server:${process.env.VUE_APP_SERVER},shop:${this.item.ref},amount:${
+          this.amountOfDWD
+        }`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },
+
     paymentAuthorized(data) {
       this.handleSubmit(data.orderID);
     },
@@ -97,6 +97,7 @@ export default {
       console.log(data);
     },
     handleSubmit(orderID) {
+      console.log(orderID);
       const payload = {
         id: orderID,
         type: 'paypal-shop',

@@ -119,15 +119,11 @@ export default {
     },
     total() {
       const prizePops = this.$store.state.game.prizeProps;
-      return (
-        (prizePops.daily_percent + prizePops.heist_percent)
-      );
+      return prizePops.daily_percent + prizePops.heist_percent;
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
-      return (
-        prizePops.daily_percent
-      );
+      return prizePops.daily_percent;
     },
     dwdToSteem() {
       const { prizeProps } = this.$store.state.game;
@@ -149,8 +145,8 @@ export default {
     base() {
       return this.$store.state.game.mainbase;
     },
-    booster(){
-      let date = new Date().getTime() /1000
+    booster() {
+      const date = new Date().getTime() / 1000;
       return Number(this.$store.state.game.user.user.booster) > date;
     },
     HQ() {
@@ -209,7 +205,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
     dailyRewards() {
@@ -227,9 +223,7 @@ export default {
     },
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.heist_percent
-      );
+      return prizeProps.heist_percent;
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.totalVest;

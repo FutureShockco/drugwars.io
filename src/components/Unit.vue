@@ -48,13 +48,12 @@ export default {
       return this.$store.state.game.user.user;
     },
     modifiedValues() {
-      if (this.user && this.$store.state.game.user.trainings)
-      {
-            const trainings = this.$store.state.game.user.trainings;
-          if (trainings.length > 0) {
-            return unitValues(this.unit, trainings);
-          }
+      if (this.user && this.$store.state.game.user.trainings) {
+        const trainings = this.$store.state.game.user.trainings;
+        if (trainings.length > 0) {
+          return unitValues(this.unit, trainings);
         }
+      }
       return this.unit;
     },
     speed() {
@@ -121,7 +120,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
     hasNotEnough() {

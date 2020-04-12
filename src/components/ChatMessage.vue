@@ -12,33 +12,31 @@
 //     return {};
 //   },
 
-
 // }
 export default {
   props: ['message'],
 
-  data () {
+  data() {
     return {
-        dynamicContent: this.message,
-        dynamicTo: null
-    }
+      dynamicContent: this.message,
+      dynamicTo: null,
+    };
   },
   computed: {
-    transformed () {
-        const regex = /@(\w*)\b/ms;
+    transformed() {
+      const regex = /@(\w*)\b/ms;
 
-        const subst = `$1`;
-        let  text    =  this.message;
+      const subst = `$1`;
+      let text = this.message;
 
-        text = text.replace( regex, subst ).replace(' ','');
-        this.dynamicTo = text.replace(/ */ms,'');
+      text = text.replace(regex, subst).replace(' ', '');
+      this.dynamicTo = text.replace(/ */ms, '');
 
-        if(this.dynamicTo.split(' ').length>1)
-        {
-            this.dynamicTo = this.dynamicTo.split(' ')[0]
-        }
-        return true
-    }
-  }
-}
+      if (this.dynamicTo.split(' ').length > 1) {
+        this.dynamicTo = this.dynamicTo.split(' ')[0];
+      }
+      return true;
+    },
+  },
+};
 </script>

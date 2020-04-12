@@ -1,5 +1,6 @@
-const isElectron = () => navigator.userAgent.toLowerCase().indexOf('electron') > -1;
 import store from '@/store';
+
+const isElectron = () => navigator.userAgent.toLowerCase().indexOf('electron') > -1;
 const isWeb = () => !isElectron();
 
 function jsonParse(input) {
@@ -15,32 +16,31 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
   let drugs = 0;
   let weapons = 0;
   let alcohols = 0;
-  let date = new Date().getTime() /1000
+  const date = new Date().getTime() / 1000;
   let booster = false;
-  if(store.state.game.user.user.booster>0)
-  booster = Number(store.state.game.user.user.booster) > Number(date);
+  if (store.state.game.user.user.booster > 0)
+    booster = Number(store.state.game.user.user.booster) > Number(date);
   if (building) {
     const time = (now.getTime() - new Date(Date.parse(building.last_update)).getTime()) / 1000;
-    if(booster)
-    {
+    if (booster) {
       drugs =
-      building.drug_balance + Number(parseFloat(time * (building.drug_production_rate*2)).toFixed(2));
-    weapons =
-      building.weapon_balance +
-      Number(parseFloat(time * (building.weapon_production_rate*2)).toFixed(2));
-    alcohols =
-      building.alcohol_balance +
-      Number(parseFloat(time * (building.alcohol_production_rate*2)).toFixed(2));
-    }
-    else{
+        building.drug_balance +
+        Number(parseFloat(time * (building.drug_production_rate * 2)).toFixed(2));
+      weapons =
+        building.weapon_balance +
+        Number(parseFloat(time * (building.weapon_production_rate * 2)).toFixed(2));
+      alcohols =
+        building.alcohol_balance +
+        Number(parseFloat(time * (building.alcohol_production_rate * 2)).toFixed(2));
+    } else {
       drugs =
-      building.drug_balance + Number(parseFloat(time * building.drug_production_rate).toFixed(2));
-    weapons =
-      building.weapon_balance +
-      Number(parseFloat(time * building.weapon_production_rate).toFixed(2));
-    alcohols =
-      building.alcohol_balance +
-      Number(parseFloat(time * building.alcohol_production_rate).toFixed(2));
+        building.drug_balance + Number(parseFloat(time * building.drug_production_rate).toFixed(2));
+      weapons =
+        building.weapon_balance +
+        Number(parseFloat(time * building.weapon_production_rate).toFixed(2));
+      alcohols =
+        building.alcohol_balance +
+        Number(parseFloat(time * building.alcohol_production_rate).toFixed(2));
     }
 
     if (ocLvl > 0) {

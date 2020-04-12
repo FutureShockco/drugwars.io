@@ -126,7 +126,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
     hasNotEnough() {

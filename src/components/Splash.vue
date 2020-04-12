@@ -17,21 +17,20 @@
 
 <script>
 export default {
-
   methods: {
     logout() {
       this.$auth.logOut();
       this.$router.push({ path: '/' });
     },
   },
-    computed: {
+  computed: {
     server() {
       return process.env.VUE_APP_SERVER;
     },
     name() {
       return process.env.VUE_APP_SERVER_NAME;
     },
-    }
+  },
 };
 </script>
 

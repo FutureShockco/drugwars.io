@@ -42,8 +42,8 @@ export default {
       loginURL: sc.getLoginURL(),
       isAuthenticated: false,
       profile: {},
-      server_num:process.env.VUE_APP_SERVER,
-      server : process.env.VUE_APP_SERVER_NAME
+      server_num: process.env.VUE_APP_SERVER,
+      server: process.env.VUE_APP_SERVER_NAME,
     };
   },
   created() {

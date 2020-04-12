@@ -206,8 +206,8 @@ export default {
       }
       return { drug_balance: 0 };
     },
-    booster(){
-      let date = new Date().getTime() /1000
+    booster() {
+      const date = new Date().getTime() / 1000;
       return Number(this.$store.state.game.user.user.booster) > date;
     },
     drugStorage() {
@@ -285,11 +285,11 @@ export default {
         weaponLvl,
         distilleryLvl,
         this.$store.state.ui.timestamp,
-        this.booster
+        this.booster,
       );
     },
-    booster(){
-      let date = new Date().getTime() /1000
+    booster() {
+      const date = new Date().getTime() / 1000;
       return Number(this.$store.state.game.user.user.booster) > date;
     },
     ownOc() {

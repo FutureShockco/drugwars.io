@@ -54,7 +54,8 @@ export default {
       const month = now.getUTCMonth() + 1;
       const year = now.getUTCFullYear();
       const date = `${day}-${month}-${year}`;
-      if (this.$store.state.game.user.user.active === date) return this.$store.state.game.user.user.tutorial;
+      if (this.$store.state.game.user.user.active === date)
+        return this.$store.state.game.user.user.tutorial;
       return 10;
     },
   },

@@ -70,11 +70,9 @@ export default {
     lastWinner() {
       return this.$store.state.game.prizeProps.lotterywinner[0];
     },
-    overlimit(){
-      if(!Number(this.amount) || Number(this.amount) === 0)
-      return (this.myTickets > 10000)
-      else
-      return ((this.myTickets + Number(this.amount)) > 10000)
+    overlimit() {
+      if (!Number(this.amount) || Number(this.amount) === 0) return this.myTickets > 10000;
+      return this.myTickets + Number(this.amount) > 10000;
     },
     balances() {
       let ocLvl = 0;
@@ -111,7 +109,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
     ownHeistReward() {

@@ -52,7 +52,7 @@ export default {
       start = end - 25; // eslint-disable-line no-param-reassign
       this.refresh_stations({ start, end })
         .then(() => {
-        this.isLoading = false;
+          this.isLoading = false;
         })
         .catch(e => {
           console.error('Failed', e);

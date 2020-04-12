@@ -61,21 +61,19 @@ export default {
     this.isLoading = true;
     client.requestAsync('get_contracts', null).then(result => {
       result.forEach(element => {
-        if(this.contracts[element.nickname])
-        {
-          this.contracts[element.nickname].drug += element.drug
-          this.contracts[element.nickname].weapon += element.weapon
-          this.contracts[element.nickname].alcohol += element.alcohol
-          this.contracts[element.nickname].dwd += element.dwd
-          this.contracts[element.nickname].supply += element.supply
+        if (this.contracts[element.nickname]) {
+          this.contracts[element.nickname].drug += element.drug;
+          this.contracts[element.nickname].weapon += element.weapon;
+          this.contracts[element.nickname].alcohol += element.alcohol;
+          this.contracts[element.nickname].dwd += element.dwd;
+          this.contracts[element.nickname].supply += element.supply;
 
-          this.contracts[element.nickname].contractors.push(element.contractor)
-        }
-        else{
-          this.contracts[element.nickname] = element
-          this.contracts[element.nickname].contractors = []
-          if(element.contractor)
-          this.contracts[element.nickname].contractors.push(element.contractor)
+          this.contracts[element.nickname].contractors.push(element.contractor);
+        } else {
+          this.contracts[element.nickname] = element;
+          this.contracts[element.nickname].contractors = [];
+          if (element.contractor)
+            this.contracts[element.nickname].contractors.push(element.contractor);
         }
       });
       this.isLoading = false;

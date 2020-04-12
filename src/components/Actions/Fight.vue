@@ -184,157 +184,158 @@
 import { jsonParse } from '@/helpers/utils';
 
 export default {
- props: ['fight'],
- data() {
-  return {
-   share: false,
-   details: false,
-   token: localStorage.getItem('access_token'),
-   farm_name: 'Snollygoster',
-   popupOn: false,
-  };
- },
- computed: {
-  timeToWait() {
-   const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
-   return timeToWait > 0 ? timeToWait : 0;
+  props: ['fight'],
+  data() {
+    return {
+      share: false,
+      details: false,
+      token: localStorage.getItem('access_token'),
+      farm_name: 'Snollygoster',
+      popupOn: false,
+    };
   },
-  timeToBattle() {
-   const timeToWait =
-    new Date(this.fight.end_date).getTime() - 45000 - this.$store.state.ui.timestamp;
-   return timeToWait > 0 ? timeToWait : 0;
+  computed: {
+    timeToWait() {
+      const timeToWait = new Date(this.fight.end_date).getTime() - this.$store.state.ui.timestamp;
+      return timeToWait > 0 ? timeToWait : 0;
+    },
+    timeToBattle() {
+      const timeToWait =
+        new Date(this.fight.end_date).getTime() - 45000 - this.$store.state.ui.timestamp;
+      return timeToWait > 0 ? timeToWait : 0;
+    },
+    start() {
+      const start = new Date(this.fight.timestamp_start * 1000).toLocaleString();
+      return start;
+    },
+    end() {
+      const end = new Date(this.fight.end_date).toLocaleString();
+      return end;
+    },
+    alreadylisted() {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      if (
+        favs.find(
+          f =>
+            f.set.territory === this.fight.target_territory &&
+            f.set.location === this.fight.target_base,
+        )
+      )
+        return true;
+      return false;
+    },
+    result() {
+      let result;
+      let isAuthor;
+      if (this.fight.attacker_nickname !== this.user.nickname && !this.fight.target) {
+        isAuthor = false;
+      } else if (this.fight.target_nickname !== this.user.nickname) isAuthor = true;
+      if (this.fight.result === 1) {
+        result = isAuthor ? 'win' : 'lost';
+      } else if (this.fight.result === 3) {
+        result = !isAuthor ? 'win' : 'lost';
+      } else if (this.fight.result === 2) {
+        result = 'draw';
+      }
+      return result;
+    },
+    user() {
+      return this.$store.state.game.user.user;
+    },
+    username() {
+      return this.$store.state.auth.username;
+    },
+    json() {
+      return jsonParse(this.fight.json) || {};
+    },
   },
-  start() {
-   const start = new Date(this.fight.timestamp_start * 1000).toLocaleString();
-   return start;
+  methods: {
+    showDetails() {
+      this.details = true;
+    },
+    hideDetails() {
+      this.details = false;
+    },
+    listPopup(name) {
+      this.popupOn = !this.popupOn;
+    },
+    saveFarm() {
+      let favs = [];
+      if (localStorage.getItem('farmlist')) {
+        favs = JSON.parse(localStorage.getItem('farmlist'));
+      }
+      const farm = {};
+      farm.name = this.farm_name;
+      farm.set = { territory: this.fight.target_territory, location: this.fight.target_base };
+      favs.push(farm);
+      localStorage.setItem('farmlist', JSON.stringify(favs));
+      this.popupOn = !this.popupOn;
+    },
+    openBattle(id) {
+      let drugwars_battleclient;
+      window.addEventListener('message', messageListener, false);
+      const token = this.token;
+      function messageListener(event) {
+        if (event.data == 'ready') {
+          drugwars_battleclient.postMessage({ token, id }, '*');
+        }
+      }
+      const dwbc = 'https://battle.drugwars.io/debug.html';
+      drugwars_battleclient = window.open(dwbc);
+    },
   },
-  end() {
-   const end = new Date(this.fight.end_date).toLocaleString();
-   return end;
-  },
-  alreadylisted() {
-   let favs = [];
-   if (localStorage.getItem('farmlist')) {
-    favs = JSON.parse(localStorage.getItem('farmlist'));
-   }
-   if (
-    favs.find(
-     f =>
-      f.set.territory === this.fight.target_territory && f.set.location === this.fight.target_base,
-    )
-   )
-    return true;
-   return false;
-  },
-  result() {
-   let result;
-   let isAuthor;
-   if (this.fight.attacker_nickname !== this.user.nickname && !this.fight.target) {
-    isAuthor = false;
-   } else if (this.fight.target_nickname !== this.user.nickname) isAuthor = true;
-   if (this.fight.result === 1) {
-    result = isAuthor ? 'win' : 'lost';
-   } else if (this.fight.result === 3) {
-    result = !isAuthor ? 'win' : 'lost';
-   } else if (this.fight.result === 2) {
-    result = 'draw';
-   }
-   return result;
-  },
-  user() {
-   return this.$store.state.game.user.user;
-  },
-  username() {
-   return this.$store.state.auth.username;
-  },
-  json() {
-   return jsonParse(this.fight.json) || {};
-  },
- },
- methods: {
-  showDetails() {
-   this.details = true;
-  },
-  hideDetails() {
-   this.details = false;
-  },
-  listPopup(name) {
-   this.popupOn = !this.popupOn;
-  },
-  saveFarm() {
-   let favs = [];
-   if (localStorage.getItem('farmlist')) {
-    favs = JSON.parse(localStorage.getItem('farmlist'));
-   }
-   const farm = {};
-   farm.name = this.farm_name;
-   farm.set = { territory: this.fight.target_territory, location: this.fight.target_base };
-   favs.push(farm);
-   localStorage.setItem('farmlist', JSON.stringify(favs));
-   this.popupOn = !this.popupOn;
-  },
-  openBattle(id) {
-   let drugwars_battleclient;
-   window.addEventListener('message', messageListener, false);
-   const token = this.token;
-   function messageListener(event) {
-    if (event.data == 'ready') {
-     drugwars_battleclient.postMessage({ token, id }, '*');
-    }
-   }
-   const dwbc = 'https://battle.drugwars.io/debug.html';
-   drugwars_battleclient = window.open(dwbc);
-  },
- },
 };
 </script>
 
 <style scoped type="less">
 @import '../../vars.less';
 p {
- overflow: hidden;
- max-width: 50%;
+  overflow: hidden;
+  max-width: 50%;
 }
 
 .logo {
- margin-top: 10px;
- width: 100%;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .result {
- font-size: 24px;
- padding: 3px;
- height: 40px;
- background-size: cover !important;
+  font-size: 24px;
+  padding: 3px;
+  height: 40px;
+  background-size: cover !important;
 }
 
 .gang {
- font-size: 18px;
+  font-size: 18px;
 }
 
 .sharemessage {
- font-size: 12px;
+  font-size: 12px;
 }
 
 div .minip {
- width: 28px !important;
- height: 28px !important;
+  width: 28px !important;
+  height: 28px !important;
 }
 
 img {
- width: 28px;
- height: 28px;
+  width: 28px;
+  height: 28px;
 }
 
 .message {
- max-width: 260px;
- margin: 0 auto;
- overflow-wrap: break-word;
- word-wrap: break-word;
- hyphens: auto;
+  max-width: 260px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .vue-ui-modal {
- background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
 }
 </style>

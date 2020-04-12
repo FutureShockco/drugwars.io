@@ -18,29 +18,29 @@
 
 <script>
 export default {
- computed: {
-  base() {
-   return this.$store.state.game.mainbase;
+  computed: {
+    base() {
+      return this.$store.state.game.mainbase;
+    },
+    main() {
+      return (
+        this.$store.state.game.user.buildings.find(
+          b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
+        ) || null
+      );
+    },
+    steemAccount() {
+      if (this.$store.state.auth.account) return this.$store.state.auth.account;
+      return 0;
+    },
   },
-  main() {
-   return (
-    this.$store.state.game.user.buildings.find(
-     b => b.main === 1 && b.base === this.base.base && b.territory === this.base.territory,
-    ) || null
-   );
-  },
-  steemAccount() {
-   if (this.$store.state.auth.account) return this.$store.state.auth.account;
-   return 0;
-  },
- },
 };
 </script>
 
 
 <style lang="less" scoped>
 .coordbase {
- position: absolute;
- right: 10px;
+  position: absolute;
+  right: 10px;
 }
 </style>

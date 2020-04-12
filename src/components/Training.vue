@@ -76,14 +76,14 @@ export default {
         sniping: ['sniper'],
         spiritwine: ['hobo'],
         coordination: ['all'],
-        chemical: ['mercenary','knifer'],
-        weapon: ['rowdy','sniper','hitman','biker'],
-        fire: ['gunman','helicopter'],
+        chemical: ['mercenary', 'knifer'],
+        weapon: ['rowdy', 'sniper', 'hitman', 'biker'],
+        fire: ['gunman', 'helicopter'],
         protection: ['all'],
         bomb: ['bazooka'],
-        psychological: ['mercenary','knifer','big_mama','ninja']
+        psychological: ['mercenary', 'knifer', 'big_mama', 'ninja'],
       },
-      units:units
+      units,
     };
   },
   computed: {

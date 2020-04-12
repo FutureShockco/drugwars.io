@@ -3,10 +3,10 @@
     <div class="columns m-2 shopcard">
       <Icon class="mr-2" size="44" :name="item.icon" />
       <div class="title">{{ item.name }}</div>
-      <div class="title type">{{ item.type }}</div>
+      <div class="title type">{{ item.type }}<span v-if="!item.enabled"> Temporary disabled</span></div>
           <div >{{ item.desc }}</div>
         <button
-          :disabled="isLoading || notEnoughDWD "
+          :disabled="isLoading || notEnoughDWD ||!item.enabled"
           @click="handleSubmit(item.name)"
           class="button btn-block button-yellow mb-2 mt-2">
         <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
@@ -20,7 +20,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-  props: ['item','price'],
+  props: ['item', 'price'],
   data() {
     return {
       isLoading: false,
@@ -48,7 +48,8 @@ export default {
       return this.$store.state.auth.username;
     },
     shieldEnd() {
-      const diff = this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
+      const diff =
+        this.$store.state.game.user.user.shield_end * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
     },
   },
@@ -58,7 +59,7 @@ export default {
       this.isLoading = true;
       const payload = {
         amount: 1,
-        type: 'dw-'+type,
+        type: `dw-${type}`,
       };
       this.send(payload)
         .then(() => {

@@ -56,104 +56,106 @@ import { setTimeout } from 'timers';
 import CookieLaw from 'vue-cookie-law';
 
 export default {
- data() {
-  return {
-   modalIsOpen: localStorage.firstime || false,
-   messageIsOpen: localStorage.message || false,
-   attempt: 1,
-   connected: false,
-   timeIsopen: false,
-  };
- },
- components: { CookieLaw },
- computed: {
-  username() {
-   return this.$store.state.auth.username;
+  data() {
+    return {
+      modalIsOpen: localStorage.firstime || false,
+      messageIsOpen: localStorage.message || false,
+      attempt: 1,
+      connected: false,
+      timeIsopen: false,
+    };
   },
-  showSidebar() {
-   return !this.$route.meta.hideSidebar;
+  components: { CookieLaw },
+  computed: {
+    username() {
+      return this.$store.state.auth.username;
+    },
+    showSidebar() {
+      return !this.$route.meta.hideSidebar;
+    },
+    sidebarVisible() {
+      return this.$store.state.ui.sidebarVisible;
+    },
+    showLoading() {
+      return this.$store.state.ui.showLoading;
+    },
+    checkTime() {
+      if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time) {
+        const diff = Math.abs(this.$store.state.game.prizeProps.server_time - new Date().getTime());
+        if (diff > 150000) {
+          this.timeIsopen = true;
+          return true;
+        }
+        return false;
+      }
+      return false;
+    },
   },
-  sidebarVisible() {
-   return this.$store.state.ui.sidebarVisible;
-  },
-  showLoading() {
-   return this.$store.state.ui.showLoading;
-  },
-  checkTime() {
-   if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time) {
-    let diff = Math.abs(this.$store.state.game.prizeProps.server_time - new Date().getTime());
-    if (diff > 150000) {
-     this.timeIsopen = true;
-     return true;
-    } else return false;
-   } else return false;
-  },
- },
 
- methods: {
-  closeModal() {
-   localStorage.setItem('firstime', true);
-   this.modalIsOpen = true;
+  methods: {
+    closeModal() {
+      localStorage.setItem('firstime', true);
+      this.modalIsOpen = true;
+    },
+    closeTimeModal() {
+      this.timeIsopen = false;
+    },
   },
-  closeTimeModal() {
-   this.timeIsopen = false;
-  },
- },
 };
 </script>
 
 <style scoped lang="less">
 @import './vars';
 #app {
- min-height: 100%;
- width: 100%;
- max-width: @main-width;
- margin: 0 auto;
- overflow-x: hidden;
- display: table;
- color: @text-color;
- text-align: left !important;
+  min-height: 100%;
+  width: 100%;
+  max-width: @main-width;
+  margin: 0 auto;
+  overflow-x: hidden;
+  display: table;
+  color: @text-color;
+  text-align: left !important;
 }
 
 .video {
- position: fixed;
- right: 0;
- bottom: 0;
- min-width: 100%;
- min-height: 99%;
- width: auto;
- height: auto;
- z-index: -100;
- background: url(//img.drugwars.io/bg.jpg) no-repeat;
- background-size: cover;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 99%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background: url(//img.drugwars.io/bg.jpg) no-repeat;
+  background-size: cover;
 }
 
 .vue-ui-modal {
- z-index: 102;
- background: #000000b5;
- a {
-  padding: 8px;
- }
+  z-index: 102;
+  background: #000000b5;
+  a {
+    padding: 8px;
+  }
 }
 
 .content {
- position: relative;
- left: 0;
- margin-top: @header-height;
- transition: left 0.3s;
- background: #000000;
- background-image: linear-gradient(to top, #0e0e0e, #0c0c0c 74%) !important;
- min-height: 93vh;
- @media @bp-small {
-  margin-left: @sidebar-width !important;
-  margin-right: @sidebar-width !important;
-  margin-top: @topnav-height;
- }
- &--nav-open {
-  left: @sidebar-width;
+  position: relative;
+  left: 0;
+  margin-top: @header-height;
+  transition: left 0.3s;
+  background: #000000;
+  background-image: linear-gradient(to top, #0e0e0e, #0c0c0c 74%) !important;
+  min-height: 93vh;
   @media @bp-small {
-   left: 0;
+    margin-left: @sidebar-width !important;
+    margin-right: @sidebar-width !important;
+    margin-top: @topnav-height;
   }
- }
+  &--nav-open {
+    left: @sidebar-width;
+    @media @bp-small {
+      left: 0;
+    }
+  }
 }
 </style>

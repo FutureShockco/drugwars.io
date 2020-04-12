@@ -187,15 +187,11 @@ export default {
     },
     total() {
       const prizePops = this.$store.state.game.prizeProps;
-      return (
-        (prizePops.daily_percent + prizePops.heist_percent)
-      );
+      return prizePops.daily_percent + prizePops.heist_percent;
     },
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
-      return (
-        prizePops.daily_percent
-      );
+      return prizePops.daily_percent;
     },
     totalRewards() {
       const daily = parseFloat(
@@ -206,9 +202,7 @@ export default {
     },
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.heist_percent
-      );
+      return prizeProps.heist_percent;
     },
     ownHeistReward() {
       const percent = (100 / this.prizeProps.heist_pool) * this.player.drugs;

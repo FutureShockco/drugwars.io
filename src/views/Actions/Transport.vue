@@ -32,7 +32,8 @@ export default {
       return orderBy(this.$store.state.game.transports, 'end_date', 'desc');
     },
     sent() {
-      if (this.$store.state.game.transports_count) return this.$store.state.game.transports_count.all;
+      if (this.$store.state.game.transports_count)
+        return this.$store.state.game.transports_count.all;
       return 0;
     },
   },

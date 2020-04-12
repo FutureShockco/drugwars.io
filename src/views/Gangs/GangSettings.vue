@@ -71,13 +71,11 @@ export default {
 
       this.send(payload)
         .then(() => {
-
-            this.isLoading = false;
-            this.notify({
+          this.isLoading = false;
+          this.notify({
             type: 'success',
             message: `Settings successfully updated`,
           });
-
         })
         .catch(e => {
           console.error('Failed to update settings', e);

@@ -67,9 +67,7 @@ export default {
     },
     totalHeistDWD() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.heist_percent
-      );
+      return prizeProps.heist_percent;
     },
     balances() {
       let ocLvl = 0;
@@ -106,7 +104,7 @@ export default {
         labLvl,
         weaponLvl,
         distilleryLvl,
-        this.$store.state.ui.timestamp
+        this.$store.state.ui.timestamp,
       );
     },
     ownHeistReward() {

@@ -40,20 +40,17 @@ export default {
     },
     totalDaily() {
       const { prizeProps } = this.$store.state.game;
-      return (
-          prizeProps.daily_percent
-      );
+      return prizeProps.daily_percent;
     },
     prizeProps() {
       return this.$store.state.game.prizeProps;
     },
-    booster(){
-      let date = new Date().getTime() /1000
+    booster() {
+      const date = new Date().getTime() / 1000;
       return Number(this.$store.state.game.user.user.booster) > date;
     },
     boosterEnd() {
-      const diff =
-        this.$store.state.game.user.user.booster * 1000 - this.$store.state.ui.timestamp;
+      const diff = this.$store.state.game.user.user.booster * 1000 - this.$store.state.ui.timestamp;
       return diff > 0 ? diff : 0;
     },
     user() {

@@ -177,7 +177,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 import { units } from 'drugwars';
 import Promise from 'bluebird';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 
 export default {
   props: ['base', 'territory', 'targetNickname', 'show'],
@@ -209,7 +209,7 @@ export default {
     }
   },
   components: {
-          draggable,
+    draggable,
   },
   computed: {
     parentData() {
@@ -271,9 +271,10 @@ export default {
         supply += units[unit.unit].supply;
       });
       power = Math.round(100 - parseFloat(supply / 5).toFixed(0) / 100);
-      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
-      if (coordination)
-      power = power + parseInt(coordination.lvl) / 10
+      const coordination = this.$store.state.game.user.trainings.find(
+        b => b.key === 'coordination' || b.training === 'coordination',
+      );
+      if (coordination) power += parseInt(coordination.lvl) / 10;
       if (power >= 100) return 100;
       if (power >= 60) return power;
       return 60;
@@ -285,9 +286,10 @@ export default {
         supply += units[unit.key].supply * unit.amount;
       });
       power = Math.round(100 - parseFloat(supply / 6).toFixed(0) / 100);
-      const coordination = this.$store.state.game.user.trainings.find(b => b.key === 'coordination' || b.training === 'coordination');
-      if (coordination)
-      power = power + parseInt(coordination.lvl) / 10
+      const coordination = this.$store.state.game.user.trainings.find(
+        b => b.key === 'coordination' || b.training === 'coordination',
+      );
+      if (coordination) power += parseInt(coordination.lvl) / 10;
       if (power >= 100) return 100;
       if (power >= 60) return power;
       return 60;
@@ -335,17 +337,16 @@ export default {
       let cost = 0;
       let distance = 0;
       distance =
-          Number(self.ownBase.territory) > Number(self.target)
-            ? Number(self.ownBase.territory) - Number(self.target)
-            : Number(self.target) - Number(self.ownBase.territory);
+        Number(self.ownBase.territory) > Number(self.target)
+          ? Number(self.ownBase.territory) - Number(self.target)
+          : Number(self.target) - Number(self.ownBase.territory);
       this.selectedUnits.forEach(unit => {
-        if (units[unit.key].move_cost ) {
+        if (units[unit.key].move_cost) {
           cost += units[unit.key].move_cost * unit.amount;
         }
-      })
-      if(self.action_type === "attack")
-      return cost + (cost * distance/100);
-      else return cost + (cost * distance/200);
+      });
+      if (self.action_type === 'attack') return cost + (cost * distance) / 100;
+      return cost + (cost * distance) / 200;
     },
   },
   methods: {
@@ -583,7 +584,7 @@ export default {
         }
       return str.join('&');
     },
-    onEnd(){
+    onEnd() {
       localStorage.setItem('fav_combi', JSON.stringify(this.favoriteCombinations));
     },
     saveCombination() {

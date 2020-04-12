@@ -177,18 +177,15 @@ export default {
     //   this.$parent.$data.newmessage = true;
     //   self.responses = messages;
     // });
-
     // socket.on('update-private-chat', messages => {
     //   this.$parent.$data.newprivatemessage = true;
     //   self.privateresponses = [];
     //   self.privateresponses = messages;
     // });
-
     // socket.on('update-gang-chat', messages => {
     //   this.$parent.$data.newgangmessage = true;
     //   self.gangresponses = messages;
     // });
-
     // socket.on('blocked', messages => {
     //   self.responses = messages;
     //   self.responses.push({
@@ -253,9 +250,9 @@ export default {
       this.privateChat = false;
       this.showUsers = false;
       this.$parent.$data.newmessage = false;
-          setTimeout(() => {
-      this.scrollToEnd();
-    }, 500);
+      setTimeout(() => {
+        this.scrollToEnd();
+      }, 500);
     },
     displayGangChat() {
       this.privateresponses = [];
@@ -264,9 +261,9 @@ export default {
       this.privateChat = false;
       this.showUsers = false;
       this.$parent.$data.newgangmessage = false;
-          setTimeout(() => {
-      this.scrollToEnd();
-    }, 500);
+      setTimeout(() => {
+        this.scrollToEnd();
+      }, 500);
     },
     displayPrivateChat() {
       this.receiver = null;
@@ -275,9 +272,9 @@ export default {
       this.privateChat = true;
       this.showUsers = false;
       this.$parent.$data.newprivatemessage = false;
-          setTimeout(() => {
-      this.scrollToEnd();
-    }, 500);
+      setTimeout(() => {
+        this.scrollToEnd();
+      }, 500);
     },
     scrollToEnd() {
       const container =
@@ -319,10 +316,8 @@ export default {
     },
     sendMessage(name) {
       const self = this;
-      if(this.message)
-      this.message = this.message + ' @' + name;
-      else
-      this.message = ' @' + name;
+      if (this.message) this.message = `${this.message} @${name}`;
+      else this.message = ` @${name}`;
     },
   },
 };
@@ -374,10 +369,10 @@ img {
   overflow: hidden;
 }
 
-.gang{
-  color:#fd0000;
+.gang {
+  color: #fd0000;
   font-size: 12px;
-  margin-left:4px;
+  margin-left: 4px;
 }
 
 .reply {

@@ -219,69 +219,69 @@ const actions = {
     commit('saveSentFightsRefresh', value);
   },
   refresh_transport_count: ({ commit, dispatch }) =>
-  new Promise((resolve, reject) => {
-    const token = authToken();
-    client
-      .requestAsync('get_transport_count', { token })
-      .then(fights => {
-        commit('saveTransportsCount', fights);
-        return resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        handleError(dispatch, err, 'Loading transport count failed');
-        return reject(err);
-      });
-  }),
-refresh_transports: ({ commit, dispatch }, limit) =>
-  new Promise((resolve, reject) => {
-    const token = authToken();
-    let start = 0;
-    let end = 25;
-    if (limit) {
-      start = limit.start;
-      end = limit.end;
-    }
-    client
-      .requestAsync('get_transports', { token, start, end })
-      .then(fights => {
-        commit('saveTransports', fights);
-        return resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        handleError(dispatch, err, 'Loading sent fights failed');
-        return reject(err);
-      });
-  }),
-force_transports_refresh: ({ commit, dispatch }, value) => {
-  commit('saveSentTransportsRefresh', value);
-},
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      client
+        .requestAsync('get_transport_count', { token })
+        .then(fights => {
+          commit('saveTransportsCount', fights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading transport count failed');
+          return reject(err);
+        });
+    }),
+  refresh_transports: ({ commit, dispatch }, limit) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      let start = 0;
+      let end = 25;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
+      }
+      client
+        .requestAsync('get_transports', { token, start, end })
+        .then(fights => {
+          commit('saveTransports', fights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent fights failed');
+          return reject(err);
+        });
+    }),
+  force_transports_refresh: ({ commit, dispatch }, value) => {
+    commit('saveSentTransportsRefresh', value);
+  },
   refresh_sent_gangfights: ({ commit, dispatch }, limit) =>
-  new Promise((resolve, reject) => {
-    const token = authToken();
-    let id =limit.id;
-    let start = 0;
-    let end = 25;
-    if (limit) {
-      start = limit.start;
-      end = limit.end;
-    }
-    client
-      .requestAsync('get_sent_gangfights', { token,id, start, end })
-      .then(gangfights => {
-        commit('saveSentGangFights', gangfights);
-        return resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        handleError(dispatch, err, 'Loading sent gangfights failed');
-        return reject(err);
-      });
-  }),
-force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
-  commit('saveSentGangFights', value);
-},
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      const id = limit.id;
+      let start = 0;
+      let end = 25;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
+      }
+      client
+        .requestAsync('get_sent_gangfights', { token, id, start, end })
+        .then(gangfights => {
+          commit('saveSentGangFights', gangfights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent gangfights failed');
+          return reject(err);
+        });
+    }),
+  force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
+    commit('saveSentGangFights', value);
+  },
 
   refresh_station_count: ({ commit, dispatch }) =>
     new Promise((resolve, reject) => {
@@ -298,27 +298,27 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
           return reject(err);
         });
     }),
-    refresh_stations: ({ commit, dispatch }, limit) =>
-  new Promise((resolve, reject) => {
-    const token = authToken();
-    let start = 0;
-    let end = 25;
-    if (limit) {
-      start = limit.start;
-      end = limit.end;
-    }
-    client
-      .requestAsync('get_stations', { token, start, end })
-      .then(fights => {
-        commit('saveStations', fights);
-        return resolve();
-      })
-      .catch(err => {
-        console.log(err);
-        handleError(dispatch, err, 'Loading sent fights failed');
-        return reject(err);
-      });
-  }),
+  refresh_stations: ({ commit, dispatch }, limit) =>
+    new Promise((resolve, reject) => {
+      const token = authToken();
+      let start = 0;
+      let end = 25;
+      if (limit) {
+        start = limit.start;
+        end = limit.end;
+      }
+      client
+        .requestAsync('get_stations', { token, start, end })
+        .then(fights => {
+          commit('saveStations', fights);
+          return resolve();
+        })
+        .catch(err => {
+          console.log(err);
+          handleError(dispatch, err, 'Loading sent fights failed');
+          return reject(err);
+        });
+    }),
   signup: ({ rootState }) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
@@ -384,8 +384,8 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       const { username } = rootState.auth;
       payload.username = username; // eslint-disable-line no-param-reassign
       payload.type = 'dw-gang-deposit'; // eslint-disable-line no-param-reassign
-      payload.territory =  state.mainbase.territory;
-      payload.base =  state.mainbase.base;
+      payload.territory = state.mainbase.territory;
+      payload.base = state.mainbase.base;
       return dwsocial(username, payload, result => {
         if (result) {
           console.log(result);
@@ -506,18 +506,16 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       // console.log(payload);
       return dwsocial(username, payload, result => {
         if (result) {
-          if(result && result.type && result.type === 'error')
-          {
-            console.log('error')
-          }
-          else{
+          if (result && result.type && result.type === 'error') {
+            console.log('error');
+          } else {
             store.dispatch('notify', {
               type: 'success',
               message: result,
             });
             Promise.delay(3000).then(() => {
-            store.dispatch('init');
-            })
+              store.dispatch('init');
+            });
           }
           return resolve(result);
         }
@@ -529,12 +527,12 @@ force_sent_gangfights_refresh: ({ commit, dispatch }, value) => {
       const { username } = rootState.auth;
       return dwsocial(username, payload, result => {
         if (result) {
-          if(result.type ==='error')
-          store.dispatch('notify', {
-            type: 'error',
-            message: result.message,
-            icon:'stop'
-          });
+          if (result.type === 'error')
+            store.dispatch('notify', {
+              type: 'error',
+              message: result.message,
+              icon: 'stop',
+            });
 
           return resolve(result);
         }

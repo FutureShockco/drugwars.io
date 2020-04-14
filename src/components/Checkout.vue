@@ -66,14 +66,14 @@ export default {
       return parseFloat(this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
     },
     priceInDWD() {
-      return parseFloat(this.priceInSteem * 2).toFixed(3);
+      return parseFloat(this.priceInSteem * 50).toFixed(3);
     },
     dwdPrice() {
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },
     notEnoughDWD() {
-      return parseFloat(this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
+      return parseFloat(this.priceInSteem * 50).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     steemAccount() {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
@@ -177,7 +177,7 @@ export default {
       this.requestPayment({
         memo: `upgrade:${this.id},territory:${Number(this.base.territory)},base:${Number(
           this.base.base,
-        )},server:${process.env.VUE_APP_SERVER}`,
+        )},server:${this.$store.state.game.server.number}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

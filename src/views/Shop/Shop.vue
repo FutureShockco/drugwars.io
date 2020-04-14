@@ -24,7 +24,7 @@ export default {
           type: '48 hours',
           price: 100,
           desc: 'The shield will protect you from any attacks.',
-          enabled:false,
+          enabled:true,
         },
         {
           icon: 'machine_gun',

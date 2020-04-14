@@ -29,7 +29,7 @@ export default {
     const date = `${day}-${month}-${year}`;
     dsteem.database.getDiscussions('blog', { tag: 'drugwars', limit: 3 }).then(discussions => {
       discussions.forEach(element => {
-        if (element.title.includes(date)) {
+        if (element.title.includes(date) && element.title.includes(this.$store.state.game.server.name)) {
           let text = steemMarkdown(element.body);
           text = text
             .replace(/<img/g, '<img width="100%" class="image"')

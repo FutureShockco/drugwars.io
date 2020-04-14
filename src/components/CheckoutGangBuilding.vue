@@ -183,7 +183,7 @@ export default {
     },
     handleRequestPayment() {
       this.requestPayment({
-        memo: `upgrade:${this.id},server:${process.env.VUE_APP_SERVER}`,
+        memo: `upgrade:${this.id},server:${this.$store.state.game.server.number}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

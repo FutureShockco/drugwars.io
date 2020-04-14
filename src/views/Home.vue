@@ -8,7 +8,7 @@
           <img width="100%" class="rounded-2" :src="`//img.drugwars.io/home/home1.jpg`" />
         </div>
         <div class="column det col-4">
-          <h5>Collect exclusive cards</h5>
+          <h5>Build up a gang with your mates</h5>
           <img width="100%" class="rounded-2" :src="`//img.drugwars.io/home/home2.jpg`" />
         </div>
         <div class="column det col-4">
@@ -18,11 +18,29 @@
       </div>
       <h4 class="ui white header">{{ 'message.login_message' | translate}}</h4>
       <div class="d-inline-grid">
-        <div class="ui blue header big">CURRENT SERVER {{server_num}} : {{server}} </div>
+        <div class="ui blue header big">
+          <div class="btn-orange mb-2" @click="isOpen = !isOpen">CHANGE SERVER</div>
+          <div :class="{ isOpen }" class="dropdown">
+            <button
+              class="btn btn-yellow btn-sm rp mr-2 mb-2"
+              v-for="server in servers"
+              @click="chooseServer(server)"
+              :key="server.number"
+            >{{server.number }}: {{server.name }}
+            <span v-if="server.number === 2">(Recommended)</span>
+            </button>
+          </div>
+          SERVER {{server.number}} : {{server.name.toString().toUpperCase()}}
+        </div>
+                 <a
+          class="button button-blue button-large mt-2 mb-4" :href="loginURL"
+
+        >Steem login</a>
         <div
-          class="button button-green button-large mt-2 mb-4"
+          class="button button-green button-large mb-4"
           @click="socialLogin"
-        >{{ 'message.login' | translate}}</div>
+        >Social login</div>
+
       </div>
       <div class="mb-1">Powered by</div>
       <Icon name="steem-logo" size="32" class="mr-1" />
@@ -35,15 +53,18 @@
 
 <script>
 import sc from '@/helpers/steemlogin';
-
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
       loginURL: sc.getLoginURL(),
       isAuthenticated: false,
       profile: {},
-      server_num: process.env.VUE_APP_SERVER,
-      server: process.env.VUE_APP_SERVER_NAME,
+      isOpen: false,
+      servers: [
+        { api: process.env.VUE_APP_WS_API_URL_S1, name: 'Detroit', number: 1 },
+        { api: process.env.VUE_APP_WS_API_URL_S2, name: 'Los Angeles', number: 2 },
+      ],
     };
   },
   created() {
@@ -51,9 +72,18 @@ export default {
     localStorage.removeItem('id_token');
     localStorage.removeItem('auth');
     localStorage.removeItem('loggedIn');
+    if(!localStorage.getItem('logintype'))
+    localStorage.setItem('logintype','steem')
+  },
+  computed: {
+    server() {
+      return this.$store.state.game.server;
+    },
   },
   methods: {
+    ...mapActions(['setServer']),
     socialLogin() {
+      localStorage.setItem('logintype','social')
       this.$auth.login();
     },
     logout() {
@@ -63,6 +93,9 @@ export default {
     handleLoginEvent(data) {
       this.isAuthenticated = data.loggedIn;
       this.profile = data.profile;
+    },
+    chooseServer(value) {
+      this.setServer(value);
     },
   },
 };
@@ -107,6 +140,46 @@ h4 {
     3px 3px 5px black, -3px -3px 5px black;
   font-family: 'Bebas Neue', Helvetica, Arial, sans-serif;
 }
+.btn-orange {
+  border-radius: 0.25em;
+  box-shadow: 0px 3px 10px orangered;
+  background-size: cover;
+  font-weight: bold;
+
+}
+.btn-yellow {
+  border-radius: 0.25em;
+  background-color: #fbbd08;
+  color: black;
+  background-image: linear-gradient(160deg, #fbe308 0%, #ffbb00 74%);
+  box-shadow: 0px 3px 10px #c59400;
+  background-size: cover;
+  font-weight: bold;
+  &:hover {
+    background-image: linear-gradient(160deg, #fbe308 0%, #ffbb00 20%, #ffc21b 80%);
+    opacity: 1;
+  }
+  &:disabled {
+    color: white;
+  }
+}
+
+.btn-blue {
+  border-radius: 0.25em;
+  background-color: #0679fc;
+  color: rgb(250, 250, 250);
+  background-image: linear-gradient(-180deg, #0679fc 0%, #0361cc 90%);
+  box-shadow: 0px 3px 10px #0361cc;
+  background-size: cover;
+  font-weight: bold;
+  &:hover {
+    background-image: linear-gradient(-180deg, #0374f4 0%, #035cc2 90%);
+    opacity: 1;
+  }
+  &:disabled {
+    color: white;
+  }
+}
 
 h5 {
   color: #000000;
@@ -123,6 +196,23 @@ h5 {
   overflow-wrap: break-word;
   white-space: pre-line;
   max-width: 27%;
+}
+
+.dropdown {
+  left: 50%;
+  transform: translatey(-30%) rotatex(90deg) scale(0);
+  margin-top: 0.55em;
+  transform-origin: 0 0;
+  border-radius: 0.35em;
+  display: none;
+  opacity: 0;
+  transition: all 200ms linear;
+
+  &.isOpen {
+    transform: translatey(0%);
+    display: block;
+    opacity: 1;
+  }
 }
 
 .vue-ui-modal {

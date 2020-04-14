@@ -680,6 +680,11 @@ export default {
         this.resetForm();
         this.missions(payload)
           .then(() => {
+            if(self.action_type ==="occupy")        
+            Promise.delay(5000).then(() => {
+              self.init();
+            });
+            else
             Promise.delay(3000).then(() => {
               self.init();
             });

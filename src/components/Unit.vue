@@ -19,7 +19,7 @@
         </div>
         <div class="mx-auto">
             <input class="input form-control input-block mb-2" type="number" v-model="quantity" min="1">
-            <CheckoutRecruit :id="unit.id" :level="training_facility.lvl" :coeff="unit.coeff" :inProgress="inProgress" :price="unit.drugs_cost / 450000  + unit.weapons_cost / 450000 + unit.alcohols_cost / 450000 " :notEnough="hasNotEnough" :quantity="quantity" />
+            <CheckoutRecruit :id="unit.id" :level="training_facility.lvl" :coeff="unit.coeff" :inProgress="inProgress" :price="unit.drugs_cost / 1400000  + unit.weapons_cost / 1400000 + unit.alcohols_cost / 1400000 " :notEnough="hasNotEnough" :quantity="quantity" />
         </div>
     </div>
 </template>

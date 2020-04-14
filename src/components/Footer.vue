@@ -57,6 +57,7 @@ export default {
       audio.isPlaying = true; // eslint-disable-line no-param-reassign
       audio.loop = true; // eslint-disable-line no-param-reassign
       audio.file.play();
+      audio.file.volume = 0.1;
     },
     pause(audio) {
       audio.isPlaying = false; // eslint-disable-line no-param-reassign

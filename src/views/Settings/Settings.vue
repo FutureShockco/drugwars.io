@@ -43,10 +43,10 @@ export default {
   },
   computed: {
     server() {
-      return process.env.VUE_APP_SERVER;
+      return this.$store.state.game.server.number;
     },
     name() {
-      return process.env.VUE_APP_SERVER_NAME;
+      return this.$store.state.game.server.name;
     },
     user() {
       return this.$store.state.game.user.user;

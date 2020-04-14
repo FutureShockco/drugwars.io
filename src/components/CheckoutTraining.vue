@@ -77,10 +77,10 @@ export default {
       return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },
     priceInDWD() {
-      return (this.priceInSteem * 2).toFixed(3);
+      return (this.priceInSteem * 50).toFixed(3);
     },
     notEnoughDWD() {
-      return (this.priceInSteem * 2).toFixed(3) > this.$store.state.game.user.user.dwd;
+      return (this.priceInSteem * 50).toFixed(3) > this.$store.state.game.user.user.dwd;
     },
     timeToWait() {
       const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
@@ -164,7 +164,7 @@ export default {
     },
     handleRequestPayment() {
       this.requestPayment({
-        memo: `training:${this.id},server:${process.env.VUE_APP_SERVER}`,
+        memo: `training:${this.id},server:${this.$store.state.game.server.number}`,
         amount: `${this.priceInSteem} STEEM`,
       });
     },

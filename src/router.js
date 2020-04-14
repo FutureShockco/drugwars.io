@@ -6,6 +6,8 @@ import client from '@/helpers/client';
 
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
+const Callback2 = () => import(/* webpackChunkName: "callback2" */ '@/views/Callback2.vue');
+
 const Jobs = () => import(/* webpackChunkName: "jobs" */ '@/views/Jobs/Jobs.vue');
 const GangJobs = () => import(/* webpackChunkName: "gangjobs" */ '@/views/Jobs/GangJobs.vue');
 
@@ -575,6 +577,13 @@ export default new Router({
       },
     },
     {
+      path: '/callback2',
+      name: 'callback2',
+      component: Callback2,
+      meta: {
+        hideSidebar: true,
+      },
+    },    {
       path: '*',
       component: Error404,
       meta: {

@@ -5,7 +5,7 @@
       <div class="title">{{ amountOfDWD }} Tokens</div>
       <!-- <div class="title type">{{ amountOfDWD(item.quantity) }}</div> -->
       {{item.detail}}
-      <button
+      <!-- <button
         v-if="steemAccount"
         @click="handleRequestPayment()"
         class="button btn-block button-blue mb-2 mt-2"
@@ -13,14 +13,14 @@
         <i class="iconfont icon-zap" />
         ${{ item.price | amount }} -
         {{ priceInSteem | amount }} STEEM
-      </button>
-      <h3 class="mt-0 mb-0" v-else>${{ item.price | amount }}</h3>
+      </button> -->
+      <h3 class="mt-0 mb-0" >${{ item.price | amount }}</h3>
       <PayPal
-        :amount="amountOfDWD.toString()"
+        :amount="item.price.toString()"
         currency="USD"
         :client="credentials"
-        :items="myItems"
-        env="sandbox"
+        :items="item"
+        env="production"
         :invoice-number="uniqueId+username"
         v-on:payment-authorized="paymentAuthorized"
         v-on:payment-completed="paymentCompleted"
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     amountOfDWD() {
-      return (this.item.price / Number(this.$store.state.game.prizeProps.seProps.lastPrice)) / 2;
+      return parseFloat(this.item.price / this.$store.state.game.prizeProps.steemprice / Number(this.$store.state.game.prizeProps.seProps.lastPrice)/2).toFixed(0) ;
     },
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -65,7 +65,7 @@ export default {
     },
     uniqueId() {
       /* eslint-disable */
-      return 'xxxxxxxxxxx'.replace(/[xy]/g, c => {
+      return 'xxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, c => {
         const r = (Math.random() * 16) | 0,
           v = c == 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
@@ -80,10 +80,10 @@ export default {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `server:${process.env.VUE_APP_SERVER},shop:${this.item.ref},amount:${
+        memo: `shop:${this.item.ref},amount:${
           this.amountOfDWD
-        }`,
-        amount: `${this.priceInSteem} STEEM`,
+        },
+        amount: ${this.priceInSteem} STEEM,server:${this.$store.state.game.server.number}`,
       });
     },
 
@@ -91,13 +91,13 @@ export default {
       this.handleSubmit(data.orderID);
     },
     paymentCompleted(data) {
-      console.log(data);
+      // console.log(data);
     },
     paymentCancelled(data) {
-      console.log(data);
+      // console.log(data);
     },
     handleSubmit(orderID) {
-      console.log(orderID);
+      // console.log(orderID);
       const payload = {
         id: orderID,
         type: 'paypal-shop',
@@ -106,15 +106,10 @@ export default {
       this.send(payload)
         .then(result => {
           if (result) {
-            this.notify({
-              type: 'success',
-              message: result,
-            });
             this.isLoading = false;
           }
         })
         .catch(e => {
-          this.notify({ type: 'error', message: `Failed to withdraw ${payload.amount} DWD` });
           console.error(`Failed to withdraw ${payload.amount} DWD`, e);
           this.isLoading = false;
         });

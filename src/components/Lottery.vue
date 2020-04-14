@@ -5,8 +5,8 @@
         <div class="lottery-text text-center">
         <div>TICKETS:{{myTickets}}</div>
           <div>(Max 10k)</div>
-        <div class="text-green">Last winner: <br/>{{ lastWinner.nickname || 'government'}}</div>
-        <div class="text-yellow">Amount: {{ lastWinner.amount }} </div>
+        <div class="text-green" v-if="lastWinner &&  lastWinner.nickname ">Last winner: <br/>{{ lastWinner.nickname || 'government'}}</div>
+        <div class="text-yellow" v-if="lastWinner &&  lastWinner.nickname ">Amount: {{ lastWinner.amount }} </div>
         </div>
         <form @submit.prevent="handleSubmit" class="mb-2">
                <input class="input form-control input-block mb-2" v-model="amount" type="number" min="1">

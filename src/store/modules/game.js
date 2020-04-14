@@ -32,11 +32,15 @@ const state = {
   mainbase: null,
   steemengine: null,
   force_sent_fights_refresh: true,
+  server: JSON.parse(localStorage.getItem('server')) || { api: process.env.VUE_APP_WS_API_URL_S2, name: 'Los Angeles', number: 2 }
 };
 
 const mutations = {
   savePrizeProps(_state, payload) {
     Vue.set(_state, 'prizeProps', payload);
+  },
+  saveServer(_state, payload) {
+    Vue.set(_state, 'server', payload);
   },
   saveUser(_state, payload) {
     Vue.set(_state, 'user', payload);
@@ -122,19 +126,18 @@ const actions = {
                 commit('saveConnected', true);
                 commit(
                   'saveBase',
-                  state.user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
+                  user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
                 );
                 if (
-                  !state.base ||
-                  totalbases != state.user.buildings.find(b => b.building === 'headquarters').length
+                  totalbases !== user.buildings.find(b => b.building === 'headquarters').length
                 )
                   commit(
                     'saveMainBase',
-                    state.user.buildings.find(
+                    user.buildings.find(
                       b =>
                         b.main === 1 &&
-                        b.territory != 0 &&
-                        b.base != 0 &&
+                        b.territory !== 0 &&
+                        b.base !== 0 &&
                         b.building === 'headquarters',
                     ),
                   );
@@ -706,6 +709,11 @@ const actions = {
   },
   disconnect: ({ commit }) => {
     commit('saveConnected', false);
+  },
+  setServer: ({ commit }, payload) => {
+    localStorage.setItem('server',JSON.stringify(payload))
+    commit('saveServer', payload);
+    client.reset
   },
 };
 

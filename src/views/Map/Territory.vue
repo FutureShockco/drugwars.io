@@ -441,10 +441,10 @@ export default {
             setTimeout(() => {
               self.init();
             }, 5000);
-            Promise.delay(6000).then(() => {
+            Promise.delay(3000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
                 [self.bases] = result;
-
+                this.setMainBase({ territory:result[0][0].territory,base:result[0][0].base,custom:result[0][0].custom,main:result[0][0].main });
                 self.isLoading = false;
               });
             });

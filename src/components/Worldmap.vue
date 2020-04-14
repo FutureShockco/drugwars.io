@@ -35,7 +35,7 @@
     />
     <div v-if="showTargets && !isLoading">
 
-        <div    v-if="target.territory > 0 && !showAction"
+        <div v-if="target.territory > 0 && !showAction"
         :key="target.nickname+target.base+target.territory"
         :player="target"
         v-for="target in targets"
@@ -818,8 +818,8 @@ export default {
           projectionContext.drawImage(img, 0, 0, img.width, img.height);
 
           let pixelData = projectionContext.getImageData(0, 0, img.width, img.height);
-
           const isLand = (lat, lon) => {
+
             const x = parseInt((img.width * (lon + 180)) / 360);
             const y = parseInt((img.height * (lat + 90)) / 180);
 
@@ -863,9 +863,9 @@ export default {
             return `#${intToHex(redValue)}${intToHex(greenValue)}00`;
           }
 
-          // let radius = 0.519;
+          let div = Math.floor(self.all_players / 1350) || 15
           const radius = 0.61;
-          const divisions = Math.round(self.all_players / 1350);
+          const divisions = div;
           const tileSize = 0.9;
           let count = 1;
           const hexasphere = new Hexasphere(radius, divisions, tileSize);
@@ -887,14 +887,17 @@ export default {
               }
               let material;
               if (isLand(latLon.lat, latLon.lon)) {
+
                 if (self.player_territories.find(t => t.territory === count)) {
                   const element = self.player_territories.find(t => t.territory === count);
                   const playercount = element.count;
-                  const riskcolor = redYellowGreen(playercount / 25);
+                  const riskcolor = redYellowGreen(playercount / 25) || redYellowGreen(0.125);
                   material = new THREE.MeshBasicMaterial({ color: riskcolor });
                   material.name = `territory`;
                   material.count = count;
+                  if(element.gang)
                   material.userData.gang = element.gang;
+                  else material.userData.gang ='';
                   material.userData.total_player = playercount;
                   material.userData.count = count;
                   material.userData.risk = 'inexistant';
@@ -1053,7 +1056,6 @@ export default {
     self.initPlanet();
     client.requestAsync('get_territories', null).then(result => {
       self.player_territories = result;
-      self.initTerritories();
       client
         .requestAsync('get_users', null)
         .then(users => {
@@ -1070,6 +1072,7 @@ export default {
           });
           self.targets = allusers;
           self.isLoading = false;
+          self.initTerritories();
         })
         .catch(e => {
           console.error('Failed to get users', e);

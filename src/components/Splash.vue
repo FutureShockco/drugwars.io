@@ -1,6 +1,6 @@
 <template>
   <UiCenter class="vue-ui-modal pt-2 pb-7">
-    <h5 class="text-center mb-0">Server ({{server}}) : {{name}}</h5>
+    <h5 class="text-center mb-0">Server ({{server.number}}) : {{server.name}}</h5>
     <Icon class="logo-large" name="logo" />
     <div class="wrapper mt-2">
       <div class="left"></div>
@@ -25,10 +25,7 @@ export default {
   },
   computed: {
     server() {
-      return process.env.VUE_APP_SERVER;
-    },
-    name() {
-      return process.env.VUE_APP_SERVER_NAME;
+      return this.$store.state.game.server;
     },
   },
 };

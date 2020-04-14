@@ -6,7 +6,7 @@ const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 const webAuth = new auth0.WebAuth({
   domain: authConfig.domain,
-  redirectUri: `${window.location.origin}/callback`,
+  redirectUri: `${window.location.origin}/callback2`,
   clientID: authConfig.clientId,
   responseType: 'id_token',
   scope: 'openid profile email',
@@ -27,7 +27,7 @@ class AuthService extends EventEmitter {
   login(customState) {
     webAuth.authorize({
       responseType: 'token id_token',
-      redirectUri: `${window.location.origin}/callback`,
+      redirectUri: `${window.location.origin}/callback2`,
       audience: 'https://api.drugwars.io',
       scope: 'openid profile email',
     });

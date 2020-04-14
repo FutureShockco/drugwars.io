@@ -1,8 +1,10 @@
 <template>
-    <Splash/>
+  <Splash/>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -10,22 +12,17 @@ export default {
       error: null,
     };
   },
-  methods: {
-    handleLoginEvent(data) {
-      if (!data.error) {
-        this.$router.push(data.state.target || '/');
-      }
-    },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      this.$auth.setAccessToken();
-      this.$auth.setIdToken();
-      window.location.href = '/';
-    });
-  },
+  methods: mapActions(['showLoading', 'hideLoading', 'login']),
   created() {
-    if (!this.$auth.isAuthenticated()) this.$auth.handleAuthentication();
+    this.showLoading();
+    localStorage.setItem('access_token',this.accessToken)
+    this.login(this.accessToken)
+      .then(() => {
+        window.location = '/';
+      })
+      .catch(e => {
+        console.error('Your access token is not valid', e);
+      });
   },
 };
 </script>

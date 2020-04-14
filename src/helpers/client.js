@@ -4,13 +4,14 @@ import store from '@/store';
 
 Promise.promisifyAll(Client.prototype);
 
-let rawClient = new Client(process.env.VUE_APP_WS_API_URL);
+
+let rawClient = new Client(store.state.game.server.api);
 rawClient = Sub(rawClient);
 const handler = {
   get(target, prop) {
     if (prop === 'restart') {
       return () => {
-        rawClient = new Client(process.env.VUE_APP_WS_API_URL);
+        rawClient = new Client(store.state.game.server.api);
         rawClient = Sub(rawClient);
       };
     }

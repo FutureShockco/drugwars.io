@@ -77,7 +77,7 @@
           :coeff="building.coeff"
           :hqLevel="ownHq.lvl"
           :inProgress="inProgress"
-          :price="drugsCost / 80000"
+          :price="drugsCost / 150000"
           :notEnough="hasNotEnough"
         />
       </div>

@@ -258,7 +258,7 @@
           />
         </div>
         <div v-if="action_type === 'occupy'">
-          <h3>Choose Base Name (max 5 bases)</h3>
+          <h3>Choose Base Name (max 10 bases)</h3>
           <input
             class="input form-control btn-block mb-4"
             placeholder="Eg : Saint Street"

@@ -10,7 +10,7 @@
           @click="handleSubmit(item.name)"
           class="button btn-block button-yellow mb-2 mt-2">
         <img class="dwdicon" src="//img.drugwars.io/icons/dwd.png"/>
-        <span v-if="dwdPrice && shieldUsed && item.name ==='shield'"> {{ priceInDWD*5  }} DWD</span>
+        <span v-if="dwdPrice && shieldUsed && item.name ==='shield'"> {{ priceInDWD*3  }} DWD</span>
                 <span v-else> {{ priceInDWD  }} DWD</span>
         </button>
     </div>

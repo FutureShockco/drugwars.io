@@ -584,7 +584,7 @@ const actions = {
         response => {
           if (response.success || response.error === 'user_cancel') {
             console.log('success');
-            Promise.delay(1000).then(() => {
+            Promise.delay(7000).then(() => {
               dispatch('init');
             });
           } else {

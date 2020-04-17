@@ -27,7 +27,7 @@
     "bluebird": "^3.5.3",
     "cacache": "^13.0.0",
     "dom-to-image": "^2.6.0",
-    "drugwars": "^0.1.55",
+    "drugwars": "^0.1.57",
     "dsteem": "^0.10.1",
     "express": "^4.16.3",
     "hexasphere.js": "^0.2.2",

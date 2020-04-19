@@ -1,7 +1,10 @@
 <template>
     <div class="py-3  px-0 m-1 columns text-center border-bottom">
         <div class="column col-3 px-0">
-            <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
+            <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :rankname="rankname" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
+              <span>
+                    <div  class="username text-xs" >{{rankname}}</div>
+                  </span>
             <div v-if="player.gang" class="username" :class="{ 'text-blue' : player.gang === user.gang }" >
                 {{ player.nickname }}
             </div>
@@ -156,6 +159,14 @@ export default {
   computed: {
     user() {
       return this.$store.state.game.user.user;
+    },
+    rankname() {
+      let rank = 10;
+      let names = ['weak','recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
+      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      let userprod = (this.player.drug_production_rate +this.player.weapon_production_rate + this.player.alcohol_production_rate); 
+      rank = Math.floor((userprod/totalprod)*10)
+      return names[rank];
     },
     shieldEnd() {
       const diff = this.player.shield_end * 1000 - this.$store.state.ui.timestamp;

@@ -4,6 +4,7 @@
             <div class="text-center pt-3">
                 <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" :reputation="reputation"/>
                 <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture"  :reputation="reputation"/>
+                <div  class="username text-xs" >{{rankname}}</div>
                 <div class="username" @click.native="toggleSidebar">
                     {{ user.nickname }}
                 </div>
@@ -171,6 +172,17 @@ export default {
     },
     user() {
       return this.$store.state.game.user.user;
+    },
+    rankname() {
+      let i = 10;
+      let rank = 10;
+      let names = ['recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
+      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      let userprod = this.$store.state.game.user.total_production; 
+      rank = Math.floor((userprod/totalprod)*10)-1
+      if(rank <0)
+      rank = 0
+      return names[rank];
     },
     reputation() {
       if (

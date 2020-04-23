@@ -196,9 +196,10 @@
               <div class="iconfont icon-book"></div>
             </button>
             <h5 v-if="bases" class="mt-1">
-              <span v-if="bases[0]">{{bases[0].role}} OF</span>
-              <span v-if="bases[0]">{{bases[0].name}}</span>
-              <span v-if="bases[0]">[{{bases[0].ticker}}]</span>
+              <span v-if="enemyRankName" class="mr-1">{{enemyRankName}}</span>
+              <span v-if="bases[0] && bases[0].role" class="mr-1">{{bases[0].role}} OF</span>
+              <span v-if="bases[0] && bases[0].name" class="mr-1">{{bases[0].name}}</span>
+              <span v-if="bases[0] && bases[0].ticker">[{{bases[0].ticker}}]</span>
             </h5>
             <div v-for="base in bases" :key="base.id">
               <button
@@ -387,6 +388,7 @@ export default {
       isOpen: false,
       active: false,
       privateAttack: true,
+      enemyProd:0
     };
   },
   components: {
@@ -533,6 +535,32 @@ export default {
       if (self.action_type === 'attack') return cost + (cost * distance) / 100;
       return cost + (cost * distance) / 200;
     },
+    enemyRankName(){
+      let rank = 10;
+      let names = ['weak','recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
+      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      let userprod = this.enemyProd; 
+      rank = Math.floor((userprod/totalprod)*10)
+      return names[rank];
+    },
+    enemyMaxSupply(){
+      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      let userprod = this.enemyProd; 
+      let rank =  Math.floor((userprod/totalprod)*10)
+      if(rank === 0)
+      rank = 1
+      let max_supply = rank * 10000
+      return max_supply
+    },
+    maxSupply(){
+      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      let userprod = this.$store.state.game.user.total_production; 
+      let rank =  Math.floor((userprod/totalprod)*10)
+      if(rank === 0)
+      rank = 1
+      let max_supply = rank * 10000
+      return max_supply
+    }
   },
   methods: {
     ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
@@ -561,7 +589,8 @@ export default {
       const self = this;
       self.bases = null;
       client.requestAsync('get_user_bases', self.targetNickname).then(result => {
-        self.bases = result;
+        self.bases = result[0];
+        self.enemyProd = result[1][0].prod_rate
         self.isLoading = false;
       });
     },

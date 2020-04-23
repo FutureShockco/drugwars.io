@@ -2,8 +2,10 @@
     <Header>
         <UiTabs>
             <UiTab to="/units">Units</UiTab>
+            <!-- <UiTab to="/units/defense">Defense</UiTab> -->
             <UiTab to="/units/training">Training</UiTab>
             <UiTab to="/units/settings">Settings</UiTab>
+            <UiTab to="/units/help">Help</UiTab>
         </UiTabs>
         <div class="coordbase text-right" v-if="base">
             <div class="text text-blue tab name" v-if="main">

@@ -19,7 +19,7 @@
             <h5 class="production mt-0">
                 <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
                   <span>
-                    {{player.gang}}'s {{player.role}}
+                    {{player.name}}'s {{player.role}}
                     <div>[{{ player.ticker }}]</div>
                   </span>
                 </router-link>

@@ -33,7 +33,7 @@ const BuildingDetail = () =>
 const DrugDetail = () => import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
-// const UnitsDefense = () => import(/* webpackChunkName: "unitsdefense" */ '@/views/Bootcamp/Defense.vue');
+const UnitsBunker = () => import(/* webpackChunkName: "unitsbunker" */ '@/views/Bootcamp/Bunker.vue');
 const UnitsSettings = () =>
   import(/* webpackChunkName: "unitssettings" */ '@/views/Bootcamp/Settings.vue');
 const UnitsHelp = () =>
@@ -277,6 +277,12 @@ export default new Router({
       name: 'unitshelp',
       beforeEnter: requireAuth,
       component: UnitsHelp,
+    },
+    {
+      path: '/units/bunker',
+      name: 'unitsbunker',
+      beforeEnter: requireAuth,
+      component: UnitsBunker,
     },
     {
       path: '/units/settings',

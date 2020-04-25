@@ -2,7 +2,7 @@
     <div v-if="units">
         <div v-for="unit in units" v-if="unit.amount !== 0" :key="unit.key" class="d-inline-block mx-1 my-1 text-center all" @click="handleClick(unit.key)">
             <img  class="preview unit mini" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`">
-                       <i class="iconfont icon-diff-removed"></i>
+            <i v-if="!disableicon" class="iconfont icon-diff-removed"></i>
             <div>
                 <span v-if="withDead && unit.dead">
               <span :class="{ 'text-red' : unit.dead }">
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  props: ['units', 'withDead'],
+  props: ['units', 'withDead', 'disableicon'],
   computed: {
     randomPickBkg() {
       const rnd = Math.floor(Math.random() * Math.floor(process.env.VUE_APP_COMMON_RND_BKG)) + 1;
@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     handleClick(key) {
+      if(!this.disableicon)
       this.$parent.$data.selectedUnits = this.units.filter(unit => unit.key != key);
     },
   },

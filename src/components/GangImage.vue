@@ -3,11 +3,13 @@
           'width': `${size}px`,
           'height': `${size}px`,
         }">
-        <span v-if="image" class="avatar-img" :style="{
-            'background-image': `url(https://steemitimages.com/${size}x${size}/${image}`,
+        <span class="avatar-img" :style="{
+            'background-image': `url(${image})`,
+            'background-size': `contain`,
             'width': `${size}px`,
             'height': `${size}px`,
            }" />
+           
         <span class="avatar-border" />
     </div>
 </template>

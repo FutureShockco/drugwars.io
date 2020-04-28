@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import client from '@/helpers/client';
 import dsteem from '@/helpers/dsteem';
+import sc from '@/helpers/steemlogin';
 
 const state = {
   username: null,
@@ -29,6 +30,7 @@ const actions = {
     new Promise(resolve => {
       if (localStorage.getItem('access_token')) {
         const token = localStorage.getItem('access_token');
+        sc.setAccessToken(token);
         client
           .requestAsync('login', { token })
           .then(result => {

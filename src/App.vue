@@ -18,11 +18,7 @@
         >Follow us on Youtube</a>
         <button class="button button-red" id="show-modal" @click="closeModal()">Close</button>
       </UiCenter>
-      <!-- <UiCenter v-if="!isConnected" class="vue-ui-modal pt-2 pb-7 youtube">
-              <h5>A new patch has been released!</h5>
-              <div class="text-red" >Try to reconnect</div>
-    				<button class="button button-green" id="show-modal"  @click="forceReconnect()" >Reconnect</button>
-      </UiCenter>-->
+
       <TopNav v-if="username" />
       <Sidebars v-if="username && showSidebar" />
       <!-- <BottomNav v-if="username"/> -->
@@ -35,10 +31,10 @@
       />
     </template>
     <Notifications />
-    <!-- <UiCenter v-if="username && checkTime && timeIsopen" class="vue-ui-modal pt-2 pb-7 youtube">
+    <UiCenter v-if="username && checkTime && timeIsopen" class="vue-ui-modal pt-2 pb-7 youtube">
        <p>We detected an issue with your clock. Please check your local date time to avoid any display issue!</p>
     				<button class="button button-red" id="show-modal" @click="closeTimeModal()">Close</button>
-    </UiCenter>-->
+    </UiCenter>
     <cookie-law style="z-index:99999">
       <div slot="message">
         <h3

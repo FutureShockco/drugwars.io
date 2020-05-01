@@ -575,24 +575,25 @@ const actions = {
     }),
   requestPayment: ({ rootState, dispatch }, { memo, amount }) => {
     const { username } = rootState.auth;
-    if(window._steemconnect){
-      let op =  {
-        from: username,
-        to: dealerSteemUsername,
-        amount: amount.split(' ')[0] +' STEEM',
-        memo:memo
-      };
-      window._steemconnect.send('transfer', op, function(error,result){
-        if(result)
-        {
-          console.log('success');
-          Promise.delay(7000).then(() => {
-            dispatch('init');
-          });
-        }
-      })
-    }
-    else if (window.steem_keychain && window.steem_keychain.current_id) {
+    // if(window._steemconnect){
+    //   let op =  {
+    //     from: username,
+    //     to: dealerSteemUsername,
+    //     amount: amount.split(' ')[0] +' STEEM',
+    //     memo:memo
+    //   };
+    //   window._steemconnect.send('transfer', op, function(error,result){
+    //     if(result)
+    //     {
+    //       console.log('success');
+    //       Promise.delay(7000).then(() => {
+    //         dispatch('init');
+    //       });
+    //     }
+    //   })
+    // }
+    //else 
+    if (window.steem_keychain && window.steem_keychain.current_id) {
       window.steem_keychain.requestTransfer(
         username,
         dealerSteemUsername,

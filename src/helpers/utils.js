@@ -165,7 +165,7 @@ const unitValues = (unit, trainings) => {
   const values = {
     attack: parseFloat(attack).toFixed(0),
     defense: parseFloat(defense).toFixed(0),
-    health,
+    health: parseFloat(health).toFixed(0),
   };
   return values;
 };

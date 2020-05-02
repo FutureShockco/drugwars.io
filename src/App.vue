@@ -31,10 +31,10 @@
       />
     </template>
     <Notifications />
-    <UiCenter v-if="username && checkTime && timeIsopen" class="vue-ui-modal pt-2 pb-7 youtube">
+    <!-- <UiCenter v-if="username && checkTime && timeIsopen" class="vue-ui-modal pt-2 pb-7 youtube">
        <p>We detected an issue with your clock. Please check your local date time to avoid any display issue!</p>
     				<button class="button button-red" id="show-modal" @click="closeTimeModal()">Close</button>
-    </UiCenter>
+    </UiCenter> -->
     <cookie-law style="z-index:99999">
       <div slot="message">
         <h3
@@ -59,6 +59,7 @@ export default {
       attempt: 1,
       connected: false,
       timeIsopen: false,
+      firstLoad:true,
     };
   },
   components: { CookieLaw },
@@ -75,17 +76,18 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
-    checkTime() {
-      if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time) {
-        const diff = Math.abs(this.$store.state.game.prizeProps.server_time - new Date().getTime());
-        if (diff > 150000) {
-          this.timeIsopen = true;
-          return true;
-        }
-        return false;
-      }
-      return false;
-    },
+    // checkTime() {
+    //   if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time && this.firstLoad) {
+    //     this.firstLoad = false;
+    //     const diff = Math.abs(this.$store.state.game.prizeProps.server_time - new Date().getTime());
+    //     if (diff > 1500000) {
+    //       this.timeIsopen = true;
+    //       return true;
+    //     }
+    //     return false;
+    //   }
+    //   return false;
+    // },
   },
 
   methods: {

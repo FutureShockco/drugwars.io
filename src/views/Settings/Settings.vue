@@ -19,6 +19,10 @@
                 <div v-if="alert.isActive" class="iconfont icon-mute">Stop alerts on incoming Attacks</div>
                 <div v-else class="iconfont icon-unmute">Activate alerts on incoming Attacks</div>
             </a>
+            <div class="mt-3">
+            Use this button if you have any issue with loading, deleting squads.
+            <button class="btn button button-large button-red mt-2" @click="deleteFavCompo()">Delete Favorite Squads</button>
+            </div>
         </div>
     </div>
 </template>
@@ -88,6 +92,9 @@ export default {
       localStorage.setItem('attack_alert', false);
       alert.isActive = false; // eslint-disable-line no-param-reassign
     },
+    deleteFavCompo(){
+      localStorage.removeItem('fav_combi');
+    }
   },
 };
 </script>

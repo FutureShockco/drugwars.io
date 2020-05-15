@@ -31,8 +31,7 @@
             <ActionsValue :result="json.attacker.start_value" :lose="json.attacker.end_value" />
           </div>
           <h5 v-if="fight.attacker_reward && Number(fight.attacker_reward)>0.001">REWARDS :</h5>
-          <div v-if="fight.result === 3 && fight.attacker_reward  && Number(fight.attacker_reward)>0.001">{{parseFloat(Number(fight.attacker_reward)/2).toFixed(3)}} DWD</div>
-          <div v-else-if="fight.attacker_reward  && Number(fight.attacker_reward)>0.001">{{fight.attacker_reward}} DWD</div>
+          <div v-if="fight.attacker_reward  && Number(fight.attacker_reward)>0.001">{{fight.attacker_reward}} DWD</div>
           <h5 v-if="fight.attacker_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.attacker_elo">{{fight.attacker_elo}}</div>
           <div v-if="fight.json.amount">{{fight.json.amount}} Unit(s)</div>

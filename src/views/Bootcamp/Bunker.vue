@@ -257,7 +257,7 @@ export default {
       return cost;
     },
     maxSupply(){
-      let max_supply = this.bunker.lvl * 1000
+      let max_supply = this.bunker.lvl * 2000
       return max_supply
     },
     tooMuchSupply(){

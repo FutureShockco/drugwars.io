@@ -1,103 +1,103 @@
 {
-  "author": "FutureShock",
-  "name": "drugwars.io",
-  "version": "0.7.0",
-  "homepage": "https://drugwars.io",
-  "description": "The drugs are virtual, but the money is real",
-  "license": "MIT",
-  "main": "electron-entry.js",
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "start": "node start.js",
-    "build-electron:linux": "electron-builder --linux",
-    "start-electron": "electron .",
-    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
-    "test:unit": "vue-cli-service test:unit",
-    "build-electron": "npm run build-electron:mac && npm run build-electron:linux && npm run build-electron:win",
-    "build-electron:mac": "electron-builder --mac",
-    "build-electron:win": "electron-builder --win"
-  },
-  "dependencies": {
-    "@vue/ui": "^0.5.2",
-    "apexcharts": "^3.8.5",
-    "auth0-js": "^9.13.1",
-    "auth0-lock": "^11.23.0",
-    "bluebird": "^3.5.3",
-    "cacache": "^13.0.0",
-    "dom-to-image": "^2.6.0",
-    "drugwars": "^0.1.65",
-    "dsteem": "^0.10.1",
-    "express": "^4.16.3",
-    "hexasphere.js": "^0.2.2",
-    "lodash": "^4.17.15",
-    "module": "^1.2.5",
-    "moment": "^2.22.2",
-    "numeral": "^2.0.6",
-    "pretty-ms": "^4.0.0",
-    "primer": "^10.8.1",
-    "serve-static": "^1.13.2",
-    "socket.io-client": "^2.2.0",
-    "sscjs": "0.0.8",
-    "steem-markdown-only": "0.0.7",
-    "steemlogin": "^1.0.0",
-    "three": "^0.104.0",
-    "three-orbitcontrols": "^2.102.1",
-    "url-parse": "^1.4.3",
-    "v-tooltip": "^2.0.3",
-    "vue": "^2.5.17",
-    "vue-analytics": "^5.16.2",
-    "vue-apexcharts": "^1.4.0",
-    "vue-cookie-law": "^1.11.0",
-    "vue-i18n": "^8.0.0",
-    "vue-paypal-checkout": "^3.2.0",
-    "vue-router": "^3.0.1",
-    "vue2-touch-events": "^2.0.0",
-    "vuedraggable": "^2.23.2",
-    "vuejs-paginate": "^2.1.0",
-    "vuex": "^3.0.1"
-  },
-  "devDependencies": {
-    "@types/jest": "^23.3.3",
-    "@vue/cli-plugin-babel": "^3.4.1",
-    "@vue/cli-plugin-eslint": "^3.0.0",
-    "@vue/cli-plugin-unit-jest": "^3.5.0",
-    "@vue/cli-service": "^3.10.0",
-    "@vue/eslint-config-airbnb": "^3.0.0",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "^24.3.1",
-    "electron": "^3.0.0",
-    "electron-builder": "^20.28.0",
-    "eslint-config-prettier": "^3.1.0",
-    "eslint-plugin-prettier": "^3.0.0",
-    "less": "^3.8.1",
-    "less-loader": "^4.1.0",
-    "node-sass": "^4.12.0",
-    "prettier": "1.14.3",
-    "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.17"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
-  "build": {
-    "appId": "io.drugwars.app",
-    "linux": {
-      "target": [
-        "deb",
-        "tar.xz"
-      ]
+    "author": "FutureShock",
+    "name": "drugwars.io",
+    "version": "0.7.0",
+    "homepage": "https://drugwars.io",
+    "description": "The drugs are virtual, but the money is real",
+    "license": "MIT",
+    "main": "electron-entry.js",
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "start": "node start.js",
+        "build-electron:linux": "electron-builder --linux",
+        "start-electron": "electron .",
+        "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
+        "test:unit": "vue-cli-service test:unit",
+        "build-electron": "npm run build-electron:mac && npm run build-electron:linux && npm run build-electron:win",
+        "build-electron:mac": "electron-builder --mac",
+        "build-electron:win": "electron-builder --win"
+    },
+    "dependencies": {
+        "@vue/ui": "^0.5.2",
+        "apexcharts": "^3.8.5",
+        "auth0-js": "^9.13.1",
+        "auth0-lock": "^11.23.0",
+        "bluebird": "^3.5.3",
+        "cacache": "^13.0.0",
+        "dom-to-image": "^2.6.0",
+        "drugwars": "^0.1.68",
+        "dsteem": "^0.10.1",
+        "express": "^4.16.3",
+        "hexasphere.js": "^0.2.2",
+        "lodash": "^4.17.15",
+        "module": "^1.2.5",
+        "moment": "^2.22.2",
+        "numeral": "^2.0.6",
+        "pretty-ms": "^4.0.0",
+        "primer": "^10.8.1",
+        "serve-static": "^1.13.2",
+        "socket.io-client": "^2.2.0",
+        "sscjs": "0.0.8",
+        "steem-markdown-only": "0.0.7",
+        "steemlogin": "^1.0.0",
+        "three": "^0.104.0",
+        "three-orbitcontrols": "^2.102.1",
+        "url-parse": "^1.4.3",
+        "v-tooltip": "^2.0.3",
+        "vue": "^2.5.17",
+        "vue-analytics": "^5.16.2",
+        "vue-apexcharts": "^1.4.0",
+        "vue-cookie-law": "^1.11.0",
+        "vue-i18n": "^8.0.0",
+        "vue-paypal-checkout": "^3.2.0",
+        "vue-router": "^3.0.1",
+        "vue2-touch-events": "^2.0.0",
+        "vuedraggable": "^2.23.2",
+        "vuejs-paginate": "^2.1.0",
+        "vuex": "^3.0.1"
+    },
+    "devDependencies": {
+        "@types/jest": "^23.3.3",
+        "@vue/cli-plugin-babel": "^3.4.1",
+        "@vue/cli-plugin-eslint": "^3.0.0",
+        "@vue/cli-plugin-unit-jest": "^3.5.0",
+        "@vue/cli-service": "^3.10.0",
+        "@vue/eslint-config-airbnb": "^3.0.0",
+        "@vue/test-utils": "^1.0.0-beta.20",
+        "babel-core": "7.0.0-bridge.0",
+        "babel-jest": "^24.3.1",
+        "electron": "^3.0.0",
+        "electron-builder": "^20.28.0",
+        "eslint-config-prettier": "^3.1.0",
+        "eslint-plugin-prettier": "^3.0.0",
+        "less": "^3.8.1",
+        "less-loader": "^4.1.0",
+        "node-sass": "^4.12.0",
+        "prettier": "1.14.3",
+        "sass-loader": "^7.1.0",
+        "vue-template-compiler": "^2.5.17"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
+    ],
+    "build": {
+        "appId": "io.drugwars.app",
+        "linux": {
+            "target": [
+                "deb",
+                "tar.xz"
+            ]
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/FutureShockco/drugwars.git"
+    },
+    "bugs": {
+        "url": "https://github.com/FutureShockco/drugwars/issues"
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/FutureShockco/drugwars.git"
-  },
-  "bugs": {
-    "url": "https://github.com/FutureShockco/drugwars/issues"
-  }
 }

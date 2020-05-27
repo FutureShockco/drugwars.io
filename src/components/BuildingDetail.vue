@@ -183,15 +183,15 @@
         <div v-if="['strategic_center'].includes(building.id)" class="mb-2">
           <div v-if="level">
             <b>Solo Job1:</b>
-              {{new Date((((1*10) * 600000)) - (level *30000*1)) | ms }}
+              {{new Date((((1*10) * 620000)) - (level *30000*1)) | ms }}
           </div>
           <div v-if="level">
             <b>Solo Job5:</b>
-               {{new Date((((5*10) * 600000)) - (level *30000*5)) | ms }}
+               {{new Date((((5*10) * 620000)) - (level *30000*5)) | ms }}
           </div>
           <div v-if="level">
             <b>Solo Job10:</b>
-              {{new Date((((10*10) * 600000)) - (level *30000*10)) | ms }}
+              {{new Date((((10*10) * 620000)) - (level *30000*10)) | ms }}
           </div>
         </div>
         <div v-if="['operation_center'].includes(building.id)" class="mb-2">

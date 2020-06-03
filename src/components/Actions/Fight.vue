@@ -87,8 +87,8 @@
           <div v-if="details && json && json.target && json.target.start_value">
             <ActionsValue :result="json.target.start_value" :lose="json.target.end_value" />
           </div>
-          <h5 v-if="fight.result === 3 && fight.defender_reward  && Number(fight.defender_reward)>0.005">REWARDS :</h5>
-          <div v-if="fight.result === 3 && fight.defender_reward && Number(fight.defender_reward)>0.005">{{fight.defender_reward}} DWD</div>
+          <h5 v-if="fight.result === 3 && fight.defender_reward  && Number(fight.defender_reward)>0.001">REWARDS :</h5>
+          <div v-if="fight.result === 3 && fight.defender_reward && Number(fight.defender_reward)>0.001">{{fight.defender_reward}} DWD</div>
           <h5 v-if="fight.defender_elo">PRESTIGE CHANGE :</h5>
           <div v-if="fight.defender_elo">{{fight.defender_elo}}</div>
         </div>
@@ -104,10 +104,10 @@
           v-if="json && json.target && fight.target_nickname != user.nickname && json.target.detail"
           :detail="json.target.detail"
         />
-        <Share v-if="!timeToWait" :fight="this.fight" :fight_key="this.fight.fight_key" />
+        <Share v-if="!timeToWait && (Number(fight.defender_reward)>0.001 || Number(fight.attacker_reward)>0.001)" :fight="this.fight" :fight_key="this.fight.fight_key" />
         <div
           class="sharemessage"
-          v-if="!timeToWait"
+          v-if="!timeToWait && (Number(fight.defender_reward)>0.001 || Number(fight.attacker_reward)>0.001)"
         >Share your victory on our forum and obtain a chance to get rewarded.</div>
       </div>
       <div v-if="details || fight.is_done === 0" class="text-center">

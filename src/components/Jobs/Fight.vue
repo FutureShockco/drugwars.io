@@ -80,10 +80,10 @@
 					v-if="json && json.target && fight.target_nickname != user.nickname && json.target.detail"
 					:detail="json.target.detail"
 				/>
-				<Share v-if="!timeToWait" :fight="this.fight" :fight_key="this.fight.fight_key"/>
+				<Share v-if="!timeToWait && Number(json.target.loot.dwd)>0.001" :fight="this.fight" :fight_key="this.fight.fight_key"/>
 				<div
 					class="sharemessage"
-					v-if="!timeToWait"
+					v-if="!timeToWait && Number(json.target.loot.dwd)>0.001"
 				>Share your victory on our forum and obtain a chance to get rewarded.</div>
 			</div>
 			<div class="text-center mb-3 mt-3">

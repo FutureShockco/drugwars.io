@@ -65,7 +65,6 @@
         </span>
       </h5>
     </div>
-
     <div v-else-if="player && player.amount" class="column col-5">
       <h5 class="production">
         <span class="mr-3">

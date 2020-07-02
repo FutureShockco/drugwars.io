@@ -15,7 +15,7 @@
       <span
         class="cruelty py-1 px-2"
         v-if="reputation && reputation!=='none'"
-      >Cruelty: {{ reputation }}</span>
+      >Cruelty: {{ reputation /1000 | amount }}</span>
       <span class="cruelty py-1 px-2" v-else-if="!reputation || reputation!=='none'">Cruelty: 0</span>
     </router-link>
   </div>

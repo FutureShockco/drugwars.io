@@ -35,13 +35,13 @@
        <p>We detected an issue with your clock. Please check your local date time to avoid any display issue!</p>
     				<button class="button button-red" id="show-modal" @click="closeTimeModal()">Close</button>
     </UiCenter> -->
-    <cookie-law style="z-index:99999">
+    <!-- <cookie-law style="z-index:99999">
       <div slot="message">
         <h3
           class="text-center text-red"
         >IMPORTANT NOTE: DRUGWARS v0.7 IS RELEASED, DON'T FORGET TO CHOOSE DETROIT AS YOUR CURRENT SERVER IF YOU WERE PLAYING BEFORE THIS UPDATE. THANK YOU FOR YOUR UNDERSTANDING</h3>
       </div>
-    </cookie-law>
+    </cookie-law> -->
   </div>
 </template>
 

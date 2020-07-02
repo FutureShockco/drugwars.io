@@ -2,7 +2,7 @@
   <Header>
     <UiTabs>
       <UiTab to="/leaderboards">Prod</UiTab>
-      <UiTab to="/leaderboards/prestige">Prestige</UiTab>
+      <UiTab to="/leaderboards/cruelty">Cruelty</UiTab>
       <UiTab to="/leaderboards/heist">Heist</UiTab>
       <UiTab to="/leaderboards/fights">Fight</UiTab>
       <UiTab to="/leaderboards/jobs">Job</UiTab>

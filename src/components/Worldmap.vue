@@ -863,7 +863,7 @@ export default {
             return `#${intToHex(redValue)}${intToHex(greenValue)}00`;
           }
 
-          let div = Math.floor(self.all_players / 1350) || 15
+          let div = 15
           const radius = 0.61;
           const divisions = div;
           const tileSize = 0.9;
@@ -891,7 +891,7 @@ export default {
                 if (self.player_territories.find(t => t.territory === count)) {
                   const element = self.player_territories.find(t => t.territory === count);
                   const playercount = element.count;
-                  const riskcolor = redYellowGreen(playercount / 25) || redYellowGreen(0.125);
+                  const riskcolor = redYellowGreen(playercount / 25) || redYellowGreen(playercount / 5) ;
                   material = new THREE.MeshBasicMaterial({ color: riskcolor });
                   material.name = `territory`;
                   material.count = count;
@@ -911,25 +911,27 @@ export default {
                     icon: territoryData.icon,
                   });
 
-                  if (playercount / 25 > 0.15) {
-                    material.userData.risk = 'low';
-                  }
+
                   if (playercount / 25 > 0.25) {
                     material.userData.risk = 'moderate';
                   }
-                  if (playercount / 25 > 0.5) {
+                  else if (playercount / 25 > 0.5) {
                     material.userData.risk = 'considerable';
                   }
-                  if (playercount / 25 > 0.75) {
+                  else if (playercount / 25 > 0.75) {
                     material.userData.risk = 'high';
                   }
-                  if (playercount / 25 > 1) {
+                  else if (playercount / 25 > 1) {
                     material.userData.risk = 'extreme';
                   }
-                  if (playercount / 25 > 1.25) {
+                  else if (playercount / 25 > 1.25) {
                     material.userData.risk = 'pariah';
-                  } else if (playercount / 25 > 1.5) {
+                  } 
+                  else if (playercount / 25 > 1.5) {
                     material.userData.risk = 'incredible';
+                  }
+                  else {
+                    material.userData.risk = 'low';
                   }
                 } else {
                   material = meshMaterials[0];

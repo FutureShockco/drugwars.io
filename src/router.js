@@ -94,8 +94,8 @@ const Jobboard = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Leaderboards/Jobboard.vue');
 const LotteryBoard = () =>
   import(/* webpackChunkName: "lotteryboard" */ '@/views/Leaderboards/LotteryBoard.vue');
-const PrestigeBoard = () =>
-  import(/* webpackChunkName: "prestigeboard" */ '@/views/Leaderboards/PrestigeBoard.vue');
+const CrueltyBoard = () =>
+  import(/* webpackChunkName: "crueltyboard" */ '@/views/Leaderboards/CrueltyBoard.vue');
 
 const DeleteBuilding = () =>
   import(/* webpackChunkName: "jobboard" */ '@/views/Settings/DeleteBuilding.vue');
@@ -483,10 +483,10 @@ export default new Router({
       component: LotteryBoard,
     },
     {
-      path: '/leaderboards/prestige',
-      name: 'prestige',
+      path: '/leaderboards/cruelty',
+      name: 'cruelty',
       beforeEnter: requireAuth,
-      component: PrestigeBoard,
+      component: CrueltyBoard,
     },
     {
       path: '/map',

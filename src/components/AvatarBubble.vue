@@ -14,11 +14,11 @@
             <span class="rank py-1 px-2" v-if="rank">
           Rank: {{ rank }}
         </span>
-                   <span class="prestige py-1 px-2" v-if="reputation">
-          Prestige: {{ reputation }}
+                   <span class="cruelty py-1 px-2" v-if="reputation">
+          Cruelty: {{ reputation }}
         </span>
-                           <span class="prestige py-1 px-2" v-else>
-          Prestige: 1000
+                           <span class="cruelty py-1 px-2" v-else>
+          Cruelty: 0
         </span>
         </div>
     </div>

@@ -1,147 +1,148 @@
 <template>
-    <div class="py-3  px-0 m-1 columns text-center border-bottom">
-        <div class="column col-3 px-0">
-            <Avatar class="mx-2" :size="60" :username="player.nickname" :rank="rank" :rankname="rankname" :picture="player.picture" :reputation="player.reputation" :xp="player.xp" />
-              <span>
-                    <div  class="username text-xs" >{{rankname}}</div>
-                  </span>
-            <div v-if="player.gang" class="username" :class="{ 'text-blue' : player.gang === user.gang }" >
-                {{ player.nickname }}
-            </div>
-            <div v-else class="username text-purple">
-                {{ player.nickname }}
-            </div>
-             <div class="gang-label" v-if="player.ticker">
-                    [{{ player.ticker }}]
-             </div>
-        </div>
-        <div class="column px-0 col-2">
-            <h5 class="production mt-0">
-                <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
-                  <span>
-                    {{player.name}}'s {{player.role}}
-                    <div>[{{ player.ticker }}]</div>
-                  </span>
-                </router-link>
-                <div class="text-green"> Wins :{{ player.wins }}</div>
-                <div class="text-red"> Loses :{{ player.loses }}</div>
-            </h5>
-            <div class="shield mb-2" v-if="shieldEnd">
-                <Icon name="shield" size="36" class="text-gray" />
-                <div class="text-gray">{{ shieldEnd | ms }}</div>
-            </div>
-        </div>
-        <div v-if="player.drug_production_rate" class="column col-3">
-            <h5 class="production">
-                <span class="mr-3">
-              <Icon name="drug" size="22"/>
-              {{ player.drug_production_rate * 60 * 60 * 24 | amount}} / day
-            </span>
-                <span class="mr-3">
-              <Icon name="weapon" size="22"/>
-              {{ player.weapon_production_rate * 60 * 60 * 24 | amount}} / day
-            </span>
-                <span class="mr-3">
-              <Icon name="alcohol" size="22"/>
-              {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}} / day
-            </span>
-            </h5>
-        </div>
-        <div v-else-if="player.drugs && !prestige" class="column col-3">
-            <h5 class="production">
-                <span class="mr-3">
-              DEPOSIT : 
-               <div>
-              <Icon name="drug" size="22"/>
-              {{ player.drugs | amount}}
-              </div>
-            </span>
-            </h5>
-        </div>
-
-        <div v-else-if="player && player.amount" class="column  col-5">
-            <h5 class="production">
-                <span class="mr-3">
-              REWARDS : 
-              <div>
-              +{{ player.amount }}
-              <Icon name="dwd" size="22"/>
-              </div>
-            </span>
-            </h5>
-        </div>
-        <div v-else-if="player && player.ticket" class="column col-7">
-            <h5 class="production float-right">
-                <span class="mr-3">
-              TICKETS : 
-              <div>
-              {{ player.ticket }}
-              </div>
-            </span>
-            </h5>
-        </div>
-        <div v-if="prestige" class="column col-3">
-            <h5 class="production">
-            
-            </h5>
-        </div>
-        <div v-if="player.drug_production_rate && totalRewards" class="column px-0  col-2">
-            <h5 class="production">
-                <span class="mr-3">
-              REWARDS : 
-               <div>
-              <Icon name="dwd" size="22"/>
-               +{{totalRewards.daily | amount }}
-              </div>
-            </span>
-            </h5>
-        </div>
-         <div v-if="player.drugs && !prestige" class="column  px-0  col-2">
-            <h5 class="production">
-              <span class="mr-3">
-              REWARDS : 
-               <div>
-              <Icon name="dwd" size="22"/>
-              +{{ ownHeistReward.amount | amount }}
-              </div>
-            </span>
-            </h5>
-        </div>
-        <div v-if="prestige" class="column  px-0  col-2">
-            <h5 class="production"  v-if="player && rank && rank <11">
-            SEASON 1 PRIZE END JUNE 2020
-            </h5>
-        </div>
-        <div class="column  col-2">
-            <h5 v-if="reward && !prestige" class="production">
-                <span class="mr-3" v-if="player && rank && rank <26">
-               BONUS :
-              <div>
-              {{ Math.round(reward/rank) | amount}}
-              <Icon name="dwd" size="22"/>
-              </div>
-            </span>
-            </h5>
-            <h5 v-else-if="prestige" class="production">
-                <span class="mr-3" v-if="player && rank && rank <11">
-               BONUS :
-              <div>
-              {{ Math.round(100000/rank) | amount}}
-              <Icon name="dwd" size="22"/>
-              </div>
-            </span>
-            </h5>
-            <h5 v-else-if="!prestige" class="production">
-                <span class="mr-3" v-if="player && rank && rank <26">
-               BONUS :
-              <div>
-              {{ Math.round(10/rank) | amount}}
-              <Icon name="dwd" size="22"/>
-              </div>
-            </span>
-            </h5>
-        </div>
+  <div class="py-3 px-0 m-1 columns text-center border-bottom">
+    <div class="column col-3 px-0">
+      <Avatar
+        class="mx-2"
+        :size="60"
+        :username="player.nickname"
+        :rank="rank"
+        :rankname="rankname"
+        :picture="player.picture"
+        :reputation="player.reputation"
+        :xp="player.xp"
+      />
+      <span>
+        <div class="username text-xs">{{rankname}}</div>
+      </span>
+      <div
+        v-if="player.gang"
+        class="username"
+        :class="{ 'text-blue' : player.gang === user.gang }"
+      >{{ player.nickname }}</div>
+      <div v-else class="username text-purple">{{ player.nickname }}</div>
+      <div class="gang-label" v-if="player.ticker">[{{ player.ticker }}]</div>
     </div>
+    <div class="column px-0 col-2">
+      <h5 class="production mt-0">
+        <router-link v-if="player.gang" :to="`/gangs/gang/${player.gang}`">
+          <span>
+            {{player.name}}'s {{player.role}}
+            <div>[{{ player.ticker }}]</div>
+          </span>
+        </router-link>
+        <div class="text-green">Wins :{{ player.wins }}</div>
+        <div class="text-red">Loses :{{ player.loses }}</div>
+      </h5>
+      <div class="shield mb-2" v-if="shieldEnd">
+        <Icon name="shield" size="36" class="text-gray" />
+        <div class="text-gray">{{ shieldEnd | ms }}</div>
+      </div>
+    </div>
+    <div v-if="player.drug_production_rate" class="column col-3">
+      <h5 class="production">
+        <span class="mr-3">
+          <Icon name="drug" size="22" />
+          {{ player.drug_production_rate * 60 * 60 * 24 | amount}} / day
+        </span>
+        <span class="mr-3">
+          <Icon name="weapon" size="22" />
+          {{ player.weapon_production_rate * 60 * 60 * 24 | amount}} / day
+        </span>
+        <span class="mr-3">
+          <Icon name="alcohol" size="22" />
+          {{ player.alcohol_production_rate * 60 * 60 * 24 | amount}} / day
+        </span>
+      </h5>
+    </div>
+    <div v-else-if="player.drugs && !cruelty" class="column col-3">
+      <h5 class="production">
+        <span class="mr-3">
+          DEPOSIT :
+          <div>
+            <Icon name="drug" size="22" />
+            {{ player.drugs | amount}}
+          </div>
+        </span>
+      </h5>
+    </div>
+
+    <div v-else-if="player && player.amount" class="column col-5">
+      <h5 class="production">
+        <span class="mr-3">
+          REWARDS :
+          <div>
+            +{{ player.amount }}
+            <Icon name="dwd" size="22" />
+          </div>
+        </span>
+      </h5>
+    </div>
+    <div v-else-if="player && player.ticket" class="column col-7">
+      <h5 class="production float-right">
+        <span class="mr-3">
+          TICKETS :
+          <div>{{ player.ticket }}</div>
+        </span>
+      </h5>
+    </div>
+    <div v-if="cruelty" class="column col-3">
+      <h5 class="production"></h5>
+    </div>
+    <div v-if="player.drug_production_rate && totalRewards" class="column px-0 col-2">
+      <h5 class="production">
+        <span class="mr-3">
+          REWARDS :
+          <div>
+            <Icon name="dwd" size="22" />
+            +{{totalRewards.daily | amount }}
+          </div>
+        </span>
+      </h5>
+    </div>
+    <div v-if="player.drugs && !cruelty" class="column px-0 col-2">
+      <h5 class="production">
+        <span class="mr-3">
+          REWARDS :
+          <div>
+            <Icon name="dwd" size="22" />
+            +{{ ownHeistReward.amount | amount }}
+          </div>
+        </span>
+      </h5>
+    </div>
+    <div v-if="cruelty" class="column px-0 col-2">
+      <h5 class="production" v-if="player && rank && rank <11">SEASON 2 PRIZE END SEPTEMBER 2020</h5>
+    </div>
+    <div class="column col-2">
+      <h5 v-if="reward && !cruelty" class="production">
+        <span class="mr-3" v-if="player && rank && rank <26">
+          BONUS :
+          <div>
+            {{ Math.round(reward/rank) | amount}}
+            <Icon name="dwd" size="22" />
+          </div>
+        </span>
+      </h5>
+      <h5 v-else-if="cruelty" class="production">
+        <span class="mr-3" v-if="player && rank && rank <11">
+          BONUS :
+          <div>
+            {{ Math.round(10000/rank) | amount}}
+            <Icon name="dwd" size="22" />
+          </div>
+        </span>
+      </h5>
+      <h5 v-else-if="!cruelty" class="production">
+        <span class="mr-3" v-if="player && rank && rank <26">
+          BONUS :
+          <div>
+            {{ Math.round(10/rank) | amount}}
+            <Icon name="dwd" size="22" />
+          </div>
+        </span>
+      </h5>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -149,7 +150,7 @@ import { mapActions } from 'vuex';
 import client from '@/helpers/client';
 
 export default {
-  props: ['player', 'rank', 'reputation', 'reward', 'prestige'],
+  props: ['player', 'rank', 'reputation', 'reward', 'cruelty'],
   data() {
     return {
       isLoading: false,
@@ -162,10 +163,25 @@ export default {
     },
     rankname() {
       let rank = 10;
-      let names = ['weak','recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
+      let names = [
+        'weak',
+        'recruit',
+        'grifter',
+        'outlaw',
+        'enforcer',
+        'smuggler',
+        'lieutenant',
+        'boss',
+        'legend',
+        'divine',
+        'immortal',
+      ];
       let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = (this.player.drug_production_rate +this.player.weapon_production_rate + this.player.alcohol_production_rate); 
-      rank = Math.floor((userprod/totalprod)*10)
+      let userprod =
+        this.player.drug_production_rate +
+        this.player.weapon_production_rate +
+        this.player.alcohol_production_rate;
+      rank = Math.floor((userprod / totalprod) * 10);
       return names[rank];
     },
     shieldEnd() {

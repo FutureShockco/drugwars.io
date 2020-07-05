@@ -8,14 +8,20 @@
       :class="{ progress: inProgress, 'not-enough': hasNotEnough }"
     >
       <div class="mr-3">
-        <img  v-tooltip="building.desc"  class="preview" :src="`//img.drugwars.io/buildings/${building.id}.jpg`" />
+        <img
+          v-tooltip="building.desc"
+          class="preview"
+          :src="`//img.drugwars.io/buildings/${building.id}.jpg`"
+        />
       </div>
       <div class="level">{{ ownItem.lvl }}</div>
       <div class="item-content width-full mr-3 mb-4">
         <router-link :to="`/buildings/detail?name=${building.id}`">
           <h5>{{ building.name }}</h5>
         </router-link>
+        <div v-if="(building.id === 'strategic_center' && ownItem.lvl > 204)"></div>
         <Cost
+          v-else
           :drugsCost="drugsCost"
           :weaponsCost="weaponsCost"
           :alcoholsCost="alcoholsCost"
@@ -71,7 +77,9 @@
         </div>-->
       </div>
       <div class="mx-auto">
+        <div v-if="(building.id === 'strategic_center' && ownItem.lvl > 204)">Max level reached</div>
         <Checkout
+          v-else
           :id="building.id"
           :level="ownItem.lvl + 1"
           :coeff="building.coeff"

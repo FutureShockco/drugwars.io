@@ -49,23 +49,23 @@
         >
           <div v-if="ownItem.lvl">
             <b>Current capacity:</b>
-            {{ 10000+ (35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl) / 100)) * ownItem.lvl | amount }}
+            {{ 10000+ (18000 * ownItem.lvl * (Math.sqrt(ownItem.lvl) / 100)) * ownItem.lvl | amount }}
           </div>
           <div v-if="ownItem.lvl">
             <b>Next capacity:</b>
-            {{ 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250- (ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) | amount }}
+            {{ 10000+(18000 * (ownItem.lvl+1) * (Math.sqrt( (ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) | amount }}
           </div>
           <div v-else>
             <b>Next capacity:</b>
-            {{ 10000+(35000 * 1 * ((Math.sqrt(250- 1)) / 100)) * 1 | amount }}
+            {{ 10000+(18000 * 1 * ((Math.sqrt( 1)) / 100)) * 1 | amount }}
           </div>
           <div v-if="ownItem.lvl">
             <b>Safe:</b>
-            {{ ( 10000+(35000 * ownItem.lvl * (Math.sqrt(250-ownItem.lvl)) / 100) * ownItem.lvl ) /100*20 | amount }}
+            {{ ( 10000+(18000 * ownItem.lvl * (Math.sqrt(ownItem.lvl)) / 100) * ownItem.lvl ) /100*20 | amount }}
           </div>
           <div v-if="ownItem.lvl">
             <b>Next Safe:</b>
-            {{ ( 10000+(35000 * (ownItem.lvl+1) * (Math.sqrt(250-(ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) ) /100*20 | amount }}
+            {{ ( 10000+(18000 * (ownItem.lvl+1) * (Math.sqrt((ownItem.lvl+1)) / 100)) * (ownItem.lvl+1) ) /100*20 | amount }}
           </div>
           <div v-else>
             <b>Safe:</b>
@@ -96,7 +96,6 @@
 <script>
 import { utils, upgrades } from 'drugwars';
 import { getBalances } from '@/helpers/utils';
-import { pickBy } from 'lodash';
 
 export default {
   props: ['building'],

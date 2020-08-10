@@ -330,7 +330,7 @@ export default {
       } else {
         timer += distance * 2;
       }
-      return (timer = (timer - (timer / 200) * reduce) * 1000);
+      return (timer = (timer - (timer / 220) * reduce) * 1000);
     },
     cost() {
       const self = this;

@@ -388,7 +388,7 @@ export default {
       isOpen: false,
       active: false,
       privateAttack: true,
-      enemyProd:0
+      enemyProd: 0,
     };
   },
   components: {
@@ -517,7 +517,7 @@ export default {
       } else {
         timer += distance * 2;
       }
-      return (timer = (timer - (timer / 200) * reduce) * 1000);
+      return (timer = (timer - (timer / 220) * reduce) * 1000);
     },
     cost() {
       const self = this;
@@ -535,32 +535,42 @@ export default {
       if (self.action_type === 'attack') return cost + (cost * distance) / 100;
       return cost + (cost * distance) / 200;
     },
-    enemyRankName(){
+    enemyRankName() {
       let rank = 10;
-      let names = ['weak','recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
-      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = this.enemyProd; 
-      rank = Math.floor((userprod/totalprod)*10)
+      const names = [
+        'weak',
+        'recruit',
+        'grifter',
+        'outlaw',
+        'enforcer',
+        'smuggler',
+        'lieutenant',
+        'boss',
+        'legend',
+        'divine',
+        'immortal',
+      ];
+      const totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      const userprod = this.enemyProd;
+      rank = Math.floor((userprod / totalprod) * 10);
       return names[rank];
     },
-    enemyMaxSupply(){
-      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = this.enemyProd; 
-      let rank =  Math.floor((userprod/totalprod)*10)
-      if(rank === 0)
-      rank = 1
-      let max_supply = rank * 10000
-      return max_supply
+    enemyMaxSupply() {
+      const totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      const userprod = this.enemyProd;
+      let rank = Math.floor((userprod / totalprod) * 10);
+      if (rank === 0) rank = 1;
+      const max_supply = rank * 10000;
+      return max_supply;
     },
-    maxSupply(){
-      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = this.$store.state.game.user.total_production; 
-      let rank =  Math.floor((userprod/totalprod)*10)
-      if(rank === 0)
-      rank = 1
-      let max_supply = rank * 10000
-      return max_supply
-    }
+    maxSupply() {
+      const totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      const userprod = this.$store.state.game.user.total_production;
+      let rank = Math.floor((userprod / totalprod) * 10);
+      if (rank === 0) rank = 1;
+      const max_supply = rank * 10000;
+      return max_supply;
+    },
   },
   methods: {
     ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
@@ -590,7 +600,7 @@ export default {
       self.bases = null;
       client.requestAsync('get_user_bases', self.targetNickname).then(result => {
         self.bases = result[0];
-        self.enemyProd = result[1][0].prod_rate
+        self.enemyProd = result[1][0].prod_rate;
         self.isLoading = false;
       });
     },
@@ -709,14 +719,14 @@ export default {
         this.resetForm();
         this.missions(payload)
           .then(() => {
-            if(self.action_type ==="occupy")        
-            Promise.delay(5000).then(() => {
-              self.init();
-            });
+            if (self.action_type === 'occupy')
+              Promise.delay(5000).then(() => {
+                self.init();
+              });
             else
-            Promise.delay(3000).then(() => {
-              self.init();
-            });
+              Promise.delay(3000).then(() => {
+                self.init();
+              });
             this.isLoading = false;
           })
           .catch(e => {

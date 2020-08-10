@@ -46,7 +46,9 @@
 
     <div></div>
     <div class="mx-auto">
+      <div v-if="(training.id === 'routing' && ownItem.lvl > 209)">Max level reached</div>
       <CheckoutTraining
+        v-else
         :id="training.id"
         :level="ownItem.lvl + 1"
         :coeff="training.coeff"

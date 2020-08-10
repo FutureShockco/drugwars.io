@@ -41,6 +41,9 @@ export default {
       if (this.$store.state.auth.account) return this.$store.state.auth.account;
       return 0;
     },
+    server() {
+      return this.$store.state.game.server;
+    },
   },
   methods: {
     ...mapActions(['shareFight', 'notify']),
@@ -131,6 +134,7 @@ export default {
                             content: 'fight',
                             tags: ['drugwars-fight', 'gaming', 'fight', 'dw'],
                             app: 'drugwars',
+                            server: this.server.name
                           }),
                         },
                       ],

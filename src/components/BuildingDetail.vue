@@ -38,11 +38,11 @@
         >
           <div v-if="level">
             <b>Storage:</b>
-            {{ 10000+ (35000 * level * (Math.sqrt(250-level) / 100)) * level | amount }}
+            {{ 10000+ (18000 * level * (Math.sqrt(level) / 100)) * level | amount }}
           </div>
           <div v-if="level">
             <b>Safe:</b>
-            {{ ( 10000+(35000 * level * (Math.sqrt(250-level)) / 100) * level ) /100*20 | amount }}
+            {{ ( 10000+(18000 * level * (Math.sqrt(level)) / 100) * level ) /100*20 | amount }}
           </div>
           <div v-else>
             <b>Safe:</b>

@@ -532,8 +532,8 @@ export default {
           cost += units[unit.key].move_cost * unit.amount;
         }
       });
-      if (self.action_type === 'attack') return cost + (cost * distance) / 100;
-      return cost + (cost * distance) / 200;
+      if (self.action_type === 'attack') return (cost * distance) / 100;
+      return (cost * distance) / 200;
     },
     enemyRankName() {
       let rank = 10;

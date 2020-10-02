@@ -110,7 +110,7 @@
       </h5>
     </div>
     <div v-if="cruelty" class="column px-0 col-2">
-      <h5 class="production" v-if="player && rank && rank <11">SEASON 2 PRIZE END SEPTEMBER 2020</h5>
+      <h5 class="production" v-if="player && rank && rank <11">SEASON 3 PRIZE END DECEMBER 2020</h5>
     </div>
     <div class="column col-2">
       <h5 v-if="reward && !cruelty" class="production">
@@ -162,7 +162,7 @@ export default {
     },
     rankname() {
       let rank = 10;
-      let names = [
+      const names = [
         'weak',
         'recruit',
         'grifter',
@@ -175,8 +175,8 @@ export default {
         'divine',
         'immortal',
       ];
-      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod =
+      const totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      const userprod =
         this.player.drug_production_rate +
         this.player.weapon_production_rate +
         this.player.alcohol_production_rate;

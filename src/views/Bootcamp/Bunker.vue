@@ -109,7 +109,7 @@ export default {
       bases: [],
       defenders: [],
       active: false,
-      showUnits:true
+      showUnits: true,
     };
   },
   components: {
@@ -123,7 +123,7 @@ export default {
     ownBase() {
       this.loadDefenders();
     },
-     ownUnits() {
+    ownUnits() {
       const units = [];
       this.storeUnits.forEach(element => {
         if (
@@ -149,7 +149,7 @@ export default {
     nickname() {
       return this.$store.state.game.user.user.nickname;
     },
-    user(){
+    user() {
       return this.$store.state.game.user.user;
     },
     ownUnits() {
@@ -168,19 +168,19 @@ export default {
           });
       });
       setTimeout(() => {
-              self.showUnits = true;
+        self.showUnits = true;
       }, 100);
       return units;
     },
-    storeUnits(){
-      return this.$store.state.game.user.units
+    storeUnits() {
+      return this.$store.state.game.user.units;
     },
     defendersupply() {
       let supply = 0;
-      if(this.defenders.length>0)
-      this.defenders.forEach(unit => {
-        supply += units[unit.key].supply * unit.amount;
-      });
+      if (this.defenders.length > 0)
+        this.defenders.forEach(unit => {
+          supply += units[unit.key].supply * unit.amount;
+        });
       return supply;
     },
     supply() {
@@ -202,8 +202,8 @@ export default {
       );
       if (coordination) power += parseInt(coordination.lvl) / 10;
       if (power >= 100) return 100;
-      if (power >= 60) return power;
-      return 60;
+      if (power >= 65) return power;
+      return 65;
     },
     offensivePower() {
       let supply = 0;
@@ -232,12 +232,12 @@ export default {
       );
       if (coordination) power += parseInt(coordination.lvl) / 10;
       if (power >= 100) return 100;
-      if (power >= 60) return power;
-      return 60;
+      if (power >= 65) return power;
+      return 65;
     },
     cost() {
       const self = this;
-      let cost = { drugs: 0, weapons: 0, alcohol: 0 };
+      const cost = { drugs: 0, weapons: 0, alcohol: 0 };
       this.selectedUnits.forEach(unit => {
         cost.drugs += units[unit.key].drugs_cost * unit.amount;
         cost.weapons += units[unit.key].weapons_cost * unit.amount;
@@ -247,21 +247,21 @@ export default {
     },
     defendercost() {
       const self = this;
-      let cost = { drugs: 0, weapons: 0, alcohol: 0 };
-      if(this.defenders && this.defenders.length>0)
-      this.defenders.forEach(unit => {
-        cost.drugs += units[unit.key].drugs_cost * unit.amount;
-        cost.weapons += units[unit.key].weapons_cost * unit.amount;
-        cost.alcohol += units[unit.key].alcohols_cost * unit.amount;
-      });
+      const cost = { drugs: 0, weapons: 0, alcohol: 0 };
+      if (this.defenders && this.defenders.length > 0)
+        this.defenders.forEach(unit => {
+          cost.drugs += units[unit.key].drugs_cost * unit.amount;
+          cost.weapons += units[unit.key].weapons_cost * unit.amount;
+          cost.alcohol += units[unit.key].alcohols_cost * unit.amount;
+        });
       return cost;
     },
-    maxSupply(){
-      let max_supply = this.bunker.lvl * 2000
-      return max_supply
+    maxSupply() {
+      const max_supply = this.bunker.lvl * 2000;
+      return max_supply;
     },
-    tooMuchSupply(){
-     return this.supply > this.maxSupply
+    tooMuchSupply() {
+      return this.supply > this.maxSupply;
     },
     bunker() {
       return (
@@ -270,7 +270,7 @@ export default {
             b.building === 'bunker' &&
             b.base === this.$store.state.game.mainbase.base &&
             b.territory === this.$store.state.game.mainbase.territory,
-      ) || {
+        ) || {
           lvl: 0,
         }
       );
@@ -279,7 +279,7 @@ export default {
   methods: {
     ...mapActions(['missions', 'init', 'get_bases', 'setBase']),
     loadDefenders() {
-      this.defenders =[];
+      this.defenders = [];
       const params = { base: this.ownBase.base, territory: this.ownBase.territory };
       client.requestAsync('get_defenders', params).then(result => {
         if (result && result[0] && result[0].json) {
@@ -291,27 +291,27 @@ export default {
     autoFill() {
       const fillunits = [];
       this.ownUnits.forEach(element => {
-        if(element.key !== 'spy' && element.key !== 'occupation_troop' && element.key !== 'hobo')
-        {
-        fillunits.push(element)
+        if (element.key !== 'spy' && element.key !== 'occupation_troop' && element.key !== 'hobo') {
+          fillunits.push(element);
         }
       });
       fillunits.forEach(element => {
-          if(!this.selectedUnits.find(u=> u.key === element.key) && (this.supply)< (this.maxSupply /100 *85))
-          {
-            let amount = Math.floor((this.maxSupply/fillunits.length) / units[element.key].supply)
-            if(amount > element.amount)
-            {
-              amount = element.amount
-            }
-            this.selectedUnits.push({
-                key: element.key, 
-                amount:amount,
-              });
-            fillunits.splice(0,1)
+        if (
+          !this.selectedUnits.find(u => u.key === element.key) &&
+          this.supply < (this.maxSupply / 100) * 85
+        ) {
+          let amount = Math.floor(this.maxSupply / fillunits.length / units[element.key].supply);
+          if (amount > element.amount) {
+            amount = element.amount;
           }
+          this.selectedUnits.push({
+            key: element.key,
+            amount,
+          });
+          fillunits.splice(0, 1);
+        }
       });
-      this.autoFill()
+      this.autoFill();
     },
     resetForm() {
       this.target = null;
@@ -338,19 +338,18 @@ export default {
         units: this.selectedUnits,
         type: 'save-defense',
       };
-        this.missions(payload)
-          .then(() => {
-            Promise.delay(3000).then(() => {
-              self.loadDefenders();
-              self.init();
-              this.isLoading = false;
-            });
-          })
-          .catch(e => {
-            console.error('Failed to start a fight=', e);
+      this.missions(payload)
+        .then(() => {
+          Promise.delay(3000).then(() => {
+            self.loadDefenders();
+            self.init();
             this.isLoading = false;
           });
-       
+        })
+        .catch(e => {
+          console.error('Failed to start a fight=', e);
+          this.isLoading = false;
+        });
     },
     handleRelease() {
       this.isLoading = true;
@@ -362,18 +361,18 @@ export default {
         from_base: Number(self.ownBase.base),
         type: 'release-defense',
       };
-        this.missions(payload)
-          .then(() => {
-            Promise.delay(3000).then(() => {
-              self.loadDefenders();
-              self.init();
-              this.isLoading = false;
-            });
-          })
-          .catch(e => {
-            console.error('Failed to start a fight=', e);
+      this.missions(payload)
+        .then(() => {
+          Promise.delay(3000).then(() => {
+            self.loadDefenders();
+            self.init();
             this.isLoading = false;
           });
+        })
+        .catch(e => {
+          console.error('Failed to start a fight=', e);
+          this.isLoading = false;
+        });
     },
     async validateForm(type) {
       this.errorMessage = null;

@@ -276,8 +276,8 @@ export default {
       );
       if (coordination) power += parseInt(coordination.lvl) / 10;
       if (power >= 100) return 100;
-      if (power >= 60) return power;
-      return 60;
+      if (power >= 65) return power;
+      return 65;
     },
     offensivePower() {
       let supply = 0;

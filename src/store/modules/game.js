@@ -152,12 +152,12 @@ const actions = {
                           b.base !== null
                       ),
                     );
-
+                  dispatch('refresh_fights_count');
+                  dispatch('refresh_transport_count');
+                  dispatch('refresh_station_count');
+                  resolve();
                 })
-                dispatch('refresh_fights_count');
-                dispatch('refresh_transport_count');
-                dispatch('refresh_station_count');
-                resolve();
+
               });
             } else {
               dispatch('signup').then(() => {

@@ -132,7 +132,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.HQ,
+        this.base,
         ocLvl,
         labLvl,
         weaponLvl,

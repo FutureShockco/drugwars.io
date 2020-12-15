@@ -56,7 +56,6 @@
 <script>
 import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
-import { getBalances } from '@/helpers/utils';
 
 export default {
   props: ['inProgress'],

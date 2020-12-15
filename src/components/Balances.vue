@@ -84,22 +84,15 @@
 </template>
 
 <script>
-import { getBalances, getCapPerBase, getProdPerBase} from '@/helpers/utils';
+import { getBalances, getCapPerBase, getProdPerBase } from '@/helpers/utils';
 import { buildings } from 'drugwars';
 
 export default {
   computed: {
-    timeToWait() {
-      const midnight = new Date().setUTCHours(24, 0, 0, 0);
-      return midnight - this.$store.state.ui.timestamp;
-    },
     prizeProps() {
       return this.$store.state.game.prizeProps;
     },
-    total() {
-      const prizePops = this.$store.state.game.prizeProps;
-      return prizePops.daily_percent + prizePops.heist_percent;
-    },
+
     totalDailyDWD() {
       const prizePops = this.$store.state.game.prizeProps;
       return prizePops.daily_percent;
@@ -117,7 +110,7 @@ export default {
     production() {
       return getProdPerBase(this.base);
     },
-    userDrugProduction() {
+    userTotalDrugProduction() {
       const allHQ = this.$store.state.game.bases;
       let production = 0;
       allHQ.forEach((hq) => {
@@ -140,7 +133,7 @@ export default {
       return production;
     },
     base() {
-      return this.$store.state.game.selectedBase;
+      return this.$store.state.game.selectedBase || [];
     },
     booster() {
       const date = new Date().getTime() / 1000;
@@ -148,35 +141,24 @@ export default {
     },
     balances() {
       let ocLvl = 0;
-      if (
-        this.$store.state.game.selectedBase.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
+      if ( this.base && 
+        this.base.buildings.find((b) => b.name === 'operation_center')
       ) {
         ocLvl =
-          this.$store.state.game.selectedBase.buildings.find(
-            (b) =>
-              b.building === 'operation_center' &&
-              b.territory === this.base.territory &&
-              b.base === this.base.base,
-          ).lvl || 0;
+          this.base.buildings.find((b) => b.name === 'operation_center')
+            .lvl || 0;
       }
       let labLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab')
-          .lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find((b) => b.name === 'scientific_lab').lvl;
       let weaponLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(
-          (b) => b.building === 'weapon_center',
-        ).lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find((b) => b.name === 'weapon_center')
+          .lvl;
       let distilleryLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'distillery_school'))
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(
-          (b) => b.building === 'distillery_school',
+          (b) => b.name === 'distillery_school',
         ).lvl;
       return getBalances(
         this.base,
@@ -187,16 +169,12 @@ export default {
         this.$store.state.ui.timestamp,
       );
     },
-    dailyRewards() {
-      const { prizeProps } = this.$store.state.game;
-      return parseFloat(prizeProps.daily_rewards) || 0;
-    },
     totalVest() {
       return this.$store.state.game.user.heist[0] ? this.$store.state.game.user.heist[0].drugs : 0;
     },
     totalRewards() {
       const daily = parseFloat(
-        (this.userDrugProduction / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
+        (this.userTotalDrugProduction / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
       ).toFixed(3);
       return { daily };
     },
@@ -222,24 +200,11 @@ export default {
     },
     drugBonus() {
       let oc = 0;
-      if (
-        this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      )
-        oc = this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        ).lvl;
+      if (this.base.buildings.find((b) => b.name === 'operation_center'))
+        oc = this.base.buildings.find((b) => b.name === 'operation_center').lvl;
       let labLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab')
-          .lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find((b) => b.name === 'scientific_lab').lvl;
 
       return parseFloat(
         this.production.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
@@ -248,25 +213,12 @@ export default {
     },
     weaponBonus() {
       let oc = 0;
-      if (
-        this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      )
-        oc = this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        ).lvl;
+      if (this.base.buildings.find((b) => b.name === 'operation_center'))
+        oc = this.base.buildings.find((b) => b.name === 'operation_center').lvl;
       let weaponLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(
-          (b) => b.building === 'weapon_center',
-        ).lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find((b) => b.name === 'weapon_center')
+          .lvl;
       return parseFloat(
         this.production.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
           this.production.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005,
@@ -274,24 +226,12 @@ export default {
     },
     alcoholBonus() {
       let oc = 0;
-      if (
-        this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      )
-        oc = this.$store.state.game.user.buildings.find(
-          (b) =>
-            b.building === 'operation_center' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        ).lvl;
+      if (this.base.buildings.find((b) => b.name === 'operation_center'))
+        oc = this.base.buildings.find((b) => b.name === 'operation_center').lvl;
       let distilleryLvl = 0;
-      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'distillery_school'))
+      if (this.$store.state.game.gang_buildings.find((b) => b.name === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(
-          (b) => b.building === 'distillery_school',
+          (b) => b.name === 'distillery_school',
         ).lvl;
       return parseFloat(
         this.production.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +

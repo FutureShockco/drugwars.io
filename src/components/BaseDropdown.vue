@@ -2,11 +2,11 @@
     <div v-if="config.prefix" class="dropdown" @click="toggleRiskLevels" :class="{ expanded: isExpanded }">
         <div class="dropdown-label-container">
             <div class="dropdown-label">
-                <span class="text text-blue" v-if="config.prefix.main || config.prefix.custom === 'primary'">
+                <span class="text text-blue" v-if="config.prefix.main || config.prefix.name === 'primary'">
                Primary
                </span>
                 <span class="text text-orange" v-else>
-               {{config.prefix.custom}}
+               {{config.prefix.name}}
             </span>
                 <span class="text" v-if="config.prefix.territory&& config.prefix.base">
               {{config.prefix.territory}} : {{config.prefix.base}}
@@ -16,15 +16,15 @@
         </div>
     
         <div v-expand="isExpanded" class="options expand">
-            <div v-for="building in buildings" :key="building.key">
-                <div class="option" v-if="building.building === 'headquarters'">
+            <div v-for="(building, index) in buildings" :key="index">
+                <div class="option">
                     <router-link class="text-green" :to="`/map/territory?location=${building.territory}`"><i class="iconfont icon-eye mr-1"></i>
                     </router-link>
-                    <span class="text text-blue" v-if="building.main || building.custom === 'primary'" @click="setCurrentSelectedOption(building)">
+                    <span class="text text-blue" v-if="building.main || building.name === 'primary'" @click="setCurrentSelectedOption(building)">
                Primary
             </span>
                     <span class="text text-orange" v-else @click="setCurrentSelectedOption(building)">
-               {{building.custom}}
+               {{building.name}}
             </span>
                     <span class="ml-1">
     				  {{ building.territory }}:{{ building.base }}
@@ -63,7 +63,7 @@ export default {
   components: {},
   computed: {
     buildings() {
-      return this.$store.state.game.user.buildings || null;
+      return this.$store.state.game.bases || null;
     },
     optionsHeight() {
       return this.configOptions.length * this.optionHeight;
@@ -125,12 +125,7 @@ export default {
     },
     setCurrentSelectedOption(building) {
       this.config.prefix = building;
-      const territory = this.config.prefix.territory;
-      const base = this.config.prefix.base;
-      const custom = this.config.prefix.custom;
-      const main = this.config.prefix.main;
-      this.setMainBase({ territory, base, custom, main });
-      // this.$emit("setSelectedOption", building);
+      this.setMainBase(building);
     },
     setConfigData() {
       this.configOptions = this.config.options;
@@ -171,9 +166,9 @@ export default {
         this.config.prefix = this.$store.state.game.selectedBase;
         const territory = this.config.prefix.territory;
         const base = this.config.prefix.base;
-        const custom = this.config.prefix.custom;
+        const name = this.config.prefix.name;
         const main = this.config.prefix.main;
-        this.setMainBase({ territory, base, custom, main });
+        this.setMainBase({ territory, base, name, main });
       }
     }
   },

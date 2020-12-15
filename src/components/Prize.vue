@@ -54,12 +54,16 @@ export default {
   data() {
     return {
       population: null,
-      dwd_price: this.$store.state.game.prizeProps.seProps.lastPrice || 0,
     };
   },
   computed: {
     now() {
       return new Date();
+    },
+    dwd_price(){
+      if(this.$store.state.game.prizeProps.seProps && this.$store.state.game.prizeProps.seProps.lastPrice)
+      return this.$store.state.game.prizeProps.seProps.lastPrice
+      else return 0
     },
     timeToWait() {
       const midnight = new Date().setUTCHours(24, 0, 0, 0);

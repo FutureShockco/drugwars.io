@@ -101,7 +101,6 @@
 </template>
 
 <script>
-import { getBalances } from '@/helpers/utils';
 
 export default {
   props: ['card'],

@@ -27,7 +27,7 @@
       <span>${{ price | amount }} =
       {{ priceInSteem }} STEEM</span>
     </button>
-    <button
+    <button v-if="dwdPrice"
       :disabled="isLoading || waitingConfirmation || requireUpdate || notEnoughDWD  || !base"
       @click="handleSubmit('dwd')"
       class="button btn-block button-yellow mb-2"
@@ -73,6 +73,8 @@ export default {
       return false;
     },
     dwdPrice() {
+      if(!this.$store.state.game.prizeProps.seProps || this.$store.state.game.prizeProps.seProps.lastPrice)
+      return false
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },

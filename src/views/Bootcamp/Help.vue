@@ -28,24 +28,22 @@ export default {
     };
   },
   computed: {
-      unitsByPriority(){
-          let allunits =[];
-          for (let [key, value] of Object.entries(units)) {
-                value.key = key
-                if(!value.npc)
-                allunits.push(value)
-            }
-          return allunits.sort((a, b) => a.priority - b.priority);
-      },
-      npcByPriority(){
-          let allunits =[];
-          for (let [key, value] of Object.entries(units)) {
-                value.key = key
-                if(value.npc)
-                allunits.push(value)
-            }
-          return allunits.sort((a, b) => a.priority - b.priority);
+    unitsByPriority() {
+      const allunits = [];
+      for (const [key, value] of Object.entries(units)) {
+        value.key = key;
+        if (!value.npc) allunits.push(value);
       }
+      return allunits.sort((a, b) => a.priority - b.priority);
+    },
+    npcByPriority() {
+      const allunits = [];
+      for (const [key, value] of Object.entries(units)) {
+        value.key = key;
+        if (value.npc) allunits.push(value);
+      }
+      return allunits.sort((a, b) => a.priority - b.priority);
+    },
   },
 };
 </script>

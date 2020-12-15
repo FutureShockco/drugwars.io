@@ -51,7 +51,14 @@ export default {
   },
   computed: {
     amountOfDWD() {
-      return parseFloat(this.item.price / this.$store.state.game.prizeProps.steemprice / Number(this.$store.state.game.prizeProps.seProps.lastPrice)/2).toFixed(0) ;
+      if(!this.$store.state.game.prizeProps.seProps || this.$store.state.game.prizeProps.seProps.lastPrice)
+      return false
+      return parseFloat(
+        this.item.price /
+          this.$store.state.game.prizeProps.steemprice /
+          Number(this.$store.state.game.prizeProps.seProps.lastPrice) /
+          2,
+      ).toFixed(0);
     },
     priceInSteem() {
       return (this.item.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -80,9 +87,7 @@ export default {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {
       this.requestPayment({
-        memo: `shop:${this.item.ref},amount:${
-          this.amountOfDWD
-        },
+        memo: `shop:${this.item.ref},amount:${this.amountOfDWD},
         amount: ${this.priceInSteem} STEEM,server:${this.$store.state.game.server.number}`,
       });
     },

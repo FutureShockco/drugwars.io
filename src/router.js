@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
-import { isWeb } from '@/helpers/utils';
+import { isWeb, loadDoc } from '@/helpers/utils';
 import client from '@/helpers/client';
-
+import App from './App.vue'
 const Home = () => import(/* webpackChunkName: "home" */ '@/views/Home.vue');
 const Callback = () => import(/* webpackChunkName: "callback" */ '@/views/Callback.vue');
 const Callback2 = () => import(/* webpackChunkName: "callback2" */ '@/views/Callback2.vue');
@@ -33,11 +33,11 @@ const BuildingDetail = () =>
 const DrugDetail = () => import(/* webpackChunkName: "drugdetail" */ '@/components/DrugDetail.vue');
 
 const Units = () => import(/* webpackChunkName: "units" */ '@/views/Bootcamp/Units.vue');
-const UnitsBunker = () => import(/* webpackChunkName: "unitsbunker" */ '@/views/Bootcamp/Bunker.vue');
+const UnitsBunker = () =>
+  import(/* webpackChunkName: "unitsbunker" */ '@/views/Bootcamp/Bunker.vue');
 const UnitsSettings = () =>
   import(/* webpackChunkName: "unitssettings" */ '@/views/Bootcamp/Settings.vue');
-const UnitsHelp = () =>
-  import(/* webpackChunkName: "unitshelp" */ '@/views/Bootcamp/Help.vue');
+const UnitsHelp = () => import(/* webpackChunkName: "unitshelp" */ '@/views/Bootcamp/Help.vue');
 const Training = () => import(/* webpackChunkName: "training" */ '@/views/Bootcamp/Training.vue');
 
 const Missions = () => import(/* webpackChunkName: "missions" */ '@/views/Actions/Actions.vue');
@@ -154,6 +154,12 @@ const requireAuth = (to, from, next) => {
       }
     });
   } else {
+    if(store.state.ui.tourVisible)
+    loadDoc(to.fullPath.replace('/','')).then((result) => {
+      store.dispatch('setTour',
+        result
+      );
+    })
     next();
   }
 };
@@ -597,7 +603,8 @@ export default new Router({
       meta: {
         hideSidebar: true,
       },
-    },    {
+    },
+    {
       path: '*',
       component: Error404,
       meta: {

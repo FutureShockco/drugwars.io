@@ -174,14 +174,24 @@ export default {
       return this.$store.state.game.user.user;
     },
     rankname() {
-      let i = 10;
+      const i = 10;
       let rank = 10;
-      let names = ['recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
-      let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = this.$store.state.game.user.total_production; 
-      rank = Math.floor((userprod/totalprod)*10)-1
-      if(rank <0)
-      rank = 0
+      const names = [
+        'recruit',
+        'grifter',
+        'outlaw',
+        'enforcer',
+        'smuggler',
+        'lieutenant',
+        'boss',
+        'legend',
+        'divine',
+        'immortal',
+      ];
+      const totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
+      const userprod = this.$store.state.game.user.total_production;
+      rank = Math.floor((userprod / totalprod) * 10) - 1;
+      if (rank < 0) rank = 0;
       return names[rank];
     },
     reputation() {

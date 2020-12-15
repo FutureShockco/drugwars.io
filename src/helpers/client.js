@@ -1,9 +1,8 @@
 import Promise from 'bluebird';
 import { Client } from 'drugwars';
 import store from '@/store';
-
+import axios from 'axios';
 Promise.promisifyAll(Client.prototype);
-
 
 let rawClient = new Client(store.state.game.server.api);
 rawClient = Sub(rawClient);

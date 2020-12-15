@@ -61,10 +61,10 @@ export default {
       if (this.$store.state.game.user.trainings.find(b => b.training === 'routing'))
         routing = this.$store.state.game.user.trainings.find(b => b.training === 'routing').lvl;
       const speed = this.unit.speed * 60 * 1000;
-      return speed - (speed / 200) * routing;
+      return speed - (speed / 220) * routing;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     HQ() {
       if (
@@ -135,8 +135,8 @@ export default {
         this.$store.state.game.user.units.find(
           b =>
             b.unit === this.unit.id &&
-            b.base === this.$store.state.game.mainbase.base &&
-            b.territory === this.$store.state.game.mainbase.territory,
+            b.base === this.$store.state.game.selectedBase.base &&
+            b.territory === this.$store.state.game.selectedBase.territory,
         ) || {
           amount: 0,
         }
@@ -158,8 +158,8 @@ export default {
         this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'training_facility' &&
-            b.base === this.$store.state.game.mainbase.base &&
-            b.territory === this.$store.state.game.mainbase.territory,
+            b.base === this.$store.state.game.selectedBase.base &&
+            b.territory === this.$store.state.game.selectedBase.territory,
         ) || {
           lvl: 0,
         }

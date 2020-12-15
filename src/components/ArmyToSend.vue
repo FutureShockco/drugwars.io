@@ -26,8 +26,8 @@ export default {
   },
   methods: {
     handleClick(key) {
-      if(!this.disableicon)
-      this.$parent.$data.selectedUnits = this.units.filter(unit => unit.key != key);
+      if (!this.disableicon)
+        this.$parent.$data.selectedUnits = this.units.filter(unit => unit.key != key);
     },
   },
 };

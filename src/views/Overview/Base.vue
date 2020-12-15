@@ -62,7 +62,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
@@ -72,6 +72,8 @@ export default {
     },
 
     dwdPrice() {
+      if(!this.$store.state.game.prizeProps.seProps || this.$store.state.game.prizeProps.seProps.lastPrice)
+      return false
       const price = this.$store.state.game.prizeProps.seProps.lastPrice;
       return price * this.price * this.$store.state.game.prizeProps.steemprice;
     },
@@ -118,7 +120,7 @@ export default {
       return label;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     HQ() {
       if (

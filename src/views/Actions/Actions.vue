@@ -401,7 +401,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     sent_fights() {
       return this.$store.state.game.sent_fights;

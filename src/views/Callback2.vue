@@ -21,17 +21,17 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.query.access_token)
+    console.log(this.$route.query.access_token);
     this.$nextTick(() => {
-      if(localStorage.getItem('logintype')==='steem')
-       this.login(this.accessToken)
-      .then(() => {
-        window.location = '/';
-      })
-      .catch(e => {
-        console.error('Your access token is not valid', e);
-      });
-      else{
+      if (localStorage.getItem('logintype') === 'steem')
+        this.login(this.accessToken)
+          .then(() => {
+            window.location = '/';
+          })
+          .catch(e => {
+            console.error('Your access token is not valid', e);
+          });
+      else {
         this.$auth.setAccessToken();
         this.$auth.setIdToken();
         window.location.href = '/';
@@ -39,7 +39,8 @@ export default {
     });
   },
   created() {
-    if (!this.$auth.isAuthenticated() && localStorage.getItem('logintype') === 'social') this.$auth.handleAuthentication();
+    if (!this.$auth.isAuthenticated() && localStorage.getItem('logintype') === 'social')
+      this.$auth.handleAuthentication();
   },
 };
 </script>

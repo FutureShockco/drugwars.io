@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       population: null,
-      dwd_price: this.$store.state.game.prizeProps.seProps.lastPrice,
+      dwd_price: this.$store.state.game.prizeProps.seProps.lastPrice || 0,
     };
   },
   computed: {

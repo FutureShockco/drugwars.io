@@ -1,112 +1,91 @@
 <template>
-    <ul class="balances list-style-none">
-        <li v-if="booster" class="text-yellow">
-            <Icon name="drug" size="36" />
-            <div class="balance" >
-                <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
-                    {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
-                </div>
-                <div class="detail">
-                    {{ (HQ.drug_production_rate * 60 * 60 * 24) *2 | amount}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus *2 | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-        <li v-else>
-            <Icon name="drug" size="36" />
-            <div class="balance" >
-                <div :class="{ 'text-red': balances.drugs >= HQ.drug_storage }">
-                    {{ balances.drugs | amount }} <span class="mini"> {{'message.drugs' | translate}}</span>
-                </div>
-                <div class="detail">
-                    {{ HQ.drug_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="drugBonus"> {{drugBonus | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.drug_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-          <li v-if="booster" class="text-yellow">
-            <Icon name="weapon" size="36" />
-            <div class="balance">
-                <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
-                    {{ balances.weapons | amount }} <span class="mini"> {{'message.weapons' | translate}}</span>
-                </div>
-                <div class="detail ">
-                    {{ (HQ.weapon_production_rate * 60 * 60 * 24)*2 | amount}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus*2 | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-        <li v-else>
-            <Icon name="weapon" size="36" />
-            <div class="balance">
-                <div :class="{ 'text-red': balances.weapons >= HQ.weapon_storage }">
-                    {{ balances.weapons | amount }} <span class="mini"> {{'message.weapons' | translate}}</span>
-                </div>
-                <div class="detail ">
-                    {{ HQ.weapon_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="weaponBonus">{{weaponBonus | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.weapon_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-        <li v-if="booster" class="text-yellow">
-            <Icon name="alcohol" size="36" />
-            <div class="balance">
-                <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
-                    {{ balances.alcohols | amount }}<span class="mini"> {{'message.alcohol' | translate}}</span>
-                </div>
-                <div class="detail">
-                    {{ (HQ.alcohol_production_rate * 60 * 60 * 24)*2 | amount}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus *2 | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-          <li v-else>
-            <Icon name="alcohol" size="36" />
-            <div class="balance">
-                <div :class="{ 'text-red': balances.alcohols >= HQ.alcohol_storage }">
-                    {{ balances.alcohols | amount }}<span class="mini"> {{'message.alcohol' | translate}}</span>
-                </div>
-                <div class="detail">
-                    {{ HQ.alcohol_production_rate * 60 * 60 * 24 | amount}}+<span class="text-orange" v-if="alcoholBonus">{{alcoholBonus | amount}}</span>/DAY
-                </div>
-                <div class="detail">
-                    <span class="text-green">{{HQ.alcohol_storage/100*20 | amount}}</span>/SAFE
-                </div>
-            </div>
-        </li>
-        <li>
-            <Icon name="dwd" size="36" /> 
-            <div class="balance">
-                <div>{{ user.dwd }} <span class="mini"> DWD</span></div>
-                <div class="balance">
-                    <div class="detail"> DAILY: <span class="detail text-green">
-            +{{ totalRewards.daily }} </span></div>
-                    <div class="detail"> HEIST: <span class="detail text-green">
-            +{{ ownHeistReward.amount }} </span></div>
-                </div>
-            </div>
-        </li>
-        <li class="steembalance" v-if="this.$store.state.auth.account">
-            <Icon name="steem" size="36" />
-            <div class="balance">
-                <div>{{ steemBalance | amount}} <span class="mini"> STEEM</span></div>
-            </div>
-        </li>
-    </ul>
+  <ul class="balances list-style-none">
+    <li :class="{ 'text-yellow': booster }">
+      <Icon name="drug" size="36" />
+      <div class="balance">
+        <div :class="{ 'text-red': balances.drugs >= cap.drug_storage }">
+          {{ balances.drugs | amount }} <span class="mini"> {{ 'message.drugs' | translate }}</span>
+        </div>
+        <div class="detail">
+          {{ (production.drug_production_rate * 60 * 60 * 24 * 2) | amount }}+<span
+            class="text-orange"
+            v-if="drugBonus"
+          >
+            {{ (drugBonus * 2) | amount }}</span
+          >/DAY
+        </div>
+        <div class="detail">
+          <span class="text-green">{{ ((cap.drug_storage / 100) * 20) | amount }}</span
+          >/SAFE
+        </div>
+      </div>
+    </li>
+    <li :class="{ 'text-yellow': booster }">
+      <Icon name="weapon" size="36" />
+      <div class="balance">
+        <div :class="{ 'text-red': balances.weapons >= cap.weapon_storage }">
+          {{ balances.weapons | amount }}
+          <span class="mini"> {{ 'message.weapons' | translate }}</span>
+        </div>
+        <div class="detail">
+          {{ (production.weapon_production_rate * 60 * 60 * 24) | amount }}+<span
+            class="text-orange"
+            v-if="weaponBonus"
+            >{{ weaponBonus | amount }}</span
+          >/DAY
+        </div>
+        <div class="detail">
+          <span class="text-green">{{ ((cap.weapon_storage / 100) * 20) | amount }}</span
+          >/SAFE
+        </div>
+      </div>
+    </li>
+    <li :class="{ 'text-yellow': booster }">
+      <Icon name="alcohol" size="36" />
+      <div class="balance">
+        <div :class="{ 'text-red': balances.alcohols >= cap.alcohol_storage }">
+          {{ balances.alcohols | amount
+          }}<span class="mini"> {{ 'message.alcohol' | translate }}</span>
+        </div>
+        <div class="detail">
+          {{ (production.alcohol_production_rate * 60 * 60 * 24) | amount }}+<span
+            class="text-orange"
+            v-if="alcoholBonus"
+            >{{ alcoholBonus | amount }}</span
+          >/DAY
+        </div>
+        <div class="detail">
+          <span class="text-green">{{ ((cap.alcohol_storage / 100) * 20) | amount }}</span
+          >/SAFE
+        </div>
+      </div>
+    </li>
+    <li>
+      <Icon name="dwd" size="36" />
+      <div class="balance">
+        <div>{{ user.dwd }} <span class="mini"> DWD</span></div>
+        <div class="balance">
+          <div class="detail">
+            DAILY: <span class="detail text-green"> +{{ totalRewards.daily }} </span>
+          </div>
+          <div class="detail">
+            HEIST: <span class="detail text-green"> +{{ ownHeistReward.amount }} </span>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="steembalance" v-if="this.$store.state.auth.account">
+      <Icon name="steem" size="36" />
+      <div class="balance">
+        <div>{{ steemBalance | amount }} <span class="mini"> STEEM</span></div>
+      </div>
+    </li>
+  </ul>
 </template>
 
 <script>
-import { getBalances } from '@/helpers/utils';
+import { getBalances, getCapPerBase, getProdPerBase} from '@/helpers/utils';
+import { buildings } from 'drugwars';
 
 export default {
   computed: {
@@ -132,75 +111,75 @@ export default {
     user() {
       return this.$store.state.game.user.user;
     },
-    user_production() {
-      const allHQ = this.$store.state.game.user.buildings.filter(
-        b => b.building === 'headquarters',
-      );
+    cap() {
+      return getCapPerBase(this.base);
+    },
+    production() {
+      return getProdPerBase(this.base);
+    },
+    userDrugProduction() {
+      const allHQ = this.$store.state.game.bases;
       let production = 0;
-      allHQ.forEach(element => {
-        if (element.drug_production_rate) production += element.drug_production_rate;
+      allHQ.forEach((hq) => {
+        if (hq.buildings.length > 0) {
+          hq.buildings.forEach((element) => {
+            if (buildings[element.name] && buildings[element.name].production_type === 'drugs') {
+              production +=
+                buildings[element.name].production_rate *
+                  element.level *
+                  buildings[element.name].coeff +
+                ((buildings[element.name].production_rate *
+                  element.level *
+                  buildings[element.name].coeff) /
+                  100) *
+                  element.level;
+            }
+          });
+        }
       });
       return production;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     booster() {
       const date = new Date().getTime() / 1000;
       return Number(this.$store.state.game.user.user.booster) > date;
     },
-    HQ() {
-      if (
-        this.base &&
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      ) {
-        return this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-      }
-      return { drug_balance: 0 };
-    },
     balances() {
       let ocLvl = 0;
       if (
-        this.$store.state.game.user.buildings.find(
-          b =>
+        this.$store.state.game.selectedBase.buildings.find(
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
       ) {
         ocLvl =
-          this.$store.state.game.user.buildings.find(
-            b =>
+          this.$store.state.game.selectedBase.buildings.find(
+            (b) =>
               b.building === 'operation_center' &&
               b.territory === this.base.territory &&
               b.base === this.base.base,
           ).lvl || 0;
       }
       let labLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab')
           .lvl;
       let weaponLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
-          .lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(
+          (b) => b.building === 'weapon_center',
+        ).lvl;
       let distilleryLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(
-          b => b.building === 'distillery_school',
+          (b) => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.HQ,
+        this.base,
         ocLvl,
         labLvl,
         weaponLvl,
@@ -217,7 +196,7 @@ export default {
     },
     totalRewards() {
       const daily = parseFloat(
-        (this.user_production / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
+        (this.userDrugProduction / this.prizeProps.drug_production_rate) * this.totalDailyDWD,
       ).toFixed(3);
       return { daily };
     },
@@ -238,11 +217,6 @@ export default {
         return parseFloat(this.$store.state.auth.account.balance).toFixed(3) || 0;
       return 0;
     },
-    sbdBalance() {
-      if (this.$store.state.auth.account)
-        return parseFloat(this.$store.state.auth.account.sbd_balance).toFixed(3) || 0;
-      return 0;
-    },
     dwdBalance() {
       return parseFloat(this.$store.state.game.user.dwd).toFixed(3);
     },
@@ -250,77 +224,78 @@ export default {
       let oc = 0;
       if (
         this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
       )
         oc = this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         ).lvl;
       let labLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab')
           .lvl;
 
       return parseFloat(
-        this.HQ.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
-          this.HQ.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025,
+        this.production.drug_production_rate * 60 * 60 * 24 * oc * 0.005 +
+          this.production.drug_production_rate * 60 * 60 * 24 * labLvl * 0.0025,
       ).toFixed(2);
     },
     weaponBonus() {
       let oc = 0;
       if (
         this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
       )
         oc = this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         ).lvl;
       let weaponLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
-          .lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(
+          (b) => b.building === 'weapon_center',
+        ).lvl;
       return parseFloat(
-        this.HQ.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
-          this.HQ.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005,
+        this.production.weapon_production_rate * 60 * 60 * 24 * oc * 0.005 +
+          this.production.weapon_production_rate * 60 * 60 * 24 * weaponLvl * 0.005,
       ).toFixed(2);
     },
     alcoholBonus() {
       let oc = 0;
       if (
         this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
       )
         oc = this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         ).lvl;
       let distilleryLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(
-          b => b.building === 'distillery_school',
+          (b) => b.building === 'distillery_school',
         ).lvl;
       return parseFloat(
-        this.HQ.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
-          this.HQ.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005,
+        this.production.alcohol_production_rate * 60 * 60 * 24 * oc * 0.005 +
+          this.production.alcohol_production_rate * 60 * 60 * 24 * distilleryLvl * 0.005,
       ).toFixed(2);
     },
   },

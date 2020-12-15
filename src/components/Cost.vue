@@ -32,26 +32,10 @@ export default {
   props: ['type', 'level', 'quantity', 'drugsCost', 'weaponsCost', 'alcoholsCost', 'special'],
   computed: {
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     HQ() {
-      if (
-        this.base &&
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      ) {
-        return this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-      }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
+      return this.base.buildings.find(b => b.building === 'headquarters');
     },
     balances() {
       let ocLvl = 0;
@@ -83,7 +67,7 @@ export default {
           b => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
-        this.HQ,
+        this.base,
         ocLvl,
         labLvl,
         weaponLvl,

@@ -54,6 +54,7 @@
 <script>
 import sc from '@/helpers/steemlogin';
 import { mapActions } from 'vuex';
+import { loadDoc } from '@/helpers/utils';
 export default {
   data() {
     return {
@@ -72,8 +73,7 @@ export default {
     localStorage.removeItem('id_token');
     localStorage.removeItem('auth');
     localStorage.removeItem('loggedIn');
-    if(!localStorage.getItem('logintype'))
-    localStorage.setItem('logintype','steem')
+    if (!localStorage.getItem('logintype')) localStorage.setItem('logintype', 'steem');
   },
   computed: {
     server() {
@@ -83,7 +83,7 @@ export default {
   methods: {
     ...mapActions(['setServer']),
     socialLogin() {
-      localStorage.setItem('logintype','social')
+      localStorage.setItem('logintype', 'social');
       this.$auth.login();
     },
     logout() {
@@ -145,7 +145,6 @@ h4 {
   box-shadow: 0px 3px 10px orangered;
   background-size: cover;
   font-weight: bold;
-
 }
 .btn-yellow {
   border-radius: 0.25em;

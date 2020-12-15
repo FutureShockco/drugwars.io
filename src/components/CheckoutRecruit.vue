@@ -69,7 +69,7 @@ export default {
       return ((this.coeff * 1500) / (this.level + this.militaryAcademy)) * (this.quantity * 1000);
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     militaryAcademy() {
       let militaryLvl = 0;

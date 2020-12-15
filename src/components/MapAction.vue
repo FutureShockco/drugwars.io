@@ -216,7 +216,7 @@ export default {
       return this.$parent.$data; // or whatever you want to access
     },
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     sent_fights() {
       return this.$store.state.game.sent_fights;

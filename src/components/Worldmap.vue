@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     ownUnits() {
       let units = [];

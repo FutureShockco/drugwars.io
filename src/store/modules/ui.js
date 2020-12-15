@@ -5,6 +5,8 @@ const state = {
   showLoading: false,
   timestamp: new Date().getTime(),
   notifications: [],
+  steps:[],
+  tourVisible:false
 };
 
 const mutations = {
@@ -17,12 +19,21 @@ const mutations = {
   hideLoading(_state) {
     Vue.set(_state, 'showLoading', false);
   },
-  updateTimestamp(_state) {
+  updateTimestamp(_state) { 
     Vue.set(_state, 'timestamp', new Date().getTime());
   },
   notify(_state, payload) {
     const timestamp = parseInt(new Date().getTime() / 1000);
     _state.notifications.push({ ...payload, timestamp });
+  },
+  setTour(_state, payload) {
+    Vue.set(_state, 'steps', payload);
+  },
+  showTour(_state) {
+    Vue.set(_state, 'tourVisible', true);
+  },
+  hideTour(_state) {
+    Vue.set(_state, 'tourVisible', false);
   },
 };
 
@@ -41,6 +52,15 @@ const actions = {
   },
   notify({ commit }, payload) {
     commit('notify', payload);
+  },
+  setTour({ commit }, payload) {
+    commit('setTour', payload);
+  },
+  activateTour({ commit }) {
+    commit('showTour');
+  },
+  disableTour({ commit }) {
+    commit('hideTour');
   },
 };
 

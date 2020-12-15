@@ -2,12 +2,13 @@ import Vue from 'vue';
 import client from '@/helpers/client';
 import dsteem from '@/helpers/dsteem';
 import sc from '@/helpers/steemlogin';
-
+import chain from '@/helpers/chain';
 const state = {
   username: null,
   account: null,
-  auth_type: null
+  auth_type: null,
 };
+
 
 const mutations = {
   saveUsername(_state, payload) {

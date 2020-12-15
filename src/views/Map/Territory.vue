@@ -83,7 +83,7 @@ export default {
       return this.$route.query.location || null;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     ownOccupationTroop() {
       if (this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop'))
@@ -444,7 +444,12 @@ export default {
             Promise.delay(3000).then(() => {
               client.requestAsync('get_bases', this.location).then(result => {
                 [self.bases] = result;
-                this.setMainBase({ territory:result[0][0].territory,base:result[0][0].base,custom:result[0][0].custom,main:result[0][0].main });
+                this.setMainBase({
+                  territory: result[0][0].territory,
+                  base: result[0][0].base,
+                  custom: result[0][0].custom,
+                  main: result[0][0].main,
+                });
                 self.isLoading = false;
               });
             });

@@ -81,7 +81,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     rallyPoint() {
       return this.$store.state.game.user.buildings.find(
@@ -103,7 +103,7 @@ export default {
       return label;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
   },
   methods: {

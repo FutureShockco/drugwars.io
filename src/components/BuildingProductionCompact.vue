@@ -24,7 +24,7 @@ export default {
   props: ['building', 'item'],
   computed: {
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     ownBuilding() {
       return (

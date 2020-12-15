@@ -42,6 +42,7 @@
         >IMPORTANT NOTE: DRUGWARS v0.7 IS RELEASED, DON'T FORGET TO CHOOSE DETROIT AS YOUR CURRENT SERVER IF YOU WERE PLAYING BEFORE THIS UPDATE. THANK YOU FOR YOUR UNDERSTANDING</h3>
       </div>
     </cookie-law> -->
+    <v-tour name="tour" :steps="steps" :callbacks="tourCallbacks" :options="tourOptions"></v-tour>
   </div>
 </template>
 
@@ -59,8 +60,31 @@ export default {
       attempt: 1,
       connected: false,
       timeIsopen: false,
-      firstLoad:true,
+      firstLoad: true,
+      tourCallbacks: {
+          onSkip: this.skipTour
+        },
+          tourOptions: {
+          useKeyboardNavigation: false,
+          labels: {
+            buttonSkip: 'Stop Help',
+            buttonPrevious: 'Previous',
+            buttonNext: 'Next',
+            buttonStop: 'Finish'
+          }
+        },
     };
+  },
+  watch: { 
+    steps: function(newVal, oldVal) { 
+      if(newVal)
+      {
+        setTimeout(() => {
+          this.$tours['tour'].start()
+        }, 500);
+      }
+      
+    }
   },
   components: { CookieLaw },
   computed: {
@@ -76,6 +100,9 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
+    steps(){
+      return this.$store.state.ui.steps;
+    }
     // checkTime() {
     //   if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time && this.firstLoad) {
     //     this.firstLoad = false;
@@ -90,7 +117,11 @@ export default {
     // },
   },
 
-  methods: {
+  methods: { 
+    skipTour(){
+      console.log('skipped')
+      this.$store.dispatch('disableTour');
+    },
     closeModal() {
       localStorage.setItem('firstime', true);
       this.modalIsOpen = true;
@@ -124,7 +155,7 @@ export default {
   width: auto;
   height: auto;
   z-index: -100;
-  background: url(//img.drugwars.io/bg.jpg) no-repeat;
+  background: url(//img.drugwars.io/bg3.jpg) no-repeat;
   background-size: cover;
 }
 
@@ -155,5 +186,9 @@ export default {
       left: 0;
     }
   }
+}
+
+.v-step{
+      background: #0c0c0c!important;
 }
 </style>

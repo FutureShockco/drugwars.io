@@ -42,7 +42,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     priceInSteem() {
       return (this.priceInDWD * this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -51,6 +51,8 @@ export default {
       return (this.amount * 0.001).toFixed(3);
     },
     dwdPrice() {
+      if(!this.$store.state.game.prizeProps.seProps || this.$store.state.game.prizeProps.seProps.lastPrice)
+      return false
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },

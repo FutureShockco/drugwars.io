@@ -11,9 +11,9 @@
               </a>
             </li>
             <li class="column col-3">
-                <router-link to="/about" class="d-block text-center">
+                <a @click="startTour" class="d-block text-center">
                     <i class="iconfont icon-question" />
-                </router-link>
+                </a>
             </li>
             <li class="column col-3">
                 <a target="_blank" href="https://discord.me/drugwars" class="d-block text-center">
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { loadDoc } from '@/helpers/utils';
+
 export default {
   data() {
     return {
@@ -49,6 +51,15 @@ export default {
     };
   },
   methods: {
+    startTour()
+    {
+      loadDoc('introduction').then((result) => {
+        this.$store.dispatch('activateTour');
+        this.$store.dispatch('setTour',
+          result
+        );
+      })
+    },
     logout() {
       this.$auth.logOut();
       this.$router.push({ path: '/' });

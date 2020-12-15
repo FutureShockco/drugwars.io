@@ -40,7 +40,7 @@
 export default {
   computed: {
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     main() {
       return (

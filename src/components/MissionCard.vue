@@ -197,7 +197,7 @@ export default {
       return rnd;
     },
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     jobleft() {
       const now = new Date();

@@ -168,7 +168,7 @@ export default {
       return this.$store.state.game.user.user.nickname;
     },
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     HQ() {
       if (

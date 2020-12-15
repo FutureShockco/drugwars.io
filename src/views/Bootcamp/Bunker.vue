@@ -141,7 +141,7 @@ export default {
   },
   computed: {
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     allbase() {
       return this.$store.state.game.user.buildings || null;
@@ -268,8 +268,8 @@ export default {
         this.$store.state.game.user.buildings.find(
           b =>
             b.building === 'bunker' &&
-            b.base === this.$store.state.game.mainbase.base &&
-            b.territory === this.$store.state.game.mainbase.territory,
+            b.base === this.$store.state.game.selectedBase.base &&
+            b.territory === this.$store.state.game.selectedBase.territory,
         ) || {
           lvl: 0,
         }

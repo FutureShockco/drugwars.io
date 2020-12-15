@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);

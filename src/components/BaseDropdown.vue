@@ -70,7 +70,7 @@ export default {
     },
     config() {
       return {
-        prefix: this.$store.state.game.mainbase || null,
+        prefix: this.$store.state.game.selectedBase || null,
         backgroundColor: 'green',
       };
     },
@@ -166,9 +166,9 @@ export default {
   },
   updated() {
     if (!this.config.prefix) {
-      if (this.$store.state.game.mainbase) {
+      if (this.$store.state.game.selectedBase) {
         this.config = {};
-        this.config.prefix = this.$store.state.game.mainbase;
+        this.config.prefix = this.$store.state.game.selectedBase;
         const territory = this.config.prefix.territory;
         const base = this.config.prefix.base;
         const custom = this.config.prefix.custom;

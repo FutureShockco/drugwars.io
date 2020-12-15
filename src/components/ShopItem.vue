@@ -32,6 +32,8 @@ export default {
       return this.price;
     },
     dwdPrice() {
+      if(!this.$store.state.game.prizeProps.seProps || this.$store.state.game.prizeProps.seProps.lastPrice)
+      return false
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD;
     },
@@ -51,7 +53,7 @@ export default {
       return diff > 0 ? diff : 0;
     },
     shieldUsed() {
-      return  new Date(this.$store.state.game.user.user.last_shield_use) > new Date();
+      return new Date(this.$store.state.game.user.user.last_shield_use) > new Date();
     },
   },
   methods: {

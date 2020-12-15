@@ -83,7 +83,7 @@ export default {
       return this.$store.state.game.user.user.nickname;
     },
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     ownUnits() {
       return this.$store.state.game.user.units.map(unit => ({

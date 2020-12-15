@@ -66,7 +66,7 @@ export default {
       return this.$store.state.game.user.user;
     },
     ownBase() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     shieldEnd() {
       const diff = this.player.shield_end * 1000 - this.$store.state.ui.timestamp;
@@ -80,15 +80,15 @@ export default {
         this.$store.state.game.user.units.find(
           u =>
             u.unit === 'spy' &&
-            u.base === this.$store.state.game.mainbase.base &&
-            u.territory === this.$store.state.game.mainbase.territory,
+            u.base === this.$store.state.game.selectedBase.base &&
+            u.territory === this.$store.state.game.selectedBase.territory,
         )
       )
         return this.$store.state.game.user.units.find(
           u =>
             u.unit === 'spy' &&
-            u.base === this.$store.state.game.mainbase.base &&
-            u.territory === this.$store.state.game.mainbase.territory,
+            u.base === this.$store.state.game.selectedBase.base &&
+            u.territory === this.$store.state.game.selectedBase.territory,
         ).amount;
       return 0;
     },

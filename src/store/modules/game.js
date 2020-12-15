@@ -4,8 +4,7 @@ import client from '@/helpers/client';
 import store from '@/store';
 import sc from '@/helpers/steemlogin';
 import dwsocial from '@/helpers/dwsocial';
-import SSC from 'sscjs';
-
+import chain from '@/helpers/chain';
 // import * as util from 'util';
 // import { inspect } from 'util';
 const dealerSteemUsername = process.env.VUE_APP_DEALER_STEEM_USERNAME;
@@ -28,11 +27,16 @@ const state = {
   gang_buildings: [],
   chat: false,
   isconnected: null,
+  bases: null,
   base: null,
-  mainbase: null,
+  selectedBase: null,
   steemengine: null,
   force_sent_fights_refresh: true,
-  server: JSON.parse(localStorage.getItem('server')) || { api: process.env.VUE_APP_WS_API_URL_S2, name: 'Los Angeles', number: 2 }
+  server: JSON.parse(localStorage.getItem('server')) || {
+    api: process.env.VUE_APP_WS_API_URL_S2,
+    name: 'Los Angeles',
+    number: 2,
+  },
 };
 
 const mutations = {
@@ -87,15 +91,18 @@ const mutations = {
   saveBase(_state, payload) {
     Vue.set(_state, 'base', payload);
   },
+  saveBases(_state, payload) {
+    Vue.set(_state, 'bases', payload);
+  },
   saveMainBase(_state, payload) {
-    Vue.set(_state, 'mainbase', payload);
+    Vue.set(_state, 'selectedBase', payload);
   },
   saveSE(_state, payload) {
     Vue.set(_state, 'steemengine', payload);
   },
 };
 
-const authToken = function() {
+const authToken = function () {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('access_token');
@@ -113,7 +120,7 @@ const actions = {
         state.user.buildings &&
         state.user.buildings.find(b => b.building === 'headquarters')
       ) {
-        totalbases = state.user.buildings.find(b => b.building === 'headquarters').length;
+        totalbases = state.user.bases.length;
       }
       if (token) {
         client
@@ -124,23 +131,29 @@ const actions = {
                 commit('savePrizeProps', prizeProps);
                 commit('saveUser', user);
                 commit('saveConnected', true);
-                commit(
-                  'saveBase',
-                  user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
-                );
-                if (
-                  totalbases !== user.buildings.find(b => b.building === 'headquarters').length
-                )
+                chain.getAccount(user.user.username, (error, result) => {
+                  console.log(error, result)
+                  console.log(result.bases.find(b => b.main === true && b.territory != 0 && b.base != 0))
                   commit(
-                    'saveMainBase',
-                    user.buildings.find(
-                      b =>
-                        b.main === 1 &&
-                        b.territory !== 0 &&
-                        b.base !== 0 &&
-                        b.building === 'headquarters',
-                    ),
+                    'saveBase',
+                    result.bases.find(b => b.main === true && b.territory != 0 && b.base != 0),
                   );
+                  commit(
+                    'saveBases',
+                    result.bases
+                  );
+                  if (result.bases.find(b => b.main === true && b.territory !== null && b.base !== null))
+                    commit(
+                      'saveMainBase',
+                      result.bases.find(
+                        b =>
+                          b.main === true &&
+                          b.territory !== null &&
+                          b.base !== null
+                      ),
+                    );
+
+                })
                 dispatch('refresh_fights_count');
                 dispatch('refresh_transport_count');
                 dispatch('refresh_station_count');
@@ -492,7 +505,7 @@ const actions = {
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
       sc.broadcast(post, (err, result) => {
-        console.log(err,result)
+        console.log(err, result);
         if (err) {
           handleError(dispatch, err, 'Share fight failed');
           return reject(err);
@@ -592,7 +605,7 @@ const actions = {
     //     }
     //   })
     // }
-    //else 
+    // else
     if (window.steem_keychain && window.steem_keychain.current_id) {
       window.steem_keychain.requestTransfer(
         username,
@@ -730,9 +743,9 @@ const actions = {
     commit('saveConnected', false);
   },
   setServer: ({ commit }, payload) => {
-    localStorage.setItem('server',JSON.stringify(payload))
+    localStorage.setItem('server', JSON.stringify(payload));
     commit('saveServer', payload);
-    client.reset
+    client.reset;
   },
 };
 

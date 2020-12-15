@@ -1,11 +1,11 @@
 <template>
   <Header>
     <UiTabs>
-      <UiTab to="/settings">Settings</UiTab>
+      <UiTab id="settings" to="/settings">Settings</UiTab>
       <UiTab v-if="!steemAccount" to="/settings/steem">Steem</UiTab>
-      <UiTab to="/settings/referral">Referral</UiTab>
-      <UiTab to="/settings/privacy">Privacy</UiTab>
-      <UiTab to="/settings/history">History</UiTab>
+      <UiTab id="referral" to="/settings/referral">Referral</UiTab>
+      <UiTab id="privacy" to="/settings/privacy">Privacy</UiTab>
+      <UiTab id="history" to="/settings/history">History</UiTab>
     </UiTabs>
     <div class="coordbase text-right" v-if="base">
       <div class="text text-blue tab name" v-if="main">Primary</div>
@@ -20,7 +20,7 @@
 export default {
   computed: {
     base() {
-      return this.$store.state.game.mainbase;
+      return this.$store.state.game.selectedBase;
     },
     main() {
       return (

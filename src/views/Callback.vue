@@ -15,7 +15,7 @@ export default {
   methods: mapActions(['showLoading', 'hideLoading', 'login']),
   created() {
     this.showLoading();
-    localStorage.setItem('access_token',this.accessToken)
+    localStorage.setItem('access_token', this.accessToken);
     this.login(this.accessToken)
       .then(() => {
         window.location = '/';

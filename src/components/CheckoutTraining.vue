@@ -87,8 +87,8 @@ export default {
     timeToWait() {
       const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
       if (training) {
-        if (training.pending_update) {
-          const nextUpdate = new Date(training.pending_update).getTime();
+        if (training.pendingTs) {
+          const nextUpdate = new Date(training.pendingTs).getTime();
           const now = this.$store.state.ui.timestamp;
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;
@@ -143,7 +143,7 @@ export default {
 
         const training = this.$store.state.game.user.trainings.find(b => b.training === this.id);
         if (training) {
-          training.pending_update = new Date().getTime() + 3000;
+          training.pendingTs = new Date().getTime() + 3000;
         }
       } else {
         payload = {

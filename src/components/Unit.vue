@@ -1,27 +1,51 @@
 <template>
-    <div class="d-flex flex-lg-row flex-column text-center text-lg-left item" :class="{ progress: inProgress }">
-        <div class="item-content width-full mr-3 mb-4">
-            <div class="mr-2 left-floated">
-                <img class="preview unit" :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`" :src="`//img.drugwars.io/units/${unit.id}.png`">
-                <div class="skill-icons text-center">
-                </div>
-            </div>
-            <div class="level">{{ ownItem.amount }}</div>
-            <h5 class="mt-0 mb-0">{{ unit.name }} <span class="unit-type">{{ unit.type }}</span></h5>
-            <Cost :drugsCost="unit.drugs_cost" :weaponsCost="unit.weapons_cost" :alcoholsCost="unit.alcohols_cost" :quantity="quantity" :special="unit.special_cost" />Supply : {{unit.supply}} - Cluster : {{unit.group}}
-            <div class="mb-1 mt-1" v-html="unit.desc"></div>
-            <div class="mb-1 item-skill" v-if="unit.feature">
-                <span class="text-orange">
-                     {{ unit.feature }}
-            </span>
-            </div>
-            <UnitValues :unit="unit" :modifiedValues="modifiedValues" :speed="speed" />
-        </div>
-        <div class="mx-auto">
-            <input class="input form-control input-block mb-2" type="number" v-model="quantity" min="1">
-            <CheckoutRecruit :id="unit.id" :level="training_facility.lvl" :coeff="unit.coeff" :inProgress="inProgress" :price="unit.drugs_cost / 1400000  + unit.weapons_cost / 1400000 + unit.alcohols_cost / 1400000 " :notEnough="hasNotEnough" :quantity="quantity" />
-        </div>
+  <div
+    class="d-flex flex-lg-row flex-column text-center text-lg-left item"
+    :class="{ progress: inProgress }"
+  >
+    <div class="item-content width-full mr-3 mb-4">
+      <div class="mr-2 left-floated">
+        <img
+          class="preview unit"
+          :style="`background-image: url('//img.drugwars.io/cards/background/classic_unit${randomPickBkg}.png');`"
+          :src="`//img.drugwars.io/units/${unit.id}.png`"
+        />
+        <div class="skill-icons text-center"></div>
+      </div>
+      <div class="level">{{ ownItem.amount }}</div>
+      <h5 class="mt-0 mb-0">
+        {{ unit.name }} <span class="unit-type">{{ unit.type }}</span>
+      </h5>
+      <Cost
+        :drugsCost="unit.drugs_cost"
+        :weaponsCost="unit.weapons_cost"
+        :alcoholsCost="unit.alcohols_cost"
+        :quantity="quantity"
+        :special="unit.special_cost"
+      />Supply : {{ unit.supply }} - Cluster : {{ unit.group }}
+      <div class="mb-1 mt-1" v-html="unit.desc"></div>
+      <div class="mb-1 item-skill" v-if="unit.feature">
+        <span class="text-orange">
+          {{ unit.feature }}
+        </span>
+      </div>
+      <UnitValues :unit="unit" :modifiedValues="modifiedValues" :speed="speed" />
     </div>
+    <div class="mx-auto">
+      <input class="input form-control input-block mb-2" type="number" v-model="quantity" min="1" />
+      <CheckoutRecruit
+        :id="unit.id"
+        :level="training_facility.lvl"
+        :coeff="unit.coeff"
+        :inProgress="inProgress"
+        :price="
+          unit.drugs_cost / 1400000 + unit.weapons_cost / 1400000 + unit.alcohols_cost / 1400000
+        "
+        :notEnough="hasNotEnough"
+        :quantity="quantity"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -58,61 +82,43 @@ export default {
     },
     speed() {
       let routing = 0;
-      if (this.$store.state.game.user.trainings.find(b => b.training === 'routing'))
-        routing = this.$store.state.game.user.trainings.find(b => b.training === 'routing').lvl;
+      if (this.$store.state.game.user.trainings.find((b) => b.training === 'routing'))
+        routing = this.$store.state.game.user.trainings.find((b) => b.training === 'routing').lvl;
       const speed = this.unit.speed * 60 * 1000;
       return speed - (speed / 220) * routing;
     },
     base() {
       return this.$store.state.game.selectedBase;
     },
-    HQ() {
-      if (
-        this.base &&
-        this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        )
-      ) {
-        return this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === 'headquarters' &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-      }
-      return this.$store.state.game.user.buildings.find(b => b.building === 'headquarters');
-    },
     balances() {
       let ocLvl = 0;
       if (
         this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         )
       )
         ocLvl = this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'operation_center' &&
             b.territory === this.base.territory &&
             b.base === this.base.base,
         ).lvl;
       let labLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab'))
-        labLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'scientific_lab')
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab'))
+        labLvl = this.$store.state.game.gang_buildings.find((b) => b.building === 'scientific_lab')
           .lvl;
       let weaponLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center'))
-        weaponLvl = this.$store.state.game.gang_buildings.find(b => b.building === 'weapon_center')
-          .lvl;
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'weapon_center'))
+        weaponLvl = this.$store.state.game.gang_buildings.find(
+          (b) => b.building === 'weapon_center',
+        ).lvl;
       let distilleryLvl = 0;
-      if (this.$store.state.game.gang_buildings.find(b => b.building === 'distillery_school'))
+      if (this.$store.state.game.gang_buildings.find((b) => b.building === 'distillery_school'))
         distilleryLvl = this.$store.state.game.gang_buildings.find(
-          b => b.building === 'distillery_school',
+          (b) => b.building === 'distillery_school',
         ).lvl;
       return getBalances(
         this.base,
@@ -132,20 +138,15 @@ export default {
     },
     ownItem() {
       return (
-        this.$store.state.game.user.units.find(
-          b =>
-            b.unit === this.unit.id &&
-            b.base === this.$store.state.game.selectedBase.base &&
-            b.territory === this.$store.state.game.selectedBase.territory,
-        ) || {
+        this.base.units.find((b) => b.name === this.unit.id) || {
           amount: 0,
         }
       );
     },
     inProgress() {
       if (!this.ownItem) return false;
-      if (this.ownItem.pending_update) {
-        const pendingUpdate = new Date(this.ownItem.pending_update).getTime();
+      if (this.ownItem.pendingTs) {
+        const pendingUpdate = new Date(this.ownItem.pendingTs).getTime();
         const now = new Date().getTime();
         return pendingUpdate >= now;
       }
@@ -156,7 +157,7 @@ export default {
     training_facility() {
       return (
         this.$store.state.game.user.buildings.find(
-          b =>
+          (b) =>
             b.building === 'training_facility' &&
             b.base === this.$store.state.game.selectedBase.base &&
             b.territory === this.$store.state.game.selectedBase.territory,

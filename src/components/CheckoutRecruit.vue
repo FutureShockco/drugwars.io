@@ -120,8 +120,8 @@ export default {
         b => b.unit === this.id && b.territory === this.base.territory && b.base === this.base.base,
       );
       if (unit) {
-        if (unit.pending_update) {
-          const nextUpdate = new Date(unit.pending_update).getTime();
+        if (unit.pendingTs) {
+          const nextUpdate = new Date(unit.pendingTs).getTime();
           const now = this.$store.state.ui.timestamp;
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;

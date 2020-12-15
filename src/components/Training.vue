@@ -189,8 +189,8 @@ export default {
     },
     inProgress() {
       if (!this.ownItem) return false;
-      if (this.ownItem.pending_update) {
-        const pendingUpdate = new Date(this.ownItem.pending_update).getTime();
+      if (this.ownItem.pendingTs) {
+        const pendingUpdate = new Date(this.ownItem.pendingTs).getTime();
         const now = new Date().getTime();
         return pendingUpdate >= now;
       }

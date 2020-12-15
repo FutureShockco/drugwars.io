@@ -2,9 +2,10 @@
     <div class="checkout mb-4">
         <div class="mb-2">
             <span v-if="inProgress"><i class="iconfont icon-clock mr-2"  > </i>End: {{ timeToWaitString }}</span>
+            <span v-else-if="pending"><i class="iconfont icon-clock mr-2"> </i>Waiting</span>
             <span v-else><i class="iconfont icon-clock mr-2"> </i>Require: {{ updateTime | ms }}</span>
         </div>
-        <button :class="{ progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate || !base" @click="handleSubmit()" class="button btn-block button-green mb-2">
+        <button :class="{ 'button-red': pending && !inProgress, 'button-green':  !pending && !inProgress, progress: inProgress }" :disabled="isLoading || waitingConfirmation || inProgress || notEnough || requireUpdate || !base" @click="handleSubmit()" class="button btn-block mb-2">
         <template v-if="isLoading || waitingConfirmation">
         <SmallLoading/>
 </template>
@@ -41,7 +42,7 @@ import { mapActions } from 'vuex';
 import { utils } from 'drugwars';
 
 export default {
-  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price', 'notEnough'],
+  props: ['id', 'level', 'coeff', 'hqLevel', 'inProgress', 'price', 'notEnough', 'pending'],
   data() {
     return {
       isLoading: false,
@@ -61,6 +62,9 @@ export default {
     },
     updateTime() {
       return utils.calculateTimeToBuild(this.id, this.coeff, this.level, this.hqLevel);
+    },
+    isClaimable(){
+      return 
     },
     priceInSteem() {
       return parseFloat(this.price / this.$store.state.game.prizeProps.steemprice).toFixed(3);
@@ -82,36 +86,26 @@ export default {
       return false;
     },
     timeToWait() {
-      const building = this.$store.state.game.user.buildings.find(
+      const building = this.base.buildings.find(
         b =>
-          b.building === this.id &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
+          b.name === this.id
       );
       if (building) {
-        if (building.pending_update) {
-          const nextUpdate = new Date(building.pending_update).getTime();
+        console.log(building.pendingTs,this.$store.state.ui.timestamp)
+          const nextUpdate = building.pendingTs;
           const now = this.$store.state.ui.timestamp;
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;
-        }
-
-        const nextUpdate = new Date(building.next_update).getTime();
-        const now = this.$store.state.ui.timestamp;
-        const timeToWait = nextUpdate - now;
-        return timeToWait > 0 ? timeToWait : 0;
       }
       return 0;
     },
     timeToWaitString() {
-      const building = this.$store.state.game.user.buildings.find(
+      const building = this.base.buildings.find(
         b =>
-          b.building === this.id &&
-          b.territory === this.base.territory &&
-          b.base === this.base.base,
+          b.name === this.id
       );
       if (building) {
-        const nextUpdate = new Date(building.next_update).toLocaleString();
+        const nextUpdate = new Date(building.pendingTs).toLocaleString();
         return nextUpdate.replace('/2019', '');
       }
       return 0;
@@ -124,6 +118,7 @@ export default {
     },
     upgradeLabel() {
       let label = 'Upgrade';
+      if (this.pending) label = 'Claim';
       if (this.notEnough) label = 'Miss resources';
       if (this.requireUpdate) label = 'Require HQ upgrade';
       if (this.inProgress) {

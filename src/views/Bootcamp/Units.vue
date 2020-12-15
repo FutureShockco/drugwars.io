@@ -2,7 +2,7 @@
     <div>
         <BootcampTabs/>
         <div class="anim-fade-in">
-            <div class="units" v-if="trainingFacility.lvl > 0">
+            <div class="units" v-if="trainingFacility.level > 0">
                 <Unit v-if="!unit.disabled && !unit.npc" v-for="unit in units" :unit="unit" :key="unit.id" />
             </div>
             <div v-else class="p-2 text-center">
@@ -22,15 +22,16 @@ export default {
     };
   },
   computed: {
+    base() {
+      return this.$store.state.game.selectedBase;
+    },
     trainingFacility() {
       return (
-        this.$store.state.game.user.buildings.find(
+        this.base.buildings.find(
           b =>
-            b.building === 'training_facility' &&
-            b.base === this.$store.state.game.selectedBase.base &&
-            b.territory === this.$store.state.game.selectedBase.territory,
+            b.name === 'training_facility'
         ) || {
-          lvl: 0,
+          level: 0,
         }
       );
     },

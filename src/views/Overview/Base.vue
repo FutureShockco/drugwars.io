@@ -92,8 +92,8 @@ export default {
           b.base === this.ownBase.base,
       );
       if (building) {
-        if (building.pending_update) {
-          const nextUpdate = new Date(building.pending_update).getTime();
+        if (building.pendingTs) {
+          const nextUpdate = new Date(building.pendingTs).getTime();
           const now = this.$store.state.ui.timestamp;
           const timeToWait = nextUpdate - now;
           return timeToWait > 0 ? timeToWait : 0;

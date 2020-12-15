@@ -109,6 +109,7 @@
           :coeff="building.coeff"
           :hqLevel="ownHq.level"
           :inProgress="inProgress"
+          :pending="ownItem.pending"
           :price="drugsCost / 150000"
           :notEnough="hasNotEnough"
         />
@@ -217,14 +218,11 @@ export default {
     },
     inProgress() {
       if (!this.ownItem) return false;
-      if (this.ownItem.pending_update) {
-        const pendingUpdate = new Date(this.ownItem.pending_update).getTime();
+      if (this.ownItem.pendingTs) {
+        const pendingUpdate = this.ownItem.pendingTs;
         const now = new Date().getTime();
         return pendingUpdate >= now;
       }
-      const nextUpdate = new Date(this.ownItem.next_update).getTime();
-      const now = new Date().getTime();
-      return nextUpdate >= now;
     },
   },
 };

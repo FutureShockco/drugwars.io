@@ -131,44 +131,35 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['upgradeBuilding', 'requestPayment']),
+    ...mapActions(['upgradeBuilding', 'claimBuilding', 'requestPayment']),
     handleSubmit(use) {
       this.isLoading = true;
-      let payload = {};
-      if (use === 'dwd') {
-        payload = {
-          building: this.id,
-          level: this.level,
-          use: 'dwd',
-          territory: Number(this.base.territory),
-          base: Number(this.base.base),
-        };
-        const building = this.$store.state.game.user.buildings.find(
-          b =>
-            b.building === this.id &&
-            b.territory === this.base.territory &&
-            b.base === this.base.base,
-        );
-        if (building) {
-          building.next_update = new Date().getTime() + 3000;
-        }
+      let payload = {
+        building: this.id,
+        territory: Number(this.base.territory),
+        base: Number(this.base.base),
+      };
+      if (this.pending) {
+        this.claimBuilding(payload)
+          .then(() => {
+            this.isLoading = false;
+          })
+          .catch((e) => {
+            console.error('Failed', e);
+            this.isLoading = false;
+          });
       } else {
-        payload = {
-          building: this.id,
-          level: this.level,
-          use: 'resources',
-          territory: Number(this.base.territory),
-          base: Number(this.base.base),
-        };
+        payload.resource = use;
+        this.upgradeBuilding(payload)
+          .then(() => {
+            this.isLoading = false;
+          })
+          .catch((e) => {
+            console.error('Failed', e);
+            this.isLoading = false;
+          });
       }
-      this.upgradeBuilding(payload)
-        .then(() => {
-          this.isLoading = false;
-        })
-        .catch(e => {
-          console.error('Failed', e);
-          this.isLoading = false;
-        });
+
     },
     handleRequestPayment() {
       this.requestPayment({

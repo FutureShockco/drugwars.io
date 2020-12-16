@@ -18,6 +18,18 @@ const handleError = (dispatch, error, message = defaultErrorMessage) => {
   console.error(error);
 };
 
+const sign = (tx) => {
+  const username = 'hightouch';
+  const token = 'xxx';
+  // const username = localStorage.getItem(LOGIN_LOCALSTORAGE_USERNAME) || 'hightouch';
+  // const token = localStorage.getItem(LOGIN_LOCALSTORAGE_KEY) || 'xxx';
+  if (!username || !token) {
+    router.push('/login')
+    return
+  }
+  return chain.sign(token, username, tx);
+}
+
 const state = {
   prizeProps: null,
   user: null,
@@ -358,22 +370,57 @@ const actions = {
     }),
   upgradeBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
-      const { username } = rootState.auth;
-      payload.username = username; // eslint-disable-line no-param-reassign
-      payload.type = 'dw-upgrades'; // eslint-disable-line no-param-reassign
-      return dwsocial(username, payload, result => {
-        if (result) {
-          console.log(result);
+      let newTx = {
+        type: 19,
+        data: payload
+      };
+      console.log(newTx)
+      newTx = sign(newTx)
+      chain.sendTransaction(newTx, function (err, res) {
+        if (err) {
+          store.dispatch('notify', {
+            type: 'error',
+            message: err.error,
+          });
+          reject(err)
+        }
+        else {
+          resolve(res);
           store.dispatch('init');
           store.dispatch('notify', {
             type: 'success',
             message: result,
           });
-          return resolve(result);
         }
+      })
+    }),
+  claimBuilding: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      let newTx = {
+        type: 20,
+        data: payload
+      };
+      console.log(newTx)
+      newTx = sign(newTx)
+      chain.sendTransaction(newTx, function (err, res) {
+        if (err) {
+          store.dispatch('init');
 
-        return reject();
-      });
+          store.dispatch('notify', {
+            type: 'error',
+            message: err.error,
+          });
+          reject(err)
+        }
+        else {
+          resolve(res);
+          store.dispatch('init');
+          store.dispatch('notify', {
+            type: 'success',
+            message: result,
+          });
+        }
+      })
     }),
   upgradeGangBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {

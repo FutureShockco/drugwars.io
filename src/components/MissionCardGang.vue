@@ -3,15 +3,16 @@
     <div class="mr-3">
       <img class="preview" :src="`//img.drugwars.io/missions/${item.img}.jpg`" />
     </div>
-    <div class="level" v-if="item.type">{{ item.type }} - Difficulty : {{item.difficulty}}</div>
+    <div class="level" v-if="item.type">{{ item.type }} - Difficulty : {{ item.difficulty }}</div>
     <div class="item-content width-full mr-3 mb-4">
       <h5>{{ item.name }}</h5>
       <div class="mb-2" v-html="item.detail"></div>
       <div v-if="isLoading && !ownJob">
         <Loading />
       </div>
-      <div v-if="item.type ==='gang'">
-                Full reward requirements : Minimum 5 active members under 5 active members the rewards are divided by 10
+      <div v-if="item.type === 'gang'">
+        Full reward requirements : Minimum 5 active members under 5 active members the rewards are
+        divided by 10
         <!-- <span class="text-orange">Requirements: Minimum {{item.difficulty * 2}} active members, under {{item.difficulty * 2}} active members the rewards are divided by 10.</span>  -->
       </div>
       <h5>Enemies</h5>
@@ -23,11 +24,14 @@
           :unit="unit"
           :key="unit.id"
         >
-          <div class="unitamount">{{unit.amount.mini+production/3+30 | round}} - {{unit.amount.max+production/3+30 | round}}</div>
+          <div class="unitamount">
+            {{ (unit.amount.mini + production / 3 + 30) | round }} -
+            {{ (unit.amount.max + production / 3 + 30) | round }}
+          </div>
 
           <img class="preview unit" :src="`//img.drugwars.io/units/${unit.id}.png`" />
 
-          <div class="unitname">{{unit.id}}</div>
+          <div class="unitname">{{ unit.id }}</div>
         </div>
       </div>
 
@@ -38,17 +42,23 @@
           :unit="unit"
           :key="unit.key"
         >
-          <div class="unitamount">{{unit.amount}}</div>
+          <div class="unitamount">{{ unit.amount }}</div>
 
-          <img class="preview unit width-full" width="50" :src="`//img.drugwars.io/units/${unit.key}.png`" />
+          <img
+            class="preview unit width-full"
+            width="50"
+            :src="`//img.drugwars.io/units/${unit.key}.png`"
+          />
 
-          <div class="unitname">{{unit.key}}</div>
+          <div class="unitname">{{ unit.key }}</div>
         </div>
       </div>
-        <div class="column m-0 p-0 col-12 text-center" v-if="item.type ==='gang'">+2.5% bonus rewards per daily active member</div>
-        <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
-            <a @click="openInNewTab()">Open in the simulator</a>
-        </div>
+      <div class="column m-0 p-0 col-12 text-center" v-if="item.type === 'gang'">
+        +2.5% bonus rewards per daily active member
+      </div>
+      <div v-if="timeToWait" class="column m-0 mr-2 p-0 col-12 text-center">
+        <a @click="openInNewTab()">Open in the simulator</a>
+      </div>
     </div>
 
     <div class="mx-auto" v-if="item.rewards && !ownJob">
@@ -81,7 +91,7 @@
       </div>
 
       <button
-        :disabled="isLoading || inProgress || (item.type === 'gang' && !isBoss)"
+        :disabled="isLoading || inProgress || (item.type === 'gang' && !isBoss) || jobleft < 1"
         @click="handleSubmit"
         class="button btn-block button-green mb-2"
       >
@@ -104,25 +114,25 @@
         <div v-if="rewards.randomDrugs" class="column mb-3 p-0 col-6 reward">
           <Icon name="drug" size="32" />
 
-          <div>{{rewards.randomDrugs | amount}}</div>
+          <div>{{ rewards.randomDrugs | amount }}</div>
         </div>
 
         <div v-if="rewards.randomWeapons" class="column mb-3 p-0 col-6 reward">
           <Icon name="weapon" size="32" />
 
-          <div>{{rewards.randomWeapons | amount}}</div>
+          <div>{{ rewards.randomWeapons | amount }}</div>
         </div>
 
         <div v-if="rewards.randomAlcohol" class="column m-0 p-0 col-6 reward">
           <Icon name="alcohol" size="32" />
 
-          <div>{{rewards.randomAlcohol | amount}}</div>
+          <div>{{ rewards.randomAlcohol | amount }}</div>
         </div>
 
         <div v-if="rewards.randomDWD" class="column mb-2 p-0 col-6 reward">
           <Icon name="dwd" size="32" />
 
-          <div>{{rewards.randomDWD}}</div>
+          <div>{{ rewards.randomDWD }}</div>
         </div>
       </div>
       <router-link
@@ -138,7 +148,7 @@
 
       <button
         v-else-if="!timeToWait"
-        :disabled="(item.type === 'gang' && !isBoss)"
+        :disabled="isLoading || (item.type === 'gang' && !isBoss) || jobleft < 1"
         @click="handleSubmit"
         :class="{ progress: waitingConfirmation }"
         class="button btn-block button-green mb-2"
@@ -184,7 +194,7 @@ export default {
       return this.user.role === 'boss' || this.user.role === 'capo';
     },
     timeToWait() {
-      const job = this.$store.state.game.user.gangjobs.find(j => j.job === this.item.id);
+      const job = this.$store.state.game.user.gangjobs.find((j) => j.job === this.item.id);
       if (job) {
         const nextUpdate = new Date(job.date).getTime();
         const now = this.$store.state.ui.timestamp;
@@ -205,7 +215,7 @@ export default {
       return pendingUpdate >= now;
     },
     ownJob() {
-      return this.$store.state.game.user.gangjobs.find(j => j.job === this.item.id);
+      return this.$store.state.game.user.gangjobs.find((j) => j.job === this.item.id);
     },
     json() {
       return jsonParse(this.ownJob.json) || {};
@@ -219,6 +229,16 @@ export default {
     },
     ownBase() {
       return this.$store.state.game.mainbase;
+    },
+    jobleft() {
+      const now = new Date();
+      const day = now.getUTCDate();
+      const month = now.getUTCMonth() + 1;
+      const year = now.getUTCFullYear();
+      const date = `${day}-${month}-${year}`;
+      if (this.$store.state.game.user.user.active === date)
+        return this.$store.state.game.user.user.tutorial;
+      return 15;
     },
   },
   methods: {
@@ -235,10 +255,12 @@ export default {
       };
       this.send(payload)
         .then(() => {
-          self.isLoading = false;
-          self.waitingConfirmation = false;
+          setTimeout(() => {
+            self.isLoading = false;
+            self.waitingConfirmation = false;
+          }, 5000);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Failed', e);
           self.isLoading = false;
           self.waitingConfirmation = false;
@@ -249,9 +271,9 @@ export default {
       const url = 'https://simulator.drugwars.io/';
       let toOpen = 'npc,';
       let myarmy = this.$store.state.game.user.units.filter(
-        unit => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
+        (unit) => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
       );
-      myarmy = myarmy.map(unit =>
+      myarmy = myarmy.map((unit) =>
         this.serialize({
           p: 1,
           key: unit.unit,
@@ -259,7 +281,7 @@ export default {
         }),
       );
       toOpen += myarmy;
-      const mytraining = this.$store.state.game.user.trainings.map(training =>
+      const mytraining = this.$store.state.game.user.trainings.map((training) =>
         this.serialize({
           p: 1,
           key: training.training,
@@ -268,7 +290,7 @@ export default {
       );
       if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       if (this.json.length > 0) {
-        const enemyarmy = this.json.map(unit =>
+        const enemyarmy = this.json.map((unit) =>
           this.serialize({
             p: 2,
             key: unit.key,

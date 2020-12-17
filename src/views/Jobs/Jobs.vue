@@ -2,7 +2,7 @@
 	<div v-if="ownBase">
     <JobsTabs />
 		<div class="text-center anim-fade-in">
-      <h5 class="mt-2" v-if="jobleft>0">  You can still do {{jobleft}} job(s) today.</h5>
+      <h5 class="mt-2" v-if="jobleft>0">  You can still start {{jobleft}} job(s) today.</h5>
       <h5 class="mt-2 text-red" v-else>  You have reached your daily limit of jobs.</h5>
 			<div class="columns m-0" v-for="item in items" :key="item.id">
 				<MissionCard :item="item" />

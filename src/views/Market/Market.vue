@@ -55,7 +55,7 @@
             <div>Market cap</div>
             <div
               class="text-yellow"
-            >${{(Number(marketDepth.supply)) * Number(marketDepth.lastPrice) * Number(prizeProps.steemprice) | amount}}</div>
+            >${{(Number(marketDepth.maxSupply)) * Number(marketDepth.lastPrice) * Number(prizeProps.steemprice) | amount}}</div>
           </h5>
           <h5 class="column col-3 m-0 border-left">
             <div>Burnt</div>

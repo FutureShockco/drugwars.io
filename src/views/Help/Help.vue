@@ -917,7 +917,7 @@
 <h2>8.12 Do I have to battle other players?</h2>
 <p>You do not have to attack other players if you do not want to but you will have to defend yourself if they attack you, so have enough units ready. You can keep upgrading your buildings and receiving rewards based on your production but keep in mind that battles are a way to get more of those resources by looting.</p>
 <h2>8.13 What is Steem Engine?</h2>
-<p>Steem Engine is a smart contracts side-chain platform for the Steem blockchain. This means that it can execute custom smart contracts based on data published to the Steem blockchain. DWD tokens are created on Steem Engine. Visit it by clicking on https://steem-engine.com. You will need to log in through SteemConnect by using your steem login&nbsp;data.</p>
+<p>Steem Engine is a smart contracts side-chain platform for the Steem blockchain. This means that it can execute custom smart contracts based on data published to the Steem blockchain. DWD tokens are created on Steem Engine. Visit it by clicking on https://steemscan.com/steem-engine. You will need to log in through SteemConnect by using your steem login&nbsp;data.</p>
 <h2>8.14 How can I buy DWD tokens on Steem Engine and transfer them to DrugWars?</h2>
 <p>Log in to Steem Engine platform. To find DWD, enter its name in the search area. You will see a similar line to the one you have in your wallet. It will look like this:</p>
 <p><img src="/img/help/image53.png"/></p>

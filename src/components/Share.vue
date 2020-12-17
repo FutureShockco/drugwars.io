@@ -151,8 +151,8 @@ export default {
                               0,
                               {
                                 beneficiaries: [
-                                  { account: 'drugwars', weight: 600 },
-                                  { account: 'drugwars-dealer', weight: 400 },
+                                  { account: 'drugwars', weight: 1000 },
+                                  { account: 'drugwars-dealer', weight: 500 },
                                 ],
                               },
                             ],

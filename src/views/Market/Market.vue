@@ -328,7 +328,7 @@ export default {
   },
   created() {
     const self = this;
-    const ssc = new SSC('https://api.steem-engine.com/rpc2/');
+    const ssc = new SSC('https://api.steem-engine.net/rpc/');
 
     if (self.token === 'DWD') {
       self.marketDepth = this.$store.state.game.prizeProps.seProps;

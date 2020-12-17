@@ -466,7 +466,7 @@ export default {
       });
     },
     loadMarketDepth() {
-      const ssc = new SSC('https://api.steem-engine.com/rpc2/');
+      const ssc = new SSC('https://api.steem-engine.net/rpc/');
       const self = this;
       ssc
         .find(

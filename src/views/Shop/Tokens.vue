@@ -5,7 +5,7 @@
       <h2>GOVERNMENT SHOP</h2>
       <p class="mb-4 text-green">
         We always recommend you to use
-        <a target="_blank" href="https://steem-engine.com/?p=market&t=DWD">SteemEngine</a> to get DWD tokens at a fair price decided by players.
+        <a target="_blank" href="https://steemscan.com/steem-engine/?p=market&t=DWD">SteemEngine</a> to get DWD tokens at a fair price decided by players.
       </p>
       <div class="columns">
         <Shopcard v-for="item in shop" :item="item" :key="item.name" />

@@ -1,52 +1,77 @@
 <template>
-    <div id="territorybg" class="territorybg anim-scale-in" @mousedown="startDrag" @mousemove="doDrag">
-        <!-- <div>X: {{x}}, Y: {{y}}</div> -->
-        <h3 class="title" id="title" style="display:none;">
-            <div v-if="selectedTile">BASE {{selectedTile}}</div>
-            <h5 class="mt-0">UNDER THE CONTROL OF :
-                <div v-if="currentNickname">{{currentNickname}}</div>
-                <span v-else>Nobody </span>
-                <div v-if="currentGang && currentGang.role !== null">{{currentGang.role}} of {{currentGang.name}} [{{currentGang.ticker}}]</div>
-            </h5>
-            <div>INFORMATIONS</div>
-            <h5 class="mt-0">HQ LEVEL : {{currentHq}}</h5>
-            <h5 class="mt-0">DETAIL : {{customName}}</h5>
-            <div class="map-title text-left" id="visit">
-                <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=attack&target=${location}&base=${selectedTile}`">
-                    <button class="button button-red">ATTACK</button>
-                </router-link>
-                <router-link v-if="selectedTile && currentNickname && currentNickname != nickname" :to="`/actions?type=transport&target=${location}&base=${selectedTile}`">
-                    <button class="button button-blue">TRANSPORT</button>
-                </router-link>
-                <router-link v-else-if="currentNickname != nickname && base" :to="`/actions?type=occupy&target=${location}&base=${selectedTile}`">
-                    <button class="button button-blue">CREATE NEW BASE</button>
-                </router-link>
-                <button v-if="currentNickname === nickname && location == base.territory && selectedTile == base.base" class="button button-blue">
-                          ALREADY SELECTED
-                          </button>
-                <div v-else-if="currentNickname === nickname"><button class="button button-blue" @click="selectBase()">
-                          SELECT
-                    </button>
-                    <router-link :to="`/actions?type=transport&target=${location}&base=${selectedTile}`">
-                        <button class="button button-blue">TRANSPORT</button>
-                    </router-link>
-                </div>
-                <button v-if="!main" class="button button-blue" @click="handleSubmit()">CHOOSE AS PRIMARY BASE</button>
-            </div>
-        </h3>
-        <table id="table">
-            <canvas id="canvas" class="mt-1"></canvas>
-        </table>
-    
-        <div class="text-center">
-            <button class="button button-yellow" @click="decreaseLocation()"><div class="iconfont icon-arrow-left"></div>
-            </button><input type="number" v-model="currentLocation" placeholder="25" class="mt-1 input">
-            <button class="button button-yellow" @click="increaseLocation()"><div class="iconfont icon-arrow-right"></div></button>
+  <div
+    id="territorybg"
+    class="territorybg anim-scale-in"
+  >    <h3 class="title" id="title" style="display: none">
+      <div v-if="selectedTile">BASE {{ selectedTile }}</div>
+      <h5 class="mt-0">
+        UNDER THE CONTROL OF :
+        <div v-if="currentNickname">{{ currentNickname }}</div>
+        <span v-else>Nobody </span>
+        <div v-if="currentGang && currentGang.role !== null">
+          {{ currentGang.role }} of {{ currentGang.name }} [{{ currentGang.ticker }}]
         </div>
-        <!-- <div class="text-center">
-                <button class="button button-yellow mt-2"  @click="testIso()">isometric test</button>
-            </div> -->
+      </h5>
+      <div>INFORMATIONS</div>
+      <h5 class="mt-0">HQ LEVEL : {{ currentHq }}</h5>
+      <h5 class="mt-0">DETAIL : {{ customName }}</h5>
+      <div class="map-title text-left" id="visit">
+        <router-link
+          v-if="selectedTile && currentNickname && currentNickname != nickname"
+          :to="`/actions?type=attack&target=${location}&base=${selectedTile}`"
+        >
+          <button class="button button-red">ATTACK</button>
+        </router-link>
+        <router-link
+          v-if="selectedTile && currentNickname && currentNickname != nickname"
+          :to="`/actions?type=transport&target=${location}&base=${selectedTile}`"
+        >
+          <button class="button button-blue">TRANSPORT</button>
+        </router-link>
+        <router-link
+          v-else-if="currentNickname != nickname && base"
+          :to="`/actions?type=occupy&target=${location}&base=${selectedTile}`"
+        >
+          <button class="button button-blue">CREATE NEW BASE</button>
+        </router-link>
+        <button
+          v-if="
+            currentNickname === nickname && location == base.territory && selectedTile == base.base
+          "
+          class="button button-blue"
+        >
+          ALREADY SELECTED
+        </button>
+        <div v-else-if="currentNickname === nickname">
+          <button class="button button-blue" @click="selectBase()">SELECT</button>
+          <router-link :to="`/actions?type=transport&target=${location}&base=${selectedTile}`">
+            <button class="button button-blue">TRANSPORT</button>
+          </router-link>
+        </div>
+        <button v-if="!main" class="button button-blue" @click="handleSubmit()">
+          CHOOSE AS PRIMARY BASE
+        </button>
+      </div>
+    </h3>
+    <table id="table">
+      <canvas id="canvas" class="mt-1" style="cursor: pointer"></canvas>
+    </table>
+
+    <div class="text-center">
+      <button class="button button-yellow" @click="decreaseLocation()">
+        <div class="iconfont icon-arrow-left"></div></button
+      ><input
+        type="number"
+        v-model="currentLocation"
+        placeholder="25"
+        class="mt-1 input"
+        @change="updateLocation(currentLocation)"
+      />
+      <button class="button button-yellow" @click="increaseLocation()">
+        <div class="iconfont icon-arrow-right"></div>
+      </button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -75,9 +100,17 @@ export default {
       y: 'no',
     };
   },
+  watch: {
+    location(val) {
+      if (val) {
+        console.log(val);
+        this.updateLocation()
+      }
+    },
+  },
   computed: {
     main() {
-      if (this.base) return this.$store.state.game.user.buildings.find(b => b.main === 1) || null;
+      if (this.base) return this.$store.state.game.user.buildings.find((b) => b.main === 1) || null;
     },
     location() {
       return this.$route.query.location || null;
@@ -86,9 +119,9 @@ export default {
       return this.$store.state.game.mainbase;
     },
     ownOccupationTroop() {
-      if (this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop'))
+      if (this.$store.state.game.user.units.find((u) => u.unit === 'occupation_troop'))
         return (
-          this.$store.state.game.user.units.find(u => u.unit === 'occupation_troop').amount || {
+          this.$store.state.game.user.units.find((u) => u.unit === 'occupation_troop').amount || {
             amount: 0,
           }
         );
@@ -118,26 +151,6 @@ export default {
     },
     decreaseLocation() {
       this.$router.push({ path: `/map/territory?location=${Number(this.location) - 1}` });
-    },
-    startDrag() {
-      this.dragging = true;
-      this.x = this.y = 0;
-    },
-    stopDrag() {
-      this.dragging = false;
-      this.x = this.y = 'no';
-    },
-    doDrag(event) {
-      if (this.dragging) {
-        this.x = event.clientX;
-        this.y = event.clientY;
-        const bg = document.getElementById('territorybg');
-        const tb = document.getElementById('table');
-        const canvas_element = document.getElementById('canvas');
-        const limit = document.body.clientWidth - bg.offsetWidth;
-        tb.style.left = `${limit + 50 - this.x * 1.66}px`;
-        tb.style.top = `${document.body.clientHeight / 5 - this.y / 2.25 - 100}px`;
-      }
     },
     start() {
       const self = this;
@@ -212,7 +225,7 @@ export default {
 
       const visitTitle = document.getElementById('title');
       const visitButton = document.getElementById('visit');
-      canvas_element.onclick = function(e) {
+      canvas_element.onclick = function (e) {
         event = e;
         const elementClickedId = checkClick(event);
         if (self.selectedTile != null && self.nickname === self.currentNickname) {
@@ -270,9 +283,9 @@ export default {
           ) {
             visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 54}px`;
             visitTitle.style.left = `initial`;
-            visitTitle.style.right = `${canvas_element.width -
-              tiles_array[elementClickedId.id].x +
-              48}px`;
+            visitTitle.style.right = `${
+              canvas_element.width - tiles_array[elementClickedId.id].x + 48
+            }px`;
           } else {
             visitTitle.style.top = `${tiles_array[elementClickedId.id].y + 54}px`;
             visitTitle.style.right = `initial`;
@@ -284,30 +297,13 @@ export default {
         drawTiles();
       };
 
-      // canvas_element.onmousemove = function(e) {
-      //   const elementUnder = checkClick(event);
-      //   if (elementUnder == 1) {
-      //     changeCursor('hand');
-      //   } else {
-      //     changeCursor('default');
-      //   }
-      // };
-
-      // canvas_element.onmouseout = function(e) {
-      //   changeCursor('default');
-      // };
-
-      // function changeCursor(value){
-      //   canvas_element.style.cursor = value;
-      // }
-
       function checkClick(event) {
         const clickX = event.layerX;
         const clickY = event.layerY;
 
         let element;
 
-        tiles_array.forEach(tile => {
+        tiles_array.forEach((tile) => {
           if (
             clickX > tile.workWidth.start &&
             clickX < tile.workWidth.end &&
@@ -347,7 +343,7 @@ export default {
           let main = '';
           let gang = {};
           let job = '';
-          self.bases.forEach(element => {
+          self.bases.forEach((element) => {
             if (element.base === i && element.job != undefined) {
               fillColor = '#ffc508';
               nickname = element.nickname;
@@ -363,7 +359,7 @@ export default {
               custom_name = element.custom;
               main = element.main;
             } else if (element.base === i && element.nickname !== self.nickname) {
-              fillColor = 'red';
+              fillColor = '#a90000';
               nickname = element.nickname;
               gang = { role: element.role, gang: element.name, ticker: element.ticker };
               level = element.lvl;
@@ -396,32 +392,85 @@ export default {
         }
       }
 
-      createTiles(15, 15);
+      const home = new Image();
+      const tree = new Image();
+      const buildingtop = new Image();
+      const buildingbottom = new Image();
+      const fountain = new Image();
+      const pool = new Image();
+      const heliport = new Image();
+      const job = new Image();
+      home.src = '//img.drugwars.io/map/first.png';
+      buildingtop.src = '//img.drugwars.io/map/first.png';
+      pool.src = '//img.drugwars.io/map/first.png';
+      heliport.src = '//img.drugwars.io/map/first.png';
+      home.src = '//img.drugwars.io/map/home.png';
+      tree.src = '//img.drugwars.io/map/tree.png';
+      buildingtop.src = '//img.drugwars.io/map/buildingtop.png'; 
+      buildingbottom.src = '//img.drugwars.io/map/buildingbottom.png';
+      fountain.src = '//img.drugwars.io/map/fountain.png';
+      pool.src = '//img.drugwars.io/map/pool.png';
+      heliport.src = '//img.drugwars.io/map/heliport.png';
+      job.src = '//img.drugwars.io/map/home.png';
+
 
       function drawTiles() {
         const background = new Image();
-        background.src = `//img.drugwars.io/map/map.jpg`;
+
+        background.src = `//img.drugwars.io/map/newmap.jpg`;
         background.onload = () => {
           context.imageSmoothingEnabled = true;
           context.drawImage(background, 0, 0, canvas.width, canvas.height);
-          tiles_array.forEach(tile => {
+          tiles_array.forEach((tile) => {
             context.beginPath();
             if (tile.fillColor) context.fillStyle = tile.fillColor;
             else context.fillStyle = 'rgba(255, 255, 255, 0.0)';
-            context.rect(tile.x, tile.y, tile.width, tile.height);
-            context.lineWidth = '0';
-            context.strokeStyle = tile.strokeStyle;
-            context.strokeStyle = '#000';
-            context.stroke();
-            if (tile.fillColor) context.fill();
+            context.rect(tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 12);
+            // context.lineWidth = '0';
+            // context.strokeStyle = tile.strokeStyle;
+            // context.strokeStyle = '#000';
+
+            context.fill();
+
+            if (tile.fillColor) {
+              if(tile.level > 99)
+              {
+                context.drawImage(heliport, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+              }
+              else if (tile.level > 49) {
+                 context.drawImage(pool, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+              }
+              else if (tile.level > 29) {
+                 context.drawImage(fountain, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+              }
+              if (tile.level < 10) {
+                context.drawImage(home, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+                if (tile.fillColor === 'green'){
+                  context.drawImage(tree, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+                } 
+              }
+              if (tile.level > 9) {
+                context.drawImage(buildingtop, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+              }
+              if (tile.level > 19) {
+                context.drawImage(buildingbottom, tile.x + 6, tile.y + 9, tile.width - 12, tile.height - 11);
+              }
+
+            }
+            context.shadowColor = 'black';
+            context.shadowBlur = 5;
             context.textAlign = 'center';
+            context.lineWidth = 5;
+
             context.font = '12px American Captain';
             context.fillStyle = '#fff';
-            context.fillText(tile.id, tile.x + 10, tile.y + 25);
+            context.fillText(tile.id, tile.x + 15, tile.y + 42);
           });
         };
       }
+      createTiles(15, 15);
       drawTiles();
+
       // const limit = (document.body.clientWidth)-bg.offsetWidth;
       // tb.style.left = (limit+50) +'px';
     },
@@ -432,7 +481,7 @@ export default {
       this.isLoading = true;
       if (isValid && this.location && this.selectedTile) {
         const payload = {
-          type: 'dw-firstloc',
+          type: 'firstloc',
           territory: Number(this.location),
           base: Number(this.selectedTile),
         };
@@ -442,14 +491,20 @@ export default {
               self.init();
             }, 5000);
             Promise.delay(3000).then(() => {
-              client.requestAsync('get_bases', this.location).then(result => {
+              client.requestAsync('get_bases', this.location).then((result) => {
                 [self.bases] = result;
-                this.setMainBase({ territory:result[0][0].territory,base:result[0][0].base,custom:result[0][0].custom,main:result[0][0].main });
+                this.setMainBase({
+                  territory: result[0][0].territory,
+                  base: result[0][0].base,
+                  custom: result[0][0].custom,
+                  main: result[0][0].main,
+                });
+                self.$router.push(`/buildings`);
                 self.isLoading = false;
               });
             });
           })
-          .catch(e => {
+          .catch((e) => {
             this.notify({ type: 'error', message: 'Failed to take base' });
             console.error('Failed to take base', e);
             this.isLoading = false;
@@ -463,7 +518,7 @@ export default {
       const base = this.selectedTile;
       const territory = this.location;
       const params = { base, territory };
-      if (this.$store.state.game.user.buildings.find(b => b.main === 1 && b.territory !== 0)) {
+      if (this.$store.state.game.user.buildings.find((b) => b.main === 1 && b.territory !== 0)) {
         this.errorMessage = 'You already have a main base!';
       }
 
@@ -473,7 +528,7 @@ export default {
       const now = new Date();
       const isPunished = new Date(Date.parse(this.$store.state.game.user.user.punished));
       if (isPunished > now) {
-        this.errorMessage = `Hmm Bad talks are not appropriated in DrugWars, try again after ${isPunished.toLocaleString()}`;
+        this.errorMessage = `Hmm Bad talks are not appropriated in GoldWars, try again after ${isPunished.toLocaleString()}`;
       }
 
       if (!this.errorMessage)
@@ -512,35 +567,52 @@ export default {
       context.translate(0, 500);
       context.rotate((-45 * Math.PI) / 180);
     },
+    updateLocation(value) {
+      const self = this;
+      self.bases = null;
+      if (self.currentLocation !== self.location) {
+        if(value)
+        self.currentLocation = value;
+        else self.currentLocation = self.location;
+        client.requestAsync('get_bases', self.currentLocation).then((result) => {
+          [self.bases] = result;
+          result[1].forEach((element) => {
+            self.bases.push(element);
+          });
+          self.start();
+          self.isLoading = false;
+        });
+      }
+    },
   },
   mounted() {
     const self = this;
     self.bases = null;
     self.currentLocation = self.location;
-    client.requestAsync('get_bases', this.location).then(result => {
+    client.requestAsync('get_bases', this.location).then((result) => {
       [self.bases] = result;
-      result[1].forEach(element => {
+      result[1].forEach((element) => {
         self.bases.push(element);
       });
       self.start();
       self.isLoading = false;
     });
   },
-  updated() {
-    const self = this;
-    self.bases = null;
-    if (self.currentLocation !== self.location) {
-      self.currentLocation = self.location;
-      client.requestAsync('get_bases', this.location).then(result => {
-        [self.bases] = result;
-        result[1].forEach(element => {
-          self.bases.push(element);
-        });
-        self.start();
-        self.isLoading = false;
-      });
-    }
-  },
+  // updated() {
+  //   const self = this;
+  //   self.bases = null;
+  //   if (self.currentLocation !== self.location) {
+  //     self.currentLocation = self.location;
+  //     client.requestAsync('get_bases', this.location).then((result) => {
+  //       [self.bases] = result;
+  //       result[1].forEach((element) => {
+  //         self.bases.push(element);
+  //       });
+  //       self.start();
+  //       self.isLoading = false;
+  //     });
+  //   }
+  // },
 };
 </script>
 

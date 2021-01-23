@@ -95,11 +95,11 @@ const getBalances = (building, ocLvl, labLvl, weaponLvl, aSchoolLvl) => {
 const unitValues = (unit, trainings) => {
   let attack = unit.attack;
   let defense = unit.defense;
-  let health = unit.health;
+  const health = unit.health;
 
   const protection = trainings.find(b => b.training === 'protection');
   const giant = trainings.find(b => b.training === 'giant');
-  if (protection) unit.health = health + (unit.health /100) * protection.lvl;
+  if (protection) unit.health = health + (unit.health / 100) * protection.lvl;
   if (giant) unit.health = health + (unit.health / 100) * giant.lvl; // eslint-disable-line no-param-reassign
   if (unit.type === 'Melee') {
     const closecombat = trainings.find(b => b.training === 'closecombat');

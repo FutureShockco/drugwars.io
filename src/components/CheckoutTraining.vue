@@ -73,8 +73,11 @@ export default {
       return false;
     },
     dwdPrice() {
-      if(!this.$store.state.game.prizeProps.seProps || !this.$store.state.game.prizeProps.seProps.lastPrice)
-      return false
+      if (
+        !this.$store.state.game.prizeProps.seProps ||
+        !this.$store.state.game.prizeProps.seProps.lastPrice
+      )
+        return false;
       const price = this.$store.state.game.prizeProps.seProps.lastPrice || 0;
       return price * this.priceInDWD * this.$store.state.game.prizeProps.steemprice;
     },

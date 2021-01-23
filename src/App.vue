@@ -4,30 +4,26 @@
     <template v-else>
       <TopNav v-if="username" />
       <Sidebars v-if="username && showSidebar" />
-      <!-- <BottomNav v-if="username"/> -->
-      <!-- <balloon v-if="username" title="DrugWars LiveChat" position="bottom-right" :zooming="false"></balloon> -->
       <router-view
         :class="{
-              content: showSidebar,
-              'content--nav-open': sidebarVisible,
-            }"
+          content: showSidebar,
+          'content--nav-open': sidebarVisible,
+        }"
       />
     </template>
     <Notifications />
-    <cookie-law style="z-index:99999">
+    <cookie-law style="z-index: 99999">
       <div slot="message">
-        <h3
-          class="text-center text-red"
-        >Thanks to all for your loyalty to the game. The team will soon announce exciting news for Drugwars and all DWD holders!  </h3>
+        <h3 class="text-center text-red">
+          Thanks to all for your loyalty to the game. The team will soon announce exciting news for
+          Drugwars and all DWD holders!
+        </h3>
       </div>
     </cookie-law>
   </div>
 </template>
 
 <script>
-import store from '@/store';
-import client from '@/helpers/client';
-import { setTimeout } from 'timers';
 import CookieLaw from 'vue-cookie-law';
 
 export default {
@@ -55,20 +51,7 @@ export default {
     showLoading() {
       return this.$store.state.ui.showLoading;
     },
-    // checkTime() {
-    //   if (this.$store.state.game.prizeProps && this.$store.state.game.prizeProps.server_time && this.firstLoad) {
-    //     this.firstLoad = false;
-    //     const diff = Math.abs(this.$store.state.game.prizeProps.server_time - new Date().getTime());
-    //     if (diff > 1500000) {
-    //       this.timeIsopen = true;
-    //       return true;
-    //     }
-    //     return false;
-    //   }
-    //   return false;
-    // },
   },
-
   methods: {
     closeModal() {
       localStorage.setItem('firstime', true);

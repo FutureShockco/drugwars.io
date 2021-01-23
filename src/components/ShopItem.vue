@@ -51,7 +51,7 @@ export default {
       return diff > 0 ? diff : 0;
     },
     shieldUsed() {
-      return  new Date(this.$store.state.game.user.user.last_shield_use) > new Date();
+      return new Date(this.$store.state.game.user.user.last_shield_use) > new Date();
     },
   },
   methods: {

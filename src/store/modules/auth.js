@@ -6,7 +6,7 @@ import sc from '@/helpers/steemlogin';
 const state = {
   username: null,
   account: null,
-  auth_type: null
+  auth_type: null,
 };
 
 const mutations = {

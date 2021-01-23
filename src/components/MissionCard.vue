@@ -176,7 +176,7 @@ export default {
       return this.user.role === 'boss' || this.user.role === 'capo';
     },
     timeToWait() {
-      const job = this.$store.state.game.user.jobs.find((j) => j.job === this.item.id);
+      const job = this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
       if (job) {
         const nextUpdate = new Date(job.date).getTime();
         const now = this.$store.state.ui.timestamp;
@@ -197,7 +197,7 @@ export default {
       return pendingUpdate >= now;
     },
     ownJob() {
-      return this.$store.state.game.user.jobs.find((j) => j.job === this.item.id);
+      return this.$store.state.game.user.jobs.find(j => j.job === this.item.id);
     },
     json() {
       return jsonParse(this.ownJob.json) || {};
@@ -240,13 +240,13 @@ export default {
         type: 'start-job',
       };
       this.send(payload)
-        .then((result) => {
+        .then(result => {
           setTimeout(() => {
             self.isLoading = false;
             self.waitingConfirmation = false;
           }, 5000);
         })
-        .catch((e) => {
+        .catch(e => {
           console.error('Failed', e);
           self.isLoading = false;
           self.waitingConfirmation = false;
@@ -262,9 +262,9 @@ export default {
       const url = 'https://simulator.drugwars.io/';
       let toOpen = 'npc,';
       let myarmy = this.$store.state.game.user.units.filter(
-        (unit) => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
+        unit => unit.base === this.ownBase.base && unit.territory === this.ownBase.territory,
       );
-      myarmy = myarmy.map((unit) =>
+      myarmy = myarmy.map(unit =>
         this.serialize({
           p: 1,
           key: unit.unit,
@@ -272,7 +272,7 @@ export default {
         }),
       );
       toOpen += myarmy;
-      const mytraining = this.$store.state.game.user.trainings.map((training) =>
+      const mytraining = this.$store.state.game.user.trainings.map(training =>
         this.serialize({
           p: 1,
           key: training.training,
@@ -281,7 +281,7 @@ export default {
       );
       if (mytraining && mytraining.length > 0) toOpen += `,${mytraining}`;
       if (this.json.length > 0) {
-        const enemyarmy = this.json.map((unit) =>
+        const enemyarmy = this.json.map(unit =>
           this.serialize({
             p: 2,
             key: unit.key,

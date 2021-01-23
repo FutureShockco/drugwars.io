@@ -58,7 +58,7 @@ Vue.use(AuthPlugin);
 Vue.use(VueUi);
 Vue.use(VueI18n);
 Vue.use(Vue2TouchEvents);
-Vue.use(VTooltip)
+Vue.use(VTooltip);
 
 store.dispatch('loadSettings');
 

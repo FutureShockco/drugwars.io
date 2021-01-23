@@ -131,7 +131,7 @@ export default {
                             content: 'fight',
                             tags: ['drugwars-fight', 'gaming', 'fight', 'dw'],
                             app: 'drugwars',
-                            server: self.$store.state.game.server.name
+                            server: self.$store.state.game.server.name,
                           }),
                         },
                       ],

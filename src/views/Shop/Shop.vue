@@ -12,7 +12,6 @@
 
 
 <script>
-import { shop } from 'drugwars';
 
 export default {
   data() {
@@ -24,7 +23,7 @@ export default {
           type: '48 hours',
           price: 100,
           desc: 'The shield will protect you from any attacks.',
-          enabled:true,
+          enabled: true,
         },
         {
           icon: 'machine_gun',
@@ -32,7 +31,7 @@ export default {
           type: '48 hours',
           price: 100,
           desc: 'This will double your overall production.',
-          enabled:true,
+          enabled: true,
         },
         // {icon:"shield",name:"free jobs",type:"48 hours",price:100,desc:"This will double the limit of your daily jobs."},
         // {icon:"shield",name:"defense pass",type:"48 hours",price:100,desc:"With this pass, you will only lose 50% of your units when attacked."},

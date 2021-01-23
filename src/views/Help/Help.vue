@@ -988,7 +988,7 @@ export default {
   font-size: 18px;
 }
 
-img{
+img {
   max-width: 100%;
 }
 </style>

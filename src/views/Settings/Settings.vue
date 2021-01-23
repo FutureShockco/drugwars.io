@@ -92,9 +92,9 @@ export default {
       localStorage.setItem('attack_alert', false);
       alert.isActive = false; // eslint-disable-line no-param-reassign
     },
-    deleteFavCompo(){
+    deleteFavCompo() {
       localStorage.removeItem('fav_combi');
-    }
+    },
   },
 };
 </script>

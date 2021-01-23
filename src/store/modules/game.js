@@ -32,7 +32,11 @@ const state = {
   mainbase: null,
   steemengine: null,
   force_sent_fights_refresh: true,
-  server: JSON.parse(localStorage.getItem('server')) || { api: process.env.VUE_APP_WS_API_URL_S2, name: 'Los Angeles', number: 2 }
+  server: JSON.parse(localStorage.getItem('server')) || {
+    api: process.env.VUE_APP_WS_API_URL_S2,
+    name: 'Los Angeles',
+    number: 2,
+  },
 };
 
 const mutations = {
@@ -128,9 +132,7 @@ const actions = {
                   'saveBase',
                   user.buildings.find(b => b.main === 1 && b.territory != 0 && b.base != 0),
                 );
-                if (
-                  totalbases !== user.buildings.find(b => b.building === 'headquarters').length
-                )
+                if (totalbases !== user.buildings.find(b => b.building === 'headquarters').length)
                   commit(
                     'saveMainBase',
                     user.buildings.find(
@@ -492,7 +494,7 @@ const actions = {
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
       sc.broadcast(post, (err, result) => {
-        console.log(err,result)
+        console.log(err, result);
         if (err) {
           handleError(dispatch, err, 'Share fight failed');
           return reject(err);
@@ -592,7 +594,7 @@ const actions = {
     //     }
     //   })
     // }
-    //else 
+    // else
     if (window.steem_keychain && window.steem_keychain.current_id) {
       window.steem_keychain.requestTransfer(
         username,
@@ -730,9 +732,9 @@ const actions = {
     commit('saveConnected', false);
   },
   setServer: ({ commit }, payload) => {
-    localStorage.setItem('server',JSON.stringify(payload))
+    localStorage.setItem('server', JSON.stringify(payload));
     commit('saveServer', payload);
-    client.reset
+    client.reset;
   },
 };
 

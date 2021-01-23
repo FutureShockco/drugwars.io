@@ -4,7 +4,6 @@ import store from '@/store';
 
 Promise.promisifyAll(Client.prototype);
 
-
 let rawClient = new Client(store.state.game.server.api);
 rawClient = Sub(rawClient);
 const handler = {

@@ -30,7 +30,7 @@ import client from '@/helpers/client';
 export default {
   data() {
     return {
-      items: pickBy(missions, (b) => b.type === 'gang'),
+      items: pickBy(missions, b => b.type === 'gang'),
       isLoading: false,
       user: this.$store.state.game.user.user,
       fights: null,
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     load_jobs() {
-      client.requestAsync('get_sent_gang_fights_npc', this.user.gang).then((result) => {
+      client.requestAsync('get_sent_gang_fights_npc', this.user.gang).then(result => {
         this.fights = result;
         this.isLoading = false;
       });

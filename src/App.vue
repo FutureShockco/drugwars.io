@@ -35,13 +35,13 @@
        <p>We detected an issue with your clock. Please check your local date time to avoid any display issue!</p>
     				<button class="button button-red" id="show-modal" @click="closeTimeModal()">Close</button>
     </UiCenter> -->
-    <!-- <cookie-law style="z-index:99999">
+    <cookie-law style="z-index:99999">
       <div slot="message">
         <h3
           class="text-center text-red"
-        >IMPORTANT NOTE: DRUGWARS v0.7 IS RELEASED, DON'T FORGET TO CHOOSE DETROIT AS YOUR CURRENT SERVER IF YOU WERE PLAYING BEFORE THIS UPDATE. THANK YOU FOR YOUR UNDERSTANDING</h3>
+        >Thanks to all for your loyalty to the game. The team will soon announce exciting news for Drugwars and all DWD holders!  </h3>
       </div>
-    </cookie-law> -->
+    </cookie-law>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
       attempt: 1,
       connected: false,
       timeIsopen: false,
-      firstLoad:true,
+      firstLoad: true,
     };
   },
   components: { CookieLaw },
@@ -124,7 +124,7 @@ export default {
   width: auto;
   height: auto;
   z-index: -100;
-  background: url(//img.drugwars.io/bg.jpg) no-repeat;
+  background: url(//img.drugwars.io/bg4.jpg) no-repeat;
   background-size: cover;
 }
 

@@ -481,7 +481,7 @@ export default {
       this.isLoading = true;
       if (isValid && this.location && this.selectedTile) {
         const payload = {
-          type: 'firstloc',
+          type: 'dw-firstloc',
           territory: Number(this.location),
           base: Number(this.selectedTile),
         };

@@ -110,7 +110,7 @@
       </h5>
     </div>
     <div v-if="cruelty" class="column px-0 col-2">
-      <h5 class="production" v-if="player && rank && rank <11">SEASON 5 PRIZE END JUNE 2021</h5>
+      <h5 class="production" v-if="player && rank && rank <11">SEASON 6 PRIZE END SEPTEMBER 2021</h5>
     </div>
     <div class="column col-2">
       <h5 v-if="reward && !cruelty" class="production">

@@ -70,7 +70,7 @@
         "@vue/test-utils": "^1.0.0-beta.20",
         "babel-core": "7.0.0-bridge.0",
         "babel-jest": "^24.3.1",
-        "electron": "^3.0.0",
+        "electron": "^9.4.0",
         "electron-builder": "^20.28.0",
         "eslint-config-prettier": "^3.1.0",
         "eslint-plugin-prettier": "^3.0.0",

@@ -18,7 +18,7 @@
       <div slot="message">
         <h3
           class="text-center text-red"
-        >Thanks to all for your loyalty to the game. The team will soon announce exciting news for Drugwars and all DWD holders!  </h3>
+        >Don't forget to setup your airdrop wallet.  </h3>
       </div>
     </cookie-law>
   </div>

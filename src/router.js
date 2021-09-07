@@ -113,6 +113,8 @@ const About = () => import(/* webpackChunkName: "about" */ '@/views/About.vue');
 const Help = () => import(/* webpackChunkName: "help" */ '@/views/Help/Help.vue');
 const GetStarted = () => import(/* webpackChunkName: "getstarted" */ '@/views/Help/GetStarted.vue');
 const Guides = () => import(/* webpackChunkName: "guides" */ '@/views/Help/Guides.vue');
+const Airdrop = () => import(/* webpackChunkName: "airdrop" */ '@/views/Airdrop.vue');
+
 const Error404 = () => import(/* webpachChunkName: "error404" */ '@/views/404.vue');
 
 Vue.use(Router);
@@ -573,6 +575,12 @@ export default new Router({
       name: 'earlyaccess',
       beforeEnter: requireAuth,
       component: EarlyAccess,
+    },
+    {
+      path: '/airdrop',
+      name: 'airdrop',
+      beforeEnter: requireAuth,
+      component: Airdrop
     },
     {
       path: '/login',

@@ -1,76 +1,90 @@
 <template>
-    <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
-        <div class="d-flex flex-column height-full">
-            <div class="text-center pt-3">
-                <Avatar v-if="user.nickname && rank" :size="100" :username="user.nickname" :xp="xp" :rank="rank" :picture="user.picture" :reputation="reputation"/>
-                <Avatar v-else :size="100" :username="user.nickname" :xp="xp" :picture="user.picture"  :reputation="reputation"/>
-                <div  class="username text-xs" >{{rankname}}</div>
-                <div class="username" @click.native="toggleSidebar">
-                    {{ user.nickname }}
-                </div>
-                 <div class="gang-label" v-if="user.ticker">
-                   [{{ user.ticker }}]
-                 </div>
-            </div>
-            <div class="height-full">
-                <ul class="pt-1 border-bottom">
-                    <li>
-                        <BaseDropdown class="pb-2 px-3 d-block" :config="config" />
-                    </li>
-                </ul>
-                <ul class="pt-1 pb-2 border-bottom">
-                                     <li>
-                        <router-link to="/news" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.news' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/overview" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.overview' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/buildings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                          {{'sidebar.buildings' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/units" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                      {{'sidebar.bootcamp' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/actions" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                        {{'sidebar.actions' | translate}}
-                            <span class="text-red label p-0" v-if="activeIncFightsCount > 0">
-                  {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>
-                </span> <span class="text-green label p-0" v-if="activeFightsCount > 0">
-                  {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>
-                </span>
-                <span class="text-blue label p-0" v-if="activeTransportsCount > 0">
-                  {{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>
-                </span>
-                            <span class="text-orange label p-0" v-if="activeStationsCount > 0">
-                  {{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>
-                </span>
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/map" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                                                    {{'sidebar.map' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/leaderboards" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                        {{'sidebar.leaderboards' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/gangs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                        {{'sidebar.gangs' | translate}}
-                        </router-link>
-                    </li>
-                    <!-- <li>
+  <div class="sidebar sidebar-left" :class="{ 'sidebar-open': sidebarVisible }">
+    <div class="d-flex flex-column height-full">
+      <div class="text-center pt-3">
+        <Avatar
+          v-if="user.nickname && rank"
+          :size="100"
+          :username="user.nickname"
+          :xp="xp"
+          :rank="rank"
+          :picture="user.picture"
+          :reputation="reputation"
+        />
+        <Avatar
+          v-else
+          :size="100"
+          :username="user.nickname"
+          :xp="xp"
+          :picture="user.picture"
+          :reputation="reputation"
+        />
+        <div class="username text-xs">{{ rankname }}</div>
+        <div class="username" @click.native="toggleSidebar">
+          {{ user.nickname }}
+        </div>
+        <div class="gang-label" v-if="user.ticker">[{{ user.ticker }}]</div>
+      </div>
+      <div class="height-full">
+        <ul class="pt-1 border-bottom">
+          <li>
+            <BaseDropdown class="pb-2 px-3 d-block" :config="config" />
+          </li>
+        </ul>
+        <ul class="pt-1 pb-2 border-bottom">
+          <li>
+            <router-link to="/news" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.news' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/overview" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.overview' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/buildings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.buildings' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/units" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.bootcamp' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/actions" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.actions' | translate }}
+              <span class="text-red label p-0" v-if="activeIncFightsCount > 0">
+                {{ activeIncFightsCount }}<i class="iconfont icon-arrow-down"></i>
+              </span>
+              <span class="text-green label p-0" v-if="activeFightsCount > 0">
+                {{ activeFightsCount }}<i class="iconfont icon-arrow-up"></i>
+              </span>
+              <span class="text-blue label p-0" v-if="activeTransportsCount > 0">
+                {{ activeTransportsCount }}<i class="iconfont icon-arrow-up"></i>
+              </span>
+              <span class="text-orange label p-0" v-if="activeStationsCount > 0">
+                {{ activeStationsCount }}<i class="iconfont icon-arrow-up"></i>
+              </span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/map" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.map' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/leaderboards" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.leaderboards' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/gangs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.gangs' | translate }}
+            </router-link>
+          </li>
+          <!-- <li>
                 <router-link
                   to="/contracts"
                   class="py-1 px-3 d-block"
@@ -79,67 +93,79 @@
                   Contracts
                 </router-link>
               </li> -->
-                    <li>
-                        <router-link to="/jobs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.jobs' | translate}} <span class="text-red" v-if="jobs > 0">
-                  ({{ jobs }})
-                </span>
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/rewards" class="py-1 px-3 d-block sidebar-rewards" @click.native="toggleSidebar">
-                            {{'sidebar.heist' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/market?token=dwd" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.market' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/shop" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.shop' | translate}}
-                        </router-link>
-                    </li>
-                    <!-- <li>
+          <li>
+            <router-link to="/jobs" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.jobs' | translate }}
+              <span class="text-red" v-if="jobs > 0"> ({{ jobs }}) </span>
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/rewards"
+              class="py-1 px-3 d-block sidebar-rewards"
+              @click.native="toggleSidebar"
+            >
+              {{ 'sidebar.heist' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link
+              to="/market?token=dwd"
+              class="py-1 px-3 d-block"
+              @click.native="toggleSidebar"
+            >
+              {{ 'sidebar.market' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/shop" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.shop' | translate }}
+            </router-link>
+          </li>
+          <!-- <li>
                         <router-link to="/cards/mycollection" class="py-1 px-3 d-block" @click.native="toggleSidebar">
                             {{'sidebar.cards' | translate}}
                         </router-link>
                     </li> -->
-                </ul>
-                <ul class="pt-1 pb-2">
-                    <!-- <li>
+        </ul>
+        <ul class="pt-1 pb-2">
+          <li>
+            <router-link to="/airdrop" class="py-1 px-3 d-block" style="color:red" @click.native="toggleSidebar">
+              Airdrop
+            </router-link>
+          </li>
+          <!-- <li>
                         <router-link to="/referral" class="py-1 px-3 d-block " @click.native="toggleSidebar">
                             {{'sidebar.referral' | translate}}
                         </router-link>
                     </li> -->
-                    <li>
-                        <router-link to="/settings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                            {{'sidebar.settings' | translate}}
-                        </router-link>
-                    </li>
-                    <li>
-                        <router-link to="/help" class="py-1 px-3 d-block" @click.native="toggleSidebar">
-                             {{'sidebar.help' | translate}}
-                        </router-link>
-                    </li>
-                    <!-- <li>
+          <li>
+            <router-link to="/settings" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.settings' | translate }}
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/help" class="py-1 px-3 d-block" @click.native="toggleSidebar">
+              {{ 'sidebar.help' | translate }}
+            </router-link>
+          </li>
+          <!-- <li>
                         <a href="https://forum.drugwars.io/" target="_blank" class="py-1 px-3 d-block">
                    {{'sidebar.forum' | translate}}
                 </a>
                     </li> -->
-                </ul>
-                <!-- <ul class="pt-1 pb-2 border-bottom">
+        </ul>
+        <!-- <ul class="pt-1 pb-2 border-bottom">
                     <li>
                         <a @click.prevent="logout" class="py-1 px-3 text-gray d-block">
                     {{'sidebar.logout' | translate}}
                 </a>
                     </li>
                 </ul> -->
-            </div>
-            <Footer/>
-        </div>
+      </div>
+      <Footer />
     </div>
+  </div>
 </template>
 
 <script>
@@ -176,12 +202,22 @@ export default {
     rankname() {
       let i = 10;
       let rank = 10;
-      let names = ['recruit','grifter','outlaw','enforcer','smuggler','lieutenant','boss','legend','divine','immortal']
+      let names = [
+        'recruit',
+        'grifter',
+        'outlaw',
+        'enforcer',
+        'smuggler',
+        'lieutenant',
+        'boss',
+        'legend',
+        'divine',
+        'immortal',
+      ];
       let totalprod = this.$store.state.game.prizeProps.max_prod[0].max_prod;
-      let userprod = this.$store.state.game.user.total_production; 
-      rank = Math.floor((userprod/totalprod)*10)-1
-      if(rank <0)
-      rank = 0
+      let userprod = this.$store.state.game.user.total_production;
+      rank = Math.floor((userprod / totalprod) * 10) - 1;
+      if (rank < 0) rank = 0;
       return names[rank];
     },
     reputation() {
@@ -207,13 +243,13 @@ export default {
     jobs() {
       let jobs = 0;
       if (this.$store.state.game.user.jobs)
-        this.$store.state.game.user.jobs.forEach(element => {
+        this.$store.state.game.user.jobs.forEach((element) => {
           const pendingUpdate = new Date(element.date).getTime();
           const now = new Date().getTime();
           if (pendingUpdate >= now) jobs++;
         });
       if (this.$store.state.game.user.gangjobs)
-        this.$store.state.game.user.gangjobs.forEach(element => {
+        this.$store.state.game.user.gangjobs.forEach((element) => {
           const pendingUpdate = new Date(element.date).getTime();
           const now = new Date().getTime();
           if (pendingUpdate >= now) jobs++;

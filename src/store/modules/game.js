@@ -95,7 +95,7 @@ const mutations = {
   },
 };
 
-const authToken = function() {
+const authToken = function () {
   let accessToken = null;
   if (localStorage.getItem('access_token')) {
     accessToken = localStorage.getItem('access_token');
@@ -343,6 +343,32 @@ const actions = {
         return reject();
       });
     }),
+  setAirdrop: ({ rootState }, payload) =>
+    new Promise((resolve, reject) => {
+      const { username } = rootState.auth;
+      payload.username = username; // eslint-disable-line no-param-reassign
+      payload.type = 'set_airdrop'; // eslint-disable-line no-param-reassign
+      if (localStorage.getItem('access_token')) {
+        const token = localStorage.getItem('access_token');
+        sc.setAccessToken(token);
+        client
+          .requestAsync('set_airdrop', { username, token, payload })
+          .then(result => {
+            store.dispatch('notify', {
+              type: 'success',
+              message: result,
+            });
+            resolve();
+          })
+          .catch(e => {
+            console.log(e);
+            resolve(e);
+          });
+      } else {
+        console.log('no access token');
+        resolve();
+      }
+    }),
   upgradeBuilding: ({ rootState }, payload) =>
     new Promise((resolve, reject) => {
       const { username } = rootState.auth;
@@ -492,7 +518,7 @@ const actions = {
   shareFight: ({ dispatch }, post) =>
     new Promise((resolve, reject) => {
       sc.broadcast(post, (err, result) => {
-        console.log(err,result)
+        console.log(err, result)
         if (err) {
           handleError(dispatch, err, 'Share fight failed');
           return reject(err);
@@ -730,7 +756,7 @@ const actions = {
     commit('saveConnected', false);
   },
   setServer: ({ commit }, payload) => {
-    localStorage.setItem('server',JSON.stringify(payload))
+    localStorage.setItem('server', JSON.stringify(payload))
     commit('saveServer', payload);
     client.reset
   },

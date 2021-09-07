@@ -362,6 +362,10 @@ const actions = {
           })
           .catch(e => {
             console.log(e);
+            store.dispatch('notify', {
+              type: 'error',
+              message: 'Airdrop wallet already set!',
+            });
             resolve(e);
           });
       } else {

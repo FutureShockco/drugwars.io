@@ -17,7 +17,6 @@
           :key="server.number"
         >
           {{ server.name }}
-          <span v-if="server.number === 2">(Recommended)</span>
         </button>
       </div>
       <h2 v-if="chain">{{ chain.name.toString().toUpperCase() }}</h2>
@@ -39,6 +38,23 @@
           <span v-else>Save</span>
         </button>
       </form>
+      <div class="p-4">
+        <h3>Guides to create wallet</h3>
+        <p>
+          <a href="https://docs.matic.network/docs/develop/metamask/hello/" target="_blank">
+            Polygon(Matic) Network
+          </a>
+        </p>
+        <p>
+          <a href="https://docs.binance.org/smart-chain/wallet/metamask.html" target="_blank">
+            Binance Smart Chain
+          </a>
+        </p>
+        <h3>How to claim my tokens?</h3>
+        <h5>
+          When the new version of the game is released your tokens will be automatically sent to your wallet on the chosen blockchain.
+        </h5>
+      </div>
     </div>
   </div>
 </template>
@@ -58,7 +74,6 @@ export default {
       chains: [
         { name: 'Binance Smart Chain', number: 1 },
         { name: 'Polygon (Matic)', number: 2 },
-        { name: 'Avalanche', number: 3 },
       ],
       alerts: [
         {

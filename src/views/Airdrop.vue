@@ -4,7 +4,7 @@
     <div class="p-4 text-center anim-fade-in">
       <h2>SETUP AIRDROP WALLET</h2>
       <h5>Be carefull, your wallet address should be on one of those blockchains</h5>
-      <h6>BINANCE SMART CHAIN MAINNET - POLYGON (MATIC) MAINNET - AVALANCHE MAINNET</h6>
+      <h6>BINANCE SMART CHAIN MAINNET - POLYGON (MATIC) MAINNET</h6>
       <h5>
         FutureShock Team can not recover/airdrop your tokens if you enter another blockchain wallet.
       </h5>

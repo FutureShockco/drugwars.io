@@ -15,7 +15,7 @@
         {{ priceInSteem | amount }} STEEM
       </button> -->
       <h3 class="mt-0 mb-0" >${{ item.price | amount }}</h3>
-      <PayPal
+      <!-- <PayPal
         :amount="item.price.toString()"
         currency="USD"
         :client="credentials"
@@ -25,23 +25,19 @@
         v-on:payment-authorized="paymentAuthorized"
         v-on:payment-completed="paymentCompleted"
         v-on:payment-cancelled="paymentCancelled"
-      ></PayPal>
+      ></PayPal> -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import PayPal from 'vue-paypal-checkout';
 
 export default {
   props: ['item'],
   data() {
     return {
-      credentials: {
-        sandbox: process.env.VUE_APP_PAYPAL_SANDBOX,
-        production: process.env.VUE_APP_PAYPAL_PROD,
-      },
+
       experienceOptions: {
         input_fields: {
           no_shipping: 1,
@@ -73,9 +69,7 @@ export default {
       /* eslint-enable */
     },
   },
-  components: {
-    PayPal,
-  },
+
   methods: {
     ...mapActions(['send', 'requestPayment']),
     handleRequestPayment() {

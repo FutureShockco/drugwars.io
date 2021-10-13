@@ -87,10 +87,7 @@
 							<!-- <button class="button button-green" :disabled="!buyquantity || !buyprice || buyquantity <=0 || buyprice <=0 || (buyprice*buyquantity> steemBalance)" @click="buySteem()">Buy with STEEM</button> -->
 						 	<button class="button button-green" disabled>Buy with STEEM</button>
              </div>
-             	<div class="column col-6 p-0 m-0" v-else> 
-							<button disabled class="button button-green" @click="buyPaypal()">Buy with Paypal</button>
-                <div>Min order : $3</div>
-						 </div>
+
 					</div>
       </div>
       <div class="column col-6 p-0 m-0 text-right border-bottom  pb-3  mt-2">
@@ -457,7 +454,6 @@ export default {
         amount: `${parseFloat(self.buyprice * self.buyquantity).toFixed(3)} STEEM`,
       });
     },
-    buyPaypal() {},
     sell() {
       const self = this;
       self.requestSellBot({

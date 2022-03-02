@@ -44,7 +44,7 @@
         "steemlogin": "^1.0.1",
         "three": "^0.104.0",
         "three-orbitcontrols": "^2.102.1",
-        "url-parse": "^1.4.3",
+        "url-parse": "^1.5.9",
         "v-tooltip": "^2.0.3",
         "vue": "^2.5.17",
         "vue-analytics": "^5.16.2",

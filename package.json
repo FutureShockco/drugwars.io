@@ -23,7 +23,7 @@
         "@vue/ui": "^0.5.2",
         "apexcharts": "^3.8.5",
         "auth0-js": "^9.13.1",
-        "auth0-lock": "^11.23.0",
+        "auth0-lock": "^11.33.0",
         "bluebird": "^3.5.3",
         "cacache": "^13.0.0",
         "dom-to-image": "^2.6.0",

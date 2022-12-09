@@ -29,7 +29,7 @@
         "dom-to-image": "^2.6.0",
         "drugwars": "^0.1.72",
         "dsteem": "^0.10.1",
-        "express": "^4.16.3",
+        "express": "^4.17.3",
         "hexasphere.js": "^0.2.2",
         "lodash": "^4.17.15",
         "module": "^1.2.5",

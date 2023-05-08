@@ -17,7 +17,7 @@
         "start": "node start.js",
         "build-electron:linux": "electron-builder --linux",
         "start-electron": "electron .",
-        "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
+        "heroku-postbuild": "npm install && npm run build",
         "test:unit": "vue-cli-service test:unit",
         "build-electron": "npm run build-electron:mac && npm run build-electron:linux && npm run build-electron:win",
         "build-electron:mac": "electron-builder --mac",

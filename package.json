@@ -6,6 +6,9 @@
     "description": "The drugs are virtual, but the money is real",
     "license": "MIT",
     "main": "electron-entry.js",
+    "engines": {
+      "node": "16.x"
+    },
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",

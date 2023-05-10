@@ -7,7 +7,7 @@
     "license": "MIT",
     "main": "electron-entry.js",
     "engines": {
-      "node": "12.x
+      "node": "12.x"
     },
     "scripts": {
         "serve": "vue-cli-service serve",

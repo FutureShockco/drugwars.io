@@ -3,6 +3,7 @@
     <SettingsTabs />
     <div class="p-4 text-center anim-fade-in">
       <h2>AIRDROP FOR TELEGRAM</h2>
+      <a href="https://t.me/drugwars_bot/drugwars" target="_blank">PLAY DW ON TELEGRAM</a>
       <h5>Copy/paste the code below in your telegram game in the task section.</h5>
       <h5>
         FutureShock Team can not recover/airdrop your tokens if you give your code to another user.

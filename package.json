@@ -7,7 +7,7 @@
     "license": "MIT",
     "main": "electron-entry.js",
     "engines": {
-      "node": "12.x"
+        "node": "12.x"
     },
     "scripts": {
         "serve": "vue-cli-service serve",
@@ -41,7 +41,6 @@
         "pretty-ms": "^4.0.0",
         "primer": "^10.8.1",
         "serve-static": "^1.13.2",
-        "socket.io-client": "^2.2.0",
         "sscjs": "0.0.8",
         "steem-markdown-only": "0.0.7",
         "steemlogin": "^1.0.1",
@@ -59,8 +58,7 @@
         "vue2-touch-events": "^2.0.0",
         "vuedraggable": "^2.23.2",
         "vuejs-paginate": "^2.1.0",
-        "vuex": "^3.0.1",
-        "web3": "^1.5.2"
+        "vuex": "^3.0.1"
     },
     "devDependencies": {
         "@types/jest": "^23.3.3",

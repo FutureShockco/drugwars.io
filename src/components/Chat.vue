@@ -102,10 +102,7 @@
 import { mapActions } from 'vuex';
 import Promise from 'bluebird';
 import client from '@/helpers/client';
-import io from 'socket.io-client';
 
-// if (socket) socket.disconnect();
-// let socket = new io.connect('https://drugwars-chat.herokuapp.com/');
 
 export default {
   data() {

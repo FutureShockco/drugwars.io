@@ -2,66 +2,32 @@
   <div>
     <SettingsTabs />
     <div class="p-4 text-center anim-fade-in">
-      <h2>SETUP AIRDROP WALLET</h2>
-      <h5>Be carefull, your wallet address should be on one of those blockchains</h5>
-      <h6>BINANCE SMART CHAIN MAINNET - POLYGON (MATIC) MAINNET</h6>
+      <h2>AIRDROP FOR TELEGRAM</h2>
+      <h5>Copy/paste the code below in your telegram game in the task section.</h5>
       <h5>
-        FutureShock Team can not recover/airdrop your tokens if you enter another blockchain wallet.
+        FutureShock Team can not recover/airdrop your tokens if you give your code to another user.
       </h5>
-      <h2 class="mb-2 rounded-2" @click="isOpen = !isOpen">SELECT BLOCKCHAIN</h2>
-      <div :class="{ isOpen }" class="dropdown">
-        <button
-          class="btn btn-blue rp mr-2 mb-2"
-          v-for="server in chains"
-          @click="chooseServer(server)"
-          :key="server.number"
-        >
-          {{ server.name }}
-        </button>
-      </div>
-      <h2 v-if="chain">{{ chain.name.toString().toUpperCase() }}</h2>
-      <form class="form container-xxs" @submit.prevent="handleAirdrop">
-        <p v-if="chain && chain.name">Write your wallet address on {{ chain.name }}</p>
-        <input
-          class="input input-primary mb-2"
-          v-model="address"
-          maxlength="48"
-          :placeholder="'0xcaa9601....'"
-          v-lowercase
-        />
-        <button
-          class="button input-block button-large button-red mb-2"
-          type="submit"
-          :disabled="isLoading || !isAddress || !chain || !chain.name"
-        >
-          <SmallLoading v-if="isLoading" />
-          <span v-else>Save</span>
-        </button>
-      </form>
-      <div class="p-4">
-        <h3>Guides to create wallet</h3>
-        <p>
-          <a href="https://docs.matic.network/docs/develop/metamask/hello/" target="_blank">
-            Polygon(Matic) Network
-          </a>
-        </p>
-        <p>
-          <a href="https://docs.binance.org/smart-chain/wallet/metamask.html" target="_blank">
-            Binance Smart Chain
-          </a>
-        </p>
-        <h3>How to claim my tokens?</h3>
+
+      <form class="form container-xxs" v-if="user">
+        <input readonly class="input input-primary mb-2" v-model="user" maxlength="48" :placeholder="'0xcaa9601....'"
+          v-lowercase />
+
         <h5>
-          When the new version of the game is released your tokens will be automatically sent to your wallet on the chosen blockchain.
+          This code can be used once and will give you {{ amount }} DW Token per 2 weeks during 52 weeks.
         </h5>
-      </div>
+
+      </form>
+
+      <h5 v-else>
+        Unfortunately you are not eligible for the airdrop.
+      </h5>
+
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import web3 from 'web3';
 
 export default {
   data() {
@@ -86,16 +52,21 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.game.user.user;
+      if (this.$store.state.game.user.dropcode && this.$store.state.game.user.dropcode[0])
+        return this.$store.state.game.user.dropcode[0].code;
+      else return false
+    },
+    amount() {
+      if (this.$store.state.game.user.dropcode && this.$store.state.game.user.dropcode[0])
+        return this.$store.state.game.user.dropcode[0].amount;
+      else return false
     },
     lastUpdate() {
       return new Date(
         Date.parse(this.$store.state.game.user.user.last_profile_update),
       ).toLocaleString();
     },
-    isAddress() {
-      return web3.utils.isAddress(this.address);
-    },
+
   },
   methods: {
     ...mapActions(['setAirdrop', 'notify']),

@@ -33,6 +33,11 @@
         </ul>
         <ul class="pt-1 pb-2 border-bottom">
           <li>
+            <router-link to="/airdrop" class="py-1 px-3 d-block" style="color:red" @click.native="toggleSidebar">
+              Airdrop
+            </router-link>
+          </li>
+          <li>
             <router-link to="/news" class="py-1 px-3 d-block" @click.native="toggleSidebar">
               {{ 'sidebar.news' | translate }}
             </router-link>
@@ -129,11 +134,7 @@
                     </li> -->
         </ul>
         <ul class="pt-1 pb-2">
-          <li>
-            <router-link to="/airdrop" class="py-1 px-3 d-block" style="color:red" @click.native="toggleSidebar">
-              Airdrop
-            </router-link>
-          </li>
+
           <!-- <li>
                         <router-link to="/referral" class="py-1 px-3 d-block " @click.native="toggleSidebar">
                             {{'sidebar.referral' | translate}}

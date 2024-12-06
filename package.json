@@ -44,7 +44,7 @@
         "sscjs": "0.0.8",
         "steem-markdown-only": "0.0.7",
         "steemlogin": "^1.0.1",
-        "three": "^0.104.0",
+        "three": "^0.137.0",
         "three-orbitcontrols": "^2.102.1",
         "url-parse": "^1.4.3",
         "v-tooltip": "^2.0.3",

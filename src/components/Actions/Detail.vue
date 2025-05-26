@@ -1,39 +1,39 @@
 <template>
-    <div>
-        <h5>Balances</h5>
-        <ul class="columns list-style-none user-balances mb-4">
-            <li class="column col-4">
-                <Icon name="drug" />
-                <div class="text-red">
-                    <div>{{ detail.drugs_balance | amount }}</div>
-                    <div class="text-green">{{ detail.drug_storage / 100 * 20 | amount }} safe</div>
-                </div>
-            </li>
-            <li class="column col-4">
-                <Icon name="weapon" />
-                <div class="text-red">
-                    <div>{{ detail.weapons_balance | amount }}</div>
-                    <div class="text-green">{{ detail.weapon_storage / 100 * 20 | amount }} safe</div>
-                </div>
-            </li>
-            <li class="column col-4">
-                <Icon name="alcohol" />
-                <div class="text-red">
-                    <div>{{ detail.alcohols_balance | amount }} </div>
-                    <div class="text-green">{{ detail.alcohol_storage / 100 * 20 | amount }} safe</div>
-                </div>
-            </li>
-        </ul>
-        <h5 v-if="detail && detail.buildings">OFFICE AND STORAGE</h5>
-        <ActionsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
-        <h5 v-if="detail && detail.buildings">DEFENSE</h5>
-        <ActionsDefense class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
-        <h5 v-if="detail && detail.trainings">TRAINING</h5>
-        <ActionsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings" />
-        <div >
-            <a @click="openInNewTab()">Open in the simulator</a>
+  <div>
+    <h5>Balances</h5>
+    <ul class="columns list-style-none user-balances mb-4">
+      <li class="column col-4">
+        <Icon name="drug" />
+        <div class="text-red">
+          <div>{{ detail.drugs_balance | amount }}</div>
+          <div class="text-green">{{ detail.drug_storage / 100 * 20 | amount }} safe</div>
         </div>
+      </li>
+      <li class="column col-4">
+        <Icon name="weapon" />
+        <div class="text-red">
+          <div>{{ detail.weapons_balance | amount }}</div>
+          <div class="text-green">{{ detail.weapon_storage / 100 * 20 | amount }} safe</div>
+        </div>
+      </li>
+      <li class="column col-4">
+        <Icon name="alcohol" />
+        <div class="text-red">
+          <div>{{ detail.alcohols_balance | amount }} </div>
+          <div class="text-green">{{ detail.alcohol_storage / 100 * 20 | amount }} safe</div>
+        </div>
+      </li>
+    </ul>
+    <h5 v-if="detail && detail.buildings">OFFICE AND STORAGE</h5>
+    <ActionsBase class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
+    <h5 v-if="detail && detail.buildings">DEFENSE</h5>
+    <ActionsDefense class="mb-4" v-if="detail && detail.buildings" :items="detail.buildings" />
+    <h5 v-if="detail && detail.trainings">TRAINING</h5>
+    <ActionsTrainings class="mb-4" v-if="detail && detail.trainings" :items="detail.trainings" />
+    <div>
+      <a @click="openInNewTab()">Open in the simulator</a>
     </div>
+  </div>
 </template>
 
 <script>

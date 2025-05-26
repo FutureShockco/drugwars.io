@@ -1,17 +1,18 @@
 <template>
-    <div v-if="items">
-        <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-inline-block">
-            <div  class="mx-1 my-1 text-center" v-for="building in placeholder_buildings" :key="building.id"  v-if="building.id === item.building && building.type === 'defense'">
-              <img width="50" :src="`//img.drugwars.io/buildings/${item.building}.jpg`">
-            <div>
-                {{ item.lvl }}
-            <div>
-              <h5 class="text-yellow label small">{{building.name}}</h5>
-            </div>
-            </div>
-            </div>
+  <div v-if="items">
+    <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-inline-block">
+      <div class="mx-1 my-1 text-center" v-for="building in placeholder_buildings" :key="building.id"
+        v-if="building.id === item.building && building.type === 'defense'">
+        <img width="50" :src="`//img.drugwars.io/buildings/${item.building}.jpg`">
+        <div>
+          {{ item.lvl }}
+          <div>
+            <h5 class="text-yellow label small">{{ building.name }}</h5>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

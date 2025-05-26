@@ -1,24 +1,28 @@
 <template>
-    <div v-if="items">
-        <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-block text-left">
-            <div v-for="building in placeholder_buildings" :key="building.id">
-                <BuildingProductionCompact v-if="building.id === item.building && building.type !== 'defense' && !building.production_rate" :item="item" :building="building" />
-            </div>
-        </div>
-         <h5>PRODUCTION BUILDINGS</h5>
-        <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building+'prod'" class="d-block text-left">
-            <div v-for="building in placeholder_buildings" :key="building.id">
-                <BuildingProductionCompact v-if="building.id === item.building && building.type !== 'defense' && building.production_rate" :item="item" :building="building" />
-            </div>
-        </div>
-        <h5>
-            <div>PRODUCTION PER DAY</div>
-            {{totalDrugs * 60 * 60 * 24 | amount}}
-            <Icon name="drug" size="20" /> {{totalWeapons * 60 * 60 * 24 | amount}}
-            <Icon name="weapon" size="20" /> {{totalAlcohol * 60 * 60 * 24 | amount}}
-            <Icon name="alcohol" size="20" />
-        </h5>
+  <div v-if="items">
+    <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building" class="d-block text-left">
+      <div v-for="building in placeholder_buildings" :key="building.id">
+        <BuildingProductionCompact
+          v-if="building.id === item.building && building.type !== 'defense' && !building.production_rate" :item="item"
+          :building="building" />
+      </div>
     </div>
+    <h5>PRODUCTION BUILDINGS</h5>
+    <div v-for="item in items" v-if="item.lvl !== 0" :key="item.building + 'prod'" class="d-block text-left">
+      <div v-for="building in placeholder_buildings" :key="building.id">
+        <BuildingProductionCompact
+          v-if="building.id === item.building && building.type !== 'defense' && building.production_rate" :item="item"
+          :building="building" />
+      </div>
+    </div>
+    <h5>
+      <div>PRODUCTION PER DAY</div>
+      {{ totalDrugs * 60 * 60 * 24 | amount }}
+      <Icon name="drug" size="20" /> {{ totalWeapons * 60 * 60 * 24 | amount }}
+      <Icon name="weapon" size="20" /> {{ totalAlcohol * 60 * 60 * 24 | amount }}
+      <Icon name="alcohol" size="20" />
+    </h5>
+  </div>
 </template>
 
 <script>

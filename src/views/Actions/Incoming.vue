@@ -1,18 +1,22 @@
 <template>
-    <div>
-        <ActionsTabs/>
-        <Paginate class="ml-6 mt-4 text-center width-full" :page-count="Math.ceil(inc/25)" :page-range="3" :margin-pages="2" :click-handler="load_fights" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'fight'"></Paginate>
-        <div class="p-4">
-            <div class="fight" v-for="fight in fights" :key="fight.fight_key || fight.transport_key">
-                <ActionsFight v-if="fight.type === 'fight'" :fight="fight" />
-                <ActionsTransport v-if="fight.type === 'transport'" :fight="fight" />
-            </div>
-            <p v-if="!fights || !fights.length">
-                <Loading/>
-            </p>
-        </div>
-        <Paginate class="ml-6 mb-4 mt-0 text-center width-full" :page-count="Math.ceil(inc/25)" :page-range="3" :margin-pages="2" :click-handler="load_fights" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'" :page-class="'fight'"></Paginate>
+  <div>
+    <ActionsTabs />
+    <Paginate class="ml-6 mt-4 text-center width-full" :page-count="Math.ceil(inc / 25)" :page-range="3" :margin-pages="2"
+      :click-handler="load_fights" :prev-text="'Prev'" :next-text="'Next'" :container-class="'pagination'"
+      :page-class="'fight'"></Paginate>
+    <div class="p-4">
+      <div class="fight" v-for="fight in fights" :key="fight.fight_key || fight.transport_key">
+        <ActionsFight v-if="fight.type === 'fight'" :fight="fight" />
+        <ActionsTransport v-if="fight.type === 'transport'" :fight="fight" />
+      </div>
+      <p v-if="!fights || !fights.length">
+        <Loading />
+      </p>
     </div>
+    <Paginate class="ml-6 mb-4 mt-0 text-center width-full" :page-count="Math.ceil(inc / 25)" :page-range="3"
+      :margin-pages="2" :click-handler="load_fights" :prev-text="'Prev'" :next-text="'Next'"
+      :container-class="'pagination'" :page-class="'fight'"></Paginate>
+  </div>
 </template>
 
 <script>
@@ -61,6 +65,7 @@ export default {
   margin-right: auto;
   display: -webkit-inline-box;
   list-style: none;
+
   a,
   span,
   em {
@@ -71,6 +76,7 @@ export default {
 li .disabled {
   background-color: #8080803b !important;
   color: #000000 !important;
+
   .pagination a {
     color: #000000 !important;
   }

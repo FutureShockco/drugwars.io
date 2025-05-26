@@ -1,13 +1,13 @@
 <template>
-    <Header>
-        <UiTabs>
-    
-            <!-- <UiTab to="/actions/station">Station   
+  <Header>
+    <UiTabs>
+
+      <!-- <UiTab to="/actions/station">Station   
             </UiTab> -->
-            <!-- <UiTab to="/actions/station">Occupy   
+      <!-- <UiTab to="/actions/station">Occupy   
           </UiTab> -->
-        </UiTabs>
-    </Header>
+    </UiTabs>
+  </Header>
 </template>
 
 

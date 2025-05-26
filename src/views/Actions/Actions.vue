@@ -7,10 +7,8 @@
           <div class="column farm col-6" v-for="player in farmlist" :key="player.key">
             <div class="border-bottom border-top border-left text-right">
               <h5 class="mb-0">
-                {{player.name}}
-                <span
-                  class="text-yellow mx-1"
-                >{{player.set.territory}} : {{player.set.location}}</span>
+                {{ player.name }}
+                <span class="text-yellow mx-1">{{ player.set.territory }} : {{ player.set.location }}</span>
                 <button class="button button-red" @click="deleteFarm(player.name)">
                   <div class="iconfont icon-trashcan text-white"></div>
                 </button>
@@ -33,60 +31,35 @@
         <div v-if="action_type === 'station'">Station units in your other bases</div>
         <div v-if="action_type === 'occupy'">Take a new base (need 1 occupation troop)</div>
         <div class="mt-1">
-          <button
-            class="button"
-            @click="chooseActionType('attack')"
-            :class="{ 'button-red' : action_type ==='attack' || target_type === 'npc' }"
-          >ATTACK</button>
-          <button
-            class="button ml-1"
-            @click="chooseActionType('transport')"
-            :class="{ 'button-blue' : action_type ==='transport' }"
-          >TRANSPORT</button>
-          <button
-            class="button ml-1"
-            @click="chooseActionType('occupy')"
-            :class="{ 'button-green' : action_type ==='occupy' }"
-          >OCCUPY</button>
-          <button
-            class="button ml-1"
-            @click="chooseActionType('station')"
-            :class="{ 'button-orange' : action_type ==='station' }"
-          >STATION</button>
+          <button class="button" @click="chooseActionType('attack')"
+            :class="{ 'button-red': action_type === 'attack' || target_type === 'npc' }">ATTACK</button>
+          <button class="button ml-1" @click="chooseActionType('transport')"
+            :class="{ 'button-blue': action_type === 'transport' }">TRANSPORT</button>
+          <button class="button ml-1" @click="chooseActionType('occupy')"
+            :class="{ 'button-green': action_type === 'occupy' }">OCCUPY</button>
+          <button class="button ml-1" @click="chooseActionType('station')"
+            :class="{ 'button-orange': action_type === 'station' }">STATION</button>
         </div>
         <h3>Select your army composition</h3>
         <div v-if="ownUnits.length > 0">
-          <div v-for="ownUnit in ownUnits" :key="ownUnit.key+ownBase.territory+ownBase.base">
+          <div v-for="ownUnit in ownUnits" :key="ownUnit.key + ownBase.territory + ownBase.base">
             <UnitSelect v-if="ownUnit.amount > 0" :item="ownUnit" @click="addUnit" />
           </div>
         </div>
         <div v-else>You must buy troops</div>
-        <div v-if="action_type !=='occupy'" class="column pl-0 mt-6 col-6 text-left width-full">
-          <input
-            class="input form-control"
-            :disabled="selectedUnits.length === 0"
-            placeholder="New Squad name"
-            v-model="combination_name"
-            maxlength="24"
-          />
-          <button
-            class="button button-green"
-            :disabled="selectedUnits.length === 0 || !combination_name"
-            @click="saveCombination()"
-          >Save squad</button>
-          <draggable @start="drag=true" v-model="favoriteCombinations" @end="onEnd">
+        <div v-if="action_type !== 'occupy'" class="column pl-0 mt-6 col-6 text-left width-full">
+          <input class="input form-control" :disabled="selectedUnits.length === 0" placeholder="New Squad name"
+            v-model="combination_name" maxlength="24" />
+          <button class="button button-green" :disabled="selectedUnits.length === 0 || !combination_name"
+            @click="saveCombination()">Save squad</button>
+          <draggable @start="drag = true" v-model="favoriteCombinations" @end="onEnd">
             <div class="mt-2" v-for="combination in favoriteCombinations" :key="combination.key">
-              <button
-                class="button button-red"
-                @click="deleteCombination(combination.name)"
-              >delete squad</button>
-              <button
-                class="button button-blue ml-2"
-                @click="loadCombination(combination.set)"
-              >load {{combination.name}}</button>
+              <button class="button button-red" @click="deleteCombination(combination.name)">delete squad</button>
+              <button class="button button-blue ml-2" @click="loadCombination(combination.set)">load
+                {{ combination.name }}</button>
             </div>
           </draggable>
-          <h3>Defensive Power : {{defensivePower}}%</h3>
+          <h3>Defensive Power : {{ defensivePower }}%</h3>
           <a @click="openInNewTab()" target="_blank">Access to the Fight simulator</a>
         </div>
       </div>
@@ -100,95 +73,41 @@
             <p>You need to select at least 1 unit.</p>
           </div>
           <div v-else>
-            <h5>Power : {{offensivePower}}% - Timer : {{ timer|ms}} - Cost : {{cost |amount}}</h5>
+            <h5>Power : {{ offensivePower }}% - Timer : {{ timer | ms }} - Cost : {{ cost | amount }}</h5>
             <button class="button button-blue mb-2" @click="removeUnits()">Remove all</button>
             <div v-if="action_type === 'transport'">
               <div class="columns mt-4">
                 <div class="column col-4">
-                  <ProgressBar
-                    :icon="'drug'"
-                    :color="'#00b31e'"
-                    :width="70"
-                    font-size="20"
-                    :pv="progressPercent(drugs_amount,selectedTotal)"
-                    :total="drugs_amount"
-                    :cost="carry - selectedTotal"
-                    :bold="12"
-                    :text-bg-color="'#1f1f1f'"
-                    :during="3"
-                    :border-color="'#ffc508'"
-                    :bg-color="'#fbb034'"
-                    :text-color="'#ffffff'"
-                  />
-                  <input
-                    type="number"
-                    v-model="drugs_amount"
-                    placeholder="amount"
-                    class="mt-5 input width-full"
-                  />
+                  <ProgressBar :icon="'drug'" :color="'#00b31e'" :width="70" font-size="20"
+                    :pv="progressPercent(drugs_amount, selectedTotal)" :total="drugs_amount"
+                    :cost="carry - selectedTotal" :bold="12" :text-bg-color="'#1f1f1f'" :during="3"
+                    :border-color="'#ffc508'" :bg-color="'#fbb034'" :text-color="'#ffffff'" />
+                  <input type="number" v-model="drugs_amount" placeholder="amount" class="mt-5 input width-full" />
                 </div>
                 <div class="column col-4">
-                  <ProgressBar
-                    :icon="'weapon'"
-                    :color="'#00b31e'"
-                    :width="70"
-                    font-size="20"
-                    :pv="progressPercent(weapons_amount,selectedTotal)"
-                    :total="weapons_amount"
-                    :cost="carry - selectedTotal"
-                    :bold="12"
-                    :text-bg-color="'#1f1f1f'"
-                    :during="3"
-                    :border-color="'#ffc508'"
-                    :bg-color="'#fbb034'"
-                    :text-color="'#ffffff'"
-                  />
-                  <input
-                    type="number"
-                    v-model="weapons_amount"
-                    placeholder="amount"
-                    class="mt-5 input width-full"
-                  />
+                  <ProgressBar :icon="'weapon'" :color="'#00b31e'" :width="70" font-size="20"
+                    :pv="progressPercent(weapons_amount, selectedTotal)" :total="weapons_amount"
+                    :cost="carry - selectedTotal" :bold="12" :text-bg-color="'#1f1f1f'" :during="3"
+                    :border-color="'#ffc508'" :bg-color="'#fbb034'" :text-color="'#ffffff'" />
+                  <input type="number" v-model="weapons_amount" placeholder="amount" class="mt-5 input width-full" />
                 </div>
                 <div class="column col-4">
-                  <ProgressBar
-                    :icon="'alcohol'"
-                    :color="'#00b31e'"
-                    :width="70"
-                    font-size="20"
-                    :pv="progressPercent(alcohol_amount,selectedTotal)"
-                    :total="alcohol_amount"
-                    :cost="carry - selectedTotal"
-                    :bold="12"
-                    :text-bg-color="'#1f1f1f'"
-                    :during="3"
-                    :border-color="'#ffc508'"
-                    :bg-color="'#fbb034'"
-                    :text-color="'#ffffff'"
-                  />
-                  <input
-                    type="number"
-                    v-model="alcohol_amount"
-                    placeholder="amount"
-                    class="mt-5 input width-full"
-                  />
+                  <ProgressBar :icon="'alcohol'" :color="'#00b31e'" :width="70" font-size="20"
+                    :pv="progressPercent(alcohol_amount, selectedTotal)" :total="alcohol_amount"
+                    :cost="carry - selectedTotal" :bold="12" :text-bg-color="'#1f1f1f'" :during="3"
+                    :border-color="'#ffc508'" :bg-color="'#fbb034'" :text-color="'#ffffff'" />
+                  <input type="number" v-model="alcohol_amount" placeholder="amount" class="mt-5 input width-full" />
                 </div>
               </div>
-              <h5
-                :class="{'text-red': progressPercent(selectedTotal,carry)>100}"
-              >Total {{progressPercent(selectedTotal,carry)}}%</h5>
+              <h5 :class="{ 'text-red': progressPercent(selectedTotal, carry) > 100 }">Total
+                {{ progressPercent(selectedTotal, carry) }}%</h5>
             </div>
           </div>
         </div>
         <div v-if="action_type !== 'occupy' && target_type !== 'npc'">
           <h3>Type a nickname</h3>
           <div>
-            <input
-              class="input form-control mb-1"
-              type="string"
-              placeholder="Nickname"
-              v-model="targetNickname"
-            />
+            <input class="input form-control mb-1" type="string" placeholder="Nickname" v-model="targetNickname" />
             <button class="button button-green" @click="getUserBase()">
               <div class="iconfont icon-search"></div>
             </button>
@@ -196,138 +115,87 @@
               <div class="iconfont icon-book"></div>
             </button>
             <h5 v-if="bases" class="mt-1">
-              <span v-if="enemyRankName" class="mr-1">{{enemyRankName}}</span>
-              <span v-if="bases[0] && bases[0].role" class="mr-1">{{bases[0].role}} OF</span>
-              <span v-if="bases[0] && bases[0].name" class="mr-1">{{bases[0].name}}</span>
-              <span v-if="bases[0] && bases[0].ticker">[{{bases[0].ticker}}]</span>
+              <span v-if="enemyRankName" class="mr-1">{{ enemyRankName }}</span>
+              <span v-if="bases[0] && bases[0].role" class="mr-1">{{ bases[0].role }} OF</span>
+              <span v-if="bases[0] && bases[0].name" class="mr-1">{{ bases[0].name }}</span>
+              <span v-if="bases[0] && bases[0].ticker">[{{ bases[0].ticker }}]</span>
             </h5>
             <div v-for="base in bases" :key="base.id">
-              <button
-                class="button button-yellow"
-                @click="chooseBase(base.territory,base.base, base.custom)"
-              >{{base.territory}}:{{base.base}} - {{base.custom}} - HQ:{{base.lvl}}</button>
+              <button class="button button-yellow"
+                @click="chooseBase(base.territory, base.base, base.custom)">{{ base.territory }}:{{ base.base }} -
+                {{ base.custom }} - HQ:{{ base.lvl }}</button>
             </div>
           </div>
         </div>
-          <h5
-            class="text-yellow ddrop mt-0 mb-0"
-            v-if="action_type === 'transport' || action_type === 'station'"
-            @click="isOpen = !isOpen, active = !active"
-            :class="{ active }"
-          >
-            CHOOSE FROM YOUR BASES
-            <svg viewBox="0 0 451.847 451.847" width="12">
-              <path
-                d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
+        <h5 class="text-yellow ddrop mt-0 mb-0" v-if="action_type === 'transport' || action_type === 'station'"
+          @click="isOpen = !isOpen, active = !active" :class="{ active }">
+          CHOOSE FROM YOUR BASES
+          <svg viewBox="0 0 451.847 451.847" width="12">
+            <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751
 		c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0
 		c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"
-                fill="#fff"
-              />
-            </svg>
-          </h5>
+              fill="#fff" />
+          </svg>
+        </h5>
         <div :class="{ isOpen }" class="dropdown" v-if="action_type === 'transport' || action_type === 'station'">
-          <button
-            class="btn btn-yellow btn-sm rp mr-2"
-            v-for="base in allbase"  @click="setRallyPointCoordinates(base.territory,base.base)"
-            v-if=" base.building ==='headquarters' && (ownBase.territory+''+ownBase.base !== base.territory+''+base.base)"
-            :key="(base.territory+''+base.base)"
-          >
-            {{base.custom }}</button>
-          </div>
+          <button class="btn btn-yellow btn-sm rp mr-2" v-for="base in allbase"
+            @click="setRallyPointCoordinates(base.territory, base.base)"
+            v-if="base.building === 'headquarters' && (ownBase.territory + '' + ownBase.base !== base.territory + '' + base.base)"
+            :key="(base.territory + '' + base.base)">
+            {{ base.custom }}</button>
+        </div>
         <h3 class="mt-1">Select your target coordinates</h3>
         <div>
-          <input
-            class="input form-control mb-4"
-            type="number"
-            placeholder="Territory"
-            v-model="target"
-          />
+          <input class="input form-control mb-4" type="number" placeholder="Territory" v-model="target" />
         </div>
         <div>
           <input class="input form-control mb-4" type="number" placeholder="Base" v-model="base" />
         </div>
-        <div
-          v-if="target_type !== 'npc' && (action_type === 'attack' || action_type === 'transport')"
-        >
+        <div v-if="target_type !== 'npc' && (action_type === 'attack' || action_type === 'transport')">
           <h3>Add a fight message*</h3>
           <div>* optional</div>
-          <input
-            class="input form-control btn-block mb-4"
-            placeholder="I'm coming for you"
-            v-model="message"
-            maxlength="280"
-          />
+          <input class="input form-control btn-block mb-4" placeholder="I'm coming for you" v-model="message"
+            maxlength="280" />
         </div>
         <div v-if="action_type === 'occupy'">
           <h3>Choose Base Name (max 10 bases)</h3>
-          <input
-            class="input form-control btn-block mb-4"
-            placeholder="Eg : Saint Street"
-            v-model="baseName"
-            maxlength="280"
-          />
+          <input class="input form-control btn-block mb-4" placeholder="Eg : Saint Street" v-model="baseName"
+            maxlength="280" />
         </div>
-        <button
-          v-if="action_type === 'attack'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-red mb-2 d-block"
-          @click="handleSubmit"
-        >
+        <button v-if="action_type === 'attack'" :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-red mb-2 d-block" @click="handleSubmit">
           <SmallLoading v-if="isLoading" />
-          <span v-else>{{action_type}}</span>
+          <span v-else>{{ action_type }}</span>
         </button>
-     
-        <button
-          v-if="action_type === 'transport'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-blue mb-2 d-block"
-          @click="handleSubmit"
-        >
-          <SmallLoading v-if="isLoading" />
-          <span v-else>{{action_type}}</span>
-        </button>
-        <button
-          v-if="action_type === 'occupy'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-green mb-2 d-block"
-          @click="handleSubmit"
-        >
-          <SmallLoading v-if="isLoading" />
-          <span v-else>{{action_type}}</span>
-        </button>
-        <button
-          v-if="action_type === 'station'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          class="button button-large button-orange mb-2 d-block"
-          @click="handleSubmit"
-        >
-        
-          <SmallLoading v-if="isLoading" />
-          <span v-else>{{action_type}}</span>
-        </button>
-   <button
-          class="button button-red d-inline-block"
-          v-if="target_type !== 'npc'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          @click="listPopup()"
-        >Add to list</button>
 
-           <h5 class="ml-2 d-inline-block" v-if="action_type === 'attack' && target_type !=='npc'">Visible for gang</h5>     
-           <button
-          class="ml-2 button button-red"
-          v-if="action_type === 'attack' && privateAttack && target_type !=='npc'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          @click="makePrivate()"
-        >
-        No
+        <button v-if="action_type === 'transport'" :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-blue mb-2 d-block" @click="handleSubmit">
+          <SmallLoading v-if="isLoading" />
+          <span v-else>{{ action_type }}</span>
         </button>
-           <button
-          class="ml-2 button button-green"
-          v-if="action_type === 'attack' && !privateAttack  && target_type !=='npc'"
-          :disabled="selectedUnits.length === 0 || !target || isLoading"
-          @click="makePrivate()"
-        >
-        Yes
+        <button v-if="action_type === 'occupy'" :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-green mb-2 d-block" @click="handleSubmit">
+          <SmallLoading v-if="isLoading" />
+          <span v-else>{{ action_type }}</span>
+        </button>
+        <button v-if="action_type === 'station'" :disabled="selectedUnits.length === 0 || !target || isLoading"
+          class="button button-large button-orange mb-2 d-block" @click="handleSubmit">
+
+          <SmallLoading v-if="isLoading" />
+          <span v-else>{{ action_type }}</span>
+        </button>
+        <button class="button button-red d-inline-block" v-if="target_type !== 'npc'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading" @click="listPopup()">Add to list</button>
+
+        <h5 class="ml-2 d-inline-block" v-if="action_type === 'attack' && target_type !== 'npc'">Visible for gang</h5>
+        <button class="ml-2 button button-red" v-if="action_type === 'attack' && privateAttack && target_type !== 'npc'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading" @click="makePrivate()">
+          No
+        </button>
+        <button class="ml-2 button button-green"
+          v-if="action_type === 'attack' && !privateAttack && target_type !== 'npc'"
+          :disabled="selectedUnits.length === 0 || !target || isLoading" @click="makePrivate()">
+          Yes
         </button>
         <p class="text-red text-left" v-if="errorMessage">{{ errorMessage }}</p>
       </div>
@@ -618,9 +486,8 @@ export default {
       }
       const farm = {};
       if (this.targetNickname) {
-        farm.name = `${this.targetNickname} ${
-          this.bases.find(b => b.territory === this.target && b.base === this.base).custom
-        }`;
+        farm.name = `${this.targetNickname} ${this.bases.find(b => b.territory === this.target && b.base === this.base).custom
+          }`;
         this.farm_name = farm.name;
       } else {
         farm.name = 'Snollygoster';
